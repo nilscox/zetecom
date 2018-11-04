@@ -7,7 +7,7 @@ module.exports = Validator({
     required: true,
     validate: async (value, opts) => {
       if (!value.match(/.+@.+\..+/))
-        throw new ValidationError('invalid email format');
+        throw new ValidationError('USER_EMAIL_INVALID_FORMAT');
 
       if (!opts.unique)
         return;
@@ -17,7 +17,7 @@ module.exports = Validator({
       });
 
       if (existing)
-        throw new ValidationError('this email already exists');
+        throw new ValidationError('USER_EMAIL_ALREADY_EXISTS');
     },
   }),
   password: ValueValidator({
@@ -25,10 +25,10 @@ module.exports = Validator({
     required: true,
     validate: (value, opts) => {
       if (value.length < opts.min)
-        throw new ValidationError('the password must be at least ' + opts.min + ' characters');
+        throw new ValidationError('USER_PASSWORD_TOO_SHORT');
 
       if (value.length > opts.max)
-        throw new ValidationError('the password must be at most ' + opts.max + ' characters');
+        throw new ValidationError('USER_PASSWORD_TOO_LONG');
     },
   }),
   about: ValueValidator({

@@ -15,7 +15,7 @@ router.param('slug', async (req, res, next, slug) => {
     });
 
     if (reactions.length === 0)
-      throw new NotFoundError('reaction');
+      throw new NotFoundError('REACTION_NOT_FOUND', 'reaction');
 
     req.reaction = reactions[0];
     next();
@@ -43,7 +43,7 @@ router.post('/', extra(async (req) => {
     });
 
     if (!answerTo)
-      throw new NotFoundError('reaction');
+      throw new NotFoundError('REACTION_NOT_FOUND', 'reaction');
 
     answerToId = answerTo.get('id');
   }

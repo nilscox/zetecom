@@ -15,10 +15,10 @@ router.post('/signin', extra(async (req) => {
   });
 
   if (!user)
-    throw new AuthorizationError('invalid user / password');
+    throw new AuthorizationError('INVALID_CREDENTIALS');
 
   if (!(await bcrypt.compare(validated.password, user.password)))
-    throw new AuthorizationError('invalid user / password');
+    throw new AuthorizationError('INVALID_CREDENTIALS');
 
   req.session.userId = user.id;
 

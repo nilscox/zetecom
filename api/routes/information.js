@@ -31,7 +31,7 @@ router.param('slug', async (req, res, next, slug) => {
     });
 
     if (!information)
-      next(new NotFoundError('information'));
+      next(new NotFoundError('INFORMATION_NOT_FOUND', 'information'));
     else {
       const reactions = information.reactions.filter(r => r.answerToId === null);
 

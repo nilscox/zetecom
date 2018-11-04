@@ -7,7 +7,7 @@ module.exports = Validator({
     required: true,
     validate: value => {
       if (value.length < 4)
-        throw new ValidationError('the title is too short');
+        throw new ValidationError('INFORMATION_TITLE_TOO_SHORT');
     },
   }),
   url: ValueValidator({
@@ -22,7 +22,7 @@ module.exports = Validator({
       });
 
       if (info)
-        throw new ValidationError('this url is already registered');
+        throw new ValidationError('INFORMATION_URL_ALREADY_EXISTS');
     },
   }),
   slug: ValueValidator({

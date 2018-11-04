@@ -14,7 +14,7 @@ module.exports = Validator({
       const idx = Object.values(LABELS).findIndex(l => l === value);
 
       if (idx < 0)
-        throw new ValidationError('invalid label');
+        throw new ValidationError('REACTION_INVALID_LABEL');
 
       return parseInt(Object.keys(LABELS)[idx]);
     },
