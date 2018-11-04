@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: ['@babel/polyfill', './src/index.js'],
   mode: 'development',
   module: {
     rules: [
@@ -28,6 +28,11 @@ module.exports = {
   },
   devtool: 'source-map',
   devServer: {
+     after: app => {
+      app.get('*', function(req, res) {
+        res.sendFile(path.join(__dirname, 'public', 'index.html'));
+      });
+    },
     contentBase: path.join(__dirname, 'public'),
     port: 3000,
     publicPath: '/dist/',

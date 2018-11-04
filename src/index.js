@@ -6,4 +6,4 @@ import App from './App';
 
 const HotApp = hot(module)(App);
 
-ReactDOM.render(<HotApp />, document.getElementById('root'));
+ReactDOM.render(<HotApp />, document.getElementById('app'));
