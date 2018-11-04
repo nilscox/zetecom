@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "reaction_user",
+    "password": "reaction_pwd",
+    "database": "reaction_db",
+    "host": "postgres",
+    "dialect": "postgres"
+  }
+}
