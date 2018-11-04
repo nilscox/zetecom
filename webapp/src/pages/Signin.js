@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import request from '../services/request-service';
+import { getErrorMessage } from '../services/errors-service';
 import './Signin.css';
 
 class Signin extends React.Component {
@@ -14,8 +15,8 @@ class Signin extends React.Component {
       password: '',
       acceptConditions: false,
       displayConditionsWarning: false,
-      invalidCredentials: false,
       redirect: false,
+      errors: null,
     };
   }
 
@@ -35,8 +36,10 @@ class Signin extends React.Component {
 
     const { acceptConditions, email, password } = this.state;
 
+    this.setState({ errors: null });
+
     if (this.isSignup() && !acceptConditions) {
-      alert('Vous devez accepter les conditions d\'utilisation du site');
+      this.setState({ errors: {  acceptConditions: 'CONDITIONS_MUST_BE_CHECKED' } });
       return;
     }
 
@@ -52,7 +55,7 @@ class Signin extends React.Component {
       const json = await res.json();
 
       if (json.error === 'INVALID_CREDENTIALS')
-        this.setState({ invalidCredentials: true });
+        this.setState({ errors: { email: ' ', password: 'INVALID_CREDENTIALS' } });
     } else if (res.status === 200) {
       this.props.setUser(await res.json());
       this.setState({ redirect: true });
@@ -73,13 +76,13 @@ class Signin extends React.Component {
     return (
       <div className="signin">
 
-        <div className="signin-signup btn-group btn-group-lg">
+        <div className="signin-signup btn-group">
 
-          <Link to="/signin" className={signinClass}>
+          <Link to="/signin" className={signinClass} onClick={() => this.setState({ errors: null }) }>
             Connexion
           </Link>
 
-          <Link to="/signup" className={signupClass}>
+          <Link to="/signup" className={signupClass} onClick={() => this.setState({ errors: null }) }>
             Créer un compte
           </Link>
 
@@ -104,7 +107,8 @@ class Signin extends React.Component {
   }
 
   renderFormEmail() {
-    const error = this.errors && this.errors.email;
+    const { errors } = this.state;
+    const error = errors && errors.email;
 
     return (
       <div className="form-group">
@@ -115,32 +119,41 @@ class Signin extends React.Component {
           onChange={e => this.setState({ email: e.target.value })}
         />
         <div className="invalid-feedback">
-          { error }
+          { getErrorMessage(error) }
         </div>
       </div>
     );
   }
 
   renderFormPassword() {
+    const { errors } = this.state;
+    const error = errors && errors.password;
+
     return (
       <div className="form-group">
         <input
           type="password"
-          className="form-control"
+          className={'form-control' + (error ? ' is-invalid' : '')}
           placeholder="Password"
           onChange={e => this.setState({ password: e.target.value })}
         />
+        <div className="invalid-feedback">
+          { getErrorMessage(error) }
+        </div>
       </div>
     );
   }
 
   renderFormAcceptConditions() {
+    const { errors } = this.state;
+    const error = errors && errors.acceptConditions;
+
     return (
       <div className="accept-conditions">
 
         <div className="form-check">
           <input
-            className="form-check-input"
+            className={'form-check-input' + (error ? ' is-invalid' : '')}
             type="checkbox"
             value=""
             id="accept-conditions"
@@ -150,6 +163,9 @@ class Signin extends React.Component {
           <label className="form-check-label" htmlFor="accept-conditions">
             Accepter les conditions
           </label>
+          <div className="invalid-feedback">
+            { getErrorMessage(error) }
+          </div>
         </div>
 
         { this.state.displayConditionsWarning && (       
