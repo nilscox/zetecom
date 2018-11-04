@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
+import request from '../services/request-service';
 import './Signin.css';
 
 class Signin extends React.Component {
@@ -12,56 +14,49 @@ class Signin extends React.Component {
       password: '',
       acceptConditions: false,
       displayConditionsWarning: false,
+      invalidCredentials: false,
+      redirect: false,
     };
   }
 
   isSignin() {
-    return this.props.match.path === '/signin';
+    return this.props.variant === 'signin';
   }
 
   isSignup() {
-    return this.props.match.path === '/signup';
+    return this.props.variant === 'signup';
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
 
-    if (this.isSignin())
-      this.onSubmitSignin();
-    else
-      this.onSubmitSignup();
-  }
+    if (this.props.user)
+      return;
 
-  async onSubmitSignin() {
-    const { email, password } = this.state;
-    const res = await fetch({
-      method: 'POST',
-      url: 'http://localhost:4242/api/signin',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+    const { acceptConditions, email, password } = this.state;
 
-    if (res.status !== 200)
-      console.log('error', await res.json());
-  }
-
-  async onSubmitSignup() {
-    const { email, password, acceptConditions } = this.state;
-
-    if (!acceptConditions) {
+    if (this.isSignup() && !acceptConditions) {
       alert('Vous devez accepter les conditions d\'utilisation du site');
       return;
     }
 
-    const res = await fetch({
+    const url = '/api/auth/' + (this.isSignin() ? 'signin' : 'signup');
+    const res = await request(url, {
       method: 'POST',
-      url: 'http://localhost:4242/api/signup',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: { email, password },
     });
 
-    if (res.status !== 200)
-      console.log('error', await res.json());
+    if (res.status === 400)
+      this.setState({ errors: await res.json() });
+    else if (res.status === 401) {
+      const json = await res.json();
+
+      if (json.error === 'INVALID_CREDENTIALS')
+        this.setState({ invalidCredentials: true });
+    } else if (res.status === 200) {
+      this.props.setUser(await res.json());
+      this.setState({ redirect: true });
+    }
   }
 
   render() {
@@ -71,6 +66,9 @@ class Signin extends React.Component {
     const signupClass = 'btn ' + (this.isSignup() ? 'btn-primary' : 'btn-secondary');
 
     const buttonLabel = this.isSignin() ? 'Envoyer' : 'Enregistrer';
+
+    if (this.state.redirect)
+      return <Redirect to="/profile" />;
 
     return (
       <div className="signin">
@@ -93,7 +91,11 @@ class Signin extends React.Component {
           { this.renderFormPassword() }
           { this.isSignup() && this.renderFormAcceptConditions() }
 
-          <input type="submit" value={buttonLabel} className="btn btn-primary" />
+          <input
+            type="submit"
+            value={buttonLabel}
+            className={'btn btn-primary' + (this.props.user ? ' disabled' : '')}
+          />
 
         </form>
 
@@ -102,9 +104,19 @@ class Signin extends React.Component {
   }
 
   renderFormEmail() {
+    const error = this.errors && this.errors.email;
+
     return (
       <div className="form-group">
-        <input type="email" className="form-control" placeholder="Email" />
+        <input
+          type="email"
+          className={'form-control' + (error ? ' is-invalid' : '')}
+          placeholder="Email"
+          onChange={e => this.setState({ email: e.target.value })}
+        />
+        <div className="invalid-feedback">
+          { error }
+        </div>
       </div>
     );
   }
@@ -112,7 +124,12 @@ class Signin extends React.Component {
   renderFormPassword() {
     return (
       <div className="form-group">
-        <input type="password" className="form-control" placeholder="Password" />
+        <input
+          type="password"
+          className="form-control"
+          placeholder="Password"
+          onChange={e => this.setState({ password: e.target.value })}
+        />
       </div>
     );
   }

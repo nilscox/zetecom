@@ -2,25 +2,29 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Header.css';
 
-const HeaderItem = ({ name, link }) => (
+const HeaderItem = ({ text, link }) => (
   <NavLink to={link} exact>
     <div className="header-item">
-      { name }
+      { text }
     </div>
   </NavLink>
 );
 
-const Header = () => (
+const Header = ({ user }) => (
   <div className="header">
 
     <div className="header-left">
-      <HeaderItem name="Accueil" link="/" />
-      <HeaderItem name="Information" link="/information" />
-      <HeaderItem name="Aide" link="/help" />
+      <HeaderItem text="Accueil" link="/" />
+      <HeaderItem text="Information" link="/information" />
+      <HeaderItem text="Aide" link="/help" />
     </div>
 
     <div className="header-right">
-      <HeaderItem name="Connexion" link="/signin" />
+      { user ? (
+        <HeaderItem text={user.email} link="/profile" />
+      ) : (
+        <HeaderItem text="Connexion" link="/signin" />
+      ) }
     </div>
 
     <div className="clearfix" />
