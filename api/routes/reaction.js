@@ -38,7 +38,7 @@ router.post('/', extra(async (req) => {
   let answerToId = null;
 
   if (answerToSlug) {
-    const answerTo = await Reaction.findOne({
+    const answerTo = await req.information.getReactions({
       where: { slug: answerToSlug },
     });
 
@@ -71,7 +71,7 @@ router.get('/:slug', extra((req) => req.reaction, {
 }));
 
 router.post('/:slug/edit', extra(async (req) => {
-  const { reaction, validated } = req
+  const { reaction, validated } = req;
   const { text } = validated;
 
   await reaction.createMessage({ text });

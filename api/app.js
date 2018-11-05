@@ -10,7 +10,7 @@ const user = require('./routes/user');
 setErrorMessage('ERROR', 'ERROR');
 setErrorMessage('BAD_REQUEST', 'BAD_REQUEST');
 setErrorMessage('NOT_FOUND', 'NOT_FOUND');
-setErrorMessage('AUTHORIZATION', 'AUTHORIZATION ERROR');
+setErrorMessage('AUTHORIZATION', 'AUTHORIZATION_ERROR');
 setErrorMessage('VALIDATION', 'VALIDATION ERROR');
 setErrorMessage('MISSING_VALUE', 'MISSING_VALUE');
 setErrorMessage('READ_ONLY_VALUE', 'READ_ONLY_VALUE');
