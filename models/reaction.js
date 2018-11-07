@@ -10,9 +10,17 @@ module.exports = (sequelize, DataTypes) => {
 
   Reaction.associate = function(models) {
     Reaction.belongsTo(models.Information);
+    Reaction.belongsTo(models.User, { as: 'author', foreignKey: 'authorId' });
     Reaction.hasMany(models.Message);
     Reaction.hasMany(Reaction, { as: 'answers', foreignKey: 'answerToId' });
     Reaction.belongsTo(models.Reaction, { as: 'answerTo', foreignKey: 'answerToId' });
+
+    Reaction.addScope('defaultScope', {
+      include: [
+        { model: models.User, as: 'author' },
+        { model: models.Message },
+      ],
+    }, { override: true });
   };
 
   Reaction.prototype.fillAnswers = function(reactions) {
