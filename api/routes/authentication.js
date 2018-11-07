@@ -25,8 +25,11 @@ router.post('/signin', extra(async (req) => {
   return user;
 }, {
   authorize: isNotSignedIn,
-  validate: req => userValidator(req.body),
-  format: userFormatter,
+  validate: req => userValidator(req.body, {
+    nick: { readOnly: true },
+    about: { readOnly: true },
+  }),
+  format: value => userFormatter(value, { full: true }),
 }));
 
 router.post('/signup', extra(async (req) => {
@@ -45,7 +48,7 @@ router.post('/signup', extra(async (req) => {
     email: { unique: true },
     password: { min: 6, max: 72 },
   }),
-  format: userFormatter,
+  format: value => userFormatter(value, { full: true }),
 }));
 
 router.post('/signout', extra((req) => {

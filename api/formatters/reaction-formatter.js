@@ -1,9 +1,17 @@
 const { Formatter } = require('express-extra');
+const userFormatter = require('./user-formatter');
 const LABELS = require('../labels');
 
 const reactionFormatter = module.exports = Formatter({
   quote: inst => inst.get('quote'),
-  text: inst => inst.messages[inst.messages.length - 1].get('text'),
+  text: inst => {
+    const l = inst.messages.length;
+
+    if (l === 0)
+      return;
+
+    return inst.messages[l - 1].get('text');
+  },
   label: inst => LABELS[inst.get('label')],
   slug: inst => inst.get('slug'),
   date: inst => inst.get('createdAt'),
@@ -24,4 +32,5 @@ const reactionFormatter = module.exports = Formatter({
 
     return reactionFormatter.many(inst.answers);
   },
+  author: inst => userFormatter(inst.author),
 });

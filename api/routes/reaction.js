@@ -3,7 +3,7 @@ const { extra, NotFoundError } = require('express-extra');
 const { isSignedIn } = require('../permissions');
 const reactionValidator = require('../validators/reaction-validator');
 const reactionFormatter = require('../formatters/reaction-formatter');
-const { Reaction, Message } = require('../../models');
+const { User, Reaction, Message } = require('../../models');
 
 const router = module.exports = express.Router();
 
@@ -42,10 +42,10 @@ router.post('/', extra(async (req) => {
       where: { slug: answerToSlug },
     });
 
-    if (!answerTo)
+    if (answerTo.length === 0)
       throw new NotFoundError('REACTION_NOT_FOUND', 'reaction');
 
-    answerToId = answerTo.get('id');
+    answerToId = answerTo[0].get('id');
   }
 
   const reaction = new Reaction({
@@ -53,11 +53,12 @@ router.post('/', extra(async (req) => {
     slug: Math.random().toString(36).slice(4),
     informationId: req.information.id,
     answerToId: answerToId,
+    authorId: req.user.id,
   });
 
   await reaction.save();
   await reaction.createMessage({ text });
-  await reaction.reload({ include: [Message] });
+  await reaction.reload();
 
   return reaction;
 }, {

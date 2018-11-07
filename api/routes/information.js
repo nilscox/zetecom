@@ -4,7 +4,8 @@ const { extra, NotFoundError } = require('express-extra');
 const { isSignedIn } = require('../permissions');
 const informationValidator = require('../validators/information-validator');
 const informationFormatter = require('../formatters/information-formatter');
-const { Information, Reaction, Message } = require('../../models');
+const { getLabelKey } = require('../labels');
+const { User, Information, Reaction, Message } = require('../../models');
 const reaction = require('./reaction');
 
 const router = module.exports = express.Router();
@@ -22,20 +23,19 @@ const slugify = text => {
 
 router.param('slug', async (req, res, next, slug) => {
   try {
-    const information = await Information.find({
+    const information = await Information.findOne({
       where: { slug },
-      include: [{
-        model: Reaction,
-        include: [Message],
-      }],
+      include: [Reaction],
+      order: [[Reaction, 'createdAt', 'DESC']],
     });
 
     if (!information)
       next(new NotFoundError('INFORMATION_NOT_FOUND', 'information'));
     else {
-      const reactions = information.reactions.filter(r => r.answerToId === null);
+      const allReactions = information.reactions;
+      const reactions = allReactions.filter(r => r.answerToId === null);
 
-      reactions.forEach(r => r.fillAnswers(information.reactions));
+      reactions.forEach(r => r.fillAnswers(allReactions));
 
       information.reactions = reactions;
       req.information = information;
@@ -50,7 +50,7 @@ router.param('slug', async (req, res, next, slug) => {
 router.get('/list', extra(async (req) => {
   return await Information.findAll();
 }, {
-  format: informationFormatter.many,
+  format: value => informationFormatter.many(value, { omitReactions: true }),
 }));
 
 router.get('/:slug', extra(req => req.information, {
@@ -64,6 +64,7 @@ router.post('/', extra(async (req) => {
     ...req.validated,
     slug: slugify(validated.title),
     image: null,
+    userId: req.user.id,
   });
 
   await information.save();

@@ -16,7 +16,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      nick: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       about: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
+      avatar: {
         allowNull: true,
         type: Sequelize.STRING,
       },

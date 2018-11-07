@@ -1,11 +1,13 @@
 const { Validator, ValueValidator, ValidationError } = require('express-extra');
 const { Information } = require('../../models');
 const LABELS = require('../labels');
+const { stringNotEmpty } = require('./validation');
 
 module.exports = Validator({
   text: ValueValidator({
     type: 'string',
     required: true,
+    validate: stringNotEmpty,
   }),
   label: ValueValidator({
     type: 'string',
@@ -22,6 +24,7 @@ module.exports = Validator({
   quote: ValueValidator({
     type: 'string',
     required: false,
+    validate: stringNotEmpty,
   }),
   slug: ValueValidator({
     type: 'string',

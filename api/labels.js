@@ -4,5 +4,5 @@ module.exports = {
   3: 'BIAIS',
   4: 'QUESTION',
   5: 'OPINION',
-  6: 'TROLL',
+  6: 'FUN',
 };

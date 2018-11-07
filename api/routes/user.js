@@ -10,5 +10,5 @@ router.get('/', extra(req => {
 
   return req.user;
 }, {
-  format: userFormatter,
+  format: value => userFormatter(value, { full: true }),
 }));

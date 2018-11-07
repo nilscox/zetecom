@@ -1,7 +1,9 @@
 const { Formatter } = require('express-extra');
 
 module.exports = Formatter({
-  email: inst => inst.get('email'),
+  email: (inst, opts) => opts.full ? inst.get('email') : undefined,
+  nick: (inst) => inst.get('nick'),
+  avatar: inst => inst.get('avatar'),
   about: inst => {
     const about = inst.get('about');
 

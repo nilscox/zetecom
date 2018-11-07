@@ -1,20 +1,11 @@
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const { setErrorMessage, ExpressExtraError } = require('express-extra');
+const extra = require('express-extra');
 const { User } = require('../models');
 const auth = require('./routes/authentication');
 const information = require('./routes/information');
 const user = require('./routes/user');
-
-setErrorMessage('ERROR', 'ERROR');
-setErrorMessage('BAD_REQUEST', 'BAD_REQUEST');
-setErrorMessage('NOT_FOUND', 'NOT_FOUND');
-setErrorMessage('AUTHORIZATION', 'AUTHORIZATION_ERROR');
-setErrorMessage('VALIDATION', 'VALIDATION ERROR');
-setErrorMessage('MISSING_VALUE', 'MISSING_VALUE');
-setErrorMessage('READ_ONLY_VALUE', 'READ_ONLY_VALUE');
-setErrorMessage('INVALID_VALUE_TYPE', 'INVALID_VALUE_TYPE');
 
 const app = module.exports = express();
 const api = express.Router();
@@ -60,16 +51,29 @@ api.use('/user', user);
 
 app.use('/api', api);
 
+const transformErrorMessage = (err) => {
+  err.message = ({
+    'Error': 'ERROR',
+    'Bad request': 'BAD_REQUEST',
+    'Not found': 'NOT_FOUND',
+    'Unauthorized': 'UNAUTHORIZED',
+    'Invalid': 'INVALID',
+    'Missing value': 'MISSING_VALUE',
+    'Read only value': 'READ_ONLY_VALUE',
+    'Invalid value type': 'INVALID_VALUE_TYPE',
+  })[err.message] || err.message;
+
+  if (err instanceof extra.ValidationErrors)
+    err.errors.forEach(transformErrorMessage);
+};
+
 app.use((err, req, res, next) => {
-  if (err instanceof ExpressExtraError) {
+  if (err instanceof extra.ExpressExtraError) {
+    transformErrorMessage(err);
     console.log(err.toString());
     res.status(err.status).json(err.toJSON());
   } else {
     console.log(err);
-    res.status(500).send('ERROR: ' + err.message);
+    res.status(500).json({ error: err.message });
   }
-});
-
-app.use((req, res, next) => {
-  res.status(404).end();
 });
