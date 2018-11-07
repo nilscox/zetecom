@@ -1,0 +1,11 @@
+.info-item {
+  width: 240px;
+}
+
+.info-item .info-title {
+  height: 45px;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 16px;
+}

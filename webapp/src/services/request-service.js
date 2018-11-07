@@ -1,4 +1,4 @@
-module.exports = (route, opts = {}) => {
+module.exports = async (route, opts = {}, handlers = {}) => {
   opts.headers = opts.headers || {};
 
   if (typeof opts.body === 'object') {
@@ -6,8 +6,13 @@ module.exports = (route, opts = {}) => {
     opts.body = JSON.stringify(opts.body);
   }
 
-  return fetch('http://localhost:4242' + route, {
+  const res = await fetch('http://localhost:4242' + route, {
     credentials: 'include',
     ...opts,
   });
+
+  const handler = handlers[res.status] || handlers.default;
+
+  if (handler)
+    await handler(res.status !== 204 ? await res.json() : undefined, res);
 };

@@ -1,0 +1,20 @@
+.reaction-form .reaction-textarea {
+  border: 0;
+}
+
+.reaction-form .reaction-form-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #999999;
+  cursor: pointer;
+}
+
+.reaction-form .labels button {
+  background-color: transparent;
+}
+
+.reaction-form .labels .label-invalid {
+  font-size: 80%;
+  color: #dc3545;
+}

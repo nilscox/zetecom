@@ -1,7 +1,17 @@
 import * as React from 'react';
 
+/**
+
+Help props:
+(none)
+
+Help state:
+(none)
+
+*/
+
 const Help = () => (
-  <div className="home">
+  <div className="help">
     Help
   </div>
 );

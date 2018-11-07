@@ -1,0 +1,24 @@
+.information .info-header .info-image {
+  width: 140px;
+}
+
+.information .info-header a {
+  color: inherit;
+}
+
+.information .reactions-side {
+  width: 180px;
+}
+
+.information .reactions-side .side-label {
+  font-size: 13px;
+}
+
+.information .reactions-side button:not(.selected) {
+  background: inherit;
+}
+
+.information .reactions-side button.selected {
+  font-weight: bold;
+  color: #333333;
+}

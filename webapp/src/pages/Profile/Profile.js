@@ -1,22 +1,35 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import request from '../services/request-service';
+import MyContext from '../../MyContext';
+import request from '../../services/request-service';
+
+/**
+
+Profile props:
+(none)
+
+Profile state:
+(none)
+
+*/
 
 class Profile extends React.Component {
+
+  static contextType = MyContext;
 
   async onSignout(e) {
     e.preventDefault();
 
     const res = await request('/api/auth/signout', {
       method: 'POST',
+    }, {
+      204: () => this.context.setUser(null),
+      default: this.context.onError,
     });
-
-    if (res.status === 204)
-      this.props.setUser(null);
   }
 
   render() {
-    const { user } = this.props;
+    const { user } = this.context;
 
     if (!user)
       return <Redirect to="/signin" />;
@@ -29,7 +42,7 @@ class Profile extends React.Component {
 
         <button
           onClick={this.onSignout.bind(this)}
-          className="btn btn-warning"
+          className="btn btn-dark"
         >
           Déconnexion
         </button>

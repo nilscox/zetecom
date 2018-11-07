@@ -1,0 +1,31 @@
+.reaction-author-image {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+}
+
+.reaction-author-nick {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.reaction-edition {
+  right: 0;
+  top: 0;
+  font-size: 12px;
+}
+
+.reaction-message {
+  font-size: 14px;
+}
+
+.reaction-message p:last-child {
+  margin-bottom: 0;
+}
+
+.display-answers-btn {
+  color: #666;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+}

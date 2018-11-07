@@ -1,87 +1,109 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Header from './Header';
-import './App.css';
-
-import Home from './pages/Home';
-import InfoList from './pages/InfoList';
-import Reaction from './pages/Reaction';
-import Help from './pages/Help';
-import Signin from './pages/Signin';
-import Profile from './pages/Profile';
-import NotFound from './pages/NotFound';
 
 import request from './services/request-service';
 
+import Home from './pages/Home';
+import InformationList from './pages/InformationList';
+import Information from './pages/Information';
+import Help from './pages/Help';
+import Signin from './pages/Signin';
+import Profile from './pages/Profile';
+
+import Loading from './components/Loading';
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+import MyContext from './MyContext';
+
+import './Label.css';
+
 class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      user: null,
-      loading: true,
-    };
-  }
+  state = {
+    user: null,
+    loading: true,
+    error: null,
+  };
 
   async componentDidMount() {
-    const res = await request('/api/user');
-
-    if (res.status === 200)
-      this.setState({ user: await res.json() });
+    await request('/api/user', {}, {
+      200: json => this.setState({ user: json }),
+      404: () => {},
+      default: json => this.onError(json),
+    });
 
     this.setState({ loading: false });
   }
 
-  render() {
-    const setUser = user => this.setState({ user });
+  onError(error) {
+    console.log('App: error', error);
+    this.setState({ error });
+  }
 
-    if (this.state.loading)
-      return 'Loading...';
+  render() {
+    const { loading } = this.state;
+
+    const ctx = {
+      user: this.state.user,
+      setUser: user => this.setState({ user }),
+      onError: this.onError.bind(this),
+    };
 
     return (
       <Router>
-        <div className="app">
-
-          <Header user={this.state.user} />
-
-          <div className="content">
-            <Switch>
-
-              <Route path="/" exact component={Home} />
-              <Route path="/information" component={InfoList} />
-              <Route path="/information/:slug" component={Reaction} />
-              <Route path="/help" component={Help} />
-
-              <Route path="/profile" render={() => (
-                <Profile
-                  user={this.state.user}
-                  setUser={setUser}
-                />
-              )} />
-
-              <Route path="/signin" render={({ match }) => (
-                <Signin
-                  variant="signin"
-                  user={this.state.user}
-                  setUser={setUser}
-                />
-              )} />
-
-              <Route path="/signup" render={({ match }) => (
-                <Signin
-                  variant="signup"
-                  user={this.state.user}
-                  setUser={setUser}
-                />
-              )} />
-
-              <Route component={NotFound} />
-            </Switch>
+        <MyContext.Provider value={ctx}>
+          <div className="container">
+            <Header user={!this.state.loading && this.state.user} />
+            { loading ? <Loading /> : this.renderRoutes() }
+            <Footer />
           </div>
-
-        </div>
+        </MyContext.Provider>
       </Router>
+    );
+  }
+
+  renderRoutes() {
+    const { user, error } = this.state;
+
+    if (error)
+      return this.renderError(error);
+
+    return (
+      <Switch>
+
+        <Route path="/" exact component={Home} />
+        <Route path="/help" component={Help} />
+
+        <Route path="/profile" component={Profile} />
+
+        <Route path="/information" exact component={InformationList} />
+        <Route path="/information/:slug" render={({ match }) => <Information slug={match.params.slug} />} />
+
+        <Route path="/signin" render={() => <Signin variant="signin" />} />
+        <Route path="/signup" render={() => <Signin variant="signup" />} />
+
+        <Route render={this.renderNotFound.bind(this)} />
+
+      </Switch>
+    );
+  }
+
+  renderError(error) {
+    return (
+      <div>
+        <h2 className="my-5">Uhu... Une erreur s'est produite. ¯\_( )_/¯</h2>
+        <pre className="bg-light text-dark border rounded p-2">{ JSON.stringify(error, 2, 2) }</pre>
+        <button type="button" className="btn" onClick={() => this.setState({ error: null })}>DISMISS</button>
+      </div>
+    );
+  }
+
+  renderNotFound() {
+    return (
+      <div>
+        <h2 className="my-5">Oops... Cette page n'existe pas.</h2>
+      </div>
     );
   }
 
