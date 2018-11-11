@@ -21,10 +21,10 @@ const slugify = text => {
     + '-' + Math.random().toString(36).slice(4);
 };
 
-router.param('slug', async (req, res, next, slug) => {
+const findInformation = (req, next, where) => {
   try {
     const information = await Information.findOne({
-      where: { slug },
+      where,
       include: [Reaction],
       order: [[Reaction, 'createdAt', 'DESC']],
     });
@@ -45,12 +45,19 @@ router.param('slug', async (req, res, next, slug) => {
   } catch (e) {
     next(e);
   }
-});
+};
+
+router.param('slug', async (req, res, next, slug) => findInformation(req, next, { slug }));
+router.param('url', async (req, res, next, url) => findInformation(req, next, { url: decodeURIComponent(url) }));
 
 router.get('/list', extra(async (req) => {
   return await Information.findAll();
 }, {
-  format: value => informationFormatter.many(value, { omitReactions: true }),
+  format: value => informationFormatter.many(value, { reactions: false }),
+}));
+
+router.get('/by-url/:url', extra(req => req.information, {
+  format: informationFormatter,
 }));
 
 router.get('/:slug', extra(req => req.information, {
@@ -72,7 +79,7 @@ router.post('/', extra(async (req) => {
 
   return information;
 }, {
-  authorize: isSignedIn,  
+  authorize: isSignedIn,
   validate: req => informationValidator(req.body, {
     url: { unique: true },
   }),
