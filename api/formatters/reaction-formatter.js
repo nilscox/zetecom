@@ -16,7 +16,7 @@ const reactionFormatter = module.exports = Formatter({
   slug: inst => inst.get('slug'),
   date: inst => inst.get('createdAt'),
   history: (inst, opts) => {
-    if (!opts.history)
+    if (opts !== true)
       return;
 
     return inst.messages
@@ -28,7 +28,7 @@ const reactionFormatter = module.exports = Formatter({
   },
   answers: inst => {
     if (!inst.answers || !inst.answers.length)
-      return;
+      return [];
 
     return reactionFormatter.many(inst.answers);
   },

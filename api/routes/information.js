@@ -5,6 +5,7 @@ const { isSignedIn } = require('../permissions');
 const informationValidator = require('../validators/information-validator');
 const informationFormatter = require('../formatters/information-formatter');
 const { getLabelKey } = require('../labels');
+const imagesService = require('../services/images-service');
 const { User, Information, Reaction, Message } = require('../../models');
 const reaction = require('./reaction');
 
@@ -21,7 +22,7 @@ const slugify = text => {
     + '-' + Math.random().toString(36).slice(4);
 };
 
-const findInformation = (req, next, where) => {
+const findInformation = async (req, next, where) => {
   try {
     const information = await Information.findOne({
       where,
@@ -47,8 +48,8 @@ const findInformation = (req, next, where) => {
   }
 };
 
-router.param('slug', async (req, res, next, slug) => findInformation(req, next, { slug }));
-router.param('url', async (req, res, next, url) => findInformation(req, next, { url: decodeURIComponent(url) }));
+router.param('slug', (req, res, next, slug) => findInformation(req, next, { slug }));
+router.param('url', (req, res, next, url) => findInformation(req, next, { url: decodeURIComponent(url) }));
 
 router.get('/list', extra(async (req) => {
   return await Information.findAll();
@@ -68,9 +69,9 @@ router.post('/', extra(async (req) => {
   const { validated } = req;
 
   const information = new Information({
-    ...req.validated,
+    ...validated,
     slug: slugify(validated.title),
-    image: null,
+    image: imagesService.getImageFromUrl(validated.url),
     userId: req.user.id,
   });
 

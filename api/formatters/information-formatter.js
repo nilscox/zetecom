@@ -6,10 +6,5 @@ module.exports = Formatter({
   url: inst => inst.get('url'),
   slug: inst => inst.get('slug'),
   image: inst => inst.get('image'),
-  reactions: (inst, opts) => {
-    if (opts.omitReactions)
-      return;
-
-    return reactionFormatter.many(inst.reactions);
-  },
+  reactions: inst => reactionFormatter.many(inst.reactions),
 });
