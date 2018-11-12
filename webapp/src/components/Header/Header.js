@@ -22,7 +22,7 @@ class Header extends React.Component {
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
 
-        <NavLink className="navbar-brand" to="/">Accueil</NavLink>
+        <NavLink className="navbar-brand" to="/">Chercheurs de vérité</NavLink>
 
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false">
           <span className="navbar-toggler-icon"></span>

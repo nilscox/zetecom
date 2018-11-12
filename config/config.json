@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "reaction_user",
-    "password": "reaction_pwd",
-    "database": "reaction_db",
+    "username": "cdv_user",
+    "password": "cdv_pwd",
+    "database": "cdv_db",
     "host": "postgres",
     "dialect": "postgres"
   }

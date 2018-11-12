@@ -1,20 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { iframeResizer } from 'iframe-resizer';
 
-import Loading from './components/Loading';
 import ReactionsList from './components/ReactionsList';
 import { classList } from './utils';
-
-import MyContext from './MyContext';
 
 import './Label.css';
 
 class Extension extends React.Component {
 
   state = {
-    displayYoutubeComments: false,
+    displayComments: 'cdv',
   };
 
   render() {
@@ -26,15 +22,15 @@ class Extension extends React.Component {
         <div className="btn-group btn-group-lg my-4">
 
           <button
-            className={classList('btn', this.state.displayYoutubeComments ? 'btn-primary' : 'btn-secondary')}
-            onClick={() => this.setState({ displayYoutubeComments: true })}
+            className={classList('btn', this.state.displayComments === 'cdv' ? 'btn-primary' : 'btn-secondary')}
+            onClick={() => this.setState({ displayComments: 'cdv' })}
           >
             Commentaires YouTube
           </button>
 
           <button
-            className={classList('btn', !this.state.displayYoutubeComments ? 'btn-primary' : 'btn-secondary')}
-            onClick={() => this.setState({ displayYoutubeComments: false })}
+            className={classList('btn', !this.state.displayComments == 'youtube' ? 'btn-primary' : 'btn-secondary')}
+            onClick={() => this.setState({ displayComments: 'youtube' })}
           >
             Commentaires CDV
           </button>
@@ -45,7 +41,7 @@ class Extension extends React.Component {
           <div ref={ref => ref && ref.appendChild(this.props.youtubeComments)}></div>
         ) : (
           <iframe
-            id="reaction-iframe"
+            id="cdv-iframe"
             src={'https://localhost/embed/' + uri}
             style={{ width: 1, minWidth: '100%' }}
             scrolling="no"
