@@ -30,6 +30,7 @@ class ReactionForm extends React.Component {
   state = {
     focus: false,
     text: '',
+    quote: '',
     label: null,
     errors: {},
   };
@@ -39,7 +40,7 @@ class ReactionForm extends React.Component {
     this.setState({ errors: {} });
 
     const { information, answerTo } = this.props;
-    const { label, text, errors } = this.state;
+    const { label, text, quote, errors } = this.state;
 
     if (!label) {
       this.setState({ errors: { ...errors, label: 'MISSING_LABEL' } });
@@ -49,7 +50,12 @@ class ReactionForm extends React.Component {
     const url = '/api/information/' + information.slug + '/reaction';
     await request(url, {
       method: 'POST',
-      body: { label, text, answerTo: answerTo ? answerTo.slug : undefined },
+      body: {
+        label,
+        text,
+        quote: quote.length ? quote : undefined,
+        answerTo: answerTo ? answerTo.slug : undefined,
+      },
     }, {
       200: json => {
         this.props.onReactionSubmitted(json, answerTo);
@@ -57,7 +63,7 @@ class ReactionForm extends React.Component {
         if (this.props.onClose)
           this.props.onClose();
         else
-          this.setState({ focus: false, text: '', label: null, errors: {} });
+          this.setState({ focus: false, text: '', quote: '', label: null, errors: {} });
       },
       400: json => this.setState({ errors: json }),
       default: this.context.onError,
@@ -118,7 +124,8 @@ class ReactionForm extends React.Component {
     return (
       <form className="reaction-form p-2" onSubmit={this.onSubmit.bind(this)}>
 
-        { this.renderFormInput() }
+        { this.renderTextInput() }
+        { !answerTo && this.renderQuoteInput() }
 
         <div className="container">
           <div className="row">
@@ -133,7 +140,20 @@ class ReactionForm extends React.Component {
     );
   }
 
-  renderFormInput() {
+  renderQuoteInput() {
+    return (
+      <div className="form-group">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Citation (optionelle)"
+          onChange={e => this.setState({ quote: e.target.value })}
+        />
+      </div>
+    );
+  }
+
+  renderTextInput() {
     const { answerTo } = this.props;
     const { focus, text, errors } = this.state;
     const { text: error } = errors;

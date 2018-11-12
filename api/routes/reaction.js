@@ -46,6 +46,7 @@ router.post('/', extra(async (req) => {
       throw new NotFoundError('REACTION_NOT_FOUND', 'reaction');
 
     answerToId = answerTo[0].get('id');
+    delete req.validated.quote;
   }
 
   const reaction = new Reaction({

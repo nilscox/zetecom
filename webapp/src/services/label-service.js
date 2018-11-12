@@ -1,9 +1,9 @@
 const LABELS = {
   SOURCE: { text: 'Source', color: '#80dd6c', canApprove: true },
   METHOD: { text: 'Méthode', color: '#6cddd7', canApprove: true },
-  BIAIS: { text: 'Biais', color: '#eda47d', canApprove: true },
+  BIAIS: { text: 'Biais', color: '#e87266', canApprove: true },
   QUESTION: { text: 'Question', color: '#ea9ae7', canApprove: false },
-  OPINION: { text: 'Opinion', color: '#efdf62', canApprove: false },
+  OPINION: { text: 'Opinion', color: '#ff993f', canApprove: false },
   FUN: { text: 'Fun', color: '#CCCCCC', canApprove: false },
 };
 

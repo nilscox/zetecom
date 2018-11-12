@@ -15,6 +15,17 @@
   font-size: 12px;
 }
 
+.reaction-quote {
+  font-weight: bold;
+  color: #333;
+  text-indent: 42px;
+  background-image: url(/assets/images/quotation-mark.png);
+  background-repeat: no-repeat;
+  background-size: 30px;
+  background-position-x: 10px;
+  background-color: #fffec4;
+}
+
 .reaction-message {
   font-size: 14px;
 }

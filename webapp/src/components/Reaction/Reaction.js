@@ -50,6 +50,7 @@ class Reaction extends React.Component {
 
         { this.renderAuthor() }
         { this.renderEditionDate() }
+        { this.renderQuote() }
         { this.renderMessage() }
         { this.renderActions() }
         { this.renderAnswerForm() }
@@ -81,6 +82,19 @@ class Reaction extends React.Component {
     return (
       <div className="reaction-edition position-absolute p-2 text-muted">
         { dateformat(date, '"Le" dd/mm/yyyy "à" HH:MM') }
+      </div>
+    );
+  }
+
+  renderQuote() {
+    const { quote } = this.props.reaction;
+
+    if (!quote)
+      return;
+
+    return (
+      <div className="reaction-quote py-3 border-bottom">
+        { quote }
       </div>
     );
   }
