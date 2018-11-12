@@ -113,16 +113,16 @@ class Reaction extends React.Component {
 
         { labelCanApprove(reaction.label) && (
           <div className="d-inline">
-            <button className="btn btn-sm btn-outline-success mx-2">J'approuve</button>
-            <button className="btn btn-sm btn-outline-danger mx-2">Je réfute</button>
+            <button className="btn btn-sm btn-outline-success mx-2 py-1 px-2">J'approuve</button>
+            <button className="btn btn-sm btn-outline-danger mx-2 py-1 px-2">Je réfute</button>
           </div>
         ) }
 
-        <button className="btn btn-sm btn-outline-dark mx-2">+1</button>
+        <button className="btn btn-sm btn-outline-dark mx-2 py-1 px-2">+1</button>
 
         { !this.state.showAnswerInput && (
           <button
-            className="btn btn-sm btn-outline-info mx-2"
+            className="btn btn-sm btn-outline-info mx-2 py-1 px-2"
             onClick={() => this.setState({ showAnswerInput: true })}
           >
             Répondre

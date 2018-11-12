@@ -169,7 +169,7 @@ class ReactionForm extends React.Component {
             <button
               type="button"
               key={label}
-              className="btn"
+              className={classList('btn', this.state.label === label && 'selected')}
               style={{
                 ...(this.state.label === label ? labelBackgroundStyle(label) : {}),
               }}
@@ -181,7 +181,7 @@ class ReactionForm extends React.Component {
 
         </div>
 
-        <div className="label-invalid">
+        <div className="label-invalid mt-1">
           { getErrorMessage(this.state.errors.label) }
         </div>
 
@@ -196,7 +196,7 @@ class ReactionForm extends React.Component {
       <div className="col-auto">
         <input
           type="submit"
-          className={classList('btn', 'btn-sm', 'btn-primary', text.length && 'btn-disabled')}
+          className={classList('submit-btn', 'btn', 'btn-sm', 'btn-primary', text.length && 'btn-disabled')}
           value="Envoyer"
         />
       </div>

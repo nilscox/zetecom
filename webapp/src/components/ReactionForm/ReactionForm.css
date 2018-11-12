@@ -14,7 +14,16 @@
   background-color: transparent;
 }
 
+.reaction-form .labels button.selected {
+  font-weight: bold;
+  color: #333333;
+}
+
 .reaction-form .labels .label-invalid {
-  font-size: 80%;
+  font-size: 13px;
   color: #dc3545;
+}
+
+.reaction-form .submit-btn {
+  font-weight: bold;
 }

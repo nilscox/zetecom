@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import Loading from './components/Loading';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Embed from './components/Embed';
 
 import MyContext from './MyContext';
 
@@ -24,6 +25,7 @@ class App extends React.Component {
     user: null,
     loading: true,
     error: null,
+    isEmbed: false,
   };
 
   async componentDidMount() {
@@ -42,9 +44,8 @@ class App extends React.Component {
   }
 
   render() {
-    const { loading } = this.state;
-
     const ctx = {
+      isEmbed: this.state.isEmbed,
       user: this.state.user,
       setUser: user => this.setState({ user }),
       onError: this.onError.bind(this),
@@ -53,13 +54,31 @@ class App extends React.Component {
     return (
       <Router>
         <MyContext.Provider value={ctx}>
-          <div className="container">
-            <Header user={!this.state.loading && this.state.user} />
-            { loading ? <Loading /> : this.renderRoutes() }
-            <Footer />
-          </div>
+          <Switch>
+            <Route path="/embed/:uri" render={this.renderEmbed.bind(this)} />
+            <Route render={this.renderWebapp.bind(this)} />
+          </Switch>
         </MyContext.Provider>
       </Router>
+    );
+  }
+
+  renderEmbed({ match }) {
+    if (!this.state.isEmbed)
+      setTimeout(() => this.setState({ isEmbed: true }), 0);
+
+    return <Embed youtubeUri={match.params.uri} />;
+  }
+
+  renderWebapp() {
+    const { loading } = this.state;
+
+    return (
+      <div className="container">
+        <Header user={!loading && this.state.user} />
+        { loading ? <Loading /> : this.renderRoutes() }
+        <Footer />
+      </div>
     );
   }
 

@@ -1,0 +1,16 @@
+.reactions-side {
+  width: 180px;
+}
+
+.reactions-side .side-label {
+  font-size: 13px;
+}
+
+.reactions-side button:not(.selected) {
+  background: inherit;
+}
+
+.reactions-side button.selected {
+  font-weight: bold;
+  color: #333333;
+}

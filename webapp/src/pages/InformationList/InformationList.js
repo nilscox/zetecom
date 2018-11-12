@@ -18,14 +18,14 @@ InformationList state:
 
 const InformationItem = ({ information }) => (
   <Link to={'/information/' + information.slug}>
-    <div className="info-item m-2">
+    <div className="info-item m-2 d-flex flex-row justify-content-start align-items-center">
 
       <img
-        className="info-image"
+        className="info-image img-thumbnail"
         src={information.image || '/assets/images/default-image.jpg'}
       />
 
-      <div className="info-title mt-2">
+      <div className="info-title mx-2">
         { information.title }
       </div>
 
@@ -57,13 +57,9 @@ class InformationList extends React.Component {
 
       { user && <AddInformationForm /> }
 
-      { this.state.informations ? (
-        <div className="d-flex flex-wrap justify-content-center">
-          { this.state.informations.map(i => (
-            <InformationItem key={i.slug} information={i} />
-          )) }
-        </div>
-      ) : (
+      { this.state.informations ? this.state.informations.map(i => (
+        <InformationItem key={i.slug} information={i} />
+      )) : (
         <Loading />
       ) }
 

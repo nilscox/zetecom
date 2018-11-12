@@ -103,7 +103,7 @@ class Signin extends React.Component {
 
   renderSigninSignupButtons() {
     return (
-      <div className="signin-signup btn-group my-5">
+      <div className="signin-signup btn-group my-5 btn-group-lg">
 
         <Link
           to="/signin"
@@ -151,7 +151,7 @@ class Signin extends React.Component {
     return (
       <FormInput
         type="email"
-        placeholder="Email"      
+        placeholder="Email"
         onChange={e => this.setState({ email: e.target.value })}
         error={this.state.errors.email}
       />
@@ -162,7 +162,7 @@ class Signin extends React.Component {
     return (
       <FormInput
         type="password"
-        placeholder="Password"      
+        placeholder="Password"
         onChange={e => this.setState({ password: e.target.value })}
         error={this.state.errors.password}
       />
@@ -173,7 +173,7 @@ class Signin extends React.Component {
     return (
       <FormInput
         type="text"
-        placeholder="Pseudo"      
+        placeholder="Pseudo"
         onChange={e => this.setState({ nick: e.target.value })}
         error={this.state.errors.nick}
       />
@@ -211,7 +211,7 @@ class Signin extends React.Component {
 
         </div>
 
-        { this.state.displayConditionsWarning && (       
+        { this.state.displayConditionsWarning && (
           <p className="conditions-warning">
             Attention ! Les conditions d'utilisation de ce site sont un peu particulières... Pas de liste interminable
             de règles, mais une petite dixaine seulement. Ces règles sont <strong>très rapides à lire</strong>, et il

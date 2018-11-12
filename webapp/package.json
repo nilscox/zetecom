@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack",
     "build:w": "webpack --watch",
+    "build:ext": "webpack --watch --config ../chrome-extension/webpack.config.js",
     "start": "webpack-dev-server"
   },
   "devDependencies": {
@@ -23,6 +24,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "dateformat": "^3.0.3",
+    "iframe-resizer": "^3.6.3",
     "react": "^16.6.0",
     "react-collapse": "^4.0.3",
     "react-dom": "^16.6.0",
