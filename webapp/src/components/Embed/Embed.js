@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Loading from '../Loading';
+import Link from '../Link';
 import ReactionsList from '../ReactionsList';
 import request from '../../services/request-service';
 
@@ -67,7 +68,13 @@ class Embed extends React.Component {
       return <Loading />;
 
     if (!information)
-      return <p>Cette vidéo n'a pas encore de page de réactions associée. <a href="#">Créer ?</a></p>;
+      return (
+        <div
+          className="alert alert-info"
+        >
+          Cette vidéo n'a pas encore de page de réactions associée sur <strong>Chercheurs de vérité</strong>. <Link to="/information">Créer ?</Link>
+        </div>
+      );
 
     return (
       <ReactionsList

@@ -22,22 +22,22 @@ class Extension extends React.Component {
         <div className="btn-group btn-group-lg my-4">
 
           <button
-            className={classList('btn', this.state.displayComments === 'cdv' ? 'btn-primary' : 'btn-secondary')}
-            onClick={() => this.setState({ displayComments: 'cdv' })}
+            className={classList('btn', this.state.displayComments === 'youtube' ? 'btn-primary' : 'btn-secondary')}
+            onClick={() => this.setState({ displayComments: 'youtube' })}
           >
             Commentaires YouTube
           </button>
 
           <button
-            className={classList('btn', !this.state.displayComments == 'youtube' ? 'btn-primary' : 'btn-secondary')}
-            onClick={() => this.setState({ displayComments: 'youtube' })}
+            className={classList('btn', this.state.displayComments === 'cdv' ? 'btn-primary' : 'btn-secondary')}
+            onClick={() => this.setState({ displayComments: 'cdv' })}
           >
             Commentaires CDV
           </button>
 
         </div>
 
-        { this.state.displayYoutubeComments ? (
+        { this.state.displayComments === 'youtube' ? (
           <div ref={ref => ref && ref.appendChild(this.props.youtubeComments)}></div>
         ) : (
           <iframe
