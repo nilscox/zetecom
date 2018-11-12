@@ -6,7 +6,7 @@
   "scripts": {
     "db:migrate": "sequelize db:migrate",
     "db:reset": "sequelize db:migrate:undo:all && yarn db:migrate",
-    "start": "nodemon index.js -w index.js -w api"
+    "start": "NODE_ENV=development nodemon index.js -w index.js -w api"
   },
   "dependencies": {
     "bcrypt": "^3.0.2",
