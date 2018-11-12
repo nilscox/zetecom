@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const extra = require('express-extra');
+const pkg = require('../package');
 const { User } = require('../models');
 const auth = require('./routes/authentication');
 const information = require('./routes/information');
@@ -45,6 +46,7 @@ app.use(async (req, res, next) => {
   }
 });
 
+api.get('/version', (req, res) => res.send(pkg.version));
 api.use('/auth', auth);
 api.use('/information', information);
 api.use('/user', user);

@@ -31,7 +31,7 @@ class Header extends React.Component {
         <div className="collapse navbar-collapse" id="navbar">
 
           <div className="navbar-nav flex-grow-1">
-            <NavLink to="/information" className="nav-item nav-link">Information</NavLink>
+            <NavLink to="/information" className="nav-item nav-link">Informations</NavLink>
             <NavLink to="/help" className="nav-item nav-link">Aide</NavLink>
           </div>
 

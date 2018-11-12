@@ -107,7 +107,7 @@ class ReactionForm extends React.Component {
     let avatar = '/assets/images/default-avatar.png';
 
     if (user.avatar)
-      avatar = 'http://localhost:4242' + user.avatar;
+      avatar = user.avatar;
 
     return (
       <div className="reaction-author d-flex flex-row align-items-center p-2">

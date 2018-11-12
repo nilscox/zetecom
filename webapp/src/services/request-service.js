@@ -6,7 +6,7 @@ module.exports = async (route, opts = {}, handlers = {}) => {
     opts.body = JSON.stringify(opts.body);
   }
 
-  const res = await fetch('http://localhost:4242' + route, {
+  const res = await fetch(route, {
     credentials: 'include',
     ...opts,
   });

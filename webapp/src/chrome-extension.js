@@ -42,7 +42,7 @@ class Extension extends React.Component {
         ) : (
           <iframe
             id="cdv-iframe"
-            src={'https://localhost/embed/' + uri}
+            src={'https://cdv.nils.cx/embed/' + uri}
             style={{ width: 1, minWidth: '100%' }}
             scrolling="no"
             ref={ref => iframeResizer({ checkOrigin: false }, ref)}

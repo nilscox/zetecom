@@ -2,6 +2,7 @@ import React from 'react';
 
 import Loading from '../Loading';
 import ReactionsList from '../ReactionsList';
+import request from '../../services/request-service';
 
 class Embed extends React.Component {
 
@@ -16,13 +17,15 @@ class Embed extends React.Component {
   }
 
   async fetchInformation() {
-    const res = await fetch('http://localhost:4242/api/information/by-url/' + this.props.youtubeUri);
-
-    if (res.status === 200) {
-      const json = await res.json();
-      const res2 = await fetch('http://localhost:4242/api/information/' + json.slug);
-      this.setState({ information: await res2.json() });
-    }
+    await request('/api/information/by-url/' + this.props.youtubeUri, {}, {
+      200: json => {
+        await request('/api/information/' + json.slug, {}, {
+          200: json => this.setState({ information: json }),
+          default: this.props.onError,
+        });
+      },
+      default: this.props.onError,
+    });
   }
 
   addReaction(reaction, answerTo) {

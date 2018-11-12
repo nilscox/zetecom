@@ -65,7 +65,7 @@ class Reaction extends React.Component {
     let avatar = '/assets/images/default-avatar.png';
 
     if (author.avatar)
-      avatar = 'http://localhost:4242' + author.avatar;
+      avatar = author.avatar;
 
     return (
       <div className="reaction-author d-flex flex-row align-items-center p-2 border-bottom">
