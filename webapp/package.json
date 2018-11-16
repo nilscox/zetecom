@@ -5,8 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "build:w": "webpack --watch",
-    "build:ext": "webpack --watch --config ../chrome-extension/webpack.config.js",
+    "build:ext": "webpack --config ../chrome-extension/webpack.config.js",
     "start": "webpack-dev-server"
   },
   "devDependencies": {

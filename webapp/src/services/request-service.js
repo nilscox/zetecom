@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.CDV_API_BASE_URL;
+const API_BASE_URL = process.env.CDV_PUBLIC_URL;
 
 module.exports = async (route, opts = {}, handlers = {}) => {
   opts.headers = opts.headers || {};

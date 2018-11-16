@@ -8,6 +8,7 @@ import { classList } from './utils';
 import './Label.css';
 
 const YOUTUBE_REGEX = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
+const CDV_PUBLIC_URL = process.env.CDV_PUBLIC_URL;
 
 class Extension extends React.Component {
 
@@ -44,7 +45,7 @@ class Extension extends React.Component {
         ) : (
           <iframe
             id="cdv-iframe"
-            src={'https://localhost:4242/embed/' + youtubeId}
+            src={CDV_PUBLIC_URL + '/embed/' + youtubeId}
             style={{ width: 1, minWidth: '100%' }}
             scrolling="no"
             ref={ref => iframeResizer({ checkOrigin: false }, ref)}
