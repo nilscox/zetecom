@@ -6,5 +6,6 @@ module.exports = Formatter({
   url: inst => inst.get('url'),
   slug: inst => inst.get('slug'),
   image: inst => inst.get('image'),
+  youtubeId: inst => inst.get('youtubeId'),
   reactions: inst => reactionFormatter.many(inst.reactions),
 });

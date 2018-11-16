@@ -1,5 +1,6 @@
 const { Validator, ValueValidator, ValidationError } = require('express-extra');
 const { Information } = require('../../models');
+const { getYoutubeId } = require('../services/youtube-service');
 const { stringTrim, stringNotEmpty, stringMinLength, stringMaxLength, stringIsUrl } = require('./validation');
 
 module.exports = Validator({
@@ -40,4 +41,6 @@ module.exports = Validator({
     type: 'string',
     readOnly: true,
   }),
+}, obj => {
+  obj.youtubeId = getYoutubeId(obj.url);
 });

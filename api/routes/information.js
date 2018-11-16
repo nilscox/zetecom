@@ -50,6 +50,7 @@ const findInformation = async (req, next, where) => {
 
 router.param('slug', (req, res, next, slug) => findInformation(req, next, { slug }));
 router.param('url', (req, res, next, url) => findInformation(req, next, { url: decodeURIComponent(url) }));
+router.param('youtubeId', (req, res, next, youtubeId) => findInformation(req, next, { youtubeId }));
 
 router.get('/list', extra(async (req) => {
   return await Information.findAll();
@@ -58,6 +59,10 @@ router.get('/list', extra(async (req) => {
 }));
 
 router.get('/by-url/:url', extra(req => req.information, {
+  format: informationFormatter,
+}));
+
+router.get('/by-youtubeId/:youtubeId', extra(req => req.information, {
   format: informationFormatter,
 }));
 

@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     url: DataTypes.STRING,
     slug: DataTypes.STRING,
     image: DataTypes.STRING,
+    youtubeId: DataTypes.STRING,
   }, {
     tableName: 'informations',
   });
