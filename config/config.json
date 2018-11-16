@@ -1,9 +1,0 @@
-{
-  "development": {
-    "username": "cdv_user",
-    "password": "cdv_pwd",
-    "database": "cdv_db",
-    "host": "postgres",
-    "dialect": "postgres"
-  }
-}
