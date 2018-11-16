@@ -6,6 +6,7 @@ const informationValidator = require('../validators/information-validator');
 const informationFormatter = require('../formatters/information-formatter');
 const { getLabelKey } = require('../labels');
 const imagesService = require('../services/images-service');
+const youtubeService = require('../services/youtube-service');
 const { User, Information, Reaction, Message } = require('../../models');
 const reaction = require('./reaction');
 
@@ -78,6 +79,7 @@ router.post('/', extra(async (req) => {
     slug: slugify(validated.title),
     image: imagesService.getImageFromUrl(validated.url),
     userId: req.user.id,
+    youtubeId: youtubeService.getYoutubeId(validated.url),
   });
 
   await information.save();
