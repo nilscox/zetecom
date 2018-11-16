@@ -5,4 +5,5 @@ module.exports = Formatter({
   nick: inst => inst.get('nick'),
   avatar: inst => inst.get('avatar'),
   about: inst => inst.get('about'),
+  signupDate: inst => inst.get('createdAt'),
 });
