@@ -7,6 +7,8 @@ import { classList } from './utils';
 
 import './Label.css';
 
+const YOUTUBE_REGEX = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
+
 class Extension extends React.Component {
 
   state = {
@@ -14,7 +16,7 @@ class Extension extends React.Component {
   };
 
   render() {
-    const { uri } = this.props;
+    const { youtubeId } = this.props;
 
     return (
       <div className="d-flex flex-column align-items-center">
@@ -42,7 +44,7 @@ class Extension extends React.Component {
         ) : (
           <iframe
             id="cdv-iframe"
-            src={'https://cdv.nils.cx/embed/' + uri}
+            src={'https://localhost:4242/embed/' + youtubeId}
             style={{ width: 1, minWidth: '100%' }}
             scrolling="no"
             ref={ref => iframeResizer({ checkOrigin: false }, ref)}
@@ -55,6 +57,12 @@ class Extension extends React.Component {
 
 const main = () => {
   const comments = document.getElementById('comments');
+  const youtubeId = YOUTUBE_REGEX.exec(window.location.href);
+
+  if (!youtubeId) {
+    console.error('youtubeId not found x(');
+    return;
+  }
 
   if (!comments)
     return setTimeout(main, 100);
@@ -65,10 +73,11 @@ const main = () => {
   comments.remove();
   parent.appendChild(rootTag);
 
+
   ReactDOM.render((
     <Extension
+      youtubeId={youtubeId[1]}
       youtubeComments={comments}
-      uri={encodeURIComponent(window.location.href)}
     />
   ), rootTag);
 };

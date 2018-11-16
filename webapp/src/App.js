@@ -55,7 +55,7 @@ class App extends React.Component {
       <Router>
         <MyContext.Provider value={ctx}>
           <Switch>
-            <Route path="/embed/:uri" render={this.renderEmbed.bind(this)} />
+            <Route path="/embed/:youtubeId" render={this.renderEmbed.bind(this)} />
             <Route render={this.renderWebapp.bind(this)} />
           </Switch>
         </MyContext.Provider>
@@ -67,7 +67,7 @@ class App extends React.Component {
     if (!this.state.isEmbed)
       setTimeout(() => this.setState({ isEmbed: true }), 0);
 
-    return <Embed youtubeUri={match.params.uri} />;
+    return <Embed youtubeId={match.params.youtubeId} />;
   }
 
   renderWebapp() {

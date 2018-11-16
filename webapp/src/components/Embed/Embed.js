@@ -18,7 +18,7 @@ class Embed extends React.Component {
   }
 
   async fetchInformation() {
-    await request('/api/information/by-url/' + this.props.youtubeUri, {}, {
+    await request('/api/information/by-youtubeId/' + this.props.youtubeId, {}, {
       200: async json => {
         await request('/api/information/' + json.slug, {}, {
           200: json => this.setState({ information: json }),
