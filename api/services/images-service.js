@@ -5,7 +5,7 @@ const getImageFromUrl = url => {
   if (url.match(/lefigaro\.fr/))
     return '/assets/images/logo-le-monde.png';
 
-  if (url.match(/youtube\.(com|fr)/))
+  if (url.match(/(youtube\.com)|(youtu\.be)/))
     return '/assets/images/logo-youtube.png';
 
   return null;
