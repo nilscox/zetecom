@@ -132,8 +132,6 @@ class Reaction extends React.Component {
           </div>
         ) }
 
-        <button className="btn btn-sm btn-outline-dark mx-2 py-1 px-2">+1</button>
-
         { !this.state.showAnswerInput && (
           <button
             className="btn btn-sm btn-outline-info mx-2 py-1 px-2"

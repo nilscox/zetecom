@@ -1,3 +1,5 @@
+const API_BASE_URL = process.env.CDV_API_BASE_URL;
+
 module.exports = async (route, opts = {}, handlers = {}) => {
   opts.headers = opts.headers || {};
 
@@ -6,7 +8,7 @@ module.exports = async (route, opts = {}, handlers = {}) => {
     opts.body = JSON.stringify(opts.body);
   }
 
-  const res = await fetch(route, {
+  const res = await fetch(API_BASE_URL + route, {
     credentials: 'include',
     ...opts,
   });
