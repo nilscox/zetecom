@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: ['@babel/polyfill', './src/index.js'],
-  mode: 'development',
+  mode: process.env.NODE_ENV || 'development',
   module: {
     rules: [
       {
@@ -22,7 +22,7 @@ module.exports = {
     ],
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public', 'dist'),
     publicPath: '/dist/',
     filename: 'bundle.js',
   },
