@@ -1,5 +1,6 @@
 import React from 'react';
 import MyContext from '../../MyContext';
+import UserAvatar from '../UserAvatar';
 import request from '../../services/request-service';
 import { getErrorMessage } from '../../services/errors-service';
 import labels, { labelText, labelBackgroundStyle, labelBorderStyle } from '../../services/label-service';
@@ -104,14 +105,10 @@ class ReactionForm extends React.Component {
 
   renderAuthor() {
     const { user } = this.context;
-    let avatar = '/assets/images/default-avatar.png';
-
-    if (user.avatar)
-      avatar = user.avatar;
 
     return (
       <div className="reaction-author d-flex flex-row align-items-center p-2">
-        <img className="reaction-author-image" src={avatar} />
+        <UserAvatar className="reaction-author-image" user={user} />
         <span className="reaction-author-nick ml-2">{ user.nick }</span>
       </div>
     );

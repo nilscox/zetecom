@@ -2,6 +2,7 @@ import React from 'react';
 import { Collapse } from 'react-collapse';
 import dateformat from 'dateformat';
 import ReactionForm from '../ReactionForm';
+import UserAvatar from '../UserAvatar';
 import MyContext from '../../MyContext';
 import { labelCanApprove, labelBorderStyle } from '../../services/label-service';
 import { classList } from '../../utils';
@@ -62,14 +63,10 @@ class Reaction extends React.Component {
 
   renderAuthor() {
     const { author } = this.props.reaction;
-    let avatar = '/assets/images/default-avatar.png';
-
-    if (author.avatar)
-      avatar = author.avatar;
 
     return (
       <div className="reaction-author d-flex flex-row align-items-center p-2 border-bottom">
-        <img className="reaction-author-image" src={avatar} />
+        <UserAvatar className="reaction-author-avatar" user={author} />
         <span className="reaction-author-nick ml-2">{ author.nick }</span>
       </div>
     );

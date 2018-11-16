@@ -1,7 +1,11 @@
 import React from 'react';
 import { Redirect } from 'react-router';
+import dateformat from 'dateformat';
 import MyContext from '../../MyContext';
 import request from '../../services/request-service';
+import UserAvatar from '../../components/UserAvatar';
+
+import './Profile.css';
 
 /**
 
@@ -35,17 +39,31 @@ class Profile extends React.Component {
       return <Redirect to="/signin" />;
 
     return (
-      <div>
-        <p>
-          Profile: { user.email }
-        </p>
+      <div className="position-relative">
 
         <button
           onClick={this.onSignout.bind(this)}
-          className="btn btn-dark"
+          className="btn btn-secondary button-signout"
         >
           Déconnexion
         </button>
+
+        <h2 className="text-center my-4">Mon profil</h2>
+
+        <div className="container w-75 mr-auto">
+          <div className="row py-1">
+            Email: { user.email }
+          </div>
+          <div className="row py-1">
+            Pseudo: { user.nick }
+          </div>
+          <div className="row py-1">
+            Date d'inscription: { dateformat(new Date(user.signupDate), 'dd/mm/yyyy') }
+          </div>
+          <div className="row py-1">
+            Avatar: <UserAvatar user={user} />
+          </div>
+        </div>
 
       </div>
     );
