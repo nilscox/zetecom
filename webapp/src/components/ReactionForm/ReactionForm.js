@@ -36,11 +36,23 @@ class ReactionForm extends React.Component {
     errors: {},
   };
 
+  static getDerivedStateFromProps(props, state) {
+    const obj = {};
+
+    if (state.text === '' && props.reaction) {
+      obj.text = props.reaction.text;
+      obj.quote = props.reaction.quote;
+      obj.label = props.reaction.label;
+    }
+
+    return obj;
+  }
+
   async onSubmit(e) {
     e.preventDefault();
     this.setState({ errors: {} });
 
-    const { information, answerTo } = this.props;
+    const { information, reaction, answerTo } = this.props;
     const { label, text, quote, errors } = this.state;
 
     if (!label) {
@@ -48,15 +60,22 @@ class ReactionForm extends React.Component {
       return;
     }
 
-    const url = '/api/information/' + information.slug + '/reaction';
-    await request(url, {
-      method: 'POST',
-      body: {
+    let url = '/api/information/' + information.slug + '/reaction';
+    const body = { text };
+
+    if (reaction)
+      url += '/' + reaction.slug + '/edit';
+    else {
+      Object.assign(body, {
         label,
-        text,
         quote: quote.length ? quote : undefined,
         answerTo: answerTo ? answerTo.slug : undefined,
-      },
+      });
+    }
+
+    await request(url, {
+      method: 'POST',
+      body,
     }, {
       200: json => {
         this.props.onReactionSubmitted(json, answerTo);
@@ -177,6 +196,13 @@ class ReactionForm extends React.Component {
   }
 
   renderFormLabels() {
+    const setLabel = label => {
+      if (this.props.reaction)
+        return;
+
+      this.setState({ label, errors: { ...this.state.errors, label: null } });
+    };
+
     return (
       <div className="col labels">
 
@@ -190,7 +216,7 @@ class ReactionForm extends React.Component {
               style={{
                 ...(this.state.label === label ? labelBackgroundStyle(label) : {}),
               }}
-              onClick={() => this.setState({ label, errors: { ...this.state.errors, label: null } })}
+              onClick={() => setLabel(label)}
             >
               { labelText(label) }
             </button>

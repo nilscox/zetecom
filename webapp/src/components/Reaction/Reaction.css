@@ -3,6 +3,11 @@
   font-size: 14px;
 }
 
+.reaction-edit {
+  font-size: 12px;
+  cursor: pointer;
+}
+
 .reaction-edition {
   right: 0;
   top: 0;

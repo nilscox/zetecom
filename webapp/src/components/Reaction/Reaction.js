@@ -22,6 +22,7 @@ Reaction props:
 Reaction state:
 - showAnswers: boolean
 - showAnswerInput: boolean
+- edit: boolean
 
 */
 
@@ -32,14 +33,28 @@ class Reaction extends React.Component {
   state = {
     showAnswerInput: false,
     showAnswers: false,
+    editing: false,
+    edited: null,
   };
 
   static getDerivedStateFromProps(props) {
     return { showAnswers: props.displayAnswers(props.reaction) };
   }
 
+  getReaction() {
+    if (this.state.edited !== null)
+      return this.state.edited;
+    else
+      return this.props.reaction;
+  }
+
   render() {
-    const { reaction, answerTo } = this.props;
+    const { answerTo } = this.props;
+    const { editing } = this.state;
+    const reaction = this.getReaction();
+
+    if (editing)
+      return this.renderEdition();
 
     return (
       <div
@@ -62,19 +77,47 @@ class Reaction extends React.Component {
     );
   }
 
+  renderEdition() {
+    const { information, answerTo } = this.props;
+    const reaction = this.getReaction();
+
+    return (
+      <ReactionForm
+        information={information}
+        reaction={reaction}
+        answerTo={answerTo}
+        onClose={() => this.setState({ editing: false })}
+        onReactionSubmitted={reaction => this.setState({ edited: reaction })}
+      />
+    );
+  }
+
   renderAuthor() {
-    const { author } = this.props.reaction;
+    const { author } = this.getReaction();
+    const { user } = this.context;
 
     return (
       <div className="reaction-author d-flex flex-row align-items-center p-2 border-bottom">
+
         <UserAvatar className="reaction-author-avatar" user={author} />
-        <span className="reaction-author-nick ml-2">{ author.nick }</span>
+
+        <div className="reaction-author-nick ml-2">{ author.nick }</div>
+
+        { user && author.nick === user.nick && (
+          <div
+            className="reaction-edit ml-1"
+            onClick={() => this.setState({ editing: true })}
+          >
+            (edit)
+          </div>
+        ) }
+
       </div>
     );
   }
 
   renderEditionDate() {
-    const { reaction } = this.props;
+    const reaction = this.getReaction();
     const date = new Date(reaction.date);
 
     return (
@@ -85,7 +128,7 @@ class Reaction extends React.Component {
   }
 
   renderQuote() {
-    const { quote } = this.props.reaction;
+    const { quote } = this.getReaction();
 
     if (!quote)
       return;
@@ -98,7 +141,7 @@ class Reaction extends React.Component {
   }
 
   renderMessage() {
-    const { reaction } = this.props;
+    const reaction = this.getReaction();
 
     return (
       <div className="reaction-message p-2">
@@ -117,7 +160,7 @@ class Reaction extends React.Component {
   }
 
   renderActions() {
-    const { reaction } = this.props;
+    const reaction = this.getReaction();
     const { user } = this.context;
 
     if (!user)
@@ -147,8 +190,9 @@ class Reaction extends React.Component {
   }
 
   renderAnswerForm() {
-    const { information, reaction, onReactionSubmitted } = this.props;
+    const { information, onReactionSubmitted } = this.props;
     const { showAnswerInput } = this.state;
+    const reaction = this.getReaction();
 
     if (!showAnswerInput)
       return;
@@ -164,14 +208,15 @@ class Reaction extends React.Component {
   }
 
   renderAnswers() {
-    const { reaction, toggleAnswers } = this.props;
+    const { toggleAnswers } = this.props;
     const { showAnswers } = this.state;
+    const reaction = this.getReaction();
     const props = Object.assign({}, this.props);
 
     delete props.reaction;
     delete props.answerTo;
 
-    if (!reaction.answers)
+    if (!reaction.answers || !reaction.answers.length)
       return;
 
     return (
