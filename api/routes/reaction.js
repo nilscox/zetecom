@@ -1,5 +1,5 @@
 const express = require('express');
-const { extra, NotFoundError } = require('express-extra');
+const { extra, Authorizer, NotFoundError } = require('express-extra');
 const { isSignedIn } = require('../permissions');
 const reactionValidator = require('../validators/reaction-validator');
 const reactionFormatter = require('../formatters/reaction-formatter');
@@ -11,7 +11,6 @@ router.param('slug', async (req, res, next, slug) => {
   try {
     const reactions = await req.information.getReactions({
       where: { slug },
-      include: [Message],
     });
 
     if (reactions.length === 0)
@@ -77,14 +76,16 @@ router.post('/:slug/edit', extra(async (req) => {
   const { text } = validated;
 
   await reaction.createMessage({ text });
-  await reaction.reload({ include: [Message] });
+  await reaction.reload();
 
   return reaction;
 }, {
-  authorize: isSignedIn,
+  authorize: Authorizer.and([
+    isSignedIn,
+    req => req.reaction.author.id === req.user.id,
+  ]),
   validate: req => reactionValidator(req.body, {
     label: { readOnly: true },
-    quote: { readOnly: true },
   }),
   format: value => reactionFormatter(value, { history: true }),
 }));
