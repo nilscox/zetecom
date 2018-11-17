@@ -1,5 +1,6 @@
 import React from 'react';
 import { Collapse } from 'react-collapse';
+import Linkify from 'react-linkify';
 import dateformat from 'dateformat';
 import ReactionForm from '../ReactionForm';
 import UserAvatar from '../UserAvatar';
@@ -104,7 +105,10 @@ class Reaction extends React.Component {
         { reaction.text.split('\n\n').map((p, n) => (
           <p key={n}>
             { p.split('\n').map((l, n) => (
-              <span key={n}>{ l }<br /></span>
+              <span key={n}>
+                <Linkify properties={{ target: '_blank' }}>{ l }</Linkify>
+                <br />
+              </span>
             )) }
           </p>
         )) }
