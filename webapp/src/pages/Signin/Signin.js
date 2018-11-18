@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import MyContext from '../../MyContext';
-import FormInput from '../../components/FormInput';
-import request from '../../services/request-service';
-import { getErrorMessage } from '../../services/errors-service';
-import { classList } from '../../utils';
+
+import MyContext from 'MyContext';
+import request from 'Services/request-service';
+import { getErrorMessage } from 'Services/errors-service';
+import { FormInput } from 'Components';
+import { classList } from 'utils';
+
 import './Signin.css';
 
 /**

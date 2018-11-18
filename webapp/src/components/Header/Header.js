@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
-import MyContext from '../../MyContext';
+
+import MyContext from 'MyContext';
 
 /**
 

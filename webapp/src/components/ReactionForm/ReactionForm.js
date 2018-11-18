@@ -1,10 +1,12 @@
 import React from 'react';
-import MyContext from '../../MyContext';
-import UserAvatar from '../UserAvatar';
-import request from '../../services/request-service';
-import { getErrorMessage } from '../../services/errors-service';
-import labels, { labelText, labelBackgroundStyle, labelBorderStyle } from '../../services/label-service';
-import { classList } from '../../utils';
+
+import MyContext from 'MyContext';
+import request from 'Services/request-service';
+import { getErrorMessage } from 'Services/errors-service';
+import labels, { labelText, labelBackgroundStyle, labelBorderStyle } from 'Services/label-service';
+import { UserAvatar } from 'Components';
+import { classList } from 'utils';
+
 import './ReactionForm.css';
 
 /**

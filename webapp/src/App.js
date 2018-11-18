@@ -1,21 +1,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import request from './services/request-service';
+import MyContext from 'MyContext';
+import request from 'Services/request-service';
 
-import Home from './pages/Home';
-import InformationList from './pages/InformationList';
-import Information from './pages/Information';
-import Help from './pages/Help';
-import Signin from './pages/Signin';
-import Profile from './pages/Profile';
+import { Loading, Header, Footer, Embed } from 'Components';
 
-import Loading from './components/Loading';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Embed from './components/Embed';
-
-import MyContext from './MyContext';
+import Home from './pages/Home/Home';
+import InformationList from './pages/InformationList/InformationList';
+import Information from './pages/Information/Information';
+import Help from './pages/Help/Help';
+import Signin from './pages/Signin/Signin';
+import Profile from './pages/Profile/Profile';
 
 import './Label.css';
 

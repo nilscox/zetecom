@@ -2,11 +2,12 @@ import React from 'react';
 import { Collapse } from 'react-collapse';
 import Linkify from 'react-linkify';
 import dateformat from 'dateformat';
-import ReactionForm from '../ReactionForm';
-import UserAvatar from '../UserAvatar';
-import MyContext from '../../MyContext';
-import { labelCanApprove, labelBorderStyle } from '../../services/label-service';
-import { classList } from '../../utils';
+
+import MyContext from 'MyContext';
+import { labelCanApprove, labelBorderStyle } from 'Services/label-service';
+import { ReactionForm, UserAvatar } from 'Components';
+import { classList } from 'utils';
+
 import './Reaction.css';
 
 /**

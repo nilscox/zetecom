@@ -1,11 +1,10 @@
 import React from 'react';
-import Link from '../Link';
-import Loading from '../Loading';
-import Reaction from '../Reaction';
-import ReactionForm from '../ReactionForm';
-import labels, { labelText, labelBackgroundStyle, labelBorderStyle } from '../../services/label-service';
-import { classList } from '../../utils';
-import MyContext from '../../MyContext';
+
+import MyContext from 'MyContext';
+import labels, { labelText, labelBackgroundStyle, labelBorderStyle } from 'Services/label-service';
+import { Loading, Link, Reaction, ReactionForm } from 'Components';
+import { classList } from 'utils';
+
 import './ReactionsList.css';
 
 /**

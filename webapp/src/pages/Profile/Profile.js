@@ -1,9 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 import dateformat from 'dateformat';
-import MyContext from '../../MyContext';
-import request from '../../services/request-service';
-import UserAvatar from '../../components/UserAvatar';
+
+import MyContext from 'MyContext';
+import request from 'Services/request-service';
+import { UserAvatar } from 'Components';
 
 import './Profile.css';
 

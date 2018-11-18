@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import MyContext from '../../MyContext';
-import AddInformationForm from '../../components/AddInformationForm';
-import Loading from '../../components/Loading';
-import request from '../../services/request-service';
+
+import MyContext from 'MyContext';
+import request from 'Services/request-service';
+import { Loading, AddInformationForm } from 'Components';
+
 import './InformationList.css';
 
 /**

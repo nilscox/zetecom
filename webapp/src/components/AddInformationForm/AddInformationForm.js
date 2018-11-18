@@ -1,9 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import request from '../../services/request-service';
-import FormInput from '../../components/FormInput';
-import MyContext from '../../MyContext';
-import { classList } from '../../utils';
+
+import MyContext from 'MyContext';
+import request from 'Services/request-service';
+import { FormInput } from 'Components';
+import { classList } from 'utils';
 
 /**
 
@@ -14,7 +15,7 @@ AddInformation state:
 - url: string
 - title: string
 - displayFullForm: boolean
-- created: ?boolean
+- created: ?Information
 - errors: Object,
 
 */

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import MyContext from '../../MyContext';
+import MyContext from 'MyContext';
 
 class Link extends React.Component {
 

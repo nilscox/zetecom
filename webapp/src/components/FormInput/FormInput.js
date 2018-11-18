@@ -1,6 +1,7 @@
 import React from 'react';
-import { getErrorMessage } from '../../services/errors-service';
-import { classList } from '../../utils';
+
+import { getErrorMessage } from 'Services/errors-service';
+import { classList } from 'utils';
 
 /**
 

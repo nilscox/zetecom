@@ -1,5 +1,6 @@
 import React from 'react';
-import { classList } from '../../utils';
+
+import { classList } from 'utils';
 
 import './UserAvatar.css';
 

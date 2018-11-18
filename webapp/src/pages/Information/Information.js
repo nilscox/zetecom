@@ -1,9 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import request from '../../services/request-service';
-import Loading from '../../components/Loading';
-import ReactionsList from '../../components/ReactionsList';
-import MyContext from '../../MyContext';
+
+import MyContext from 'MyContext';
+import request from 'Services/request-service';
+import { Loading, ReactionsList } from 'Components';
+
 import './Information.css';
 
 /**

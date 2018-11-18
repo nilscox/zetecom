@@ -1,11 +1,23 @@
 import React from 'react';
 
-import Loading from '../Loading';
-import Link from '../Link';
-import ReactionsList from '../ReactionsList';
-import request from '../../services/request-service';
+import MyContext from 'MyContext';
+import request from 'Services/request-service';
+import { Loading, Link, ReactionsList } from 'Components';
+
+/**
+
+Embed props:
+- youtubeId: string
+
+Embed state:
+- information: ?Information
+- loading: boolean
+
+*/
 
 class Embed extends React.Component {
+
+  static contextType = MyContext;
 
   state = {
     information: null,
@@ -22,10 +34,10 @@ class Embed extends React.Component {
       200: async json => {
         await request('/api/information/' + json.slug, {}, {
           200: json => this.setState({ information: json }),
-          default: this.props.onError,
+          default: this.context.onError,
         });
       },
-      default: this.props.onError,
+      default: this.context.onError,
     });
   }
 
