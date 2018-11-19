@@ -1,9 +1,8 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { Collapse } from 'react-collapse';
 import Linkify from 'react-linkify';
-import dateformat from 'dateformat';
 import ReactModal from 'react-modal';
+import dateformat from 'dateformat';
 
 import MyContext from 'MyContext';
 import request from 'Services/request-service';
@@ -26,7 +25,10 @@ import './Reaction.css';
  Reaction state:
  - showAnswers: boolean
  - showAnswerInput: boolean
- - edit: boolean
+ - editing: boolean
+ - edited: Reaction
+ - history: Mesage[]
+ - showModal: boolean
 
  */
 
@@ -42,7 +44,6 @@ class Reaction extends React.Component {
     editing: false,
     edited: null,
     history: null,
-    notFound: false,
     showModal: false,
     loading: false,
   };
@@ -83,13 +84,41 @@ class Reaction extends React.Component {
     });
   }
 
+  async fetchHistory() {
+    const { information, reaction } = this.props;
+
+    await request('/api/information/' + information.slug + '/reaction/' + reaction.slug, {}, {
+      200: json => this.setState({ history: json.history }),
+      default: this.context.onError,
+    });
+  }
+
+  async handleModal() {
+    this.setState({ loading: true });
+
+    if (!this.state.history || this.state.edited !== null) {
+      await this.fetchHistory();
+    }
+
+    this.setState({ loading: false });
+
+    if (this.state.history && this.state.history.length > 1)
+    this.handleOpenModal();
+
+  }
+
+  handleOpenModal() {
+    this.setState({ showModal: true });
+  }
+
+  handleCloseModal() {
+    this.setState({ showModal: false });
+  }
+
   render() {
     const { answerTo } = this.props;
     const { editing, notFound } = this.state;
     const reaction = this.getReaction();
-
-    if (notFound)
-      return <Redirect to={`information/${information.slug}`} />;
 
     if (editing)
       return this.renderEdition();
@@ -162,7 +191,7 @@ class Reaction extends React.Component {
     return (
       <div
         className="reaction-edition position-absolute p-2 text-muted"
-        onClick={() => this.handleOpenModal()}
+        onClick={() => this.handleModal()}
       >
         { dateformat(date, '"Le" dd/mm/yyyy "à" HH:MM') }
       </div>
@@ -308,62 +337,32 @@ class Reaction extends React.Component {
       <ReactModal
         isOpen={this.state.showModal}
         onRequestClose={() => this.handleCloseModal()}
-        onAfterOpen={() => this.handleAfterOpenFunc()}
       >
         { this.state.loading && <Loading /> }
-        { this.state.history && this.state.history.map(m => this.renderHistory(m)) }
+
+        { this.state.history && this.state.history.map(m => this.renderHistoryMessage(m)) }
 
       </ReactModal>
     )
   }
 
-  renderHistory(message) {
+  renderHistoryMessage(message) {
     const date = new Date(message.date);
 
     return (
       <div key={message.date}>
 
-        <div className="reaction-history-date-wrapper">
+        <div className="d-flex">
           <p className="p-2 text-muted">{dateformat(date, '"Le" dd/mm/yyyy "à" HH:MM')}</p>
-          <div className="line-wrapper">
-            <div className="line"></div>
+          <div className="flex-grow-1 d-flex flex-column justify-content-center ml-2 mb-3">
+            <div className="border-bottom"></div>
           </div>
         </div>
 
         <p>{message.text}</p>
+
       </div>
     )
-  }
-
-  async handleOpenModal() {
-    this.setState({ showModal: true, loading: true });
-
-    if (!this.state.history || this.state.edited !== null) {
-      await this.fetchHistory();
-    }
-
-    if (this.state.history && this.state.history.length < 1) {
-      this.setState({ loading: false });
-      this.handleCloseModal();
-    }
-  }
-
-  handleAfterOpenFunc() {
-    this.setState({ loading: false });
-  }
-
-  handleCloseModal() {
-    this.setState({ showModal: false });
-  }
-
-  async fetchHistory() {
-    const { information, reaction } = this.props;
-
-    await request('/api/information/' + information.slug + '/reaction/' + reaction.slug, {}, {
-      200: json => this.setState({ history: json.history }),
-      404: () => this.setState({ notFound: true }),
-      default: this.context.onError,
-    });
   }
 }
 
