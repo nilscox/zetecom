@@ -5,12 +5,8 @@ const LABELS = require('../labels');
 const reactionFormatter = module.exports = Formatter({
   quote: inst => inst.get('quote'),
   text: inst => {
-    const l = inst.messages.length;
-
-    if (l === 0)
-      return;
-
-    return inst.messages[l - 1].get('text');
+    if (inst.messages.length > 0)
+      return inst.messages[0].get('text');
   },
   label: inst => LABELS[inst.get('label')],
   slug: inst => inst.get('slug'),
@@ -20,7 +16,7 @@ const reactionFormatter = module.exports = Formatter({
       return;
 
     return inst.messages
-      .slice(0, inst.messages.length - 1)
+      .slice(1)
       .map(m => ({
         date: m.get('createdAt'),
         text: m.get('text'),
