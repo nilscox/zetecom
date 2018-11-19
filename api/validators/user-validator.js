@@ -38,7 +38,7 @@ module.exports = Validator({
     validate: [
       stringTrim(),
       stringNotEmpty(),
-      stringMinLength(4),
+      stringMinLength(4, 'USER_NICK_TOO_SHORT'),
     ],
   }),
   about: ValueValidator({

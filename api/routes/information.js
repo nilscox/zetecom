@@ -7,7 +7,7 @@ const informationFormatter = require('../formatters/information-formatter');
 const { getLabelKey } = require('../labels');
 const imagesService = require('../services/images-service');
 const youtubeService = require('../services/youtube-service');
-const { User, Information, Reaction, Message } = require('../../models');
+const { User, Information, Reaction, Message, Vote } = require('../../models');
 const reaction = require('./reaction');
 
 const router = module.exports = express.Router();
@@ -27,7 +27,10 @@ const findInformation = async (req, next, where) => {
   try {
     const information = await Information.findOne({
       where,
-      include: [Reaction],
+      include: [{
+        model: Reaction,
+        include: [Vote],
+      }],
       order: [[Reaction, 'createdAt', 'DESC']],
     });
 
@@ -37,7 +40,13 @@ const findInformation = async (req, next, where) => {
       const allReactions = information.reactions;
       const reactions = allReactions.filter(r => r.answerToId === null);
 
-      reactions.forEach(r => r.fillAnswers(allReactions));
+      reactions.forEach(r => {
+        r.fillAnswers(allReactions)
+
+        if (req.user)
+          r.fillUserVote(req.user.id);
+      });
+
 
       information.reactions = reactions;
       req.information = information;

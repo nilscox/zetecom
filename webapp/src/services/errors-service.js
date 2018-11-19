@@ -5,6 +5,7 @@ const messages = {
   'USER_EMAIL_ALREADY_EXISTS': 'adresse déjà utilisée',
   'USER_PASSWORD_TOO_SHORT': 'mot de passe trop court',
   'USER_PASSWORD_TOO_LONG': 'mot de passe trop long',
+  'USER_NICK_TOO_SHORT': 'pseudo trop court',
   'INFORMATION_TITLE_TOO_SHORT': 'titre trop court',
   'INFORMATION_URL_INVALID_FORMAT': 'format d\'url non valide',
   'INFORMATION_URL_ALREADY_EXISTS': 'url déjà existante',

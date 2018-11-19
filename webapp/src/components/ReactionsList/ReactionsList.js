@@ -14,8 +14,8 @@ ReactionsList props:
 - addReaction: reaction => any
 
 ReactionsList state:
-- displayAnswers: boolean
-- filterLabels: Array<string>
+- displayAnswers: Array<Reaction>
+- filterLabels: {[string]: boolean}
 - sort: string
 
 */
@@ -26,7 +26,10 @@ class ReactionsList extends React.Component {
 
   state = {
     displayAnswers: [],
-    filterLabels: ['SOURCE', 'METHOD', 'BIAIS'],
+    filterLabels: {
+      SOURCE: true, METHOD: true, BIAIS: true,
+      QUESTION: false, OPINION: false, FUN: false,
+    },
     sort: 'date',
   };
 
@@ -46,7 +49,7 @@ class ReactionsList extends React.Component {
       for (let i = 0; i < reactions.length; ++i) {
         const reaction = Object.assign({}, reactions[i]);
 
-        if (filterLabels.indexOf(reaction.label) >= 0) {
+        if (filterLabels[reaction.label]) {
           if (reaction.answers)
             reaction.answers = filter(reactions[i].answers);
 
@@ -58,6 +61,31 @@ class ReactionsList extends React.Component {
     };
 
     return filter(information.reactions);
+  }
+
+  getTotalReactionsByLabel() {
+    const { information } = this.props;
+
+    if (!information)
+      return;
+
+    let result = labels.reduce((obj, label) => {
+      obj[label] = 0;
+      return obj;
+    }, {});
+
+    const calculate = reactions => {
+      reactions.forEach(reaction => {
+        result[reaction.label]++;
+
+        if (reaction.answers)
+          calculate(reaction.answers);
+      });
+    };
+
+    calculate(information.reactions);
+
+    return result;
   }
 
   toggleAnswers(reaction) {
@@ -84,20 +112,15 @@ class ReactionsList extends React.Component {
     this.setState({ displayAnswers });
   }
 
-  toggleLabel(label) {
-    const filterLabels = this.state.filterLabels.slice();
-    const idx = filterLabels.findIndex(l => l === label);
+  setLabelVisible(label, visible) {
+    const filterLabels = Object.assign({}, this.state.filterLabels);
 
-    if (idx < 0)
-      filterLabels.push(label);
-    else {
-      if (filterLabels.length === 1)
-        return;
-
-      filterLabels.splice(idx, 1);
-    }
-
+    filterLabels[label] = visible;
     this.setState({ filterLabels });
+  }
+
+  toggleLabel(label) {
+    this.setLabelVisible(label, !this.state.filterLabels[label]);
   }
 
   setSort(sort) {
@@ -109,6 +132,8 @@ class ReactionsList extends React.Component {
 
   onReactionSubmitted(reaction, answerTo) {
     this.props.addReaction(reaction, answerTo);
+
+    this.setLabelVisible(reaction.label, true);
 
     if (answerTo)
       this.setAnswersVisible(answerTo, true);
@@ -125,6 +150,7 @@ class ReactionsList extends React.Component {
 
   renderSide() {
     const { filterLabels, sort } = this.state;
+    const totalReactions = this.getTotalReactionsByLabel();
 
     return (
       <div className="reactions-side flex flex-column">
@@ -137,11 +163,11 @@ class ReactionsList extends React.Component {
           { labels.map(label => (
             <button
               key={label}
-              className={classList('btn btn-sm text-left', filterLabels.indexOf(label) >= 0 && 'selected')}
-              style={filterLabels.indexOf(label) >= 0 ? labelBackgroundStyle(label) : {}}
+              className={classList('btn btn-sm text-left', filterLabels[label] && 'selected')}
+              style={filterLabels[label] ? labelBackgroundStyle(label) : {}}
               onClick={() => this.toggleLabel(label)}
             >
-              { labelText(label) }
+              { totalReactions[label] } { labelText(label) }
             </button>
           )) }
         </div>
