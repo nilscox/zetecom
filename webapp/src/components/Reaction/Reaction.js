@@ -14,23 +14,23 @@ import './Reaction.css';
 
 /**
 
- Reaction props:
- - information: Information
- - reaction: Reaction
- - answerTo: Reaction
- - displayAnswers: reaction => boolean
- - toggleAnswers: reaction => {}
- - onReactionSubmitted: reaction => {}
+Reaction props:
+- information: Information
+- reaction: Reaction
+- answerTo: Reaction
+- displayAnswers: reaction => boolean
+- toggleAnswers: reaction => {}
+- onReactionSubmitted: reaction => {}
 
- Reaction state:
- - showAnswers: boolean
- - showAnswerInput: boolean
- - editing: boolean
- - edited: Reaction
- - history: Mesage[]
- - showModal: boolean
+Reaction state:
+- showAnswers: boolean
+- showAnswerInput: boolean
+- editing: boolean
+- edited: Reaction
+- history: Mesage[]
+- showModal: boolean
 
- */
+*/
 
 ReactModal.setAppElement('#app');
 
@@ -103,8 +103,7 @@ class Reaction extends React.Component {
     this.setState({ loading: false });
 
     if (this.state.history && this.state.history.length > 1)
-    this.handleOpenModal();
-
+      this.handleOpenModal();
   }
 
   handleOpenModal() {
@@ -364,6 +363,7 @@ class Reaction extends React.Component {
       </div>
     )
   }
+
 }
 
 export default Reaction;
