@@ -4,6 +4,7 @@ import Linkify from 'react-linkify';
 import dateformat from 'dateformat';
 
 import MyContext from 'MyContext';
+import request from 'Services/request-service';
 import { labelCanApprove, labelBorderStyle } from 'Services/label-service';
 import { ReactionForm, UserAvatar } from 'Components';
 import { classList } from 'utils';
@@ -47,6 +48,31 @@ class Reaction extends React.Component {
       return this.state.edited;
     else
       return this.props.reaction;
+  }
+
+  approve(approve) {
+    const { information } = this.props;
+    const { user } = this.context;
+    const reaction = this.getReaction();
+
+    if (reaction.author.nick === user.nick)
+      return;
+
+    let url = '/api/information/' + information.slug + '/reaction/' + reaction.slug;
+
+    if ((approve && reaction.didApprove) || (!approve && reaction.didRefute))
+      url += '/clearvote';
+    else if (approve)
+      url += '/approve';
+    else
+      url += '/refute';
+
+    request(url, {
+      method: 'POST',
+    }, {
+      200: json => this.setState({ edited: json }),
+      default: this.context.onError,
+    });
   }
 
   render() {
@@ -172,8 +198,24 @@ class Reaction extends React.Component {
 
         { labelCanApprove(reaction.label) && (
           <div className="d-inline">
-            <button className="btn btn-sm btn-outline-success mx-2 py-1 px-2">J'approuve</button>
-            <button className="btn btn-sm btn-outline-danger mx-2 py-1 px-2">Je réfute</button>
+            <button
+              className={classList('btn', 'btn-sm', 'mx-2', 'py-1', 'px-2',
+                reaction.didApprove ? 'btn-success' : 'btn-outline-success',
+              )}
+              disabled={reaction.author.nick === user.nick}
+              onClick={() => this.approve(true)}
+            >
+              J'approuve ({ reaction.approves })
+            </button>
+            <button
+              className={classList('btn', 'btn-sm', 'mx-2', 'py-1', 'px-2',
+                reaction.didRefute ? 'btn-danger' : 'btn-outline-danger',
+              )}
+              disabled={reaction.author.nick === user.nick}
+              onClick={() => this.approve(false)}
+            >
+              Je réfute ({ reaction.refutes })
+            </button>
           </div>
         ) }
 
