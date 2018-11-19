@@ -19,6 +19,7 @@ const db = {
   Information: sequelize['import'](path.join(__dirname, 'information')),
   Reaction: sequelize['import'](path.join(__dirname, 'reaction')),
   Message: sequelize['import'](path.join(__dirname, 'message')),
+  Vote: sequelize['import'](path.join(__dirname, 'vote')),
 };
 
 Object.keys(db).forEach(modelName => {
