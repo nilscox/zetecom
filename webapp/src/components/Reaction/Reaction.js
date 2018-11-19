@@ -1,13 +1,13 @@
 import React from 'react';
 import { Collapse } from 'react-collapse';
 import Linkify from 'react-linkify';
-import ReactModal from 'react-modal';
 import dateformat from 'dateformat';
 
 import MyContext from 'MyContext';
 import request from 'Services/request-service';
 import { labelCanApprove, labelBorderStyle } from 'Services/label-service';
 import { ReactionForm, UserAvatar, Loading } from 'Components';
+import ReactionHistory from './ReactionHistory';
 import { classList } from 'utils';
 
 import './Reaction.css';
@@ -27,12 +27,9 @@ Reaction state:
 - showAnswerInput: boolean
 - editing: boolean
 - edited: Reaction
-- history: Mesage[]
-- showModal: boolean
+- historyModalOpen: boolean
 
 */
-
-ReactModal.setAppElement('#app');
 
 class Reaction extends React.Component {
 
@@ -43,9 +40,7 @@ class Reaction extends React.Component {
     showAnswers: false,
     editing: false,
     edited: null,
-    history: null,
-    showModal: false,
-    loading: false,
+    historyModalOpen: false,
   };
 
   static getDerivedStateFromProps(props) {
@@ -84,39 +79,9 @@ class Reaction extends React.Component {
     });
   }
 
-  async fetchHistory() {
-    const { information, reaction } = this.props;
-
-    await request('/api/information/' + information.slug + '/reaction/' + reaction.slug, {}, {
-      200: json => this.setState({ history: json.history }),
-      default: this.context.onError,
-    });
-  }
-
-  async handleModal() {
-    this.setState({ loading: true });
-
-    if (!this.state.history || this.state.edited !== null) {
-      await this.fetchHistory();
-    }
-
-    this.setState({ loading: false });
-
-    if (this.state.history && this.state.history.length > 1)
-      this.handleOpenModal();
-  }
-
-  handleOpenModal() {
-    this.setState({ showModal: true });
-  }
-
-  handleCloseModal() {
-    this.setState({ showModal: false });
-  }
-
   render() {
-    const { answerTo } = this.props;
-    const { editing, notFound } = this.state;
+    const { information, answerTo } = this.props;
+    const { editing, historyModalOpen } = this.state;
     const reaction = this.getReaction();
 
     if (editing)
@@ -138,7 +103,13 @@ class Reaction extends React.Component {
         { this.renderActions() }
         { this.renderAnswerForm() }
         { this.renderAnswers() }
-        { this.renderHistoryModal() }
+
+        <ReactionHistory
+          information={information}
+          reaction={reaction}
+          isModalOpen={historyModalOpen}
+          onRequestClose={() => this.setState({ historyModalOpen: false })}
+        />
 
       </div>
     );
@@ -190,7 +161,7 @@ class Reaction extends React.Component {
     return (
       <div
         className="reaction-edition position-absolute p-2 text-muted"
-        onClick={() => this.handleModal()}
+        onClick={() => this.setState({ historyModalOpen: true })}
       >
         { dateformat(date, '"Le" dd/mm/yyyy "à" HH:MM') }
       </div>
@@ -329,39 +300,6 @@ class Reaction extends React.Component {
 
       </div>
     );
-  }
-
-  renderHistoryModal() {
-    return (
-      <ReactModal
-        isOpen={this.state.showModal}
-        onRequestClose={() => this.handleCloseModal()}
-      >
-        { this.state.loading && <Loading /> }
-
-        { this.state.history && this.state.history.map(m => this.renderHistoryMessage(m)) }
-
-      </ReactModal>
-    )
-  }
-
-  renderHistoryMessage(message) {
-    const date = new Date(message.date);
-
-    return (
-      <div key={message.date}>
-
-        <div className="d-flex">
-          <p className="p-2 text-muted">{dateformat(date, '"Le" dd/mm/yyyy "à" HH:MM')}</p>
-          <div className="flex-grow-1 d-flex flex-column justify-content-center ml-2 mb-3">
-            <div className="border-bottom"></div>
-          </div>
-        </div>
-
-        <p>{message.text}</p>
-
-      </div>
-    )
   }
 
 }
