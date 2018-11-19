@@ -60,6 +60,31 @@ class ReactionsList extends React.Component {
     return filter(information.reactions);
   }
 
+  getTotalReactionsByLabel() {
+    const { information } = this.props;
+
+    if (!information)
+      return;
+
+    let result = labels.reduce((obj, label) => {
+      obj[label] = 0;
+      return obj;
+    }, {});
+
+    const calculate = reactions => {
+      reactions.forEach(reaction => {
+        result[reaction.label]++;
+
+        if (reaction.answers)
+          calculate(reaction.answers);
+      });
+    };
+
+    calculate(information.reactions);
+
+    return result;
+  }
+
   toggleAnswers(reaction) {
     const displayAnswers = this.state.displayAnswers.slice();
     const idx = displayAnswers.findIndex(r => r.slug === reaction.slug);
@@ -125,6 +150,7 @@ class ReactionsList extends React.Component {
 
   renderSide() {
     const { filterLabels, sort } = this.state;
+    const totalReactions = this.getTotalReactionsByLabel();
 
     return (
       <div className="reactions-side flex flex-column">
@@ -141,7 +167,7 @@ class ReactionsList extends React.Component {
               style={filterLabels.indexOf(label) >= 0 ? labelBackgroundStyle(label) : {}}
               onClick={() => this.toggleLabel(label)}
             >
-              { labelText(label) }
+              { totalReactions[label] } { labelText(label) }
             </button>
           )) }
         </div>
