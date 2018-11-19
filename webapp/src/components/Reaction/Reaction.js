@@ -2,30 +2,34 @@ import React from 'react';
 import { Collapse } from 'react-collapse';
 import Linkify from 'react-linkify';
 import dateformat from 'dateformat';
+import ReactModal from 'react-modal';
 
 import MyContext from 'MyContext';
+import request from 'Services/request-service';
 import { labelCanApprove, labelBorderStyle } from 'Services/label-service';
-import { ReactionForm, UserAvatar } from 'Components';
+import { ReactionForm, UserAvatar, Loading } from 'Components';
 import { classList } from 'utils';
 
 import './Reaction.css';
 
 /**
 
-Reaction props:
-- information: Information
-- reaction: Reaction
-- answerTo: Reaction
-- displayAnswers: reaction => boolean
-- toggleAnswers: reaction => {}
-- onReactionSubmitted: reaction => {}
+ Reaction props:
+ - information: Information
+ - reaction: Reaction
+ - answerTo: Reaction
+ - displayAnswers: reaction => boolean
+ - toggleAnswers: reaction => {}
+ - onReactionSubmitted: reaction => {}
 
-Reaction state:
-- showAnswers: boolean
-- showAnswerInput: boolean
-- edit: boolean
+ Reaction state:
+ - showAnswers: boolean
+ - showAnswerInput: boolean
+ - edit: boolean
 
-*/
+ */
+
+ReactModal.setAppElement('#app');
 
 class Reaction extends React.Component {
 
@@ -36,6 +40,10 @@ class Reaction extends React.Component {
     showAnswers: false,
     editing: false,
     edited: null,
+    history: null,
+    notFound: false,
+    showModal: false,
+    loading: false,
   };
 
   static getDerivedStateFromProps(props) {
@@ -73,6 +81,7 @@ class Reaction extends React.Component {
         { this.renderActions() }
         { this.renderAnswerForm() }
         { this.renderAnswers() }
+        { this.renderHistoryModal() }
 
       </div>
     );
@@ -122,7 +131,10 @@ class Reaction extends React.Component {
     const date = new Date(reaction.date);
 
     return (
-      <div className="reaction-edition position-absolute p-2 text-muted">
+      <div
+        className="reaction-edition position-absolute p-2 text-muted"
+        onClick={() => this.handleOpenModal()}
+      >
         { dateformat(date, '"Le" dd/mm/yyyy "à" HH:MM') }
       </div>
     );
@@ -244,6 +256,64 @@ class Reaction extends React.Component {
 
       </div>
     );
+  }
+
+  renderHistoryModal() {
+    return (
+      <ReactModal
+        isOpen={this.state.showModal}
+        onRequestClose={() => this.handleCloseModal()}
+        onAfterOpen={() => this.handleAfterOpenFunc()}
+      >
+        { this.state.loading && <Loading /> }
+        { this.state.history && this.state.history.map(m => this.renderHistory(m)) }
+
+      </ReactModal>
+    )
+  }
+
+  renderHistory(message) {
+    const date = new Date(message.date);
+
+    return (
+      <div key={message.date}>
+
+        <div className="reaction-history-date-wrapper">
+          <p className="p-2 text-muted">{dateformat(date, '"Le" dd/mm/yyyy "à" HH:MM')}</p>
+          <div className="line-wrapper">
+            <div className="line"></div>
+          </div>
+        </div>
+
+        <p>{message.text}</p>
+      </div>
+    )
+  }
+
+  handleOpenModal() {
+    this.setState({ showModal: true, loading: true });
+  }
+
+  handleAfterOpenFunc() {
+    if (!this.state.history) {
+      this.fetchHistory();
+    }
+
+    this.setState({ loading: false });
+  }
+
+  handleCloseModal() {
+    this.setState({ showModal: false });
+  }
+
+  async fetchHistory() {
+    const { information, reaction } = this.props;
+
+    await request('/api/information/' + information.slug + '/reaction/' + reaction.slug, {}, {
+      200: json => this.setState({ history: json.history }),
+      404: () => this.setState({ notFound: true }),
+      default: this.context.onError,
+    });
   }
 }
 
