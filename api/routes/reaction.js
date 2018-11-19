@@ -99,7 +99,7 @@ const setVote = async (userId, reaction, vote) => {
   });
 
   if (votes.length === 0)
-    await reaction.createVote({ userId: user.id, approve: vote });
+    await reaction.createVote({ userId, approve: vote });
   else if (votes[0].get('approve') !== vote)
     await votes[0].update({ approve: vote });
   else
