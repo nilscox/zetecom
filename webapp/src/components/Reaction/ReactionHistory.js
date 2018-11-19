@@ -50,8 +50,6 @@ class ReactionHistory extends React.Component {
     const { reaction, isModalOpen, onRequestClose } = this.props;
     const { loading, history } = this.state;
 
-    console.log([reaction, ...history]);
-
     return (
       <ReactModal
         isOpen={isModalOpen}
