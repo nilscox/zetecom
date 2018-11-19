@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { Collapse } from 'react-collapse';
 import Linkify from 'react-linkify';
 import dateformat from 'dateformat';
@@ -59,8 +60,11 @@ class Reaction extends React.Component {
 
   render() {
     const { answerTo } = this.props;
-    const { editing } = this.state;
+    const { editing, notFound } = this.state;
     const reaction = this.getReaction();
+
+    if (notFound)
+      return <Redirect to={`information/${information.slug}`} />;
 
     if (editing)
       return this.renderEdition();
@@ -290,15 +294,20 @@ class Reaction extends React.Component {
     )
   }
 
-  handleOpenModal() {
+  async handleOpenModal() {
     this.setState({ showModal: true, loading: true });
+
+    if (!this.state.history || this.state.edited !== null) {
+      await this.fetchHistory();
+    }
+
+    if (this.state.history && this.state.history.length < 1) {
+      this.setState({ loading: false });
+      this.handleCloseModal();
+    }
   }
 
   handleAfterOpenFunc() {
-    if (!this.state.history) {
-      this.fetchHistory();
-    }
-
     this.setState({ loading: false });
   }
 
