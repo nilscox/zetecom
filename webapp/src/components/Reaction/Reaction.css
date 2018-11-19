@@ -40,22 +40,3 @@
   font-size: 13px;
   cursor: pointer;
 }
-
-.reaction-history-date-wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
-.line-wrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 10px;
-  margin-bottom: 15px;
-}
-
-.line {
-  border-bottom: 1px solid #CCC;
-}
