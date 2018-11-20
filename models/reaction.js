@@ -29,10 +29,6 @@ module.exports = (sequelize, DataTypes) => {
         { model: models.User, as: 'author' },
       ],
     });
-
-    Reaction.addScope('orderDate', {
-      order: [['createdAt', 'DESC']],
-    });
   };
 
   Reaction.prototype.fillAnswers = function(reactions) {

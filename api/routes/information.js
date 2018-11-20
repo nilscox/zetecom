@@ -27,7 +27,8 @@ const findInformation = async (req, next, where) => {
   try {
     const information = await Information.findOne({
       where,
-      include: [Reaction.scope('defaultScope', 'withAuthor', 'orderDate')],
+      include: [Reaction.scope('defaultScope', 'withAuthor')],
+      order: [[Reaction, 'createdAt', 'DESC']],
     });
 
     if (!information)
