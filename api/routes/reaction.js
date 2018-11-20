@@ -11,6 +11,7 @@ router.param('slug', async (req, res, next, slug) => {
   try {
     const reactions = await req.information.getReactions({
       where: { slug },
+      scope: ['defaultScope', 'withAuthor'],
     });
 
     if (reactions.length === 0)

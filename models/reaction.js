@@ -18,11 +18,21 @@ module.exports = (sequelize, DataTypes) => {
 
     Reaction.addScope('defaultScope', {
       include: [
-        { model: models.User, as: 'author' },
         { model: models.Message },
         { model: models.Vote },
       ],
+      order: [[models.Message, 'updatedAt']],
     }, { override: true });
+
+    Reaction.addScope('withAuthor', {
+      include: [
+        { model: models.User, as: 'author' },
+      ],
+    });
+
+    Reaction.addScope('orderDate', {
+      order: [['createdAt', 'DESC']],
+    });
   };
 
   Reaction.prototype.fillAnswers = function(reactions) {
