@@ -80,8 +80,8 @@ class Reaction extends React.Component {
   }
 
   render() {
-    const { information, answerTo } = this.props;
-    const { editing, historyModalOpen } = this.state;
+    const { answerTo } = this.props;
+    const { editing } = this.state;
     const reaction = this.getReaction();
 
     if (editing)
@@ -103,13 +103,7 @@ class Reaction extends React.Component {
         { this.renderActions() }
         { this.renderAnswerForm() }
         { this.renderAnswers() }
-
-        <ReactionHistory
-          information={information}
-          reaction={reaction}
-          isModalOpen={historyModalOpen}
-          onRequestClose={() => this.setState({ historyModalOpen: false })}
-        />
+        { this.renderHistoryModal() }
 
       </div>
     );
@@ -157,10 +151,12 @@ class Reaction extends React.Component {
   renderEditionDate() {
     const reaction = this.getReaction();
     const date = new Date(reaction.date);
+    const lastEdit = reaction.lastEdit && new Date(reaction.lastEdit);
 
     return (
       <div
-        className="reaction-edition position-absolute p-2 text-muted"
+        className={classList('reaction-edition position-absolute p-2 text-muted', lastEdit && 'cursor-pointer')}
+        title={lastEdit && dateformat(lastEdit, '"Édité le" dd/mm/yyyy "à" HH:MM')}
         onClick={() => this.setState({ historyModalOpen: true })}
       >
         { dateformat(date, '"Le" dd/mm/yyyy "à" HH:MM') }
@@ -299,6 +295,24 @@ class Reaction extends React.Component {
         </Collapse>
 
       </div>
+    );
+  }
+
+  renderHistoryModal() {
+    const { information } = this.props;
+    const { historyModalOpen } = this.state;
+    const reaction = this.getReaction();
+
+    if (!reaction.lastEdit)
+      return;
+
+    return (
+      <ReactionHistory
+        information={information}
+        reaction={reaction}
+        isModalOpen={historyModalOpen}
+        onRequestClose={() => this.setState({ historyModalOpen: false })}
+      />
     );
   }
 
