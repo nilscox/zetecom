@@ -1,6 +1,5 @@
 import React from 'react';
 import { Collapse } from 'react-collapse';
-import Linkify from 'react-linkify';
 import dateformat from 'dateformat';
 
 import MyContext from 'MyContext';
@@ -8,6 +7,7 @@ import request from 'Services/request-service';
 import { labelCanApprove, labelBorderStyle } from 'Services/label-service';
 import { ReactionForm, UserAvatar, Loading } from 'Components';
 import ReactionHistory from './ReactionHistory';
+import ReactionMessage from './ReactionMessage';
 import { classList } from 'utils';
 
 import './Reaction.css';
@@ -99,7 +99,9 @@ class Reaction extends React.Component {
         { this.renderAuthor() }
         { this.renderEditionDate() }
         { this.renderQuote() }
-        { this.renderMessage() }
+
+        <ReactionMessage message={this.getReaction().text} />
+
         { this.renderActions() }
         { this.renderAnswerForm() }
         { this.renderAnswers() }
@@ -173,25 +175,6 @@ class Reaction extends React.Component {
     return (
       <div className="reaction-quote py-3 border-bottom">
         { quote }
-      </div>
-    );
-  }
-
-  renderMessage() {
-    const reaction = this.getReaction();
-
-    return (
-      <div className="reaction-message p-2">
-        { reaction.text.split('\n\n').map((p, n) => (
-          <p key={n}>
-            { p.split('\n').map((l, n) => (
-              <span key={n}>
-                <Linkify properties={{ target: '_blank' }}>{ l }</Linkify>
-                <br />
-              </span>
-            )) }
-          </p>
-        )) }
       </div>
     );
   }

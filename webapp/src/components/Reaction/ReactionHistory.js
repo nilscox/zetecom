@@ -5,6 +5,7 @@ import dateformat from 'dateformat';
 import MyContext from 'MyContext';
 import request from 'Services/request-service';
 import { Loading } from 'Components';
+import ReactionMessage from './ReactionMessage';
 
 /**
 
@@ -79,7 +80,7 @@ class ReactionHistory extends React.Component {
           </div>
         </div>
 
-        <p>{ message.text }</p>
+        <ReactionMessage message={message.text} />
 
       </div>
     );
