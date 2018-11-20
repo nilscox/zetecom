@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   Reaction.associate = function(models) {
     Reaction.belongsTo(models.Information);
     Reaction.belongsTo(models.User, { as: 'author', foreignKey: 'authorId' });
-    Reaction.hasMany(models.Message);
+    Reaction.Messages = Reaction.hasMany(models.Message);
     Reaction.hasMany(Reaction, { as: 'answers', foreignKey: 'answerToId' });
     Reaction.belongsTo(models.Reaction, { as: 'answerTo', foreignKey: 'answerToId' });
     Reaction.hasMany(models.Vote);

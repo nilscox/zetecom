@@ -52,17 +52,16 @@ router.post('/', extra(async (req) => {
     delete req.validated.quote;
   }
 
-  const reaction = new Reaction({
+  const reaction = await Reaction.create({
     ...req.validated,
     slug: Math.random().toString(36).slice(4),
     informationId: req.information.id,
     answerToId: answerToId,
     authorId: req.user.id,
+    messages: [{ text }],
+  }, {
+    include: [{ association: Reaction.Messages }],
   });
-
-  await reaction.save();
-  await reaction.createMessage({ text });
-  await reaction.reload();
 
   return reaction;
 }, {
