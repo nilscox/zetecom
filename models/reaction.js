@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         { model: models.Message },
         { model: models.Vote },
       ],
-      order: [[models.Message, 'updatedAt']],
     }, { override: true });
 
     Reaction.addScope('withAuthor', {

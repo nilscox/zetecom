@@ -7,6 +7,10 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config')[env];
 
+const sqlFormatter = require('sql-formatter')
+
+config.logging = sql => console.log(sqlFormatter.format(sql));
+
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);

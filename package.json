@@ -14,7 +14,8 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "pg": "^7.6.0",
-    "sequelize": "^4.41.0"
+    "sequelize": "^4.41.0",
+    "sql-formatter": "^2.3.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.5",
