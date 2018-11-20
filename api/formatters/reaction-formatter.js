@@ -33,8 +33,8 @@ const reactionFormatter = module.exports = Formatter({
     return reactionFormatter.many(inst.answers);
   },
   author: inst => userFormatter(inst.author || inst.getAuthor()),
-  approves: inst => inst.countVotes({ where: { approve: true } }),
+  approves: inst => inst.votes.filter(v => v.approve === true).length,
   didApprove: inst => inst.didApprove,
-  refutes: inst => inst.countVotes({ where: { approve: false } }),
+  refutes: inst => inst.votes.filter(v => v.approve === false).length,
   didRefute: inst => inst.didRefute,
 });
