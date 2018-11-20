@@ -11,6 +11,10 @@ const reactionFormatter = module.exports = Formatter({
   label: inst => LABELS[inst.get('label')],
   slug: inst => inst.get('slug'),
   date: inst => inst.get('createdAt'),
+  lastEdit: inst => {
+    if (inst.messages.length > 1)
+      return inst.messages[inst.messages.length - 1].get('updatedAt');
+  },
   history: (inst, opts) => {
     if (opts !== true)
       return;
