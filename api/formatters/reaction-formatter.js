@@ -33,8 +33,18 @@ const reactionFormatter = module.exports = Formatter({
     return reactionFormatter.many(inst.answers);
   },
   author: inst => userFormatter(inst.author || inst.getAuthor()),
-  approves: inst => inst.votes.filter(v => v.approve === true).length,
+  approves: async inst => {
+    if (inst.votes)
+      return inst.votes.filter(v => v.approve === true).length;
+
+    return await inst.countVotes({ where: { approve: true } });
+  },
+  refutes: async inst => {
+    if (inst.votes)
+      return inst.votes.filter(v => v.approve === false).length;
+
+    return await inst.countVotes({ where: { approve: false } });
+  },
   didApprove: inst => inst.didApprove,
-  refutes: inst => inst.votes.filter(v => v.approve === false).length,
   didRefute: inst => inst.didRefute,
 });
