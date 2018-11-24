@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
-import { Information } from '../../information/entities/information.entity';
-import { Reaction } from '../../information/entities/reaction.entity';
+import { Information } from 'Information/entities/information.entity';
+import { Reaction } from 'Information/entities/reaction.entity';
 
 @Entity()
 export class User {

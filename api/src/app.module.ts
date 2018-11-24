@@ -21,7 +21,11 @@ import { AppController } from './app.controller';
 export class AppModule {
 
   configure(consumer: MiddlewareConsumer) {
-    ExpressSessionMiddleware.configure({ secret: 'secret' });
+    ExpressSessionMiddleware.configure({
+      secret: 'secret',
+      resave: true,
+      saveUninitialized: true,
+    });
 
     consumer
       .apply(ExpressSessionMiddleware, UserMiddleware)
