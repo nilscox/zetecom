@@ -1,9 +1,31 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
+
+import { UserMiddleware } from './common/user.middleware';
+
+import { InformationModule } from './information/information.module';
+import { UserModule } from './user/user.module';
+
 import { AppController } from './app.controller';
 
 @Module({
-  imports: [],
+  imports: [
+    TypeOrmModule.forRoot(),
+    InformationModule,
+    UserModule,
+  ],
   controllers: [AppController],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+
+  configure(consumer: MiddlewareConsumer) {
+    ExpressSessionMiddleware.configure({ secret: 'secret' });
+
+    consumer
+      .apply(ExpressSessionMiddleware, UserMiddleware)
+      .forRoutes('*');
+  }
+
+}
