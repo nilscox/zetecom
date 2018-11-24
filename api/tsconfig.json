@@ -12,7 +12,10 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "Common/*": ["src/common/*"]
+    }
   },
   "include": [
     "src/**/*"

@@ -1,10 +1,20 @@
-import { Controller, Post, Get, HttpCode, Body, Session, UseInterceptors, UseGuards, ClassSerializerInterceptor, NotFoundException } from '@nestjs/common';
-import { User as ReqUser } from '../../common/user.decorator';
+import {
+  Controller,
+  Get, Post,
+  HttpCode,
+  Session, Body,
+  UseInterceptors, UseGuards,
+  ClassSerializerInterceptor,
+  NotFoundException,
+} from '@nestjs/common';
+
+import { User as ReqUser } from 'Common/user.decorator';
+import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
+
 import { CreateUserDto } from '../dtos/CreateUserDto';
 import { LoginUserDto } from '../dtos/LoginUserDto';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';
-import { IsAuthenticated, IsNotAuthenticated } from '../../common/auth.guard';
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)

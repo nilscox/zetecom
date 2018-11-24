@@ -2,7 +2,7 @@ import { Module, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 
-import { UserMiddleware } from './common/user.middleware';
+import { UserMiddleware } from 'Common/user.middleware';
 
 import { InformationModule } from './information/information.module';
 import { UserModule } from './user/user.module';

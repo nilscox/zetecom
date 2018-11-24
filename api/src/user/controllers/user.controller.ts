@@ -1,4 +1,12 @@
-import { Controller, Get, Param, ParseIntPipe, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+} from '@nestjs/common';
+
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';
 

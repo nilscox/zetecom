@@ -1,5 +1,14 @@
-import { Get, Post, Param, Body, Controller, UseInterceptors, UseGuards, ClassSerializerInterceptor, NotFoundException } from '@nestjs/common';
-import { IsAuthenticated } from '../../common/auth.guard';
+import {
+  Controller,
+  Get, Post,
+  Param, Body,
+  UseInterceptors, UseGuards,
+  ClassSerializerInterceptor,
+  NotFoundException,
+} from '@nestjs/common';
+
+import { IsAuthenticated } from 'Common/auth.guard';
+
 import { InformationService } from '../services/information.service';
 import { Information } from '../entities/information.entity';
 import { CreateInformationDto } from '../dtos/CreateInformationDto';
