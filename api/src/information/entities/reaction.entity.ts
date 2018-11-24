@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
 
 import { User } from 'User/entities/user.entity';
@@ -32,5 +32,11 @@ export class Reaction {
 
   @ManyToOne(type => Information, information => information.reactions)
   information: Information;
+
+  @ManyToOne(type => Reaction, reaction => reaction.answers)
+  parent: Reaction;
+
+  @OneToMany(type => Reaction, reaction => reaction.parent)
+  answers: Reaction[];
 
 }
