@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { InformationController } from './controllers/information.controller';
+import { ReactionController } from './controllers/reaction.controller';
 import { YoutubeService } from './services/youtube.service';
 import { InformationService } from './services/information.service';
 import { SlugService } from './services/slug.service';
@@ -13,6 +14,7 @@ import { Information } from './entities/information.entity';
   ],
   controllers: [
     InformationController,
+    ReactionController,
   ],
   providers: [
     SlugService,

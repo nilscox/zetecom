@@ -24,7 +24,7 @@ export class InformationService {
   }
 
   async findOne(where: object): Promise<Information> {
-    return this.informationRepository.findOne({ where: where, relations: ['creator'] });
+    return this.informationRepository.findOne({ where: where, relations: ['creator', 'reactions'] });
   }
 
   async findBySlug(slug: string): Promise<Information> {

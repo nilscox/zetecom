@@ -10,7 +10,7 @@ import {
 import { IsAuthenticated } from 'Common/auth.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 
-import { User } from '../../user/entities/user.entity';
+import { User } from 'User/entities/user.entity';
 
 import { InformationService } from '../services/information.service';
 import { Information } from '../entities/information.entity';
