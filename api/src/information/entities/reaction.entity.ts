@@ -4,26 +4,19 @@ import { Exclude } from 'class-transformer';
 import { User } from '../../user/entities/user.entity';
 
 @Entity()
-export class Information {
+export class Reaction {
 
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  url: string;
+  @Column({ nullable: true })
+  quote: string;
 
   @Column()
-  title: string;
+  label: number;
 
   @Column()
   slug: string;
-
-  @Column({ nullable: true })
-  image: string;
-
-  @Column({ nullable: true })
-  @Exclude()
-  youtubeId: string;
 
   @CreateDateColumn()
   @Exclude()
@@ -33,7 +26,7 @@ export class Information {
   @Exclude()
   updated: Date;
 
-  @ManyToOne(type => User, user => user.informations)
-  creator: User;
+  @ManyToOne(type => User, user => user.reactions)
+  author: User;
 
 }

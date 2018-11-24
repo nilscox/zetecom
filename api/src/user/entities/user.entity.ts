@@ -1,5 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
+
+import { Information } from '../../information/entities/information.entity';
+import { Reaction } from '../../information/entities/reaction.entity';
 
 @Entity()
 export class User {
@@ -28,5 +31,11 @@ export class User {
   @UpdateDateColumn()
   @Exclude()
   updated: Date;
+
+  @OneToMany(type => Information, information => information.creator)
+  informations: Information[];
+
+  @OneToMany(type => Reaction, reaction => reaction.author)
+  reactions: Reaction[];
 
 }

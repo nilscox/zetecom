@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { User } from '../../user/entities/user.entity';
+
 import { Information } from '../entities/information.entity';
 import { CreateInformationDto } from '../dtos/CreateInformationDto';
 import { SlugService } from '../services/slug.service';
@@ -22,7 +24,7 @@ export class InformationService {
   }
 
   async findOne(where: object): Promise<Information> {
-    return this.informationRepository.findOne({ where: where });
+    return this.informationRepository.findOne({ where: where, relations: ['creator'] });
   }
 
   async findBySlug(slug: string): Promise<Information> {
@@ -33,13 +35,14 @@ export class InformationService {
     return this.findOne({ youtubeId });
   }
 
-  async create(createInformationDto: CreateInformationDto): Promise<Information> {
+  async create(createInformationDto: CreateInformationDto, creator: User): Promise<Information> {
     const information = new Information();
 
     Object.assign(information, {
       ...createInformationDto,
       slug: this.slugService.slugify(createInformationDto.title),
       youtubeId: this.youtubeService.getYoutubeId(createInformationDto.url),
+      creator,
     });
 
     return this.informationRepository.save(information);
