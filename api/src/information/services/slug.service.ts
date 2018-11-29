@@ -11,7 +11,11 @@ export class SlugService {
       .replace(/^-+/, '')
       .replace(/-+$/, '')
       .slice(0, 64)
-      + '-' + Math.random().toString(36).slice(4);
+      + '-' + this.randString();
+  }
+
+  randString() {
+    return Math.random().toString(36).slice(4);
   }
 
 }

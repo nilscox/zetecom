@@ -31,7 +31,12 @@ export class InformationController {
 
   @Get(':slug')
   async findOneBySlug(@Param('slug') slug: string): Promise<Information> {
-    return this.informationService.findBySlug(slug);
+    const information = await this.informationService.findBySlug(slug);
+
+    if (!information)
+      throw new NotFoundException();
+
+    return information;
   }
 
   @Get('/by-youtubeId/:youtubeId')

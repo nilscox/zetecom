@@ -5,12 +5,15 @@ import { InformationController } from './controllers/information.controller';
 import { ReactionController } from './controllers/reaction.controller';
 import { YoutubeService } from './services/youtube.service';
 import { InformationService } from './services/information.service';
+import { ReactionService } from './services/reaction.service';
 import { SlugService } from './services/slug.service';
 import { Information } from './entities/information.entity';
+import { Reaction } from './entities/reaction.entity';
+import { Message } from './entities/message.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Information]),
+    TypeOrmModule.forFeature([Information, Reaction, Message]),
   ],
   controllers: [
     InformationController,
@@ -20,6 +23,7 @@ import { Information } from './entities/information.entity';
     SlugService,
     YoutubeService,
     InformationService,
+    ReactionService,
   ],
 })
 export class InformationModule {}

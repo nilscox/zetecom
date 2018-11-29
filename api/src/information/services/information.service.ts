@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { User } from '../../user/entities/user.entity';
+import { User } from 'User/entities/user.entity';
 
 import { Information } from '../entities/information.entity';
 import { CreateInformationDto } from '../dtos/CreateInformationDto';
@@ -20,18 +20,23 @@ export class InformationService {
   ) {}
 
   async findAll(): Promise<Information[]> {
-    return this.informationRepository.find();
+    return await this.informationRepository.find();
   }
 
   async findOne(where: object): Promise<Information> {
-    return this.informationRepository.findOne({ where: where, relations: ['creator', 'reactions'] });
+    return await this.informationRepository.createQueryBuilder('information')
+      .leftJoinAndSelect('information.reactions', 'reactions', 'reactions."parentId" IS NULL')
+      .leftJoinAndSelect('information.creator', 'creator')
+      .leftJoinAndSelect('reactions.messages', 'messages')
+      .where(where)
+      .getOne();
   }
 
-  async findBySlug(slug: string): Promise<Information> {
+  findBySlug(slug: string): Promise<Information> {
     return this.findOne({ slug });
   }
 
-  async findByYoutubeId(youtubeId: string): Promise<Information> {
+  findByYoutubeId(youtubeId: string): Promise<Information> {
     return this.findOne({ youtubeId });
   }
 
@@ -45,7 +50,7 @@ export class InformationService {
       creator,
     });
 
-    return this.informationRepository.save(information);
+    return await this.informationRepository.save(information);
   }
 
 }
