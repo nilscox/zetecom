@@ -23,7 +23,7 @@ export class Reaction {
   @Transform(label => labelName(label))
   label: number;
 
-  @Column()
+  @Column({ unique: true })
   @Expose()
   slug: string;
 

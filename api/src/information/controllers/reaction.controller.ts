@@ -33,16 +33,27 @@ export class ReactionController {
     private readonly reactionService: ReactionService,
   ) {}
 
-  @Get(':id')
-  async findOne(
-    @Param('id', new ParseIntPipe()) id: string,
-  ): Promise<Reaction> {
-    const reaction = await this.reactionService.findOne({ id });
+  async findOne(where) {
+    const reaction = await this.reactionService.findOne(where);
 
     if (!reaction)
       throw new NotFoundException();
 
     return reaction;
+  }
+
+  @Get(':id')
+  async findOneById(
+    @Param('id', new ParseIntPipe()) id: number,
+  ): Promise<Reaction> {
+    return await this.findOne({ id });
+  }
+
+  @Get('by-slug/:slug')
+  async findOneBySlug(
+    @Param('slug') slug: string,
+  ): Promise<Reaction> {
+    return await this.findOne({ slug });
   }
 
   @Post()
