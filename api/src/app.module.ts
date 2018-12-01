@@ -1,6 +1,7 @@
 import { Module, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
+import { MorganMiddleware } from '@nest-middlewares/morgan';
 
 import { UserMiddleware } from 'Common/user.middleware';
 
@@ -27,8 +28,10 @@ export class AppModule {
       saveUninitialized: true,
     });
 
+    MorganMiddleware.configure('dev');
+
     consumer
-      .apply(ExpressSessionMiddleware, UserMiddleware)
+      .apply(ExpressSessionMiddleware, MorganMiddleware, UserMiddleware)
       .forRoutes('*');
   }
 

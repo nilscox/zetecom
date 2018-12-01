@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@nest-middlewares/express-session": "^5.1.1",
+    "@nest-middlewares/morgan": "^5.1.1",
     "@nestjs/common": "^5.4.0",
     "@nestjs/core": "^5.4.0",
     "@nestjs/typeorm": "^5.2.2",
