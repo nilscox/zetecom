@@ -82,7 +82,5 @@ export class Reaction {
 @Exclude()
 export class ReactionWithoutHistory extends Reaction {
   @Exclude()
-  get history() {
-    return null;
-  }
+  history: null;
 }
