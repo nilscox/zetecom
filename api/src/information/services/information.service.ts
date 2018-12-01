@@ -9,6 +9,11 @@ import { CreateInformationDto } from '../dtos/CreateInformationDto';
 import { SlugService } from '../services/slug.service';
 import { YoutubeService } from '../services/youtube.service';
 
+export interface FindInformationOpts {
+  rootReactions?: boolean;
+  creator?: boolean;
+}
+
 @Injectable()
 export class InformationService {
 
@@ -23,21 +28,31 @@ export class InformationService {
     return await this.informationRepository.find();
   }
 
-  async findOne(where: object): Promise<Information> {
-    return await this.informationRepository.createQueryBuilder('information')
-      .leftJoinAndSelect('information.reactions', 'reactions', 'reactions."parentId" IS NULL')
-      .leftJoinAndSelect('information.creator', 'creator')
-      .leftJoinAndSelect('reactions.messages', 'messages')
-      .where(where)
-      .getOne();
+  async findOne(where: object, opts: FindInformationOpts = {}): Promise<Information> {
+    let qb = this.informationRepository.createQueryBuilder('information')
+      .where(where);
+
+    if (opts.rootReactions) {
+      qb = qb.leftJoinAndSelect('information.reactions', 'reactions', 'reactions."parentId" IS NULL')
+        .leftJoinAndSelect('reactions.messages', 'messages');
+    }
+
+    if (opts.creator)
+      qb = qb.leftJoinAndSelect('information.creator', 'creator');
+
+    return await qb.getOne();
   }
 
-  findBySlug(slug: string): Promise<Information> {
-    return this.findOne({ slug });
+  findById(id: number, opts: FindInformationOpts): Promise<Information> {
+    return this.findOne({ id }, opts);
   }
 
-  findByYoutubeId(youtubeId: string): Promise<Information> {
-    return this.findOne({ youtubeId });
+  findBySlug(slug: string, opts: FindInformationOpts): Promise<Information> {
+    return this.findOne({ slug }, opts);
+  }
+
+  findByYoutubeId(youtubeId: string, opts: FindInformationOpts): Promise<Information> {
+    return this.findOne({ youtubeId }, opts);
   }
 
   async create(createInformationDto: CreateInformationDto, creator: User): Promise<Information> {

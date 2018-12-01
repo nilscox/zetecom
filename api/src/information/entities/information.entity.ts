@@ -1,14 +1,15 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
-import { Expose, Exclude } from 'class-transformer';
+import { Expose, Exclude, Type } from 'class-transformer';
 
 import { User } from 'User/entities/user.entity';
-import { Reaction } from './reaction.entity';
+import { Reaction, ReactionWithoutHistory } from './reaction.entity';
 
 @Entity()
 @Exclude()
 export class Information {
 
   @PrimaryGeneratedColumn()
+  @Expose()
   id: number;
 
   @Column()
@@ -42,6 +43,7 @@ export class Information {
 
   @OneToMany(type => Reaction, reaction => reaction.information)
   @Expose()
+  @Type(() => ReactionWithoutHistory)
   reactions: Reaction[];
 
 }

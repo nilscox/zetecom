@@ -11,6 +11,7 @@ import { Message } from './message.entity';
 export class Reaction {
 
   @PrimaryGeneratedColumn()
+  @Expose()
   id: number;
 
   @Column({ nullable: true })
@@ -27,9 +28,12 @@ export class Reaction {
   slug: string;
 
   @CreateDateColumn()
+  @Expose({ name: 'date' })
+  @Type(() => Date)
   created: Date;
 
   @UpdateDateColumn()
+  @Type(() => Date)
   updated: Date;
 
   @Expose()
@@ -49,7 +53,7 @@ export class Reaction {
 
   @Expose()
   get history(): { date: Date, text: string }[] {
-    return this.messages.map(m => ({
+    return this.messages.slice(0, -1).map(m => ({
       date: m.created,
       text: m.text,
     }));
@@ -76,7 +80,7 @@ export class Reaction {
 }
 
 @Exclude()
-class ReactionWithoutHistory extends Reaction {
+export class ReactionWithoutHistory extends Reaction {
   @Exclude()
   get history() {
     return null;

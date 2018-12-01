@@ -11,10 +11,10 @@ const values = keys.map(k => LABELS[k]);
 
 export default values;
 
-export const labelId = (key) => {
-  return keys[values.indexOf(key)];
+export const labelId = (key: string): number => {
+  return parseInt(keys[values.indexOf(key)], 10);
 };
 
-export const labelName = (id) => {
+export const labelName = (id: number): string => {
   return LABELS[id];
 };

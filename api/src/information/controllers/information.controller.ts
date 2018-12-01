@@ -1,6 +1,7 @@
 import {
   Controller,
   Get, Post,
+  ParseIntPipe,
   Param, Body,
   UseInterceptors, UseGuards,
   ClassSerializerInterceptor,
@@ -29,9 +30,11 @@ export class InformationController {
     return this.informationService.findAll();
   }
 
-  @Get(':slug')
-  async findOneBySlug(@Param('slug') slug: string): Promise<Information> {
-    const information = await this.informationService.findBySlug(slug);
+  async findOne(where): Promise<Information> {
+    const information = this.informationService.findOne(where, {
+      creator: true,
+      rootReactions: true,
+    });
 
     if (!information)
       throw new NotFoundException();
@@ -39,14 +42,19 @@ export class InformationController {
     return information;
   }
 
-  @Get('/by-youtubeId/:youtubeId')
+  @Get(':id')
+  async findOneById(@Param('id', new ParseIntPipe()) id: number): Promise<Information> {
+    return this.findOne({ id });
+  }
+
+  @Get('by-slug/:slug')
+  async findOneBySlug(@Param('slug') slug: string): Promise<Information> {
+    return this.findOne({ slug });
+  }
+
+  @Get('by-youtubeId/:youtubeId')
   async findOneByYoutubeId(@Param('youtubeId') youtubeId: string): Promise<Information> {
-    const information = this.informationService.findByYoutubeId(youtubeId);
-
-    if (!information)
-      throw new NotFoundException();
-
-    return information;
+    return this.findOne({ youtubeId });
   }
 
   @Post()

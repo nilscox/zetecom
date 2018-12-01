@@ -24,7 +24,7 @@ export class ReactionService {
   ) {}
 
   async findOne(where): Promise<Reaction> {
-    return await this.reactionRepository.findOne({ where, relations: ['answers'] });
+    return await this.reactionRepository.findOne(where, { relations: ['answers'] });
   }
 
   async create(
@@ -34,19 +34,17 @@ export class ReactionService {
     parent?: Reaction,
   ): Promise<Reaction> {
     const reaction = new Reaction();
-
-    Object.assign(reaction, {
-      createReactionDto,
-      slug: this.slugService.randString(),
-      label: labelId(createReactionDto.label),
-    });
+    const message = new Message();
 
     reaction.information = information;
     reaction.author = user;
 
-    const message = new Message();
+    reaction.slug = this.slugService.randString();
+    reaction.quote = createReactionDto.quote;
+    reaction.label = labelId(createReactionDto.label);
 
     message.text = createReactionDto.text;
+
     reaction.messages = [message];
 
     if (parent)
@@ -72,7 +70,7 @@ export class ReactionService {
     }
 
     if (updateReacitonDto.quote)
-      reaction.quote = updateReacitonDto.text;
+      reaction.quote = updateReacitonDto.quote;
 
     return await this.reactionRepository.save(reaction);
   }

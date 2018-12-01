@@ -3,6 +3,7 @@ import {
   Controller,
   Get, Post, Put,
   Param, Body,
+  ParseIntPipe,
   UseInterceptors, UseGuards,
   ClassSerializerInterceptor,
   NotFoundException,
@@ -22,41 +23,20 @@ import { ReactionService } from '../services/reaction.service';
 import { CreateReactionDto } from '../dtos/CreateReactionDto';
 import { UpdateReactionDto } from '../dtos/UpdateReactionDto';
 
-@Injectable()
-class InfoParamPipe implements PipeTransform<string, Promise<Information>> {
-
-  constructor(
-    private readonly informationService: InformationService,
-  ) {}
-
-  async transform(slug: string, metadata: ArgumentMetadata): Promise<Information> {
-    const information = await this.informationService.findBySlug(slug);
-
-    if (!information)
-      throw new NotFoundException();
-
-    return information;
-  }
-
-}
-
-@Controller('/information/:infoSlug')
+@Controller('/reaction')
 @UseInterceptors(ClassSerializerInterceptor)
 export class ReactionController {
 
   constructor(
+    private readonly informationService: InformationService,
     private readonly reactionService: ReactionService,
   ) {}
 
-  @Get(':slug')
+  @Get(':id')
   async findOne(
-    @Param('infoSlug', InfoParamPipe) information,
-    @Param('slug') slug,
+    @Param('id', new ParseIntPipe()) id: string,
   ): Promise<Reaction> {
-    const reaction = await this.reactionService.findOne({
-      informationId: information.id,
-      slug,
-    });
+    const reaction = await this.reactionService.findOne({ id });
 
     if (!reaction)
       throw new NotFoundException();
@@ -66,44 +46,37 @@ export class ReactionController {
 
   @Post()
   @UseGuards(IsAuthenticated)
-  async createRoot(
-    @Param('infoSlug', InfoParamPipe) information,
+  async create(
     @Body() createReactionDto: CreateReactionDto,
     @ReqUser() user: User,
   ): Promise<Reaction> {
-    return await this.reactionService.create(information, createReactionDto, user);
-  }
+    const information = await this.informationService.findOne({ id: createReactionDto.informationId });
 
-  @Post(':slug')
-  @UseGuards(IsAuthenticated)
-  async createAnswer(
-    @Param('infoSlug', InfoParamPipe) information,
-    @Param('slug') parentSlug,
-    @Body() createReactionDto: CreateReactionDto,
-    @ReqUser() user: User,
-  ): Promise<Reaction> {
-    const parent = await this.reactionService.findOne({
-      informationId: information.id,
-      slug: parentSlug,
-    });
-
-    if (!parent)
+    if (!information)
       throw new NotFoundException();
+
+    let parent = null;
+
+    if (createReactionDto.parentId) {
+      parent = await this.reactionService.findOne({
+        id: createReactionDto.parentId,
+        informationId: information.id,
+      });
+
+      if (!parent)
+        throw new NotFoundException();
+    }
 
     return await this.reactionService.create(information, createReactionDto, user, parent);
   }
 
-  @Put(':slug')
+  @Put(':id')
   @UseGuards(IsAuthenticated)
   async update(
-    @Param('infoSlug', InfoParamPipe) information,
-    @Param('slug') slug,
+    @Param('id', new ParseIntPipe()) id: number,
     @Body() updateReactionDto: UpdateReactionDto,
   ): Promise<Reaction> {
-    const reaction = await this.reactionService.findOne({
-      informationId: information.id,
-      slug,
-    });
+    const reaction = await this.reactionService.findOne(id);
 
     if (!reaction)
       throw new NotFoundException();

@@ -4,6 +4,13 @@ import LABELS from 'Utils/labels';
 
 export class CreateReactionDto {
 
+  @IsInt()
+  readonly informationId: number;
+
+  @IsInt()
+  @IsOptional()
+  readonly parentId: number;
+
   @IsString()
   @IsOptional()
   readonly quote: string;

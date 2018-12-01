@@ -7,6 +7,7 @@ export class UpdateReactionDto {
   readonly quote: string;
 
   @IsString()
+  @IsOptional()
   @MaxLength(4000)
   readonly text: string;
 
