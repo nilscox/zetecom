@@ -59,7 +59,7 @@ export class Reaction {
     }));
   }
 
-  @ManyToOne(type => User, user => user.reactions)
+  @ManyToOne(type => User, user => user.reactions, { eager: true })
   @Expose()
   author: User;
 

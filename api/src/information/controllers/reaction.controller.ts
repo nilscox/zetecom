@@ -7,6 +7,7 @@ import {
   UseInterceptors, UseGuards,
   ClassSerializerInterceptor,
   NotFoundException,
+  UnauthorizedException,
   PipeTransform,
   ArgumentMetadata,
 } from '@nestjs/common';
@@ -75,11 +76,15 @@ export class ReactionController {
   async update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() updateReactionDto: UpdateReactionDto,
+    @ReqUser() user: User,
   ): Promise<Reaction> {
     const reaction = await this.reactionService.findOne(id);
 
     if (!reaction)
       throw new NotFoundException();
+
+    if (reaction.author.id !== user.id)
+      throw new UnauthorizedException();
 
     return await this.reactionService.update(reaction, updateReactionDto);
   }
