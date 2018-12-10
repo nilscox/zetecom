@@ -5,13 +5,20 @@ import { Repository } from 'typeorm';
 import { User } from 'User/entities/user.entity';
 
 import { Information } from '../entities/information.entity';
+import { Reaction } from '../entities/reaction.entity';
 import { CreateInformationDto } from '../dtos/CreateInformationDto';
 import { SlugService } from '../services/slug.service';
 import { YoutubeService } from '../services/youtube.service';
+import { PaginationService } from '../services/pagination.service';
+
+export interface FindAllInformationOpts {
+  page?: number;
+}
 
 export interface FindInformationOpts {
-  rootReactions?: boolean;
   creator?: boolean;
+  rootReactions?: boolean;
+  reactionsPage?: number;
 }
 
 @Injectable()
@@ -20,27 +27,35 @@ export class InformationService {
   constructor(
     @InjectRepository(Information)
     private readonly informationRepository: Repository<Information>,
+    @InjectRepository(Reaction)
+    private readonly reactionRepository: Repository<Reaction>,
     private readonly slugService: SlugService,
     private readonly youtubeService: YoutubeService,
+    private readonly paginationService: PaginationService,
   ) {}
 
-  async findAll(): Promise<Information[]> {
-    return await this.informationRepository.find();
+  async findAll(opts: FindAllInformationOpts = {}): Promise<Information[]> {
+    return await this.informationRepository.find(
+      this.paginationService.paginationOptions(opts.page || 1),
+    );
   }
 
   async findOne(where: object, opts: FindInformationOpts = {}): Promise<Information> {
-    let qb = this.informationRepository.createQueryBuilder('information')
-      .where(where);
+    const information = await this.informationRepository.findOne({ where });
+
+    if (!information)
+      return null;
 
     if (opts.rootReactions) {
-      qb = qb.leftJoinAndSelect('information.reactions', 'reactions', 'reactions."parentId" IS NULL')
-        .leftJoinAndSelect('reactions.messages', 'messages');
+      opts.reactionsPage = opts.reactionsPage || 1;
+
+      information.reactions = await this.reactionRepository.find({
+        where: { informationId: information.id, parentId: null },
+        ...this.paginationService.paginationOptions(opts.reactionsPage || 1),
+      });
     }
 
-    if (opts.creator)
-      qb = qb.leftJoinAndSelect('information.creator', 'creator');
-
-    return await qb.getOne();
+    return information;
   }
 
   findById(id: number, opts: FindInformationOpts): Promise<Information> {

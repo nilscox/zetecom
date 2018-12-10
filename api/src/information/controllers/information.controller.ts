@@ -2,18 +2,20 @@ import {
   Controller,
   Get, Post,
   ParseIntPipe,
-  Param, Body,
+  Param, Body, Query,
   UseInterceptors, UseGuards,
   ClassSerializerInterceptor,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 
 import { IsAuthenticated } from 'Common/auth.guard';
 import { User as ReqUser } from 'Common/user.decorator';
+import { OptionalQuery } from 'Common/optional-query.decorator';
 
 import { User } from 'User/entities/user.entity';
 
-import { InformationService } from '../services/information.service';
+import { InformationService, FindInformationOpts } from '../services/information.service';
 import { Information } from '../entities/information.entity';
 import { CreateInformationDto } from '../dtos/CreateInformationDto';
 
@@ -26,14 +28,16 @@ export class InformationController {
   ) {}
 
   @Get()
-  async findAll(): Promise<Information[]> {
-    return await this.informationService.findAll();
+  async findAll(
+    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+  ): Promise<Information[]> {
+    return await this.informationService.findAll({ page });
   }
 
-  async findOne(where): Promise<Information> {
+  async findOne(where, opts?: FindInformationOpts): Promise<Information> {
     const information = await this.informationService.findOne(where, {
       creator: true,
-      rootReactions: true,
+      ...opts,
     });
 
     if (!information)
@@ -43,17 +47,24 @@ export class InformationController {
   }
 
   @Get(':id')
-  async findOneById(@Param('id', new ParseIntPipe()) id: number): Promise<Information> {
-    return await this.findOne({ id });
+  async findOneById(
+    @Param('id', new ParseIntPipe()) id: number,
+    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+  ): Promise<Information> {
+    return await this.findOne({ id }, { rootReactions: true, reactionsPage: page });
   }
 
   @Get('by-slug/:slug')
-  async findOneBySlug(@Param('slug') slug: string): Promise<Information> {
+  async findOneBySlug(
+    @Param('slug') slug: string,
+  ): Promise<Information> {
     return await this.findOne({ slug });
   }
 
   @Get('by-youtubeId/:youtubeId')
-  async findOneByYoutubeId(@Param('youtubeId') youtubeId: string): Promise<Information> {
+  async findOneByYoutubeId(
+    @Param('youtubeId') youtubeId: string,
+  ): Promise<Information> {
     return await this.findOne({ youtubeId });
   }
 
