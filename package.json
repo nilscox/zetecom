@@ -1,24 +1,8 @@
 {
-  "name": "cdv-api",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "cdv",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "db:migrate": "sequelize db:migrate",
-    "db:reset": "sequelize db:migrate:undo:all && yarn db:migrate",
-    "start": "NODE_ENV=development nodemon index.js -w index.js -w api"
-  },
-  "dependencies": {
-    "bcrypt": "^3.0.2",
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "express-session": "^1.15.6",
-    "pg": "^7.6.0",
-    "sequelize": "^4.41.0",
-    "sql-formatter": "^2.3.2"
-  },
-  "devDependencies": {
-    "nodemon": "^1.18.5",
-    "sequelize-cli": "^5.2.0"
+    "postinstall": "(cd api && yarn); (cd webapp && yarn)"
   }
 }
