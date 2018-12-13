@@ -47,7 +47,7 @@ export class InformationService {
 
   async findRootReactions(information: Information, page: number = 1): Promise<Reaction[]> {
     return this.reactionService.addAnswersCounts(await this.reactionRepository.find({
-      where: { information, parentId: null },
+      where: { information, parent: null },
       ...this.paginationService.paginationOptions(page),
     }));
   }
