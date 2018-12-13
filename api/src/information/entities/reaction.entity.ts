@@ -98,4 +98,4 @@ export class ReactionWithHistory extends Reaction {
     }));
   }
 
-};
+}
