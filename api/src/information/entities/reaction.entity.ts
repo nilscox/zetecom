@@ -78,6 +78,14 @@ interface HistoryMessage {
 @Exclude()
 export class ReactionWithHistory extends Reaction {
 
+  static fromReaction(reaction: Reaction): ReactionWithHistory {
+    const rwh = new ReactionWithHistory();
+
+    Object.assign(rwh, reaction);
+
+    return rwh;
+  }
+
   @Expose()
   get history(): HistoryMessage[] {
     return this.messages.slice(0, -1).map(m => ({

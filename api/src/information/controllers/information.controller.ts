@@ -33,6 +33,7 @@ export class InformationController {
     return await this.informationService.findAll();
   }
 
+  // TODO: handle 404
   @Get(':id')
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,

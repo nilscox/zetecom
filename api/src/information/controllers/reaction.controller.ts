@@ -17,7 +17,7 @@ import { User as ReqUser } from 'Common/user.decorator';
 
 import { User } from 'User/entities/user.entity';
 import { Information } from '../entities/information.entity';
-import { Reaction } from '../entities/reaction.entity';
+import { Reaction, ReactionWithHistory } from '../entities/reaction.entity';
 
 import { InformationService } from '../services/information.service';
 import { ReactionService } from '../services/reaction.service';
@@ -33,27 +33,18 @@ export class ReactionController {
     private readonly reactionService: ReactionService,
   ) {}
 
-  async findOne(where) {
-    const reaction = await this.reactionService.findOne(where);
-
-    if (!reaction)
-      throw new NotFoundException();
-
-    return reaction;
-  }
-
   @Get(':id')
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
-  ): Promise<Reaction> {
-    return await this.findOne({ id });
+  ): Promise<ReactionWithHistory> {
+    return ReactionWithHistory.fromReaction(await this.reactionService.findOne({ id }));
   }
 
   @Get('by-slug/:slug')
   async findOneBySlug(
     @Param('slug') slug: string,
   ): Promise<Reaction> {
-    return await this.findOne({ slug });
+    return await this.reactionService.findOne({ slug });
   }
 
   @Post()
@@ -88,16 +79,17 @@ export class ReactionController {
     @Param('id', new ParseIntPipe()) id: number,
     @Body() updateReactionDto: UpdateReactionDto,
     @ReqUser() user: User,
-  ): Promise<Reaction> {
+  ): Promise<ReactionWithHistory> {
     const reaction = await this.reactionService.findOne(id);
 
     if (!reaction)
       throw new NotFoundException();
 
+    // TODO: use guards
     if (reaction.author.id !== user.id)
       throw new UnauthorizedException();
 
-    return await this.reactionService.update(reaction, updateReactionDto);
+    return ReactionWithHistory.fromReaction(await this.reactionService.update(reaction, updateReactionDto));
   }
 
 }
