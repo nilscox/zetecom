@@ -10,10 +10,12 @@ import {
   UnauthorizedException,
   PipeTransform,
   ArgumentMetadata,
+  BadRequestException,
 } from '@nestjs/common';
 
 import { IsAuthenticated } from 'Common/auth.guard';
 import { User as ReqUser } from 'Common/user.decorator';
+import { OptionalQuery } from 'Common/optional-query.decorator';
 
 import { User } from 'User/entities/user.entity';
 import { Information } from '../entities/information.entity';
@@ -47,6 +49,19 @@ export class ReactionController {
     return await this.reactionService.findOne({ slug });
   }
 
+  @Get(':id/answers')
+  async findAnswers(
+    @Param('id', new ParseIntPipe()) id: number,
+    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+  ): Promise<Reaction[]> {
+    const reaction = await this.reactionService.findOne({ id });
+
+    if (!reaction)
+      return null;
+
+    return await this.reactionService.findAnswers(reaction, page);
+  }
+
   @Post()
   @UseGuards(IsAuthenticated)
   async create(
@@ -63,11 +78,11 @@ export class ReactionController {
     if (createReactionDto.parentId) {
       parent = await this.reactionService.findOne({
         id: createReactionDto.parentId,
-        informationId: information.id,
+        information,
       });
 
       if (!parent)
-        throw new NotFoundException();
+        throw new BadRequestException('parent not found for informationId');
     }
 
     return await this.reactionService.create(information, createReactionDto, user, parent);

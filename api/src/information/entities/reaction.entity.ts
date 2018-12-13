@@ -38,10 +38,12 @@ export class Reaction {
 
   @Expose()
   get edited(): Date | false {
-    if (this.created.getTime() === this.updated.getTime())
+    const l = this.messages.length;
+
+    if (l === 1)
       return false;
 
-    return this.updated;
+    return this.messages[l - 1].created;
   }
 
   @Expose()
@@ -50,6 +52,9 @@ export class Reaction {
 
     return this.messages[l - 1].text;
   }
+
+  @Expose()
+  answersCount?: number;
 
   @ManyToOne(type => User, user => user.reactions, { eager: true })
   @Expose()
@@ -65,7 +70,6 @@ export class Reaction {
   parent: Reaction;
 
   @OneToMany(type => Reaction, reaction => reaction.parent)
-  @Expose()
   answers: Reaction[];
 
 }

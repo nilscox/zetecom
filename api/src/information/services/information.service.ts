@@ -7,6 +7,7 @@ import { User } from 'User/entities/user.entity';
 import { Information } from '../entities/information.entity';
 import { Reaction } from '../entities/reaction.entity';
 import { CreateInformationDto } from '../dtos/CreateInformationDto';
+import { ReactionService } from '../services/reaction.service';
 import { SlugService } from '../services/slug.service';
 import { YoutubeService } from '../services/youtube.service';
 import { PaginationService } from '../services/pagination.service';
@@ -22,6 +23,7 @@ export class InformationService {
     @InjectRepository(Reaction)
     private readonly reactionRepository: Repository<Reaction>,
 
+    private readonly reactionService: ReactionService,
     private readonly slugService: SlugService,
     private readonly youtubeService: YoutubeService,
     private readonly paginationService: PaginationService,
@@ -44,10 +46,10 @@ export class InformationService {
   }
 
   async findRootReactions(information: Information, page: number = 1): Promise<Reaction[]> {
-    return await this.reactionRepository.find({
+    return this.reactionService.addAnswersCounts(await this.reactionRepository.find({
       where: { information, parentId: null },
       ...this.paginationService.paginationOptions(page),
-    });
+    }));
   }
 
   async create(createInformationDto: CreateInformationDto, creator: User): Promise<Information> {
