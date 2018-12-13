@@ -15,8 +15,9 @@ import { OptionalQuery } from 'Common/optional-query.decorator';
 
 import { User } from 'User/entities/user.entity';
 
-import { InformationService, FindInformationOpts } from '../services/information.service';
+import { InformationService } from '../services/information.service';
 import { Information } from '../entities/information.entity';
+import { Reaction } from '../entities/reaction.entity';
 import { CreateInformationDto } from '../dtos/CreateInformationDto';
 
 @Controller('information')
@@ -28,44 +29,42 @@ export class InformationController {
   ) {}
 
   @Get()
-  async findAll(
-    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
-  ): Promise<Information[]> {
-    return await this.informationService.findAll({ page });
-  }
-
-  async findOne(where, opts?: FindInformationOpts): Promise<Information> {
-    const information = await this.informationService.findOne(where, {
-      creator: true,
-      ...opts,
-    });
-
-    if (!information)
-      throw new NotFoundException();
-
-    return information;
+  async findAll(): Promise<Information[]> {
+    return await this.informationService.findAll();
   }
 
   @Get(':id')
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
-    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Information> {
-    return await this.findOne({ id }, { rootReactions: true, reactionsPage: page });
+    return await this.informationService.findOne({ id });
   }
 
   @Get('by-slug/:slug')
   async findOneBySlug(
     @Param('slug') slug: string,
   ): Promise<Information> {
-    return await this.findOne({ slug });
+    return await this.informationService.findOne({ slug });
   }
 
   @Get('by-youtubeId/:youtubeId')
   async findOneByYoutubeId(
     @Param('youtubeId') youtubeId: string,
   ): Promise<Information> {
-    return await this.findOne({ youtubeId });
+    return await this.informationService.findOne({ youtubeId });
+  }
+
+  @Get(':id/reactions')
+  async findRootReactions(
+    @Param('id', new ParseIntPipe()) id: number,
+    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+  ): Promise<Reaction[]> {
+    const information = await this.informationService.findOne({ id });
+
+    if (!information)
+      return null;
+
+    return await this.informationService.findRootReactions(information, page);
   }
 
   @Post()

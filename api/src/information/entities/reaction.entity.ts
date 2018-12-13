@@ -51,14 +51,6 @@ export class Reaction {
     return this.messages[l - 1].text;
   }
 
-  @Expose()
-  get history(): { date: Date, text: string }[] {
-    return this.messages.slice(0, -1).map(m => ({
-      date: m.created,
-      text: m.text,
-    }));
-  }
-
   @ManyToOne(type => User, user => user.reactions, { eager: true })
   @Expose()
   author: User;
@@ -74,13 +66,24 @@ export class Reaction {
 
   @OneToMany(type => Reaction, reaction => reaction.parent)
   @Expose()
-  @Type(() => ReactionWithoutHistory)
   answers: Reaction[];
 
 }
 
-@Exclude()
-export class ReactionWithoutHistory extends Reaction {
-  @Exclude()
-  history: null;
+interface HistoryMessage {
+  date: Date;
+  text: string;
 }
+
+@Exclude()
+export class ReactionWithHistory extends Reaction {
+
+  @Expose()
+  get history(): HistoryMessage[] {
+    return this.messages.slice(0, -1).map(m => ({
+      date: m.created,
+      text: m.text,
+    }));
+  }
+
+};
