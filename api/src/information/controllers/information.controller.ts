@@ -15,7 +15,7 @@ import { OptionalQuery } from 'Common/optional-query.decorator';
 
 import { User } from 'User/entities/user.entity';
 
-import { InformationService } from '../services/information.service';
+import { InformationService, ReactionsCountByLabel } from '../services/information.service';
 import { Information } from '../entities/information.entity';
 import { Reaction } from '../entities/reaction.entity';
 import { CreateInformationDto } from '../dtos/CreateInformationDto';
@@ -66,6 +66,18 @@ export class InformationController {
       return null;
 
     return await this.informationService.findRootReactions(information, page);
+  }
+
+  @Get(':id/totalReactionsByLabel')
+  async totalReactionsByLabel(
+    @Param('id', new ParseIntPipe()) id: number,
+  ): Promise<ReactionsCountByLabel[]> {
+    const information = await this.informationService.findOne({ id });
+
+    if (!information)
+      return null;
+
+    return await this.informationService.getTotalReactionsByLabel(information);
   }
 
   @Post()

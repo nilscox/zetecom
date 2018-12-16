@@ -12,6 +12,13 @@ import { SlugService } from '../services/slug.service';
 import { YoutubeService } from '../services/youtube.service';
 import { PaginationService } from '../services/pagination.service';
 
+import * as labels from 'Utils/labels';
+
+export interface ReactionsCountByLabel {
+  label: string,
+  count: number,
+}
+
 @Injectable()
 export class InformationService {
 
@@ -49,6 +56,21 @@ export class InformationService {
     return this.reactionService.addAnswersCounts(await this.reactionRepository.find({
       where: { information, parent: null },
       ...this.paginationService.paginationOptions(page),
+    }));
+  }
+
+  async getTotalReactionsByLabel(information: Information): Promise<ReactionsCountByLabel[]> {
+    const result = await this.reactionRepository.createQueryBuilder('reaction')
+      .select('COUNT(id)', 'count')
+      .addSelect('reaction.label')
+      .groupBy('reaction.label')
+      .orderBy('reaction.label')
+      .where('"informationId" = :id', { id: information.id })
+      .getRawMany();
+
+    return result.map(r => ({
+      label: labels.labelName(r.reaction_label),
+      count: parseInt(r.count, 10),
     }));
   }
 
