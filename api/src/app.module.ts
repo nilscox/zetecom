@@ -4,6 +4,7 @@ import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
 
 import { UserMiddleware } from 'Common/user.middleware';
+import { CorsDevMiddleware } from 'Common/cors-dev.middleware';
 
 import { InformationModule } from './information/information.module';
 import { UserModule } from './user/user.module';
@@ -31,7 +32,12 @@ export class AppModule {
     MorganMiddleware.configure('dev');
 
     consumer
-      .apply(ExpressSessionMiddleware, MorganMiddleware, UserMiddleware)
+      .apply(
+        CorsDevMiddleware,
+        ExpressSessionMiddleware,
+        MorganMiddleware,
+        UserMiddleware,
+      )
       .forRoutes('*');
   }
 
