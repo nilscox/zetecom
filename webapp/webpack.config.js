@@ -34,7 +34,7 @@ module.exports = {
       });
     },
     contentBase: path.join(__dirname, 'public'),
-    port: 3000,
+    port: 8080,
     publicPath: '/dist/',
     hotOnly: true,
   },

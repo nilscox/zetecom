@@ -1,9 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { hot } from 'react-hot-loader';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { createFetchMiddleware } from 'redux-fetch';
+import { createLogger } from 'redux-logger';
 
+import env from '../env';
 import App from './App';
+import rootReducer from './redux/reducers';
 
-const HotApp = hot(module)(App);
+const fetchMiddleware = createFetchMiddleware({
+  baseUrl: env.PUBLIC_URL,
+});
 
-ReactDOM.render(<HotApp />, document.getElementById('app'));
+const logger = createLogger({
+  collapsed: true,
+  diff: true,
+});
+
+const store = createStore(rootReducer,
+  applyMiddleware(
+    fetchMiddleware,
+    logger,
+  ),
+);
+
+ReactDOM.render((
+  <Provider store={store}>
+    <App />
+  </Provider>
+), document.getElementById('app'));

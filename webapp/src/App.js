@@ -1,127 +1,27 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import * as React from 'react';
+import { hot } from 'react-hot-loader';
+import { connect } from 'react-redux';
 
-import MyContext from 'MyContext';
-import request from 'Services/request-service';
+import { fetchUser } from './redux/actions';
 
-import { Loading, Header, Footer, Embed } from 'Components';
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
 
-import Home from './pages/Home/Home';
-import InformationList from './pages/InformationList/InformationList';
-import Information from './pages/Information/Information';
-import Help from './pages/Help/Help';
-import Signin from './pages/Signin/Signin';
-import Profile from './pages/Profile/Profile';
-
-import './Label.css';
+const mapDispatchToProps = (dispatch) => ({
+  fetchUser: () => dispatch(fetchUser),
+});
 
 class App extends React.Component {
 
-  state = {
-    user: null,
-    loading: true,
-    error: null,
-    isEmbed: false,
-  };
-
-  async componentDidMount() {
-    await request('/api/user', {}, {
-      200: json => this.setState({ user: json }),
-      404: () => {},
-      default: json => this.onError(json),
-    });
-
-    this.setState({ loading: false });
-  }
-
-  onError(error) {
-    console.log('App: error', error);
-    this.setState({ error });
+  componentDidMount() {
+    this.props.fetchUser();
   }
 
   render() {
-    const ctx = {
-      isEmbed: this.state.isEmbed,
-      user: this.state.user,
-      setUser: user => this.setState({ user }),
-      onError: this.onError.bind(this),
-    };
-
-    return (
-      <Router>
-        <MyContext.Provider value={ctx}>
-          <Switch>
-            <Route path="/embed/:youtubeId" render={this.renderEmbed.bind(this)} />
-            <Route render={this.renderWebapp.bind(this)} />
-          </Switch>
-        </MyContext.Provider>
-      </Router>
-    );
-  }
-
-  renderEmbed({ match }) {
-    if (!this.state.isEmbed)
-      setTimeout(() => this.setState({ isEmbed: true }), 0);
-
-    return <Embed youtubeId={match.params.youtubeId} />;
-  }
-
-  renderWebapp() {
-    const { loading } = this.state;
-
-    return (
-      <div className="container">
-        <Header user={!loading && this.state.user} />
-        { loading ? <Loading /> : this.renderRoutes() }
-        <Footer />
-      </div>
-    );
-  }
-
-  renderRoutes() {
-    const { user, error } = this.state;
-
-    if (error)
-      return this.renderError(error);
-
-    return (
-      <Switch>
-
-        <Route path="/" exact component={Home} />
-        <Route path="/help" component={Help} />
-
-        <Route path="/profile" component={Profile} />
-
-        <Route path="/information" exact component={InformationList} />
-        <Route path="/information/:slug" render={({ match }) => <Information slug={match.params.slug} />} />
-
-        <Route path="/signin" render={() => <Signin variant="signin" />} />
-        <Route path="/signup" render={() => <Signin variant="signup" />} />
-
-        <Route render={this.renderNotFound.bind(this)} />
-
-      </Switch>
-    );
-  }
-
-  renderError(error) {
-    return (
-      <div>
-        <h2 className="my-5">Uhu... Une erreur s'est produite. ¯\_( )_/¯</h2>
-        <pre className="bg-light text-dark border rounded p-2">{ JSON.stringify(error, 2, 2) }</pre>
-        <button type="button" className="btn" onClick={() => this.setState({ error: null })}>DISMISS</button>
-      </div>
-    );
-  }
-
-  renderNotFound() {
-    return (
-      <div>
-        <h2 className="my-5">Oops... Cette page n'existe pas.</h2>
-      </div>
-    );
+    return 'hello';
   }
 
 }
 
-export default App;
+export default hot(module)(connect(mapStateToProps, mapDispatchToProps)(App));
