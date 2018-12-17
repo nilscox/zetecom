@@ -10,6 +10,9 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalInterceptors(new ErrorsInterceptor());
 
+  if (process.env.NODE_ENV === 'development')
+    app.enableCors({ origin: true, credentials: true });
+
   await app.listen(3000);
 }
 
