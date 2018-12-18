@@ -11,6 +11,7 @@ import rootReducer from './redux/reducers';
 
 const fetchMiddleware = createFetchMiddleware({
   baseUrl: env.PUBLIC_URL,
+  globalOpts: { mode: 'cors', credentials: 'include' },
 });
 
 const logger = createLogger({

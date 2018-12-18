@@ -1,27 +1,50 @@
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { fetchUser } from './redux/actions';
+import { userFetchMe } from './redux/actions';
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
+import { Header, Footer } from './components';
+
+import Home from './pages/Home';
+import Rules from './pages/Rules';
+import PageNotFound from './pages/PageNotFound';
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchUser: () => dispatch(fetchUser),
+  fetchUser: () => dispatch(userFetchMe()),
 });
 
 class App extends React.Component {
 
-  componentDidMount() {
-    this.props.fetchUser();
+  async componentDidMount() {
+    await this.props.fetchUser();
   }
 
   render() {
-    return 'hello';
+    return (
+      <Router>
+        <div>
+
+          <Header />
+
+          <Switch>
+
+            <Route path="/" exact component={Home} />
+            <Route path="/rules" component={Rules} />
+
+            <Route component={PageNotFound} />
+
+          </Switch>
+
+
+          <Footer />
+
+        </div>
+      </Router>
+    );
   }
 
 }
 
-export default hot(module)(connect(mapStateToProps, mapDispatchToProps)(App));
+export default hot(module)(connect(null, mapDispatchToProps)(App));

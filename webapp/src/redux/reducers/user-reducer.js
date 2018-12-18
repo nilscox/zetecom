@@ -1,10 +1,10 @@
 import crio from 'crio';
 
-import { FETCH_USER } from '../actions';
+import { USER_FETCH_ME } from '../actions';
 
 export default (state = null, action) => {
   switch (action.type) {
-    case FETCH_USER.SUCCESS:
+    case USER_FETCH_ME.SUCCESS:
       if (action.status === 200)
         return crio(action.body);
       else
