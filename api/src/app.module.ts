@@ -4,6 +4,7 @@ import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
 
 import { UserMiddleware } from 'Common/user.middleware';
+import { LagMiddleware } from 'Common/lag.middleware';
 
 import { InformationModule } from './information/information.module';
 import { UserModule } from './user/user.module';
@@ -36,6 +37,11 @@ export class AppModule {
         MorganMiddleware,
         UserMiddleware,
       )
+      .forRoutes('*');
+
+    consumer
+      .apply(LagMiddleware)
+      .with(1000)
       .forRoutes('*');
   }
 
