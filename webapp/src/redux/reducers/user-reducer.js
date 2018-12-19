@@ -1,6 +1,6 @@
 import crio from 'crio';
 
-import { USER_FETCH_ME, USER_LOGIN, USER_SIGNUP } from '../actions';
+import { USER_FETCH_ME, USER_LOGIN, USER_SIGNUP, USER_LOGOUT } from '../actions';
 
 export default (state = null, action) => {
   switch (action.type) {
@@ -11,6 +11,9 @@ export default (state = null, action) => {
         return crio(action.body);
       else
         return null;
+
+    case USER_LOGOUT.SUCCESS:
+      return null;
 
     default:
       return state;

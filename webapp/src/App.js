@@ -5,14 +5,20 @@ import { connect } from 'react-redux';
 
 import { userFetchMe } from './redux/actions';
 
-import { Header, Footer } from './components';
+import { Header, Footer, Loading } from './components';
 
 import Home from './pages/Home';
 import Rules from './pages/Rules';
 import { Signin, Signup } from './pages/Auth';
+import Profile from './pages/Profile';
 import PageNotFound from './pages/PageNotFound';
 
-const mapDispatchToProps = (dispatch) => ({
+const mapStateToProps = state => ({
+  user: state.user,
+  loadingUser: state.loading.user,
+});
+
+const mapDispatchToProps = dispatch => ({
   fetchUser: () => dispatch(userFetchMe()),
 });
 
@@ -29,18 +35,10 @@ class App extends React.Component {
 
           <Header />
 
-          <Switch>
-
-            <Route path="/" exact component={Home} />
-            <Route path="/rules" component={Rules} />
-
-            <Route path="/auth/login" component={Signin} />
-            <Route path="/auth/signup" component={Signup} />
-
-            <Route component={PageNotFound} />
-
-          </Switch>
-
+          { this.props.loadingUser
+              ? <Loading />
+              : this.renderRoutes()
+          }
 
           <Footer />
 
@@ -49,6 +47,23 @@ class App extends React.Component {
     );
   }
 
+  renderRoutes() {
+    return (
+      <Switch>
+
+        <Route path="/" exact component={Home} />
+        <Route path="/rules" component={Rules} />
+
+        <Route path="/auth/login" component={Signin} />
+        <Route path="/auth/signup" component={Signup} />
+        <Route path="/profile" component={Profile} />
+
+        <Route component={PageNotFound} />
+
+      </Switch>
+    );
+  }
+
 }
 
-export default hot(module)(connect(null, mapDispatchToProps)(App));
+export default hot(module)(connect(mapStateToProps, mapDispatchToProps)(App));

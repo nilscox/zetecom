@@ -2,11 +2,24 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { Loading } from 'Components';
+
 const mapStateToProps = (state) => ({
   user: state.user,
+  loading: state.loading.user,
 });
 
-const Header = ({ user }) => (
+const HeaderAuthLink = ({ loading, user }) => {
+  if (loading)
+    return <Loading size="small" />;
+
+  if (user)
+    return <NavLink to="/profile" className="nav-item nav-link">{ user.nick }</NavLink>;
+
+  return <NavLink to="/auth/login" className="nav-item nav-link">Connexion</NavLink>;
+};
+
+const Header = ({ loading, user }) => (
   <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
 
     <NavLink className="navbar-brand" to="/">Chercheurs de vérité</NavLink>
@@ -23,11 +36,7 @@ const Header = ({ user }) => (
       </div>
 
       <div className="navbar-nav" style={{ flex: 0 }}>
-        { user !== null && user ? (
-          <NavLink to="/profile" className="nav-item nav-link">{ user.nick }</NavLink>
-        ) : (
-          <NavLink to="/auth/login" className="nav-item nav-link">Connexion</NavLink>
-        ) }
+        <HeaderAuthLink loading={loading} user={user} />
       </div>
 
     </div>

@@ -7,11 +7,12 @@ import { connect } from 'react-redux';
 import { userLogin } from 'Redux/actions';
 import { userSignup } from 'Redux/actions';
 
-import { FormInput } from 'Components';
+import { FormInput, Button } from 'Components';
 import { classList } from 'Utils';
 
 const mapStateToProps = state => ({
   user: state.user,
+  authLoading: state.loading.userAuth,
 });
 
 const mapDistaptchToProps = dispatch => ({
@@ -44,10 +45,12 @@ class Auth extends React.Component {
     if (this.props.user)
       return;
 
-    if (this.isSignup())
-      await this.onSubmitSignup();
-    else
-      await this.onSubmitSignin();
+    const { response } = this.isSignup()
+      ? await this.onSubmitSignup()
+      : await this.onSubmitSignin();
+
+    if (response.ok)
+      this.setState({ redirect: true });
   }
 
   async onSubmitSignup() {
@@ -58,13 +61,13 @@ class Auth extends React.Component {
       return;
     }
 
-    await this.props.userSignup({ email, password, nick });
+    return await this.props.userSignup({ email, password, nick });
   }
 
   async onSubmitSignin() {
     const { email, password } = this.state;
 
-    await this.props.userSignin({ email, password });
+    return await this.props.userSignin({ email, password });
   }
 
   render() {
@@ -106,7 +109,7 @@ class Auth extends React.Component {
   }
 
   renderForm() {
-    const { user } = this.props;
+    const { user, authLoading } = this.props;
 
     return (
       <form css={styles.form} onSubmit={this.onSubmit.bind(this)}>
@@ -116,13 +119,15 @@ class Auth extends React.Component {
         { this.isSignup() && this.renderFormNick() }
         { this.isSignup() && this.renderFormAcceptConditions() }
 
-        <input
+        <Button
           type="submit"
-          value={this.isSignin() ? 'Envoyer' : 'Enregistrer'}
           css={styles.button}
           className={classList('btn', 'btn-primary', user && 'disabled')}
           title={user && 'Vous êtes déjà connecté(e)'}
-        />
+          loading={authLoading}
+        >
+          { this.isSignin() ? 'Envoyer' : 'Enregistrer' }
+        </Button>
 
       </form>
     );
@@ -133,6 +138,7 @@ class Auth extends React.Component {
       <FormInput
         type="email"
         placeholder="Email"
+        value={this.state.email}
         onChange={e => this.setState({ email: e.target.value })}
         error={null /* TODO */}
       />
@@ -144,6 +150,7 @@ class Auth extends React.Component {
       <FormInput
         type="password"
         placeholder="Password"
+        value={this.state.password}
         onChange={e => this.setState({ password: e.target.value })}
         error={null /* TODO */}
       />
@@ -155,6 +162,7 @@ class Auth extends React.Component {
       <FormInput
         type="text"
         placeholder="Pseudo"
+        value={this.state.nick}
         onChange={e => this.setState({ nick: e.target.value })}
         error={null /* TODO */}
       />
@@ -172,7 +180,6 @@ class Auth extends React.Component {
           <input
             className={classList('form-check-input', error && 'is-invalid')}
             type="checkbox"
-            value=""
             id="accept-conditions"
             value={this.state.acceptConditions}
             onChange={e => this.setState({
