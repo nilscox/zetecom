@@ -9,6 +9,7 @@ import { Header, Footer } from './components';
 
 import Home from './pages/Home';
 import Rules from './pages/Rules';
+import { Signin, Signup } from './pages/Auth';
 import PageNotFound from './pages/PageNotFound';
 
 const mapDispatchToProps = (dispatch) => ({
@@ -24,7 +25,7 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <div>
+        <div className="container">
 
           <Header />
 
@@ -32,6 +33,9 @@ class App extends React.Component {
 
             <Route path="/" exact component={Home} />
             <Route path="/rules" component={Rules} />
+
+            <Route path="/auth/login" component={Signin} />
+            <Route path="/auth/signup" component={Signup} />
 
             <Route component={PageNotFound} />
 

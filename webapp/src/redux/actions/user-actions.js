@@ -1,6 +1,6 @@
 import { FetchAction, createFetchActionTypes } from 'redux-fetch';
 
-export const USER_SIGNIN = createFetchActionTypes('USER_SIGNUP');
+export const USER_SIGNUP = createFetchActionTypes('USER_SIGNUP');
 export const userSignup = ({ email, password, nick }) => new FetchAction('USER_SIGNUP')
   .post('/api/auth/signup')
   .body({ email, password, nick })

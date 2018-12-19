@@ -26,7 +26,7 @@ const Header = ({ user }) => (
         { user !== null && user ? (
           <NavLink to="/profile" className="nav-item nav-link">{ user.nick }</NavLink>
         ) : (
-          <NavLink to="/signin" className="nav-item nav-link">Connexion</NavLink>
+          <NavLink to="/auth/login" className="nav-item nav-link">Connexion</NavLink>
         ) }
       </div>
 

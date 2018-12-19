@@ -7,8 +7,9 @@
     ["module-resolver", {
       "root": "./src",
       "alias": {
+        "Redux": "./src/redux",
         "Components": "./src/components",
-        "Services": "./src/services"
+        "Utils": "./src/utils"
       }
     }]
   ]
