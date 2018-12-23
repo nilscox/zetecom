@@ -32,7 +32,7 @@ export class UserService {
     const existing = await this.userRepository.findOne({ where: { email: createUserDto.email } });
 
     if (existing !== undefined)
-      throw new BadRequestException('Email already exists');
+      throw new BadRequestException('EMAIL_ALREADY_EXISTS');
 
     const user = new User();
 
@@ -52,7 +52,7 @@ export class UserService {
     });
 
     if (!user || !await bcrypt.compare(loginUserDto.password, user.password))
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('INVALID_CREDENTIALS');
 
     return user;
   }
