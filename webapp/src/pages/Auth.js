@@ -4,20 +4,21 @@ import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 
-import { userLogin } from 'Redux/actions';
-import { userSignup } from 'Redux/actions';
+import { userLogin, userSignup, resetAuthErrors } from 'Redux/actions';
 
 import { FormInput, Button } from 'Components';
-import { classList } from 'Utils';
+import { classList, getErrorMessage } from 'Utils';
 
 const mapStateToProps = state => ({
   user: state.user,
   authLoading: state.loading.userAuth,
+  errors: state.errors.auth,
 });
 
 const mapDistaptchToProps = dispatch => ({
   userSignin: (user) => dispatch(userLogin(user)),
   userSignup: (user) => dispatch(userSignup(user)),
+  resetErrors: () => dispatch(resetAuthErrors()),
 });
 
 class Auth extends React.Component {
@@ -28,6 +29,7 @@ class Auth extends React.Component {
     nick: '',
     acceptConditions: false,
     displayConditionsWarning: false,
+    displayConditionsError: false,
     redirect: false,
   };
 
@@ -45,6 +47,8 @@ class Auth extends React.Component {
     if (this.props.user)
       return;
 
+    this.props.resetErrors();
+
     const { response } = this.isSignup()
       ? await this.onSubmitSignup()
       : await this.onSubmitSignin();
@@ -57,7 +61,7 @@ class Auth extends React.Component {
     const { acceptConditions, email, password, nick } = this.state;
 
     if (!acceptConditions) {
-      // display error message
+      this.setState({ displayConditionsError: true });
       return;
     }
 
@@ -90,7 +94,7 @@ class Auth extends React.Component {
           to="/auth/login"
           css={styles.button}
           className={classList('btn', this.isSignin() ? 'btn-primary' : 'btn-secondary')}
-          onClick={() => {} /* reset errors */}
+          onClick={this.props.resetErrors}
         >
           Connexion
         </Link>
@@ -99,7 +103,7 @@ class Auth extends React.Component {
           to="/auth/signup"
           css={styles.button}
           className={classList('btn', this.isSignup() ? 'btn-primary' : 'btn-secondary')}
-          onClick={() => {} /* reset errors */}
+          onClick={this.props.resetErrors}
         >
           Créer un compte
         </Link>
@@ -117,6 +121,7 @@ class Auth extends React.Component {
         { this.renderFormEmail() }
         { this.renderFormPassword() }
         { this.isSignup() && this.renderFormNick() }
+        { this.renderFormErrors() }
         { this.isSignup() && this.renderFormAcceptConditions() }
 
         <Button
@@ -140,7 +145,7 @@ class Auth extends React.Component {
         placeholder="Email"
         value={this.state.email}
         onChange={e => this.setState({ email: e.target.value })}
-        error={null /* TODO */}
+        error={this.props.errors.fields.email}
       />
     );
   }
@@ -152,7 +157,7 @@ class Auth extends React.Component {
         placeholder="Password"
         value={this.state.password}
         onChange={e => this.setState({ password: e.target.value })}
-        error={null /* TODO */}
+        error={this.props.errors.fields.password}
       />
     );
   }
@@ -164,13 +169,24 @@ class Auth extends React.Component {
         placeholder="Pseudo"
         value={this.state.nick}
         onChange={e => this.setState({ nick: e.target.value })}
-        error={null /* TODO */}
+        error={this.props.errors.fields.nick}
       />
     );
   }
 
+  renderFormErrors() {
+    const { invalidCredentials, emailAlreadyExists } = this.props.errors;
+
+    return (
+      <div>
+        { invalidCredentials && <div className="text-danger small my-1">{ getErrorMessage('INVALID_CREDENTIALS') }</div>}
+        { emailAlreadyExists && <div className="text-danger small my-1">{ getErrorMessage('EMAIL_ALREADY_EXISTS') }</div>}
+      </div>
+    );
+  }
+
   renderFormAcceptConditions() {
-    const error = null;
+    const { displayConditionsError: error } = this.state;
 
     return (
       <div className="accept-conditions my-2">
@@ -185,6 +201,7 @@ class Auth extends React.Component {
             onChange={e => this.setState({
               acceptConditions: e.target.checked,
               displayConditionsWarning: true,
+              displayConditionsError: !e.target.checked,
             })}
           />
 
@@ -193,7 +210,7 @@ class Auth extends React.Component {
           </label>
 
           <div className="invalid-feedback">
-            { /* ERROR MESSAGE */ }
+            { error && 'Vous devez accepter les conditions' }
           </div>
 
         </div>

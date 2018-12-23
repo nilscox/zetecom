@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { classList } from 'Utils';
+import { classList, getErrorMessage } from 'Utils';
 
 const FormInput = ({ groupClassName, error, before, after, ...props }) => (
   <div className={classList('input-group', 'my-2', groupClassName)}>
@@ -15,7 +15,9 @@ const FormInput = ({ groupClassName, error, before, after, ...props }) => (
     { after }
 
     <div className="invalid-feedback">
-      { /* ERROR MESSAGE */ }
+      { error && Object.keys(error).map(constraint => (
+        <div key={constraint}>{ getErrorMessage(constraint) }</div>
+      )) }
     </div>
 
   </div>
