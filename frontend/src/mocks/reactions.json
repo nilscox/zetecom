@@ -1,0 +1,59 @@
+[{
+   "id": 1,
+   "quote": "Le chocolat rend intélligent, et ceci est une quote beacoup trop longue, qui tient sur plusieurs lignes...",
+   "label": "SOURCE",
+   "slug": "cmh5xeqw3",
+   "date": "2018-11-29T16:35:00.937Z",
+   "edited": "2018-12-01T11:10:54.428Z",
+   "text": "Cela n'a pas de sens.\n\nLorem ipsum dolor sit amet, no case probo eum, eripuit invenire voluptatum duo ex. Ad torquatos voluptaria consequuntur mel, error soluta sanctus ut vix, in pri legendos torquatos.\nEi laoreet petentium philosophia cum, an quidam fabellas percipitur his. Mei ne eleifend inciderint.\n\nMel neglegentur interpretaris in, at sea inimicus maiestatis. Habeo dolores ex nam. At pro feugait invidunt patrioque.",
+   "repliesCount": 2,
+   "approves": 77,
+   "didApprove": true,
+   "refutes": 21,
+   "didRefute": false,
+   "likes": 298,
+   "didLike": false,
+   "author": null,
+   "replies": []
+}, {
+   "id": 2,
+   "quote": null,
+   "label": "QUESTION",
+   "slug": "cmh5xeqw4",
+   "date": "2018-11-29T16:38:00.937Z",
+   "edited": false,
+   "text": "Mais oui c'est clair !",
+   "repliesCount": 0,
+   "approves": 41,
+   "didApprove": false,
+   "refutes": 2,
+   "didRefute": true,
+   "likes": 73,
+   "didLike": true,
+   "author": {
+      "nick": "Eddy",
+      "avatar": null
+   },
+   "replies": []
+},
+{
+   "id": 3,
+   "quote": null,
+   "label": "METHODE",
+   "slug": "cmh5xeqw5",
+   "date": "2018-11-29T16:54:00.937Z",
+   "edited": false,
+   "text": "Lorem lorem, ipsum ipsum lolilol tatata",
+   "repliesCount": 0,
+   "approves": 83,
+   "didApprove": false,
+   "refutes": 53,
+   "didRefute": false,
+   "likes": 74,
+   "didLike": false,
+   "author": {
+      "nick": "Milou",
+      "avatar": null
+   },
+   "replies": []
+}]

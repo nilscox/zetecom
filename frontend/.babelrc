@@ -1,0 +1,16 @@
+{
+  "presets": ["@babel/env", "@babel/preset-react"],
+  "plugins": [
+    "transform-inline-environment-variables",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-export-default-from",
+    ["module-resolver", {
+      "root": "./src",
+      "alias": {
+        "Components": "./src/components",
+        "Services": "./src/services",
+        "Types": "./src/types"
+      }
+    }]
+  ]
+}

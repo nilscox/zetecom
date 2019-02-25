@@ -1,0 +1,86 @@
+.storybook-reaction {
+  width: 750px;
+}
+
+.reaction-header {
+  background-color: #F6F6F6;
+}
+
+.reaction-header .reaction-date {
+  font-size: 11px;
+}
+
+.reaction-quote {
+  background-image: url('/assets/images/quotation-mark.png');
+  background-repeat: no-repeat;
+  padding: 15px 15px 0 15px;
+  font-weight: bold;
+  font-size: 1.1em;
+  text-indent: 30px;
+  color: #666;
+  background-position: top 0 left 30px;
+  min-height: 50px;
+}
+
+.reaction-message p:last-child {
+  margin-bottom: 0;
+}
+
+.reaction-action {
+  margin: 0 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+  text-transform: uppercase;
+  border-radius: 2px;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.reaction-action.action-show-replies:not(.has-replies) {
+  cursor: initial;
+}
+
+.reaction-action.action-approve {
+  border-color: #28a745 !important;
+  color: #28a745;
+}
+
+.reaction-action.action-approve.did-approve {
+  background-color: #28a745;
+  color: #EEE;
+}
+
+.reaction-action.action-refute {
+  border-color: #dc3545 !important;
+  color: #dc3545;
+}
+
+.reaction-action.action-refute.did-refute {
+  background-color: #dc3545;
+  color: #EEE;
+}
+
+.reaction-action.action-like {
+  border-color: #17a2b8 !important;
+  color: #17a2b8;
+}
+
+.reaction-action.action-like.did-like {
+  background-color: #17a2b8;
+  color: #EEE;
+}
+
+.reaction-replies .replies-indent-vline {
+  margin: 0 5px;
+  padding: 2px;
+  background-color: #CCC;
+}
+
+.reaction-replies .reaction {
+  border-right: 0 !important;
+}
+
+.reaction-replies div .pb-2:last-child {
+  padding-bottom: 0 !important;
+}

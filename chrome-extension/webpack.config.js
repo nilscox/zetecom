@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  context: path.resolve(__dirname, '..', 'webapp'),
+  context: path.resolve(__dirname, '..', 'frontend'),
   entry: ['@babel/polyfill', './src/chrome-extension.js'],
   mode: 'development',
   module: {
