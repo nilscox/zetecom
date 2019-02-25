@@ -18,6 +18,16 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@nest-middlewares/cors@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@nest-middlewares/cors/-/cors-5.1.1.tgz#6df4e877ca39579c74e493bfdb0a414c350cd34b"
+  integrity sha512-/hdFiJsc/7RN3zwM/y93BTogkCt8bnxa7EdYXUJrnxMEHSrjcbPrfCuH17PQTldikN5/cnNVXRQ0Xrf1qcvX5w==
+  dependencies:
+    "@types/cors" "^2.8.3"
+    "@types/express" "^4.16.0"
+    "@types/express-serve-static-core" "^4.16.0"
+    cors "^2.8.4"
+
 "@nest-middlewares/express-session@^5.1.1":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/@nest-middlewares/express-session/-/express-session-5.1.1.tgz#a3cee953b0a882a64eb39cb3deb219cae57fa6a4"
@@ -109,6 +119,13 @@
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@types/cookiejar/-/cookiejar-2.1.0.tgz#4b7daf2c51696cfc70b942c11690528229d1a1ce"
   integrity sha512-EIjmpvnHj+T4nMcKwHwxZKUfDmphIKJc2qnEMhSoOvr1lYEQpuRKRz8orWr//krYIIArS/KGGLfL2YGVUYXmIA==
+
+"@types/cors@^2.8.3":
+  version "2.8.4"
+  resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.4.tgz#50991a759a29c0b89492751008c6af7a7c8267b0"
+  integrity sha512-ipZjBVsm2tF/n8qFGOuGBkUij9X9ZswVi9G3bx/6dz7POpVa6gVHcj1wsX/LVEn9MMF41fxK/PnZPPoTD1UFPw==
+  dependencies:
+    "@types/express" "*"
 
 "@types/events@*":
   version "1.2.0"
@@ -1099,6 +1116,14 @@ cors@2.8.4:
   version "2.8.4"
   resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.4.tgz#2bd381f2eb201020105cd50ea59da63090694686"
   integrity sha1-K9OB8usgECAQXNUOpZ2mMJBpRoY=
+  dependencies:
+    object-assign "^4"
+    vary "^1"
+
+cors@^2.8.4:
+  version "2.8.5"
+  resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.5.tgz#eac11da51592dd86b9f06f6e7ac293b3df875d29"
+  integrity sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==
   dependencies:
     object-assign "^4"
     vary "^1"

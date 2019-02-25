@@ -1,5 +1,6 @@
 import { Module, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CorsMiddleware } from '@nest-middlewares/cors';
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
 
@@ -23,6 +24,11 @@ import { AppController } from './app.controller';
 export class AppModule {
 
   configure(consumer: MiddlewareConsumer) {
+    CorsMiddleware.configure({
+      origin: true,
+      credentials: true,
+    });
+
     ExpressSessionMiddleware.configure({
       secret: 'secret',
       resave: true,
@@ -32,11 +38,7 @@ export class AppModule {
     MorganMiddleware.configure('dev');
 
     consumer
-      .apply(
-        ExpressSessionMiddleware,
-        MorganMiddleware,
-        UserMiddleware,
-      )
+      .apply(CorsMiddleware, ExpressSessionMiddleware, MorganMiddleware, UserMiddleware)
       .forRoutes('*');
 
     consumer

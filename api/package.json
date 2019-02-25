@@ -17,6 +17,7 @@
     "test:cov": "jest --coverage"
   },
   "dependencies": {
+    "@nest-middlewares/cors": "^5.1.1",
     "@nest-middlewares/express-session": "^5.1.1",
     "@nest-middlewares/morgan": "^5.1.1",
     "@nestjs/common": "^5.4.0",
