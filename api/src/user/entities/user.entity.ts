@@ -3,6 +3,7 @@ import { Expose, Exclude } from 'class-transformer';
 
 import { Information } from 'Information/entities/information.entity';
 import { Reaction } from 'Information/entities/reaction.entity';
+import { UserToken } from './user-token.entity';
 
 @Entity()
 @Exclude()
@@ -36,5 +37,8 @@ export class User {
 
   @OneToMany(type => Reaction, reaction => reaction.author)
   reactions: Reaction[];
+
+  @OneToMany(type => UserToken, token => token.user)
+  tokens: UserToken[];
 
 }

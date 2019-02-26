@@ -2,10 +2,12 @@ import { Injectable, BadRequestException, NotFoundException, UnauthorizedExcepti
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
+import * as uuidv4 from 'uuid/v4';
 
 import { CreateUserDto } from '../dtos/CreateUserDto';
 import { LoginUserDto } from '../dtos/LoginUserDto';
 import { User } from '../entities/user.entity';
+import { UserToken } from '../entities/user-token.entity';
 
 @Injectable()
 export class UserService {
@@ -13,6 +15,8 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(UserToken)
+    private readonly userTokenRepository: Repository<UserToken>,
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -55,6 +59,16 @@ export class UserService {
       throw new UnauthorizedException('INVALID_CREDENTIALS');
 
     return user;
+  }
+
+  async createUserToken(user: User): Promise<string> {
+    const token = new UserToken();
+
+    token.user = user;
+    token.token = uuidv4();
+    await this.userTokenRepository.save(token);
+
+    return token.token;
   }
 
 }
