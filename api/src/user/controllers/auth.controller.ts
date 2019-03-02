@@ -7,7 +7,8 @@ import {
   ClassSerializerInterceptor,
   NotFoundException,
 } from '@nestjs/common';
-import { Exclude, Expose } from 'class-transformer';
+import { IsString } from 'class-validator';
+import { Exclude, Expose, Type } from 'class-transformer';
 
 import { User as ReqUser } from 'Common/user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
@@ -17,8 +18,15 @@ import { LoginUserDto } from '../dtos/LoginUserDto';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/user.entity';
 
-class UserWithToken extends User {
-  @Expose()
+class UserTokenDto {
+  token: string;
+
+  @Type(() => User)
+  user: User;
+}
+
+class TokenLoginDto {
+  @IsString()
   token: string;
 }
 
@@ -32,27 +40,39 @@ export class AuthController {
 
   @Post('/signup')
   @UseGuards(IsNotAuthenticated)
-  async signup(@Body() createUserDto: CreateUserDto, @Session() session): Promise<UserWithToken> {
+  async signup(@Body() createUserDto: CreateUserDto, @Session() session): Promise<UserTokenDto> {
     const user = await this.userService.create(createUserDto);
 
     session.userId = user.id;
 
     const token = await this.userService.createUserToken(user);
 
-    return { ...user, token };
+    return { user, token };
   }
 
   @Post('/login')
   @UseGuards(IsNotAuthenticated)
   @HttpCode(200)
-  async login(@Body() loginUserDto: LoginUserDto, @Session() session): Promise<UserWithToken> {
+  async login(@Body() loginUserDto: LoginUserDto, @Session() session): Promise<UserTokenDto> {
     const user = await this.userService.login(loginUserDto);
 
     session.userId = user.id;
 
     const token = await this.userService.createUserToken(user);
 
-    return { ...user, token };
+    return { user, token };
+  }
+
+  @Post('/tokenLogin')
+  @UseGuards(IsNotAuthenticated)
+  @HttpCode(200)
+  async tokenLogin(@Body() tokenLoginDto: TokenLoginDto, @Session() session): Promise<UserTokenDto> {
+    const { token } = tokenLoginDto;
+    const user = await this.userService.loginFromToken(token);
+
+    session.userId = user.id;
+
+    return { user, token };
   }
 
   @Post('/logout')

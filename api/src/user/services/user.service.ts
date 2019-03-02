@@ -61,6 +61,17 @@ export class UserService {
     return user;
   }
 
+  async loginFromToken(token: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { token },
+    });
+
+    if (!user)
+      throw new UnauthorizedException('INVALID_TOKEN');
+
+    return user;
+  }
+
   async createUserToken(user: User): Promise<string> {
     const token = new UserToken();
 
