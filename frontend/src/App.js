@@ -27,7 +27,10 @@ class App extends React.Component {
 
       const information = await this.fetchInformation(youtubeId)
       const reactions = await this.fetchReactions(information.id);
-      const user = token ? await this.fetchMe(token) : null;
+      let user = await this.fetchMe();
+
+      if (!user && token)
+        user = await this.loginWithToken(token);
 
       this.setState({ information, reactions, user });
     } catch (e) {
@@ -37,7 +40,19 @@ class App extends React.Component {
     }
   }
 
-  async fetchMe(token) {
+  async fetchMe() {
+    const res = await fetch(`https://cdv.localhost/api/auth/me`, {
+      mode: 'cors',
+      credentials: 'include',
+    });
+
+    if (!res.ok)
+      return;
+
+    return new User(await res.json());
+  }
+
+  async loginWithToken(token) {
     const res = await fetch(`https://cdv.localhost/api/auth/tokenLogin`, {
       method: 'POST',
       body: JSON.stringify({
@@ -80,8 +95,12 @@ class App extends React.Component {
     return (await res.json()).map(r => new ReactionType(r));
   }
 
+  async onReactionSubmitted(reaction) {
+    console.log('reaction submitted', reaction);
+  }
+
   render() {
-    const { loading, reactions } = this.state;
+    const { loading, reactions, user } = this.state;
 
     if (loading)
       return 'Loading...';
@@ -89,7 +108,13 @@ class App extends React.Component {
     if (!reactions)
       return <div />;
 
-    return <ReactionsList reactions={reactions} />;
+    return (
+      <ReactionsList
+        reactions={reactions}
+        user={user}
+        onReactionSubmitted={this.onReactionSubmitted.bind(this)}
+      />
+    );
   }
 
 }
