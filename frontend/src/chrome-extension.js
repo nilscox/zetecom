@@ -18,33 +18,7 @@ class Extension extends React.Component {
 
     this.state = {
       displayComments: 'cdv',
-      loading: true,
-      user: null,
     };
-  }
-
-  async componentDidMount() {
-    const { email, password } = this.props;
-
-    await this.login(email, password);
-    this.setState({ loading: false });
-  }
-
-  async login(email, password) {
-    const res = await fetch(`https://cdv.localhost/api/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-      mode: 'cors',
-      credentials: 'include',
-    });
-
-    if (!res.ok)
-      console.log('request failed: POST /api/auth/login');
-    else
-      this.setState({ user: await res.json() });
   }
 
   render() {
@@ -106,15 +80,19 @@ const main = () => {
   comments.remove();
   parent.appendChild(rootTag);
 
-  chrome.storage.local.get(['cookie'], ([cookie]) => {
-    console.log('cookie', cookie);
+  ReactDOM.render((
+    <Extension
+      youtubeId={youtubeId[1]}
+      youtubeComments={comments}
+    />
+  ), rootTag, () => {
+    setTimeout(() => {
+      chrome.storage.local.get('token', ({ token }) => {
+        const frame = document.getElementById('cdv-iframe');
 
-    ReactDOM.render((
-      <Extension
-        youtubeId={youtubeId[1]}
-        youtubeComments={comments}
-      />
-    ), rootTag);
+        frame.contentWindow.postMessage({ event: 'setToken', token }, 'https://cdv.localhost');
+      });
+    }, 0);
   });
 
 };

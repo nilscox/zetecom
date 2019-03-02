@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Information, Reaction as ReactionType } from 'Types';
+import { Information, Reaction as ReactionType, User } from 'Types';
 import { ReactionsList } from 'Components';
 
 class App extends React.Component {
@@ -9,9 +9,12 @@ class App extends React.Component {
     loading: true,
     information: null,
     reactions: null,
+    user: null,
   };
 
   async componentDidMount() {
+    const { token } = this.props;
+
     try {
       const query = window.location.search
         .slice(1).split('&')
@@ -24,13 +27,33 @@ class App extends React.Component {
 
       const information = await this.fetchInformation(youtubeId)
       const reactions = await this.fetchReactions(information.id);
+      const user = token ? await this.fetchMe(token) : null;
 
-      this.setState({ information, reactions });
+      this.setState({ information, reactions, user });
     } catch (e) {
       console.error(e);
     } finally {
       this.setState({ loading: false });
     }
+  }
+
+  async fetchMe(token) {
+    const res = await fetch(`https://cdv.localhost/api/auth/tokenLogin`, {
+      method: 'POST',
+      body: JSON.stringify({
+        token,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: 'cors',
+      credentials: 'include',
+    });
+
+    if (!res.ok)
+      throw new Error('request failed');
+
+    return new User(await res.json());
   }
 
   async fetchInformation(youtubeId) {

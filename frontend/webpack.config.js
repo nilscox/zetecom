@@ -34,8 +34,9 @@ module.exports = {
       });
     },
     contentBase: path.join(__dirname, 'public'),
-    host: '0.0.0.0',
+    host: 'cdv.localhost',
     port: 8080,
+    https: true,
     publicPath: '/dist/',
     hotOnly: true,
   },
