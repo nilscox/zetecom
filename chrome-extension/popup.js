@@ -20,18 +20,14 @@ form.onsubmit = async function(e) {
     if (!res.ok)
       throw new Error('request error');
 
-    if (!res.headers.has('Set-Cookie'))
-      throw new Error('response has no Set-Cookie header');
+    const body = await res.json();
+
+    console.log('login success!', body.user);
 
     chrome.storage.local.set({
-      cookie: res.headers.get('Set-Cookie'),
+      token: body.token,
     });
   } catch (e) {
     console.error(e);
   }
-
-  // chrome.storage.local.set({
-  //   email: inputEmail.value,
-  //   password: inputPassword.value,
-  // });
 }
