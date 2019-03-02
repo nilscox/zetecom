@@ -32,8 +32,8 @@ export class UserService {
     return user;
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const existing = await this.userRepository.findOne({ where: { email: createUserDto.email } });
+  async create(email: string, password: string, nick: string): Promise<User> {
+    const existing = await this.userRepository.findOne({ where: { email } });
 
     if (existing !== undefined)
       throw new BadRequestException('EMAIL_ALREADY_EXISTS');
@@ -41,35 +41,35 @@ export class UserService {
     const user = new User();
 
     Object.assign(user, {
-      ...createUserDto,
-      password: await bcrypt.hash(createUserDto.password, 10),
+      email,
+      password: await bcrypt.hash(password, 10),
+      nick,
     });
 
     return this.userRepository.save(user);
   }
 
-  async login(loginUserDto: LoginUserDto): Promise<User> {
+  async login(email: string, password: string): Promise<User> {
     const user = await this.userRepository.findOne({
-      where: {
-        email: loginUserDto.email,
-      },
+      where: { email },
     });
 
-    if (!user || !await bcrypt.compare(loginUserDto.password, user.password))
+    if (!user || !await bcrypt.compare(password, user.password))
       throw new UnauthorizedException('INVALID_CREDENTIALS');
 
     return user;
   }
 
-  async loginFromToken(token: string): Promise<User> {
-    const user = await this.userRepository.findOne({
-      where: { token },
+  async loginFromToken(inputToken: string): Promise<User> {
+    const token = await this.userTokenRepository.findOne({
+      where: { token: inputToken },
+      relations: ['user'],
     });
 
-    if (!user)
+    if (!token)
       throw new UnauthorizedException('INVALID_TOKEN');
 
-    return user;
+    return token.user;
   }
 
   async createUserToken(user: User): Promise<string> {

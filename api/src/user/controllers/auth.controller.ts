@@ -41,7 +41,8 @@ export class AuthController {
   @Post('/signup')
   @UseGuards(IsNotAuthenticated)
   async signup(@Body() createUserDto: CreateUserDto, @Session() session): Promise<UserTokenDto> {
-    const user = await this.userService.create(createUserDto);
+    const { email, password, nick } = createUserDto;
+    const user = await this.userService.create(email, password, nick);
 
     session.userId = user.id;
 
@@ -54,7 +55,8 @@ export class AuthController {
   @UseGuards(IsNotAuthenticated)
   @HttpCode(200)
   async login(@Body() loginUserDto: LoginUserDto, @Session() session): Promise<UserTokenDto> {
-    const user = await this.userService.login(loginUserDto);
+    const { email, password } = loginUserDto;
+    const user = await this.userService.login(email, password);
 
     session.userId = user.id;
 
