@@ -8,6 +8,7 @@ import { ReactionsList } from 'Components';
 import { classList } from 'utils';
 
 import './Label.css';
+import './Extension.css';
 
 const YOUTUBE_REGEX = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
 
@@ -23,6 +24,7 @@ class Extension extends React.Component {
 
   render() {
     const { youtubeId } = this.props;
+    const [cdv, yt] = this.state.displayComments === 'cdv' ? [true, false] : [false, true];
 
     return (
       <div className="d-flex flex-column align-items-center">
@@ -30,14 +32,14 @@ class Extension extends React.Component {
         <div className="btn-group btn-group-lg my-4">
 
           <button
-            className={classList('btn', this.state.displayComments === 'youtube' ? 'btn-primary' : 'btn-secondary')}
+            className={classList('btn', yt ? 'btn-primary' : 'btn-secondary')}
             onClick={() => this.setState({ displayComments: 'youtube' })}
           >
             Commentaires YouTube
           </button>
 
           <button
-            className={classList('btn', this.state.displayComments === 'cdv' ? 'btn-primary' : 'btn-secondary')}
+            className={classList('btn', cdv ? 'btn-primary' : 'btn-secondary')}
             onClick={() => this.setState({ displayComments: 'cdv' })}
           >
             Commentaires CDV
@@ -45,17 +47,18 @@ class Extension extends React.Component {
 
         </div>
 
-        { this.state.displayComments === 'youtube' ? (
+        { yt && (
           <div ref={ref => ref && ref.appendChild(this.props.youtubeComments)}></div>
-        ) : (
-          <iframe
-            id="cdv-iframe"
-            src={'https://cdv.localhost/?youtubeId=' + youtubeId}
-            style={{ width: 1, minWidth: '100%' }}
-            scrolling="no"
-            ref={ref => iframeResizer({ checkOrigin: false }, ref)}
-          />
         ) }
+
+        <iframe
+          id="cdv-iframe"
+          src={'https://cdv.localhost/?youtubeId=' + youtubeId}
+          style={{ width: 1, minWidth: '100%' }}
+          className={classList(cdv && 'show', yt && 'hide')}
+          scrolling="no"
+          ref={ref => iframeResizer({ checkOrigin: false }, ref)}
+        />
 
       </div>
     );
