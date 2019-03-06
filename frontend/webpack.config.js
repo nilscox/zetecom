@@ -22,8 +22,8 @@ module.exports = {
     ],
   },
   output: {
-    path: path.resolve(__dirname, 'public', 'dist'),
-    publicPath: '/dist/',
+    path: path.resolve(__dirname, 'public', 'assets', 'js'),
+    publicPath: '/assets/js/',
     filename: 'bundle.js',
   },
   devtool: 'source-map',
@@ -37,7 +37,7 @@ module.exports = {
     host: 'cdv.localhost',
     port: 8080,
     https: true,
-    publicPath: '/dist/',
+    publicPath: '/assets/js/',
     hotOnly: true,
   },
   plugins: [
