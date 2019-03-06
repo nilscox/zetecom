@@ -8,6 +8,7 @@
       "root": "./src",
       "alias": {
         "Components": "./src/components",
+        "Contexts": "./src/contexts",
         "Services": "./src/services",
         "Types": "./src/types"
       }

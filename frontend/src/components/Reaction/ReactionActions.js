@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { classList } from 'utils';
 
-const ReactionActions = ({ approves, didApprove, refutes, didRefute, likes, didLike, repliesCount, showReplies, onShowReplies, onReply }) => (
+const ReactionActions = ({ approves, didApprove, refutes, didRefute, likes, didLike, repliesCount, showReplies, onShowReplies, isReplying, onReply }) => (
   <div className="reaction-actions p-2 d-flex">
 
     <div
@@ -46,7 +46,7 @@ const ReactionActions = ({ approves, didApprove, refutes, didRefute, likes, didL
 
     <div className="flex-grow-1" />
 
-    <div className="reaction-action action-reply border" onClick={onReply}>Répondre</div>
+    { !isReplying && <div className="reaction-action action-reply border" onClick={onReply}>Répondre</div> }
 
   </div>
 );

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import labels, { labelText, labelBackgroundStyle, labelBorderStyle } from 'Services/label-service';
+import { UserConsumer } from 'Contexts';
 import { UserAvatar } from 'Components';
 import ReactionHeader from 'Components/Reaction/ReactionHeader';
 import { classList } from 'utils';
@@ -64,15 +65,27 @@ class ReactionForm extends React.Component {
     const { replyTo } = this.props;
 
     return (
-      <div className={classList(['reaction-form', 'position-relative', 'border', 'my-2'])}>
+      <UserConsumer>
+      { user => user && (
+        <div
+          className={classList([
+            'reaction-form',
+            replyTo && 'reply',
+            'position-relative',
+            replyTo ? 'border-top border-left' : 'border',
+            replyTo ? 'mt-2' : 'my-2',
+          ])}
+        >
 
-        { this.renderClose() }
+          { this.renderClose() }
 
-        <ReactionHeader author={this.props.author} />
+          <ReactionHeader author={user} />
 
-        { this.renderForm() }
+          { this.renderForm() }
 
-      </div>
+        </div>
+      ) }
+      </UserConsumer>
     );
   }
 
@@ -83,7 +96,7 @@ class ReactionForm extends React.Component {
       return;
 
     return (
-      <div className="reaction-form-close mr-1" onClick={onClose}>✖</div>
+      <div className="reaction-form-close mr-1" onClick={onClose}>✕</div>
     );
   }
 

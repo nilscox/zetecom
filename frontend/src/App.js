@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Information, Reaction as ReactionType, User } from 'Types';
+import { UserProvider } from 'Contexts';
 import { ReactionsList } from 'Components';
 
 class App extends React.Component {
@@ -29,8 +30,15 @@ class App extends React.Component {
       const reactions = await this.fetchReactions(information.id);
       let user = await this.fetchMe();
 
-      if (!user && token)
-        user = await this.loginWithToken(token);
+      if (token) {
+        if (!user)
+          user = await this.loginWithToken(token);
+      } else {
+        if (user) {
+          await this.logout();
+          user = undefined;
+        }
+      }
 
       this.setState({ information, reactions, user });
     } catch (e) {
@@ -71,6 +79,17 @@ class App extends React.Component {
     return new User(await res.json());
   }
 
+  async logout() {
+    const res = await fetch(`https://cdv.localhost/api/auth/logout`, {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+    });
+
+    if (!res.ok)
+      throw new Error('request failed');
+  }
+
   async fetchInformation(youtubeId) {
     const res = await fetch(`https://cdv.localhost/api/information/by-youtubeId/${youtubeId}`, {
       mode: 'cors',
@@ -109,11 +128,12 @@ class App extends React.Component {
       return <div />;
 
     return (
-      <ReactionsList
-        reactions={reactions}
-        user={user}
-        onReactionSubmitted={this.onReactionSubmitted.bind(this)}
-      />
+      <UserProvider value={user}>
+        <ReactionsList
+          reactions={reactions}
+          onReactionSubmitted={this.onReactionSubmitted.bind(this)}
+        />
+      </UserProvider>
     );
   }
 

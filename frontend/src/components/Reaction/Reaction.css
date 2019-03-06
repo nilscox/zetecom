@@ -37,6 +37,10 @@
   cursor: pointer;
 }
 
+.reaction-actions.nologin .reaction-action {
+  cursor: initial;
+}
+
 .reaction-action.action-show-replies:not(.has-replies) {
   cursor: initial;
 }

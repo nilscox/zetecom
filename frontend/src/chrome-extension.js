@@ -92,7 +92,7 @@ const main = () => {
 
         frame.contentWindow.postMessage({ event: 'setToken', token }, 'https://cdv.localhost');
       });
-    }, 0);
+    }, 100);
   });
 
 };

@@ -2,8 +2,8 @@
   width: 750px;
 }
 
-.reaction-form {
-  /*margin-left: 14px;*/
+.reaction-form.reply {
+  margin-left: 14px;
 }
 
 .reaction-form .reaction-textarea {
@@ -16,6 +16,7 @@
   right: 0;
   color: #999999;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .reaction-form .labels button {

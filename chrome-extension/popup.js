@@ -1,6 +1,21 @@
 const form = document.getElementById('login-form');
 const inputEmail = document.getElementById('input-email');
 const inputPassword = document.getElementById('input-password');
+const login = document.getElementsByClassName('login')[0];
+const logout = document.getElementsByClassName('logout')[0];
+const logoutBtn = document.getElementById('logout');
+
+const main = () => {
+  chrome.storage.local.get('token', ({ token }) => {
+    (token ? logout : login).classList.remove('hide');
+    (token ? login : logout).classList.add('hide');
+  });
+};
+
+logoutBtn.onclick = function() {
+  chrome.storage.local.set({ token: null });
+  main();
+}
 
 form.onsubmit = async function(e) {
   e.preventDefault();
@@ -27,7 +42,13 @@ form.onsubmit = async function(e) {
     chrome.storage.local.set({
       token: body.token,
     });
+
+    main();
   } catch (e) {
     console.error(e);
   }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  main();
+});

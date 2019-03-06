@@ -5,12 +5,14 @@ import dateformat from 'dateformat';
 import { classList } from 'utils';
 
 import { User } from 'Types';
+import { UserConsumer } from 'Contexts';
 import { ReactionForm } from 'Components';
 
 import ReactionHeader from './ReactionHeader';
 import ReactionQuote from './ReactionQuote';
 import ReactionMessage from './ReactionMessage';
 import ReactionActions from './ReactionActions';
+import ReactionActionsNoLogin from './ReactionActions.nologin';
 import ReactionReplies from './ReactionReplies';
 
 import './Reaction.css';
@@ -53,15 +55,29 @@ class Reaction extends React.Component {
           { reaction.text }
         </ReactionMessage>
 
-        <ReactionActions
-          {...reaction}
-          showReplies={showReplies}
-          onShowReplies={() => this.toggleShowReplies()}
-          onReply={() => this.showReplyForm(true)}
-        />
+        <UserConsumer>
+        { user => user ? (
+          <ReactionActions
+            {...reaction}
+            showReplies={showReplies}
+            onShowReplies={() => this.toggleShowReplies()}
+            isReplying={showReplyForm}
+            onReply={() => this.showReplyForm(true)}
+          />
+        ) : (
+          <ReactionActionsNoLogin
+            {...reaction}
+            showReplies={showReplies}
+            onShowReplies={() => this.toggleShowReplies()}
+          />
+        ) }
+        </UserConsumer>
 
         <Collapse isOpened={showReplyForm}>
-          <ReactionForm author={new User({ nick: 'json does' })} replyTo={reaction} onClose={() => this.showReplyForm(false)} />
+          <ReactionForm
+            replyTo={reaction}
+            onClose={() => this.showReplyForm(false)}
+          />
         </Collapse>
 
         <Collapse isOpened={showReplies}>
