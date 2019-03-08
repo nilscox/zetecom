@@ -1,51 +1,39 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <style>
-      body {
-        min-height: 130px;
-        width: 300px;
-        outline: none;
-      }
-
-      .hide {
-        display: none;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="reset.css" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="popup.css" />
   </head>
 
-  <body>
-
-    <div class="hide login">
-
-      <h1>CDV Login</h1>
+  <body class="m-3">
+    <div class="d-none login">
+      <h1 class="text-center border-bottom">CDV <small class="text-muted">Login</small></h1>
 
       <form id="login-form">
-
-        <div class="input-group">
-          <input id="input-email" type="text" class="form-control" placeholder="Email" />
+        <div class="form-group">
+          <input id="input-email" type="email" class="form-control" placeholder="Email" />
         </div>
 
-        <div class="input-group">
+        <div class="form-group">
           <input id="input-password" type="password" class="form-control" placeholder="Password" />
         </div>
 
-        <div class="input-group">
-          <input type="submit" />
-        </div>
-
+        <button type="submit" class="btn btn-primary">
+          <strong>Submit</strong>
+        </button>
       </form>
-
     </div>
 
-    <div class="hide logout">
-      <h1>You are logged in!</h1>
-      <button id="logout">Log out</button>
+    <div class="d-none logout h-100">
+      <h1 class="text-center border-bottom">CDV <small class="text-muted">Log out</small></h1>
+      <div class="d-flex justify-content-center align-items-center h-75">
+        <button id="logout" class="btn btn-lg btn-danger">
+          <strong>Log out</strong>
+        </button>
+      </div>
     </div>
 
     <script type="text/javascript" src="popup.js"></script>
-
   </body>
-
 </html>

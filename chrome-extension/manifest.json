@@ -27,7 +27,7 @@
         "https://www.youtube.com/watch*"
       ],
       "js": ["content.js"],
-      "css": ["reset.css", "bootstrap.css"]
+      "css": ["reset.css", "bootstrap.css", "popup.css"]
     }
   ]
 }
