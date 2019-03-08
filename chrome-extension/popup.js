@@ -7,8 +7,8 @@ const logoutBtn = document.getElementById('logout');
 
 const main = () => {
   chrome.storage.local.get('token', ({ token }) => {
-    (token ? logout : login).classList.remove('hide');
-    (token ? login : logout).classList.add('hide');
+    (token ? logout : login).classList.remove('d-none');
+    (token ? login : logout).classList.add('d-none');
   });
 };
 
