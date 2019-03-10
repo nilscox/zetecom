@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 
 import { classList } from 'utils';
 
@@ -33,5 +34,14 @@ const ReactionActionsNoLogin = ({ approves, refutes, likes, repliesCount, showRe
 
   </div>
 );
+
+ReactionActionsNoLogin.propTypes = {
+  approves: PropTypes.number.isRequired,
+  refutes: PropTypes.number.isRequired,
+  likes: PropTypes.number.isRequired,
+  repliesCount: PropTypes.number.isRequired,
+  showReplies: PropTypes.bool.isRequired,
+  onShowReplies: PropTypes.func.isRequired,
+};
 
 export default ReactionActionsNoLogin;

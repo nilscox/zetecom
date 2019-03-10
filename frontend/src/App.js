@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Information, Reaction as ReactionType, User } from 'Types';
 import { UserProvider } from 'Contexts';
@@ -114,7 +115,7 @@ class App extends React.Component {
     return (await res.json()).map(r => new ReactionType(r));
   }
 
-  async onReactionSubmitted(reaction) {
+  async onReactionSubmitted(reaction, parent) {
     console.log('reaction submitted', reaction);
   }
 
@@ -138,5 +139,9 @@ class App extends React.Component {
   }
 
 }
+
+App.propTypes = {
+  token: PropTypes.string.isRequired,
+};
 
 export default App;

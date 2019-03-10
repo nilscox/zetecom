@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 
 import { classList } from 'utils';
 
@@ -20,5 +21,13 @@ const FormInput = ({ groupClassName, error, before, after, ...props }) => (
 
   </div>
 );
+
+FormInput.propTypes = {
+  groupClassName: PropTypes.string,
+  error: PropTypes.string,
+  before: PropTypes.element,
+  after: PropTypes.element,
+  props: Object,
+};
 
 export default FormInput;

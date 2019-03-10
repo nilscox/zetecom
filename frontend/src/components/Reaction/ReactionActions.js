@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 
 import { classList } from 'utils';
 
@@ -50,5 +51,19 @@ const ReactionActions = ({ approves, didApprove, refutes, didRefute, likes, didL
 
   </div>
 );
+
+ReactionActions.propTypes = {
+  approves: PropTypes.number.isRequired,
+  didApprove: PropTypes.bool.isRequired,
+  refutes: PropTypes.number.isRequired,
+  didRefute: PropTypes.bool.isRequired,
+  likes: PropTypes.number.isRequired,
+  didLike: PropTypes.bool.isRequired,
+  repliesCount: PropTypes.number.isRequired,
+  showReplies: PropTypes.bool.isRequired,
+  onShowReplies: PropTypes.func.isRequired,
+  isReplying: PropTypes.bool.isRequired,
+  onReply: PropTypes.func.isRequired,
+};
 
 export default ReactionActions;

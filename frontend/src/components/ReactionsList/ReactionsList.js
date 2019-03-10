@@ -1,5 +1,7 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 
+import { Reaction as ReactionType } from 'Types';
 import { UserConsumer } from 'Contexts';
 import { Reaction, ReactionForm } from 'Components';
 
@@ -13,7 +15,7 @@ const ReactionsList = ({ reactions, onReactionSubmitted }) => (
       { reactions.length
         ? reactions.map(r => (
           <div key={r.id} className="my-1">
-            <Reaction reaction={r} />
+            <Reaction reaction={r} onReactionSubmitted={onReactionSubmitted} />
           </div>
         ))
         : <div>Il n'y a pas encore de réaction par rapport à cette information.</div>
@@ -23,5 +25,10 @@ const ReactionsList = ({ reactions, onReactionSubmitted }) => (
   ) }
   </UserConsumer>
 );
+
+ReactionsList.propTypes = {
+  reactions: PropTypes.arrayOf(PropTypes.instanceOf(ReactionType)).isRequired,
+  onReactionSubmitted: PropTypes.func.isRequired,
+};
 
 export default ReactionsList;

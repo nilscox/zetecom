@@ -1,4 +1,7 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
+
+import { Reaction as ReactionType } from 'Types';
 
 import Reaction from './Reaction';
 
@@ -17,5 +20,9 @@ const ReactionReplies = ({ replies }) => (
 
   </div>
 );
+
+ReactionReplies.propTypes = {
+  replies: PropType.arrayOf(PropTypes.instanceOf(ReactionType)),
+};
 
 export default ReactionReplies;

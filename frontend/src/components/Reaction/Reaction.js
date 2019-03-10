@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Collapse } from 'react-collapse';
 import dateformat from 'dateformat';
 
 import { classList } from 'utils';
 
-import { User } from 'Types';
+import { User, Reaction as ReactionType } from 'Types';
 import { UserConsumer } from 'Contexts';
 import { ReactionForm } from 'Components';
 
@@ -76,6 +77,7 @@ class Reaction extends React.Component {
         <Collapse isOpened={showReplyForm}>
           <ReactionForm
             replyTo={reaction}
+            onReactionSubmitted={this.props.onReactionSubmitted}
             onClose={() => this.showReplyForm(false)}
           />
         </Collapse>
@@ -89,5 +91,10 @@ class Reaction extends React.Component {
   }
 
 }
+
+Reaction.propTypes = {
+  reaction: PropTypes.instanceOf(ReactionType).isRequired,
+  onReactionSubmitted: PropTypes.func.isRequired,
+};
 
 export default Reaction;

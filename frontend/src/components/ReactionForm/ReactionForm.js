@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import labels, { labelText, labelBackgroundStyle, labelBorderStyle } from 'Services/label-service';
 import { UserConsumer } from 'Contexts';
 import { UserAvatar } from 'Components';
 import ReactionHeader from 'Components/Reaction/ReactionHeader';
 import { classList } from 'utils';
+import { Reaction } from 'Types';
 
 import './ReactionForm.css';
 
@@ -215,5 +217,12 @@ class ReactionForm extends React.Component {
   }
 
 }
+
+ReactionForm.propTypes = {
+  reaction: PropTypes.instanceOf(Reaction),
+  replyTo: PropTypes.instanceOf(Reaction),
+  onClose: PropTypes.func,
+  onReactionSubmitted: PropTypes.func.isRequired,
+};
 
 export default ReactionForm;
