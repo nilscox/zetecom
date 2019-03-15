@@ -22,7 +22,7 @@ const ReactionReplies = ({ replies }) => (
 );
 
 ReactionReplies.propTypes = {
-  replies: PropType.arrayOf(PropTypes.instanceOf(ReactionType)),
+  replies: PropTypes.arrayOf(PropTypes.instanceOf(ReactionType)),
 };
 
 export default ReactionReplies;

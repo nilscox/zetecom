@@ -21,7 +21,7 @@ UserAvatar.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),
   ]),
-  props: Object,
+  props: PropTypes.object,
 };
 
 export default UserAvatar;
