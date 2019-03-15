@@ -1,5 +1,8 @@
 const path = require('path');
 
+const HOST = process.env.HOST || 'localhost';
+const PORT = process.env.PORT || '8000';
+
 module.exports = {
   mode: 'development',
   entry: './src/index.tsx',
@@ -18,6 +21,13 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public', 'assets', 'js'),
+  },
+  devServer: {
+    host: HOST,
+    port: PORT,
+    https: false,
+    publicPath: '/assets/js/',
+    contentBase: path.resolve(__dirname, 'public'),
   },
 };

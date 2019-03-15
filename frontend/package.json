@@ -1,7 +1,11 @@
 {
   "version": "0.1.0",
   "licence": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack",
+    "clean": "rimraf public/assets/js/bundle.js"
+  },
   "dependencies": {
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
@@ -9,9 +13,11 @@
   "devDependencies": {
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.2",
-    "typescript": "^3.3.3333",
+    "rimraf": "^2.6.3",
     "ts-loader": "^5.3.3",
+    "typescript": "^3.3.3333",
+    "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
-    "webpack": "^4.29.6"
+    "webpack-dev-server": "^3.2.1"
   }
 }
