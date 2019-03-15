@@ -1,7 +1,0 @@
-iframe#cdv-iframe.hide {
-  display: none;
-}
-
-iframe#cdv-iframe.show {
-  display: block;
-}

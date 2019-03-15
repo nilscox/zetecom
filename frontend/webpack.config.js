@@ -1,46 +1,23 @@
 const path = require('path');
-const webpack = require('webpack');
 
 module.exports = {
-  entry: ['@babel/polyfill', './src/index.js'],
-  mode: process.env.NODE_ENV || 'development',
+  mode: 'development',
+  entry: './src/index.tsx',
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.tsx?$/,
+        use: 'ts-loader',
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          cacheDirectory: true,
-          plugins: ['react-hot-loader/babel'],
-        },
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
       },
     ],
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
   output: {
-    path: path.resolve(__dirname, 'public', 'assets', 'js'),
-    publicPath: '/assets/js/',
     filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
   },
-  devtool: 'source-map',
-  devServer: {
-     after: app => {
-      app.get('*', function(req, res) {
-        res.sendFile(path.join(__dirname, 'public', 'index.html'));
-      });
-    },
-    contentBase: path.join(__dirname, 'public'),
-    host: 'cdv.localhost',
-    port: 8080,
-    https: true,
-    publicPath: '/assets/js/',
-    hotOnly: true,
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-  ],
 };
