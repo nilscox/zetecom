@@ -4,6 +4,8 @@ import { User } from './types/User';
 import { UserProvider } from './utils/UserContext';
 import { useUserLogin } from './hooks/useUserLogin';
 
+import './App.css';
+
 type AppProps = {
   youtubeId: string,
 };
