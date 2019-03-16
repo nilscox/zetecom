@@ -12,7 +12,7 @@ const parseUser = (data: any): User => {
   };
 };
 
-const useUserLogin = (token: string) => {
+const fetchUser = (token: string) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -44,4 +44,4 @@ const useUserLogin = (token: string) => {
   return user;
 };
 
-export { useUserLogin };
+export { fetchUser };
