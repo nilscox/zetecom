@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Collapse } from 'react-collapse';
 
-import { Reaction } from '../types/Reaction';
+import { Reaction, ReactionLabel } from '../types/Reaction';
 import { fetchReplies } from '../fetch/fetchReactions';
 import { ReactionContent } from './ReactionContent';
 import { ReactionForm } from './ReactionForm';
@@ -65,6 +65,10 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
     setShowReplies(!showReplies);
   };
 
+  const onSubmitReply = (label: ReactionLabel, quote: string | null, text: string) => {
+    console.log('submit', label, quote, text);
+  };
+
   return (
     <div className="reaction-wrapper">
 
@@ -77,7 +81,7 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
       />
 
       <Collapse isOpened={showReplyForm}>
-        <ReactionForm onSubmit={noop} onClose={() => setShowReplyForm(false)} />
+        <ReactionForm onSubmit={onSubmitReply} onClose={() => setShowReplyForm(false)} />
       </Collapse>
 
       <Collapse isOpened={showReplies}>

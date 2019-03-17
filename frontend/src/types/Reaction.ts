@@ -1,11 +1,11 @@
 import { User, parseUser } from './User';
 
-type ReactionLabelEnum = 'SOURCE' | 'METHOD';
+export type ReactionLabel = 'SOURCE' | 'METHOD';
 
 export type Reaction = {
   id: number;
   slug: string;
-  label: ReactionLabelEnum;
+  label: ReactionLabel;
   quote: string | null;
   text: string;
   date: Date;
