@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { forwardRef, useContext, useState, useEffect, useRef } from 'react';
 
 import { User } from './types/User';
 import { Information } from './types/Information';
@@ -8,11 +8,34 @@ import { InformationProvider } from './utils/InformationContext';
 import { fetchUser } from './fetch/fetchUser';
 import { fetchInformationFromYoutubeId } from './fetch/fetchInformation';
 import { fetchRootReactions, postReaction } from './fetch/fetchReactions';
-import { ReactionsList } from './components/ReactionsList';
 import { Loader } from './components/Loader';
-import { ReactionForm } from './components/ReactionForm';
+
+import { MainReactionView } from './views/MainReactionView';
+import { DefaultView } from './views/DefaultView';
 
 import './App.css';
+
+type AppContentProps = {
+  information: Information;
+};
+
+const AppContent = forwardRef((props: AppContentProps, ref: any) => {
+  const { information } = props;
+
+  const [mainReaction, setMainReaction] = useState<Reaction>(undefined);
+
+  if (mainReaction)
+    return (
+      <MainReactionView
+        reaction={mainReaction}
+        setAsMain={setMainReaction}
+      />
+    );
+
+  return (
+    <DefaultView setAsMain={setMainReaction} />
+  );
+});
 
 type AppProps = {
   youtubeId: string,
@@ -23,10 +46,6 @@ const App = ({ youtubeId }: AppProps) => {
   const [fetchingUser, setFetchingUser] = useState(false);
   const [information, setInformation] = useState<Information>(undefined);
   const [fetchingInformation, setFetchingInformation] = useState(false);
-  const [reactions, setReactions] = useState<Reaction[]>(undefined);
-
-  const [submittingReply, setSubmittingReply] = useState(false);
-  const replyFormRef = useRef(null);
 
   useEffect(() => {
     Promise.all([
@@ -52,11 +71,6 @@ const App = ({ youtubeId }: AppProps) => {
 
           if (info)
             setInformation(info);
-
-          const reactions = await fetchRootReactions(info.id);
-
-          if (reactions)
-            setReactions(reactions);
         } finally {
           setFetchingInformation(false);
         }
@@ -64,17 +78,6 @@ const App = ({ youtubeId }: AppProps) => {
 
     ]);
   }, []);
-
-  const onSubmitReply = (label: ReactionLabel, quote: string | null, text: string) => {
-    setSubmittingReply(true);
-
-    postReaction(information.id, label, quote, text)
-      .then((reaction: Reaction) => {
-        setReactions([reaction, ...reactions]);
-        setSubmittingReply(false);
-        replyFormRef.current.clear();
-      });
-  };
 
   if (fetchingUser || fetchingInformation)
     return <Loader />;
@@ -90,13 +93,7 @@ const App = ({ youtubeId }: AppProps) => {
           margin: 'auto',
         }}>
 
-          <ReactionForm
-            ref={replyFormRef}
-            onSubmit={onSubmitReply}
-            isSubmitting={submittingReply}
-          />
-
-          <ReactionsList reactions={reactions || []} />
+        <AppContent information={information} />
 
         </div>
       </InformationProvider>

@@ -12,20 +12,23 @@ import './ReactionsList.css';
 
 type ReactionsListProps = {
   reactions: Reaction[];
+  setAsMain: (reaction: Reaction) => void;
 };
 
 type ReactionWrapperProps = {
   reaction: Reaction;
+  setAsMain: (reaction: Reaction) => void;
 };
 
 type ReactionRepliesProps = {
   fetching: boolean;
   replies: Reaction[];
+  setAsMain: (reaction: Reaction) => void;
 };
 
-const noop = () => {};
+const ReactionReplies = (props: ReactionRepliesProps) => {
+  const { fetching, replies } = props;
 
-const ReactionReplies = ({ fetching, replies }: ReactionRepliesProps) => {
   if (fetching)
     return <Loader />;
 
@@ -39,7 +42,10 @@ const ReactionReplies = ({ fetching, replies }: ReactionRepliesProps) => {
     <div className="reaction-replies">
       <div className="reaction-replies-indent" />
       <div className="reaction-replies-content">
-        <ReactionsList reactions={replies} />
+        <ReactionsList
+          reactions={replies}
+          setAsMain={props.setAsMain}
+        />
       </div>
     </div>
    );
@@ -61,6 +67,11 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
         .then(() => setFetchingReplies(false));
     }
   });
+
+  useEffect(() => {
+    setShowReplies(false);
+    setReplies(null);
+  }, [props.reaction]);
 
   const toggleReplise = () => {
     if (!replies)
@@ -93,7 +104,7 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
         reaction={props.reaction}
         replyFormDisplayed={showReplyForm}
         displayReplyForm={onShowReplyForm}
-        setAsMain={noop}
+        setAsMain={() => props.setAsMain(props.reaction)}
         toggleReplies={toggleReplise}
       />
 
@@ -107,7 +118,11 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
       </Collapse>
 
       <Collapse isOpened={showReplies}>
-        <ReactionReplies fetching={fetchingReplies} replies={replies} />
+        <ReactionReplies
+          fetching={fetchingReplies}
+          replies={replies}
+          setAsMain={props.setAsMain}
+        />
       </Collapse>
 
     </div>
@@ -121,10 +136,11 @@ const ReactionsList = (props: ReactionsListProps) => {
         <ReactionWrapper
           key={reaction.id}
           reaction={reaction}
+          setAsMain={props.setAsMain}
         />
       )) }
     </div>
   );
 };
 
-export { ReactionsList };
+export { ReactionsList, ReactionWrapper };
