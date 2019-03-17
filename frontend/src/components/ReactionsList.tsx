@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Collapse } from 'react-collapse';
 
 import { Reaction, ReactionLabel } from '../types/Reaction';
-import { fetchReplies } from '../fetch/fetchReactions';
+import { fetchReplies, postReaction } from '../fetch/fetchReactions';
+import InformationContext from '../utils/InformationContext';
 import { ReactionContent } from './ReactionContent';
 import { ReactionForm } from './ReactionForm';
 import { Loader } from './Loader';
@@ -45,10 +46,12 @@ const ReactionReplies = ({ fetching, replies }: ReactionRepliesProps) => {
 };
 
 const ReactionWrapper = (props: ReactionWrapperProps) => {
+  const information = useContext(InformationContext);
   const [showReplies, setShowReplies] = useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [fetchingReplies, setFetchingReplies] = useState(false);
   const [replies, setReplies] = useState<Reaction[]>(null);
+  const replyFormRef = useRef(null);
 
   useEffect(() => {
     if (showReplies && !replies) {
@@ -66,7 +69,17 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
   };
 
   const onSubmitReply = (label: ReactionLabel, quote: string | null, text: string) => {
-    console.log('submit', label, quote, text);
+    postReaction(information.id, label, quote, text, props.reaction.id)
+      .then((reply: Reaction) => {
+        setReplies([reply, ...replies]);
+        setShowReplyForm(false);
+        replyFormRef.current.clear();
+      });
+  };
+
+  const onShowReplyForm = () => {
+    setShowReplies(true);
+    setShowReplyForm(true);
   };
 
   return (
@@ -75,13 +88,13 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
       <ReactionContent
         reaction={props.reaction}
         replyFormDisplayed={showReplyForm}
-        displayReplyForm={() => setShowReplyForm(true)}
+        displayReplyForm={onShowReplyForm}
         setAsMain={noop}
         toggleReplies={toggleReplise}
       />
 
       <Collapse isOpened={showReplyForm}>
-        <ReactionForm onSubmit={onSubmitReply} onClose={() => setShowReplyForm(false)} />
+        <ReactionForm ref={replyFormRef} onSubmit={onSubmitReply} onClose={() => setShowReplyForm(false)} />
       </Collapse>
 
       <Collapse isOpened={showReplies}>

@@ -15,7 +15,7 @@ const ReactionContent = (props: ReactionContentProps) => (
     <h3 style={{ fontSize: 20, fontWeight: 'bold' }}>Reaction #{props.reaction.id}</h3>
     <hr />
     <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-      <button onClick={props.toggleReplies}>Toggle replies</button>
+      <button onClick={props.toggleReplies} disabled={props.replyFormDisplayed}>Toggle replies</button>
       <button onClick={props.setAsMain}>Set as main</button>
       <button onClick={props.displayReplyForm} disabled={props.replyFormDisplayed}>Display reply form</button>
     </div>

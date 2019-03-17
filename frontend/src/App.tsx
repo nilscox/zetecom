@@ -4,6 +4,7 @@ import { User } from './types/User';
 import { Information } from './types/Information';
 import { Reaction } from './types/Reaction';
 import { UserProvider } from './utils/UserContext';
+import { InformationProvider } from './utils/InformationContext';
 import { fetchUser } from './fetch/fetchUser';
 import { fetchInformationFromYoutubeId } from './fetch/fetchInformation';
 import { fetchRootReactions } from './fetch/fetchReactions';
@@ -63,14 +64,19 @@ const App = ({ youtubeId }: AppProps) => {
   if (fetchingUser || fetchingInformation)
     return <Loader />;
 
+  if (!information)
+    return <div>Information not found</div>;
+
   return (
     <UserProvider value={user}>
-      <div style={{
-        width: 950,
-        margin: 'auto',
-      }}>
-        <ReactionsList reactions={reactions || []} />
-      </div>
+      <InformationProvider value={information}>
+        <div style={{
+          width: 950,
+          margin: 'auto',
+        }}>
+          <ReactionsList reactions={reactions || []} />
+        </div>
+      </InformationProvider>
     </UserProvider>
   );
 };

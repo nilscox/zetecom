@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 
 import { Reaction, ReactionLabel } from '../types/Reaction';
 
@@ -8,11 +8,19 @@ type ReactionFormProps = {
   onClose: () => void;
 };
 
-const ReactionForm = (props: ReactionFormProps) => {
+const ReactionForm = forwardRef((props: ReactionFormProps, ref: React.Ref<{}>) => {
   const { reaction } = props;
   const [text, setText] = useState(reaction ? reaction.text : null);
   const [quote, setQuote] = useState(reaction ? reaction.quote : null);
   const [label, setLabel] = useState(reaction ? reaction.label : null);
+
+  useImperativeHandle(ref, () => ({
+    clear: () => {
+      setText(null);
+      setQuote(null);
+      setLabel(null);
+    },
+  }));
 
   const handleSubmit = () => {
     if (!label)
@@ -42,6 +50,6 @@ const ReactionForm = (props: ReactionFormProps) => {
 
     </div>
   );
-};
+});
 
 export { ReactionForm };
