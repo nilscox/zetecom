@@ -8,6 +8,7 @@ import { fetchUser } from './fetch/fetchUser';
 import { fetchInformationFromYoutubeId } from './fetch/fetchInformation';
 import { fetchRootReactions } from './fetch/fetchReactions';
 import { ReactionsList } from './components/ReactionsList';
+import { Loader } from './components/Loader';
 
 import './App.css';
 
@@ -17,33 +18,50 @@ type AppProps = {
 
 const App = ({ youtubeId }: AppProps) => {
   const [user, setUser] = useState<User>(undefined);
+  const [fetchingUser, setFetchingUser] = useState(false);
   const [information, setInformation] = useState<Information>(undefined);
+  const [fetchingInformation, setFetchingInformation] = useState(false);
   const [reactions, setReactions] = useState<Reaction[]>(undefined);
 
   useEffect(() => {
     Promise.all([
 
       (async () => {
-        const user = await fetchUser(localStorage.getItem('token'));
+        setFetchingUser(true);
 
-        if (user)
-          setUser(user);
+        try {
+          const user = await fetchUser(localStorage.getItem('token'));
+
+          if (user)
+            setUser(user);
+        } finally {
+          setFetchingUser(false);
+        }
       })(),
 
       (async () => {
-        const info = await fetchInformationFromYoutubeId(youtubeId);
+        setFetchingInformation(true);
 
-        if (info)
-          setInformation(info);
+        try {
+          const info = await fetchInformationFromYoutubeId(youtubeId);
 
-        const reactions = await fetchRootReactions(info.id);
+          if (info)
+            setInformation(info);
 
-        if (reactions)
-          setReactions(reactions);
+          const reactions = await fetchRootReactions(info.id);
+
+          if (reactions)
+            setReactions(reactions);
+        } finally {
+          setFetchingInformation(false);
+        }
       })(),
 
     ]);
   }, []);
+
+  if (fetchingUser || fetchingInformation)
+    return <Loader />;
 
   return (
     <UserProvider value={user}>

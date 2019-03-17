@@ -5,6 +5,7 @@ import { Reaction } from '../types/Reaction';
 import { fetchReplies } from '../fetch/fetchReactions';
 import { ReactionContent } from './ReactionContent';
 import { ReactionForm } from './ReactionForm';
+import { Loader } from './Loader';
 
 import './ReactionsList.css';
 
@@ -25,7 +26,7 @@ const noop = () => {};
 
 const ReactionReplies = ({ fetching, replies }: ReactionRepliesProps) => {
   if (fetching)
-    return <div>loading...</div>;
+    return <Loader />;
 
   if (!replies)
     return null;
