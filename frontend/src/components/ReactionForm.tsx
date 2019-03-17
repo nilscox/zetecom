@@ -6,7 +6,7 @@ type ReactionFormProps = {
   reaction?: Reaction;
   isSubmitting: boolean;
   onSubmit: (label: ReactionLabel, quote: string | null, text: string) => void;
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 const ReactionForm = forwardRef((props: ReactionFormProps, ref: React.Ref<{}>) => {
@@ -46,7 +46,7 @@ const ReactionForm = forwardRef((props: ReactionFormProps, ref: React.Ref<{}>) =
 
       <div>
         <button onClick={handleSubmit} disabled={props.isSubmitting}>Submit</button>
-        { !props.isSubmitting && <button onClick={props.onClose}>Close</button> }
+        { props.onClose && !props.isSubmitting && <button onClick={props.onClose}>Close</button> }
       </div>
 
     </div>
