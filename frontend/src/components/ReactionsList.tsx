@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Collapse } from 'react-collapse';
 
 import { Reaction } from '../types/Reaction';
-import { ReactionContent } from './ReactionContent';
 import { fetchReplies } from '../fetch/fetchReactions';
+import { ReactionContent } from './ReactionContent';
+import { ReactionForm } from './ReactionForm';
 
 import './ReactionsList.css';
 
@@ -44,6 +45,7 @@ const ReactionReplies = ({ fetching, replies }: ReactionRepliesProps) => {
 
 const ReactionWrapper = (props: ReactionWrapperProps) => {
   const [showReplies, setShowReplies] = useState(false);
+  const [showReplyForm, setShowReplyForm] = useState(false);
   const [fetchingReplies, setFetchingReplies] = useState(false);
   const [replies, setReplies] = useState<Reaction[]>(null);
 
@@ -67,11 +69,15 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
 
       <ReactionContent
         reaction={props.reaction}
-        replyFormDisplayed={false}
-        displayReplyForm={noop}
+        replyFormDisplayed={showReplyForm}
+        displayReplyForm={() => setShowReplyForm(true)}
         setAsMain={noop}
         toggleReplies={toggleReplise}
       />
+
+      <Collapse isOpened={showReplyForm}>
+        <ReactionForm onSubmit={noop} onClose={() => setShowReplyForm(false)} />
+      </Collapse>
 
       <Collapse isOpened={showReplies}>
         <ReactionReplies fetching={fetchingReplies} replies={replies} />

@@ -17,7 +17,7 @@ const ReactionContent = (props: ReactionContentProps) => (
     <div style={{ display: 'flex', justifyContent: 'space-around' }}>
       <button onClick={props.toggleReplies}>Toggle replies</button>
       <button onClick={props.setAsMain}>Set as main</button>
-      <button onClick={props.displayReplyForm}>Display reply form</button>
+      <button onClick={props.displayReplyForm} disabled={props.replyFormDisplayed}>Display reply form</button>
     </div>
   </div>
 );
