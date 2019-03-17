@@ -12,6 +12,8 @@ import { UserModule } from './user/user.module';
 
 import { AppController } from './app.controller';
 
+const FAKE_LAG = 230;
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
@@ -43,7 +45,7 @@ export class AppModule {
 
     consumer
       .apply(LagMiddleware)
-      .with(1000)
+      .with(FAKE_LAG)
       .forRoutes('*');
   }
 
