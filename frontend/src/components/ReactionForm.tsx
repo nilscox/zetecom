@@ -4,6 +4,7 @@ import { Reaction, ReactionLabel } from '../types/Reaction';
 
 type ReactionFormProps = {
   reaction?: Reaction;
+  isSubmitting: boolean;
   onSubmit: (label: ReactionLabel, quote: string | null, text: string) => void;
   onClose: () => void;
 };
@@ -44,8 +45,8 @@ const ReactionForm = forwardRef((props: ReactionFormProps, ref: React.Ref<{}>) =
       </select>
 
       <div>
-        <button onClick={props.onClose}>Close</button>
-        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={handleSubmit} disabled={props.isSubmitting}>Submit</button>
+        { !props.isSubmitting && <button onClick={props.onClose}>Close</button> }
       </div>
 
     </div>

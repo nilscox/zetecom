@@ -50,6 +50,7 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
   const [showReplies, setShowReplies] = useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [fetchingReplies, setFetchingReplies] = useState(false);
+  const [submittingReply, setSubmittingReply] = useState(false);
   const [replies, setReplies] = useState<Reaction[]>(null);
   const replyFormRef = useRef(null);
 
@@ -69,9 +70,12 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
   };
 
   const onSubmitReply = (label: ReactionLabel, quote: string | null, text: string) => {
+    setSubmittingReply(true);
+
     postReaction(information.id, label, quote, text, props.reaction.id)
       .then((reply: Reaction) => {
         setReplies([reply, ...replies]);
+        setSubmittingReply(false);
         setShowReplyForm(false);
         replyFormRef.current.clear();
       });
@@ -94,7 +98,12 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
       />
 
       <Collapse isOpened={showReplyForm}>
-        <ReactionForm ref={replyFormRef} onSubmit={onSubmitReply} onClose={() => setShowReplyForm(false)} />
+        <ReactionForm
+          ref={replyFormRef}
+          onSubmit={onSubmitReply}
+          isSubmitting={submittingReply}
+          onClose={() => setShowReplyForm(false)}
+        />
       </Collapse>
 
       <Collapse isOpened={showReplies}>
