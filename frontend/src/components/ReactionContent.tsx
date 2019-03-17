@@ -11,7 +11,7 @@ type ReactionContentProps = {
 };
 
 const ReactionContent = (props: ReactionContentProps) => (
-  <div id={`reaction-${props.reaction.id}`} className="reaction" style={{ padding: 40 }}>
+  <div id={`reaction-${props.reaction.id}`} className="reaction" style={{ padding: 40, backgroundColor: 'grey', border: '1px solid #CCC' }}>
     <h3 style={{ fontSize: 20, fontWeight: 'bold' }}>Reaction #{props.reaction.id}</h3>
     <hr />
     <div style={{ display: 'flex', justifyContent: 'space-around' }}>

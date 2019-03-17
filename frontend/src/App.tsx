@@ -6,8 +6,8 @@ import { Reaction } from './types/Reaction';
 import { UserProvider } from './utils/UserContext';
 import { fetchUser } from './hooks/fetchUser';
 import { fetchInformationFromYoutubeId } from './hooks/fetchInformation';
-import { fetchReactionsList } from './hooks/fetchReactions';
-import { ReactionContent } from './components/ReactionContent';
+import { fetchRootReactions } from './hooks/fetchReactions';
+import { ReactionsList } from './components/ReactionsList';
 
 import './App.css';
 
@@ -15,29 +15,18 @@ type AppProps = {
   youtubeId: string,
 };
 
-const noop = () => {};
-
 const App = ({ youtubeId }: AppProps) => {
   const user: User | null = fetchUser(localStorage.getItem('token'));
   const information: Information | null = fetchInformationFromYoutubeId(youtubeId);
-  const reactions: Reaction[] | null = fetchReactionsList(information ? information.id : undefined);
+  const reactions: Reaction[] | null = fetchRootReactions(information ? information.id : undefined);
 
   return (
     <UserProvider value={user}>
       <div style={{
         width: 950,
-        marign: 'auto',
-        backgroundColor: 'grey',
+        margin: 'auto',
       }}>
-        { reactions && reactions.length && (
-          <ReactionContent
-            reaction={reactions[0]}
-            replyFormDisplayed={false}
-            displayReplyForm={noop}
-            setAsMain={noop}
-            toggleReplies={noop}
-          />
-        ) }
+        <ReactionsList reactions={reactions || []} />
       </div>
     </UserProvider>
   );

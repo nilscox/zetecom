@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { Reaction, parseReaction } from '../types/Reaction';
 
-const fetchReactionsList = (informationId?: number) => {
+const fetchRootReactions = (informationId?: number) => {
   const [reactions, setReactions] = useState<Reaction[] | null>(null);
 
   useEffect(() => {
@@ -26,4 +26,10 @@ const fetchReactionsList = (informationId?: number) => {
   return reactions;
 };
 
-export { fetchReactionsList };
+const fetchReplies = async (parentId: number) => {
+  const { data } = await axios.get(`/api/reaction/${parentId}/answers`);
+
+  return data.map((r: any) => parseReaction(r));
+};
+
+export { fetchRootReactions, fetchReplies };
