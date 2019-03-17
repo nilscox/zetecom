@@ -81,8 +81,4 @@ const App = ({ youtubeId }: AppProps) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  information: state.information,
-});
-
 export { App };
