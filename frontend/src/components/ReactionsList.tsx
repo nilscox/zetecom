@@ -3,7 +3,7 @@ import { Collapse } from 'react-collapse';
 
 import { Reaction } from '../types/Reaction';
 import { ReactionContent } from './ReactionContent';
-import { fetchReplies } from '../hooks/fetchReactions';
+import { fetchReplies } from '../fetch/fetchReactions';
 
 import './ReactionsList.css';
 
@@ -45,12 +45,12 @@ const ReactionReplies = ({ fetching, replies }: ReactionRepliesProps) => {
 const ReactionWrapper = (props: ReactionWrapperProps) => {
   const [showReplies, setShowReplies] = useState(false);
   const [fetchingReplies, setFetchingReplies] = useState(false);
-  const [replies, setReplies] = useState(null);
+  const [replies, setReplies] = useState<Reaction[]>(null);
 
   useEffect(() => {
     if (showReplies && !replies) {
       fetchReplies(props.reaction.id)
-        .then(replies => setReplies(replies))
+        .then((replies: Reaction[]) => setReplies(replies))
         .then(() => setFetchingReplies(false));
     }
   });
