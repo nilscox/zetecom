@@ -2,15 +2,7 @@ import { useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-import { User } from '../types/User';
-
-const parseUser = (data: any): User => {
-  return {
-    ...data,
-    created: new Date(data.created),
-    updated: new Date(data.updated),
-  };
-};
+import { User, parseUser } from '../types/User';
 
 const fetchUser = (token: string) => {
   const [user, setUser] = useState<User | null>(null);
