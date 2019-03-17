@@ -21,17 +21,28 @@ const App = ({ youtubeId }: AppProps) => {
   const [reactions, setReactions] = useState<Reaction[]>(undefined);
 
   useEffect(() => {
-    fetchUser(localStorage.getItem('token'))
-      .then(user => user && setUser(user));
+    Promise.all([
 
-    fetchInformationFromYoutubeId(youtubeId)
-      .then(info => {
-        if (info) {
+      (async () => {
+        const user = await fetchUser(localStorage.getItem('token'));
+
+        if (user)
+          setUser(user);
+      })(),
+
+      (async () => {
+        const info = await fetchInformationFromYoutubeId(youtubeId);
+
+        if (info)
           setInformation(info);
-          fetchRootReactions(info.id)
-            .then(reactions => setReactions(reactions));
-        }
-      });
+
+        const reactions = await fetchRootReactions(info.id);
+
+        if (reactions)
+          setReactions(reactions);
+      })(),
+
+    ]);
   }, []);
 
   return (
