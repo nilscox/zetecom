@@ -10,7 +10,7 @@ export type Reaction = {
   text: string;
   date: Date;
   edited: false | Date;
-  answersCount: number;
+  repliesCount: number;
   author: Partial<User>;
 };
 

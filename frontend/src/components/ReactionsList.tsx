@@ -53,15 +53,15 @@ const ReactionReplies = (props: ReactionRepliesProps) => {
 
 const ReactionWrapper = (props: ReactionWrapperProps) => {
   const information = useContext(InformationContext);
-  const [showReplies, setShowReplies] = useState(false);
-  const [showReplyForm, setShowReplyForm] = useState(false);
+  const [displayReplies, setDisplayReplies] = useState(false);
+  const [displayReplyForm, setDisplayReplyForm] = useState(false);
   const [fetchingReplies, setFetchingReplies] = useState(false);
   const [submittingReply, setSubmittingReply] = useState(false);
   const [replies, setReplies] = useState<Reaction[]>(null);
   const replyFormRef = useRef(null);
 
   useEffect(() => {
-    if (showReplies && !replies) {
+    if (displayReplies && !replies) {
       fetchReplies(props.reaction.id)
         .then((replies: Reaction[]) => setReplies(replies))
         .then(() => setFetchingReplies(false));
@@ -69,15 +69,15 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
   });
 
   useEffect(() => {
-    setShowReplies(false);
+    setDisplayReplies(false);
     setReplies(null);
   }, [props.reaction]);
 
-  const toggleReplise = () => {
+  const toggleReplies = () => {
     if (!replies)
       setFetchingReplies(true);
 
-    setShowReplies(!showReplies);
+    setDisplayReplies(!displayReplies);
   };
 
   const onSubmitReply = (label: ReactionLabel, quote: string | null, text: string) => {
@@ -87,14 +87,14 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
       .then((reply: Reaction) => {
         setReplies([reply, ...replies]);
         setSubmittingReply(false);
-        setShowReplyForm(false);
+        setDisplayReplyForm(false);
         replyFormRef.current.clear();
       });
   };
 
   const onShowReplyForm = () => {
-    setShowReplies(true);
-    setShowReplyForm(true);
+    setDisplayReplies(true);
+    setDisplayReplyForm(true);
   };
 
   return (
@@ -102,21 +102,22 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
 
       <ReactionContent
         reaction={props.reaction}
-        replyFormDisplayed={showReplyForm}
-        displayReplyForm={onShowReplyForm}
-        toggleReplies={toggleReplise}
+        displayReplies={displayReplies}
+        displayReplyForm={displayReplyForm}
+        onShowReplyForm={onShowReplyForm}
+        toggleReplies={toggleReplies}
       />
 
-      <Collapse isOpened={showReplyForm}>
+      <Collapse isOpened={displayReplyForm}>
         <ReactionForm
           ref={replyFormRef}
           onSubmit={onSubmitReply}
           isSubmitting={submittingReply}
-          onClose={() => setShowReplyForm(false)}
+          onClose={() => setDisplayReplyForm(false)}
         />
       </Collapse>
 
-      <Collapse isOpened={showReplies}>
+      <Collapse isOpened={displayReplies}>
         <ReactionReplies
           fetching={fetchingReplies}
           replies={replies}

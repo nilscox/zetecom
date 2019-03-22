@@ -9,9 +9,10 @@ import './ReactionContent.css';
 
 type ReactionContentProps = {
   reaction: Reaction;
-  replyFormDisplayed: boolean;
+  displayReplies: boolean;
+  displayReplyForm: boolean;
   toggleReplies: () => void;
-  displayReplyForm: () => void;
+  onShowReplyForm: () => void;
 };
 
 const ReactionContent = (props: ReactionContentProps) => (
@@ -20,8 +21,10 @@ const ReactionContent = (props: ReactionContentProps) => (
     <ReactionBody reaction={props.reaction} />
     <ReactionFooter
       reaction={props.reaction}
-      toggleReplies={props.toggleReplies}
+      displayReplies={props.displayReplies}
       displayReplyForm={props.displayReplyForm}
+      toggleReplies={props.toggleReplies}
+      onShowReplyForm={props.onShowReplyForm}
     />
   </div>
 );
