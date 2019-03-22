@@ -1,12 +1,15 @@
+.reaction {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
 .reaction-header {
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
   height: 52px;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-  border: 1px solid #ccc;
+  border-bottom: 1px solid #eee;
   background-color: #f9f9f9;
 }
 
@@ -31,4 +34,20 @@
   top: 5px;
   font-size: 12px;
   color: #999;
+}
+
+.reaction-quote {
+  background-image: url('/assets/images/quotation-mark.png');
+  background-repeat: no-repeat;
+  margin: 15px 15px 0 15px;
+  font-weight: bold;
+  font-size: 1.1em;
+  text-indent: 30px;
+  color: #666;
+  background-position: top 0 left 30px;
+  min-height: 50px;
+}
+
+.reaction-text {
+  padding: 10px;
 }

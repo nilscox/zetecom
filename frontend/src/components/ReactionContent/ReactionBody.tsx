@@ -6,8 +6,17 @@ type ReactionBodyProps = {
   reaction: Reaction;
 };
 
-const ReactionBody = (props: ReactionBodyProps) => (
-  <div />
-);
+const ReactionBody = (props: ReactionBodyProps) => {
+  const { reaction } = props;
+
+  return (
+    <div>
+      { reaction.quote && (
+        <div className="reaction-quote">{ reaction.quote }</div>
+      ) }
+      <div className="reaction-text">{ reaction.text }</div>
+    </div>
+  );
+};
 
 export { ReactionBody };
