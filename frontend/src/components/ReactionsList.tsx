@@ -104,7 +104,6 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
         reaction={props.reaction}
         replyFormDisplayed={showReplyForm}
         displayReplyForm={onShowReplyForm}
-        setAsMain={() => props.setAsMain(props.reaction)}
         toggleReplies={toggleReplise}
       />
 

@@ -1,5 +1,6 @@
 type UserAvatar = {
   // TODO
+  src: string;
 };
 
 export type User = {
