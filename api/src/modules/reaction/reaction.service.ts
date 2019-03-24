@@ -11,6 +11,7 @@ import { PaginationService } from '../information/services/pagination.service';
 
 import { Reaction } from './reaction.entity';
 import { Message } from './message.entity';
+import { ShortReply, ShortReplyType } from './short-reply.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 
@@ -25,6 +26,9 @@ export class ReactionService {
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
 
+    @InjectRepository(ShortReply)
+    private readonly shortReplyRepository: Repository<ShortReply>,
+
     private readonly slugService: SlugService,
     private readonly paginationService: PaginationService,
 
@@ -36,18 +40,14 @@ export class ReactionService {
     if (!result)
       return null;
 
-    await this.addRepliesCounts([result]);
-
     return result;
   }
 
   async findReplies(reaction: Reaction, page: number = 1): Promise<Reaction[]> {
-    const reactions = await this.reactionRepository.find({
+    return this.reactionRepository.find({
       where: { parent: reaction },
       ...this.paginationService.paginationOptions(page),
     });
-
-    return this.addRepliesCounts(reactions);
   }
 
   async addRepliesCounts(reactions: Reaction[]): Promise<Reaction[]> {
@@ -74,6 +74,88 @@ export class ReactionService {
     return reactions;
   }
 
+  async addShortRepliesCounts(reactions: Reaction[]): Promise<Reaction[]> {
+    if (!reactions.length)
+      return [];
+
+    const shortRepliesCounts = await this.shortReplyRepository.createQueryBuilder('short_reply')
+      .select('"reactionId"')
+      .addSelect('type')
+      .addSelect('count(id)')
+      .where('short_reply."reactionId" IN (' + reactions.map(r => r.id) + ')')
+      .groupBy('type')
+      .addGroupBy('"reactionId"')
+      .getRawMany();
+
+    const getShortRepliesCount = (reactionId: number, type: ShortReplyType): number => {
+      const value = shortRepliesCounts.filter(src => src.reactionId === reactionId && src.type === type);
+
+      if (!value.length)
+        return 0;
+
+      return parseInt(value[0].count, 10);
+    };
+
+    reactions.forEach(reaction => {
+      reaction.shortRepliesCount = {
+        APPROVE: getShortRepliesCount(reaction.id, ShortReplyType.APPROVE),
+        REFUTE: getShortRepliesCount(reaction.id, ShortReplyType.REFUTE),
+        SKEPTIC: getShortRepliesCount(reaction.id, ShortReplyType.SKEPTIC),
+      };
+    });
+
+    return reactions;
+  }
+
+  async addUserShortReply(reaction: Reaction, user: User): Promise<Reaction> {
+    const shortReply = await this.getShortReplyForUser(reaction, user);
+
+    if (shortReply)
+      reaction.userShortReply = shortReply.type;
+
+    return reaction;
+  }
+
+  async setShortReply(reaction: Reaction, user: User, type: ShortReplyType) {
+    const existingShortReply = await this.shortReplyRepository.findOne({
+      where: {
+        reaction,
+        user,
+      },
+      relations: ['reaction', 'user'],
+    });
+
+    if (existingShortReply) {
+      if (existingShortReply.type === type)
+        return;
+
+      await this.shortReplyRepository.update(existingShortReply.id, { type });
+    } else {
+      const shortRelpy = new ShortReply();
+
+      shortRelpy.reaction = reaction;
+      shortRelpy.user = user;
+      shortRelpy.type = type;
+
+      await this.shortReplyRepository.save(shortRelpy);
+    }
+  }
+
+  async getShortReplyForUser(reaction: Reaction, user: User): Promise<ShortReply | undefined> {
+    const shortReply = await this.shortReplyRepository.findOne({
+      where: {
+        reaction,
+        user,
+      },
+      relations: ['reaction', 'user'],
+    });
+
+    if (!shortReply)
+      return;
+
+    return shortReply;
+  }
+
   async create(
     information: Information,
     dto: CreateReactionInDto,
@@ -88,9 +170,7 @@ export class ReactionService {
 
     reaction.slug = this.slugService.randString();
     reaction.quote = dto.quote;
-    reaction.label = labelId(dto.label);
-
-    reaction.repliesCount = 0;
+    reaction.label = dto.label;
 
     message.text = dto.text;
 

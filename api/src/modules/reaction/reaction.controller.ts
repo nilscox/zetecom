@@ -24,10 +24,12 @@ import { InformationService } from '../information/information.service';
 
 import { Reaction } from './reaction.entity';
 import { ReactionService } from './reaction.service';
+import { ShortReplyType } from './short-reply.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { ReactionOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
+import { ShortReplyInDto } from './dtos/short-reply-in.dto';
 
 @Controller('/reaction')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -42,8 +44,17 @@ export class ReactionController {
   @Output(ReactionWithHistoryOutDto)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
+    @ReqUser() user?: User,
   ): Promise<Reaction> {
-    return this.reactionService.findOne({ id });
+    const reaction = await this.reactionService.findOne({ id });
+
+    await this.reactionService.addRepliesCounts([reaction]);
+    await this.reactionService.addShortRepliesCounts([reaction]);
+
+    if (user)
+      await this.reactionService.addUserShortReply(reaction, user);
+
+    return reaction;
   }
 
   @Get('by-slug/:slug')
@@ -51,7 +62,12 @@ export class ReactionController {
   async findOneBySlug(
     @Param('slug') slug: string,
   ): Promise<Reaction> {
-    return this.reactionService.findOne({ slug });
+    const reaction = await this.reactionService.findOne({ slug });
+
+    await this.reactionService.addRepliesCounts([reaction]);
+    await this.reactionService.addShortRepliesCounts([reaction]);
+
+    return reaction;
   }
 
   @Get(':id/replies')
@@ -65,7 +81,12 @@ export class ReactionController {
     if (!reaction)
       throw new NotFoundException();
 
-    return this.reactionService.findReplies(reaction, page);
+    const replies = await this.reactionService.findReplies(reaction, page);
+
+    await this.reactionService.addRepliesCounts(replies);
+    await this.reactionService.addShortRepliesCounts(replies);
+
+    return replies;
   }
 
   @Post()
@@ -92,7 +113,16 @@ export class ReactionController {
         throw new BadRequestException('parent not found for informationId');
     }
 
-    return this.reactionService.create(information, dto, user, parent);
+    const reaction = await this.reactionService.create(information, dto, user, parent);
+
+    reaction.repliesCount = 0;
+    reaction.shortRepliesCount = {
+      APPROVE: 0,
+      REFUTE: 0,
+      SKEPTIC: 0,
+    };
+
+    return reaction;
   }
 
   @Put(':id')
@@ -112,7 +142,32 @@ export class ReactionController {
     if (reaction.author.id !== user.id)
       throw new UnauthorizedException();
 
-    return this.reactionService.update(reaction, dto);
+    const updated = await this.reactionService.update(reaction, dto);
+
+    await this.reactionService.addRepliesCounts([updated]);
+    await this.reactionService.addShortRepliesCounts([updated]);
+
+    return updated;
+  }
+
+  @Post(':id/short-reply')
+  @Output(ReactionOutDto)
+  @UseGuards(IsAuthenticated)
+  async shortReply(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() dto: ShortReplyInDto,
+    @ReqUser() user: User,
+  ): Promise<Reaction> {
+    const reaction = await this.reactionService.findOne(id);
+
+    if (!reaction)
+      throw new NotFoundException();
+
+    await this.reactionService.setShortReply(reaction, user, dto.type);
+    await this.reactionService.addRepliesCounts([reaction]);
+    await this.reactionService.addShortRepliesCounts([reaction]);
+
+    return reaction;
   }
 
 }

@@ -1,14 +1,28 @@
-import { Expose, Exclude, Type } from 'class-transformer';
+import { Expose, Exclude, Transform, Type } from 'class-transformer';
 
 import { UserLightOutDto } from '../../user/dtos/user-light-out.dto';
 
 import { Message } from '../message.entity';
+import { ShortReplyType } from '../short-reply.entity';
 
 import LABELS from 'Utils/labels';
 
 type ReactionLabel =
   | 'SOURCE'
   | 'METHOD';
+
+class ShortReplyCountDto {
+
+  @Expose({ name: 'approve' })
+  APPROVE: number;
+
+  @Expose({ name: 'refute' })
+  REFUTE: number;
+
+  @Expose({ name: 'skeptic' })
+  SKEPTIC: number;
+
+}
 
 export class ReactionOutDto {
 
@@ -46,6 +60,18 @@ export class ReactionOutDto {
 
   @Expose()
   repliesCount: number;
+
+  @Expose()
+  @Type(() => ShortReplyCountDto)
+  shortRepliesCount: ShortReplyCountDto;
+
+  @Expose()
+  @Transform(value => ({
+    APPROVE: 'approve',
+    REFUTE: 'refute',
+    SKEPTIC: 'skeptic',
+  }[value]))
+  userShortReply: string;
 
   @Expose()
   @Type(() => UserLightOutDto)
