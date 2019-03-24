@@ -7,13 +7,15 @@
     "clean": "rimraf public/assets/js/bundle.js"
   },
   "dependencies": {
+    "@types/showdown": "^1.9.2",
     "axios": "^0.18.0",
     "moment": "^2.24.0",
     "query-string": "^6.4.0",
     "react": "^16.8.4",
     "react-collapse": "^4.0.3",
     "react-dom": "^16.8.4",
-    "react-motion": "^0.5.2"
+    "react-motion": "^0.5.2",
+    "showdown": "^1.9.0"
   },
   "devDependencies": {
     "@types/react": "^16.8.8",
