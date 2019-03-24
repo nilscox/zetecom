@@ -14,13 +14,15 @@
 }
 
 .reaction-author-avatar {
+  width: 32px;
+  height: 32px;
   padding: 10px;
   display: inline-block;
 }
 
 .reaction-author-avatar img {
-  width: 32px;
-  height: 32px;
+  width: inherit;
+  height: inherit;
   border-radius: 16px;
 }
 
@@ -65,6 +67,7 @@
   align-items: center;
   padding: 6px 16px;
   border-right: 1px solid #eee;
+  cursor: pointer;
 }
 
 .reaction-action img {

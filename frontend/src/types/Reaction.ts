@@ -12,6 +12,9 @@ export type Reaction = {
   edited: false | Date;
   repliesCount: number;
   author: Partial<User>;
+  approveCount: number;
+  refuteCount: number;
+  likeCount: number;
 };
 
 export const parseReaction = (data: any): Reaction => {

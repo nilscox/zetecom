@@ -9,14 +9,14 @@ type ReactionHeaderProps = {
 
 const ReactionHeader = (props: ReactionHeaderProps) => {
   const { reaction } = props;
-  const { avatar, nick } = reaction.author;
+  const { author } = reaction;
 
   return (
     <div className="reaction-header">
       <div className="reaction-author-avatar">
-        <img src={avatar ? avatar.src : '/assets/images/default-avatar.png'} />
+        <img src={author.avatar || '/assets/images/default-avatar.png'} />
       </div>
-      <div className="reaction-author-nick">{nick}</div>
+      <div className="reaction-author-nick">{author.nick}</div>
       <div className="reaction-date">
         { reaction.edited
           ? moment(reaction.edited).format('[Edité le] Do MMMM YYYY [à] hh:mm')

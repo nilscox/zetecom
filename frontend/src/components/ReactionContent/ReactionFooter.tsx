@@ -17,17 +17,17 @@ const ReactionFooter = (props: ReactionFooterProps) => {
 
   return (
     <div className="reaction-footer">
-      <div className="reaction-action">
+      <div className="reaction-action action-approve">
         <img src='/assets/images/1f44d.png' />
-        <div className="action-count">18</div>
+        <div className="action-count">{ reaction.approveCount || 'X' }</div>
       </div>
-      <div className="reaction-action">
+      <div className="reaction-action action-refute">
         <img src='/assets/images/1f44e.png' />
-        <div className="action-count">444</div>
+        <div className="action-count">{ reaction.refuteCount || 'X' }</div>
       </div>
-      <div className="reaction-action">
+      <div className="reaction-action action-like">
         <img src='/assets/images/2665.png' />
-        <div className="action-count">1</div>
+        <div className="action-count">{ reaction.likeCount || 'X' }</div>
       </div>
       <div
         className={'show-replies' + (hasReplies ? ' has-replies' : '')}

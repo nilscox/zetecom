@@ -1,13 +1,8 @@
-type UserAvatar = {
-  // TODO
-  src: string;
-};
-
 export type User = {
   id: number;
   nick: string;
   email: string;
-  avatar: UserAvatar | null;
+  avatar: string | null;
   created: Date;
   updated: Date;
 };
