@@ -7,8 +7,10 @@ import { MorganMiddleware } from '@nest-middlewares/morgan';
 import { UserMiddleware } from 'Common/user.middleware';
 import { LagMiddleware } from 'Common/lag.middleware';
 
-import { InformationModule } from './information/information.module';
-import { UserModule } from './user/user.module';
+import { UserModule } from './modules/user/user.module';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { InformationModule } from './modules/information/information.module';
+import { ReactionModule } from './modules/reaction/reaction.module';
 
 import { AppController } from './app.controller';
 
@@ -17,11 +19,12 @@ const FAKE_LAG = 230;
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
-    InformationModule,
     UserModule,
+    AuthenticationModule,
+    InformationModule,
+    ReactionModule,
   ],
   controllers: [AppController],
-  providers: [],
 })
 export class AppModule {
 

@@ -15,9 +15,7 @@
     "resolveJsonModule": true,
     "paths": {
       "Common/*": ["src/common/*"],
-      "User/*": ["src/user/*"],
-      "Information/*": ["src/information/*"],
-      "Utils/*": ["src/utils/*"],
+      "Utils/*": ["src/utils/*"]
     }
   },
   "include": [
