@@ -91,6 +91,10 @@
   color: #666;
 }
 
+.show-replies.has-replies {
+  cursor: pointer;
+}
+
 .reply-action {
   display: flex;
   flex-direction: row;

@@ -11,7 +11,7 @@ const fetchRootReactions = async (informationId: number) => {
 };
 
 const fetchReplies = async (parentId: number) => {
-  const { data } = await axios.get(`/api/reaction/${parentId}/answers`);
+  const { data } = await axios.get(`/api/reaction/${parentId}/replies`);
 
   return data.map((r: any) => parseReaction(r));
 };

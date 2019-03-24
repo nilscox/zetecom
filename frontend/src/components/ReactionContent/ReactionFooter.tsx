@@ -13,6 +13,7 @@ type ReactionFooterProps = {
 const ReactionFooter = (props: ReactionFooterProps) => {
   const { reaction, displayReplies, toggleReplies, displayReplyForm, onShowReplyForm } = props;
   const { repliesCount } = reaction;
+  const hasReplies = repliesCount > 0;
 
   return (
     <div className="reaction-footer">
@@ -29,11 +30,11 @@ const ReactionFooter = (props: ReactionFooterProps) => {
         <div className="action-count">1</div>
       </div>
       <div
-        className={'show-replies' + (repliesCount > 0 ? ' has-replies' : '')}
-        onClick={toggleReplies}
+        className={'show-replies' + (hasReplies ? ' has-replies' : '')}
+        onClick={() => hasReplies && toggleReplies()}
       >
         { repliesCount } réponse{ repliesCount > 1 && 's' }
-        { repliesCount > 0 && (displayReplies ? ' ⏶ ' : ' ⏷ ') }
+        { hasReplies && (displayReplies ? ' ▴ ' : ' ▾ ') }
       </div>
       <div
         className={'reply-action' + (displayReplyForm ? ' disabled' : '')}
