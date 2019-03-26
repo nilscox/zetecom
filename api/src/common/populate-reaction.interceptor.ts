@@ -22,16 +22,18 @@ export class PopulateReaction implements NestInterceptor {
     return from(call$
       .toPromise()
       .then(async (res: Reaction | Reaction[]) => {
-        if (!Array.isArray(res))
-          res = [res];
+        const many = Array.isArray(res);
 
-        await this.reactionService.addRepliesCounts(res);
-        await this.reactionService.addShortRepliesCounts(res);
+        if (!many)
+          res = [res] as Reaction[];
+
+        await this.reactionService.addRepliesCounts(res as Reaction[]);
+        await this.reactionService.addShortRepliesCounts(res as Reaction[]);
 
         if (user)
-          await this.reactionService.addUserShortReply(res, user);
+          await this.reactionService.addUserShortReply(res as Reaction[], user);
 
-        return res;
+        return many ? res : res[0];
       }));
   }
 
