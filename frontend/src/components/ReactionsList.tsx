@@ -32,11 +32,8 @@ const ReactionReplies = (props: ReactionRepliesProps) => {
   if (fetching)
     return <Loader />;
 
-  if (!replies)
+  if (!replies || !replies.length)
     return null;
-
-  if (!replies.length)
-    return <div>Pas de réponse pour le moment</div>
 
   return  (
     <div className="reaction-replies">
