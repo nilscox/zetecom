@@ -49,10 +49,10 @@ export class InformationService {
   }
 
   async findRootReactions(information: Information, page: number = 1): Promise<Reaction[]> {
-    return this.reactionService.addRepliesCounts(await this.reactionRepository.find({
+    return this.reactionRepository.find({
       where: { information, parent: null },
       ...this.paginationService.paginationOptions(page),
-    }));
+    });
   }
 
   async create(dto: CreateInformationInDto, creator: User): Promise<Information> {

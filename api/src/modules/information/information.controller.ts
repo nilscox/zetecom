@@ -13,6 +13,7 @@ import { IsAuthenticated } from 'Common/auth.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { Output } from 'Common/output.interceptor';
+import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
 import { Reaction } from '../reaction/reaction.entity';
@@ -66,21 +67,18 @@ export class InformationController {
 
   @Get(':id/reactions')
   @Output(ReactionOutDto)
+  @UseInterceptors(PopulateReaction)
   async findRootReactions(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+    @ReqUser() user: User,
   ): Promise<Reaction[]> {
     const information = await this.informationService.findOne({ id });
 
     if (!information)
       return null;
 
-    const rootReactions = await this.informationService.findRootReactions(information, page);
-
-    await this.reactionService.addRepliesCounts(rootReactions);
-    await this.reactionService.addShortRepliesCounts(rootReactions);
-
-    return rootReactions;
+    return this.informationService.findRootReactions(information, page);
   }
 
   @Post()

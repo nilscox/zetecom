@@ -70,6 +70,7 @@ export class ReactionOutDto {
     APPROVE: 'approve',
     REFUTE: 'refute',
     SKEPTIC: 'skeptic',
+    null: null,
   }[value]))
   userShortReply: string;
 

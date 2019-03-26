@@ -107,13 +107,23 @@ export class ReactionService {
     return reactions;
   }
 
-  async addUserShortReply(reaction: Reaction, user: User): Promise<Reaction> {
-    const shortReply = await this.getShortReplyForUser(reaction, user);
+  async addUserShortReply(reactions: Reaction[], user: User): Promise<Reaction[]> {
+    const shortReplies = await this.shortReplyRepository.createQueryBuilder('short_reply')
+      .select('"reactionId"')
+      .addSelect('type')
+      .where('short_reply."reactionId" IN (' + reactions.map(r => r.id) + ')')
+      .andWhere('short_reply."userId" = ' + user.id)
+      .groupBy('type')
+      .addGroupBy('"reactionId"')
+      .getRawMany();
 
-    if (shortReply)
-      reaction.userShortReply = shortReply.type;
+    reactions.forEach((reaction, i) => {
+      const shortReply = shortReplies.find(sr => sr.reactionId === reaction.id);
 
-    return reaction;
+      reaction.userShortReply = shortReply ? shortReply.type : null;
+    });
+
+    return reactions;
   }
 
   async setShortReply(reaction: Reaction, user: User, type: ShortReplyType) {
@@ -139,21 +149,6 @@ export class ReactionService {
 
       await this.shortReplyRepository.save(shortRelpy);
     }
-  }
-
-  async getShortReplyForUser(reaction: Reaction, user: User): Promise<ShortReply | undefined> {
-    const shortReply = await this.shortReplyRepository.findOne({
-      where: {
-        reaction,
-        user,
-      },
-      relations: ['reaction', 'user'],
-    });
-
-    if (!shortReply)
-      return;
-
-    return shortReply;
   }
 
   async create(

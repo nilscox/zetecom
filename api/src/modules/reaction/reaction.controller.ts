@@ -17,6 +17,7 @@ import { IsAuthenticated } from 'Common/auth.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { Output } from 'Common/output.interceptor';
+import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
 import { Information } from '../information/information.entity';
@@ -32,7 +33,6 @@ import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto'
 import { ShortReplyInDto } from './dtos/short-reply-in.dto';
 
 @Controller('/reaction')
-@UseInterceptors(ClassSerializerInterceptor)
 export class ReactionController {
 
   constructor(
@@ -42,36 +42,26 @@ export class ReactionController {
 
   @Get(':id')
   @Output(ReactionWithHistoryOutDto)
+  @UseInterceptors(PopulateReaction)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
     @ReqUser() user?: User,
   ): Promise<Reaction> {
-    const reaction = await this.reactionService.findOne({ id });
-
-    await this.reactionService.addRepliesCounts([reaction]);
-    await this.reactionService.addShortRepliesCounts([reaction]);
-
-    if (user)
-      await this.reactionService.addUserShortReply(reaction, user);
-
-    return reaction;
+    return this.reactionService.findOne({ id });
   }
 
   @Get('by-slug/:slug')
   @Output(ReactionOutDto)
+  @UseInterceptors(PopulateReaction)
   async findOneBySlug(
     @Param('slug') slug: string,
   ): Promise<Reaction> {
-    const reaction = await this.reactionService.findOne({ slug });
-
-    await this.reactionService.addRepliesCounts([reaction]);
-    await this.reactionService.addShortRepliesCounts([reaction]);
-
-    return reaction;
+    return this.reactionService.findOne({ slug });
   }
 
   @Get(':id/replies')
   @Output(ReactionOutDto)
+  @UseInterceptors(PopulateReaction)
   async findReplies(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
@@ -81,16 +71,12 @@ export class ReactionController {
     if (!reaction)
       throw new NotFoundException();
 
-    const replies = await this.reactionService.findReplies(reaction, page);
-
-    await this.reactionService.addRepliesCounts(replies);
-    await this.reactionService.addShortRepliesCounts(replies);
-
-    return replies;
+    return this.reactionService.findReplies(reaction, page);
   }
 
   @Post()
   @Output(ReactionOutDto)
+  @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated)
   async create(
     @Body() dto: CreateReactionInDto,
@@ -121,12 +107,14 @@ export class ReactionController {
       REFUTE: 0,
       SKEPTIC: 0,
     };
+    reaction.userShortReply = null;
 
     return reaction;
   }
 
   @Put(':id')
   @Output(ReactionWithHistoryOutDto)
+  @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated)
   async update(
     @Param('id', new ParseIntPipe()) id: number,
@@ -142,16 +130,12 @@ export class ReactionController {
     if (reaction.author.id !== user.id)
       throw new UnauthorizedException();
 
-    const updated = await this.reactionService.update(reaction, dto);
-
-    await this.reactionService.addRepliesCounts([updated]);
-    await this.reactionService.addShortRepliesCounts([updated]);
-
-    return updated;
+    return this.reactionService.update(reaction, dto);
   }
 
   @Post(':id/short-reply')
   @Output(ReactionOutDto)
+  @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated)
   async shortReply(
     @Param('id', new ParseIntPipe()) id: number,
@@ -164,8 +148,6 @@ export class ReactionController {
       throw new NotFoundException();
 
     await this.reactionService.setShortReply(reaction, user, dto.type);
-    await this.reactionService.addRepliesCounts([reaction]);
-    await this.reactionService.addShortRepliesCounts([reaction]);
 
     return reaction;
   }
