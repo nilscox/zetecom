@@ -17,6 +17,7 @@ import { Output } from 'Common/output.interceptor';
 import { User } from '../user/user.entity';
 import { Reaction } from '../reaction/reaction.entity';
 import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
+import { ReactionService } from '../reaction/reaction.service';
 
 import { InformationService } from './information.service';
 import { Information } from './information.entity';
@@ -29,6 +30,7 @@ export class InformationController {
 
   constructor(
     private readonly informationService: InformationService,
+    private readonly reactionService: ReactionService,
   ) {}
 
   @Get()
@@ -73,7 +75,12 @@ export class InformationController {
     if (!information)
       return null;
 
-    return this.informationService.findRootReactions(information, page);
+    const rootReactions = await this.informationService.findRootReactions(information, page);
+
+    await this.reactionService.addRepliesCounts(rootReactions);
+    await this.reactionService.addShortRepliesCounts(rootReactions);
+
+    return rootReactions;
   }
 
   @Post()
