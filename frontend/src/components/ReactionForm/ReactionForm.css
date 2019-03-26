@@ -1,3 +1,26 @@
+.login-message {
+  min-height: 60px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #F6EBC9;
+  border: 1px solid #C0B184;
+  border-radius: 2px;
+  position: relative;
+}
+
+.login-message .message {
+  font-weight: bold;
+  color: #786F53;
+}
+
+.login-message .message a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 .reaction-form {
   border: 1px solid #ccc;
   border-radius: 2px;
@@ -8,12 +31,12 @@
   position: relative;
 }
 
-.reaction-form-close {
+.login-message-close, .reaction-form-close {
   position: absolute;
   top: 5px;
   right: 5px;
   color: #a86666;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bolder;
   cursor: pointer;
 }

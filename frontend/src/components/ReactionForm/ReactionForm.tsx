@@ -7,6 +7,7 @@ import { postReaction } from '../../fetch/fetchReactions';
 import InformationContext from '../../utils/InformationContext';
 import UserContext from '../../utils/UserContext';
 
+import { LoginMessage } from './LoginMessage';
 import { FormHeader } from './FormHeader';
 import { FormBody } from './FormBody';
 
@@ -36,6 +37,9 @@ const ReactionForm = (props: ReactionFormProps) => {
         formBodyRef.current.clear();
       });
   };
+
+  if (!user)
+    return <LoginMessage onClose={onClose} />;
 
   return (
     <div className="reaction-form">
