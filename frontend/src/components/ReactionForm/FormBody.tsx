@@ -1,5 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useState, SyntheticEvent } from 'react';
 
+import { classList } from '../../utils/classList';
 import { Reaction, ReactionLabel } from '../../types/Reaction';
 
 import { FormText } from './FormText';
@@ -63,7 +64,7 @@ export const FormBody = forwardRef((props: FormBodyProps, ref: React.Ref<{}>) =>
             .map((key: string) => (
               <div
                 key={key}
-                className={'form-label' + (label === key ? ' selected' : '')}
+                className={classList('form-label', label === key && 'selected')}
                 onClick={() => !isSubmitting && setLabel(key as any)}
               >
                 { ReactionLabel[key as any] }

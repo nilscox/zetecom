@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import showdown from 'showdown';
 
+import { classList } from '../../utils/classList';
 import { Reaction } from '../../types/Reaction';
 
 type FormTextProps = {
@@ -52,13 +53,13 @@ export const FormText = (props: FormTextProps) => {
       <div className="form-edit-mode">
         <div className="form-mode-filler-left" />
         <div
-          className={'form-mode-edit' + (!preview ? ' active' : '')}
+          className={classList('form-mode-edit', !preview && 'active')}
           onClick={() => setPreview(false)}
           >
           Éditer
         </div>
         <div
-          className={'form-mode-preview' + (preview ? ' active' : '')}
+          className={classList('form-mode-preview', preview && 'active')}
           onClick={() => setPreview(true)}
         >
           Aperçu
