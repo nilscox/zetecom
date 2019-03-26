@@ -1,9 +1,15 @@
-import { User, parseUser } from './User';
+import { User, parseUser } from "./User";
 
 export enum ReactionLabel {
-  SOURCE = 'SOURCE',
-  METHOD = 'MÉTHODE',
-  POV = 'OPINION',
+  SOURCE = "SOURCE",
+  METHOD = "MÉTHODE",
+  POV = "OPINION"
+}
+
+export type ShortRepliesCount = {
+  approve: number;
+  refute: number;
+  skeptic: number;
 };
 
 export type Reaction = {
@@ -16,9 +22,7 @@ export type Reaction = {
   edited: false | Date;
   repliesCount: number;
   author: Partial<User>;
-  approveCount: number;
-  refuteCount: number;
-  likeCount: number;
+  shortRepliesCount: ShortRepliesCount;
 };
 
 export const parseReaction = (data: any): Reaction => {
@@ -26,6 +30,6 @@ export const parseReaction = (data: any): Reaction => {
     ...data,
     date: new Date(data.date),
     edited: !data.edited ? false : new Date(data.edited),
-    author: parseUser(data.author),
+    author: parseUser(data.author)
   };
 };
