@@ -11,10 +11,18 @@
   display: flex;
 }
 
+.reaction-reply-form {
+  margin-top: 10px;
+}
+
 .reaction-replies-indent {
   width: 8px;
   background-color: #CCC;
   margin-right: 8px;
+}
+
+.reaction-replies-indent:hover {
+  background-color: #999;
 }
 
 .reaction-replies-content {

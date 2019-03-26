@@ -46,7 +46,7 @@ export const FormBody = forwardRef((props: FormBodyProps, ref: React.Ref<{}>) =>
         className="form-quote"
         rows={1}
         value={quote || ''}
-        placeholder="Citation"
+        placeholder="Citation (optionnelle)"
         disabled={isSubmitting}
         onChange={(e) => setQuote(e.target.value)}
       />

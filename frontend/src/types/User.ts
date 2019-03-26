@@ -10,7 +10,7 @@ export type User = {
 export const parseUser = (data: any): User => {
   return {
     ...data,
-    created: new Date(data.created),
-    updated: new Date(data.updated),
+    created: data.created ? new Date(data.created) : null,
+    updated: data.updated ? new Date(data.updated) : null,
   };
 };

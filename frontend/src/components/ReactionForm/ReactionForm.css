@@ -49,9 +49,10 @@
 .form-quote {
   margin: 10px;
   margin-bottom: 0;
-  padding: 4px;
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 2px;
+  resize: vertical;
 }
 
 .form-text {

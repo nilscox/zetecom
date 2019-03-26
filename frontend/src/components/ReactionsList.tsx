@@ -106,11 +106,13 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
       />
 
       <Collapse isOpened={displayReplyForm}>
-        <ReactionForm
-          replyTo={props.reaction}
-          onClose={() => setDisplayReplyForm(false)}
-          onSubmitted={() => {}}
-        />
+        <div className="reaction-reply-form">
+          <ReactionForm
+            replyTo={props.reaction}
+            onClose={() => setDisplayReplyForm(false)}
+            onSubmitted={() => {}}
+          />
+        </div>
       </Collapse>
 
       <Collapse isOpened={displayReplies}>
