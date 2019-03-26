@@ -4,7 +4,7 @@ import { Reaction, ReactionLabel } from '../types/Reaction';
 import { fetchRootReactions, postReaction } from '../fetch/fetchReactions';
 import InformationContext from '../utils/InformationContext';
 import { ReactionsList } from '../components/ReactionsList';
-import { ReactionForm } from '../components/ReactionForm';
+import { ReactionForm } from '../components/ReactionForm/ReactionForm';
 import { Loader } from '../components/Loader';
 
 type DefaultViewProps = {
@@ -46,9 +46,7 @@ const DefaultView = (props: DefaultViewProps) => {
     <div>
 
       <ReactionForm
-        ref={replyFormRef}
-        onSubmit={onSubmitReply}
-        isSubmitting={submittingReply}
+        onSubmitted={() => {}}
       />
 
       <ReactionsList

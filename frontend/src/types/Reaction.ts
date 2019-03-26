@@ -1,6 +1,10 @@
 import { User, parseUser } from './User';
 
-export type ReactionLabel = 'SOURCE' | 'METHOD';
+export enum ReactionLabel {
+  SOURCE = 'SOURCE',
+  METHOD = 'MÉTHODE',
+  POV = 'OPINION',
+};
 
 export type Reaction = {
   id: number;

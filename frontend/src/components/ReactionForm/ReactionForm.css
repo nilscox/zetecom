@@ -1,0 +1,154 @@
+.reaction-form {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  margin-bottom: 10px;
+}
+
+.reaction-form .reaction-header {
+  position: relative;
+}
+
+.reaction-form-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #a86666;
+  font-size: 12px;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+.reaction-form-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-quote {
+  margin: 10px;
+  margin-bottom: 0;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.form-text {
+  margin: 10px;
+  padding: 4px;
+}
+
+.form-text-wrapper {
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  background-color: #f9f9f9;
+}
+
+.form-edit-mode {
+  display: flex;
+  flex-direction: row;
+}
+
+.form-mode-edit, .form-mode-preview {
+  margin-top: 5px;
+  padding: 10px 20px;
+}
+
+.form-mode-edit:not(.active), .form-mode-preview:not(.active) {
+  cursor: pointer;
+  border-bottom: 1px solid #ccc;
+}
+
+.form-mode-edit.active, .form-mode-preview.active {
+  padding: 9px 19px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-radius: 2px;
+}
+
+.form-mode-filler-left {
+  width: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.form-mode-filler {
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.form-inner-content {
+  padding: 5px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-inner-content textarea.form-text-content {
+  padding: 8px;
+  border: none;
+  resize: vertical;
+}
+
+.form-text-preview {
+  padding: 8px;
+  min-height: 42px;
+}
+
+.form-footer {
+  padding: 8px;
+  padding-top: 0;
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+}
+
+.form-labels {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.form-label {
+  margin-left: 8px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.form-label:first-child {
+  margin-left: 0;
+}
+
+.form-label.selected {
+  cursor: initial;
+  border-color: #999;
+  background-color: #eee;
+  font-weight: bold;
+}
+
+.form-footer-filler {
+  flex: 1;
+}
+
+.form-submit {
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: none;
+  background-color: initial;
+  cursor: pointer;
+  color: #555;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.form-submit:focus {
+  outline: none;
+}
+
+.form-submit:disabled {
+  color: #999;
+  cursor: initial;
+}

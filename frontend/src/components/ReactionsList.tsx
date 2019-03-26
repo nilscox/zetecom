@@ -5,7 +5,7 @@ import { Reaction, ReactionLabel } from '../types/Reaction';
 import { fetchReplies, postReaction } from '../fetch/fetchReactions';
 import InformationContext from '../utils/InformationContext';
 import { ReactionContent } from './ReactionContent';
-import { ReactionForm } from './ReactionForm';
+import { ReactionForm } from './ReactionForm/ReactionForm';
 import { Loader } from './Loader';
 
 import './ReactionsList.css';
@@ -110,10 +110,9 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
 
       <Collapse isOpened={displayReplyForm}>
         <ReactionForm
-          ref={replyFormRef}
-          onSubmit={onSubmitReply}
-          isSubmitting={submittingReply}
+          replyTo={props.reaction}
           onClose={() => setDisplayReplyForm(false)}
+          onSubmitted={() => {}}
         />
       </Collapse>
 
