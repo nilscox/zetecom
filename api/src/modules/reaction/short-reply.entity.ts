@@ -23,7 +23,7 @@ export class ShortReply {
   @ManyToOne(type => Reaction, { nullable: false })
   reaction: Reaction;
 
-  @Column({ type: 'enum', enum: ShortReplyType })
+  @Column({ type: 'enum', enum: ShortReplyType, nullable: true })
   type: ShortReplyType;
 
   @CreateDateColumn()

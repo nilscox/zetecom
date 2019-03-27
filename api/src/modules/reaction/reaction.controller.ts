@@ -149,7 +149,7 @@ export class ReactionController {
 
     await this.reactionService.setShortReply(reaction, user, dto.type);
 
-    return reaction;
+    return this.reactionService.findOne({ reactionId: reaction.id });
   }
 
 }

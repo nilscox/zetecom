@@ -126,7 +126,7 @@ export class ReactionService {
     return reactions;
   }
 
-  async setShortReply(reaction: Reaction, user: User, type: ShortReplyType) {
+  async setShortReply(reaction: Reaction, user: User, type: ShortReplyType | null) {
     const existingShortReply = await this.shortReplyRepository.findOne({
       where: {
         reaction,
