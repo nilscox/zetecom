@@ -7,6 +7,7 @@ import { Observable, from } from 'rxjs';
 
 import { ReactionService } from '../modules/reaction/reaction.service';
 import { Reaction } from '../modules/reaction/reaction.entity';
+import { User } from '../modules/user/user.entity';
 
 @Injectable()
 export class PopulateReaction implements NestInterceptor {
@@ -15,6 +16,17 @@ export class PopulateReaction implements NestInterceptor {
     private readonly reactionService: ReactionService,
   ) {}
 
+  private async populateReactions(reactions: Reaction[], user?: User) {
+    if (reactions.length === 0)
+      return [];
+
+    await this.reactionService.addRepliesCounts(reactions);
+    await this.reactionService.addShortRepliesCounts(reactions);
+
+    if (user)
+      await this.reactionService.addUserShortReply(reactions, user);
+  }
+
   intercept(context: ExecutionContext, call$: Observable<any>): Observable<any> {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
@@ -22,18 +34,9 @@ export class PopulateReaction implements NestInterceptor {
     return from(call$
       .toPromise()
       .then(async (res: Reaction | Reaction[]) => {
-        const many = Array.isArray(res);
+        await this.populateReactions(Array.isArray(res) ? res : [res], user);
 
-        if (!many)
-          res = [res] as Reaction[];
-
-        await this.reactionService.addRepliesCounts(res as Reaction[]);
-        await this.reactionService.addShortRepliesCounts(res as Reaction[]);
-
-        if (user)
-          await this.reactionService.addUserShortReply(res as Reaction[], user);
-
-        return many ? res : res[0];
+        return res;
       }));
   }
 
