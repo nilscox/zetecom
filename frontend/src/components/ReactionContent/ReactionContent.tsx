@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Reaction } from '../../types/Reaction';
+import { Reaction, ShortReplyType } from '../../types/Reaction';
 import { ReactionHeader } from './ReactionHeader';
 import { ReactionBody } from './ReactionBody';
 import { ReactionFooter } from './ReactionFooter';

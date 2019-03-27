@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Collapse } from 'react-collapse';
 
-import { Reaction, ReactionLabel } from '../types/Reaction';
+import { Reaction, ShortReplyType, ReactionLabel } from '../types/Reaction';
 import { fetchReplies, postReaction } from '../fetch/fetchReactions';
 import InformationContext from '../utils/InformationContext';
 import { ReactionContent } from './ReactionContent';
@@ -53,9 +53,7 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
   const [fetchingReplies, setFetchingReplies] = useState(false);
-  const [submittingReply, setSubmittingReply] = useState(false);
   const [replies, setReplies] = useState<Reaction[]>(null);
-  const replyFormRef = useRef(null);
 
   useEffect(() => {
     if (displayReplies && !replies) {
@@ -75,18 +73,6 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
       setFetchingReplies(true);
 
     setDisplayReplies(!displayReplies);
-  };
-
-  const onSubmitReply = (label: ReactionLabel, quote: string | null, text: string) => {
-    setSubmittingReply(true);
-
-    postReaction(information.id, label, quote, text, props.reaction.id)
-      .then((reply: Reaction) => {
-        setReplies([reply, ...replies]);
-        setSubmittingReply(false);
-        setDisplayReplyForm(false);
-        replyFormRef.current.clear();
-      });
   };
 
   const onShowReplyForm = () => {

@@ -6,6 +6,12 @@ export enum ReactionLabel {
   POV = "OPINION"
 }
 
+export enum ShortReplyType {
+  APPROVE = 'approve',
+  REFUTE = 'refute',
+  SKEPTIC = 'skeptic',
+}
+
 export type ShortRepliesCount = {
   approve: number;
   refute: number;
@@ -23,6 +29,7 @@ export type Reaction = {
   repliesCount: number;
   author: Partial<User>;
   shortRepliesCount: ShortRepliesCount;
+  userShortReply: ShortReplyType;
 };
 
 export const parseReaction = (data: any): Reaction => {

@@ -2,16 +2,20 @@ import { useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-import { Reaction, ReactionLabel, parseReaction } from '../types/Reaction';
+import { Reaction, ShortReplyType, ReactionLabel, parseReaction } from '../types/Reaction';
 
 const fetchRootReactions = async (informationId: number) => {
-  const { data } = await axios.get(`/api/information/${informationId}/reactions`);
+  const { data } = await axios.get(`/api/information/${informationId}/reactions`, {
+    withCredentials: true,
+  });
 
   return data.map((r: any) => parseReaction(r));
 };
 
 const fetchReplies = async (parentId: number) => {
-  const { data } = await axios.get(`/api/reaction/${parentId}/replies`);
+  const { data } = await axios.get(`/api/reaction/${parentId}/replies`, {
+    withCredentials: true,
+  });
 
   return data.map((r: any) => parseReaction(r));
 };
@@ -26,4 +30,14 @@ const postReaction = async (informationId: number, label: ReactionLabel, quote: 
   return parseReaction(data);
 };
 
-export { fetchRootReactions, fetchReplies, postReaction };
+const postShortReply = async (reactionId: number, type: ShortReplyType) => {
+  const payload = { type: type ? type.toUpperCase() : null };
+
+  const { data } = await axios.post(`/api/reaction/${reactionId}/short-reply`, payload, {
+    withCredentials: true,
+  });
+
+  return parseReaction(data);
+}
+
+export { fetchRootReactions, fetchReplies, postReaction, postShortReply };

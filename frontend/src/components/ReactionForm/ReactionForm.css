@@ -155,7 +155,7 @@
   flex: 1;
 }
 
-.form-submit {
+button.form-submit {
   padding: 8px;
   display: flex;
   flex-direction: row;
