@@ -45,9 +45,11 @@ const DefaultView = (props: DefaultViewProps) => {
   return (
     <div>
 
-      <ReactionForm
-        onSubmitted={() => {}}
-      />
+      <div className="root-reaction-form">
+        <ReactionForm
+          onSubmitted={() => {}}
+        />
+      </div>
 
       <ReactionsList
         reactions={rootReactions}

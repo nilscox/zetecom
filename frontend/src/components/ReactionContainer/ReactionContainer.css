@@ -7,21 +7,26 @@
 }
 
 .reaction-container .reaction-replies {
-  margin-top: 10px;
   display: flex;
 }
 
-.reaction-reply-form {
-  margin-top: 10px;
+.reaction-reply-form-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0;
 }
 
-.reaction-replies-indent {
+.reaction-reply-form {
+  flex: 1;
+}
+
+.reaction-replies-indent, .reaction-reply-form-indent {
   width: 8px;
   background-color: #CCC;
   margin-right: 8px;
 }
 
-.reaction-replies-indent:hover {
+.reaction-replies-indent:hover, .reaction-reply-form-indent:hover {
   background-color: #999;
 }
 

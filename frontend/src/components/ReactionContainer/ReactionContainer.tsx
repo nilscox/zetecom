@@ -93,12 +93,15 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
       />
 
       <Collapse isOpened={displayReplyForm}>
-        <div className="reaction-reply-form">
-          <ReactionForm
-            replyTo={props.reaction}
-            onClose={() => setDisplayReplyForm(false)}
-            onSubmitted={onReplySubmitted}
-          />
+        <div className="reaction-reply-form-wrapper">
+          <div className="reaction-reply-form-indent" />
+          <div className="reaction-reply-form">
+            <ReactionForm
+              replyTo={props.reaction}
+              onClose={() => setDisplayReplyForm(false)}
+              onSubmitted={onReplySubmitted}
+            />
+          </div>
         </div>
       </Collapse>
 
