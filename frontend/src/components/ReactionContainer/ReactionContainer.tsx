@@ -1,24 +1,15 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Collapse } from 'react-collapse';
 
-import { Reaction, ShortReplyType, ReactionLabel } from '../types/Reaction';
-import { fetchReplies, postReaction } from '../fetch/fetchReactions';
-import InformationContext from '../utils/InformationContext';
-import { ReactionContent } from './ReactionContent';
-import { ReactionForm } from './ReactionForm/ReactionForm';
-import { Loader } from './Loader';
+import InformationContext from '../../utils/InformationContext';
+import { Reaction } from '../../types/Reaction';
+import { fetchReplies } from '../../fetch/fetchReactions';
+import { ReactionContent } from '../ReactionContent/ReactionContent';
+import { ReactionForm } from '../ReactionForm/ReactionForm';
+import { ReactionsList } from '../ReactionsList/ReactionsList';
+import { Loader } from '../Loader';
 
-import './ReactionsList.css';
-
-type ReactionsListProps = {
-  reactions: Reaction[];
-  setAsMain: (reaction: Reaction) => void;
-};
-
-type ReactionWrapperProps = {
-  reaction: Reaction;
-  setAsMain: (reaction: Reaction) => void;
-};
+import './ReactionContainer.css';
 
 type ReactionRepliesProps = {
   fetching: boolean;
@@ -48,7 +39,12 @@ const ReactionReplies = (props: ReactionRepliesProps) => {
    );
 };
 
-const ReactionWrapper = (props: ReactionWrapperProps) => {
+type ReactionContainerProps = {
+  reaction: Reaction;
+  setAsMain: (reaction: Reaction) => void;
+};
+
+export const ReactionContainer = (props: ReactionContainerProps) => {
   const information = useContext(InformationContext);
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
@@ -81,7 +77,7 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
   };
 
   return (
-    <div className="reaction-wrapper">
+    <div className="reaction-container">
 
       <ReactionContent
         reaction={props.reaction}
@@ -112,19 +108,3 @@ const ReactionWrapper = (props: ReactionWrapperProps) => {
     </div>
   );
 };
-
-const ReactionsList = (props: ReactionsListProps) => {
-  return (
-    <div className="reactions-list">
-      { props.reactions.map(reaction => (
-        <ReactionWrapper
-          key={reaction.id}
-          reaction={reaction}
-          setAsMain={props.setAsMain}
-        />
-      )) }
-    </div>
-  );
-};
-
-export { ReactionsList, ReactionWrapper };

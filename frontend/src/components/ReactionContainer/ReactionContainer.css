@@ -1,12 +1,12 @@
-.reaction-wrapper {
+.reaction-container {
   margin-bottom: 10px;
 }
 
-.reaction-wrapper:last-child {
+.reaction-container:last-child {
   margin-bottom: 0;
 }
 
-.reaction-wrapper .reaction-replies {
+.reaction-container .reaction-replies {
   margin-top: 10px;
   display: flex;
 }

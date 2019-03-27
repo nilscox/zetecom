@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Reaction } from '../types/Reaction';
-import { ReactionWrapper } from '../components/ReactionsList';
+import { ReactionContainer } from '../components/ReactionContainer';
 
 type MainReactionViewProps = {
   reaction: Reaction;
@@ -12,7 +12,7 @@ const MainReactionView = (props: MainReactionViewProps) => {
   return (
     <div>
 
-      <ReactionWrapper
+      <ReactionContainer
         reaction={props.reaction}
         setAsMain={props.setAsMain}
       />

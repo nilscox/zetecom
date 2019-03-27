@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Loader = ({ size = 'big' }: { size?: 'small' | 'medium' | 'big' }) => {
+export const Loader = ({ size = 'big' }: { size?: 'small' | 'medium' | 'big' }) => {
   const r = {
     small: 8,
     medium: 18,
@@ -35,5 +35,3 @@ const Loader = ({ size = 'big' }: { size?: 'small' | 'medium' | 'big' }) => {
     </div>
   );
 };
-
-export { Loader };

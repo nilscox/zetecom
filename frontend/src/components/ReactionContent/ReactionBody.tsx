@@ -7,7 +7,7 @@ type ReactionBodyProps = {
   reaction: Reaction;
 };
 
-const converter = new showdown.Converter();
+const converter = new showdown.Converter({ tables: true });
 
 const ReactionBody = (props: ReactionBodyProps) => {
   const { reaction } = props;
