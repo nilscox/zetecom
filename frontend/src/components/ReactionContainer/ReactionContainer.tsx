@@ -76,6 +76,11 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
     setDisplayReplyForm(true);
   };
 
+  const onReplySubmitted = (reply: Reaction) => {
+    setReplies([reply, ...replies]);
+    setDisplayReplyForm(false);
+  };
+
   return (
     <div className="reaction-container">
 
@@ -92,7 +97,7 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
           <ReactionForm
             replyTo={props.reaction}
             onClose={() => setDisplayReplyForm(false)}
-            onSubmitted={() => {}}
+            onSubmitted={onReplySubmitted}
           />
         </div>
       </Collapse>
