@@ -1,6 +1,13 @@
+.root-reaction-form {
+  margin-bottom: 10px;
+}
+
+.root-reaction-form .login-message {
+  margin-bottom: 10px;
+}
+
 .login-message {
   min-height: 60px;
-  margin: 10px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;

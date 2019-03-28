@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Collapse } from 'react-collapse';
 
+import { classList } from '../../utils/classList';
 import InformationContext from '../../utils/InformationContext';
 import { Reaction } from '../../types/Reaction';
 import { fetchReplies } from '../../fetch/fetchReactions';
@@ -82,7 +83,13 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
   };
 
   return (
-    <div className="reaction-container">
+    <div className={
+      classList(
+        'reaction-container',
+        displayReplyForm && 'reply-form-open',
+        displayReplies && 'replies-open',
+      )
+    }>
 
       <ReactionContent
         reaction={props.reaction}
