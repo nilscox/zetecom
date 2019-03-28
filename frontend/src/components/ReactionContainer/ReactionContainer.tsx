@@ -51,6 +51,7 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
   const [fetchingReplies, setFetchingReplies] = useState(false);
   const [replies, setReplies] = useState<Reaction[]>(null);
+  const [repliesCount, setRepliesCount] = useState(props.reaction.repliesCount);
 
   useEffect(() => {
     if (displayReplies && !replies) {
@@ -79,6 +80,7 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
 
   const onReplySubmitted = (reply: Reaction) => {
     setReplies([reply, ...replies]);
+    setRepliesCount(repliesCount + 1);
     setDisplayReplyForm(false);
   };
 
@@ -92,7 +94,7 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
     }>
 
       <ReactionContent
-        reaction={props.reaction}
+        reaction={{ ...props.reaction, repliesCount }}
         displayReplies={displayReplies}
         displayReplyForm={displayReplyForm}
         onShowReplyForm={onShowReplyForm}
