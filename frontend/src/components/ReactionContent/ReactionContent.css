@@ -104,7 +104,7 @@
   color: #666;
 }
 
-.show-replies.has-replies {
+.show-replies.can-toggle-replies {
   cursor: pointer;
 }
 

@@ -87,7 +87,7 @@ const ReactionFooter = (props: ReactionFooterProps) => {
               !!user && 'can-short-reply',
               userShortReply === type && 'did-short-reply',
             )}
-            onClick={() => setUserShortReply(type)}
+            onClick={() => !!user && setUserShortReply(type)}
           >
             <img src={image} />
             <div className="short-replies-count">
@@ -98,11 +98,11 @@ const ReactionFooter = (props: ReactionFooterProps) => {
       </div>
 
       <div
-        className={classList('show-replies', hasReplies && 'has-replies')}
-        onClick={() => hasReplies && toggleReplies()}
+        className={classList('show-replies', hasReplies && !displayReplyForm && 'can-toggle-replies')}
+        onClick={() => hasReplies && !displayReplyForm && toggleReplies()}
       >
         { repliesCount } réponse{ repliesCount > 1 && 's' }
-        { hasReplies && (displayReplies ? ' ▴ ' : ' ▾ ') }
+        { hasReplies && !displayReplyForm && (displayReplies ? ' ▴ ' : ' ▾ ') }
       </div>
 
       <div className="reaction-footer-filler" />

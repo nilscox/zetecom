@@ -5,15 +5,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #F6EBC9;
-  border: 1px solid #C0B184;
+  background-color: #FFFFDC;
+  border: 1px solid #BABAA1;
   border-radius: 2px;
   position: relative;
 }
 
 .login-message .message {
   font-weight: bold;
-  color: #786F53;
+  color: #5D5D50;
 }
 
 .login-message .message a {
