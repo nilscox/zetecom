@@ -32,22 +32,12 @@ const DefaultView = (props: DefaultViewProps) => {
   if (!rootReactions)
     return <Loader />;
 
-  const onSubmitReply = async (label: ReactionLabel, quote: string | null, text: string) => {
-    setSubmittingReply(true);
-
-    const reaction: Reaction = await postReaction(information.id, label, quote, text);
-
-    setRootReactions([reaction, ...rootReactions]);
-    setSubmittingReply(false);
-    replyFormRef.current.clear();
-  };
-
   return (
     <div>
 
       <div className="root-reaction-form">
         <ReactionForm
-          onSubmitted={() => {}}
+          onSubmitted={(reaction: Reaction) => setRootReactions([reaction, ...rootReactions])}
         />
       </div>
 
