@@ -35,7 +35,7 @@ export class InformationService {
 
   async findAll(page: number = 1): Promise<Information[]> {
     return this.informationRepository.find(
-      this.paginationService.paginationOptions(page),
+      // this.paginationService.paginationOptions(page),
     );
   }
 
@@ -51,7 +51,7 @@ export class InformationService {
   async findRootReactions(information: Information, page: number = 1): Promise<Reaction[]> {
     return this.reactionRepository.find({
       where: { information, parent: null },
-      ...this.paginationService.paginationOptions(page),
+      // ...this.paginationService.paginationOptions(page),
     });
   }
 

@@ -46,7 +46,7 @@ export class ReactionService {
   async findReplies(reaction: Reaction, page: number = 1): Promise<Reaction[]> {
     return this.reactionRepository.find({
       where: { parent: reaction },
-      ...this.paginationService.paginationOptions(page),
+      // ...this.paginationService.paginationOptions(page),
     });
   }
 
