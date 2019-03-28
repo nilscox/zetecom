@@ -1,0 +1,20 @@
+.reactions-sort-by {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.sort-by {
+  background: #EEE;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  padding: 5px 15px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.sort-by.sort-by-active {
+  cursor: initial;
+  font-weight: bold;
+}

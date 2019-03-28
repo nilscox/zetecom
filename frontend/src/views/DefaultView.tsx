@@ -1,11 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
+import { classList } from '../utils/classList';
 import { Reaction, ReactionLabel } from '../types/Reaction';
+import { ReactionSortType } from '../types/ReactionSortType';
 import { fetchRootReactions, postReaction } from '../fetch/fetchReactions';
 import InformationContext from '../utils/InformationContext';
 import { ReactionsList } from '../components/ReactionsList';
 import { ReactionForm } from '../components/ReactionForm/ReactionForm';
 import { Loader } from '../components/Loader';
+
+import './DefaultView.css';
 
 type DefaultViewProps = {
   setAsMain: (reaction: Reaction) => void;
@@ -14,26 +18,66 @@ type DefaultViewProps = {
 const DefaultView = (props: DefaultViewProps) => {
   const information = useContext(InformationContext);
   const [rootReactions, setRootReactions] = useState<Reaction[]>(undefined);
+  const [fetchingRootReactions, setFetchingRootReactions] = useState(true);
+  const [sort, setSort] = useState(localStorage.getItem('sort') as ReactionSortType);
 
   const [submittingReply, setSubmittingReply] = useState(false);
   const replyFormRef = useRef(null);
 
-  useEffect(() => {
-    if (rootReactions)
-      return;
+  const sortItems = [
+    { type: ReactionSortType.DATE_ASC, label: 'Date (asc)' },
+    { type: ReactionSortType.DATE_DESC, label: 'Date (desc)' },
+    { type: ReactionSortType.PERTINENCE, label: 'Pertinence' },
+  ];
 
-    fetchRootReactions(information.id)
+  useEffect(() => {
+    setFetchingRootReactions(true);
+
+    fetchRootReactions(information.id, sort)
       .then(reactions => {
         if (reactions)
           setRootReactions(reactions);
-      });
-  }, [information]);
 
-  if (!rootReactions)
+        setFetchingRootReactions(false);
+      });
+  }, [information, sort]);
+
+  const onSort = (newSort: ReactionSortType) => {
+    if (newSort === sort)
+      return;
+
+    localStorage.setItem('sort', newSort);
+    setSort(newSort);
+  };
+
+  if (!sort)
+    onSort(ReactionSortType.DATE_DESC);
+
+  if (fetchingRootReactions)
     return <Loader />;
 
   return (
     <div>
+
+      <div className="reactions-sort-by">
+
+        <div className="sort-by-label">Trier par :</div>
+
+        { sortItems.map(({ type, label }) => (
+          <div
+            key={type}
+            className={classList(
+              'sort-by',
+              `sort-by--${type}`,
+              sort === type && 'sort-by-active',
+            )}
+            onClick={() => onSort(type)}
+          >
+            { label }
+          </div>
+        )) }
+
+      </div>
 
       <div className="root-reaction-form">
         <ReactionForm

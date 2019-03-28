@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 
 import axios from 'axios';
 
+import { ReactionSortType } from '../types/ReactionSortType';
 import { Reaction, ShortReplyType, ReactionLabel, parseReaction } from '../types/Reaction';
 
-const fetchRootReactions = async (informationId: number) => {
-  const { data } = await axios.get(`/api/information/${informationId}/reactions`, {
+const fetchRootReactions = async (informationId: number, sort: ReactionSortType) => {
+  const { data } = await axios.get(`/api/information/${informationId}/reactions?sort=${sort}`, {
     withCredentials: true,
   });
 
