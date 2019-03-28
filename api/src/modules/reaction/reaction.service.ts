@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindConditions } from 'typeorm';
 
 import { labelId } from 'Utils/labels';
+import { ReactionSortType } from 'Utils/reaction-sort-type';
 
 import { User } from '../user/user.entity';
 import { Information } from '../information/information.entity';
@@ -43,11 +44,34 @@ export class ReactionService {
     return result;
   }
 
-  async findReplies(reaction: Reaction, page: number = 1): Promise<Reaction[]> {
+  async find(where: FindConditions<Reaction>, sort: ReactionSortType, page: number = 1): Promise<Reaction[]> {
+    if (sort === ReactionSortType.PERTINENCE)
+      return this.findSortedByPertinence(where, page);
+
     return this.reactionRepository.find({
-      where: { parent: reaction },
+      where,
+      order: { created: sort === ReactionSortType.DATE_ASC ? 'ASC' : 'DESC' },
       // ...this.paginationService.paginationOptions(page),
     });
+  }
+
+  private async findSortedByPertinence(where: FindConditions<Reaction>, page: number = 1): Promise<Reaction[]> {
+    const reactions = await this.reactionRepository.find(where);
+
+    await this.addRepliesCounts(reactions);
+    await this.addShortRepliesCounts(reactions);
+
+    reactions.forEach((r: any) => {
+      r.pertinence =
+        + r.shortRepliesCount.APPROVE
+        + r.shortRepliesCount.REFUTE
+        + r.shortRepliesCount.SKEPTIC
+        + 2 * r.repliesCount;
+    });
+
+    reactions.sort((a: any, b: any) => a.pertinence - b.pertinence);
+
+    return reactions;
   }
 
   async addRepliesCounts(reactions: Reaction[]): Promise<Reaction[]> {

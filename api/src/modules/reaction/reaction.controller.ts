@@ -2,7 +2,7 @@ import {
   Injectable,
   Controller,
   Get, Post, Put,
-  Param, Body,
+  Query, Param, Body,
   ParseIntPipe,
   UseInterceptors, UseGuards,
   ClassSerializerInterceptor,
@@ -13,6 +13,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 
+import { ReactionSortType } from 'Utils/reaction-sort-type';
 import { IsAuthenticated } from 'Common/auth.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
@@ -64,6 +65,7 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   async findReplies(
     @Param('id', new ParseIntPipe()) id: number,
+    @Query('sort') sort: string,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Reaction[]> {
     const reaction = await this.reactionService.findOne({ id });
@@ -71,7 +73,7 @@ export class ReactionController {
     if (!reaction)
       throw new NotFoundException();
 
-    return this.reactionService.findReplies(reaction, page);
+    return this.reactionService.find({ parent: reaction }, sort as ReactionSortType, page);
   }
 
   @Post()
@@ -149,6 +151,7 @@ export class ReactionController {
 
     await this.reactionService.setShortReply(reaction, user, dto.type);
 
+    // TODO: wtf?!
     return this.reactionService.findOne({ reactionId: reaction.id });
   }
 
