@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { ReactionSortType } from 'Utils/reaction-sort-type';
+
 import { User } from '../user/user.entity';
 import { Reaction } from '../reaction/reaction.entity';
 import { ReactionService } from '../reaction/reaction.service';
@@ -22,9 +24,6 @@ export class InformationService {
 
     @InjectRepository(Information)
     private readonly informationRepository: Repository<Information>,
-
-    @InjectRepository(Reaction)
-    private readonly reactionRepository: Repository<Reaction>,
 
     private readonly reactionService: ReactionService,
     private readonly slugService: SlugService,
@@ -48,11 +47,12 @@ export class InformationService {
     return information;
   }
 
-  async findRootReactions(information: Information, page: number = 1): Promise<Reaction[]> {
-    return this.reactionRepository.find({
-      where: { information, parent: null },
+  async findRootReactions(information: Information, sort: ReactionSortType, page: number = 1): Promise<Reaction[]> {
+    return this.reactionService.find(
+      { information, parent: null },
+      sort,
       // ...this.paginationService.paginationOptions(page),
-    });
+    );
   }
 
   async create(dto: CreateInformationInDto, creator: User): Promise<Information> {

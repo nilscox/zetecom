@@ -9,6 +9,8 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 
+import { ReactionSortTypePipe } from 'Common/reaction-sort-type.pipe';
+import { ReactionSortType } from 'Utils/reaction-sort-type';
 import { IsAuthenticated } from 'Common/auth.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
@@ -70,6 +72,7 @@ export class InformationController {
   @UseInterceptors(PopulateReaction)
   async findRootReactions(
     @Param('id', new ParseIntPipe()) id: number,
+    @Query('sort', new ReactionSortTypePipe()) sort: ReactionSortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @ReqUser() user: User,
   ): Promise<Reaction[]> {
@@ -78,7 +81,7 @@ export class InformationController {
     if (!information)
       return null;
 
-    return this.informationService.findRootReactions(information, page);
+    return this.informationService.findRootReactions(information, sort, page);
   }
 
   @Post()

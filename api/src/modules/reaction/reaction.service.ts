@@ -45,8 +45,8 @@ export class ReactionService {
   }
 
   async find(where: FindConditions<Reaction>, sort: ReactionSortType, page: number = 1): Promise<Reaction[]> {
-    if (sort === ReactionSortType.PERTINENCE)
-      return this.findSortedByPertinence(where, page);
+    if (sort === ReactionSortType.RELEVANCE)
+      return this.findSortedByRelevance(where, page);
 
     return this.reactionRepository.find({
       where,
@@ -55,21 +55,21 @@ export class ReactionService {
     });
   }
 
-  private async findSortedByPertinence(where: FindConditions<Reaction>, page: number = 1): Promise<Reaction[]> {
+  private async findSortedByRelevance(where: FindConditions<Reaction>, page: number = 1): Promise<Reaction[]> {
     const reactions = await this.reactionRepository.find(where);
 
     await this.addRepliesCounts(reactions);
     await this.addShortRepliesCounts(reactions);
 
     reactions.forEach((r: any) => {
-      r.pertinence =
+      r.relevance =
         + r.shortRepliesCount.APPROVE
         + r.shortRepliesCount.REFUTE
         + r.shortRepliesCount.SKEPTIC
         + 2 * r.repliesCount;
     });
 
-    reactions.sort((a: any, b: any) => a.pertinence - b.pertinence);
+    reactions.sort((a: any, b: any) => b.relevance - a.relevance);
 
     return reactions;
   }

@@ -17,6 +17,7 @@ import { ReactionSortType } from 'Utils/reaction-sort-type';
 import { IsAuthenticated } from 'Common/auth.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
+import { ReactionSortTypePipe } from 'Common/reaction-sort-type.pipe';
 import { Output } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
@@ -65,7 +66,7 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   async findReplies(
     @Param('id', new ParseIntPipe()) id: number,
-    @Query('sort') sort: string,
+    @Query('sort', new ReactionSortTypePipe()) sort: ReactionSortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Reaction[]> {
     const reaction = await this.reactionService.findOne({ id });
@@ -73,7 +74,7 @@ export class ReactionController {
     if (!reaction)
       throw new NotFoundException();
 
-    return this.reactionService.find({ parent: reaction }, sort as ReactionSortType, page);
+    return this.reactionService.find({ parent: reaction }, sort, page);
   }
 
   @Post()
