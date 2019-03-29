@@ -3,6 +3,9 @@ import { Collapse } from 'react-collapse';
 
 import { classList } from '../../utils/classList';
 import InformationContext from '../../utils/InformationContext';
+import ReactionSortTypeContext from '../../utils/ReactionSortTypeContext';
+import { ReactionSortType } from '../../types/ReactionSortType';
+import { Information } from '../../types/Information';
 import { Reaction } from '../../types/Reaction';
 import { fetchReplies } from '../../fetch/fetchReactions';
 import { ReactionContent } from '../ReactionContent/ReactionContent';
@@ -46,7 +49,8 @@ type ReactionContainerProps = {
 };
 
 export const ReactionContainer = (props: ReactionContainerProps) => {
-  const information = useContext(InformationContext);
+  const information = useContext<Information>(InformationContext);
+  const sort = useContext<ReactionSortType>(ReactionSortTypeContext);
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
   const [fetchingReplies, setFetchingReplies] = useState(false);
@@ -55,7 +59,7 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
 
   useEffect(() => {
     if (displayReplies && !replies) {
-      fetchReplies(props.reaction.id)
+      fetchReplies(props.reaction.id, sort)
         .then((replies: Reaction[]) => setReplies(replies))
         .then(() => setFetchingReplies(false));
     }

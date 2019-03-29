@@ -13,8 +13,8 @@ const fetchRootReactions = async (informationId: number, sort: ReactionSortType)
   return data.map((r: any) => parseReaction(r));
 };
 
-const fetchReplies = async (parentId: number) => {
-  const { data } = await axios.get(`/api/reaction/${parentId}/replies`, {
+const fetchReplies = async (parentId: number, sort: ReactionSortType) => {
+  const { data } = await axios.get(`/api/reaction/${parentId}/replies?sort=${sort}`, {
     withCredentials: true,
   });
 

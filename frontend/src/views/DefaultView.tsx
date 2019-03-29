@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { classList } from '../utils/classList';
+import { ReactionSortTypeProvider } from '../utils/ReactionSortTypeContext';
 import { Reaction, ReactionLabel } from '../types/Reaction';
 import { ReactionSortType } from '../types/ReactionSortType';
 import { fetchRootReactions, postReaction } from '../fetch/fetchReactions';
@@ -27,7 +28,7 @@ const DefaultView = (props: DefaultViewProps) => {
   const sortItems = [
     { type: ReactionSortType.DATE_ASC, label: 'Date (asc)' },
     { type: ReactionSortType.DATE_DESC, label: 'Date (desc)' },
-    { type: ReactionSortType.PERTINENCE, label: 'Pertinence' },
+    { type: ReactionSortType.RELEVANCE, label: 'Pertinence' },
   ];
 
   useEffect(() => {
@@ -85,10 +86,12 @@ const DefaultView = (props: DefaultViewProps) => {
         />
       </div>
 
-      <ReactionsList
-        reactions={rootReactions}
-        setAsMain={props.setAsMain}
-      />
+      <ReactionSortTypeProvider value={sort}>
+        <ReactionsList
+          reactions={rootReactions}
+          setAsMain={props.setAsMain}
+        />
+      </ReactionSortTypeProvider>
 
     </div>
   );
