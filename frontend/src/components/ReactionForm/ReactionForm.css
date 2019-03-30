@@ -155,9 +155,7 @@
 
 .form-label.selected {
   cursor: initial;
-  border-color: #999;
-  background-color: #eee;
-  font-weight: bold;
+  border-color: #333;
 }
 
 .form-footer-filler {

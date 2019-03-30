@@ -6,11 +6,7 @@
 }
 
 .sort-by {
-  background: #EEE;
-  border: 1px solid #CCC;
-  border-radius: 2px;
   padding: 5px 15px;
-  margin: 0 5px;
   cursor: pointer;
 }
 
