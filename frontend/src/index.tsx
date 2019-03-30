@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import moment from 'moment';
 import axios from 'axios';
 import queryString from 'query-string';
 
 import { App } from './App';
 
+moment.locale('fr');
 axios.defaults.baseURL = 'http://localhost:3000';
 
 // testing purpose

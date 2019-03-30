@@ -38,6 +38,10 @@
   color: #999;
 }
 
+.reaction-date.reaction-date-edited {
+  font-style: oblique;
+}
+
 .reaction-quote {
   background-image: url('/assets/images/quotation-mark.png');
   background-repeat: no-repeat;
