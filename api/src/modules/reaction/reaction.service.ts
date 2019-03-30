@@ -48,15 +48,24 @@ export class ReactionService {
     if (sort === ReactionSortType.RELEVANCE)
       return this.findSortedByRelevance(where, page);
 
-    return this.reactionRepository.find({
-      where,
-      order: { created: sort === ReactionSortType.DATE_ASC ? 'ASC' : 'DESC' },
+    return this.reactionRepository.createQueryBuilder('reaction')
+      .leftJoinAndSelect('reaction.author', 'author', 'reaction."authorId" = author.id')
+      .leftJoinAndSelect('reaction.messages', 'message', 'message."reactionId" = reaction.id')
+      .where(where)
+      .orderBy('reaction.created', sort === ReactionSortType.DATE_ASC ? 'ASC' : 'DESC')
+      .addOrderBy('message.created', 'ASC')
+      .getMany();
       // ...this.paginationService.paginationOptions(page),
-    });
   }
 
   private async findSortedByRelevance(where: FindConditions<Reaction>, page: number = 1): Promise<Reaction[]> {
-    const reactions = await this.reactionRepository.find(where);
+    const reactions = await this.reactionRepository.createQueryBuilder('reaction')
+      .leftJoinAndSelect('reaction.author', 'author', 'reaction."authorId" = author.id')
+      .leftJoinAndSelect('reaction.messages', 'message', 'message."reactionId" = reaction.id')
+      .where(where)
+      .orderBy('reaction.created', 'ASC')
+      .addOrderBy('message.created', 'ASC')
+      .getMany();
 
     await this.addRepliesCounts(reactions);
     await this.addShortRepliesCounts(reactions);
