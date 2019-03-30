@@ -18,6 +18,11 @@ export type ShortRepliesCount = {
   skeptic: number;
 };
 
+export type ReactionHistory = {
+  date: Date,
+  text: string;
+};
+
 export type Reaction = {
   id: number;
   slug: string;
@@ -26,10 +31,18 @@ export type Reaction = {
   text: string;
   date: Date;
   edited: false | Date;
+  history: ReactionHistory[] | null;
   repliesCount: number;
   author: Partial<User>;
   shortRepliesCount: ShortRepliesCount;
   userShortReply: ShortReplyType;
+};
+
+export const parseReactionHistory = (data: any): ReactionHistory => {
+  return {
+    ...data,
+    date: new Date(data.date),
+  };
 };
 
 export const parseReaction = (data: any): Reaction => {
@@ -37,6 +50,7 @@ export const parseReaction = (data: any): Reaction => {
     ...data,
     date: new Date(data.date),
     edited: !data.edited ? false : new Date(data.edited),
-    author: parseUser(data.author)
+    author: parseUser(data.author),
+    history: data.history ? data.history.map(parseReactionHistory) : null,
   };
 };

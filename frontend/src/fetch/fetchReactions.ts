@@ -5,7 +5,7 @@ import axios from 'axios';
 import { ReactionSortType } from '../types/ReactionSortType';
 import { Reaction, ShortReplyType, ReactionLabel, parseReaction } from '../types/Reaction';
 
-const fetchRootReactions = async (informationId: number, sort: ReactionSortType) => {
+export const fetchRootReactions = async (informationId: number, sort: ReactionSortType): Promise<Reaction[]> => {
   const { data } = await axios.get(`/api/information/${informationId}/reactions?sort=${sort}`, {
     withCredentials: true,
   });
@@ -13,7 +13,15 @@ const fetchRootReactions = async (informationId: number, sort: ReactionSortType)
   return data.map((r: any) => parseReaction(r));
 };
 
-const fetchReplies = async (parentId: number, sort: ReactionSortType) => {
+export const fetchReaction = async (reactionId: number): Promise<Reaction> => {
+  const { data } = await axios.get(`/api/reaction/${reactionId}`, {
+    withCredentials: true,
+  });
+
+  return parseReaction(data);
+};
+
+export const fetchReplies = async (parentId: number, sort: ReactionSortType): Promise<Reaction[]> => {
   const { data } = await axios.get(`/api/reaction/${parentId}/replies?sort=${sort}`, {
     withCredentials: true,
   });
@@ -21,7 +29,7 @@ const fetchReplies = async (parentId: number, sort: ReactionSortType) => {
   return data.map((r: any) => parseReaction(r));
 };
 
-const postReaction = async (informationId: number, label: ReactionLabel, quote: string | null, text: string, parentId?: number) => {
+export const postReaction = async (informationId: number, label: ReactionLabel, quote: string | null, text: string, parentId?: number): Promise<Reaction> => {
   const payload = { informationId, label, quote, text, parentId };
 
   const { data } = await axios.post(`/api/reaction`, payload, {
@@ -31,7 +39,7 @@ const postReaction = async (informationId: number, label: ReactionLabel, quote: 
   return parseReaction(data);
 };
 
-const postShortReply = async (reactionId: number, type: ShortReplyType) => {
+export const postShortReply = async (reactionId: number, type: ShortReplyType): Promise<Reaction> => {
   const payload = { type: type ? type.toUpperCase() : null };
 
   const { data } = await axios.post(`/api/reaction/${reactionId}/short-reply`, payload, {
@@ -40,5 +48,3 @@ const postShortReply = async (reactionId: number, type: ShortReplyType) => {
 
   return parseReaction(data);
 }
-
-export { fetchRootReactions, fetchReplies, postReaction, postShortReply };

@@ -6,6 +6,7 @@ import { Reaction } from '../../types/Reaction';
 
 type ReactionHeaderProps = {
   reaction: Reaction;
+  onOpenHistory: () => void;
 };
 
 const ReactionHeader = (props: ReactionHeaderProps) => {
@@ -24,9 +25,10 @@ const ReactionHeader = (props: ReactionHeaderProps) => {
       <div
         className={classList('reaction-date', reaction.edited && 'reaction-date-edited')}
         title={reaction.edited ? moment(reaction.edited).format('[Edité le] Do MMMM YYYY [à] hh:mm') : undefined}
+        onClick={() => reaction.edited && props.onOpenHistory()}
       >
+        { reaction.edited && '* ' }
         { moment(reaction.date).format('[Le] Do MMMM YYYY [à] hh:mm') }
-        { reaction.edited && ' *' }
       </div>
 
     </div>
