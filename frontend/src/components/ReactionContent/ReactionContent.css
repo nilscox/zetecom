@@ -134,3 +134,36 @@
   color: #999;
   cursor: initial;
 }
+
+.history-message-date-wrapper {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.history-message-date-filler-left {
+  width: 20px;
+  border-top: 2px solid #CCC;
+}
+
+.history-message-date-filler {
+  flex: 1;
+  border-top: 2px solid #CCC;
+}
+
+.history-message-date {
+  margin: 0 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+.history-current-message .history-message-date {
+  font-weight: bold;
+  font-size: initial;
+}
+
+.history-message-text {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
