@@ -49,17 +49,17 @@ type ReactionContainerProps = {
 };
 
 export const ReactionContainer = (props: ReactionContainerProps) => {
-  const information = useContext<Information>(InformationContext);
   const sort = useContext<ReactionSortType>(ReactionSortTypeContext);
+  const information = useContext<Information>(InformationContext);
+  const [reaction, setReaction] = useState(props.reaction);
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
   const [fetchingReplies, setFetchingReplies] = useState(false);
   const [replies, setReplies] = useState<Reaction[]>(null);
-  const [repliesCount, setRepliesCount] = useState(props.reaction.repliesCount);
 
   useEffect(() => {
     if (displayReplies && !replies) {
-      fetchReplies(props.reaction.id, sort)
+      fetchReplies(reaction.id, sort)
         .then((replies: Reaction[]) => setReplies(replies))
         .then(() => setFetchingReplies(false));
     }
@@ -84,7 +84,7 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
 
   const onReplySubmitted = (reply: Reaction) => {
     setReplies([reply, ...replies]);
-    setRepliesCount(repliesCount + 1);
+    setReaction({ ...reaction, repliesCount: reaction.repliesCount + 1 });
     setDisplayReplyForm(false);
   };
 
@@ -98,11 +98,12 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
     }>
 
       <ReactionContent
-        reaction={{ ...props.reaction, repliesCount }}
+        reaction={reaction}
         displayReplies={displayReplies}
         displayReplyForm={displayReplyForm}
         onShowReplyForm={onShowReplyForm}
         toggleReplies={toggleReplies}
+        onReactionUpdated={setReaction}
       />
 
       <Collapse isOpened={displayReplyForm}>
@@ -110,7 +111,7 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
           <div className="reaction-reply-form-indent" />
           <div className="reaction-reply-form">
             <ReactionForm
-              replyTo={props.reaction}
+              replyTo={reaction}
               onClose={() => setDisplayReplyForm(false)}
               onSubmitted={onReplySubmitted}
             />

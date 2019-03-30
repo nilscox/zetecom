@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ReactModal from 'react-modal';
 
 import { Reaction, ShortReplyType } from '../../types/Reaction';
@@ -16,24 +16,22 @@ type ReactionContentProps = {
   displayReplyForm: boolean;
   toggleReplies: () => void;
   onShowReplyForm: () => void;
+  onReactionUpdated: (reaction: Reaction) => void;
 };
 
 const ReactionContent = (props: ReactionContentProps) => {
   const [historyModalOpen, setHistoryModalOpen] = useState(false);
   const [edittingReaction, setEdittingReaction] = useState(false);
-  const [reaction, setReaction] = useState<Reaction>(props.reaction);
-
-  useEffect(() => setReaction(props.reaction), [props.reaction]);
 
   if (edittingReaction) {
     const onReactionSubmitted = (reaction: Reaction) => {
-      setReaction(reaction);
+      props.onReactionUpdated(reaction);
       setEdittingReaction(false);
     };
 
     return (
       <ReactionForm
-        preloadedReaction={reaction}
+        preloadedReaction={props.reaction}
         onSubmitted={onReactionSubmitted}
         onClose={() => setEdittingReaction(false)}
       />
@@ -44,28 +42,28 @@ const ReactionContent = (props: ReactionContentProps) => {
     <div id={`reaction-${props.reaction.id}`} className="reaction">
 
       <ReactionHeader
-        reaction={reaction}
+        reaction={props.reaction}
         onOpenHistory={() => setHistoryModalOpen(true)}
         onEditReaction={() => setEdittingReaction(true)}
       />
 
-      <ReactionBody reaction={reaction} />
+      <ReactionBody reaction={props.reaction} />
 
       <ReactionFooter
-        reaction={reaction}
+        reaction={props.reaction}
         displayReplies={props.displayReplies}
         displayReplyForm={props.displayReplyForm}
         toggleReplies={props.toggleReplies}
         onShowReplyForm={props.onShowReplyForm}
       />
 
-      { reaction.edited && (
+      { props.reaction.edited && (
         <ReactModal
           isOpen={historyModalOpen}
           onRequestClose={() => setHistoryModalOpen(false)}
           closeTimeoutMS={200}
         >
-          <ReactionHistoryModalContent reaction={reaction} />
+          <ReactionHistoryModalContent reaction={props.reaction} />
         </ReactModal>
       ) }
 
