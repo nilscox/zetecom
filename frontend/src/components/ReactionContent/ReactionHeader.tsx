@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import moment from 'moment';
 
 import { classList } from '../../utils/classList';
+import UserContext from '../../utils/UserContext';
 import { Reaction } from '../../types/Reaction';
 
 type ReactionHeaderProps = {
   reaction: Reaction;
   onOpenHistory: () => void;
+  onEditReaction: () => void;
 };
 
 const ReactionHeader = (props: ReactionHeaderProps) => {
   const { reaction } = props;
   const { author } = reaction;
+  const user = useContext(UserContext);
 
   return (
     <div className="reaction-header">
@@ -20,7 +23,12 @@ const ReactionHeader = (props: ReactionHeaderProps) => {
         <img src={author.avatar || '/assets/images/default-avatar.png'} />
       </div>
 
-      <div className="reaction-author-nick">{author.nick}</div>
+      <div className="reaction-author-nick">
+        { author.nick }
+        { author.id === user.id && (
+          <div className="reaction-edit" onClick={props.onEditReaction}>(éditer)</div>
+        ) }
+      </div>
 
       <div
         className={classList('reaction-date', reaction.edited && 'reaction-date-edited')}

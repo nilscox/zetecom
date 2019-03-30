@@ -47,7 +47,7 @@ export const FormBody = forwardRef((props: FormBodyProps, ref: React.Ref<{}>) =>
         rows={1}
         value={quote || ''}
         placeholder="Citation (optionnelle)"
-        disabled={isSubmitting}
+        disabled={!!reaction || isSubmitting}
         onChange={(e) => setQuote(e.target.value)}
       />
 
@@ -64,8 +64,12 @@ export const FormBody = forwardRef((props: FormBodyProps, ref: React.Ref<{}>) =>
             .map((key: string) => (
               <div
                 key={key}
-                className={classList('form-label', label === key && 'selected')}
-                onClick={() => !isSubmitting && setLabel(key as any)}
+                className={classList(
+                  'form-label',
+                  label === key && 'selected',
+                  !reaction && label !== key && 'can-select',
+                )}
+                onClick={() => !reaction && !isSubmitting && setLabel(key as any)}
               >
                 { ReactionLabel[key as any] }
               </div>

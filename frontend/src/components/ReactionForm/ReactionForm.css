@@ -143,6 +143,9 @@
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 2px;
+}
+
+.form-label.can-select {
   cursor: pointer;
 }
 

@@ -39,6 +39,16 @@ export const postReaction = async (informationId: number, label: ReactionLabel, 
   return parseReaction(data);
 };
 
+export const updateReaction = async (reactionId: number, text: string): Promise<Reaction> => {
+  const payload = { text };
+
+  const { data } = await axios.put(`/api/reaction/${reactionId}`, payload, {
+    withCredentials: true,
+  });
+
+  return parseReaction(data);
+};
+
 export const postShortReply = async (reactionId: number, type: ShortReplyType): Promise<Reaction> => {
   const payload = { type: type ? type.toUpperCase() : null };
 
