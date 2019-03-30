@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactModal from 'react-modal';
 
 import { Reaction, ShortReplyType } from '../../types/Reaction';
@@ -22,6 +22,8 @@ const ReactionContent = (props: ReactionContentProps) => {
   const [historyModalOpen, setHistoryModalOpen] = useState(false);
   const [edittingReaction, setEdittingReaction] = useState(false);
   const [reaction, setReaction] = useState<Reaction>(props.reaction);
+
+  useEffect(() => setReaction(props.reaction), [props.reaction]);
 
   if (edittingReaction) {
     const onReactionSubmitted = (reaction: Reaction) => {
