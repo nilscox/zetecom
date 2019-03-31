@@ -1,23 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
-import { Expose, Exclude } from 'class-transformer';
+import { Entity, JoinColumn, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
 
 import { User } from '../user/user.entity';
 
-@Entity()
-@Exclude()
+@Entity({ name: 'user_token', orderBy: { created: 'DESC' } })
 export class UserToken {
 
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ unique: true })
-  @Expose()
   token: string;
 
   @CreateDateColumn()
   created: Date;
 
-  @ManyToOne(type => User)
+  @ManyToOne(type => User, { nullable: false })
+  @JoinColumn({ name: 'user_id'})
   user: User;
 
 }

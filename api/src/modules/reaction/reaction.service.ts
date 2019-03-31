@@ -49,8 +49,8 @@ export class ReactionService {
       return this.findSortedByRelevance(where, page);
 
     return this.reactionRepository.createQueryBuilder('reaction')
-      .leftJoinAndSelect('reaction.author', 'author', 'reaction."authorId" = author.id')
-      .leftJoinAndSelect('reaction.messages', 'message', 'message."reactionId" = reaction.id')
+      .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
+      .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
       .where(where)
       .orderBy('reaction.created', sort === ReactionSortType.DATE_ASC ? 'ASC' : 'DESC')
       .addOrderBy('message.created', 'ASC')
@@ -60,8 +60,8 @@ export class ReactionService {
 
   private async findSortedByRelevance(where: FindConditions<Reaction>, page: number = 1): Promise<Reaction[]> {
     const reactions = await this.reactionRepository.createQueryBuilder('reaction')
-      .leftJoinAndSelect('reaction.author', 'author', 'reaction."authorId" = author.id')
-      .leftJoinAndSelect('reaction.messages', 'message', 'message."reactionId" = reaction.id')
+      .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
+      .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
       .where(where)
       .orderBy('reaction.created', 'ASC')
       .addOrderBy('message.created', 'ASC')
@@ -91,7 +91,7 @@ export class ReactionService {
       .select('reaction.id')
       .addSelect('count(replies.id)', 'reaction_repliesCount')
       .leftJoin('reaction.replies', 'replies')
-      .where('replies."parentId" IN (' + reactions.map(r => r.id) + ')')
+      .where('replies.parent_id IN (' + reactions.map(r => r.id) + ')')
       .groupBy('reaction.id')
       .getRawMany();
 
@@ -112,16 +112,16 @@ export class ReactionService {
       return [];
 
     const shortRepliesCounts = await this.shortReplyRepository.createQueryBuilder('short_reply')
-      .select('"reactionId"')
+      .select('reaction_id')
       .addSelect('type')
       .addSelect('count(id)')
-      .where('short_reply."reactionId" IN (' + reactions.map(r => r.id) + ')')
+      .where('short_reply.reaction_id IN (' + reactions.map(r => r.id) + ')')
       .groupBy('type')
-      .addGroupBy('"reactionId"')
+      .addGroupBy('reaction_id')
       .getRawMany();
 
     const getShortRepliesCount = (reactionId: number, type: ShortReplyType): number => {
-      const value = shortRepliesCounts.filter(src => src.reactionId === reactionId && src.type === type);
+      const value = shortRepliesCounts.filter(src => src.reaction_id === reactionId && src.type === type);
 
       if (!value.length)
         return 0;
@@ -142,16 +142,16 @@ export class ReactionService {
 
   async addUserShortReply(reactions: Reaction[], user: User): Promise<Reaction[]> {
     const shortReplies = await this.shortReplyRepository.createQueryBuilder('short_reply')
-      .select('"reactionId"')
+      .select('reaction_id')
       .addSelect('type')
-      .where('short_reply."reactionId" IN (' + reactions.map(r => r.id) + ')')
-      .andWhere('short_reply."userId" = ' + user.id)
+      .where('short_reply.reaction_id IN (' + reactions.map(r => r.id) + ')')
+      .andWhere('short_reply.user_id = ' + user.id)
       .groupBy('type')
-      .addGroupBy('"reactionId"')
+      .addGroupBy('reaction_id')
       .getRawMany();
 
     reactions.forEach((reaction, i) => {
-      const shortReply = shortReplies.find(sr => sr.reactionId === reaction.id);
+      const shortReply = shortReplies.find(sr => sr.reaction_id === reaction.id);
 
       reaction.userShortReply = shortReply ? shortReply.type : null;
     });

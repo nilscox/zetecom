@@ -1,8 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
 
 import { Reaction } from './reaction.entity';
 
-@Entity()
+@Entity({ name: 'reaction_message', orderBy: { created: 'ASC' } })
 export class Message {
 
   @PrimaryGeneratedColumn()
@@ -14,7 +14,9 @@ export class Message {
   @CreateDateColumn()
   created: Date;
 
-  @ManyToOne(type => Reaction, reaction => reaction.messages)
+  // TODO: nullable: false
+  @ManyToOne(type => Reaction, reaction => reaction.messages, { nullable: true })
+  @JoinColumn({ name: 'reaction_id' })
   reaction: Reaction;
 
 }

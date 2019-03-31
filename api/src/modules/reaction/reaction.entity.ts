@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 
 import { User } from '../user/user.entity';
 import { Information } from '../information/information.entity';
@@ -10,7 +10,7 @@ export enum ReactionLabel {
   METHOD = 'METHOD',
 }
 
-@Entity()
+@Entity({ name: 'reaction', orderBy: { created: 'DESC' } })
 export class Reaction {
 
   @PrimaryGeneratedColumn()
@@ -31,16 +31,19 @@ export class Reaction {
   @UpdateDateColumn()
   updated: Date;
 
-  @ManyToOne(type => User, { eager: true })
+  @ManyToOne(type => User, { nullable: false, eager: true })
+  @JoinColumn({ name: 'author_id' })
   author: User;
 
-  @ManyToOne(type => Information, information => information.reactions)
+  @ManyToOne(type => Information, information => information.reactions, { nullable: false })
+  @JoinColumn({ name: 'information_id' })
   information: Information;
 
   @OneToMany(type => Message, message => message.reaction, { eager: true })
   messages: Message[];
 
-  @ManyToOne(type => Reaction, reaction => reaction.replies)
+  @ManyToOne(type => Reaction, reaction => reaction.replies, { nullable: true })
+  @JoinColumn({ name: 'parent_id' })
   parent: Reaction;
 
   @OneToMany(type => Reaction, reaction => reaction.parent)

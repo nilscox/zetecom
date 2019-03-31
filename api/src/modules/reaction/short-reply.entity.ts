@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, JoinColumn, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { User } from '../user/user.entity';
 
@@ -10,7 +10,7 @@ export enum ShortReplyType {
   SKEPTIC = 'SKEPTIC',
 }
 
-@Entity()
+@Entity({ name: 'short_reply' })
 @Unique(['user', 'reaction'])
 export class ShortReply {
 
@@ -18,9 +18,11 @@ export class ShortReply {
   id: number;
 
   @ManyToOne(type => User, { nullable: false })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @ManyToOne(type => Reaction, { nullable: false })
+  @JoinColumn({ name: 'reaction_id' })
   reaction: Reaction;
 
   @Column({ type: 'enum', enum: ShortReplyType, nullable: true })
