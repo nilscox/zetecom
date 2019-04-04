@@ -25,7 +25,7 @@ const ReactionHeader = (props: ReactionHeaderProps) => {
 
       <div className="reaction-author-nick">
         { author.nick }
-        { author.id === user.id && (
+        { user && author.id === user.id && (
           <div className="reaction-edit" onClick={props.onEditReaction}>(éditer)</div>
         ) }
       </div>
