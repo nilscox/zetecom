@@ -14,7 +14,12 @@
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:cov": "jest --coverage"
+    "test:cov": "jest --coverage",
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js",
+    "db:drop": "yarn typeorm schema:drop",
+    "db:sync": "yarn typeorm schema:sync",
+    "db:populate": "ts-node data.ts",
+    "db:reset": "yarn db:drop && yarn db:sync && yarn db:populate"
   },
   "dependencies": {
     "@nest-middlewares/cors": "^5.1.1",
