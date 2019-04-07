@@ -1,6 +1,8 @@
-#app {
+#app, .ReactModalPortal {
   font-family: sans-serif;
-  /* background-color: #363636; */
+}
+
+#app {
   min-height: 100%;
 }
 

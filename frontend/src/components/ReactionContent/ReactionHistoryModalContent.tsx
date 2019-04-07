@@ -51,7 +51,7 @@ export const ReactionHistoryModalContent = (props: ReactionHistoryModalContentPr
             <div className="history-message-date">{ moment(date).format('[Le] Do MMMM YYYY [à] hh:mm') }</div>
             <div className="history-message-date-filler" />
           </div>
-          <div className="history-message-text" dangerouslySetInnerHTML={{ __html: converter.makeHtml(text) }} />
+          <div className="history-message-text markdown-body" dangerouslySetInnerHTML={{ __html: converter.makeHtml(text) }} />
         </div>
       )) }
     </div>
