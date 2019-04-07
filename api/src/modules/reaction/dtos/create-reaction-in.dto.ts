@@ -1,7 +1,5 @@
 import { IsEnum, IsOptional, IsString, IsInt, IsIn, MaxLength } from 'class-validator';
 
-import { ReactionLabel } from '../reaction.entity';
-
 export class CreateReactionInDto {
 
   @IsInt()
@@ -14,10 +12,6 @@ export class CreateReactionInDto {
   @IsString()
   @IsOptional()
   readonly quote: string;
-
-  @IsString()
-  @IsEnum(ReactionLabel)
-  readonly label: ReactionLabel;
 
   @IsString()
   @MaxLength(4000)

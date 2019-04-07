@@ -5,11 +5,6 @@ import { Information } from '../information/information.entity';
 import { Message } from './message.entity';
 import { ShortReply, ShortReplyType } from './short-reply.entity';
 
-export enum ReactionLabel {
-  SOURCE = 'SOURCE',
-  METHOD = 'METHOD',
-}
-
 @Entity({ name: 'reaction', orderBy: { created: 'DESC' } })
 export class Reaction {
 
@@ -18,9 +13,6 @@ export class Reaction {
 
   @Column({ nullable: true })
   quote: string;
-
-  @Column({ type: 'enum', enum: ReactionLabel })
-  label: ReactionLabel;
 
   @Column({ unique: true })
   slug: string;
