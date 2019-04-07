@@ -15,8 +15,6 @@ import { PaginationService } from './services/pagination.service';
 import { Information } from './information.entity';
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
 
-import * as labels from 'Utils/labels';
-
 @Injectable()
 export class InformationService {
 

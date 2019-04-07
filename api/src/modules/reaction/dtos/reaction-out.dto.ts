@@ -5,8 +5,6 @@ import { UserLightOutDto } from '../../user/dtos/user-light-out.dto';
 import { Message } from '../message.entity';
 import { ShortReplyType } from '../short-reply.entity';
 
-import LABELS from 'Utils/labels';
-
 type ReactionLabel =
   | 'SOURCE'
   | 'METHOD';

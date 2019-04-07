@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindConditions } from 'typeorm';
 
-import { labelId } from 'Utils/labels';
 import { ReactionSortType } from 'Utils/reaction-sort-type';
 
 import { User } from '../user/user.entity';
@@ -198,7 +197,6 @@ export class ReactionService {
 
     reaction.slug = this.slugService.randString();
     reaction.quote = dto.quote;
-    reaction.label = dto.label;
 
     message.text = dto.text;
 
