@@ -41,7 +41,12 @@ interface IReaction {
 }
 
 function findUser(users: IUser[], nick: string): IUser {
-  return users.find(u => u.nick === nick);
+  const user = users.find(u => u.nick === nick);
+
+  if (!user)
+    throw new Error(`cannot find user "${nick}"`);
+
+  return user;
 }
 
 function findInformation(informations: IInformation[], url: string): IInformation {
@@ -70,6 +75,8 @@ async function createUserOrLogin(user: any): Promise<IUser> {
 
   try {
     const { headers, data } = await signup();
+
+    console.log(`user created: ${data.user.id} (${data.user.nick})`);
 
     return {
       ...data.user,
@@ -115,22 +122,43 @@ async function findOrCreateInformation(information: any, creator: IUser): Promis
       headers: { cookie: creator.cookie },
     });
 
+    console.log(`information created: ${created.id} (${created.url})`);
+
     return created;
   }
 }
 
 async function createReaction(informationId: number, reaction: any, user: IUser, parentId?: number): Promise<IReaction> {
+  const hasHistory = reaction.history && reaction.history.length;
+  const text = hasHistory ? reaction.history[0] : reaction.text;
+
   const payload = {
     informationId,
     parentId,
     label: reaction.label,
     quote: reaction.quote,
-    text: reaction.text,
+    text,
   };
 
-  const { data: created } = await axios.post('/api/reaction', payload, {
+  let { data: created } = await axios.post('/api/reaction', payload, {
     headers: { cookie: user.cookie },
   });
+
+  if (hasHistory) {
+    const edits = [...reaction.history.slice(1), reaction.text];
+
+    for (let i = 0; i < edits.length; ++i) {
+      const editPayload = { text: edits[i] };
+
+      const result = await axios.put(`/api/reaction/${created.id}`, editPayload, {
+        headers: { cookie: user.cookie },
+      });
+
+      created = result.data;
+    }
+  }
+
+  console.log(`reaction created: ${created.id} (${created.author.nick}, "${created.text.slice(0, 30)}...")`);
 
   return created;
 }
@@ -141,6 +169,8 @@ async function createShortReply(reactionId: number, type: ShortReplyType, user: 
   const { data: reaction } = await axios.post(`/api/reaction/${reactionId}/short-reply`, payload, {
     headers: { cookie: user.cookie },
   });
+
+  console.log(`shortReply created: ${reaction.id} (${user.nick}, ${type})`);
 
   return reaction;
 }
@@ -187,8 +217,10 @@ async function main() {
     const { response } = e;
 
     if (response) {
-      console.error(e.message);
+      console.error('Error:', e.message);
       console.error(response.data);
+    } else if (e.code === 'ECONNREFUSED') {
+      console.error('Error:', e.message);
     } else {
       console.error(e);
     }
