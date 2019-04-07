@@ -51,6 +51,47 @@
   cursor: pointer;
 }
 
+.toggle-expand {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  color: #666;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.toggle-expand-arrow {
+  font-size: 14px;
+  font-weight: bold;
+  color: #999;
+}
+
+.reaction-body {
+  position: relative;
+  overflow: hidden;
+}
+
+.reaction-body.expand-type--default {
+  max-height: 140px;
+}
+
+.reaction-body.expand-type--fold {
+  max-height: 40px;
+}
+
+.reaction-body.expand-type--default.has-quote {
+  max-height: 180px;
+}
+
+.reaction-body.can-expand .show-more {
+  width: 100%;
+  height: 8px;
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(#ffffff00, #999999ff);
+  cursor: pointer;
+}
+
 .reaction-quote {
   background-image: url('/assets/images/quotation-mark.png');
   background-repeat: no-repeat;

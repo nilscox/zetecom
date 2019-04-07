@@ -4,15 +4,18 @@ import moment from 'moment';
 import { classList } from '../../utils/classList';
 import UserContext from '../../utils/UserContext';
 import { Reaction } from '../../types/Reaction';
+import { ExpandType } from './ReactionContent';
 
 type ReactionHeaderProps = {
   reaction: Reaction;
+  expand: ExpandType;
   onOpenHistory: () => void;
   onEditReaction: () => void;
+  setExpand: (expand: ExpandType) => void;
 };
 
 const ReactionHeader = (props: ReactionHeaderProps) => {
-  const { reaction } = props;
+  const { reaction, expand, setExpand } = props;
   const { author } = reaction;
   const user = useContext(UserContext);
 
@@ -38,6 +41,18 @@ const ReactionHeader = (props: ReactionHeaderProps) => {
         { reaction.edited && '* ' }
         { moment(reaction.date).format('[Le] Do MMMM YYYY [à] hh:mm') }
       </div>
+
+      { expand === 'fold'
+        ? (
+          <div className="toggle-expand" onClick={() => setExpand('full')}>
+            Déplier <span className="toggle-expand-arrow">▾</span>
+          </div>
+        ) : (
+          <div className="toggle-expand" onClick={() => setExpand('fold')}>
+            Replier <span className="toggle-expand-arrow">▴</span>
+          </div>
+        )
+      }
 
     </div>
   );

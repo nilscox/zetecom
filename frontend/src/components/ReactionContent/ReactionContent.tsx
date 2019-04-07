@@ -10,6 +10,8 @@ import { ReactionForm } from '../ReactionForm';
 
 import './ReactionContent.css';
 
+export type ExpandType = 'fold' | 'default' | 'full';
+
 type ReactionContentProps = {
   reaction: Reaction;
   displayReplies: boolean;
@@ -22,6 +24,7 @@ type ReactionContentProps = {
 const ReactionContent = (props: ReactionContentProps) => {
   const [historyModalOpen, setHistoryModalOpen] = useState(false);
   const [edittingReaction, setEdittingReaction] = useState(false);
+  const [expand, setExpand] = useState<ExpandType>('default');
 
   if (edittingReaction) {
     const onReactionSubmitted = (reaction: Reaction) => {
@@ -43,11 +46,17 @@ const ReactionContent = (props: ReactionContentProps) => {
 
       <ReactionHeader
         reaction={props.reaction}
+        expand={expand}
         onOpenHistory={() => setHistoryModalOpen(true)}
         onEditReaction={() => setEdittingReaction(true)}
+        setExpand={setExpand}
       />
 
-      <ReactionBody reaction={props.reaction} />
+      <ReactionBody
+        reaction={props.reaction}
+        expand={expand}
+        expandFull={() => setExpand('full')}
+      />
 
       <ReactionFooter
         reaction={props.reaction}
