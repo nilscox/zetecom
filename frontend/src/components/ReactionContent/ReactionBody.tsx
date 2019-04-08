@@ -20,7 +20,7 @@ const ReactionBody = (props: ReactionBodyProps) => {
   const textRef = useRef(null);
 
   useEffect(() => {
-    if (textRef.current && textRef.current.clientHeight > 140)
+    if (textRef.current && textRef.current.clientHeight > 240)
       setCanExpand(true);
 
     if (expand === 'fold')

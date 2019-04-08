@@ -66,15 +66,15 @@
 }
 
 .reaction-body.expand-type--default {
-  max-height: 140px;
+  max-height: 240px;
 }
 
 .reaction-body.expand-type--fold {
-  max-height: 40px;
+  max-height: 60px;
 }
 
 .reaction-body.expand-type--default.has-quote {
-  max-height: 180px;
+  max-height: 280px;
 }
 
 .reaction-body.can-expand .show-more {
