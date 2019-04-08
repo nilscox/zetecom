@@ -1,6 +1,13 @@
+import * as path from 'path';
+import { addAlias } from 'module-alias';
+
+addAlias('Common', path.join(__dirname, 'common'));
+addAlias('Utils', path.join(__dirname, 'utils'));
+
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+
 import { ErrorsInterceptor } from 'Common/errors.interceptor';
 
 const { LISTEN_PORT, LISTEN_IP } = process.env;
