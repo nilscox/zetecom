@@ -45,11 +45,11 @@ const ReactionHeader = (props: ReactionHeaderProps) => {
       { expand === 'fold'
         ? (
           <div className="toggle-expand" onClick={() => setExpand('full')}>
-            Déplier <span className="toggle-expand-arrow">▾</span>
+            Déplier <span className="toggle-expand-arrow">▸</span>
           </div>
         ) : (
           <div className="toggle-expand" onClick={() => setExpand('fold')}>
-            Replier <span className="toggle-expand-arrow">▴</span>
+            Replier <span className="toggle-expand-arrow">▾</span>
           </div>
         )
       }

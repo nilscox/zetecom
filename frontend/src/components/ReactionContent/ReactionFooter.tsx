@@ -102,7 +102,7 @@ const ReactionFooter = (props: ReactionFooterProps) => {
         onClick={() => hasReplies && !displayReplyForm && toggleReplies()}
       >
         { repliesCount } réponse{ repliesCount > 1 && 's' }
-        { hasReplies && !displayReplyForm && (displayReplies ? ' ▴ ' : ' ▾ ') }
+        { hasReplies && !displayReplyForm && (displayReplies ? ' ▾ ' : ' ▸ ') }
       </div>
 
       <div className="reaction-footer-filler" />

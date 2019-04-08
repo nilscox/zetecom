@@ -60,12 +60,6 @@
   cursor: pointer;
 }
 
-.toggle-expand-arrow {
-  font-size: 14px;
-  font-weight: bold;
-  color: #999;
-}
-
 .reaction-body {
   position: relative;
   overflow: hidden;
