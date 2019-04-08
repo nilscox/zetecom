@@ -3,6 +3,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { ErrorsInterceptor } from 'Common/errors.interceptor';
 
+const { LISTEN_PORT, LISTEN_IP } = process.env;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -13,7 +15,7 @@ async function bootstrap() {
   if (process.env.NODE_ENV === 'development')
     app.enableCors({ origin: true, credentials: true });
 
-  await app.listen(3000);
+  await app.listen(LISTEN_PORT, LISTEN_IP);
 }
 
 bootstrap();

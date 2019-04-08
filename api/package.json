@@ -31,6 +31,8 @@
     "bcrypt": "^3.0.2",
     "class-transformer": "^0.2.0",
     "class-validator": "^0.9.1",
+    "express-session": "^1.15.6",
+    "memorystore": "^1.6.1",
     "pg": "^7.6.1",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",

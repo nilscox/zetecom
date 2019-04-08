@@ -64,7 +64,12 @@ export class InformationController {
   async findOneByYoutubeId(
     @Param('youtubeId') youtubeId: string,
   ): Promise<Information> {
-    return this.informationService.findOne({ youtubeId });
+    const info = await this.informationService.findOne({ youtubeId });
+
+    if (!info)
+      throw new NotFoundException();
+
+    return info;
   }
 
   @Get(':id/reactions')
