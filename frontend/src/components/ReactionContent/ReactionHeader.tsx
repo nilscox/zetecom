@@ -11,6 +11,7 @@ type ReactionHeaderProps = {
   expand: ExpandType;
   onOpenHistory: () => void;
   onEditReaction: () => void;
+  onReportReaction: () => void;
   setExpand: (expand: ExpandType) => void;
 };
 
@@ -33,13 +34,23 @@ const ReactionHeader = (props: ReactionHeaderProps) => {
         ) }
       </div>
 
-      <div
-        className={classList('reaction-date', reaction.edited && 'reaction-date-edited')}
-        title={reaction.edited ? moment(reaction.edited).format('[Edité le] Do MMMM YYYY [à] hh:mm') : undefined}
-        onClick={() => reaction.edited && props.onOpenHistory()}
-      >
-        { reaction.edited && '* ' }
-        { moment(reaction.date).format('[Le] Do MMMM YYYY [à] hh:mm') }
+      <div className="reaction-header-top-right-wrapper">
+
+        { user && (
+          <div className="report" onClick={props.onReportReaction}>
+            Signaler
+          </div>
+        ) }
+
+        <div
+          className={classList('reaction-date', reaction.edited && 'reaction-date-edited')}
+          title={reaction.edited ? moment(reaction.edited).format('[Edité le] Do MMMM YYYY [à] hh:mm') : undefined}
+          onClick={() => reaction.edited && props.onOpenHistory()}
+        >
+          { reaction.edited && '* ' }
+          { moment(reaction.date).format('[Le] Do MMMM YYYY [à] hh:mm') }
+        </div>
+
       </div>
 
       { expand === 'fold'

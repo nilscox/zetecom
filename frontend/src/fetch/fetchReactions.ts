@@ -58,3 +58,11 @@ export const postShortReply = async (reactionId: number, type: ShortReplyType): 
 
   return parseReaction(data);
 }
+
+export const reportReaction = async (reactionId: number, type: string, message?: string) => {
+  const payload = { type, message };
+
+  const { data } = await axios.post(`/api/reaction/${reactionId}/report`, payload, {
+    withCredentials: true,
+  });
+}

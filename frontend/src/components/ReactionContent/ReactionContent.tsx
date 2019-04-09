@@ -6,6 +6,7 @@ import { ReactionHeader } from './ReactionHeader';
 import { ReactionBody } from './ReactionBody';
 import { ReactionFooter } from './ReactionFooter';
 import { ReactionHistoryModalContent } from './ReactionHistoryModalContent';
+import { ReportModalContent } from './ReportModalContent';
 import { ReactionForm } from '../ReactionForm';
 
 import './ReactionContent.css';
@@ -23,6 +24,7 @@ type ReactionContentProps = {
 
 const ReactionContent = (props: ReactionContentProps) => {
   const [historyModalOpen, setHistoryModalOpen] = useState(false);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
   const [edittingReaction, setEdittingReaction] = useState(false);
   const [expand, setExpand] = useState<ExpandType>('default');
 
@@ -49,6 +51,7 @@ const ReactionContent = (props: ReactionContentProps) => {
         expand={expand}
         onOpenHistory={() => setHistoryModalOpen(true)}
         onEditReaction={() => setEdittingReaction(true)}
+        onReportReaction={() => setReportModalOpen(true)}
         setExpand={setExpand}
       />
 
@@ -75,6 +78,15 @@ const ReactionContent = (props: ReactionContentProps) => {
           <ReactionHistoryModalContent reaction={props.reaction} />
         </ReactModal>
       ) }
+
+      <ReactModal
+        portalClassName="ReactModalPortal reaction-report-modal-portal"
+        isOpen={reportModalOpen}
+        onRequestClose={() => setReportModalOpen(false)}
+        closeTimeoutMS={200}
+      >
+        <ReportModalContent reaction={props.reaction} closeModal={() => setReportModalOpen(false)} />
+      </ReactModal>
 
     </div>
   );

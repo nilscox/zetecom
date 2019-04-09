@@ -38,10 +38,27 @@
   cursor: pointer;
 }
 
-.reaction-date {
+.reaction-header-top-right-wrapper {
   position: absolute;
   right: 5px;
   top: 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+.report {
+  font-size: 12px;
+  color: #933;
+  display: none;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.reaction-header-top-right-wrapper:hover .report {
+  display: block;
+}
+
+.reaction-date {
   font-size: 12px;
   color: #999;
 }
@@ -209,4 +226,69 @@
 .history-message-text {
   margin-top: 20px;
   margin-bottom: 40px;
+}
+
+.reaction-report-modal-portal .ReactModal__Content {
+  min-width: 380px;
+  max-width: 780px;
+  left: 50% !important;
+  transform: translateX(-50%);
+}
+
+.reaction-report-modal h2 {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #933;
+}
+
+.reaction-report-warning {
+  margin: 30px 0;
+  padding: 15px;
+  background-color: #FFFFCC;
+  border: 1px solid #CCCC33;
+}
+
+.reaction-report-modal .reaction-body {
+  border: 1px solid #CCC;
+  border-radius: 2px;
+}
+
+.reaction-report-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reaction-report-form select.report-type {
+  margin: 30px 0;
+  width: 100%;
+  background: none;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.reaction-report-form textarea.report-message {
+  margin-bottom: 30px;
+  width: 100%;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.reaction-report-form button.report-button {
+  width: 180px;
+  background: none;
+  border: 1px solid #CCC;
+  border-radius: 2px;
+  padding: 5px 0;
+}
+
+.reaction-report-form button.report-button:hover {
+  border-color: #FF9999;
+  cursor: pointer;
 }
