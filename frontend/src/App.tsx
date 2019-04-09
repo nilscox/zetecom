@@ -80,7 +80,7 @@ const App = ({ youtubeId }: AppProps) => {
   }, []);
 
   if (fetchingUser || fetchingInformation)
-    return <Loader />;
+    return <Loader size="big" />;
 
   if (!information)
     return <div>Information not found</div>;

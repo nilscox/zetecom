@@ -55,7 +55,7 @@ const DefaultView = (props: DefaultViewProps) => {
     onSort(ReactionSortType.DATE_DESC);
 
   if (fetchingRootReactions)
-    return <Loader />;
+    return <Loader size="big" />;
 
   return (
     <div>

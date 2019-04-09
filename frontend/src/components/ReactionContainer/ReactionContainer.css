@@ -8,13 +8,11 @@
 
 .reaction-container .reaction-replies {
   display: flex;
-  margin-top: 10px;
 }
 
 .reaction-reply-form-wrapper {
   display: flex;
   flex-direction: row;
-  margin-top: 10px;
 }
 
 .reaction-reply-form {

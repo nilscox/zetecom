@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Collapse } from 'react-collapse';
 
 import { classList } from '../../utils/classList';
 import InformationContext from '../../utils/InformationContext';
@@ -12,6 +11,7 @@ import { ReactionContent } from '../ReactionContent/ReactionContent';
 import { ReactionForm } from '../ReactionForm/ReactionForm';
 import { ReactionsList } from '../ReactionsList/ReactionsList';
 import { Loader } from '../Loader';
+import { Collapse } from '../Collapse';
 
 import './ReactionContainer.css';
 
@@ -78,6 +78,9 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
   };
 
   const onShowReplyForm = () => {
+    if (replies === null)
+      setFetchingReplies(true);
+
     setDisplayReplies(true);
     setDisplayReplyForm(true);
   };
@@ -119,7 +122,7 @@ export const ReactionContainer = (props: ReactionContainerProps) => {
         </div>
       </Collapse>
 
-      <Collapse isOpened={displayReplies}>
+      <Collapse isOpened={fetchingReplies || !!(displayReplies && replies && replies.length > 0)}>
         <ReactionReplies
           fetching={fetchingReplies}
           replies={replies}
