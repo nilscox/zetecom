@@ -1,8 +1,11 @@
 import * as path from 'path';
 import { addAlias } from 'module-alias';
+import * as dotenv from 'dotenv';
 
 addAlias('Common', path.join(__dirname, 'common'));
 addAlias('Utils', path.join(__dirname, 'utils'));
+
+dotenv.config();
 
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
