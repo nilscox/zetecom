@@ -33,6 +33,7 @@ import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { ReactionOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
 import { ShortReplyInDto } from './dtos/short-reply-in.dto';
+import { ReportInDto } from './dtos/report-in.dto';
 
 @Controller('/reaction')
 export class ReactionController {
@@ -154,6 +155,30 @@ export class ReactionController {
 
     // TODO: wtf?!
     return this.reactionService.findOne({ reactionId: reaction.id });
+  }
+
+  @Post(':id/report')
+  @Output(ReactionOutDto)
+  @UseInterceptors(PopulateReaction)
+  @UseGuards(IsAuthenticated)
+  async report(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() dto: ReportInDto,
+    @ReqUser() user: User,
+  ): Promise<Reaction> {
+    const reaction = await this.reactionService.findOne(id);
+
+    if (!reaction)
+      throw new NotFoundException();
+
+    const report = await this.reactionService.findReport(reaction, user);
+
+    if (report)
+      throw new BadRequestException('REACTION_ALREADY_REPORTED');
+
+    await this.reactionService.report(reaction, user, dto.type, dto.message);
+
+    return reaction;
   }
 
 }

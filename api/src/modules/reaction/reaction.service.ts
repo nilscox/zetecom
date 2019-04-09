@@ -1,19 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
 import { Repository, FindConditions } from 'typeorm';
 
 import { ReactionSortType } from 'Utils/reaction-sort-type';
 
-import { User } from '../user/user.entity';
-import { Information } from '../information/information.entity';
-import { SlugService } from '../information/services/slug.service';
-import { PaginationService } from '../information/services/pagination.service';
-
-import { Reaction } from './reaction.entity';
-import { Message } from './message.entity';
-import { ShortReply, ShortReplyType } from './short-reply.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
+import { Information } from '../information/information.entity';
+import { Message } from './message.entity';
+import { PaginationService } from '../information/services/pagination.service';
+import { Reaction } from './reaction.entity';
+import { Report, ReportType } from './report.entity';
+import { ShortReply, ShortReplyType } from './short-reply.entity';
+import { SlugService } from '../information/services/slug.service';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class ReactionService {
@@ -28,6 +28,9 @@ export class ReactionService {
 
     @InjectRepository(ShortReply)
     private readonly shortReplyRepository: Repository<ShortReply>,
+
+    @InjectRepository(Report)
+    private readonly reportRepository: Repository<Report>,
 
     private readonly slugService: SlugService,
     private readonly paginationService: PaginationService,
@@ -80,6 +83,10 @@ export class ReactionService {
     reactions.sort((a: any, b: any) => b.relevance - a.relevance);
 
     return reactions;
+  }
+
+  async findReport(reaction: Reaction, user: User): Promise<Report> {
+    return this.reportRepository.findOne({ reaction, user });
   }
 
   async addRepliesCounts(reactions: Reaction[]): Promise<Reaction[]> {
@@ -181,6 +188,17 @@ export class ReactionService {
 
       await this.shortReplyRepository.save(shortRelpy);
     }
+  }
+
+  async report(reaction: Reaction, user: User, type: ReportType, message: string) {
+    const report = new Report();
+
+    report.reaction = reaction;
+    report.user = user;
+    report.type = type;
+    report.message = message;
+
+    await this.reportRepository.save(report);
   }
 
   async create(
