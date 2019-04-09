@@ -176,7 +176,7 @@ async function createShortReply(reactionId: number, type: ShortReplyType, user: 
 }
 
 async function main() {
-  axios.defaults.baseURL = 'http://localhost:3000';
+  axios.defaults.baseURL = process.env.BASE_URL || 'http://localhost:3000';
 
   const users: IUser[] = await Promise.all<IUser>(usersData.map(createUserOrLogin));
   const infos = await Promise.all<IInformation>(infosData.map(i => findOrCreateInformation(i, findUser(users, i.creator))));
