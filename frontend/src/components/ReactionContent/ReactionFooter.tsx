@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 
 import { classList } from '../../utils/classList';
 import UserContext from '../../utils/UserContext';
-import { postShortReply } from '../../fetch/fetchReactions';
-import { Reaction, ShortReplyType } from '../../types/Reaction';
+import { postQuickReaction } from '../../fetch/fetchReactions';
+import { Reaction, QuickReactionType } from '../../types/Reaction';
 
 type ReactionFooterProps = {
   reaction: Reaction;
@@ -13,45 +13,45 @@ type ReactionFooterProps = {
   onShowReplyForm: () => void;
 };
 
-const shortReplies = [
-  { type: ShortReplyType.APPROVE, image: '/assets/images/1f44d.png' },
-  { type: ShortReplyType.REFUTE, image: '/assets/images/1f44e.png' },
-  { type: ShortReplyType.SKEPTIC, image: '/assets/images/1f9d0.png' },
+const quickReactions = [
+  { type: QuickReactionType.APPROVE, image: '/assets/images/1f44d.png' },
+  { type: QuickReactionType.REFUTE, image: '/assets/images/1f44e.png' },
+  { type: QuickReactionType.SKEPTIC, image: '/assets/images/1f9d0.png' },
 ];
 
-const useShortReplies = (reaction: Reaction) => {
-  const [userShortReply, setUserShortReply] = useState(reaction.userShortReply);
-  const [shortRepliesCount, setShortRepliesCount] = useState(reaction.shortRepliesCount);
+const useQuickReactions = (reaction: Reaction) => {
+  const [userQuickReaction, setUserQuickReaction] = useState(reaction.userQuickReaction);
+  const [quickReactionsCount, setQuickReactionsCount] = useState(reaction.quickReactionsCount);
 
-  const onUserShortReply = (type: ShortReplyType) => {
-    // newShortRepliesCount
-    let nsrc = {
-      approve: shortRepliesCount.approve,
-      refute: shortRepliesCount.refute,
-      skeptic: shortRepliesCount.skeptic,
+  const onUserQuickReaction = (type: QuickReactionType) => {
+    // newQuickReactionsCount
+    let nqrc = {
+      approve: quickReactionsCount.approve,
+      refute: quickReactionsCount.refute,
+      skeptic: quickReactionsCount.skeptic,
     };
 
-    if (type === userShortReply) {
-      nsrc[type]--;
+    if (type === userQuickReaction) {
+      nqrc[type]--;
       type = null;
     } else {
-      nsrc[userShortReply]--;
-      nsrc[type]++;
+      nqrc[userQuickReaction]--;
+      nqrc[type]++;
     }
 
-    setShortRepliesCount(nsrc);
-    setUserShortReply(type);
+    setQuickReactionsCount(nqrc);
+    setUserQuickReaction(type);
 
-    postShortReply(reaction.id, type)
+    postQuickReaction(reaction.id, type)
       .then((reaction: Reaction) => {
         // ...
       });
   };
 
   return  {
-    shortRepliesCount,
-    userShortReply,
-    setUserShortReply: onUserShortReply,
+    quickReactionsCount,
+    userQuickReaction,
+    setUserQuickReaction: onUserQuickReaction,
   };
 };
 
@@ -69,29 +69,29 @@ const ReactionFooter = (props: ReactionFooterProps) => {
   const hasReplies = repliesCount > 0;
 
   const {
-    shortRepliesCount,
-    userShortReply,
-    setUserShortReply,
-  } = useShortReplies(reaction);
+    quickReactionsCount,
+    userQuickReaction,
+    setUserQuickReaction,
+  } = useQuickReactions(reaction);
 
   return (
     <div className="reaction-footer">
 
-      <div className="short-replies">
-        { shortReplies.map(({ type, image }) => (
+      <div className="quick-reactions">
+        { quickReactions.map(({ type, image }) => (
           <div
             key={type}
             className={classList(
-              'short-reply',
-              `short-reply--${type}`,
-              !!user && 'can-short-reply',
-              userShortReply === type && 'did-short-reply',
+              'quick-reaction',
+              `quick-reaction--${type}`,
+              !!user && 'can-quick-reaction',
+              userQuickReaction === type && 'did-quick-reaction',
             )}
-            onClick={() => !!user && setUserShortReply(type)}
+            onClick={() => !!user && setUserQuickReaction(type)}
           >
             <img src={image} />
-            <div className="short-replies-count">
-              { shortRepliesCount[type] }
+            <div className="quick-reactions-count">
+              { quickReactionsCount[type] }
             </div>
           </div>
         )) }

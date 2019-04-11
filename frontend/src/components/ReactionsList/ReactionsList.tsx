@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import { Reaction, ShortReplyType, ReactionLabel } from '../../types/Reaction';
+import { Reaction, QuickReactionType, ReactionLabel } from '../../types/Reaction';
 import { ReactionContainer } from '../ReactionContainer';
 
 type ReactionsListProps = {

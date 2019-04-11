@@ -7,12 +7,12 @@ import { ReactionController } from './reaction.controller';
 import { ReactionService } from './reaction.service';
 import { Reaction } from './reaction.entity';
 import { Message } from './message.entity';
-import { ShortReply } from './short-reply.entity';
+import { QuickReaction } from './quick-reaction.entity';
 import { Report } from './report.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Reaction, Message, ShortReply, Report]),
+    TypeOrmModule.forFeature([Reaction, Message, QuickReaction, Report]),
     forwardRef(() => InformationModule),
   ],
   controllers: [

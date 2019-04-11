@@ -21,10 +21,10 @@ export class PopulateReaction implements NestInterceptor {
       return [];
 
     await this.reactionService.addRepliesCounts(reactions);
-    await this.reactionService.addShortRepliesCounts(reactions);
+    await this.reactionService.addQuickReactionsCounts(reactions);
 
     if (user)
-      await this.reactionService.addUserShortReply(reactions, user);
+      await this.reactionService.addUserQuickReaction(reactions, user);
   }
 
   intercept(context: ExecutionContext, call$: Observable<any>): Observable<any> {

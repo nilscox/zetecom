@@ -3,7 +3,7 @@ import { Entity, Column, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, U
 import { User } from '../user/user.entity';
 import { Information } from '../information/information.entity';
 import { Message } from './message.entity';
-import { ShortReply, ShortReplyType } from './short-reply.entity';
+import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 
 @Entity({ name: 'reaction', orderBy: { created: 'DESC' } })
 export class Reaction {
@@ -41,13 +41,13 @@ export class Reaction {
   @OneToMany(type => Reaction, reaction => reaction.parent)
   replies: Reaction[];
 
-  @OneToMany(type => ShortReply, sr => sr.reaction)
-  shortReplies: ShortReply[];
+  @OneToMany(type => QuickReaction, sr => sr.reaction)
+  quickReactions: QuickReaction[];
 
   // not @Column(), ok ?
   repliesCount?: number;
 
-  shortRepliesCount?: { [key in ShortReplyType]: number };
+  quickReactionsCount?: { [key in QuickReactionType]: number };
 
-  userShortReply?: ShortReplyType;
+  userQuickReaction?: QuickReactionType;
 }

@@ -10,7 +10,7 @@ import { Message } from './message.entity';
 import { PaginationService } from '../information/services/pagination.service';
 import { Reaction } from './reaction.entity';
 import { Report, ReportType } from './report.entity';
-import { ShortReply, ShortReplyType } from './short-reply.entity';
+import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 import { SlugService } from '../information/services/slug.service';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { User } from '../user/user.entity';
@@ -26,8 +26,8 @@ export class ReactionService {
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
 
-    @InjectRepository(ShortReply)
-    private readonly shortReplyRepository: Repository<ShortReply>,
+    @InjectRepository(QuickReaction)
+    private readonly quickReactionRepository: Repository<QuickReaction>,
 
     @InjectRepository(Report)
     private readonly reportRepository: Repository<Report>,
@@ -70,13 +70,13 @@ export class ReactionService {
       .getMany();
 
     await this.addRepliesCounts(reactions);
-    await this.addShortRepliesCounts(reactions);
+    await this.addQuickReactionsCounts(reactions);
 
     reactions.forEach((r: any) => {
       r.relevance =
-        + r.shortRepliesCount.APPROVE
-        + r.shortRepliesCount.REFUTE
-        + r.shortRepliesCount.SKEPTIC
+        + r.quickReactionsCount.APPROVE
+        + r.quickReactionsCount.REFUTE
+        + r.quickReactionsCount.SKEPTIC
         + 2 * r.repliesCount;
     });
 
@@ -113,21 +113,21 @@ export class ReactionService {
     return reactions;
   }
 
-  async addShortRepliesCounts(reactions: Reaction[]): Promise<Reaction[]> {
+  async addQuickReactionsCounts(reactions: Reaction[]): Promise<Reaction[]> {
     if (!reactions.length)
       return [];
 
-    const shortRepliesCounts = await this.shortReplyRepository.createQueryBuilder('short_reply')
+    const quickReactionsCounts = await this.quickReactionRepository.createQueryBuilder('quick_reaction')
       .select('reaction_id')
       .addSelect('type')
       .addSelect('count(id)')
-      .where('short_reply.reaction_id IN (' + reactions.map(r => r.id) + ')')
+      .where('quick_reaction.reaction_id IN (' + reactions.map(r => r.id) + ')')
       .groupBy('type')
       .addGroupBy('reaction_id')
       .getRawMany();
 
-    const getShortRepliesCount = (reactionId: number, type: ShortReplyType): number => {
-      const value = shortRepliesCounts.filter(src => src.reaction_id === reactionId && src.type === type);
+    const getQuickReactionsCount = (reactionId: number, type: QuickReactionType): number => {
+      const value = quickReactionsCounts.filter(qrc => qrc.reaction_id === reactionId && qrc.type === type);
 
       if (!value.length)
         return 0;
@@ -136,37 +136,37 @@ export class ReactionService {
     };
 
     reactions.forEach(reaction => {
-      reaction.shortRepliesCount = {
-        APPROVE: getShortRepliesCount(reaction.id, ShortReplyType.APPROVE),
-        REFUTE: getShortRepliesCount(reaction.id, ShortReplyType.REFUTE),
-        SKEPTIC: getShortRepliesCount(reaction.id, ShortReplyType.SKEPTIC),
+      reaction.quickReactionsCount = {
+        APPROVE: getQuickReactionsCount(reaction.id, QuickReactionType.APPROVE),
+        REFUTE: getQuickReactionsCount(reaction.id, QuickReactionType.REFUTE),
+        SKEPTIC: getQuickReactionsCount(reaction.id, QuickReactionType.SKEPTIC),
       };
     });
 
     return reactions;
   }
 
-  async addUserShortReply(reactions: Reaction[], user: User): Promise<Reaction[]> {
-    const shortReplies = await this.shortReplyRepository.createQueryBuilder('short_reply')
+  async addUserQuickReaction(reactions: Reaction[], user: User): Promise<Reaction[]> {
+    const quickReactions = await this.quickReactionRepository.createQueryBuilder('quick_reaction')
       .select('reaction_id')
       .addSelect('type')
-      .where('short_reply.reaction_id IN (' + reactions.map(r => r.id) + ')')
-      .andWhere('short_reply.user_id = ' + user.id)
+      .where('quick_reaction.reaction_id IN (' + reactions.map(r => r.id) + ')')
+      .andWhere('quick_reaction.user_id = ' + user.id)
       .groupBy('type')
       .addGroupBy('reaction_id')
       .getRawMany();
 
     reactions.forEach((reaction, i) => {
-      const shortReply = shortReplies.find(sr => sr.reaction_id === reaction.id);
+      const quickReaction = quickReactions.find(sr => sr.reaction_id === reaction.id);
 
-      reaction.userShortReply = shortReply ? shortReply.type : null;
+      reaction.userQuickReaction = quickReaction ? quickReaction.type : null;
     });
 
     return reactions;
   }
 
-  async setShortReply(reaction: Reaction, user: User, type: ShortReplyType | null) {
-    const existingShortReply = await this.shortReplyRepository.findOne({
+  async setQuickReaction(reaction: Reaction, user: User, type: QuickReactionType | null) {
+    const existingQuickReaction = await this.quickReactionRepository.findOne({
       where: {
         reaction,
         user,
@@ -174,19 +174,19 @@ export class ReactionService {
       relations: ['reaction', 'user'],
     });
 
-    if (existingShortReply) {
-      if (existingShortReply.type === type)
+    if (existingQuickReaction) {
+      if (existingQuickReaction.type === type)
         return;
 
-      await this.shortReplyRepository.update(existingShortReply.id, { type });
+      await this.quickReactionRepository.update(existingQuickReaction.id, { type });
     } else {
-      const shortRelpy = new ShortReply();
+      const quickReaction = new QuickReaction();
 
-      shortRelpy.reaction = reaction;
-      shortRelpy.user = user;
-      shortRelpy.type = type;
+      quickReaction.reaction = reaction;
+      quickReaction.user = user;
+      quickReaction.type = type;
 
-      await this.shortReplyRepository.save(shortRelpy);
+      await this.quickReactionRepository.save(quickReaction);
     }
   }
 

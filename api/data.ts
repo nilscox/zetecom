@@ -3,7 +3,7 @@ const axios = require('axios');
 const usersData = require('./data/users');
 const infosData = require('./data/informations');
 
-type ShortReplyType = 'APPROVE' | 'REFUTE' | 'SKEPTIC';
+type QuickReactionType = 'APPROVE' | 'REFUTE' | 'SKEPTIC';
 
 interface IUser {
   id: number;
@@ -31,12 +31,12 @@ interface IReaction {
   text: string;
   date: string;
   repliesCount: number,
-  shortRepliesCount: {
+  quickReactionsCount: {
     approve: number;
     refute: number;
     skeptic: number;
   };
-  userShortReply: ShortReplyType | null;
+  userQuickReaction: QuickReactionType | null;
   author: IUser;
 }
 
@@ -163,14 +163,14 @@ async function createReaction(informationId: number, reaction: any, user: IUser,
   return created;
 }
 
-async function createShortReply(reactionId: number, type: ShortReplyType, user: IUser): Promise<IReaction> {
+async function createQuickReaction(reactionId: number, type: QuickReactionType, user: IUser): Promise<IReaction> {
   const payload = { type };
 
-  const { data: reaction } = await axios.post(`/api/reaction/${reactionId}/short-reply`, payload, {
+  const { data: reaction } = await axios.post(`/api/reaction/${reactionId}/quick-reaction`, payload, {
     headers: { cookie: user.cookie },
   });
 
-  console.log(`shortReply created: ${reaction.id} (${user.nick}, ${type})`);
+  console.log(`quickReaction created: ${reaction.id} (${user.nick}, ${type})`);
 
   return reaction;
 }
@@ -184,13 +184,13 @@ async function main() {
   const createReactionRec = async (informationId: number, reaction: any, parentId?: number) => {
     const created = await createReaction(informationId, reaction, findUser(users, reaction.author), parentId);
 
-    if (reaction.shortReplies) {
-      const { approve, refute, skeptic } = reaction.shortReplies;
+    if (reaction.quickReactions) {
+      const { approve, refute, skeptic } = reaction.quickReactions;
 
       await Promise.all([
-        Promise.all(approve.map(u => createShortReply(created.id, 'APPROVE', findUser(users, u)))),
-        Promise.all(refute.map(u => createShortReply(created.id, 'REFUTE', findUser(users, u)))),
-        Promise.all(skeptic.map(u => createShortReply(created.id, 'SKEPTIC', findUser(users, u)))),
+        Promise.all(approve.map(u => createQuickReaction(created.id, 'APPROVE', findUser(users, u)))),
+        Promise.all(refute.map(u => createQuickReaction(created.id, 'REFUTE', findUser(users, u)))),
+        Promise.all(skeptic.map(u => createQuickReaction(created.id, 'SKEPTIC', findUser(users, u)))),
       ]);
     }
 

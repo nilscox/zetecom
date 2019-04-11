@@ -4,15 +4,15 @@ import { User } from '../user/user.entity';
 
 import { Reaction } from './reaction.entity';
 
-export enum ShortReplyType {
+export enum QuickReactionType {
   APPROVE = 'APPROVE',
   REFUTE = 'REFUTE',
   SKEPTIC = 'SKEPTIC',
 }
 
-@Entity({ name: 'short_reply' })
+@Entity({ name: 'quick_reaction' })
 @Unique(['user', 'reaction'])
-export class ShortReply {
+export class QuickReaction {
 
   @PrimaryGeneratedColumn()
   id: number;
@@ -25,8 +25,8 @@ export class ShortReply {
   @JoinColumn({ name: 'reaction_id' })
   reaction: Reaction;
 
-  @Column({ type: 'enum', enum: ShortReplyType, nullable: true })
-  type: ShortReplyType;
+  @Column({ type: 'enum', enum: QuickReactionType, nullable: true })
+  type: QuickReactionType;
 
   @CreateDateColumn()
   created: Date;

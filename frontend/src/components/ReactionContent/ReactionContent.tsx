@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
 
-import { Reaction, ShortReplyType } from '../../types/Reaction';
+import { Reaction, QuickReactionType } from '../../types/Reaction';
 import { ReactionHeader } from './ReactionHeader';
 import { ReactionBody } from './ReactionBody';
 import { ReactionFooter } from './ReactionFooter';

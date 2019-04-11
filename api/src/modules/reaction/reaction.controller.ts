@@ -27,12 +27,12 @@ import { InformationService } from '../information/information.service';
 
 import { Reaction } from './reaction.entity';
 import { ReactionService } from './reaction.service';
-import { ShortReplyType } from './short-reply.entity';
+import { QuickReactionType } from './quick-reaction.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { ReactionOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
-import { ShortReplyInDto } from './dtos/short-reply-in.dto';
+import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
 import { ReportInDto } from './dtos/report-in.dto';
 
 @Controller('/reaction')
@@ -106,12 +106,12 @@ export class ReactionController {
     const reaction = await this.reactionService.create(information, dto, user, parent);
 
     reaction.repliesCount = 0;
-    reaction.shortRepliesCount = {
+    reaction.quickReactionsCount = {
       APPROVE: 0,
       REFUTE: 0,
       SKEPTIC: 0,
     };
-    reaction.userShortReply = null;
+    reaction.userQuickReaction = null;
 
     return reaction;
   }
@@ -137,13 +137,13 @@ export class ReactionController {
     return this.reactionService.update(reaction, dto);
   }
 
-  @Post(':id/short-reply')
+  @Post(':id/quick-reaction')
   @Output(ReactionOutDto)
   @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated)
-  async shortReply(
+  async quickReaction(
     @Param('id', new ParseIntPipe()) id: number,
-    @Body() dto: ShortReplyInDto,
+    @Body() dto: QuickReactionInDto,
     @ReqUser() user: User,
   ): Promise<Reaction> {
     const reaction = await this.reactionService.findOne(id);
@@ -151,7 +151,7 @@ export class ReactionController {
     if (!reaction)
       throw new NotFoundException();
 
-    await this.reactionService.setShortReply(reaction, user, dto.type);
+    await this.reactionService.setQuickReaction(reaction, user, dto.type);
 
     // TODO: wtf?!
     return this.reactionService.findOne({ reactionId: reaction.id });

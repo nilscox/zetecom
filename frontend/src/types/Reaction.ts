@@ -6,13 +6,13 @@ export enum ReactionLabel {
   POV = "OPINION"
 }
 
-export enum ShortReplyType {
+export enum QuickReactionType {
   APPROVE = 'approve',
   REFUTE = 'refute',
   SKEPTIC = 'skeptic',
 }
 
-export type ShortRepliesCount = {
+export type QuickReactionsCount = {
   approve: number;
   refute: number;
   skeptic: number;
@@ -34,8 +34,8 @@ export type Reaction = {
   history: ReactionHistory[] | null;
   repliesCount: number;
   author: Partial<User>;
-  shortRepliesCount: ShortRepliesCount;
-  userShortReply: ShortReplyType;
+  quickReactionsCount: QuickReactionsCount;
+  userQuickReaction: QuickReactionType;
 };
 
 export const parseReactionHistory = (data: any): ReactionHistory => {
