@@ -30,7 +30,7 @@ interface IReaction {
   edited: false | string;
   text: string;
   date: string;
-  repliesCount: number,
+  repliesCount: number;
   quickReactionsCount: {
     approve: number;
     refute: number;
