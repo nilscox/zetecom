@@ -40,8 +40,8 @@ export class AuthenticationController {
   @Output(UserTokenOutDto)
   @UseGuards(IsNotAuthenticated)
   async signup(@Body() createUserDto: CreateUserInDto, @Session() session): Promise<UserToken> {
-    const { email, password, nick } = createUserDto;
-    const user = await this.userService.create(email, password, nick);
+    const { email, password, nick, avatar } = createUserDto;
+    const user = await this.userService.create(email, password, nick, avatar);
 
     session.userId = user.id;
 

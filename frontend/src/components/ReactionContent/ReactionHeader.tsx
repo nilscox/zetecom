@@ -24,7 +24,7 @@ const ReactionHeader = (props: ReactionHeaderProps) => {
     <div className="reaction-header">
 
       <div className="reaction-author-avatar">
-        <img src={author.avatar || '/assets/images/default-avatar.png'} />
+        <img src={author.getAvatarUrl()} />
       </div>
 
       <div className="reaction-author-nick">

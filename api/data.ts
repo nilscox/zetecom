@@ -59,6 +59,7 @@ async function createUserOrLogin(user: any): Promise<IUser> {
       email: user.email,
       password: user.password,
       nick: user.nick,
+      avatar: user.avatar,
     };
 
     return axios.post('/api/auth/signup', payload);

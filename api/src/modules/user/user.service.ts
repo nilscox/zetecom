@@ -22,7 +22,7 @@ export class UserService {
     return this.userRepository.findOne(id);
   }
 
-  async create(email: string, password: string, nick: string): Promise<User> {
+  async create(email: string, password: string, nick: string, avatar: string): Promise<User> {
     const existing = await this.userRepository.findOne({ where: { email } });
 
     if (existing !== undefined)
@@ -33,6 +33,7 @@ export class UserService {
     user.email = email;
     user.password = await bcrypt.hash(password, 10);
     user.nick = nick;
+    user.avatar = avatar;
 
     return this.userRepository.save(user);
   }
