@@ -91,6 +91,7 @@ const App = ({ youtubeId }: AppProps) => {
         <div style={{
           width: 650,
           margin: 'auto',
+          paddingBottom: 20,
         }}>
 
         <AppContent information={information} />
