@@ -89,8 +89,7 @@ const App = ({ youtubeId }: AppProps) => {
     <UserProvider value={user}>
       <InformationProvider value={information}>
         <div style={{
-          width: 650,
-          margin: 'auto',
+          width: 'auto',
           paddingBottom: 20,
         }}>
 

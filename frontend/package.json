@@ -9,6 +9,7 @@
   "dependencies": {
     "@types/showdown": "^1.9.2",
     "axios": "^0.18.0",
+    "iframe-resizer": "^4.1.1",
     "moment": "^2.24.0",
     "query-string": "^6.4.0",
     "react": "^16.8.4",
