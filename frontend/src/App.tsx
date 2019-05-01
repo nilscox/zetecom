@@ -2,7 +2,7 @@ import React, { forwardRef, useContext, useState, useEffect, useRef } from 'reac
 
 import { User } from './types/User';
 import { Information } from './types/Information';
-import { Reaction, ReactionLabel } from './types/Reaction';
+import { Reaction } from './types/Reaction';
 import { UserProvider } from './utils/UserContext';
 import { InformationProvider } from './utils/InformationContext';
 import { fetchUser } from './fetch/fetchUser';

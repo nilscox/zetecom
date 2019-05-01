@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { classList } from '../utils/classList';
 import { ReactionSortTypeProvider } from '../utils/ReactionSortTypeContext';
-import { Reaction, ReactionLabel } from '../types/Reaction';
+import { Reaction } from '../types/Reaction';
 import { ReactionSortType } from '../types/ReactionSortType';
 import { fetchRootReactions, postReaction } from '../fetch/fetchReactions';
 import InformationContext from '../utils/InformationContext';

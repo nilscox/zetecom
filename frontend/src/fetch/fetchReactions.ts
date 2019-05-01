@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { ReactionSortType } from '../types/ReactionSortType';
-import { Reaction, QuickReactionType, ReactionLabel, parseReaction } from '../types/Reaction';
+import { Reaction, QuickReactionType, parseReaction } from '../types/Reaction';
 
 export const fetchRootReactions = async (informationId: number, sort: ReactionSortType): Promise<Reaction[]> => {
   const { data } = await axios.get(`/api/information/${informationId}/reactions?sort=${sort}`, {
@@ -29,8 +29,8 @@ export const fetchReplies = async (parentId: number, sort: ReactionSortType): Pr
   return data.map((r: any) => parseReaction(r));
 };
 
-export const postReaction = async (informationId: number, label: ReactionLabel, quote: string | null, text: string, parentId?: number): Promise<Reaction> => {
-  const payload = { informationId, label, quote, text, parentId };
+export const postReaction = async (informationId: number, quote: string | null, text: string, parentId?: number): Promise<Reaction> => {
+  const payload = { informationId, quote, text, parentId };
 
   const { data } = await axios.post(`/api/reaction`, payload, {
     withCredentials: true,

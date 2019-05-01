@@ -233,6 +233,7 @@
   max-width: 780px;
   left: 50% !important;
   transform: translateX(-50%);
+  bottom: auto !important;
 }
 
 .reaction-report-modal h2 {

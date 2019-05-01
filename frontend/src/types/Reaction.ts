@@ -1,11 +1,5 @@
 import { User, parseUser } from "./User";
 
-export enum ReactionLabel {
-  SOURCE = "SOURCE",
-  METHOD = "MÉTHODE",
-  POV = "OPINION"
-}
-
 export enum QuickReactionType {
   APPROVE = 'approve',
   REFUTE = 'refute',
@@ -26,7 +20,6 @@ export type ReactionHistory = {
 export type Reaction = {
   id: number;
   slug: string;
-  label: ReactionLabel;
   quote: string | null;
   text: string;
   date: Date;

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef } from 'react';
 
 import { User } from '../../types/User';
-import { Reaction, ReactionLabel } from '../../types/Reaction';
+import { Reaction } from '../../types/Reaction';
 import { Information } from '../../types/Information';
 import { postReaction, updateReaction } from '../../fetch/fetchReactions';
 import InformationContext from '../../utils/InformationContext';
@@ -27,12 +27,12 @@ const ReactionForm = (props: ReactionFormProps) => {
   const [submitting, setSubmitting] = useState(false);
   const formBodyRef = useRef(null);
 
-  const onSubmit = (label: ReactionLabel, quote: string | null, text: string) => {
+  const onSubmit = (quote: string | null, text: string) => {
     setSubmitting(true);
 
     const promise = preloadedReaction
       ? updateReaction(preloadedReaction.id, text)
-      : postReaction(information.id, label, quote, text, replyTo ? replyTo.id : undefined);
+      : postReaction(information.id, quote, text, replyTo ? replyTo.id : undefined);
 
     promise
       .then((reaction: Reaction) => {
