@@ -49,7 +49,8 @@ export const ReportModalContent = (props: ReportModalContentProps) => {
       <h2>Signaler la réaction de { props.reaction.author.nick }</h2>
 
       <div className="reaction-report-warning">
-        Attention ! Vous êtes sur le point de signaler une réaction. Blah blah blah...
+        Attention ! Vous êtes sur le point de signaler une réaction.<br />
+        Il est important de signaler certaines réactions, mais pas toutes. Assurez-vous que la réaction de <em>{ props.reaction.author.nick }</em> est bien sujet à modération en vous référant à <a href="#">la charte</a>.
       </div>
 
       <ReactionBody reaction={props.reaction} expand="full" expandFull={() => {}} />
