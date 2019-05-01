@@ -84,7 +84,7 @@ function render(rootTag, youtubeComments, youtubeId) {
 }
 
 function main() {
-  const comments = document.getElementById('comments');
+  const comments = document.getElementById('comments') || document.getElementById('comment-section-renderer');
   const youtubeId = YOUTUBE_REGEX.exec(window.location.href);
 
   if (!youtubeId) {
