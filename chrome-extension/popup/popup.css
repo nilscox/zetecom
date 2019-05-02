@@ -1,6 +1,92 @@
 body {
-  height: 230px;
-  width: 300px;
-  outline: none;
+  width: 380px;
+  height: 280px;
+  margin: auto;
   background-color: #f6f6f6;
+  display: flex;
+  flex-direction: column;
+  font-family: sans-serif;
+}
+
+div.hidden {
+  display: none;
+}
+
+.popup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-title {
+  text-align: center;
+  border-bottom: 2px solid #ccc;
+}
+
+.popup-title h1 {
+  margin: 10px;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.popup-subtitle {
+  color: #666;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  flex: 1;
+}
+
+.form-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.form-input input {
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  padding: 10px 5px;
+  margin: 0 20px;
+  display: block;
+}
+
+.form-input input.error {
+  border-color: #f00;
+}
+
+.form-input label {
+  display: block;
+  margin: 0 25px 2px 25px;
+  font-size: 12px;
+}
+
+.submit {
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.error-message {
+  padding: 2px 20px;
+  font-size: 12px;
+  text-align: right;
+  color: #e24;
+  min-height: 14px;
+}
+
+.global {
+  text-align: center;
 }
