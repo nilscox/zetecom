@@ -1,9 +1,15 @@
-#app, .ReactModalPortal {
-  font-family: sans-serif;
+#app, .ReactModalPortal, .reaction-text {
+  font-family: 'Nunito Sans';
+  line-height: 22px;
 }
 
 #app {
   min-height: 100%;
+}
+
+button {
+  font-family: 'Nunito Sans';
+  font-weight: bold;
 }
 
 ul {

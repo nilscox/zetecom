@@ -8,6 +8,8 @@ import queryString from 'query-string';
 import { App } from './App';
 import { getBaseUrl } from './utils/base-url';
 
+import './fonts.css';
+
 moment.locale('fr');
 axios.defaults.baseURL = getBaseUrl();
 
@@ -21,3 +23,8 @@ const root = document.getElementById('app');
 
 if (youtubeId && typeof youtubeId === 'string')
   ReactDOM.render(<App youtubeId={youtubeId} />, root);
+
+if (process.env.NODE_ENV === 'development' && window.location.href.match(/localhost/)) {
+  root.style.maxWidth = '640px';
+  root.style.margin = 'auto';
+}
