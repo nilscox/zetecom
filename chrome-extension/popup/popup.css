@@ -45,6 +45,9 @@ div.hidden {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.form-input:first {
   margin-bottom: 10px;
 }
 
@@ -81,12 +84,13 @@ div.hidden {
 
 .error-message {
   padding: 2px 20px;
+  padding-top: 10px;
   font-size: 12px;
   text-align: right;
   color: #e24;
   min-height: 14px;
 }
 
-.global {
+#error-global {
   text-align: center;
 }

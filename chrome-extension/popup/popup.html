@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="popup">
+  <div class="popup login">
 
     <div class="popup-title">
       <h1>CDV <span class="popup-subtitle">Connexion</span></h1>
@@ -18,16 +18,16 @@
 
       <div class="form-group">
         <div class="form-input">
+          <div class="error-message" id="error-email">&nbsp;</div>
           <input type="email" id="input-email" placeholder="Email" required />
-          <div class="email error-message">Error message</div>
         </div>
 
         <div class="form-input">
+          <div class="error-message" id="error-password">&nbsp;</div>
           <input type="password" id="input-password" placeholder="Mot de passe" minlength="6" maxlength="64" required />
-          <div class="password error-message">&nbsp;</div>
         </div>
 
-        <div class="global error-message">Le mot de passe ou l'identifiant est incorrect.</div>
+        <div class="error-message" id="error-global">&nbsp;</div>
       </div>
 
       <input class="submit" type="submit" value="Se connecter" />
@@ -35,7 +35,7 @@
 
   </div>
 
-  <div class="popup hidden">
+  <div class="popup logout">
 
     <div class="popup-title">
       <h1>CDV <span class="popup-subtitle">Déconnexion</span></h1>
@@ -46,6 +46,7 @@
     </form>
   </div>
 
+  <script src="errors-traduction.js" type="text/javascript"></script>
   <script src="popup.js" type="text/javascript"></script>
 
 </body>
