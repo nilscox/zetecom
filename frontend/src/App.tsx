@@ -37,47 +37,82 @@ const AppContent = forwardRef((props: AppContentProps, ref: any) => {
   );
 });
 
+const useToken = () => {
+  const [token, setToken] = useState<string | undefined>(localStorage.getItem('token'));
+
+  window.addEventListener('message', (evt: any) => {
+    const { data } = evt;
+
+    console.log(data);
+
+    if (!data || evt.origin !== 'https://www.youtube.com')
+      return;
+
+    if (data.type === 'set-token')
+      setToken(data.token);
+  }, false);
+
+  return token;
+};
+
+const useUser = (token: string) => {
+  const [fetchingUser, setFetching] = useState(false);
+  const [user, setUser] = useState<User>(undefined);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setFetching(true);
+
+        const user = await fetchUser(token);
+
+        if (user)
+          setUser(user);
+      } finally {
+        setFetching(false);
+      }
+    })();
+  }, [token]);
+
+  return {
+    fetchingUser,
+    user,
+  };
+};
+
+const useInformation = (youtubeId: string) => {
+  const [fetchingInformation, setFetching] = useState(false);
+  const [information, setInformation] = useState<Information>(undefined);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setFetching(true);
+
+        const info = await fetchInformationFromYoutubeId(youtubeId);
+
+        if (info)
+          setInformation(info);
+      } finally {
+        setFetching(false);
+      }
+    })();
+  }, [youtubeId]);
+
+  return {
+    fetchingInformation,
+    information,
+  };
+};
+
 type AppProps = {
   youtubeId: string,
 };
 
 const App = ({ youtubeId }: AppProps) => {
-  const [user, setUser] = useState<User>(undefined);
-  const [fetchingUser, setFetchingUser] = useState(false);
-  const [information, setInformation] = useState<Information>(undefined);
-  const [fetchingInformation, setFetchingInformation] = useState(false);
-
-  useEffect(() => {
-    Promise.all([
-
-      (async () => {
-        setFetchingUser(true);
-
-        try {
-          const user = await fetchUser(localStorage.getItem('token'));
-
-          if (user)
-            setUser(user);
-        } finally {
-          setFetchingUser(false);
-        }
-      })(),
-
-      (async () => {
-        setFetchingInformation(true);
-
-        try {
-          const info = await fetchInformationFromYoutubeId(youtubeId);
-
-          if (info)
-            setInformation(info);
-        } finally {
-          setFetchingInformation(false);
-        }
-      })(),
-
-    ]);
-  }, []);
+  const token = useToken();
+  const { fetchingUser, user } = useUser(token);
+  const { fetchingInformation, information } = useInformation(youtubeId);
 
   if (fetchingUser || fetchingInformation)
     return <Loader size="big" />;

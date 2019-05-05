@@ -10,21 +10,29 @@ import { getBaseUrl } from './utils/base-url';
 
 import './fonts.css';
 
-moment.locale('fr');
-axios.defaults.baseURL = getBaseUrl();
-
-ReactModal.setAppElement('#app');
-
-if (process.env.NODE_ENV === 'devlopment')
-  (window as any).axios = axios;
-
-const { youtubeId } = queryString.parse(window.location.search);
 const root = document.getElementById('app');
 
-if (youtubeId && typeof youtubeId === 'string')
-  ReactDOM.render(<App youtubeId={youtubeId} />, root);
+const setup = () => {
+  moment.locale('fr');
+  axios.defaults.baseURL = getBaseUrl();
 
-if (process.env.NODE_ENV === 'development' && window.location.href.match(/localhost/)) {
-  root.style.maxWidth = '640px';
-  root.style.margin = 'auto';
-}
+  ReactModal.setAppElement('#app');
+
+  if (process.env.NODE_ENV === 'devlopment')
+    (window as any).axios = axios;
+};
+
+const renderApp = (root: HTMLElement) => {
+  const { youtubeId } = queryString.parse(window.location.search);
+
+  if (youtubeId && typeof youtubeId === 'string')
+    ReactDOM.render(<App youtubeId={youtubeId} />, root);
+};
+
+setup();
+renderApp(root);
+
+// if (process.env.NODE_ENV === 'development' && window.location.href.match(/localhost/)) {
+  // root.style.maxWidth = '640px';
+  // root.style.margin = 'auto';
+// }

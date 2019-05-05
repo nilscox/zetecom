@@ -81,6 +81,8 @@ function render(rootTag, youtubeComments, youtubeId) {
   rootTag.appendChild(iframe);
 
   iFrameResize({ log: false, checkOrigin: false }, iframe);
+
+  setTimeout(() => iframe.contentWindow.postMessage({ type: 'set-token', token: '8a4156b9-d0ea-4a1d-be55-54be5615ff35' }, 'https://cdv.localhost'), 10000);
 }
 
 function main() {
