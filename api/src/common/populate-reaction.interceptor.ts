@@ -2,6 +2,7 @@ import {
   Injectable,
   NestInterceptor,
   ExecutionContext,
+  CallHandler,
 } from '@nestjs/common';
 import { Observable, from } from 'rxjs';
 
@@ -27,11 +28,11 @@ export class PopulateReaction implements NestInterceptor {
       await this.reactionService.addUserQuickReaction(reactions, user);
   }
 
-  intercept(context: ExecutionContext, call$: Observable<any>): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    return from(call$
+    return from(next.handle()
       .toPromise()
       .then(async (res: Reaction | Reaction[]) => {
         await this.populateReactions(Array.isArray(res) ? res : [res], user);

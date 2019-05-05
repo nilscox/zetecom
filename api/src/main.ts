@@ -9,9 +9,10 @@ dotenv.config();
 
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { AppModule } from './app.module';
 
 import { ErrorsInterceptor } from 'Common/errors.interceptor';
+
+import { AppModule } from './app.module';
 
 const { LISTEN_PORT, LISTEN_IP } = process.env;
 

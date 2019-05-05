@@ -11,10 +11,12 @@ import {
   PipeTransform,
   ArgumentMetadata,
   BadRequestException,
+  SetMetadata,
 } from '@nestjs/common';
 
 import { ReactionSortType } from 'Utils/reaction-sort-type';
 import { IsAuthenticated } from 'Common/auth.guard';
+import { IsAuthor } from 'Common/is-author.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { ReactionSortTypePipe } from 'Common/reaction-sort-type.pipe';
@@ -120,6 +122,8 @@ export class ReactionController {
   @Output(ReactionWithHistoryOutDto)
   @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated)
+  @UseGuards(IsAuthor)
+  @SetMetadata('reactionIdParam', 'id')
   async update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateReactionInDto,
@@ -129,10 +133,6 @@ export class ReactionController {
 
     if (!reaction)
       throw new NotFoundException();
-
-    // TODO: use guards
-    if (reaction.author.id !== user.id)
-      throw new UnauthorizedException();
 
     return this.reactionService.update(reaction, dto);
   }

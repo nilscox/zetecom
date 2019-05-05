@@ -1,10 +1,15 @@
-import { Injectable, NestMiddleware, MiddlewareFunction } from '@nestjs/common';
+import { Injectable, NestMiddleware, Inject } from '@nestjs/common';
 
 @Injectable()
 export class LagMiddleware implements NestMiddleware {
 
-  resolve(delay: number): MiddlewareFunction {
-    return async (req, res, next) => setTimeout(next, delay);
+  constructor(
+    @Inject('FAKE_LAG')
+    private readonly fakeLag: number,
+  ) {}
+
+  use(req, res, next) {
+    setTimeout(next, this.fakeLag);
   }
 
 }

@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware, MiddlewareFunction } from '@nestjs/common';
+import { Injectable, NestMiddleware } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,28 +12,26 @@ export class UserMiddleware implements NestMiddleware {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  resolve(...args: any[]): MiddlewareFunction {
-    return async (req, res, next) => {
-      const { userId } = req.session;
+  async use(req, res, next) {
+    const { userId } = req.session;
 
-      if (!userId)
-        return next();
+    if (!userId)
+      return next();
 
-      let user = null;
+    let user = null;
 
-      try {
-        user = await this.userRepository.findOne(userId);
-      } catch (e) {
-        return next(e);
-      }
+    try {
+      user = await this.userRepository.findOne(userId);
+    } catch (e) {
+      return next(e);
+    }
 
-      if (user)
-        req.user = user;
-      else
-        delete req.userId;
+    if (user)
+      req.user = user;
+    else
+      delete req.userId;
 
-      next();
-    };
+    next();
   }
 
 }

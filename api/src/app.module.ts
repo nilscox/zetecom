@@ -16,11 +16,15 @@ import { ReactionModule } from './modules/reaction/reaction.module';
 
 import { AppController } from './app.controller';
 
-const FAKE_LAG = 230;
+const fakeLagProvider = {
+  provide: 'FAKE_LAG',
+  useValue: 230,
+};
 
 const MemoryStore = memorystore(expressSession);
 
 @Module({
+  providers: [fakeLagProvider],
   imports: [
     TypeOrmModule.forRoot(),
     UserModule,
@@ -52,18 +56,8 @@ export class AppModule {
       .forRoutes('*');
 
     if (process.env.NODE_ENV === 'development') {
-      CorsMiddleware.configure({
-        origin: true,
-        credentials: true,
-      });
-
-      consumer
-        .apply(CorsMiddleware)
-        .forRoutes('*');
-
       consumer
         .apply(LagMiddleware)
-        .with(FAKE_LAG)
         .forRoutes('*');
     }
   }
