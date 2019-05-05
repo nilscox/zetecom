@@ -30,7 +30,22 @@
         <div class="error-message" id="error-global">&nbsp;</div>
       </div>
 
-      <input class="submit" type="submit" value="Se connecter" />
+      <button id="login" class="submit-button" type="submit">
+        Se connecter
+        <div class="loader-wrapper">
+          <svg id="loader" class="hidden" width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" stroke="#999">
+            <g fill="none" fillrule="evenodd">
+              <g transform="translate(1 1)" strokewidth="2">
+                <circle strokeopacity=".7" cx="8" cy="8" r="8"></circle>
+                <path d="M 16 8 c 0 -4 -4 -8 -8 -8" transform="rotate(142.12 8 8)">
+                  <animateTransform attributeName="transform" type="rotate" from="0 8 8" to="360 8 8" dur="0.8s" repeatCount="indefinite"></animateTransform>
+                </path>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </button>
+
     </form>
 
   </div>
@@ -42,7 +57,7 @@
     </div>
 
     <form class="form-container logout">
-      <input class="submit" id="logout" type="submit" value="Se déconnecter" />
+      <button id="logout" type="submit" class="submit-button" >Se déconnecter</button>
     </form>
   </div>
 

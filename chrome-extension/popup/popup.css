@@ -8,10 +8,6 @@ body {
   font-family: sans-serif;
 }
 
-div.hidden {
-  display: none;
-}
-
 .popup {
   flex: 1;
   display: flex;
@@ -73,13 +69,23 @@ div.hidden {
   font-size: 12px;
 }
 
-.submit {
+.submit-button {
   border-radius: 2px;
   border: 1px solid #ccc;
   padding: 10px 20px;
   font-weight: bold;
   font-size: 16px;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 240px;
+}
+
+.submit-button.loading {
+  color: #666;
+  cursor: initial;
 }
 
 .error-message {
@@ -93,4 +99,17 @@ div.hidden {
 
 #error-global {
   text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.loader-wrapper {
+  width: 0;
+  height: 18px;
+}
+
+#loader {
+  margin-left: 10px;
 }
