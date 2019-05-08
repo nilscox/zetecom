@@ -37,25 +37,7 @@ const AppContent = forwardRef((props: AppContentProps, ref: any) => {
   );
 });
 
-const useToken = () => {
-  const [token, setToken] = useState<string | undefined>(localStorage.getItem('token'));
-
-  window.addEventListener('message', (evt: any) => {
-    const { data } = evt;
-
-    console.log(data);
-
-    if (!data || evt.origin !== 'https://www.youtube.com')
-      return;
-
-    if (data.type === 'set-token')
-      setToken(data.token);
-  }, false);
-
-  return token;
-};
-
-const useUser = (token: string) => {
+const useUser = () => {
   const [fetchingUser, setFetching] = useState(false);
   const [user, setUser] = useState<User>(undefined);
 
@@ -64,7 +46,7 @@ const useUser = (token: string) => {
       try {
         setFetching(true);
 
-        const user = await fetchUser(token);
+        const user = await fetchUser();
 
         if (user)
           setUser(user);
@@ -72,7 +54,7 @@ const useUser = (token: string) => {
         setFetching(false);
       }
     })();
-  }, [token]);
+  }, []);
 
   return {
     fetchingUser,
@@ -110,8 +92,7 @@ type AppProps = {
 };
 
 const App = ({ youtubeId }: AppProps) => {
-  const token = useToken();
-  const { fetchingUser, user } = useUser(token);
+  const { fetchingUser, user } = useUser();
   const { fetchingInformation, information } = useInformation(youtubeId);
 
   if (fetchingUser || fetchingInformation)

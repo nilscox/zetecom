@@ -46,6 +46,7 @@ module.exports = {
     https: false,
     publicPath: '/assets/js/',
     contentBase: path.resolve(__dirname, 'public'),
+    disableHostCheck: true,
   },
 
 };
