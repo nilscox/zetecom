@@ -3,10 +3,11 @@ import React from 'react';
 import Typography from '../components/Typography';
 
 type ViewHeaderProps = {
-  active: 'login' | 'signup';
+  active: 'login' | 'signup' | string;
+  onChangeView: (view: 'login' | 'signup') => void;
 };
 
-const ViewHeader: React.FC<ViewHeaderProps> = ({ active }) => (
+const ViewHeader: React.FC<ViewHeaderProps> = ({ active, onChangeView }) => (
   <div
     style={{
       display: 'flex',
@@ -15,13 +16,13 @@ const ViewHeader: React.FC<ViewHeaderProps> = ({ active }) => (
       borderBottom: '1px solid #ccc'
     }}
   >
-    <div style={{ flex: 1, padding: '5px 10px' }}>
+    <div onClick={() => onChangeView('login')} style={{ flex: 1, padding: '5px 10px', cursor: 'pointer' }}>
       <Typography variant="title" style={{ color: active === 'login' ? '#222' : '#999' }}>
         Connexion
       </Typography>
     </div>
-    <div style={{ height: '100$', borderLeft: '1px solid #CCC' }} />
-    <div style={{ flex: 1, padding: '5px 10px' }}>
+    <div style={{ borderLeft: '1px solid #CCC' }} />
+    <div onClick={() => onChangeView('signup')} style={{ flex: 1, padding: '5px 10px', cursor: 'pointer' }}>
       <Typography variant="title" style={{ color: active === 'signup' ? '#222' : '#999' }}>
         Inscription
       </Typography>
