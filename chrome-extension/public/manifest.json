@@ -2,11 +2,8 @@
   "manifest_version": 2,
   "name": "Chercheurs de vérité (beta)",
   "version": "0.1",
-  "permissions": [
-    "storage"
-  ],
   "browser_action": {
-    "default_popup": "popup/popup.html",
+    "default_popup": "index.html",
     "default_icon": {
       "16": "assets/images/icon16.png",
       "32": "assets/images/icon32.png",
@@ -28,7 +25,7 @@
         "https://youtube.com/watch*",
         "https://www.youtube.com/watch*"
       ],
-      "js": ["assets/js/iframeResizer.min.js", "youtube/content.js"],
+      "js": ["assets/js/iframeResizer.min.js", "assets/js/youtube.js"],
       "css": ["assets/css/reset.css"]
     }
   ]
