@@ -18,7 +18,7 @@ const FormField: React.FC<FormFieldProps> = ({ type, placeholder, errorMessage, 
   };
 
   return (
-    <div style={{ marginBottom: '10px', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+    <div style={{ marginBottom: '5px', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
       <FormError style={{ textAlign: 'right' }}>{errorMessage}</FormError>
       <input
         style={{ padding: '5px 10px', borderRadius: '2px', border: '1px solid #ccc' }}

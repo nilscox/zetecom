@@ -10,8 +10,13 @@ const FormSubmit: React.FC<FormSubmitProps> = ({ value }) => {
       type="submit"
       style={{
         padding: '10px 15px',
-        fontSize: '0.9rem',
+        margin: 10,
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        color: '#444',
+        textTransform: 'uppercase',
         border: '1px solid #ccc',
+        background: '#eee',
         borderRadius: '2px',
         alignSelf: 'center'
       }}

@@ -38,7 +38,6 @@ const Form: React.FC<FormProps> = ({ fields, submitButtonValue, globalErrorMessa
   return (
     <form
       style={{
-        padding: '0 25px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'stretch'
@@ -47,9 +46,7 @@ const Form: React.FC<FormProps> = ({ fields, submitButtonValue, globalErrorMessa
       {Object.keys(fields).map(key => (
         <Field key={key} {...fields[key]} />
       ))}
-      <FormError style={{ textAlign: 'center', marginBottom: 10, fontSize: '1rem' }}>
-        {globalErrorMessage}
-      </FormError>
+      <FormError style={{ textAlign: 'center', fontSize: '1rem' }}>{globalErrorMessage}</FormError>
       <FormSubmit value={submitButtonValue} />
     </form>
   );
