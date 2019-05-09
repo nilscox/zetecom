@@ -28,17 +28,5 @@
       "js": ["assets/js/iframeResizer.min.js", "assets/js/youtube.js"],
       "css": ["assets/css/reset.css"]
     }
-<<<<<<< Updated upstream:chrome-extension/public/manifest.json
   ]
 }
-=======
-  ],
-  "commands": {
-    "_execute_browser_action": {
-      "suggested_key": {
-        "default": "Ctrl+Y"
-      }
-    }
-  }
-}
->>>>>>> Stashed changes:chrome-extension/manifest.json

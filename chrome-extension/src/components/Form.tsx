@@ -53,9 +53,11 @@ const Form: React.FC<FormProps> = ({ fields, submitButtonValue, globalErrorMessa
         React.isValidElement(fields[key]) ? (
           <div key={key}>{fields[key]}</div>
         ) : (
-          <div key={key}>
-            <FormField {...fields[key] as FormField} onTextChange={text => handleTextChange(key, text)} />
-          </div>
+          <FormField
+            key={key}
+            {...fields[key] as FormField}
+            onTextChange={text => handleTextChange(key, text)}
+          />
         )
       )}
       <FormError style={{ textAlign: 'center', fontSize: '1rem' }}>{globalErrorMessage}</FormError>

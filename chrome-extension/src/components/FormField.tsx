@@ -2,14 +2,12 @@ import React, { useState, ChangeEvent } from 'react';
 
 import FormError from './FormError';
 
-export type FormFieldProps = {
-  type: string;
-  placeholder?: string;
+export type FormFieldProps = React.PropsWithoutRef<JSX.IntrinsicElements['input']> & {
   errorMessage?: string;
   onTextChange: (text: string) => void;
 };
 
-const FormField: React.FC<FormFieldProps> = ({ type, placeholder, errorMessage, onTextChange }) => {
+const FormField: React.FC<FormFieldProps> = ({ errorMessage, onTextChange, ...props }) => {
   const [value, setValue] = useState('');
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -22,10 +20,9 @@ const FormField: React.FC<FormFieldProps> = ({ type, placeholder, errorMessage, 
       <FormError style={{ textAlign: 'right' }}>{errorMessage}</FormError>
       <input
         style={{ padding: '5px 10px', borderRadius: '2px', border: '1px solid #ccc' }}
-        type={type}
         value={value}
-        placeholder={placeholder}
         onChange={e => handleTextChange(e)}
+        {...props}
       />
     </div>
   );

@@ -81,16 +81,6 @@ function render(rootTag, youtubeComments, youtubeId) {
   rootTag.appendChild(iframe);
 
   iFrameResize({ log: false, checkOrigin: false }, iframe);
-
-<<<<<<< Updated upstream:chrome-extension/public/assets/js/youtube.js
-  setTimeout(() => iframe.contentWindow.postMessage({ type: 'set-token', token: '8a4156b9-d0ea-4a1d-be55-54be5615ff35' }, 'https://cdv.localhost'), 10000);
-=======
-  const iframeWindow = iframe.contentWindow;
-
-  setTimeout(() => {
-    iframeWindow.postMessage(`token:toto`, 'https://cdv.localhost');
-  }, 5000);
->>>>>>> Stashed changes:chrome-extension/youtube/content.js
 }
 
 function main() {
