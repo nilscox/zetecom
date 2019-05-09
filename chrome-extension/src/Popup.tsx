@@ -7,7 +7,9 @@ import SignupView from './views/SignupView';
 import PasswordResetView from './views/PasswordResetView';
 
 const Popup: React.FC = () => {
-  const [activeView, setActiveView] = useState<'login' | 'signup' | 'passwordreset'>('login');
+  const [activeView, setActiveView] = useState<
+    'login' | 'signup' | 'passwordreset'
+  >('login');
 
   const isActiveView = (view: React.ElementType): boolean => {
     if (view === LoginView) return activeView === 'login';

@@ -9,7 +9,11 @@ type FormErrorProps = {
 const FormError: React.FC<FormErrorProps> = ({ children, style }) => {
   return (
     <div style={{ margin: '2px 0', ...style }}>
-      {children !== undefined ? <Typography variant="error">{children}</Typography> : <>&nbsp;</>}
+      {children !== undefined ? (
+        <Typography variant="error">{children}</Typography>
+      ) : (
+        <>&nbsp;</>
+      )}
     </div>
   );
 };

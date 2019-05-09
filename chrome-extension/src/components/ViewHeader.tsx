@@ -16,14 +16,26 @@ const ViewHeader: React.FC<ViewHeaderProps> = ({ active, onChangeView }) => (
       borderBottom: '1px solid #ccc'
     }}
   >
-    <div onClick={() => onChangeView('login')} style={{ flex: 1, padding: '5px 10px', cursor: 'pointer' }}>
-      <Typography variant="title" style={{ color: active === 'login' ? '#222' : '#999' }}>
+    <div
+      onClick={() => onChangeView('login')}
+      style={{ flex: 1, padding: '5px 10px', cursor: 'pointer' }}
+    >
+      <Typography
+        variant="title"
+        style={{ color: active === 'login' ? '#222' : '#999' }}
+      >
         Connexion
       </Typography>
     </div>
     <div style={{ borderLeft: '1px solid #CCC' }} />
-    <div onClick={() => onChangeView('signup')} style={{ flex: 1, padding: '5px 10px', cursor: 'pointer' }}>
-      <Typography variant="title" style={{ color: active === 'signup' ? '#222' : '#999' }}>
+    <div
+      onClick={() => onChangeView('signup')}
+      style={{ flex: 1, padding: '5px 10px', cursor: 'pointer' }}
+    >
+      <Typography
+        variant="title"
+        style={{ color: active === 'signup' ? '#222' : '#999' }}
+      >
         Inscription
       </Typography>
     </div>

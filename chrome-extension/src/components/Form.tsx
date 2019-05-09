@@ -19,7 +19,12 @@ type FieldProps = FormField & {
   fieldKey: string;
 };
 
-const Form: React.FC<FormProps> = ({ fields, submitButtonValue, globalErrorMessage, isValid = true }) => {
+const Form: React.FC<FormProps> = ({
+  fields,
+  submitButtonValue,
+  globalErrorMessage,
+  isValid = true
+}) => {
   const [values, setValues] = useState<{ [name: string]: string }>(
     Object.keys(fields).reduce((o: { [name: string]: string }, k: string) => {
       o[k] = '';
@@ -60,7 +65,9 @@ const Form: React.FC<FormProps> = ({ fields, submitButtonValue, globalErrorMessa
           />
         )
       )}
-      <FormError style={{ textAlign: 'center', fontSize: '1rem' }}>{globalErrorMessage}</FormError>
+      <FormError style={{ textAlign: 'center', fontSize: '1rem' }}>
+        {globalErrorMessage}
+      </FormError>
       <FormSubmit disabled={!isValid} value={submitButtonValue} />
     </form>
   );

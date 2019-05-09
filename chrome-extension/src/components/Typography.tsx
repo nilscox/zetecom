@@ -6,10 +6,16 @@ type TypograhpyProps = {
   style?: React.CSSProperties;
 };
 
-const Typography: React.FC<TypograhpyProps> = ({ variant = 'text', children, style }) => {
-  if (variant === 'title') return <h1 style={{ fontSize: '1.4rem', ...style }}>{children}</h1>;
+const Typography: React.FC<TypograhpyProps> = ({
+  variant = 'text',
+  children,
+  style
+}) => {
+  if (variant === 'title')
+    return <h1 style={{ fontSize: '1.4rem', ...style }}>{children}</h1>;
 
-  if (variant === 'error') return <div style={{ color: '#822', ...style }}>{children}</div>;
+  if (variant === 'error')
+    return <div style={{ color: '#822', ...style }}>{children}</div>;
 
   return <div style={{ lineHeight: '20px', ...style }}>{children}</div>;
 };
