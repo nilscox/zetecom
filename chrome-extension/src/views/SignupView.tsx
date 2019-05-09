@@ -9,9 +9,9 @@ type AcceptRulesCheckbox = {
 const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
   const [value, setValue] = useState(false);
 
-  const handleChange = (e: React.SyntheticEvent) => {
-    setValue((e.target as any).checked);
-    onChange((e.target as any).checked);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.checked);
+    onChange(e.target.checked);
   };
 
   return <input type="checkbox" checked={value} onChange={handleChange} />;

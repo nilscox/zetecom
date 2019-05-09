@@ -6,14 +6,16 @@ import FormError from './FormError';
 
 type Omit<K, T> = Pick<T, Exclude<keyof T, K>>;
 
+type FormField = Omit<'onTextChange', FormFieldProps>;
+
 type FormProps = {
-  fields: { [name: string]: Omit<'onTextChange', FormFieldProps> | JSX.Element };
+  fields: { [name: string]: FormField | JSX.Element };
   submitButtonValue: string;
   globalErrorMessage?: string;
   isValid?: boolean;
 };
 
-type FieldProps = Omit<'onTextChange', FormFieldProps> & {
+type FieldProps = FormField & {
   fieldKey: string;
 };
 
@@ -52,7 +54,7 @@ const Form: React.FC<FormProps> = ({ fields, submitButtonValue, globalErrorMessa
           <div key={key}>{fields[key]}</div>
         ) : (
           <div key={key}>
-            <FormField {...fields[key] as any} onTextChange={text => handleTextChange(key, text)} />
+            <FormField {...fields[key] as FormField} onTextChange={text => handleTextChange(key, text)} />
           </div>
         )
       )}
