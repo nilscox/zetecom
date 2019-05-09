@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import Typography from '../components/Typography';
 import Form from '../components/Form';
 
 type AcceptRulesCheckbox = {
@@ -17,11 +18,20 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
   return <input type="checkbox" checked={value} onChange={handleChange} />;
 };
 
-const SignupView: React.FC = () => {
+import { ViewProps } from '../Popup';
+
+const SignupView: React.FC<ViewProps> = () => {
   const [didAcceptRules, setDidAcceptRules] = useState(false);
 
   return (
     <>
+      <Typography>
+        <>
+          Créez votre compte sur CDV. Avant de vous inscrire, veillez à avoir lu
+          au moins <a href="#">la page de présentation</a>, ainsi que{' '}
+          <a href="#">la charte</a>.
+        </>
+      </Typography>
       <Form
         fields={{
           email: { type: 'email', placeholder: 'Email' },

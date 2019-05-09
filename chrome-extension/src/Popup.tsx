@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 
 import ViewHeader from './components/ViewHeader';
-import Typography from './components/Typography';
 import LoginView from './views/LoginView';
 import SignupView from './views/SignupView';
 import PasswordResetView from './views/PasswordResetView';
 
+export type ViewType = 'login' | 'signup' | 'passwordreset';
+
+export type ViewProps = {
+  onChangeView: (view: ViewType) => void;
+};
+
 const Popup: React.FC = () => {
-  const [activeView, setActiveView] = useState<
-    'login' | 'signup' | 'passwordreset'
-  >('login');
+  const [activeView, setActiveView] = useState<ViewType>('login');
 
   const isActiveView = (view: React.ElementType): boolean => {
     if (view === LoginView) return activeView === 'login';
@@ -21,10 +24,9 @@ const Popup: React.FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <ViewHeader active={activeView} onChangeView={setActiveView} />
-      <div style={{ padding: '0 40px' }}>
-        <Typography variant="title">CDV</Typography>
-        <div style={{ position: 'relative' }}>
-          {[LoginView, SignupView, PasswordResetView].map((View, n) => (
+      <div style={{ position: 'relative', margin: '0 40px' }}>
+        {[LoginView, SignupView, PasswordResetView].map(
+          (View: React.FC<ViewProps>, n) => (
             <div
               key={n}
               style={{
@@ -36,10 +38,10 @@ const Popup: React.FC = () => {
                 opacity: isActiveView(View) ? 1 : 0
               }}
             >
-              {<View />}
+              {<View onChangeView={setActiveView} />}
             </div>
-          ))}
-        </div>
+          )
+        )}
       </div>
     </div>
   );

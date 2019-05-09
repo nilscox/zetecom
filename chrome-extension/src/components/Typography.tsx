@@ -2,7 +2,7 @@ import React from 'react';
 
 type TypograhpyProps = {
   variant?: 'title' | 'text' | 'error';
-  children: string;
+  children: string | JSX.Element;
   style?: React.CSSProperties;
 };
 
