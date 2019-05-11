@@ -35,7 +35,8 @@ const Popup: React.FC = () => {
                 left: 0,
                 right: 0,
                 transition: 'opacity 200ms',
-                opacity: isActiveView(View) ? 1 : 0
+                opacity: isActiveView(View) ? 1 : 0,
+                zIndex: isActiveView(View) ? 1 : 0
               }}
             >
               {<View onChangeView={setActiveView} />}
