@@ -2,3 +2,4 @@
 .env.*
 ormconfig.js
 data/
+node_modules/
