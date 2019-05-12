@@ -1,28 +1,32 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 import ViewHeader from './components/ViewHeader';
-import WormholeIFrame from './components/WormholeIFrame';
 import LoginView from './views/LoginView';
+import LogoutView from './views/LogoutView';
 import SignupView from './views/SignupView';
 import PasswordResetView from './views/PasswordResetView';
-import { Provider as WormholeProvider } from './contexts/WormholeContext';
 import Wormhole from './types/Wormhole';
 import WormholeContext from './contexts/WormholeContext';
 import { Loader } from './components/Loader';
+import User from './types/User';
+import { WormholeInEvent } from './types/Wormhole';
 
-export type ViewType = 'login' | 'signup' | 'passwordreset';
+export type ViewType = 'login' | 'logout' | 'signup' | 'passwordreset';
 
 export type ViewProps = {
+  user?: User;
   onChangeView: (view: ViewType) => void;
 };
 
 const Popup: React.FC = () => {
   const [activeView, setActiveView] = useState<ViewType>('login');
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | undefined>();
   const wormhole = useContext<Wormhole | null>(WormholeContext);
 
   const isActiveView = (view: React.ElementType): boolean => {
     if (view === LoginView) return activeView === 'login';
+    else if (view === LogoutView) return activeView === 'logout';
     else if (view === SignupView) return activeView === 'signup';
     else if (view === PasswordResetView) return activeView === 'passwordreset';
     else return false;
@@ -31,8 +35,15 @@ const Popup: React.FC = () => {
   useEffect(() => {
     if (!wormhole) return;
 
-    wormhole.onEvent('FETCH_ME_SUCCESS', () => setLoading(false));
+    wormhole.onEvent('FETCH_ME_SUCCESS', (event: WormholeInEvent) => {
+      setLoading(false);
+      setActiveView('logout');
+
+      if (event.type === 'FETCH_ME_SUCCESS') setUser(event.user);
+    });
     wormhole.onEvent('FETCH_ME_FAILURE', () => setLoading(false));
+    wormhole.onEvent('LOGIN_SUCCESS', () => setActiveView('logout'));
+    wormhole.onEvent('LOGOUT_SUCCESS', () => setActiveView('login'));
 
     wormhole.postEvent({ type: 'FETCH_ME' });
   }, [wormhole]);
@@ -43,7 +54,7 @@ const Popup: React.FC = () => {
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <ViewHeader active={activeView} onChangeView={setActiveView} />
       <div style={{ position: 'relative', margin: '0 40px' }}>
-        {[LoginView, SignupView, PasswordResetView].map(
+        {[LoginView, LogoutView, SignupView, PasswordResetView].map(
           (View: React.FC<ViewProps>, n) => (
             <div
               key={n}
@@ -57,7 +68,7 @@ const Popup: React.FC = () => {
                 zIndex: isActiveView(View) ? 1 : 0
               }}
             >
-              {<View onChangeView={setActiveView} />}
+              {<View user={user} onChangeView={setActiveView} />}
             </div>
           )
         )}

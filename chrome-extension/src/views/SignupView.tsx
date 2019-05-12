@@ -41,6 +41,7 @@ const SignupView: React.FC<ViewProps> = () => {
         }}
         submitButtonValue="Inscription"
         isValid={didAcceptRules}
+        onSubmit={() => {}}
       />
     </>
   );

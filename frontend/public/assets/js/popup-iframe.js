@@ -9,14 +9,16 @@ const postMessageToIframe = (type, payload) => {
 
 const fetchMe = async () => {
   try {
-    const res = await fetch(`https://cdv.localhost/api/auth/me`);
+    const res = await fetch(`https://cdv.localhost/api/auth/me`, {
+      credentials: 'include',
+    });
     const body = await res.json();
 
     if (!res.ok)
       throw { status: res.status, body };
 
-    console.log('fetch-me success!', body.user);
-    postMessageToIframe('FETCH_ME_SUCCESS');
+    console.log('fetch-me success!', body);
+    postMessageToIframe('FETCH_ME_SUCCESS', { user: body });
   } catch (e) {
     console.log('fetch-me failure', e);
     postMessageToIframe('FETCH_ME_FAILURE', { error: e });
@@ -31,6 +33,7 @@ const login = async (email, password) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
 
     const body = await res.json();
@@ -50,6 +53,7 @@ const logout = async () => {
   try {
     const res = await fetch(`https://cdv.localhost/api/auth/logout`, {
       method: 'POST',
+      credentials: 'include',
     });
 
     if (!res.ok)

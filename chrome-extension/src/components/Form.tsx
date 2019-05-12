@@ -13,6 +13,7 @@ type FormProps = {
   submitButtonValue: string;
   globalErrorMessage?: string;
   isValid?: boolean;
+  onSubmit: (values: { [fields: string]: string}) => void;
 };
 
 type FieldProps = FormField & {
@@ -23,7 +24,8 @@ const Form: React.FC<FormProps> = ({
   fields,
   submitButtonValue,
   globalErrorMessage,
-  isValid = true
+  isValid = true,
+  onSubmit,
 }) => {
   const [values, setValues] = useState<{ [name: string]: string }>(
     Object.keys(fields).reduce((o: { [name: string]: string }, k: string) => {
@@ -42,7 +44,7 @@ const Form: React.FC<FormProps> = ({
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    if (!isValid) return;
+    if (isValid) onSubmit(values);
   };
 
   return (

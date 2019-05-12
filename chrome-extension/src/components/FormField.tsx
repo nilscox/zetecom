@@ -18,7 +18,7 @@ const FormField: React.FC<FormFieldProps> = ({
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-    onTextChange(value);
+    onTextChange(e.target.value);
   };
 
   return (
