@@ -1,11 +1,74 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+
+import Wormhole, { WormholeInEvent, WormholeOutEvent } from '../types/Wormhole';
 
 type WormholeIFrameProps = {
-
+  setWormhole: (wormhole: Wormhole) => void;
 };
 
-const WormholeIFrame: WormholeIFrameProps = () => (
-  <iframe src="" />
-);
+const WormholeIFrame: React.FC<WormholeIFrameProps> = ({ setWormhole }) => {
+  const handlersRef = useRef<{
+    [type: string]: ((event: WormholeInEvent) => void)[];
+  }>({});
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  const postEvent = (event: WormholeOutEvent) => {
+    if (!iframeRef.current) {
+      console.warn('WormholeIFrame.postEvent: iframe is not loaded');
+      return;
+    }
+
+    if (iframeRef.current.contentWindow) {
+      iframeRef.current.contentWindow.postMessage(
+        event,
+        'http://localhost:8000'
+      );
+    }
+  };
+
+  const onEvent = (
+    type: string,
+    callback: (event: WormholeInEvent) => void
+  ) => {
+    if (!handlersRef.current[type]) handlersRef.current[type] = [];
+
+    handlersRef.current[type].push(callback);
+  };
+
+  useEffect(() => {
+    const handler = (evt: MessageEvent) => {
+      const { data } = evt;
+
+      if (data && data.type === 'IFRAME_READY') {
+        setWormhole({ onEvent, postEvent });
+        return;
+      }
+
+      if (data && typeof data.type === 'string') {
+        const callbacks = handlersRef.current[data.type];
+
+        if (callbacks) callbacks.forEach(cb => cb(data));
+        else {
+          console.warn(
+            'WormholeIFrame.onMessage: No handlers for event:',
+            data.type
+          );
+        }
+      }
+    };
+
+    window.addEventListener('message', handler, false);
+
+    return () => window.removeEventListener('message', handler);
+  }, []);
+
+  return (
+    <iframe
+      src={process.env.IFRAME_URL}
+      style={{ width: 0, height: 0, border: 'none' }}
+      ref={iframeRef}
+    />
+  );
+};
 
 export default WormholeIFrame;

@@ -4,7 +4,7 @@ console.log = (...message) => {
 
 const postMessageToIframe = (type, payload) => {
   console.log('send event', { type, ...payload });
-  window.parent.postMessage({ type, ...payload }, 'chrome-extension://jknfanplehjmcpmhpbioodpiaahehldl');
+  window.parent.postMessage({ type, ...payload }, 'chrome-extension://lfpcdmmobbgnoemblodlacgfceppipni');
 };
 
 const fetchMe = async () => {
@@ -16,10 +16,10 @@ const fetchMe = async () => {
       throw { status: res.status, body };
 
     console.log('fetch-me success!', body.user);
-    postMessageToIframe('fetch-me-success');
+    postMessageToIframe('FETCH_ME_SUCCESS');
   } catch (e) {
-    console.log('fetch-me error', e);
-    postMessageToIframe('fetch-me-error', { error: e });
+    console.log('fetch-me failure', e);
+    postMessageToIframe('FETCH_ME_FAILURE', { error: e });
   }
 };
 
@@ -39,10 +39,10 @@ const login = async (email, password) => {
       throw { status: res.status, body };
 
     console.log('login success!', body.user);
-    postMessageToIframe('login-success');
+    postMessageToIframe('LOGIN_SUCCESS');
   } catch (e) {
-    console.log('login error', e);
-    postMessageToIframe('login-error', { error: e });
+    console.log('login failure', e);
+    postMessageToIframe('LOGIN_ERROR', { error: e });
   }
 };
 
@@ -56,10 +56,10 @@ const logout = async () => {
       throw { status: res.status, body: await res.json() };
 
     console.log('logout success!');
-    postMessageToIframe('logout-success');
+    postMessageToIframe('LOGOUT_SUCCESS');
   } catch (e) {
-    console.log('logout error', e);
-    // postMessageToIframe('logout-error', { error: e });
+    console.log('logout failure', e);
+    // postMessageToIframe('LOGOUT_FAILURE', { error: e });
   }
 };
 
@@ -67,15 +67,15 @@ const handleEvent = (data) => {
   console.log('recv event', data);
 
   switch (data.type) {
-    case 'fetch-me':
+    case 'FETCH_ME':
       fetchMe();
       break;
 
-    case 'login':
+    case 'LOGIN':
       login(data.email, data.password);
       break;
 
-    case 'logout':
+    case 'LOGOUT':
       logout();
       break;
   }
@@ -86,10 +86,12 @@ const main = () => {
   console.log('lets go (iframe)!');
   window.addEventListener('message', (evt) => {
     const { data } = evt;
-
+    console.log(evt);
     if (data)
       handleEvent(data);
   }, false);
+
+  postMessageToIframe('IFRAME_READY');
 };
 
 document.addEventListener('DOMContentLoaded', main);
