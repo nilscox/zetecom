@@ -65,7 +65,7 @@ export class AuthenticationController {
     return { user, token };
   }
 
-  @Post('/tokenLogin')
+  // @Post('/tokenLogin')
   @Output(UserTokenOutDto)
   @UseGuards(IsNotAuthenticated)
   @HttpCode(200)
