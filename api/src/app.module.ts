@@ -9,6 +9,7 @@ import * as memorystore from 'memorystore';
 import { UserMiddleware } from 'Common/user.middleware';
 import { LagMiddleware } from 'Common/lag.middleware';
 
+import { EmailModule } from './modules/email/email.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { InformationModule } from './modules/information/information.module';
@@ -27,6 +28,7 @@ const MemoryStore = memorystore(expressSession);
   providers: [fakeLagProvider],
   imports: [
     TypeOrmModule.forRoot(),
+    EmailModule,
     UserModule,
     AuthenticationModule,
     InformationModule,
