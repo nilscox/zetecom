@@ -38,7 +38,10 @@ export class UserService {
     user.avatar = avatar;
     user.emailValidationToken = uuidv4();
 
-    await this.emailService.sendEmailValidationEmail(user);
+    if (process.env.NODE_ENV === 'production')
+      await this.emailService.sendEmailValidationEmail(user);
+    else
+      user.emailValidated = true;
 
     return this.userRepository.save(user);
   }
