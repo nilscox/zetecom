@@ -22,6 +22,9 @@ export class AuthenticationService {
     if (!user || !await bcrypt.compare(password, user.password))
       throw new UnauthorizedException('INVALID_CREDENTIALS');
 
+    if (!user.emailValidated)
+      throw new UnauthorizedException('EMAIL_NOT_VALIDATED');
+
     return user;
   }
 
