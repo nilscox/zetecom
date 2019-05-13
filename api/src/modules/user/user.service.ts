@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import * as uuidv4 from 'uuid/v4';
 
 import { User } from './user.entity';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly emailService: EmailService,
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -34,8 +36,24 @@ export class UserService {
     user.password = await bcrypt.hash(password, 10);
     user.nick = nick;
     user.avatar = avatar;
+    user.emailValidationToken = uuidv4();
+
+    await this.emailService.sendEmailValidationEmail(user);
 
     return this.userRepository.save(user);
+  }
+
+  async validateFromToken(token: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { emailValidationToken: token },
+    });
+
+    if (!user)
+      throw new BadRequestException('USER_EMAIL_TOKEN_NOT_FOUND');
+
+    await this.userRepository.update(user.id, { emailValidated: true });
+
+    return user;
   }
 
 }

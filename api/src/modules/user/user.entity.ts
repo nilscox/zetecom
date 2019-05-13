@@ -18,6 +18,12 @@ export class User {
   @Column({ nullable: true })
   avatar: string;
 
+  @Column()
+  emailValidationToken: string;
+
+  @Column({ default: false })
+  emailValidated: boolean;
+
   @CreateDateColumn()
   created: Date;
 

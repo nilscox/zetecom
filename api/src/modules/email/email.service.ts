@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import * as email from 'emailjs';
 
+import { User } from '../user/user.entity';
+
 const {
   EMAIL_HOST,
   EMAIL_USER,
@@ -10,7 +12,7 @@ const {
 @Injectable()
 export class EmailService {
 
-  sendEmail(to: string, subject: string, body: string): Promise<any> {
+  private sendEmail(to: string, subject: string, body: string): Promise<any> {
     return new Promise((resolve, reject) => {
       const conn = email.server.connect({
         host: EMAIL_HOST,
@@ -31,6 +33,14 @@ export class EmailService {
           resolve(message);
       });
     });
+  }
+
+  sendEmailValidationEmail(user: User): Promise<any> {
+    return this.sendEmail(
+      user.email,
+      '[CDV] Confirmez votre adresse email',
+      `token: "${user.emailValidationToken}"`,
+    );
   }
 
 }

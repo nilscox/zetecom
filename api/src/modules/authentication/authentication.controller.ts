@@ -1,6 +1,6 @@
 import {
   Controller,
-  Get, Post,
+  Get, Post, Query,
   HttpCode,
   Session, Body,
   UseInterceptors, UseGuards,
@@ -20,12 +20,6 @@ import { UserOutDto } from '../user/dtos/user-out.dto';
 import { AuthenticationService } from './authentication.service';
 import { LoginUserInDto } from './dtos/login-user-in.dto';
 import { TokenLoginInDto } from './dtos/token-login-in.dto';
-import { UserTokenOutDto } from './dtos/user-token-out.dto';
-
-interface UserToken {
-  user: User;
-  token: string;
-}
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -37,45 +31,37 @@ export class AuthenticationController {
   ) {}
 
   @Post('/signup')
-  @Output(UserTokenOutDto)
+  @Output(UserOutDto)
   @UseGuards(IsNotAuthenticated)
-  async signup(@Body() createUserDto: CreateUserInDto, @Session() session): Promise<UserToken> {
+  async signup(@Body() createUserDto: CreateUserInDto): Promise<User> {
     const { email, password, nick, avatar } = createUserDto;
     const user = await this.userService.create(email, password, nick, avatar);
 
+    return user;
+  }
+
+  @Post('/email-validation')
+  @Output(UserOutDto)
+  @UseGuards(IsNotAuthenticated)
+  async emailValidation(@Query('token') token: string, @Session() session): Promise<User> {
+    const user = await this.userService.validateFromToken(token);
+
     session.userId = user.id;
 
-    const token = await this.authService.createUserToken(user);
-
-    return { user, token };
+    return user;
   }
 
   @Post('/login')
-  @Output(UserTokenOutDto)
+  @Output(UserOutDto)
   @UseGuards(IsNotAuthenticated)
   @HttpCode(200)
-  async login(@Body() loginUserDto: LoginUserInDto, @Session() session): Promise<UserToken> {
+  async login(@Body() loginUserDto: LoginUserInDto, @Session() session): Promise<User> {
     const { email, password } = loginUserDto;
     const user = await this.authService.login(email, password);
 
     session.userId = user.id;
 
-    const token = await this.authService.createUserToken(user);
-
-    return { user, token };
-  }
-
-  // @Post('/tokenLogin')
-  @Output(UserTokenOutDto)
-  @UseGuards(IsNotAuthenticated)
-  @HttpCode(200)
-  async tokenLogin(@Body() tokenLoginDto: TokenLoginInDto, @Session() session): Promise<UserToken> {
-    const { token } = tokenLoginDto;
-    const user = await this.authService.loginFromToken(token);
-
-    session.userId = user.id;
-
-    return { user, token };
+    return user;
   }
 
   @Post('/logout')
