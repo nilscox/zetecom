@@ -15,7 +15,7 @@ export interface FetchMeSuccess extends BaseEvent {
 
 export interface FetchMeFailure extends BaseEvent {
   type: 'FETCH_ME_FAILURE';
-  error: any;
+  error: object;
 }
 
 export interface Login extends BaseEvent {
@@ -31,9 +31,8 @@ export interface LoginSuccess extends BaseEvent {
 
 export interface LoginFailure extends BaseEvent {
   type: 'LOGIN_FAILURE';
-  error: any;
+  error: object;
 }
-
 
 export interface Logout extends BaseEvent {
   type: 'LOGOUT';
@@ -45,7 +44,7 @@ export interface LogoutSuccess extends BaseEvent {
 
 export interface LogoutFailure extends BaseEvent {
   type: 'LOGOUT_FAILURE';
-  error: any;
+  error: object;
 }
 
 export type WormholeOutEvent = FetchMe | Login | Logout;
@@ -58,6 +57,9 @@ export type WormholeInEvent =
   | LogoutFailure;
 
 export default interface Wormhole {
+
   onEvent(type: string, callback: (event: WormholeInEvent) => void): void;
+
   postEvent(event: WormholeOutEvent): void;
+
 }

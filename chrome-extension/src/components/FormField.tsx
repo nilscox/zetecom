@@ -2,9 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 
 import FormError from './FormError';
 
-export type FormFieldProps = React.PropsWithoutRef<
-  JSX.IntrinsicElements['input']
-> & {
+export type FormFieldProps = React.PropsWithoutRef<JSX.IntrinsicElements['input']> & {
   errorMessage?: string;
   onTextChange: (text: string) => void;
 };
