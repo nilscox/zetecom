@@ -8,6 +8,7 @@
     "@types/react": "16.8.17",
     "@types/react-dom": "16.8.4",
     "css-loader": "^2.1.1",
+    "precommit": "^1.2.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "style-loader": "^0.23.1",
@@ -42,5 +43,9 @@
     "@typescript-eslint/parser": "^1.7.0",
     "eslint": "^5.16.0",
     "eslint-plugin-react": "^7.13.0"
-  }
+  },
+  "precommit": [
+    "yarn lint",
+    "yarn test"
+  ]
 }

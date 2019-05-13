@@ -7,9 +7,8 @@ type WormholeIFrameProps = {
 };
 
 const WormholeIFrame: React.FC<WormholeIFrameProps> = ({ setWormhole }) => {
-  const handlersRef = useRef<{
-    [type: string]: ((event: WormholeInEvent) => void)[];
-  }>({});
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handlersRef = useRef<{ [key: string]: ((event: any) => void)[] }>({});
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const postEvent = (event: WormholeOutEvent) => {
@@ -26,11 +25,9 @@ const WormholeIFrame: React.FC<WormholeIFrameProps> = ({ setWormhole }) => {
     }
   };
 
-  const onEvent = (
-    type: string,
-    callback: (event: WormholeInEvent) => void
-  ) => {
-    if (!handlersRef.current[type]) handlersRef.current[type] = [];
+  const onEvent: <T extends WormholeInEvent>(type: T['type'], callback: (event: T) => void) => void = (type, callback) => {
+    if (!handlersRef.current[type])
+      handlersRef.current[type] = [];
 
     handlersRef.current[type].push(callback);
   };

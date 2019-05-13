@@ -9,7 +9,7 @@ import Wormhole from './types/Wormhole';
 import WormholeContext from './contexts/WormholeContext';
 import { Loader } from './components/Loader';
 import User from './types/User';
-import { WormholeInEvent } from './types/Wormhole';
+import { FetchMeSuccess } from './types/Wormhole';
 
 export type ViewType = 'login' | 'logout' | 'signup' | 'passwordreset';
 
@@ -25,21 +25,26 @@ const Popup: React.FC = () => {
   const wormhole = useContext<Wormhole | null>(WormholeContext);
 
   const isActiveView = (view: React.ElementType): boolean => {
-    if (view === LoginView) return activeView === 'login';
-    else if (view === LogoutView) return activeView === 'logout';
-    else if (view === SignupView) return activeView === 'signup';
-    else if (view === PasswordResetView) return activeView === 'passwordreset';
-    else return false;
+    if (view === LoginView)
+      return activeView === 'login';
+    else if (view === LogoutView)
+      return activeView === 'logout';
+    else if (view === SignupView)
+      return activeView === 'signup';
+    else if (view === PasswordResetView)
+      return activeView === 'passwordreset';
+    else
+      return false;
   };
 
   useEffect(() => {
-    if (!wormhole) return;
+    if (!wormhole)
+      return;
 
-    wormhole.onEvent('FETCH_ME_SUCCESS', (event: WormholeInEvent) => {
+    wormhole.onEvent('FETCH_ME_SUCCESS', (event: FetchMeSuccess) => {
       setLoading(false);
       setActiveView('logout');
-
-      if (event.type === 'FETCH_ME_SUCCESS') setUser(event.user);
+      setUser(event.user);
     });
     wormhole.onEvent('FETCH_ME_FAILURE', () => setLoading(false));
     wormhole.onEvent('LOGIN_SUCCESS', () => setActiveView('logout'));

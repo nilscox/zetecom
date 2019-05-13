@@ -58,7 +58,10 @@ export type WormholeInEvent =
 
 export default interface Wormhole {
 
-  onEvent(type: string, callback: (event: WormholeInEvent) => void): void;
+  onEvent<T extends WormholeInEvent>(
+    type: T['type'],
+    callback: (event: T) => void
+  ): void;
 
   postEvent(event: WormholeOutEvent): void;
 
