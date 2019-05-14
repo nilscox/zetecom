@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Popup from './Popup';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Provider as WormholeProvider } from './contexts/WormholeContext';
 import WormholeIFrame from './components/WormholeIFrame';
@@ -13,7 +14,9 @@ const App = () => {
 
   return (
     <WormholeProvider value={wormhole}>
-      <Popup />
+      <Router>
+        <Popup />
+      </Router>
       <WormholeIFrame setWormhole={setWormhole} />
     </WormholeProvider>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 
+import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
 
@@ -38,6 +39,7 @@ const SignupView: React.FC<ViewProps> = () => {
 
   return (
     <>
+      <ViewHeader />
       <Typography>
         <>
           Créez votre compte sur CDV. Avant de vous inscrire, veillez à avoir lu

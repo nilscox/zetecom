@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 
+import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
 import { ViewProps } from '../Popup';
@@ -20,6 +21,7 @@ const LoginView: React.FC<ViewProps> = () => {
 
   return (
     <>
+      <ViewHeader />
       <Typography>
         Connectez-vous sur CDV pour interagir avec le reste de la communauté.
       </Typography>

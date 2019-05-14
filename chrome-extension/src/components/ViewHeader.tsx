@@ -1,13 +1,9 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 import Typography from '../components/Typography';
 
-type ViewHeaderProps = {
-  active: 'login' | 'signup' | string;
-  onChangeView: (view: 'login' | 'signup') => void;
-};
-
-const ViewHeader: React.FC<ViewHeaderProps> = ({ active, onChangeView }) => (
+const ViewHeader: React.FC = () => (
   <div
     style={{
       display: 'flex',
@@ -16,29 +12,21 @@ const ViewHeader: React.FC<ViewHeaderProps> = ({ active, onChangeView }) => (
       borderBottom: '1px solid #ccc'
     }}
   >
-    <div
-      onClick={() => onChangeView('login')}
-      style={{ flex: 1, padding: '5px 10px', cursor: 'pointer' }}
-    >
-      <Typography
-        variant="title"
-        style={{ color: active === 'login' ? '#222' : '#999' }}
-      >
+
+    <NavLink to={'login'} style={{ flex: 1, padding: '0 15px', color: '#999' }} activeStyle={{ color: '#222' }}>
+      <Typography variant="title">
         Connexion
       </Typography>
-    </div>
+    </NavLink>
+
     <div style={{ borderLeft: '1px solid #CCC' }} />
-    <div
-      onClick={() => onChangeView('signup')}
-      style={{ flex: 1, padding: '5px 10px', cursor: 'pointer' }}
-    >
-      <Typography
-        variant="title"
-        style={{ color: active === 'signup' ? '#222' : '#999' }}
-      >
+
+    <NavLink to={'signup'} style={{ flex: 1, padding: '0 15px', color: '#999' }} activeStyle={{ color: '#222' }}>
+      <Typography variant="title">
         Inscription
       </Typography>
-    </div>
+    </NavLink>
+
   </div>
 );
 
