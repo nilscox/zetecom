@@ -3,10 +3,10 @@ import React, { useContext } from 'react';
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
-import { ViewProps } from '../Popup';
 import WormholeContext from '../contexts/WormholeContext';
+import { RouteComponentProps } from 'react-router';
 
-const LoginView: React.FC<ViewProps> = () => {
+const LoginView: React.FC<RouteComponentProps> = ({ match }) => {
   const wormhole = useContext(WormholeContext);
 
   const loginSubmit = (values: { [field: string]: string }) => {
@@ -18,6 +18,8 @@ const LoginView: React.FC<ViewProps> = () => {
       password: values.password,
     });
   };
+
+  console.log(match);
 
   return (
     <>

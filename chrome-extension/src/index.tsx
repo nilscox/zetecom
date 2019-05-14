@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Popup from './Popup';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 
 import { Provider as WormholeProvider } from './contexts/WormholeContext';
 import WormholeIFrame from './components/WormholeIFrame';

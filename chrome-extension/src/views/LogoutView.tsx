@@ -2,11 +2,12 @@ import React, { useContext } from 'react';
 
 import Typography from '../components/Typography';
 import Form from '../components/Form';
-import { ViewProps } from '../Popup';
 import WormholeContext from '../contexts/WormholeContext';
+import UserContext from '../contexts/userContext';
 
-const LogoutView: React.FC<ViewProps> = ({ user }) => {
+const LogoutView: React.FC = () => {
   const wormhole = useContext(WormholeContext);
+  const user = useContext(UserContext);
 
   const logoutSubmit = () => {
     if (!wormhole) return;

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Typography from '../components/Typography';
-import { ViewProps } from '../Popup';
+import UserContext from '../contexts/userContext';
 
-const PostSignupView: React.FC<ViewProps> = ({ user }) => {
+const PostSignupView: React.FC = () => {
+  const user = useContext(UserContext);
+
   return (
     <>
       <Typography>

@@ -15,17 +15,12 @@ import PasswordResetView from './views/PasswordResetView';
 import WormholeContext from './contexts/WormholeContext';
 import { Loader } from './components/Loader';
 import User from './types/User';
-import Wormhole, { FetchMeSuccess, SignupSuccess } from './types/Wormhole';
+import Wormhole, { FetchMeSuccess, SignupSuccess, LoginSuccess } from './types/Wormhole';
+import { Provider as UserProvider } from './contexts/userContext';
 
-export type ViewType = 'login' | 'logout' | 'signup' | 'postsignup' | 'passwordreset';
-
-export type ViewProps = {
-  user?: User;
-};
-
-const Popup: React.FC<RouteComponentProps> = ({ match, history }) => {
+const Popup: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<User | undefined>();
+  const [user, setUser] = useState<User | null>(null);
   const wormhole = useContext<Wormhole | null>(WormholeContext);
 
   useEffect(() => {
@@ -41,32 +36,35 @@ const Popup: React.FC<RouteComponentProps> = ({ match, history }) => {
       history.push('/post-signup');
       setUser(event.user);
     });
-    wormhole.onEvent('FETCH_ME_FAILURE', () => setLoading(false));
+    wormhole.onEvent('LOGIN_SUCCESS', (event: LoginSuccess) => {
+      setUser(event.user)
+      history.push('/logout')
+    });
     wormhole.onEvent('SIGNUP_FAILURE', () => setLoading(false));
-    wormhole.onEvent('LOGIN_SUCCESS', () => history.push('/logout'));
+    wormhole.onEvent('FETCH_ME_FAILURE', () => setLoading(false));
     wormhole.onEvent('LOGOUT_SUCCESS', () => history.push('/login'));
 
     wormhole.postEvent({ type: 'FETCH_ME' });
   }, [wormhole]);
-
-  console.log(match);
 
   if (loading)
     return <Loader size='big' />;
 
   return (
     <div style={{ padding: '0 40px' }}>
-      <Switch>
-        <Route path='/login' component={LoginView} />
-        <Route path='/logout' component={LogoutView} />
-        <Route path='/signup' component={SignupView} />
-        <Route path='/post-signup' component={PostSignupView} />
-        <Route
-          path='/password-reset'
-          component={PasswordResetView}
-        />
-        <Route render={() => <Redirect to={user ? '/logout' : '/login'} />} />
-      </Switch>
+      <UserProvider value={user}>
+        <Switch>
+          <Route path='/login' component={LoginView} />
+          <Route path='/logout' component={LogoutView} />
+          <Route path='/signup' component={SignupView} />
+          <Route path='/post-signup' component={PostSignupView} />
+          <Route
+            path='/password-reset'
+            component={PasswordResetView}
+          />
+          <Route render={() => <Redirect to={user ? '/logout' : '/login'} />} />
+        </Switch>
+      </UserProvider>
     </div>
   );
 };

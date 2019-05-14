@@ -19,10 +19,9 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
   return <input type="checkbox" checked={value} onChange={handleChange} />;
 };
 
-import { ViewProps } from '../Popup';
 import WormholeContext from '../contexts/WormholeContext';
 
-const SignupView: React.FC<ViewProps> = () => {
+const SignupView: React.FC = () => {
   const [didAcceptRules, setDidAcceptRules] = useState(false);
   const wormhole = useContext(WormholeContext);
 
