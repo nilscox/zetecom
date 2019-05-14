@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import Typography from '../components/Typography';
 import Form from '../components/Form';
@@ -19,9 +19,22 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
 };
 
 import { ViewProps } from '../Popup';
+import WormholeContext from '../contexts/WormholeContext';
 
 const SignupView: React.FC<ViewProps> = () => {
   const [didAcceptRules, setDidAcceptRules] = useState(false);
+  const wormhole = useContext(WormholeContext);
+
+  const signupSubmit = (values: { [field: string]: string }) => {
+    if (!wormhole) return;
+
+    wormhole.postEvent({
+      type: 'SIGNUP',
+      email: values.email,
+      password: values.password,
+      nick: values.nick,
+    });
+  };
 
   return (
     <>
@@ -41,7 +54,7 @@ const SignupView: React.FC<ViewProps> = () => {
         }}
         submitButtonValue="Inscription"
         isValid={didAcceptRules}
-        onSubmit={() => {}}
+        onSubmit={signupSubmit}
       />
     </>
   );

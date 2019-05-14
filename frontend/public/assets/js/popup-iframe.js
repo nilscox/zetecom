@@ -41,8 +41,8 @@ const login = async (email, password) => {
     if (!res.ok)
       throw { status: res.status, body };
 
-    console.log('login success!', body.user);
-    postMessageToIframe('LOGIN_SUCCESS');
+    console.log('login success!', body);
+    postMessageToIframe('LOGIN_SUCCESS', { user: body });
   } catch (e) {
     console.log('login failure', e);
     postMessageToIframe('LOGIN_ERROR', { error: e });
@@ -67,6 +67,30 @@ const logout = async () => {
   }
 };
 
+const signup = async (email, password, nick) => {
+  try {
+    const res = await fetch(`https://cdv.localhost/api/auth/signup`, {
+      method: 'POST',
+      body: JSON.stringify({ email, password, nick }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    const body = await res.json();
+
+    if (!res.ok)
+      throw { status: res.status, body };
+
+    console.log('signup success!', body);
+    postMessageToIframe('SIGNUP_SUCCESS', { user: body });
+  } catch (e) {
+    console.log('signup failure', e);
+    postMessageToIframe('SIGNUP_ERROR', { error: e });
+  }
+};
+
 const handleEvent = (data) => {
   console.log('recv event', data);
 
@@ -81,6 +105,10 @@ const handleEvent = (data) => {
 
     case 'LOGOUT':
       logout();
+      break;
+
+    case 'SIGNUP':
+      signup(data.email, data.password, data.nick);
       break;
   }
 

@@ -47,14 +47,33 @@ export interface LogoutFailure extends BaseEvent {
   error: object;
 }
 
-export type WormholeOutEvent = FetchMe | Login | Logout;
+export interface Signup extends BaseEvent {
+  type: 'SIGNUP';
+  email: string;
+  password: string;
+  nick: string;
+}
+
+export interface SignupSuccess extends BaseEvent {
+  type: 'SIGNUP_SUCCESS';
+  user: User;
+}
+
+export interface SignupFailure extends BaseEvent {
+  type: 'SIGNUP_FAILURE';
+  error: object;
+}
+
+export type WormholeOutEvent = FetchMe | Login | Logout | Signup;
 export type WormholeInEvent =
   | FetchMeSuccess
   | FetchMeFailure
   | LoginSuccess
   | LoginFailure
   | LogoutSuccess
-  | LogoutFailure;
+  | LogoutFailure
+  | SignupSuccess
+  | SignupFailure;
 
 export default interface Wormhole {
 

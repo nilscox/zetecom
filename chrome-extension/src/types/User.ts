@@ -1,6 +1,6 @@
 type User = {
   nick: string;
-  emai: string;
+  email: string;
   avatar?: string;
 };
 
