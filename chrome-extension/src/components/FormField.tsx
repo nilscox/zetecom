@@ -25,7 +25,7 @@ const FormField: React.FC<FormFieldProps> = ({
         marginBottom: '5px',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'stretch'
+        alignItems: 'stretch',
       }}
     >
       <FormError style={{ textAlign: 'right' }}>{errorMessage}</FormError>
@@ -33,7 +33,7 @@ const FormField: React.FC<FormFieldProps> = ({
         style={{
           padding: '5px 10px',
           borderRadius: '2px',
-          border: '1px solid #ccc'
+          border: '1px solid #ccc',
         }}
         value={value}
         onChange={e => handleTextChange(e)}

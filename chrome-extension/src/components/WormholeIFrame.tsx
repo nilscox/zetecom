@@ -1,6 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 
-import Wormhole, { WormholeInEvent, WormholeOutEvent } from '../types/Wormhole';
+import { Wormhole, WormholeInEvent, WormholeOutEvent } from '../types/Wormhole';
+
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+type Handlers = { [key: string]: ((event: any) => void)[] };
 
 type WormholeIFrameProps = {
   setWormhole: (wormhole: Wormhole) => void;
@@ -8,7 +11,7 @@ type WormholeIFrameProps = {
 
 const WormholeIFrame: React.FC<WormholeIFrameProps> = ({ setWormhole }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handlersRef = useRef<{ [key: string]: ((event: any) => void)[] }>({});
+  const handlersRef = useRef<Handlers>({});
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const postEvent = (event: WormholeOutEvent) => {
@@ -25,7 +28,12 @@ const WormholeIFrame: React.FC<WormholeIFrameProps> = ({ setWormhole }) => {
     }
   };
 
-  const onEvent: <T extends WormholeInEvent>(type: T['type'], callback: (event: T) => void) => void = (type, callback) => {
+  type OnEventType = <T extends WormholeInEvent>(
+    type: T['type'],
+    callback: (event: T) => void,
+  ) => void;
+
+  const onEvent: OnEventType = (type, callback) => {
     if (!handlersRef.current[type])
       handlersRef.current[type] = [];
 
@@ -44,7 +52,8 @@ const WormholeIFrame: React.FC<WormholeIFrameProps> = ({ setWormhole }) => {
       if (data && typeof data.type === 'string') {
         const callbacks = handlersRef.current[data.type];
 
-        if (callbacks) callbacks.forEach(cb => cb(data));
+        if (callbacks)
+          callbacks.forEach(cb => cb(data));
         else {
           console.warn(
             'WormholeIFrame.onMessage: No handlers for event:',

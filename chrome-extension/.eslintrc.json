@@ -1,6 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
   "extends": [
+    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended"
   ],
@@ -8,15 +9,56 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "process": "readonly"
+  },
   "settings": {
     "react": {
       "version": "detect"
     }
   },
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": 0,
-    "@typescript-eslint/prefer-interface": 0,
+    "no-console": "off",
+    "curly": ["error", "multi-or-nest"],
+    "eqeqeq": "error",
+    "no-multi-spaces": "error",
+    "no-unused-expressions": "error",
+    "radix": "off",
+    "block-spacing": ["error", "always"],
+    "brace-style": "error",
+    "camelcase": "error",
+    "comma-dangle": ["error", "always-multiline"],
+    "comma-spacing": "error",
+    "eol-last": "error",
+    "func-call-spacing": "error",
+    "indent": ["error", 2, { "SwitchCase": 0 }],
+    "jsx-quotes": "error",
+    "key-spacing": "error",
+    "keyword-spacing": "error",
+    "linebreak-style": ["error", "unix"],
+    "lines-between-class-members": "error",
+    "max-len": ["error", 100],
+    "max-lines": ["error", 200],
+    "max-statements": ["error", 10],
+    "no-inline-comments": "error",
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "no-nested-ternary": "error",
+    "no-trailing-spaces": "error",
+    "object-curly-spacing": ["error", "always"],
+    "quote-props": ["error", "as-needed"],
+    "quotes": ["error", "single"],
+    "semi": "error",
+    "semi-spacing": "error",
+    "space-before-blocks": "error",
+    "space-before-function-paren": ["error", "never"],
+    "space-in-parens": "error",
+    "nonblock-statement-body-position": ["error", "below"],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/prefer-interface": "off",
     "@typescript-eslint/indent": ["error", 2],
-    "react/prop-types": 0
+    "react/prop-types": "off"
   }
 }

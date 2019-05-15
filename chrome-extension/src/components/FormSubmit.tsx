@@ -21,7 +21,7 @@ const FormSubmit: React.FC<FormSubmitProps> = ({ value, disabled = false }) => {
         borderRadius: '2px',
         alignSelf: 'center',
         color: disabled ? '#888' : '#444',
-        cursor: disabled ? 'initial' : 'pointer'
+        cursor: disabled ? 'initial' : 'pointer',
       }}
     >
       {value}

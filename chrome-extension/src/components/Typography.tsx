@@ -9,7 +9,7 @@ type TypograhpyProps = {
 const Typography: React.FC<TypograhpyProps> = ({
   variant = 'text',
   children,
-  style
+  style,
 }) => {
   if (variant === 'title')
     return <h1 style={{ fontSize: '1.4rem', ...style }}>{children}</h1>;

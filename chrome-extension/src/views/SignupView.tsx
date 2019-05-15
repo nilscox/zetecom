@@ -26,7 +26,8 @@ const SignupView: React.FC = () => {
   const wormhole = useContext(WormholeContext);
 
   const signupSubmit = (values: { [field: string]: string }) => {
-    if (!wormhole) return;
+    if (!wormhole)
+      return;
 
     wormhole.postEvent({
       type: 'SIGNUP',
@@ -51,7 +52,7 @@ const SignupView: React.FC = () => {
           email: { type: 'email', placeholder: 'Email' },
           password: { type: 'password', placeholder: 'Mot de passe' },
           nick: { type: 'text', placeholder: 'Pseudo' },
-          acceptRules: <AcceptRulesCheckbox onChange={setDidAcceptRules} />
+          acceptRules: <AcceptRulesCheckbox onChange={setDidAcceptRules} />,
         }}
         submitButtonValue="Inscription"
         isValid={didAcceptRules}

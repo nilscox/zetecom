@@ -10,10 +10,11 @@ const LogoutView: React.FC = () => {
   const user = useContext(UserContext);
 
   const logoutSubmit = () => {
-    if (!wormhole) return;
+    if (!wormhole)
+      return;
 
     wormhole.postEvent({
-      type: 'LOGOUT'
+      type: 'LOGOUT',
     });
   };
 

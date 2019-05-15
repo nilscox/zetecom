@@ -4,7 +4,7 @@ import {
   RouteComponentProps,
   Switch,
   Redirect,
-  withRouter
+  withRouter,
 } from 'react-router-dom';
 
 import LoginView from './views/LoginView';
@@ -14,8 +14,8 @@ import PostSignupView from './views/PostSignupView';
 import PasswordResetView from './views/PasswordResetView';
 import WormholeContext from './contexts/WormholeContext';
 import { Loader } from './components/Loader';
-import User from './types/User';
-import Wormhole, { FetchMeSuccess, SignupSuccess, LoginSuccess } from './types/Wormhole';
+import { User } from './types/User';
+import { Wormhole, FetchMeSuccess, SignupSuccess, LoginSuccess } from './types/Wormhole';
 import { Provider as UserProvider } from './contexts/userContext';
 
 const Popup: React.FC<RouteComponentProps> = ({ history }) => {
@@ -24,7 +24,8 @@ const Popup: React.FC<RouteComponentProps> = ({ history }) => {
   const wormhole = useContext<Wormhole | null>(WormholeContext);
 
   useEffect(() => {
-    if (!wormhole) return;
+    if (!wormhole)
+      return;
 
     wormhole.onEvent('FETCH_ME_SUCCESS', (event: FetchMeSuccess) => {
       setLoading(false);
@@ -36,8 +37,8 @@ const Popup: React.FC<RouteComponentProps> = ({ history }) => {
       setUser(event.user);
     });
     wormhole.onEvent('LOGIN_SUCCESS', (event: LoginSuccess) => {
-      setUser(event.user)
-      history.push('/logout')
+      setUser(event.user);
+      history.push('/logout');
     });
     wormhole.onEvent('SIGNUP_FAILURE', () => setLoading(false));
     wormhole.onEvent('FETCH_ME_FAILURE', () => setLoading(false));
@@ -47,21 +48,22 @@ const Popup: React.FC<RouteComponentProps> = ({ history }) => {
   }, [wormhole]);
 
   if (loading)
-    return <Loader size='big' />;
+    return <Loader size="big" />;
 
   return (
     <div style={{ padding: '0 40px', height: '100%', transition: 'height 2s ease' }}>
       <UserProvider value={user}>
         <Switch>
-          <Route path='/login' component={LoginView} />
-          <Route path='/logout' component={LogoutView} />
-          <Route path='/signup/post-signup' component={PostSignupView} />
-          <Route path='/signup' component={SignupView} />
-          <Route
-            path='/password-reset'
-            component={PasswordResetView}
-          />
+
+          <Route path="/login" component={LoginView} />
+          <Route path="/signup" component={SignupView} />
+          <Route path="/signup/post-signup" component={PostSignupView} />
+          <Route path="/password-reset" component={PasswordResetView} />
+
+          <Route path="/logout" component={LogoutView} />
+
           <Route render={() => <Redirect to={user ? '/logout' : '/login'} />} />
+
         </Switch>
       </UserProvider>
     </div>

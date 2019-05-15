@@ -10,7 +10,8 @@ const LoginView: React.FC<RouteComponentProps> = () => {
   const wormhole = useContext(WormholeContext);
 
   const loginSubmit = (values: { [field: string]: string }) => {
-    if (!wormhole) return;
+    if (!wormhole)
+      return;
 
     wormhole.postEvent({
       type: 'LOGIN',
@@ -28,7 +29,7 @@ const LoginView: React.FC<RouteComponentProps> = () => {
       <Form
         fields={{
           email: { type: 'email', placeholder: 'Email' },
-          password: { type: 'password', placeholder: 'Mot de passe' }
+          password: { type: 'password', placeholder: 'Mot de passe' },
         }}
         submitButtonValue="Connexion"
         onSubmit={loginSubmit}

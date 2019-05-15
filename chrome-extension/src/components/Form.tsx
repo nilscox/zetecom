@@ -44,7 +44,8 @@ const Form: React.FC<FormProps> = ({
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    if (isValid) onSubmit(values);
+    if (isValid)
+      onSubmit(values);
   };
 
   return (
@@ -52,7 +53,7 @@ const Form: React.FC<FormProps> = ({
       style={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'stretch'
+        alignItems: 'stretch',
       }}
       onSubmit={handleSubmit}
     >

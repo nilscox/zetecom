@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import Popup from './Popup';
-import * as serviceWorker from './serviceWorker';
 import { HashRouter as Router } from 'react-router-dom';
 
+import * as serviceWorker from './serviceWorker';
+
+import Popup from './Popup';
+import { Wormhole } from './types/Wormhole';
 import { Provider as WormholeProvider } from './contexts/WormholeContext';
 import WormholeIFrame from './components/WormholeIFrame';
-import Wormhole from './types/Wormhole';
+
+import './index.css';
 
 const App = () => {
   const [wormhole, setWormhole] = useState<Wormhole | null>(null);

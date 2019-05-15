@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 import React from 'react';
 
 export const Loader = ({ size = 'medium' }: { size?: 'small' | 'medium' | 'big' }) => {

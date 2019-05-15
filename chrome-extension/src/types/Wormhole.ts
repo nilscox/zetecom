@@ -1,4 +1,4 @@
-import User from './User';
+import { User } from './User';
 
 interface BaseEvent {
   type: string;
@@ -75,7 +75,7 @@ export type WormholeInEvent =
   | SignupSuccess
   | SignupFailure;
 
-export default interface Wormhole {
+export interface Wormhole {
 
   onEvent<T extends WormholeInEvent>(
     type: T['type'],

@@ -9,11 +9,15 @@ const ViewHeader: React.FC = () => (
       display: 'flex',
       margin: '10px 0',
       paddingBottom: '5px',
-      borderBottom: '1px solid #ccc'
+      borderBottom: '1px solid #ccc',
     }}
   >
 
-    <NavLink to={'/login'} style={{ flex: 1, padding: '0 15px', color: '#999' }} activeStyle={{ color: '#222' }}>
+    <NavLink
+      to={'/login'}
+      style={{ flex: 1, padding: '0 15px', color: '#999' }}
+      activeStyle={{ color: '#222' }}
+    >
       <Typography variant="title">
         Connexion
       </Typography>
@@ -21,7 +25,11 @@ const ViewHeader: React.FC = () => (
 
     <div style={{ borderLeft: '1px solid #CCC' }} />
 
-    <NavLink to={'/signup'} style={{ flex: 1, padding: '0 15px', color: '#999' }} activeStyle={{ color: '#222' }}>
+    <NavLink
+      to={'/signup'}
+      style={{ flex: 1, padding: '0 15px', color: '#999' }}
+      activeStyle={{ color: '#222' }}
+    >
       <Typography variant="title">
         Inscription
       </Typography>
