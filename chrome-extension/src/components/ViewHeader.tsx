@@ -12,29 +12,23 @@ const ViewHeader: React.FC = () => (
       borderBottom: '1px solid #ccc',
     }}
   >
-
     <NavLink
-      to={'/login'}
+      to="/login"
       style={{ flex: 1, padding: '0 15px', color: '#999' }}
       activeStyle={{ color: '#222' }}
     >
-      <Typography variant="title">
-        Connexion
-      </Typography>
+      <Typography variant="title">Connexion</Typography>
     </NavLink>
 
     <div style={{ borderLeft: '1px solid #CCC' }} />
 
     <NavLink
-      to={'/signup'}
+      to="/signup"
       style={{ flex: 1, padding: '0 15px', color: '#999' }}
       activeStyle={{ color: '#222' }}
     >
-      <Typography variant="title">
-        Inscription
-      </Typography>
+      <Typography variant="title">Inscription</Typography>
     </NavLink>
-
   </div>
 );
 

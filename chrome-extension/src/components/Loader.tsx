@@ -2,21 +2,26 @@
 
 import React from 'react';
 
-export const Loader = ({ size = 'medium' }: { size?: 'small' | 'medium' | 'big' }) => {
+type LoaderProps = {
+  size?: 'small' | 'medium' | 'big';
+  style?: React.CSSProperties;
+};
+
+export const Loader: React.FC<LoaderProps> = ({ size = 'medium', style }) => {
   const r = {
-    small: 8,
+    small: 6,
     medium: 18,
     big: 24,
   }[size];
 
   const h = {
-    small: 30,
+    small: 15,
     medium: 70,
     big: 140,
   }[size];
 
   return (
-    <div style={{ height: h, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div style={{ height: h, display: 'flex', justifyContent: 'center', alignItems: 'center', ...style }}>
       <svg width={r * 2 + 2} height={r * 2 + 2} viewBox={`0 0 ${r * 2 + 2} ${r * 2 + 2}`} xmlns="http://www.w3.org/2000/svg" stroke="#999">
         <g fill="none" fillRule="evenodd">
           <g transform="translate(1 1)" strokeWidth="2">

@@ -45,7 +45,7 @@ const login = async (email, password) => {
     postMessageToIframe('LOGIN_SUCCESS', { user: body });
   } catch (e) {
     console.log('login failure', e);
-    postMessageToIframe('LOGIN_ERROR', { error: e });
+    postMessageToIframe('LOGIN_FAILURE', { error: e });
   }
 };
 
@@ -87,7 +87,7 @@ const signup = async (email, password, nick) => {
     postMessageToIframe('SIGNUP_SUCCESS', { user: body });
   } catch (e) {
     console.log('signup failure', e);
-    postMessageToIframe('SIGNUP_ERROR', { error: e });
+    postMessageToIframe('SIGNUP_FAILURE', { error: e });
   }
 };
 

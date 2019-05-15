@@ -51,7 +51,7 @@ const Popup: React.FC<RouteComponentProps> = ({ history }) => {
     return <Loader size="big" />;
 
   return (
-    <div style={{ padding: '0 40px', height: '100%', transition: 'height 2s ease' }}>
+    <div style={{ padding: '0 40px' }}>
       <UserProvider value={user}>
         <Switch>
 

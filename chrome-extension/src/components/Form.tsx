@@ -13,7 +13,8 @@ type FormProps = {
   submitButtonValue: string;
   globalErrorMessage?: string;
   isValid?: boolean;
-  onSubmit: (values: { [fields: string]: string}) => void;
+  isLoading?: boolean;
+  onSubmit: (values: { [fields: string]: string }) => void;
 };
 
 type FieldProps = FormField & {
@@ -24,6 +25,7 @@ const Form: React.FC<FormProps> = ({
   fields,
   submitButtonValue,
   globalErrorMessage,
+  isLoading = false,
   isValid = true,
   onSubmit,
 }) => {
@@ -64,14 +66,12 @@ const Form: React.FC<FormProps> = ({
           <FormField
             key={key}
             {...fields[key] as FormField}
-            onTextChange={text => handleTextChange(key, text)}
+            onTextChange={(text) => handleTextChange(key, text)}
           />
         )
       )}
-      <FormError style={{ textAlign: 'center', fontSize: '1rem' }}>
-        {globalErrorMessage}
-      </FormError>
-      <FormSubmit disabled={!isValid} value={submitButtonValue} />
+      <FormError style={{ textAlign: 'center', fontSize: '1rem' }}>{globalErrorMessage}</FormError>
+      <FormSubmit disabled={!isValid} value={submitButtonValue} isLoading={isLoading} />
     </form>
   );
 };

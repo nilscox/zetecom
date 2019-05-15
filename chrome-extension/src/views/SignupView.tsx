@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
@@ -23,11 +23,22 @@ import WormholeContext from '../contexts/WormholeContext';
 
 const SignupView: React.FC = () => {
   const [didAcceptRules, setDidAcceptRules] = useState(false);
+  const [loading, setLoading] = useState(false);
   const wormhole = useContext(WormholeContext);
+
+  useEffect(() => {
+    if (!wormhole)
+      return;
+
+    wormhole.onEvent('SIGNUP_SUCCESS', () => setLoading(false));
+    wormhole.onEvent('SIGNUP_FAILURE', () => setLoading(false));
+  }, []);
 
   const signupSubmit = (values: { [field: string]: string }) => {
     if (!wormhole)
       return;
+
+    setLoading(true);
 
     wormhole.postEvent({
       type: 'SIGNUP',
@@ -56,6 +67,7 @@ const SignupView: React.FC = () => {
         }}
         submitButtonValue="Inscription"
         isValid={didAcceptRules}
+        isLoading={loading}
         onSubmit={signupSubmit}
       />
     </>
