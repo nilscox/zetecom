@@ -6,7 +6,7 @@ import Form from '../components/Form';
 import WormholeContext from '../contexts/WormholeContext';
 import { RouteComponentProps } from 'react-router';
 
-const LoginView: React.FC<RouteComponentProps> = ({ match }) => {
+const LoginView: React.FC<RouteComponentProps> = () => {
   const wormhole = useContext(WormholeContext);
 
   const loginSubmit = (values: { [field: string]: string }) => {
@@ -18,8 +18,6 @@ const LoginView: React.FC<RouteComponentProps> = ({ match }) => {
       password: values.password,
     });
   };
-
-  console.log(match);
 
   return (
     <>

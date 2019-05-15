@@ -32,8 +32,7 @@ const Popup: React.FC<RouteComponentProps> = ({ history }) => {
       setUser(event.user);
     });
     wormhole.onEvent('SIGNUP_SUCCESS', (event: SignupSuccess) => {
-      setLoading(false);
-      history.push('/post-signup');
+      history.push('/signup/post-signup');
       setUser(event.user);
     });
     wormhole.onEvent('LOGIN_SUCCESS', (event: LoginSuccess) => {
@@ -51,13 +50,13 @@ const Popup: React.FC<RouteComponentProps> = ({ history }) => {
     return <Loader size='big' />;
 
   return (
-    <div style={{ padding: '0 40px' }}>
+    <div style={{ padding: '0 40px', height: '100%', transition: 'height 2s ease' }}>
       <UserProvider value={user}>
         <Switch>
           <Route path='/login' component={LoginView} />
           <Route path='/logout' component={LogoutView} />
+          <Route path='/signup/post-signup' component={PostSignupView} />
           <Route path='/signup' component={SignupView} />
-          <Route path='/post-signup' component={PostSignupView} />
           <Route
             path='/password-reset'
             component={PasswordResetView}
