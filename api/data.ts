@@ -77,10 +77,10 @@ async function createUserOrLogin(user: any): Promise<IUser> {
   try {
     const { headers, data } = await signup();
 
-    console.log(`user created: ${data.user.id} (${data.user.nick})`);
+    console.log(`user created: ${data.id} (${data.nick})`);
 
     return {
-      ...data.user,
+      ...data,
       cookie: headers['set-cookie'][0].split(';')[0],
     };
   } catch (e) {
@@ -92,7 +92,7 @@ async function createUserOrLogin(user: any): Promise<IUser> {
     const { headers, data } = await login();
 
     return {
-      ...data.user,
+      ...data,
       cookie: headers['set-cookie'][0].split(';')[0],
     };
   }

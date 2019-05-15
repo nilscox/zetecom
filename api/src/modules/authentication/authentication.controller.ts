@@ -33,9 +33,12 @@ export class AuthenticationController {
   @Post('/signup')
   @Output(UserOutDto)
   @UseGuards(IsNotAuthenticated)
-  async signup(@Body() createUserDto: CreateUserInDto): Promise<User> {
+  async signup(@Body() createUserDto: CreateUserInDto, @Session() session): Promise<User> {
     const { email, password, nick, avatar } = createUserDto;
     const user = await this.userService.create(email, password, nick, avatar);
+
+    if (user.emailValidated)
+      session.userId = user.id;
 
     return user;
   }
@@ -43,6 +46,7 @@ export class AuthenticationController {
   @Post('/email-validation')
   @Output(UserOutDto)
   @UseGuards(IsNotAuthenticated)
+  @HttpCode(200)
   async emailValidation(@Query('token') token: string, @Session() session): Promise<User> {
     const user = await this.userService.validateFromToken(token);
 
