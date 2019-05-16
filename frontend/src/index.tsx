@@ -8,8 +8,6 @@ import queryString from 'query-string';
 import { App } from './App';
 import { getBaseUrl } from './utils/base-url';
 
-import './fonts.css';
-
 const root = document.getElementById('app');
 
 const setup = () => {
