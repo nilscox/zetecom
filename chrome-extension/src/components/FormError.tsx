@@ -12,7 +12,7 @@ const FormError: React.FC<FormErrorProps> = ({ children, style }) => {
       {children !== undefined ? (
         <Typography variant="error">{children}</Typography>
       ) : (
-        <>&nbsp;</>
+        <Typography variant="error">&nbsp;</Typography>
       )}
     </div>
   );

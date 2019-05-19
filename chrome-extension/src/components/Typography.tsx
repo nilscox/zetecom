@@ -17,7 +17,7 @@ const Typography: React.FC<TypograhpyProps> = ({
     return <h1 style={{ fontSize: '1.4rem', textAlign, ...style }}>{children}</h1>;
 
   if (variant === 'error')
-    return <div style={{ color: '#822', textAlign, ...style }}>{children}</div>;
+    return <div style={{ fontSize: '0.8rem', color: '#822', textAlign, ...style }}>{children}</div>;
 
   return <div style={{ lineHeight: '20px', textAlign, ...style }}>{children}</div>;
 };
