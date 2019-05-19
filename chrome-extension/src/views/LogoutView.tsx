@@ -20,14 +20,16 @@ const LogoutView: React.FC = () => {
 
   return (
     <>
-      <Typography>
-        <>Vous êtes connecté en tant que {user && user.nick}.</>
-      </Typography>
-      <Form
-        fields={{}}
-        submitButtonValue="Déconnexion"
-        onSubmit={logoutSubmit}
-      />
+      <div style={{ padding: '0 40px' }}>
+        <Typography>
+          <>Vous êtes connecté en tant que {user && user.nick}.</>
+        </Typography>
+        <Form
+          fields={{}}
+          submitButtonValue="Déconnexion"
+          onSubmit={logoutSubmit}
+        />
+      </div>
     </>
   );
 };

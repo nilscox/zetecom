@@ -51,12 +51,12 @@ const Popup: React.FC<RouteComponentProps> = ({ history }) => {
     return <Loader size="big" />;
 
   return (
-    <div style={{ padding: '0 40px' }}>
+    <>
       <UserProvider value={user}>
         <Switch>
 
           <Route path="/login" component={LoginView} />
-          <Route path="/signup" component={SignupView} />
+          <Route path="/signup" exact component={SignupView} />
           <Route path="/signup/post-signup" component={PostSignupView} />
           <Route path="/password-reset" component={PasswordResetView} />
 
@@ -66,7 +66,7 @@ const Popup: React.FC<RouteComponentProps> = ({ history }) => {
 
         </Switch>
       </UserProvider>
-    </div>
+    </>
   );
 };
 

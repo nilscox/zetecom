@@ -1,13 +1,11 @@
 import React from 'react';
 
-import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 
 const PasswordResetView: React.FC = () => (
-  <>
-    <ViewHeader />
-    <Typography>PasswordReset</Typography>
-  </>
+  <div style={{ padding: '0 40px' }}>
+    <Typography textAlign="center">PasswordReset</Typography>
+  </div>
 );
 
 export default PasswordResetView;

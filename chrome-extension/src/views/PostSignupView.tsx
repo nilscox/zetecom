@@ -10,9 +10,14 @@ const PostSignupView: React.FC = () => {
   return (
     <>
       <ViewHeader />
-      <Typography>
-        <>Pour finalisez votre inscription, un email a été envoyé à { user && user.email }.</>
-      </Typography>
+      <div style={{ padding: '0 40px' }}>
+        <Typography>
+          <>
+            Pour finaliser votre inscription, un email vous a été envoyé à{' '}
+            <code>{user && user.email}</code>.
+          </>
+        </Typography>
+      </div>
     </>
   );
 };

@@ -51,25 +51,27 @@ const SignupView: React.FC = () => {
   return (
     <>
       <ViewHeader />
-      <Typography>
-        <>
-          Créez votre compte sur CDV. Avant de vous inscrire, veillez à avoir lu
-          au moins <a href="#">la page de présentation</a>, ainsi que{' '}
-          <a href="#">la charte</a>.
-        </>
-      </Typography>
-      <Form
-        fields={{
-          email: { type: 'email', placeholder: 'Email' },
-          password: { type: 'password', placeholder: 'Mot de passe' },
-          nick: { type: 'text', placeholder: 'Pseudo' },
-          acceptRules: <AcceptRulesCheckbox onChange={setDidAcceptRules} />,
-        }}
-        submitButtonValue="Inscription"
-        isValid={didAcceptRules}
-        isLoading={loading}
-        onSubmit={signupSubmit}
-      />
+      <div style={{ padding: '0 40px' }}>
+        <Typography>
+          <>
+            Créez votre compte sur CDV. Avant de vous inscrire, veillez à avoir lu
+            au moins <a href="#">la page de présentation</a>, ainsi que{' '}
+            <a href="#">la charte</a>.
+          </>
+        </Typography>
+        <Form
+          fields={{
+            email: { type: 'email', placeholder: 'Email' },
+            password: { type: 'password', placeholder: 'Mot de passe' },
+            nick: { type: 'text', placeholder: 'Pseudo' },
+            acceptRules: <AcceptRulesCheckbox onChange={setDidAcceptRules} />,
+          }}
+          submitButtonValue="Inscription"
+          isValid={didAcceptRules}
+          isLoading={loading}
+          onSubmit={signupSubmit}
+        />
+      </div>
     </>
   );
 };

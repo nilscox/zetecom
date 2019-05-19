@@ -36,18 +36,20 @@ const LoginView: React.FC<RouteComponentProps> = () => {
   return (
     <>
       <ViewHeader />
-      <Typography>
-        Connectez-vous sur CDV pour interagir avec le reste de la communauté.
-      </Typography>
-      <Form
-        fields={{
-          email: { type: 'email', placeholder: 'Email' },
-          password: { type: 'password', placeholder: 'Mot de passe' },
-        }}
-        submitButtonValue="Connexion"
-        isLoading={loading}
-        onSubmit={loginSubmit}
-      />
+      <div style={{ padding: '0 40px' }}>
+        <Typography>
+          Connectez-vous sur CDV pour interagir avec le reste de la communauté.
+        </Typography>
+        <Form
+          fields={{
+            email: { type: 'email', placeholder: 'Email' },
+            password: { type: 'password', placeholder: 'Mot de passe' },
+          }}
+          submitButtonValue="Connexion"
+          isLoading={loading}
+          onSubmit={loginSubmit}
+        />
+      </div>
     </>
   );
 };
