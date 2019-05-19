@@ -35,7 +35,7 @@ const Popup: React.FC<RouteComponentProps> = ({ history }) => {
     wormhole.onEvent('FETCH_ME_SUCCESS', (event: FetchMeSuccess) => {
       setLoading(false);
       setUser(event.user);
-      history.push('logout');
+      history.push('/logout');
     });
 
     wormhole.postEvent({ type: 'FETCH_ME' });

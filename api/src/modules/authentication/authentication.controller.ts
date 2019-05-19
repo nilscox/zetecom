@@ -14,10 +14,10 @@ import { Output } from 'Common/output.interceptor';
 
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
-import { CreateUserInDto } from '../user/dtos/create-user-in.dto';
 import { UserOutDto } from '../user/dtos/user-out.dto';
 
 import { AuthenticationService } from './authentication.service';
+import { SignupUserInDto } from './dtos/signup-user-in.dto';
 import { LoginUserInDto } from './dtos/login-user-in.dto';
 import { TokenLoginInDto } from './dtos/token-login-in.dto';
 
@@ -33,9 +33,8 @@ export class AuthenticationController {
   @Post('/signup')
   @Output(UserOutDto)
   @UseGuards(IsNotAuthenticated)
-  async signup(@Body() createUserDto: CreateUserInDto, @Session() session): Promise<User> {
-    const { email, password, nick, avatar } = createUserDto;
-    const user = await this.userService.create(email, password, nick, avatar);
+  async signup(@Body() signupUserDto: SignupUserInDto, @Session() session): Promise<User> {
+    const user = await this.authService.signup(signupUserDto);
 
     if (user.emailValidated)
       session.userId = user.id;

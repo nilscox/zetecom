@@ -59,7 +59,7 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
         </Typography>
 
         <Typography style={{ margin: '15px 0' }}>
-          <>Inscript depuis le: { moment(user.created).format('DD MM YYYY') }</>
+          <>Inscrit(e) depuis le: { moment(user.created).format('DD MM YYYY') }</>
         </Typography>
 
         <Typography>

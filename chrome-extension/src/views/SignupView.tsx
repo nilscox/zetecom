@@ -48,6 +48,7 @@ type ERROR_TYPE =
   | 'NICK_ALREADY_EXISTS'
   | 'PASSWORD_TOO_SHORT'
   | 'PASSWORD_TOO_LONG'
+  | 'PASSWORD_UNSECURE'
   | 'UNKNOWN';
 
 const ERROR_MSG: { [key in ERROR_TYPE]: string } = {
@@ -58,6 +59,7 @@ const ERROR_MSG: { [key in ERROR_TYPE]: string } = {
   NICK_ALREADY_EXISTS: 'Ce pseudo est déjà utilisé.',
   PASSWORD_TOO_SHORT: 'Ce mot de passe est trop court.',
   PASSWORD_TOO_LONG: 'Ce mot de passe est trop long.',
+  PASSWORD_UNSECURE: 'Ce mot de passe n\'est pas assez sécurisé.',
   UNKNOWN: 'Une erreur s\'est produite... :/',
 };
 
@@ -74,16 +76,22 @@ const getErrors = (event?: SignupFailure): { [key: string]: string } => {
 
   if (body.email && body.email.isEmail)
     errors.email = ERROR_MSG.EMAIL_INVALID_FORMAT;
+  if (body.message === 'EMAIL_ALREADY_EXISTS')
+    errors.email = ERROR_MSG.EMAIL_ALREADY_EXISTS;
 
   if (body.nick && body.nick.minLength)
     errors.nick = ERROR_MSG.NICK_TOO_SHORT;
   if (body.nick && body.nick.maxLength)
     errors.nick = ERROR_MSG.NICK_TOO_LONG;
+  if (body.message === 'NICK_ALREADY_EXISTS')
+    errors.nick = ERROR_MSG.NICK_ALREADY_EXISTS;
 
   if (body.password && body.password.minLength)
     errors.password = ERROR_MSG.PASSWORD_TOO_SHORT;
   if (body.password && body.password.maxLength)
     errors.password = ERROR_MSG.PASSWORD_TOO_LONG;
+  if (body.message === 'PASSWORD_UNSECURE')
+    errors.password = ERROR_MSG.PASSWORD_UNSECURE;
 
   if (Object.keys(errors).length === 0)
     errors.global = ERROR_MSG.UNKNOWN;

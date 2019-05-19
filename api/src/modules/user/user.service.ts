@@ -4,6 +4,8 @@ import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import * as uuidv4 from 'uuid/v4';
 
+import { SignupUserInDto } from '../authentication/dtos/signup-user-in.dto';
+
 import { User } from './user.entity';
 import { EmailService } from '../email/email.service';
 
@@ -24,7 +26,16 @@ export class UserService {
     return this.userRepository.findOne(id);
   }
 
-  async create(email: string, password: string, nick: string, avatar: string): Promise<User> {
+  async findByEmail(email: string): Promise<User> {
+    return this.userRepository.findOne({ where: { email } });
+  }
+
+  async findByNick(nick: string): Promise<User> {
+    return this.userRepository.findOne({ where: { nick } });
+  }
+
+  async create(dto: SignupUserInDto): Promise<User> {
+    const { email, password, nick, avatar } = dto;
     const existing = await this.userRepository.findOne({ where: { email } });
 
     if (existing !== undefined)
