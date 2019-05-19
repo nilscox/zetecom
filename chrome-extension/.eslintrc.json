@@ -28,7 +28,7 @@
     "no-unused-expressions": "error",
     "radix": "off",
     "block-spacing": ["error", "always"],
-    "brace-style": "error",
+    "brace-style": ["error", "1tbs", { "allowSingleLine": false }],
     "camelcase": "error",
     "comma-dangle": ["error", "always-multiline"],
     "comma-spacing": "error",
