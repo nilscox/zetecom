@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
 import moment from 'moment';
 
 import Typography from '../components/Typography';
@@ -11,6 +11,7 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const wormhole = useContext(WormholeContext);
   const user = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const logoutSubmit = () => {
     if (!wormhole)
@@ -19,7 +20,10 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
     setLoading(true);
 
     wormhole.onEvent('LOGOUT_SUCCESS', () => history.push('/login'));
-    wormhole.onEvent('LOGOUT_FAILURE', () => setLoading(false));
+    wormhole.onEvent('LOGOUT_FAILURE', () => {
+      setLoading(false);
+      setError(true);
+    });
 
     wormhole.postEvent({
       type: 'LOGOUT',
@@ -27,7 +31,7 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   };
 
   if (!user)
-    return null;
+    return <Redirect to="/" />;
 
   return (
     <>
@@ -69,6 +73,7 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
           fields={{}}
           submitButtonValue="Déconnexion"
           isLoading={loading}
+          globalErrorMessage={error ? 'Une erreur s\'est produite... :/' : undefined}
           onSubmit={logoutSubmit}
         />
 

@@ -8,21 +8,50 @@ import Form from '../components/Form';
 import WormholeContext from '../contexts/WormholeContext';
 
 type ERROR_TYPE =
-  | 'INVALID_EMAIL_FORMAT'
+  | 'EMAIL_INVALID_FORMAT'
   | 'INVALID_CREDENTIALS'
   | 'UNKNOWN';
 
-const GLOBAL_ERROR_MSG: {[key in ERROR_TYPE]: string | null} = {
-  INVALID_EMAIL_FORMAT: null,
+const ERROR_MSG: { [key in ERROR_TYPE]: string } = {
+  EMAIL_INVALID_FORMAT: 'Format d\'adresse email invalide.',
   INVALID_CREDENTIALS: 'Identifiants invalides.',
   UNKNOWN: 'Une erreur s\'est produite... :/',
 };
 
+const getErrors = (event?: LoginFailure): { [key: string]: string } => {
+  if (!event)
+    return {};
+
+  if (!event.error || !event.error.body)
+    return { global: ERROR_MSG.UNKNOWN };
+
+  const { body } = event.error;
+  const errors: {[key: string]: string} = {};
+
+  if (body.email && body.email.isEmail)
+    errors.email = ERROR_MSG.EMAIL_INVALID_FORMAT;
+  if (body.message === 'INVALID_CREDENTIALS')
+    errors.global = ERROR_MSG.INVALID_CREDENTIALS;
+
+  if (Object.keys(errors).length === 0)
+    errors.global = ERROR_MSG.UNKNOWN;
+
+  return errors;
+};
+
 const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<ERROR_TYPE | null>(null);
+  const [errors, setErrors] = useState<{ [key: string]: string }>(getErrors());
   const wormhole = useContext(WormholeContext);
-  const globalErrorMessage = error && GLOBAL_ERROR_MSG[error] || undefined;
+
+  const isFormValid = (values: { [field: string]: string }) => {
+    for (let field of ['email', 'password']) {
+      if (values[field].length === 0)
+        return false;
+    }
+
+    return true;
+  };
 
   const loginSubmit = (values: { [field: string]: string }) => {
     if (!wormhole)
@@ -33,18 +62,7 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
     wormhole.onEvent('LOGIN_SUCCESS', () => history.push('/logout'));
     wormhole.onEvent('LOGIN_FAILURE', (event: LoginFailure) => {
       setLoading(false);
-
-      if (!event.error || !event.error.body)
-        return setError('UNKNOWN');
-
-      const { body } = event.error;
-
-      if (body.email && body.email.isEmail)
-        setError('INVALID_EMAIL_FORMAT');
-      else if (body.message === 'INVALID_CREDENTIALS')
-        setError('INVALID_CREDENTIALS');
-      else
-        setError('UNKNOWN');
+      setErrors(getErrors(event));
     });
 
     wormhole.postEvent({
@@ -66,15 +84,18 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
             email: {
               type: 'email',
               placeholder: 'Email',
-              errorMessage: error === 'INVALID_EMAIL_FORMAT'
-                ? 'Format d\'adresse email invalide'
-                : undefined,
+              errorMessage: errors.email,
             },
-            password: { type: 'password', placeholder: 'Mot de passe' },
+            password: {
+              type: 'password',
+              placeholder: 'Mot de passe',
+              errorMessage: errors.password,
+            },
           }}
-          globalErrorMessage={globalErrorMessage}
+          globalErrorMessage={errors.global}
           submitButtonValue="Connexion"
           isLoading={loading}
+          isValid={isFormValid}
           onSubmit={loginSubmit}
         />
       </div>

@@ -12,8 +12,8 @@ type FormProps = {
   fields: { [name: string]: FormField | JSX.Element };
   submitButtonValue: string;
   globalErrorMessage?: string;
-  isValid?: boolean;
   isLoading?: boolean;
+  isValid?: (values: { [fields: string]: string }) => boolean;
   onSubmit: (values: { [fields: string]: string }) => void;
 };
 
@@ -26,7 +26,7 @@ const Form: React.FC<FormProps> = ({
   submitButtonValue,
   globalErrorMessage,
   isLoading = false,
-  isValid = true,
+  isValid = () => true,
   onSubmit,
 }) => {
   const [values, setValues] = useState<{ [name: string]: string }>(
@@ -36,8 +36,10 @@ const Form: React.FC<FormProps> = ({
     }, {})
   );
 
+  const valid = isValid(values);
+
   const handleTextChange = (key: string, text: string) => {
-    const updatedValues = values;
+    const updatedValues = { ...values };
     updatedValues[key] = text;
 
     setValues(updatedValues);
@@ -46,7 +48,7 @@ const Form: React.FC<FormProps> = ({
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    if (isValid)
+    if (valid)
       onSubmit(values);
   };
 
@@ -71,7 +73,7 @@ const Form: React.FC<FormProps> = ({
         )
       )}
       <FormError style={{ textAlign: 'center', fontSize: '1rem' }}>{globalErrorMessage}</FormError>
-      <FormSubmit disabled={!isValid} value={submitButtonValue} isLoading={isLoading} />
+      <FormSubmit disabled={!valid} value={submitButtonValue} isLoading={isLoading} />
     </form>
   );
 };
