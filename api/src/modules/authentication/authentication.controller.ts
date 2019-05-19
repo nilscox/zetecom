@@ -1,5 +1,6 @@
 import {
   Controller,
+  Res,
   Get, Post, Query,
   HttpCode,
   Session, Body,
@@ -20,6 +21,10 @@ import { AuthenticationService } from './authentication.service';
 import { SignupUserInDto } from './dtos/signup-user-in.dto';
 import { LoginUserInDto } from './dtos/login-user-in.dto';
 import { TokenLoginInDto } from './dtos/token-login-in.dto';
+
+const {
+  PRODUCTION_URL,
+} = process.env;
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -42,16 +47,13 @@ export class AuthenticationController {
     return user;
   }
 
-  @Post('/email-validation')
-  @Output(UserOutDto)
+  @Get('/email-validation')
   @UseGuards(IsNotAuthenticated)
-  @HttpCode(200)
-  async emailValidation(@Query('token') token: string, @Session() session): Promise<User> {
+  async emailValidation(@Res() res, @Query('token') token: string, @Session() session): Promise<void> {
     const user = await this.userService.validateFromToken(token);
 
     session.userId = user.id;
-
-    return user;
+    res.redirect(`${PRODUCTION_URL}?email-validated=true`);
   }
 
   @Post('/login')

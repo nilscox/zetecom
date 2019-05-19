@@ -35,7 +35,7 @@ module.exports = {
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
-      IFRAME_URL: 'http://localhost:8000/popup-iframe.html',
+      IFRAME_URL: 'https://cdv.localhost/popup-iframe.html',
     }),
   ],
 

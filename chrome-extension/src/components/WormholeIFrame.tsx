@@ -23,7 +23,7 @@ const WormholeIFrame: React.FC<WormholeIFrameProps> = ({ setWormhole }) => {
     if (iframeRef.current.contentWindow) {
       iframeRef.current.contentWindow.postMessage(
         event,
-        'http://localhost:8000'
+        'https://cdv.localhost'
       );
     }
   };
