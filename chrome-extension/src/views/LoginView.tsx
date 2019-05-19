@@ -6,7 +6,7 @@ import Form from '../components/Form';
 import WormholeContext from '../contexts/WormholeContext';
 import { RouteComponentProps } from 'react-router';
 
-const LoginView: React.FC<RouteComponentProps> = () => {
+const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(false);
   const wormhole = useContext(WormholeContext);
 
@@ -14,7 +14,7 @@ const LoginView: React.FC<RouteComponentProps> = () => {
     if (!wormhole)
       return;
 
-    wormhole.onEvent('LOGIN_SUCCESS', () => setLoading(false));
+    wormhole.onEvent('LOGIN_SUCCESS', () => history.push('/logout'));
     wormhole.onEvent('LOGIN_FAILURE', () => setLoading(false));
 
     setLoading(false);

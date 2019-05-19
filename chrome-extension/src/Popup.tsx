@@ -27,22 +27,16 @@ const Popup: React.FC<RouteComponentProps> = ({ history }) => {
     if (!wormhole)
       return;
 
+    wormhole.onEvent('SIGNUP_SUCCESS', (event: SignupSuccess) => setUser(event.user));
+    wormhole.onEvent('LOGIN_SUCCESS', (event: LoginSuccess) => setUser(event.user));
+    wormhole.onEvent('SIGNUP_SUCCESS', (event: SignupSuccess) => setUser(event.user));
+
+    wormhole.onEvent('FETCH_ME_FAILURE', () => setLoading(false));
     wormhole.onEvent('FETCH_ME_SUCCESS', (event: FetchMeSuccess) => {
       setLoading(false);
+      setUser(event.user);
       history.push('logout');
-      setUser(event.user);
     });
-    wormhole.onEvent('SIGNUP_SUCCESS', (event: SignupSuccess) => {
-      history.push('/signup/post-signup');
-      setUser(event.user);
-    });
-    wormhole.onEvent('LOGIN_SUCCESS', (event: LoginSuccess) => {
-      setUser(event.user);
-      history.push('/logout');
-    });
-    wormhole.onEvent('SIGNUP_FAILURE', () => setLoading(false));
-    wormhole.onEvent('FETCH_ME_FAILURE', () => setLoading(false));
-    wormhole.onEvent('LOGOUT_SUCCESS', () => history.push('/login'));
 
     wormhole.postEvent({ type: 'FETCH_ME' });
   }, [wormhole]);

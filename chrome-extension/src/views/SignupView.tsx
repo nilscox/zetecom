@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
+import WormholeContext from '../contexts/WormholeContext';
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
@@ -19,9 +21,7 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
   return <input type="checkbox" checked={value} onChange={handleChange} />;
 };
 
-import WormholeContext from '../contexts/WormholeContext';
-
-const SignupView: React.FC = () => {
+const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
   const [didAcceptRules, setDidAcceptRules] = useState(false);
   const [loading, setLoading] = useState(false);
   const wormhole = useContext(WormholeContext);
@@ -30,7 +30,7 @@ const SignupView: React.FC = () => {
     if (!wormhole)
       return;
 
-    wormhole.onEvent('SIGNUP_SUCCESS', () => setLoading(false));
+    wormhole.onEvent('SIGNUP_SUCCESS', () => history.push('/signup/post-signup'));
     wormhole.onEvent('SIGNUP_FAILURE', () => setLoading(false));
   }, []);
 
