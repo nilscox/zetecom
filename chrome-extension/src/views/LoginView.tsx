@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
@@ -10,21 +10,14 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(false);
   const wormhole = useContext(WormholeContext);
 
-  useEffect(() => {
-    if (!wormhole)
-      return;
-
-    wormhole.onEvent('LOGIN_SUCCESS', () => history.push('/logout'));
-    wormhole.onEvent('LOGIN_FAILURE', () => setLoading(false));
-
-    setLoading(false);
-  }, []);
-
   const loginSubmit = (values: { [field: string]: string }) => {
     if (!wormhole)
       return;
 
     setLoading(true);
+
+    wormhole.onEvent('LOGIN_SUCCESS', () => history.push('/logout'));
+    wormhole.onEvent('LOGIN_FAILURE', () => setLoading(false));
 
     wormhole.postEvent({
       type: 'LOGIN',

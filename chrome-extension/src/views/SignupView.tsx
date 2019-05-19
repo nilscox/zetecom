@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import WormholeContext from '../contexts/WormholeContext';
@@ -26,19 +26,14 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(false);
   const wormhole = useContext(WormholeContext);
 
-  useEffect(() => {
-    if (!wormhole)
-      return;
-
-    wormhole.onEvent('SIGNUP_SUCCESS', () => history.push('/signup/post-signup'));
-    wormhole.onEvent('SIGNUP_FAILURE', () => setLoading(false));
-  }, []);
-
   const signupSubmit = (values: { [field: string]: string }) => {
     if (!wormhole)
       return;
 
     setLoading(true);
+
+    wormhole.onEvent('SIGNUP_SUCCESS', () => history.push('/signup/post-signup'));
+    wormhole.onEvent('SIGNUP_FAILURE', () => setLoading(false));
 
     wormhole.postEvent({
       type: 'SIGNUP',
