@@ -23,7 +23,7 @@ import { LoginUserInDto } from './dtos/login-user-in.dto';
 import { TokenLoginInDto } from './dtos/token-login-in.dto';
 
 const {
-  PRODUCTION_URL,
+  BASE_URL,
 } = process.env;
 
 @Controller('auth')
@@ -53,7 +53,7 @@ export class AuthenticationController {
     const user = await this.userService.validateFromToken(token);
 
     session.userId = user.id;
-    res.redirect(`${PRODUCTION_URL}?email-validated=true`);
+    res.redirect(`${BASE_URL}?email-validated=true`);
   }
 
   @Post('/login')

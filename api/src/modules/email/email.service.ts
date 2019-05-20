@@ -10,7 +10,7 @@ const {
   EMAIL_USER,
   EMAIL_PASSWORD,
   EMAIL_TEMPLATE_DIR,
-  PRODUCTION_URL,
+  BASE_URL,
 } = process.env;
 
 const templateFiles = readdirSync(EMAIL_TEMPLATE_DIR);
@@ -88,7 +88,7 @@ export class EmailService {
 
   sendEmailValidationEmail(user: User): Promise<any> {
     const template = EmailService.renderTemplate('welcome', {
-      email_validation_link: `${PRODUCTION_URL}/api/auth/email-validation?token=${user.emailValidationToken}`,
+      email_validation_link: `${BASE_URL}/api/auth/email-validation?token=${user.emailValidationToken}`,
     });
 
     return this.sendEmail(

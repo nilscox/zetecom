@@ -35,7 +35,7 @@ module.exports = {
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
-      PRODUCTION_URL: 'http://localhost:8000',
+      BASE_URL: 'http://localhost:8000',
     }),
   ],
 
