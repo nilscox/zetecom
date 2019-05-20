@@ -23,7 +23,8 @@ const WormholeIFrame: React.FC<WormholeIFrameProps> = ({ setWormhole }) => {
     if (iframeRef.current.contentWindow) {
       iframeRef.current.contentWindow.postMessage(
         event,
-        'https://cdv.localhost'
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        process.env.PRODUCTION_URL!,
       );
     }
   };

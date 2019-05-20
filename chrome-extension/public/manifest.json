@@ -25,7 +25,7 @@
         "https://youtube.com/watch*",
         "https://www.youtube.com/watch*"
       ],
-      "js": ["assets/js/iframeResizer.min.js", "assets/js/youtube.js"],
+      "js": ["assets/js/dist/iframeResizer.min.js", "assets/js/dist/youtube.js"],
       "css": ["assets/css/reset.css"]
     }
   ]

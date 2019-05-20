@@ -1,3 +1,4 @@
+const PRODUCTION_URL = process.env.PRODUCTION_URL;
 const YOUTUBE_REGEX = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
 
 function selectComments(selected, other) {
@@ -71,7 +72,7 @@ function render(rootTag, youtubeComments, youtubeId) {
   };
 
   iframe.id = 'cdv-iframe';
-  iframe.src = 'https://cdv.localhost/?youtubeId=' + youtubeId;
+  iframe.src = `${PRODUCTION_URL}/?youtubeId=${youtubeId}`;
   iframe.scrolling = 'no';
   iframe.style.width = '1px';
   iframe.style.minWidth = '100%';

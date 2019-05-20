@@ -1,15 +1,13 @@
-console.log = (...message) => {
-  document.querySelector('#app').innerText += JSON.stringify(message) + '\n';
-};
+const PRODUCTION_URL = 'http://localhost:3000';
 
 const postMessageToIframe = (type, payload) => {
   console.log('send event', { type, ...payload });
-  window.parent.postMessage({ type, ...payload }, 'chrome-extension://lfpcdmmobbgnoemblodlacgfceppipni');
+  window.parent.postMessage({ type, ...payload }, 'chrome-extension://ldblimoobdhfdpomfbbamoadnafoplbe');
 };
 
 const fetchMe = async () => {
   try {
-    const res = await fetch(`https://cdv.localhost/api/auth/me`, {
+    const res = await fetch(`${PRODUCTION_URL}/api/auth/me`, {
       credentials: 'include',
     });
     const body = await res.json();
@@ -27,7 +25,7 @@ const fetchMe = async () => {
 
 const login = async (email, password) => {
   try {
-    const res = await fetch(`https://cdv.localhost/api/auth/login`, {
+    const res = await fetch(`${PRODUCTION_URL}/api/auth/login`, {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: {
@@ -51,7 +49,7 @@ const login = async (email, password) => {
 
 const logout = async () => {
   try {
-    const res = await fetch(`https://cdv.localhost/api/auth/logout`, {
+    const res = await fetch(`${PRODUCTION_URL}/api/auth/logout`, {
       method: 'POST',
       credentials: 'include',
     });
@@ -63,13 +61,13 @@ const logout = async () => {
     postMessageToIframe('LOGOUT_SUCCESS');
   } catch (e) {
     console.log('logout failure', e);
-    // postMessageToIframe('LOGOUT_FAILURE', { error: e });
+    postMessageToIframe('LOGOUT_FAILURE', { error: e });
   }
 };
 
 const signup = async (email, password, nick) => {
   try {
-    const res = await fetch(`https://cdv.localhost/api/auth/signup`, {
+    const res = await fetch(`${PRODUCTION_URL}/api/auth/signup`, {
       method: 'POST',
       body: JSON.stringify({ email, password, nick }),
       headers: {

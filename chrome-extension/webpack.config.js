@@ -29,13 +29,14 @@ module.exports = {
 
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'public', 'assets', 'js'),
+    path: path.resolve(__dirname, 'public', 'assets', 'js', 'dist'),
   },
 
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
-      IFRAME_URL: 'https://cdv.localhost/popup-iframe.html',
+      PRODUCTION_URL: 'http://localhost:8000',
+      IFRAME_URL: 'http://localhost:8000/popup-iframe.html',
     }),
   ],
 

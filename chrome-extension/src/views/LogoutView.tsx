@@ -7,6 +7,8 @@ import Form from '../components/Form';
 import WormholeContext from '../contexts/WormholeContext';
 import UserContext from '../contexts/userContext';
 
+const { PRODUCTION_URL } = process.env;
+
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const wormhole = useContext(WormholeContext);
   const user = useContext(UserContext);
@@ -49,7 +51,7 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
         >
           <img
             style={{ width: 32, height: 32, borderRadius: 16, border: '1px solid #CCC' }}
-            src={user.avatar || 'https://cdv.localhost/assets/images/default-avatar.png'}
+            src={user.avatar || `${PRODUCTION_URL}/assets/images/default-avatar.png`}
           />
           <Typography style={{ marginLeft: 10, fontWeight: 'bold' }}>{ user.nick }</Typography>
         </div>

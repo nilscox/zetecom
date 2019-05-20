@@ -6,13 +6,19 @@ import moment from 'moment';
 import queryString from 'query-string';
 
 import { App } from './App';
-import { getBaseUrl } from './utils/base-url';
 
 const root = document.getElementById('app');
 
+const getApiRootUrl = () => {
+  return [
+    localStorage.getItem('API_URL'),
+    process.env.API_URL,
+  ].filter(u => !!u)[0];
+};
+
 const setup = () => {
   moment.locale('fr');
-  axios.defaults.baseURL = getBaseUrl();
+  axios.defaults.baseURL = getApiRootUrl();
 
   ReactModal.setAppElement('#app');
 
