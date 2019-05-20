@@ -72,7 +72,7 @@ function render(rootTag, youtubeComments, youtubeId) {
   };
 
   iframe.id = 'cdv-iframe';
-  iframe.src = `${PRODUCTION_URL}/?youtubeId=${youtubeId}`;
+  iframe.src = `${PRODUCTION_URL}/integration/youtube?youtubeId=${youtubeId}`;
   iframe.scrolling = 'no';
   iframe.style.width = '1px';
   iframe.style.minWidth = '100%';

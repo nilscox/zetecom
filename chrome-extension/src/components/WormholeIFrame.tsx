@@ -71,7 +71,7 @@ const WormholeIFrame: React.FC<WormholeIFrameProps> = ({ setWormhole }) => {
 
   return (
     <iframe
-      src={process.env.IFRAME_URL}
+      src={`${process.env.PRODUCTION_URL}/popup-iframe.html`}
       style={{ width: 0, height: 0, border: 'none' }}
       ref={iframeRef}
     />

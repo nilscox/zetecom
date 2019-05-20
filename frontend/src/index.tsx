@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
 import axios from 'axios';
 import moment from 'moment';
-import queryString from 'query-string';
 
 import { App } from './App';
 
@@ -27,10 +26,7 @@ const setup = () => {
 };
 
 const renderApp = (root: HTMLElement) => {
-  const { youtubeId } = queryString.parse(window.location.search);
-
-  if (youtubeId && typeof youtubeId === 'string')
-    ReactDOM.render(<App youtubeId={youtubeId} />, root);
+    ReactDOM.render(<App />, root);
 };
 
 setup();

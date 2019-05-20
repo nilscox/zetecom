@@ -47,6 +47,7 @@ module.exports = {
     publicPath: '/assets/js/',
     contentBase: path.resolve(__dirname, 'public'),
     disableHostCheck: true,
+    historyApiFallback: true,
   },
 
 };
