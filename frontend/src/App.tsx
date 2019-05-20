@@ -13,37 +13,38 @@ import Home from './pages/Home';
 
 import Youtube from './integrations/Youtube';
 
+import Popup from './popup/Popup';
+
 import './App.css';
 
 const useUser = () => {
-  const [fetchingUser, setFetching] = useState(false);
-  const [user, setUser] = useState<User>(undefined);
+  const [user, setUser] = useState<User | null | undefined>(undefined);
 
   useEffect(() => {
     (async () => {
       try {
-        setFetching(true);
-
         const user = await fetchUser();
 
         if (user)
           setUser(user);
-      } finally {
-        setFetching(false);
+        else
+          setUser(null);
+      } catch (e) {
+        console.log(e);
       }
     })();
   }, []);
 
   return {
-    fetchingUser,
     user,
+    setUser,
   };
 };
 
 const App: React.FC = () => {
-  const { fetchingUser, user } = useUser();
+  const { user, setUser } = useUser();
 
-  if (fetchingUser)
+  if (user === undefined)
     return <Loader size="big" />;
 
   return (
@@ -54,6 +55,8 @@ const App: React.FC = () => {
           <Route path="/" exact component={Home} />
 
           <Route path="/integration/youtube" component={Youtube} />
+
+          <Route path="/popup" render={() => <Popup setUser={setUser} />} />
 
         </Switch>
       </Router>

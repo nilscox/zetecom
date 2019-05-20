@@ -6,30 +6,12 @@ const webpack = require('webpack');
 module.exports = {
 
   mode: 'development',
-  entry: './src/index.tsx',
+  entry: './popup.js',
   devtool: 'inline-source-map',
 
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
-  },
-
-  resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
-  },
-
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'public', 'assets', 'js', 'dist'),
+    filename: 'popup.js',
+    path: path.resolve(__dirname, 'assets', 'js', 'dist'),
   },
 
   plugins: [

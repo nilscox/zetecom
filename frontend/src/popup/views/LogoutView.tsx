@@ -2,34 +2,33 @@ import React, { useContext, useState } from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import moment from 'moment';
 
+import { logoutUser } from '../../fetch/fetchUser';
+import SetUserContext from '../SetUserContext';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
-import WormholeContext from '../contexts/WormholeContext';
-import UserContext from '../contexts/userContext';
+import UserContext from '../../utils/UserContext';
 
-const { BASE_URL } = process.env;
+const BASE_URL = process.env.BASE_URL;
 
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
-  const wormhole = useContext(WormholeContext);
   const user = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const setUser = useContext(SetUserContext);
 
-  const logoutSubmit = () => {
-    if (!wormhole)
-      return;
-
+  const logoutSubmit = async () => {
     setLoading(true);
 
-    wormhole.onEvent('LOGOUT_SUCCESS', () => history.push('/login'));
-    wormhole.onEvent('LOGOUT_FAILURE', () => {
-      setLoading(false);
+    try {
+      await logoutUser();
+      setUser(null);
+      history.push('/popup/login');
+    } catch (e) {
+      console.error('logout error: ', e);
       setError(true);
-    });
-
-    wormhole.postEvent({
-      type: 'LOGOUT',
-    });
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!user)
@@ -51,7 +50,8 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
         >
           <img
             style={{ width: 32, height: 32, borderRadius: 16, border: '1px solid #CCC' }}
-            src={user.avatar || `${BASE_URL}/assets/images/default-avatar.png`}
+            src={`${BASE_URL}/assets/images/${user.avatar ? `avatars/${user.avatar}` : 'default-avatar.png'}`
+            }
           />
           <Typography style={{ marginLeft: 10, fontWeight: 'bold' }}>{ user.nick }</Typography>
         </div>

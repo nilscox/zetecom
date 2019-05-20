@@ -37,6 +37,7 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
       API_URL: 'http://localhost:3000',
+      BASE_URL: 'http://localhost:8000',
     }),
   ],
 

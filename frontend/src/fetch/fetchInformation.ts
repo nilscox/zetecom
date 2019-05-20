@@ -10,11 +10,10 @@ const fetchInformationFromYoutubeId = async (youtubeId: string) => {
     withCredentials: false,
   });
 
-  if (status === 200) {
+  if (status === 200)
     return parseInformation(data);
-  } else {
+  else
     console.warn(`cannot find information from youtubeId: ${youtubeId}`);
-  }
 };
 
 export { fetchInformationFromYoutubeId };

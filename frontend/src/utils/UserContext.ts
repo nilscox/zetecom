@@ -1,6 +1,8 @@
 import { createContext } from 'react';
 
-const UserContext = createContext(null);
+import { User } from '../types/User';
+
+const UserContext = createContext<User | null | undefined>(undefined);
 
 export default UserContext;
 export const UserProvider = UserContext.Provider;

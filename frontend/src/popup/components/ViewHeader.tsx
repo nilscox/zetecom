@@ -13,8 +13,8 @@ const ViewHeader: React.FC = () => (
     }}
   >
     <NavLink
-      to="/login"
-      style={{ flex: 1, padding: '0 15px', color: '#999' }}
+      to="/popup/login"
+      style={{ flex: 1, padding: '0 15px', color: '#999', textDecoration: 'none' }}
       activeStyle={{ color: '#222' }}
     >
       <Typography variant="title">Connexion</Typography>
@@ -23,8 +23,8 @@ const ViewHeader: React.FC = () => (
     <div style={{ borderLeft: '1px solid #CCC' }} />
 
     <NavLink
-      to="/signup"
-      style={{ flex: 1, padding: '0 15px', color: '#999' }}
+      to="/popup/signup"
+      style={{ flex: 1, padding: '0 15px', color: '#999', textDecoration: 'none' }}
       activeStyle={{ color: '#222' }}
     >
       <Typography variant="title">Inscription</Typography>

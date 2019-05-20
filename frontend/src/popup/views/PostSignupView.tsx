@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import Typography from '../components/Typography';
-import UserContext from '../contexts/userContext';
+import UserContext from '../../utils/UserContext';
 
 const PostSignupView: React.FC = () => {
   const user = useContext(UserContext);

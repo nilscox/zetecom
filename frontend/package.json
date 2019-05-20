@@ -4,7 +4,8 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",
-    "clean": "rimraf public/assets/js/bundle.js"
+    "clean": "rimraf public/assets/js/bundle.js",
+    "lint": "eslint 'src/**/*.ts{,x}'"
   },
   "dependencies": {
     "@types/showdown": "^1.9.2",
@@ -26,7 +27,11 @@
     "@types/react-dom": "^16.8.2",
     "@types/react-modal": "^3.8.1",
     "@types/react-router-dom": "^4.3.3",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
     "css-loader": "^2.1.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-react": "^7.13.0",
     "rimraf": "^2.6.3",
     "style-loader": "^0.23.1",
     "ts-loader": "^5.3.3",
@@ -34,5 +39,8 @@
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   }
 }

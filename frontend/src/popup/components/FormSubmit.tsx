@@ -1,5 +1,5 @@
 import React from 'react';
-import { Loader } from './Loader';
+import { Loader } from '../../components/Loader';
 
 export type FormSubmitProps = {
   value: string;

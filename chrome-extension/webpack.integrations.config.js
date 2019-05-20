@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
-const JS_PATH = path.resolve(__dirname, 'public', 'assets', 'js');
+const JS_PATH = path.resolve(__dirname, 'assets', 'js');
 
 const loadEntries = () => {
   return fs.readdirSync(JS_PATH)

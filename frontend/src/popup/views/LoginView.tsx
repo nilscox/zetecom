@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import { LoginFailure } from '../types/Wormhole';
+import { loginUser } from '../../fetch/fetchUser';
+import SetUserContext from '../SetUserContext';
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
-import WormholeContext from '../contexts/WormholeContext';
 
 type ERROR_TYPE =
   | 'EMAIL_INVALID_FORMAT'
@@ -18,14 +18,10 @@ const ERROR_MSG: { [key in ERROR_TYPE]: string } = {
   UNKNOWN: 'Une erreur s\'est produite... :/',
 };
 
-const getErrors = (event?: LoginFailure): { [key: string]: string } => {
-  if (!event)
+const getErrors = (body?: any): { [key: string]: string } => {
+  if (!body)
     return {};
 
-  if (!event.error || !event.error.body)
-    return { global: ERROR_MSG.UNKNOWN };
-
-  const { body } = event.error;
   const errors: {[key: string]: string} = {};
 
   if (body.email && body.email.isEmail)
@@ -42,7 +38,7 @@ const getErrors = (event?: LoginFailure): { [key: string]: string } => {
 const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>(getErrors());
-  const wormhole = useContext(WormholeContext);
+  const setUser = useContext(SetUserContext);
 
   const isFormValid = (values: { [field: string]: string }) => {
     for (let field of ['email', 'password']) {
@@ -53,23 +49,18 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
     return true;
   };
 
-  const loginSubmit = (values: { [field: string]: string }) => {
-    if (!wormhole)
-      return;
-
+  const loginSubmit = async (values: { [field: string]: string }) => {
     setLoading(true);
 
-    wormhole.onEvent('LOGIN_SUCCESS', () => history.push('/logout'));
-    wormhole.onEvent('LOGIN_FAILURE', (event: LoginFailure) => {
+    try {
+      const user = await loginUser(values);
+      setUser(user);
+      history.push('/popup/logout');
+    } catch (e) {
+      setErrors(getErrors(e.body));
+    } finally {
       setLoading(false);
-      setErrors(getErrors(event));
-    });
-
-    wormhole.postEvent({
-      type: 'LOGIN',
-      email: values.email,
-      password: values.password,
-    });
+    }
   };
 
   return (

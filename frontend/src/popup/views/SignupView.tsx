@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { SignupFailure } from '../types/Wormhole';
-import WormholeContext from '../contexts/WormholeContext';
+import { signupUser } from '../../fetch/fetchUser';
+import SetUserContext from '../SetUserContext';
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
@@ -64,14 +64,10 @@ const ERROR_MSG: { [key in ERROR_TYPE]: string } = {
 };
 
 // eslint-disable-next-line max-statements
-const getErrors = (event?: SignupFailure): { [key: string]: string } => {
-  if (!event)
+const getErrors = (body?: any): { [key: string]: string } => {
+  if (!body)
     return {};
 
-  if (!event.error || !event.error.body)
-    return { global: ERROR_MSG.UNKNOWN };
-
-  const { body } = event.error;
   const errors: {[key: string]: string} = {};
 
   if (body.email && body.email.isEmail)
@@ -103,26 +99,20 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
   const [didAcceptRules, setDidAcceptRules] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>(getErrors());
-  const wormhole = useContext(WormholeContext);
+  const setUser = useContext(SetUserContext);
 
-  const signupSubmit = (values: { [field: string]: string }) => {
-    if (!wormhole)
-      return;
-
+  const signupSubmit = async (values: { [field: string]: string }) => {
     setLoading(true);
 
-    wormhole.onEvent('SIGNUP_SUCCESS', () => history.push('/signup/post-signup'));
-    wormhole.onEvent('SIGNUP_FAILURE', (event: SignupFailure) => {
+    try {
+      const user = await signupUser(values);
+      setUser(user);
+      history.push('/popup/signup/post-signup');
+    } catch (e) {
+      setErrors(getErrors(e.body));
+    } finally {
       setLoading(false);
-      setErrors(getErrors(event));
-    });
-
-    wormhole.postEvent({
-      type: 'SIGNUP',
-      email: values.email,
-      password: values.password,
-      nick: values.nick,
-    });
+    }
   };
 
   const isFormValid = (values: { [field: string]: string }) => {
