@@ -1,5 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { ReactionService } from 'src/modules/reaction/reaction.service';
+import { ReactionService } from '../modules/reaction/reaction.service';
 
 @Injectable()
 export class IsAuthor implements CanActivate {
