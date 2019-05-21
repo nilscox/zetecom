@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "iframe-resizer": "^4.1.1",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.2"
   },
   "scripts": {
     "start": "concurrently \"yarn build:popup:watch\" \"yarn build:integrations:watch\"",
-    "build": "yarn build:popup && yarn build:integrations",
+    "clean": "rm -rf extension",
+    "build": "yarn clean && yarn build:popup && yarn build:integrations && yarn build:copy-assets",
+    "build:copy-assets": "cp -r assets icons manifest.json popup.html extension",
     "build:popup": "webpack",
     "build:popup:watch": "yarn build:popup --watch",
     "build:integrations": "webpack --config webpack.integrations.config",

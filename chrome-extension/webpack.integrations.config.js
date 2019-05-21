@@ -4,12 +4,12 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
-const JS_PATH = path.resolve(__dirname, 'assets', 'js');
+const EXTENSION_PATH = path.resolve(__dirname, 'extension');
+const INTEGRATIONS_PATH = path.resolve(__dirname, 'integrations');
 
 const loadEntries = () => {
-  return fs.readdirSync(JS_PATH)
-    .filter(filename => filename !== 'dist')
-    .map(filename => path.resolve(JS_PATH, filename))
+  return fs.readdirSync(INTEGRATIONS_PATH)
+    .map(filename => path.join(INTEGRATIONS_PATH, filename))
     .reduce((o, p) => {
       o[path.basename(p)] = p;
       return o;
@@ -24,7 +24,7 @@ module.exports = {
 
   output: {
     filename: '[name]',
-    path: path.resolve(JS_PATH, 'dist'),
+    path: path.resolve(EXTENSION_PATH, 'integrations'),
   },
 
   plugins: [

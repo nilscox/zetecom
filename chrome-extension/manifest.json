@@ -3,19 +3,19 @@
   "name": "Chercheurs de vérité (beta)",
   "version": "0.1",
   "browser_action": {
-    "default_popup": "index.html",
+    "default_popup": "popup.html",
     "default_icon": {
-      "16": "assets/images/icon16.png",
-      "32": "assets/images/icon32.png",
-      "48": "assets/images/icon48.png",
-      "128": "assets/images/icon128.png"
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
     }
   },
   "icons": {
-    "16": "assets/images/icon16.png",
-    "32": "assets/images/icon32.png",
-    "48": "assets/images/icon48.png",
-    "128": "assets/images/icon128.png"
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   },
   "content_scripts": [
     {
@@ -25,8 +25,7 @@
         "https://youtube.com/watch*",
         "https://www.youtube.com/watch*"
       ],
-      "js": ["assets/js/dist/iframeResizer.min.js", "assets/js/dist/youtube.js"],
-      "css": ["assets/css/reset.css"]
+      "js": ["assets/js/iframeResizer.min.js", "integrations/youtube.js"]
     }
   ]
 }
