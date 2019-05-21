@@ -3,15 +3,17 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const EXTENSION = path.resolve(__dirname, 'extension');
+
 module.exports = {
 
   mode: 'development',
-  entry: './popup.js',
+  entry: './popup/popup.js',
   devtool: 'inline-source-map',
 
   output: {
     filename: 'popup.js',
-    path: path.resolve(__dirname, 'assets', 'js', 'dist'),
+    path: EXTENSION,
   },
 
   plugins: [
