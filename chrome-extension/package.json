@@ -16,5 +16,8 @@
     "build:popup:watch": "yarn build:popup --watch",
     "build:integrations": "webpack --config webpack.integrations.config",
     "build:integrations:watch": "yarn build:integrations --watch"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0"
   }
 }
