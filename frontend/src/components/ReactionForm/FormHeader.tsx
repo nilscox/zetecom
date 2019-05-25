@@ -19,7 +19,6 @@ const FormHeader = (props: FormHeaderProps) => {
 
       <div className="reaction-author-nick">{author.nick}</div>
 
-
       { onClose && (
         <div onClick={() => onClose()} className="reaction-form-close">
           ✕

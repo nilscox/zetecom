@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { classList } from '../utils/classList';
 import { ReactionSortTypeProvider } from '../utils/ReactionSortTypeContext';
 import { Reaction } from '../types/Reaction';
 import { ReactionSortType } from '../types/ReactionSortType';
-import { fetchRootReactions, postReaction } from '../fetch/fetchReactions';
+import { fetchRootReactions } from '../fetch/fetchReactions';
 import InformationContext from '../utils/InformationContext';
 import { ReactionsList } from '../components/ReactionsList';
 import { ReactionForm } from '../components/ReactionForm/ReactionForm';
@@ -21,9 +21,6 @@ const DefaultView = (props: DefaultViewProps) => {
   const [rootReactions, setRootReactions] = useState<Reaction[]>(undefined);
   const [fetchingRootReactions, setFetchingRootReactions] = useState(true);
   const [sort, setSort] = useState(localStorage.getItem('sort') as ReactionSortType);
-
-  const [submittingReply, setSubmittingReply] = useState(false);
-  const replyFormRef = useRef(null);
 
   const sortItems = [
     { type: ReactionSortType.DATE_ASC, label: 'Date (asc)' },

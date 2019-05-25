@@ -48,11 +48,11 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
         >
           <img
             style={{ width: 32, height: 32, borderRadius: 16, border: '1px solid #CCC' }}
-            src={
-              `${BASE_URL}/assets/images/` + user.avatar
+            src={`${BASE_URL}/assets/images/` + (
+              user.avatar
                 ? `avatars/${user.avatar}`
                 : 'default-avatar.png'
-            }
+            )}
           />
           <Typography style={{ marginLeft: 10, fontWeight: 'bold' }}>{ user.nick }</Typography>
         </div>

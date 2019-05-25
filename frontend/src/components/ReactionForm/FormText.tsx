@@ -55,7 +55,7 @@ export const FormText = (props: FormTextProps) => {
         <div
           className={classList('form-mode-edit', !preview && 'active')}
           onClick={() => setPreview(false)}
-          >
+        >
           Éditer
         </div>
         <div

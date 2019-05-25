@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import axios from 'axios';
 
 import { ReactionSortType } from '../types/ReactionSortType';
@@ -29,10 +27,15 @@ export const fetchReplies = async (parentId: number, sort: ReactionSortType): Pr
   return data.map((r: any) => parseReaction(r));
 };
 
-export const postReaction = async (informationId: number, quote: string | null, text: string, parentId?: number): Promise<Reaction> => {
+export const postReaction = async (
+  informationId: number,
+  quote: string | null,
+  text: string,
+  parentId?: number,
+): Promise<Reaction> => {
   const payload = { informationId, quote, text, parentId };
 
-  const { data } = await axios.post(`/api/reaction`, payload, {
+  const { data } = await axios.post('/api/reaction', payload, {
     withCredentials: true,
   });
 
@@ -57,12 +60,12 @@ export const postQuickReaction = async (reactionId: number, type: QuickReactionT
   });
 
   return parseReaction(data);
-}
+};
 
-export const reportReaction = async (reactionId: number, type: string, message?: string) => {
+export const reportReaction = async (reactionId: number, type: string, message?: string): Promise<void> => {
   const payload = { type, message };
 
-  const { data } = await axios.post(`/api/reaction/${reactionId}/report`, payload, {
+  await axios.post(`/api/reaction/${reactionId}/report`, payload, {
     withCredentials: true,
   });
-}
+};

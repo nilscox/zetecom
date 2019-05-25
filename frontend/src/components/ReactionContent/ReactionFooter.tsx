@@ -43,6 +43,7 @@ const useQuickReactions = (reaction: Reaction) => {
     setUserQuickReaction(type);
 
     postQuickReaction(reaction.id, type)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .then((reaction: Reaction) => {
         // ...
       });
@@ -98,7 +99,10 @@ const ReactionFooter = (props: ReactionFooterProps) => {
       </div>
 
       <div
-        className={classList('show-replies', hasReplies && !displayReplyForm && 'can-toggle-replies')}
+        className={classList(
+          'show-replies',
+          hasReplies && !displayReplyForm && 'can-toggle-replies'
+        )}
         onClick={() => hasReplies && !displayReplyForm && toggleReplies()}
       >
         { repliesCount } réponse{ repliesCount > 1 && 's' }

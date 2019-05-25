@@ -1,4 +1,4 @@
-import { User, parseUser } from "./User";
+import { User, parseUser } from './User';
 
 export enum QuickReactionType {
   APPROVE = 'approve',
@@ -13,7 +13,7 @@ export type QuickReactionsCount = {
 };
 
 export type ReactionHistory = {
-  date: Date,
+  date: Date;
   text: string;
 };
 
