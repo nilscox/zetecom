@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Reaction } from '../../types/Reaction';
 import { reportReaction } from '../../api/reaction';
@@ -51,7 +52,7 @@ export const ReportModalContent = (props: ReportModalContentProps) => {
         Attention ! Vous êtes sur le point de signaler une réaction.<br />
         Il est important de signaler certaines réactions, mais pas toutes. Assurez-vous que la réaction de
         <em>{ props.reaction.author.nick }</em> est bien sujet à modération en vous référant à
-        <a href="#">la charte</a>.
+        <Link to="/charte">la charte</Link>.
       </div>
 
       <ReactionBody reaction={props.reaction} expand="full" expandFull={() => {}} />
