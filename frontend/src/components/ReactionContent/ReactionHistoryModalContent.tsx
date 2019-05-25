@@ -4,7 +4,7 @@ import showdown from 'showdown';
 
 import { classList } from '../../utils/classList';
 import { Reaction, ReactionHistory } from '../../types/Reaction';
-import { fetchReaction } from '../../fetch/fetchReactions';
+import { fetchReaction } from '../../api/reaction';
 import { Loader } from '../Loader';
 
 const converter = new showdown.Converter();

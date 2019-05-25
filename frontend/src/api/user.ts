@@ -2,6 +2,9 @@ import axios from 'axios';
 
 import { User, parseUser } from '../types/User';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ResponseData = any;
+
 const fetchUser = async (): Promise<User | undefined> => {
   const { status, data } = await axios.get('/api/auth/me', {
     validateStatus: s => [200, 403].indexOf(s) >= 0,
@@ -14,7 +17,12 @@ const fetchUser = async (): Promise<User | undefined> => {
   return parseUser(data);
 };
 
-const loginUser = async ({ email, password }: any): Promise<User> => {
+type LoginUserArgs = {
+  email: string;
+  password: string;
+};
+
+const loginUser = async ({ email, password }: LoginUserArgs): Promise<User> => {
   const { data } = await axios.post('/api/auth/login', {
     email,
     password,
@@ -25,7 +33,14 @@ const loginUser = async ({ email, password }: any): Promise<User> => {
   return parseUser(data);
 };
 
-const signupUser = async ({ email, password, nick, avatar }: any): Promise<User> => {
+type SignupUserArgs = {
+  email: string;
+  password: string;
+  nick: string;
+  avatar?: string;
+};
+
+const signupUser = async ({ email, password, nick, avatar }: SignupUserArgs): Promise<User> => {
   const { data } = await axios.post('/api/auth/signup', {
     email,
     password,

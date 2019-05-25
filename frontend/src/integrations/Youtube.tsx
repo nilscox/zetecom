@@ -3,7 +3,7 @@ import queryString from 'query-string';
 
 import { Information } from '../types/Information';
 import { Reaction } from '../types/Reaction';
-import { fetchInformationFromYoutubeId } from '../fetch/fetchInformation';
+import { fetchInformationFromYoutubeId } from '../api/information';
 import { InformationProvider } from '../utils/InformationContext';
 import { MainReactionView } from '../views/MainReactionView';
 import { DefaultView } from '../views/DefaultView';

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 
 import { classList } from '../../utils/classList';
 import UserContext from '../../utils/UserContext';
-import { postQuickReaction } from '../../fetch/fetchReactions';
+import { postQuickReaction } from '../../api/reaction';
 import { Reaction, QuickReactionType } from '../../types/Reaction';
 
 type ReactionFooterProps = {

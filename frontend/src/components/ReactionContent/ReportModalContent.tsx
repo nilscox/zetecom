@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Reaction } from '../../types/Reaction';
-import { reportReaction } from '../../fetch/fetchReactions';
+import { reportReaction } from '../../api/reaction';
 import { Loader } from '../../components/Loader';
 import { ReactionBody } from './ReactionBody';
 

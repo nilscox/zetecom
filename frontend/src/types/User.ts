@@ -9,6 +9,7 @@ export type User = {
   getAvatarUrl: () => string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseUser = (data: any): User => {
   const user = {
     ...data,

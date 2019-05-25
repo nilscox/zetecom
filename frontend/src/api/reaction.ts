@@ -3,12 +3,15 @@ import axios from 'axios';
 import { ReactionSortType } from '../types/ReactionSortType';
 import { Reaction, QuickReactionType, parseReaction } from '../types/Reaction';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ResponseData = any;
+
 export const fetchRootReactions = async (informationId: number, sort: ReactionSortType): Promise<Reaction[]> => {
   const { data } = await axios.get(`/api/information/${informationId}/reactions?sort=${sort}`, {
     withCredentials: true,
   });
 
-  return data.map((r: any) => parseReaction(r));
+  return data.map((r: ResponseData) => parseReaction(r));
 };
 
 export const fetchReaction = async (reactionId: number): Promise<Reaction> => {
@@ -24,7 +27,7 @@ export const fetchReplies = async (parentId: number, sort: ReactionSortType): Pr
     withCredentials: true,
   });
 
-  return data.map((r: any) => parseReaction(r));
+  return data.map((r: ResponseData) => parseReaction(r));
 };
 
 export const postReaction = async (

@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import UserContext from '../../utils/UserContext';
-import { signupUser } from '../../fetch/fetchUser';
+import { signupUser } from '../../api/user';
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
@@ -63,7 +63,7 @@ const ERROR_MSG: { [key in ERROR_TYPE]: string } = {
   UNKNOWN: 'Une erreur s\'est produite... :/',
 };
 
-// eslint-disable-next-line max-statements
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getErrors = (body?: any): { [key: string]: string } => {
   if (!body)
     return {};
@@ -104,8 +104,14 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
   const signupSubmit = async (values: { [field: string]: string }) => {
     setLoading(true);
 
+    const data = {
+      email: values.email,
+      password: values.password,
+      nick: values.nick,
+    };
+
     try {
-      const user = await signupUser(values);
+      const user = await signupUser(data);
       setUser(user);
       history.push('/popup/signup/post-signup');
     } catch (e) {

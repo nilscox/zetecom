@@ -4,7 +4,7 @@ import { classList } from '../utils/classList';
 import { ReactionSortTypeProvider } from '../utils/ReactionSortTypeContext';
 import { Reaction } from '../types/Reaction';
 import { ReactionSortType } from '../types/ReactionSortType';
-import { fetchRootReactions } from '../fetch/fetchReactions';
+import { fetchRootReactions } from '../api/reaction';
 import InformationContext from '../utils/InformationContext';
 import { ReactionsList } from '../components/ReactionsList';
 import { ReactionForm } from '../components/ReactionForm/ReactionForm';
