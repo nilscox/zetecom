@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 import { Reaction } from '../../types/Reaction';
 import { reportReaction } from '../../fetch/fetchReactions';
@@ -50,7 +49,9 @@ export const ReportModalContent = (props: ReportModalContentProps) => {
 
       <div className="reaction-report-warning">
         Attention ! Vous êtes sur le point de signaler une réaction.<br />
-        Il est important de signaler certaines réactions, mais pas toutes. Assurez-vous que la réaction de <em>{ props.reaction.author.nick }</em> est bien sujet à modération en vous référant à <a href="#">la charte</a>.
+        Il est important de signaler certaines réactions, mais pas toutes. Assurez-vous que la réaction de
+        <em>{ props.reaction.author.nick }</em> est bien sujet à modération en vous référant à
+        <a href="#">la charte</a>.
       </div>
 
       <ReactionBody reaction={props.reaction} expand="full" expandFull={() => {}} />

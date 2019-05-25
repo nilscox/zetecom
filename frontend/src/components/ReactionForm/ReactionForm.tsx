@@ -1,6 +1,5 @@
 import React, { useContext, useState, useRef } from 'react';
 
-import { User } from '../../types/User';
 import { Reaction } from '../../types/Reaction';
 import { Information } from '../../types/Information';
 import { postReaction, updateReaction } from '../../fetch/fetchReactions';

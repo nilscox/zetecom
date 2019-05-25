@@ -1,12 +1,12 @@
 import { User, parseUser } from './User';
 
 export type Information = {
-  id: number,
-  slug: string,
-  title: string,
-  url: string,
-  image: string | null,
-  creator: Partial<User>,
+  id: number;
+  slug: string;
+  title: string;
+  url: string;
+  image: string | null;
+  creator: Partial<User>;
 };
 
 export const parseInformation = (data: any): Information => {

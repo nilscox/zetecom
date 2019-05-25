@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { classList } from '../../utils/classList';
-import InformationContext from '../../utils/InformationContext';
 import ReactionSortTypeContext from '../../utils/ReactionSortTypeContext';
 import { ReactionSortType } from '../../types/ReactionSortType';
-import { Information } from '../../types/Information';
 import { Reaction } from '../../types/Reaction';
 import { fetchReplies } from '../../fetch/fetchReactions';
 import { ReactionContent } from '../ReactionContent/ReactionContent';
@@ -30,7 +28,7 @@ const ReactionReplies = (props: ReactionRepliesProps) => {
   if (!replies || !replies.length)
     return null;
 
-  return  (
+  return (
     <div className="reaction-replies">
       <div className="reaction-replies-indent" />
       <div className="reaction-replies-content">
@@ -40,7 +38,7 @@ const ReactionReplies = (props: ReactionRepliesProps) => {
         />
       </div>
     </div>
-   );
+  );
 };
 
 type ReactionContainerProps = {
@@ -48,9 +46,8 @@ type ReactionContainerProps = {
   setAsMain: (reaction: Reaction) => void;
 };
 
-export const ReactionContainer = (props: ReactionContainerProps) => {
+export const ReactionContainer: React.FC<ReactionContainerProps> = (props) => {
   const sort = useContext<ReactionSortType>(ReactionSortTypeContext);
-  const information = useContext<Information>(InformationContext);
   const [reaction, setReaction] = useState(props.reaction);
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);

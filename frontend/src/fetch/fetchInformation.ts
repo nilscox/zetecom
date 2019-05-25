@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react';
-
 import axios from 'axios';
 
 import { Information, parseInformation } from '../types/Information';
 
-const fetchInformationFromYoutubeId = async (youtubeId: string) => {
+const fetchInformationFromYoutubeId = async (youtubeId: string): Promise<Information | undefined> => {
   const { status, data } = await axios.get(`/api/information/by-youtubeId/${youtubeId}`, {
     validateStatus: (s: number) => [200, 404].indexOf(s) >= 0,
     withCredentials: false,

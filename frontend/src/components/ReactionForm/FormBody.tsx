@@ -1,6 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useState, SyntheticEvent } from 'react';
 
-import { classList } from '../../utils/classList';
 import { Reaction } from '../../types/Reaction';
 
 import { FormText } from './FormText';
@@ -13,6 +12,7 @@ type FormBodyProps = {
   onSubmit: (quote: string | null, text: string) => void;
 };
 
+// eslint-disable-next-line react/display-name
 export const FormBody = forwardRef((props: FormBodyProps, ref: React.Ref<{}>) => {
   const { preloadedReaction: reaction, replyTo, isSubmitting, onSubmit } = props;
 
@@ -35,7 +35,7 @@ export const FormBody = forwardRef((props: FormBodyProps, ref: React.Ref<{}>) =>
       return;
 
     onSubmit(quote, text);
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="reaction-form-body">

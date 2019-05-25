@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 declare module process {
   const env: {
     NODE_ENV: string;
