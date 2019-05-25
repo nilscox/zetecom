@@ -53,3 +53,11 @@ em {
     max-width: 1240px;
   }
 }
+
+.switch-wrapper {
+  position: relative;
+}
+
+.switch-wrapper > div {
+  position: absolute;
+}
