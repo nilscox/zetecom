@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
 import axios from 'axios';
 import moment from 'moment';
+import queryString from 'query-string';
 
 import { App } from './App';
 
@@ -10,6 +11,7 @@ const root = document.getElementById('app');
 
 const getApiRootUrl = () => {
   return [
+    queryString.parse(window.location.search).api_url as string,
     localStorage.getItem('API_URL'),
     process.env.API_URL,
   ].filter(u => !!u)[0];
