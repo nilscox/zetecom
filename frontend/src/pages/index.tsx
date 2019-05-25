@@ -2,6 +2,9 @@ import React from 'react';
 import { Switch, Route, NavLink as ReactRouterNavLink, NavLinkProps } from 'react-router-dom';
 
 import Home from './Home';
+import Rules from './Rules';
+import Motivations from './Motivations';
+import FAQ from './FAQ';
 import NotFound from './NotFound';
 
 const Header: React.FC = () => (
@@ -60,6 +63,9 @@ const Pages: React.FC = () => (
       <main style={{ flex: 4 }}>
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/charte" exact component={Rules} />
+          <Route path="/motivations" exact component={Motivations} />
+          <Route path="/faq" exact component={FAQ} />
           <Route component={NotFound} />
         </Switch>
       </main>
