@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import { loginUser } from '../../fetch/fetchUser';
+import { loginUser } from '../../api/user';
 import UserContext from '../../utils/UserContext';
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
@@ -18,6 +18,7 @@ const ERROR_MSG: { [key in ERROR_TYPE]: string } = {
   UNKNOWN: 'Une erreur s\'est produite... :/',
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getErrors = (body?: any): { [key: string]: string } => {
   if (!body)
     return {};
@@ -52,8 +53,13 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
   const loginSubmit = async (values: { [field: string]: string }) => {
     setLoading(true);
 
+    const credentials = {
+      email: values.email,
+      password: values.password,
+    };
+
     try {
-      const user = await loginUser(values);
+      const user = await loginUser(credentials);
       setUser(user);
       history.push('/popup/logout');
     } catch (e) {

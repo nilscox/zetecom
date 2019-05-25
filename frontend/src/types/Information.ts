@@ -9,6 +9,7 @@ export type Information = {
   creator: Partial<User>;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseInformation = (data: any): Information => {
   return {
     ...data,

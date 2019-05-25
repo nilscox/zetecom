@@ -31,6 +31,7 @@ export type Reaction = {
   userQuickReaction: QuickReactionType;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseReactionHistory = (data: any): ReactionHistory => {
   return {
     ...data,
@@ -38,6 +39,7 @@ export const parseReactionHistory = (data: any): ReactionHistory => {
   };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseReaction = (data: any): Reaction => {
   return {
     ...data,

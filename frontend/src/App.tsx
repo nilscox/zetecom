@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { User } from './types/User';
 import { UserProvider } from './utils/UserContext';
-import { fetchUser } from './fetch/fetchUser';
+import { fetchUser } from './api/user';
 import { Loader } from './components/Loader';
 
 import Popup from './popup';

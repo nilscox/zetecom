@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef } from 'react';
 
 import { Reaction } from '../../types/Reaction';
 import { Information } from '../../types/Information';
-import { postReaction, updateReaction } from '../../fetch/fetchReactions';
+import { postReaction, updateReaction } from '../../api/reaction';
 import InformationContext from '../../utils/InformationContext';
 import UserContext from '../../utils/UserContext';
 

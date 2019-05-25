@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import moment from 'moment';
 
-import { logoutUser } from '../../fetch/fetchUser';
+import { logoutUser } from '../../api/user';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
 import UserContext from '../../utils/UserContext';
