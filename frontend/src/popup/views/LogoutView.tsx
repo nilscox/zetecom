@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import moment from 'moment';
 
 import { logoutUser } from '../../api/user';
@@ -67,8 +67,8 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
 
         <Typography>
           <>
-            Vous êtes connecté(e) sur <a href="#">CDV</a> en tant que <em>{ user.nick }</em>.
-            La charte est accessible <a href="#">ici</a>.
+            Vous êtes connecté(e) sur <Link to="/" target="_blank">CDV</Link> en tant que <em>{ user.nick }</em>.
+            La charte est accessible <Link to="/charte" target="_blank">ici</Link>.
           </>
         </Typography>
 

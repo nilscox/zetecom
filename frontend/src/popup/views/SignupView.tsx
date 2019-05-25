@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Link } from 'react-router-dom';
 
 import UserContext from '../../utils/UserContext';
 import { signupUser } from '../../api/user';
@@ -140,8 +140,8 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
         <Typography>
           <>
             Créez votre compte sur CDV. Avant de vous inscrire, veillez à avoir lu
-            au moins <a href="#">la page de présentation</a>, ainsi que{' '}
-            <a href="#">la charte</a>.
+            au moins <Link to="/" target="_blank">la page de présentation</Link>, ainsi que{' '}
+            <Link to="/charte" target="_blank">la charte</Link>.
           </>
         </Typography>
         <Form
