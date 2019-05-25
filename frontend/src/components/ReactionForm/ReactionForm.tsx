@@ -22,7 +22,7 @@ type ReactionFormProps = {
 
 const ReactionForm = (props: ReactionFormProps) => {
   const { preloadedReaction, replyTo, onClose, onSubmitted } = props;
-  const user: User = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const information: Information = useContext(InformationContext);
   const [submitting, setSubmitting] = useState(false);
   const formBodyRef = useRef(null);

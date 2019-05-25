@@ -1,19 +1,14 @@
-import React, { forwardRef, useContext, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { User } from './types/User';
-import { Information } from './types/Information';
-import { Reaction } from './types/Reaction';
 import { UserProvider } from './utils/UserContext';
 import { fetchUser } from './fetch/fetchUser';
-import { fetchRootReactions, postReaction } from './fetch/fetchReactions';
 import { Loader } from './components/Loader';
 
-import Home from './pages/Home';
-
-import Youtube from './integrations/Youtube';
-
-import Popup from './popup/Popup';
+import Popup from './popup';
+import Integrations from './integrations';
+import Pages from './pages';
 
 import './App.css';
 
@@ -48,15 +43,15 @@ const App: React.FC = () => {
     return <Loader size="big" />;
 
   return (
-    <UserProvider value={user}>
+    <UserProvider value={{ user, setUser }}>
       <Router>
         <Switch>
 
-          <Route path="/" exact component={Home} />
+          <Route path="/popup" component={Popup} />
 
-          <Route path="/integration/youtube" component={Youtube} />
+          <Route path="/integration" component={Integrations} />
 
-          <Route path="/popup" render={() => <Popup setUser={setUser} />} />
+          <Route component={Pages} />
 
         </Switch>
       </Router>

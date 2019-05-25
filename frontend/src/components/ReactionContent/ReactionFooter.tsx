@@ -48,7 +48,7 @@ const useQuickReactions = (reaction: Reaction) => {
       });
   };
 
-  return  {
+  return {
     quickReactionsCount,
     userQuickReaction,
     setUserQuickReaction: onUserQuickReaction,
@@ -64,7 +64,7 @@ const ReactionFooter = (props: ReactionFooterProps) => {
     onShowReplyForm,
   } = props;
 
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { repliesCount } = reaction;
   const hasReplies = repliesCount > 0;
 

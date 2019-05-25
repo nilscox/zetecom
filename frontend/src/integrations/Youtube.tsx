@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import queryString from 'query-string';
 
 import { Information } from '../types/Information';
@@ -9,27 +9,22 @@ import { MainReactionView } from '../views/MainReactionView';
 import { DefaultView } from '../views/DefaultView';
 import { Loader } from '../components/Loader';
 
-type AppContentProps = {
-  information: Information;
-};
-
-const AppContent = forwardRef((props: AppContentProps, ref: any) => {
-  const { information } = props;
-
+const AppContent: React.FC = () => {
   const [mainReaction, setMainReaction] = useState<Reaction>(undefined);
 
-  if (mainReaction)
+  if (mainReaction) {
     return (
       <MainReactionView
         reaction={mainReaction}
         setAsMain={setMainReaction}
       />
     );
+  }
 
   return (
     <DefaultView setAsMain={setMainReaction} />
   );
-});
+};
 
 const useInformation = (youtubeId: string) => {
   const [fetchingInformation, setFetching] = useState(false);
@@ -75,15 +70,13 @@ const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
         width: 'auto',
         paddingBottom: 20,
       }}>
-
-      <AppContent information={information} />
-
+        <AppContent />
       </div>
     </InformationProvider>
   );
 };
 
-export default () => {
+const YoutubeIntegration: React.FC = () => {
   const { youtubeId } = queryString.parse(window.location.search);
 
   if (!youtubeId || typeof youtubeId !== 'string')
@@ -91,3 +84,5 @@ export default () => {
 
   return <Youtube youtubeId={youtubeId} />;
 };
+
+export default YoutubeIntegration;

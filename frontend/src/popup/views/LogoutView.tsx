@@ -3,7 +3,6 @@ import { Redirect, RouteComponentProps } from 'react-router-dom';
 import moment from 'moment';
 
 import { logoutUser } from '../../fetch/fetchUser';
-import SetUserContext from '../SetUserContext';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
 import UserContext from '../../utils/UserContext';
@@ -11,10 +10,9 @@ import UserContext from '../../utils/UserContext';
 const BASE_URL = process.env.BASE_URL;
 
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
-  const user = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const setUser = useContext(SetUserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const logoutSubmit = async () => {
     setLoading(true);
@@ -50,7 +48,10 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
         >
           <img
             style={{ width: 32, height: 32, borderRadius: 16, border: '1px solid #CCC' }}
-            src={`${BASE_URL}/assets/images/${user.avatar ? `avatars/${user.avatar}` : 'default-avatar.png'}`
+            src={
+              `${BASE_URL}/assets/images/` + user.avatar
+                ? `avatars/${user.avatar}`
+                : 'default-avatar.png'
             }
           />
           <Typography style={{ marginLeft: 10, fontWeight: 'bold' }}>{ user.nick }</Typography>

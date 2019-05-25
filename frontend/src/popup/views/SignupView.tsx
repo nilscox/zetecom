@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
+import UserContext from '../../utils/UserContext';
 import { signupUser } from '../../fetch/fetchUser';
-import SetUserContext from '../SetUserContext';
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
@@ -99,7 +99,7 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
   const [didAcceptRules, setDidAcceptRules] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>(getErrors());
-  const setUser = useContext(SetUserContext);
+  const { setUser } = useContext(UserContext);
 
   const signupSubmit = async (values: { [field: string]: string }) => {
     setLoading(true);

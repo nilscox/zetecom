@@ -53,7 +53,7 @@
     "semi": "error",
     "semi-spacing": "error",
     "space-before-blocks": "error",
-    "space-before-function-paren": ["error", "never"],
+    "space-before-function-paren": ["error", { "anonymous": "never", "named": "never", "asyncArrow": "always" }],
     "space-in-parens": "error",
     "nonblock-statement-body-position": ["error", "below"],
     "@typescript-eslint/explicit-function-return-type": "off",
