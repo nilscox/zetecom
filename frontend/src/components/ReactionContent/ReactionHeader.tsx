@@ -18,7 +18,7 @@ type ReactionHeaderProps = {
 const ReactionHeader = (props: ReactionHeaderProps) => {
   const { reaction, expand, setExpand } = props;
   const { author } = reaction;
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   return (
     <div className="reaction-header">

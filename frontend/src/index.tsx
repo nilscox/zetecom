@@ -21,18 +21,15 @@ const setup = () => {
 
   ReactModal.setAppElement('#app');
 
-  if (process.env.NODE_ENV === 'devlopment')
+  if (process.env.NODE_ENV === 'devlopment') {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).axios = axios;
+  }
 };
 
 const renderApp = (root: HTMLElement) => {
-    ReactDOM.render(<App />, root);
+  ReactDOM.render(<App />, root);
 };
 
 setup();
 renderApp(root);
-
-// if (process.env.NODE_ENV === 'development' && window.location.href.match(/localhost/)) {
-  // root.style.maxWidth = '640px';
-  // root.style.margin = 'auto';
-// }

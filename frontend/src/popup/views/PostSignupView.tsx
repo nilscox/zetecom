@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 import Typography from '../components/Typography';
 import UserContext from '../../utils/UserContext';
 
-const PostSignupView: React.FC = () => {
-  const user = useContext(UserContext);
+const PostSignupView: React.FC<RouteComponentProps> = () => {
+  const { user } = useContext(UserContext);
 
   return (
     <div style={{ padding: '20px 40px' }}>

@@ -37,3 +37,19 @@ em {
 .ReactModal__Overlay--before-close{
   opacity: 0;
 }
+
+.page {
+  max-width: 640px;
+}
+
+@media only screen and (min-width: 1000px) {
+  .page {
+    max-width: 840px;
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  .page {
+    max-width: 1240px;
+  }
+}

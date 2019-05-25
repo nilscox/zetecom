@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import { loginUser } from '../../fetch/fetchUser';
-import SetUserContext from '../SetUserContext';
+import UserContext from '../../utils/UserContext';
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
@@ -38,7 +38,7 @@ const getErrors = (body?: any): { [key: string]: string } => {
 const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>(getErrors());
-  const setUser = useContext(SetUserContext);
+  const { setUser } = useContext(UserContext);
 
   const isFormValid = (values: { [field: string]: string }) => {
     for (let field of ['email', 'password']) {
