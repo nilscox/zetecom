@@ -1,23 +1,23 @@
 {
   "name": "cdv-chrome-extension",
   "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "iframe-resizer": "^4.1.1",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.2"
-  },
   "scripts": {
     "start": "concurrently \"yarn build:popup:watch\" \"yarn build:integrations:watch\"",
-    "clean": "rm -rf extension",
+    "clean": "rm -rf extension cdv-chrome-extension.zip",
     "build": "yarn clean && yarn build:popup && yarn build:integrations && yarn build:copy-assets",
     "build:copy-assets": "cp -r assets icons manifest.json popup.html extension",
     "build:popup": "webpack",
     "build:popup:watch": "yarn build:popup --watch",
     "build:integrations": "webpack --config webpack.integrations.config",
-    "build:integrations:watch": "yarn build:integrations --watch"
+    "build:integrations:watch": "yarn build:integrations --watch",
+    "prepublish": "yarn clean && yarn build && (cd extension && 7z a ../cdv-chrome-extension.zip *)"
+  },
+  "dependencies": {
+    "iframe-resizer": "^4.1.1"
   },
   "devDependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.0",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.2"
   }
 }
