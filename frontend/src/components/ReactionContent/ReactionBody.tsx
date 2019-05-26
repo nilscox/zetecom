@@ -40,7 +40,7 @@ const ReactionBody = (props: ReactionBodyProps) => {
         <div className="reaction-quote">{ reaction.quote }</div>
       ) }
       <div
-        className="reaction-text markdown-body"
+        className="reaction-text markdown-github"
         dangerouslySetInnerHTML={{ __html: html }}
         ref={textRef}
       />

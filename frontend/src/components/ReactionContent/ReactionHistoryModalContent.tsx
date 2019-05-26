@@ -51,7 +51,7 @@ export const ReactionHistoryModalContent = (props: ReactionHistoryModalContentPr
             <div className="history-message-date-filler" />
           </div>
           <div
-            className="history-message-text markdown-body"
+            className="history-message-text markdown-github"
             dangerouslySetInnerHTML={{ __html: converter.makeHtml(text) }}
           />
         </div>
