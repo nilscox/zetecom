@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Chercheurs de vérité (beta)",
-  "version": "0.1",
+  "name": "Chercheurs de vérité (alpha)",
+  "version": "0.1.0",
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": {
