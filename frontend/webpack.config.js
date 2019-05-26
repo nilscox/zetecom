@@ -38,6 +38,7 @@ module.exports = {
       NODE_ENV: 'development',
       API_URL: 'http://localhost:3000',
       BASE_URL: 'http://localhost:8000',
+      CHROME_EXTENSION_ID: 'pnppgdnmhjaoafcadennndpcdoglilcn',
     }),
   ],
 

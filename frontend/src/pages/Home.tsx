@@ -49,7 +49,7 @@ const Home: React.FC = () => {
         </p>
       </Section>
 
-      <DownloadExtensionButton url="">
+      <DownloadExtensionButton url={`https://chrome.google.com/webstore/detail/${process.env.CHROME_EXTENSION_ID}`}>
         télécharger l'extension chrome
       </DownloadExtensionButton>
 

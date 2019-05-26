@@ -9,6 +9,8 @@ const DownloadExtension: React.FC<DownloadExtensionProps> = ({ url, children }) 
   <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', margin: '20px 0' }}>
     <a
       href={url}
+      target="_blank"
+      rel="noopener noreferrer"
       className="download-extension-button"
       style={{
         border: '1px solid #4CAF50',
