@@ -1,0 +1,51 @@
+.page {
+  color: #222;
+  padding-top: 5px;
+}
+
+.page em {
+  font-style: oblique;
+}
+
+.page strong {
+  font-weight: bold;
+}
+
+.page a {
+  color: #222;
+}
+
+.page a:hover {
+  color: #555;
+}
+
+.page ul, .page ol {
+  margin: 10px 0;
+  padding-left: 40px;
+}
+
+.page p {
+  padding: 5px 0;
+}
+
+.page .download-extension-button:hover {
+  opacity: 0.8;
+}
+
+/*
+.page h3 {
+  font-size: 1.5rem;
+  text-indent: 20px;
+  margin-bottom: 10px;
+}
+
+.page p {
+  line-height: 20px;
+}
+
+.page#Rules h4 {
+  font-size: 1.3rem;
+  font-style: oblique;
+  margin: 30px 30px 10px;
+}
+*/

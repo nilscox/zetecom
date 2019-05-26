@@ -29,7 +29,7 @@ export const FormText = (props: FormTextProps) => {
 
       return (
         <div
-          className="form-text-preview markdown-body"
+          className="form-text-preview markdown-github"
           dangerouslySetInnerHTML={{ __html: html }}
         />
       );

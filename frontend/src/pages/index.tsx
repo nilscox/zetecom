@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, NavLink as ReactRouterNavLink, NavLinkProps } from 'react-router-dom';
-import { AnimatedSwitch } from 'react-router-transition';
+import { Switch, Route, NavLink as ReactRouterNavLink, NavLinkProps } from 'react-router-dom';
 
 import Home from './Home';
 import Rules from './Rules';
@@ -8,8 +7,10 @@ import Motivations from './Motivations';
 import FAQ from './FAQ';
 import NotFound from './NotFound';
 
+import './pages.css';
+
 const Header: React.FC = () => (
-  <div style={{ borderBottom: '1px solid #CCC', paddingBottom: 15, marginBottom: 15 }}>
+  <div style={{ borderBottom: '1px solid #CCC', paddingBottom: 15, marginBottom: 42 }}>
     <h1 style={{ fontSize: '3rem' }}>Chercheurs de vérité</h1>
   </div>
 );
@@ -48,18 +49,6 @@ const Divider: React.FC = () => (
   <div style={{ borderRight: '1px solid #CCC', margin: '0 10px' }}></div>
 );
 
-const transition = {
-  atActive: {
-    opacity: 1,
-  },
-  atEnter: {
-    opacity: 0,
-  },
-  atLeave: {
-    opacity: 0,
-  },
-};
-
 const Pages: React.FC = () => (
   <div className="page" style={{ margin: '50px auto' }}>
 
@@ -74,16 +63,13 @@ const Pages: React.FC = () => (
       <Divider />
 
       <main style={{ flex: 4 }}>
-        <AnimatedSwitch
-          {...transition}
-          className="switch-wrapper"
-        >
+        <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/charte" exact component={Rules} />
           <Route path="/motivations" exact component={Motivations} />
           <Route path="/faq" exact component={FAQ} />
           <Route component={NotFound} />
-        </AnimatedSwitch>
+        </Switch>
       </main>
 
     </div>
