@@ -1,5 +1,5 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "licence": "MIT",
   "scripts": {
     "start": "webpack-dev-server",
@@ -22,6 +22,7 @@
     "showdown": "^1.9.0"
   },
   "devDependencies": {
+    "@types/jsdom": "^12.2.3",
     "@types/react": "^16.8.8",
     "@types/react-collapse": "^4.0.2",
     "@types/react-dom": "^16.8.2",
@@ -32,6 +33,7 @@
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",
     "eslint-plugin-react": "^7.13.0",
+    "jsdom": "^15.1.1",
     "rimraf": "^2.6.3",
     "style-loader": "^0.23.1",
     "ts-loader": "^5.3.3",
