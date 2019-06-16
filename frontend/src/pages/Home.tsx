@@ -10,6 +10,40 @@ import Section from './components/Section';
 import Note from './components/Note';
 import DownloadExtensionButton from './components/DownloadExtensionButton';
 
+/*
+
+- Introduction :
+  - présentation très brève de CDV
+  - pitch du projet
+  - télécharger l'extension
+
+- Contextualisation de l'information sur internet
+  - disponibilité / accessibilité de l'information
+  - qualité de l'information
+  - désinformation, fake news, fact checking
+  - manque d'organisation
+
+- Description du projet
+  - Scope : vision long terme, scope actuel (YouTube)
+  - Extension chrome : affichage de commentaires externes à YouTube embed sous la vidéo
+  - Screenshot (gif commentaires YouTube / CDV)
+  - Problématiques auxquelles répond CDV (lien vers /motivations)
+
+- Utilisation
+  - Lire les réactions : nuancer l'information principale, mettre en perspective, comprendre des opinions différentes
+  - Rédiger des réactions : partager des sources, des idées, soulever des problématiques, poser des quesions
+  - Quick réaction : favoriser le référencement des réactions, mettre en avant les réactions les plus pertinentes
+  - Réactions nestéés : organiser le débat, style reddit
+  - Modération : signaler les réactions
+
+- Etat d'esprit du projet
+  - communauté, charte, algo de référencement
+  - open source
+  - projet participatif
+  - vision long terme, idées futures
+
+*/
+
 const Home: React.FC = () => {
   return (
     <div
@@ -24,22 +58,72 @@ const Home: React.FC = () => {
         chaque utilisateur.<br />
         Ici, chacun est libre d'exposer une idée, d'apporter une source, de donner son opinion ou bien de poser des
         questions, du moment que son message apporte quelque chose au débat et qu'il respecte <Link to="/charte">la
-        charte</Link>. En combinant nos cerveaux intélligement, on finira peut-être bien par s'entendre...
+        charte</Link>. En combinant nos cerveaux intelligement, on finira peut-être bien par s'entendre...
       </Outline>
 
-      <Title>Utilisation</Title>
-
       <Section>
+
         <p>
           CDV est une plateforme vous proposant de réagir librement à l'information. Que ce soit un article sur
           internet, dans la presse, à la télé, ... Mais ça, c'est la vision à long terme. Pour le moment, il n'est
           possible de réagir qu'à certaines vidéos sur <a href="https://youtube.com">YouTube</a>, via une extension sur
-          le navigateur <a href="https://google.com/chrome">Google Chrome</a>. Si le système fais ses preuves sur
-          YouTube, alors il sera peut-être envisageable de le déployer à plus grande échelle.
+          le navigateur <a href="https://google.com/chrome">Google Chrome</a>. Cette extension ajoute directement sous
+          la vidéo, un bouton vous permettant de choisir d'afficher les commentaires YouTube originaux, ou bien les
+          commentaires de CDV à la place.
         </p>
+
+        <DownloadExtensionButton url={`https://chrome.google.com/webstore/detail/${process.env.CHROME_EXTENSION_ID}`}>
+          télécharger l'extension chrome
+        </DownloadExtensionButton>
+
+        <p>
+          Vous trouverez sur cette page une description du projet et sur son utilisation, ainsi que l'état d'esprit dans
+          lequel il a été imaginé. Le reste du site est accessible via les liens à gauche, n'hésitez pas à y faire un
+          tour !
+        </p>
+
       </Section>
 
-      <SubTitle>Extsension chrome</SubTitle>
+      <Section title="L'information sur internet">
+
+        <p>
+          Avec l'arrivée des nouvelles technologies de communication, l'accès à l'information est devenu presque aussi
+          simple qu'une recherche sur google. Notre capacité à transmettre ou à recevoir de l'information est une chance
+          incroyable, à condition qu'elle soit correctement utilisée. Et ce n'est pas si facile d'y voir clair lorsque
+          l'on est exposé à cette sur-information.
+        </p>
+
+        <p>
+          Il faut dire que la qualité des informations présentent sur internet peut varier : des articles de press au
+          postes d'un bloggeur conspirationiste, en passant par les publications scientifiques et la vulgarisation...
+          Faire le tri est devenu un combat quotidien, car les conaissances pertinentes sur le monde qui nous entoure
+          sont souvent noyées sous un flot d'"information" qui sont à nuancer, quitte à les rejeter
+          entièrement dans le cas des fake news par exemple.
+        </p>
+
+        <p>
+          Mais que pensez-vous de l'information ? Vous en parlez certainement en privé avec vos amis, votre famille, ou
+          au boulot... Sur internet, cela passe le plus souvent par un espace de commentaire, directement attaché à
+          l'information, sur site web des médias ou sur YouTube par exemple. Une des problématiques majeur des espaces
+          de commentaires sur internet est le manque d'organisation, qui n'est pas une priorité pour la plateforme sur
+          laquelle on s'exprime.
+        </p>
+
+      </Section>
+
+      <Note>Work in progress...</Note>
+
+      { false && <>
+      <Section title="Utilisation">
+
+        <p>
+          Si le système fais ses preuves sur
+          YouTube, alors il sera peut-être envisageable de le déployer à plus grande échelle.
+        </p>
+
+      </Section>
+
+      <SubTitle>Extension chrome</SubTitle>
 
       <Section>
         <p>
@@ -48,10 +132,6 @@ const Home: React.FC = () => {
           commentaire sur CDV et de répondre aux réactions existantes. C'est parti ?
         </p>
       </Section>
-
-      <DownloadExtensionButton url={`https://chrome.google.com/webstore/detail/${process.env.CHROME_EXTENSION_ID}`}>
-        télécharger l'extension chrome
-      </DownloadExtensionButton>
 
       <Section>
         <p>
@@ -159,6 +239,7 @@ const Home: React.FC = () => {
           initiale.
         </p>
       </Section>
+      </>}
 
     </div>
   );

@@ -8,8 +8,7 @@ const Outline: React.FC<OutlineProps> = ({ children }) => (
   <div
     style={{
       fontSize: 20,
-      margin: '0 10%',
-      marginBottom: 40,
+      margin: '25px 10%',
       lineHeight: 1.5,
     }}
   >

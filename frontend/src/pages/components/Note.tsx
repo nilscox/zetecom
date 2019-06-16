@@ -5,7 +5,7 @@ type NodeProps = {
 };
 
 const Node: React.FC<NodeProps> = ({ children }) => (
-  <p style={{ borderLeft: '5px solid #CCC', marginLeft: 10, paddingLeft: 10 }}>
+  <p style={{ borderLeft: '5px solid #CCC', margin: '10px 0', paddingLeft: 10 }}>
     { children }
   </p>
 );

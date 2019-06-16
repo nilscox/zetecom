@@ -1,10 +1,44 @@
-/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable max-lines, react/no-unescaped-entities */
 
 import React from 'react';
 
-import Title from './components/Title';
 import SubTitle from './components/SubTitle';
 import Section from './components/Section';
+import Note from './components/Note';
+import Outline from './components/Outline';
+
+/*
+
+- définition de l'information dans le cadre de CDV
+
+- problématiques liés à l'information
+  - surinformation / infobésité
+  - qualité de l'information
+  - désinformation
+  - fake news / junk news
+  - publi-information
+  - manque de rigueur des médias
+  - addiction au buzz, aux contenus sensionalistes
+  - biais et arguments fallacieux
+  - manque de possibilité de réagir
+  - manque d'organisation / modération
+  - manque de bienveillance, d'ouverture d'esprit
+  - manque d'esprit critique, de méthode
+  - débat stérils / débat sémantique (dispute verbale)
+
+- réponses à ces problématiques
+  - non partisan
+  - la charte
+    - respect des autres
+    - empêche les messages vides de sens
+    - pousse à comprendres les opinions sans prégujés
+  - réponses nestées
+  - référencement des réactions
+  - modération
+  - transparence
+  - Non partisan : aucune affiliation envers quelque entité que ce soit
+
+*/
 
 const Motivations: React.FC = () => {
   return (
@@ -13,51 +47,60 @@ const Motivations: React.FC = () => {
       className="page"
     >
 
-      <Title>Motivations</Title>
+      <p>
+        <em>
+          Cette page décrit plus en détail les raisons pour lesquelles CDV a vu le jour, et les problématiques
+          auxquelles ce projet tente d'apporter des solutions. Il est conseillé de la lire pour comprendre plus en
+          profondeur les enjeux liés au contexte de l'information, et les choix établis.
+        </em>
+      </p>
+
+      <Note>
+        Cette page (ainsi que toutes les pages du site) évoluent ! Les motivations et idées développées ici sont vouées
+        à évoluer au fil du temps, dans le but de toujours mieux répondre aux différentes problématiques. Les membres de
+        l'équipe de CDV sont à l'écoute si vous êtes disposé à donner votre avis ou réfléchir aux meilleur solutions
+        possibles pour l'avenir du projet.
+        Pour le moment, <a href="mailto:nils@nils.cx">un simple mail</a> d'introduction suffit pour participer à
+        l'évolution de CDV.
+      </Note>
 
       <SubTitle>L'information</SubTitle>
 
-      <ol>
+      <p>
+        Le but de CDV étant de proposer un espace d'échange en réaction à l'information, il semble être
+        important de définir ce que nous entendons par "information". Dans le cadre de CDV, l'information est :
+      </p>
 
-        <li>
-          Action d'informer ou de s'informer.<br />
-          Donner la connaissance d'un fait ou de la rechercher.
-        </li>
-
-        <li>
-          Renseignement, documentation sur quelque chose ou quelqu'un.<br />
-          Elément de connaissance susceptible d’être représentée afin d’être conservée, traitée, communiquée.
-        </li>
-
-        <li>
-          Instruction d'un procès criminel.<br />
-          Une information judiciaire est une enquête judiciaire déclenchée par le procureur de la République dans les
-          affaires complexes et confiée à un juge d'instruction, préalablement au jugement
-        </li>
-        <li>
-          Actualité, nouvelle diffusées par un média (presse, radio, télévision, internet...).
-        </li>
-
-      </ol>
+      <Outline>
+        la transmission de la connaissance d’un fait via un canal de communication.
+      </Outline>
 
       <p>
-        La transmission de la connaissance d’un fait via un canal de communication.
+        Bien souvent, l'information telle qu'on l'entend fait référence à <em>l'actualité</em>, c'est à dire les
+        informations présentées dans les médias ("les infos"). Dans le cadre de CDV, la définition qu'il faut prendre en
+        compte est plus large que ça : c'est une <strong>forme de communication qui nous apprend quelque chose</strong>,
+        par exemple via un article dans un journal, une émission à la télévision, un article dans une revue
+        scientifique, un post sur un blog, une vidéo sur YouTube...
       </p>
 
       <p>
-        Exemples :
+        L'information est un moyen pour chacun de connaitre son environnement, c'est à dire de savoir ce qu'il se passe
+        dans le monde qui nous entoure. C'est donc un élément crucial de notre société, car c'est avec ces conaissances
+        que nous pouvons comprendre le monde, et donc prendre des décisions dans la vie de tous les jours. Avec
+        l'arrivée des nouvelle technologies de communication, l'accès à l'information devient de plus en plus facile.
+        Malheureusement, cela vient avec un certain nombre d'inconvéniants qu'il est difficile à maitriser, les fake
+        news en sont l'exemple le plus marquant. Et il est difficile de faire le tri, surtout lorsque l'on a
+        constamment l'impression d'être correctement informés.
       </p>
-      <ul>
-        <li>d'un scientifique à un pair, via une revue scientifique</li>
-        <li>d'un journal TV à ses auditeurs, via un billet d'information rédigé à l'avance et présenté en live</li>
-        <li>de moi à vous, via des vibration de l'air</li>
-        <li>d'un bloggeur à vous, sur internet</li>
-      </ul>
 
       <p>
-        Moyen pour un individu de connaitre son environnement.<br />
-        Facile d’accès
+        Le but principal de <em>CDV</em> est de tenter d'apporter un peu d'ordre dans tout ça, de manière intelligente
+        et bienveillante, et dans l'intérêt de tous.
       </p>
+
+      <Note>
+        Cette page est en cours de rédaction, la suite n'est pas encore vraiment rédigée...
+      </Note>
 
       <SubTitle>Les problématiques liées à l'information</SubTitle>
 
@@ -136,6 +179,24 @@ const Motivations: React.FC = () => {
           <li>qd elle dit des choses que nous n'apprécions pas, on va l’oublier</li>
           <li>chacun a des valeurs, des goûts, des motivations différentes</li>
         </ul>
+      </Section>
+
+      <SubTitle>Les solutions apportées par CDV</SubTitle>
+
+      <Section>
+        <strong>Les 3 piliers fondamentaux</strong>
+        <ul>
+          <li>La communauté ;</li>
+          <li>la charte ;</li>
+          <li>l'algorithme de référencement.</li>
+        </ul>
+      </Section>
+
+      <Section>
+        <strong>But de la charte</strong>
+        <p>
+          La charte de CDV est un point central du fonctionnement du système.
+        </p>
       </Section>
 
     </div>
