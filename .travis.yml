@@ -1,0 +1,20 @@
+language: node_js
+
+git:
+  depth: false
+
+jobs:
+  include:
+    - stage: lint
+      name: "lint API"
+      script: cd api && yarn lint
+    - name: "lint frontend"
+      script: cd frontend && yarn lint
+
+    - stage: build
+      name: "build API"
+      script: cd api && yarn build
+    - name: "build frontend"
+      script: cd frontend && yarn build
+    - name: build extension
+      script: cd chrome-extension && yarn build
