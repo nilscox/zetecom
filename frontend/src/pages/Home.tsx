@@ -1,9 +1,8 @@
-/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/no-unescaped-entities, max-lines */
 
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Title from './components/Title';
 import SubTitle from './components/SubTitle';
 import Outline from './components/Outline';
 import Section from './components/Section';

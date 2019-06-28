@@ -79,11 +79,11 @@ export class EmailService {
     });
   }
 
-  sendTestEmail(email, subject, value: string): Promise<any> {
+  sendTestEmail(to: string, subject: string, value: string): Promise<any> {
     const template = EmailService.renderTemplate('test', { value });
 
     return this.sendEmail(
-      email,
+      to,
       subject,
       template.text,
       template.html,
