@@ -1,3 +1,41 @@
+.page h1 {
+  margin-bottom: 42;
+}
+
+.page .content {
+  display: flex;
+  flex-direction: row;
+}
+
+.page nav {
+  flex: 1;
+}
+
+.page main {
+  flex: 4;
+}
+
+.page .divider {
+  border-right: 1px solid #CCC;
+  margin: 0 10px;
+}
+
+@media only screen and (max-width: 640px) {
+  .page main {
+    flex: 1;
+  }
+
+  .page .content {
+    flex-direction: column;
+  }
+
+  .page .divider {
+    border-right: initial;
+    border-top: 1px solid #CCC;
+    margin: 10px 0;
+  }
+}
+
 .page {
   color: #222;
   padding-top: 5px;

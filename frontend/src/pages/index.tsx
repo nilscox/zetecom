@@ -10,8 +10,8 @@ import NotFound from './NotFound';
 import './pages.css';
 
 const Header: React.FC = () => (
-  <div style={{ borderBottom: '1px solid #CCC', paddingBottom: 15, marginBottom: 42 }}>
-    <h1 style={{ fontSize: '3rem' }}>Chercheurs de vérité</h1>
+  <div style={{ borderBottom: '1px solid #CCC', paddingBottom: 15 }}>
+    <h1 style={{ fontSize: '3rem', lineHeight: '3rem' }}>Chercheurs de vérité</h1>
   </div>
 );
 
@@ -34,19 +34,8 @@ const NavLink: React.FC<NavLinkProps> = (props) => (
   </li>
 );
 
-const Nav: React.FC = () => (
-  <nav>
-    <ul style={{ listStyleType: 'none' }}>
-      <NavLink to="/">Accueil</NavLink>
-      <NavLink to="/charte">La charte</NavLink>
-      <NavLink to="/motivations">Motivations</NavLink>
-      <NavLink to="/faq">FAQ</NavLink>
-    </ul>
-  </nav>
-);
-
 const Divider: React.FC = () => (
-  <div style={{ borderRight: '1px solid #CCC', margin: '0 10px' }}></div>
+  <div className="divider"></div>
 );
 
 const Pages: React.FC = () => (
@@ -54,15 +43,20 @@ const Pages: React.FC = () => (
 
     <Header />
 
-    <div style={{ display: 'flex', minHeight: 250 }}>
+    <div className="content" style={{ minHeight: 250 }}>
 
-      <div style={{ flex: 1 }}>
-        <Nav />
-      </div>
+      <nav>
+        <ul style={{ listStyleType: 'none' }}>
+          <NavLink to="/">Accueil</NavLink>
+          <NavLink to="/charte">La charte</NavLink>
+          <NavLink to="/motivations">Motivations</NavLink>
+          <NavLink to="/faq">FAQ</NavLink>
+        </ul>
+      </nav>
 
       <Divider />
 
-      <main style={{ flex: 4 }}>
+      <main>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/charte" exact component={Rules} />

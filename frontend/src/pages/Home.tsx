@@ -62,13 +62,18 @@ const Home: React.FC = () => {
 
       <Section>
 
+        <div style={{ width: 400, height: 300, float: 'right', overflow: 'hidden', border: '1px solid #CCC', marginLeft: 20 }}>
+          <img src="/assets/images/youtube-cdv.gif" style={{ width: 400, marginTop: -70 }} />
+        </div>
+
         <p>
           CDV est une plateforme vous proposant de réagir librement à l'information. Que ce soit un article sur
           internet, dans la presse, à la télé, ... Mais ça, c'est la vision à long terme. Pour le moment, il n'est
           possible de réagir qu'à certaines vidéos sur <a href="https://youtube.com">YouTube</a>, via une extension sur
           le navigateur <a href="https://google.com/chrome">Google Chrome</a>. Cette extension ajoute directement sous
           la vidéo, un bouton vous permettant de choisir d'afficher les commentaires YouTube originaux, ou bien les
-          commentaires de CDV à la place.
+          commentaires de CDV à la place. Si le système fais ses preuves sur YouTube, alors il sera peut-être
+          envisageable de le déployer à plus grande échelle....
         </p>
 
         <DownloadExtensionButton url={`https://chrome.google.com/webstore/detail/${process.env.CHROME_EXTENSION_ID}`}>
@@ -76,49 +81,30 @@ const Home: React.FC = () => {
         </DownloadExtensionButton>
 
         <p>
-          Vous trouverez sur cette page une description du projet et sur son utilisation, ainsi que l'état d'esprit dans
-          lequel il a été imaginé. Le reste du site est accessible via les liens à gauche, n'hésitez pas à y faire un
-          tour !
-        </p>
-
-      </Section>
-
-      <Section title="L'information sur internet">
-
-        <p>
-          Avec l'arrivée des nouvelles technologies de communication, l'accès à l'information est devenu presque aussi
-          simple qu'une recherche sur google. Notre capacité à transmettre ou à recevoir de l'information est une chance
-          incroyable, à condition qu'elle soit correctement utilisée. Et ce n'est pas si facile d'y voir clair lorsque
-          l'on est exposé à cette sur-information.
+          Sur internet, il règne une foultitude d'informations dont la qualité peut varier du tout au tout. Et
+          particulièrement sur YouTube, on trouve aussi bien des reportages très qualitatif sur le monde, l'espace, les
+          dernières découvertes scientifiques, que des vidéos relatant de fausses informations, ou incitant à croire à
+          des théories du complot. Et innévitablement, l'espace d'échanges prévu pour discuter convivialement sous la
+          vidéo se retrouve facilement innondé de commentaires dont le but n'est pas de donner son opinion sur le sujet,
+          alors que des réflexions tout à fait pertinentes se retrouvent noyées. Et c'est normal ! La zone de
+          commentaire YouTube n'est pas vraiment prévue pour ça.
         </p>
 
         <p>
-          Il faut dire que la qualité des informations présentent sur internet peut varier : des articles de press au
-          postes d'un bloggeur conspirationiste, en passant par les publications scientifiques et la vulgarisation...
-          Faire le tri est devenu un combat quotidien, car les conaissances pertinentes sur le monde qui nous entoure
-          sont souvent noyées sous un flot d'"information" qui sont à nuancer, quitte à les rejeter
-          entièrement dans le cas des fake news par exemple.
+          CDV a été imaginé dans le but de rassembler une communauté de personnes qui se mettent d'accord pour respecter
+          un ensemble de règles, dans une approche septique, qui permettent de donner un cadre clair aux réflexions
+          pouvant émerger en réaction aux informations sur internet. Les "réactions" (les commentaires sur CDV) peuvent
+          être rédigées en réponse à d'autres et les plus impactantes étant mises en avant, comme sur reddit pour les
+          connaisseurs. Prêt(e) à tenter l'exprérience ? Jetez un oeil à <Link to="/charte">la charte</Link> ;)
         </p>
 
-        <p>
-          Mais que pensez-vous de l'information ? Vous en parlez certainement en privé avec vos amis, votre famille, ou
-          au boulot... Sur internet, cela passe le plus souvent par un espace de commentaire, directement attaché à
-          l'information, sur site web des médias ou sur YouTube par exemple. Une des problématiques majeur des espaces
-          de commentaires sur internet est le manque d'organisation, qui n'est pas une priorité pour la plateforme sur
-          laquelle on s'exprime.
-        </p>
+        <div style={{ clear: 'right' }} />
 
       </Section>
 
       <Note>Work in progress...</Note>
 
-      { false && <>
       <Section title="Utilisation">
-
-        <p>
-          Si le système fais ses preuves sur
-          YouTube, alors il sera peut-être envisageable de le déployer à plus grande échelle.
-        </p>
 
       </Section>
 
@@ -238,7 +224,6 @@ const Home: React.FC = () => {
           initiale.
         </p>
       </Section>
-      </>}
 
     </div>
   );

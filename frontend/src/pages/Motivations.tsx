@@ -38,6 +38,8 @@ import Outline from './components/Outline';
   - transparence
   - Non partisan : aucune affiliation envers quelque entité que ce soit
 
+- contexte du projet (esprit critique / zététique...)
+
 */
 
 const Motivations: React.FC = () => {
@@ -63,6 +65,32 @@ const Motivations: React.FC = () => {
         Pour le moment, <a href="mailto:nils@nils.cx">un simple mail</a> d'introduction suffit pour participer à
         l'évolution de CDV.
       </Note>
+
+      <Section title="L'information sur internet">
+
+        <p>
+          Avec l'arrivée des nouvelles technologies de communication, l'accès à la conaissance est devenu presque aussi
+          simple qu'une recherche sur google. Notre capacité à transmettre ou à recevoir de l'information s'est
+          retrouvée bouleversée au cours de ces dernières années.
+        </p>
+
+        <p>
+          Il faut dire que la qualité des informations présentent sur internet peut varier : des articles de press au
+          postes d'un bloggeur conspirationiste, en passant par les publications scientifiques et la vulgarisation...
+          Faire le tri est devenu un combat quotidien, car les conaissances pertinentes sur le monde qui nous entoure
+          sont souvent noyées sous un flot d'"information" qui sont à nuancer, quitte à les rejeter
+          entièrement dans le cas des fake news par exemple.
+        </p>
+
+        <p>
+          Mais que pensez-vous de l'information ? Vous en parlez certainement en privé avec vos amis, votre famille, ou
+          au boulot... Sur internet, cela passe le plus souvent par un espace de commentaire, directement attaché à
+          l'information, sur site web des médias ou sur YouTube par exemple. Une des problématiques majeur des espaces
+          de commentaires sur internet est le manque d'organisation, qui n'est pas une priorité pour la plateforme sur
+          laquelle on s'exprime.
+        </p>
+
+      </Section>
 
       <SubTitle>L'information</SubTitle>
 

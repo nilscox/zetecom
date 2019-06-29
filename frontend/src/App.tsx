@@ -5,6 +5,7 @@ import { User } from './types/User';
 import { UserProvider } from './utils/UserContext';
 import { fetchUser } from './api/user';
 import { Loader } from './components/Loader';
+import { ScrollToTop } from './components/ScrollToTop';
 
 import Popup from './popup';
 import Integrations from './integrations';
@@ -45,6 +46,9 @@ const App: React.FC = () => {
   return (
     <UserProvider value={{ user, setUser }}>
       <Router>
+
+        <ScrollToTop />
+
         <Switch>
 
           <Route path="/popup" component={Popup} />
