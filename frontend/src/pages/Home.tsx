@@ -62,7 +62,14 @@ const Home: React.FC = () => {
 
       <Section>
 
-        <div style={{ width: 400, height: 300, float: 'right', overflow: 'hidden', border: '1px solid #CCC', marginLeft: 20 }}>
+        <div style={{
+          width: 400,
+          height: 300,
+          float: 'right',
+          overflow: 'hidden',
+          border: '1px solid #CCC',
+          marginLeft: 20,
+        }}>
           <img src="/assets/images/youtube-cdv.gif" style={{ width: 400, marginTop: -70 }} />
         </div>
 
