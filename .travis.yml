@@ -16,5 +16,24 @@ jobs:
       script: cd api && yarn build
     - name: "build frontend"
       script: cd frontend && yarn build
-    - name: build extension
+    - name: "build extension"
       script: cd chrome-extension && yarn build
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: sh scripts/deploy.sh staging
+    on:
+      branch: dev
+
+  - provider: script
+    skip_cleanup: true
+    script: sh scripts/deploy.sh production
+    on:
+      branch: master
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_ad988ee53a3a_key -iv $encrypted_ad988ee53a3a_iv -in scripts/deploy-travis.enc -out /tmp/deploy-travis -d
+  - chmod 600 /tmp/deploy-travis
+  - eval "$(ssh-agent -s)"
+  - ssh-add /tmp/deploy-travis
