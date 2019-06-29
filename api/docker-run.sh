@@ -19,6 +19,7 @@ docker run \
   --env EMAIL_USER \
   --env EMAIL_PASSWORD \
   --env EMAIL_TEMPLATE_DIR \
+  --env EMAIL_EXCLUDE_REGEX \
   --env SESSION_SECRET \
   cdv \
   "$@"

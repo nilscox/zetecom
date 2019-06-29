@@ -86,7 +86,7 @@ async function createUserOrLogin(user: any): Promise<IUser> {
   } catch (e) {
     const { response: r } = e;
 
-    if (!r || r.status !== 400 || r.data.message !== 'EMAIL_ALREADY_EXISTS')
+    if (!r || r.status !== 400 || r.data.message !== 'NICK_ALREADY_EXISTS')
       throw e;
 
     const { headers, data } = await login();
