@@ -1,6 +1,13 @@
 language: node_js
 node_js: 10
-cache: yarn
+
+cache:
+  yarn: true
+  directories:
+  - $TRAVIS_BUILD_DIR/api/node_modules
+  - $TRAVIS_BUILD_DIR/frontend/node_modules
+  - $TRAVIS_BUILD_DIR/frontend/public
+  - $TRAVIS_BUILD_DIR/chrome-extension/node_modules
 
 git:
   depth: false
