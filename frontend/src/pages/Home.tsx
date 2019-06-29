@@ -109,7 +109,7 @@ const Home: React.FC = () => {
 
       </Section>
 
-      <Note>Work in progress...</Note>
+      <Note>Work in progress... with ci...</Note>
 
       <Section title="Utilisation">
 
