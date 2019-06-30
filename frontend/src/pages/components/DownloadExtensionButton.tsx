@@ -6,7 +6,13 @@ type DownloadExtensionProps = {
 };
 
 const DownloadExtension: React.FC<DownloadExtensionProps> = ({ url, children }) => (
-  <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', margin: '20px 0' }}>
+  <div style={{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    margin: '20px 0',
+    textAlign: 'center',
+  }}>
     <a
       href={url}
       target="_blank"
