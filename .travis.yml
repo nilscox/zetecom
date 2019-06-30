@@ -55,7 +55,6 @@ jobs:
 
     - stage: deploy
       name: "deploy frontend"
-      if: "$TRAVIS_BRANCH" =~ '^(master|dev)$'
       install: skip
       script: skip
       deploy:
