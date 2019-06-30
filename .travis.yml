@@ -24,6 +24,13 @@ install:
   - (cd frontend && yarn --production false)
   - (cd chrome-extension && yarn --production false)
 
+env:
+  global:
+    NODE_ENV=production
+    API_URL=__ENV__API_URL__
+    BASE_URL=__ENV__BASE_URL__
+    CHROME_EXTENSION_ID=__ENV__CHROME_EXTENSION_ID__
+
 jobs:
   include:
     - stage: lint
