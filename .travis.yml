@@ -19,25 +19,25 @@ before_deploy:
   - ssh-add /tmp/deploy-travis
   - echo "$DEPLOY_KNOWN_HOSTS" >> $HOME/.ssh/known_hosts
 
+install:
+  - (cd api && yarn --production false)
+  - (cd frontend && yarn --production false)
+  - (cd chrome-extension && yarn --production false)
+
 jobs:
   include:
     - stage: lint
       name: "lint API"
-      install: (cd api && yarn --production false)
       script: cd api && yarn lint
     - name: "lint frontend"
-      install: (cd frontend && yarn --production false)
       script: cd frontend && yarn lint
 
     - stage: build
       name: "build API"
-      install: (cd api && yarn --production false)
       script: cd api && yarn build
     - name: "build frontend"
-      install: (cd frontend && yarn --production false)
       script: cd frontend && yarn build
     - name: "build extension"
-      install: (cd chrome-extension && yarn --production false)
       script: cd chrome-extension && yarn build
 
     - stage: deploy
