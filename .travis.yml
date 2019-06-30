@@ -15,9 +15,6 @@ git:
 env:
   global:
     NODE_ENV=production
-    API_URL=__ENV__API_URL__
-    BASE_URL=__ENV__BASE_URL__
-    CHROME_EXTENSION_ID=__ENV__CHROME_EXTENSION_ID__
 
 install:
   - (cd api && yarn --production false)
@@ -32,14 +29,16 @@ before_deploy:
   - echo "$DEPLOY_KNOWN_HOSTS" >> $HOME/.ssh/known_hosts
 
 stages:
+  - build
+  - test
   - deploy
 
 jobs:
   include:
-    - stage: lint
-      name: "lint API"
+    - stage: test
+      name: "test API"
       script: cd api && yarn lint
-    - name: "lint frontend"
+    - name: "test frontend"
       script: cd frontend && yarn lint
 
     - stage: build
@@ -47,6 +46,10 @@ jobs:
       script: cd api && yarn build
     - name: "build frontend"
       script: cd frontend && yarn build
+      env:
+        - API_URL=__ENV__API_URL__
+        - BASE_URL=__ENV__BASE_URL__
+        - CHROME_EXTENSION_ID=__ENV__CHROME_EXTENSION_ID__
     - name: "build extension"
       script: cd chrome-extension && yarn build
 
@@ -66,4 +69,3 @@ jobs:
           script: scripts/deploy-frontend.sh production
           on:
             branch: master
-
