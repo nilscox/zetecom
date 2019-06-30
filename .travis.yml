@@ -32,6 +32,7 @@ stages:
   - build
   - test
   - deploy
+    if: branch =~ '^(master|dev)$'
 
 jobs:
   include:
