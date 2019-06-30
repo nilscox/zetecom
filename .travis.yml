@@ -32,7 +32,7 @@ stages:
   - build
   - test
   - name: deploy
-    if: branch =~ '^(master|dev)$'
+    if: branch = dev
 
 jobs:
   include:
