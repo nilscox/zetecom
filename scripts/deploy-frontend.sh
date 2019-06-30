@@ -47,8 +47,8 @@ inject_env() {
     vardef "$var"
 
     echo "- $var=$value"
-    echo sed -i "s/__ENV__${var}__/${value//\//\\/}/g" "$filename"
-    sed -i "s/__ENV__${var}__/${value//\//\\/}/g" "$filename"
+    echo sed -i 's/__ENV__'"${var}"'__/'"${value//\//\\/}"'/g' "$filename"
+    sed -i 's/__ENV__'"${var}"'__/'"${value//\//\\/}"'/g' "$filename"
   done
 
   echo
