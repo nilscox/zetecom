@@ -31,7 +31,8 @@ before_deploy:
 stages:
   - build
   - test
-  - deploy
+  - name: deploy
+    if: branch =~ '^(master|dev)$'
 
 jobs:
   include:
