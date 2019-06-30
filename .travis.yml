@@ -32,7 +32,7 @@ stages:
   - build
   - test
   - name: deploy
-    if: (branch = master) OR (branch = dev)
+    if: ((branch = master) OR (branch = dev)) AND (NOT (type IN (push, pull_request)))
 
 jobs:
   include:
