@@ -12,24 +12,24 @@ cache:
 git:
   depth: false
 
-before_deploy:
-  - openssl aes-256-cbc -K $encrypted_ad988ee53a3a_key -iv $encrypted_ad988ee53a3a_iv -in $TRAVIS_BUILD_DIR/scripts/deploy-travis.enc -out /tmp/deploy-travis -d
-  - chmod 600 /tmp/deploy-travis
-  - eval "$(ssh-agent -s)"
-  - ssh-add /tmp/deploy-travis
-  - echo "$DEPLOY_KNOWN_HOSTS" >> $HOME/.ssh/known_hosts
-
-install:
-  - (cd api && yarn --production false)
-  - (cd frontend && yarn --production false)
-  - (cd chrome-extension && yarn --production false)
-
 env:
   global:
     NODE_ENV=production
     API_URL=__ENV__API_URL__
     BASE_URL=__ENV__BASE_URL__
     CHROME_EXTENSION_ID=__ENV__CHROME_EXTENSION_ID__
+
+install:
+  - (cd api && yarn --production false)
+  - (cd frontend && yarn --production false)
+  - (cd chrome-extension && yarn --production false)
+
+before_deploy:
+  - openssl aes-256-cbc -K $encrypted_ad988ee53a3a_key -iv $encrypted_ad988ee53a3a_iv -in $TRAVIS_BUILD_DIR/scripts/deploy-travis.enc -out /tmp/deploy-travis -d
+  - chmod 600 /tmp/deploy-travis
+  - eval "$(ssh-agent -s)"
+  - ssh-add /tmp/deploy-travis
+  - echo "$DEPLOY_KNOWN_HOSTS" >> $HOME/.ssh/known_hosts
 
 jobs:
   include:
