@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 getenv() {
   eval "echo \"\$$1\""
