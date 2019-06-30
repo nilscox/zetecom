@@ -55,6 +55,7 @@ jobs:
 
     - stage: deploy
       name: "deploy frontend"
+      if: branch =~ '^(master|dev)$'
       install: skip
       script: skip
       deploy:
