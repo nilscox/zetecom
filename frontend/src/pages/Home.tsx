@@ -3,6 +3,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import env from '../utils/env';
+
 import SubTitle from './components/SubTitle';
 import Outline from './components/Outline';
 import Section from './components/Section';
@@ -83,7 +85,7 @@ const Home: React.FC = () => {
           envisageable de le déployer à plus grande échelle....
         </p>
 
-        <DownloadExtensionButton url={`https://chrome.google.com/webstore/detail/${process.env.CHROME_EXTENSION_ID}`}>
+        <DownloadExtensionButton url={`https://chrome.google.com/webstore/detail/${env('CHROME_EXTENSION_ID')}`}>
           télécharger l'extension chrome
         </DownloadExtensionButton>
 

@@ -9,8 +9,7 @@
     "build:popup": "webpack",
     "build:popup:watch": "yarn build:popup --watch",
     "build:integrations": "webpack --config webpack.integrations.config",
-    "build:integrations:watch": "yarn build:integrations --watch",
-    "prepublish": "yarn clean && yarn build && (cd extension && 7z a ../cdv-chrome-extension.zip *)"
+    "build:integrations:watch": "yarn build:integrations --watch"
   },
   "dependencies": {
     "iframe-resizer": "^4.1.1"

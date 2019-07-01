@@ -6,8 +6,7 @@ import { logoutUser } from '../../api/user';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
 import UserContext from '../../utils/UserContext';
-
-const BASE_URL = process.env.BASE_URL;
+import env from '../../utils/env';
 
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(false);
@@ -48,7 +47,7 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
         >
           <img
             style={{ width: 32, height: 32, borderRadius: 16, border: '1px solid #CCC' }}
-            src={`${BASE_URL}/assets/images/` + (
+            src={`${env('BASE_URL')}/assets/images/` + (
               user.avatar
                 ? `avatars/${user.avatar}`
                 : 'default-avatar.png'
