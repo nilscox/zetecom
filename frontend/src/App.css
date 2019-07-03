@@ -1,5 +1,6 @@
-#app, .ReactModalPortal, .reaction-text {
+#app, .ReactModalPortal {
   font-family: 'Nunito Sans';
+  font-size: 18px;
   line-height: 22px;
 }
 
@@ -40,7 +41,6 @@ em {
 
 .page {
   max-width: 640px;
-  padding: 0 20px;
   box-sizing: border-box;
 }
 
@@ -52,6 +52,6 @@ em {
 
 @media only screen and (min-width: 1400px) {
   .page {
-    max-width: 1240px;
+    max-width: 1300px;
   }
 }

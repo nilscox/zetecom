@@ -8,7 +8,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 52px;
   border-bottom: 1px solid #eee;
   background-color: #f9f9f9;
 }
@@ -16,18 +15,20 @@
 .reaction-author-avatar {
   width: 32px;
   height: 32px;
-  padding: 10px;
+  padding: 6px;
   display: inline-block;
 }
 
 .reaction-author-avatar img {
   width: inherit;
   height: inherit;
+  border: 1px solid #999;
   border-radius: 16px;
 }
 
 .reaction-author-nick {
   display: inline-block;
+  margin-left: 8px;
 }
 
 .reaction-edit {
@@ -41,7 +42,7 @@
 .reaction-header-top-right-wrapper {
   position: absolute;
   right: 5px;
-  top: 5px;
+  top: 0;
   display: flex;
   flex-direction: row;
 }
@@ -70,7 +71,7 @@
 
 .toggle-expand {
   position: absolute;
-  bottom: 5px;
+  bottom: 0;
   right: 5px;
   color: #666;
   font-size: 10px;
@@ -116,7 +117,9 @@
 }
 
 .reaction-text {
-  padding: 10px;
+  padding: 5px 10px;
+  font-size: 15px;
+  line-height: 20px;
 }
 
 .reaction-footer {
@@ -136,7 +139,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 6px 16px;
+  padding: 4px 16px;
   border-right: 1px solid #eee;
 }
 
@@ -150,9 +153,8 @@
 }
 
 .quick-reaction img {
-  width: 24px;
-  height: 24px;
-  margin-right: 6px;
+  width: 22px;
+  height: 22px;
 }
 
 .quick-reaction .quick-reaction-count {

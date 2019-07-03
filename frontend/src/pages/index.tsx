@@ -45,8 +45,8 @@ const Pages: React.FC = () => (
 
     <div className="content" style={{ minHeight: 250 }}>
 
-      <nav>
-        <ul style={{ listStyleType: 'none' }}>
+      <nav style={{ position: 'relative' }}>
+        <ul style={{ listStyleType: 'none', position: 'sticky', top: 30 }}>
           <NavLink to="/">Accueil</NavLink>
           <NavLink to="/charte">La charte</NavLink>
           <NavLink to="/motivations">Motivations</NavLink>
@@ -56,7 +56,7 @@ const Pages: React.FC = () => (
 
       <Divider />
 
-      <main>
+      <main style={{ paddingLeft: 10 }}>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/charte" exact component={Rules} />

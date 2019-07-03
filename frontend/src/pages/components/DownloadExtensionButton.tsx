@@ -21,9 +21,9 @@ const DownloadExtension: React.FC<DownloadExtensionProps> = ({ url, children }) 
       style={{
         border: '1px solid #4CAF50',
         background: '#81c784',
-        padding: '10px 25px',
+        padding: '8px 20px',
         borderRadius: 2,
-        fontSize: '1.3rem',
+        fontSize: '1.2rem',
         fontWeight: 'bold',
         textTransform: 'uppercase',
         textDecoration: 'none',
