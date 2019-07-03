@@ -8,6 +8,7 @@ import Outline from './components/Outline';
 import Section from './components/Section';
 import Note from './components/Note';
 import DownloadExtensionButton from './components/DownloadExtensionButton';
+import FloatingImage, { ClearFix } from './components/FloatingImage';
 
 /*
 
@@ -91,15 +92,7 @@ const Home: React.FC = () => {
 
       <Section>
 
-        <div style={{
-          width: 400,
-          float: 'right',
-          border: '1px solid #CCC',
-          marginLeft: 20,
-          marginBottom: 20,
-        }}>
-          <img src="/assets/images/youtube-cdv.gif" style={{ width: 400 }} />
-        </div>
+        <FloatingImage src="/assets/images/youtube-cdv.gif" float="right" width={400} />
 
         <p>
           CDV est une plateforme vous proposant de réagir librement à l'information. Que ce soit un article sur
@@ -133,7 +126,7 @@ const Home: React.FC = () => {
           connaisseurs. Prêt(e) à tenter l'exprérience ? Jetez un oeil à <Link to="/charte">la charte</Link> ;)
         </p>
 
-        <div style={{ clear: 'right' }} />
+        <ClearFix />
 
       </Section>
 
@@ -165,6 +158,8 @@ const Home: React.FC = () => {
           <li>Rédiger une nouvelle réaction</li>
         </ul>
 
+        <FloatingImage src="/assets/images/quick-reactions.png" float="left" width={300} />
+
         <p>
           Certaines réactions vont apporter des précisions, vous faire réfléchir, peut-être même vous faire
           changer d'avis ! Si beaucoup d'utilisateurs trouvent une même réaction pertinente, il semble naturel de
@@ -180,6 +175,8 @@ const Home: React.FC = () => {
           message. Au passage, l'algorithme évolue constament, dans le but d'améliorer son fonctionnement ; si vous êtes
           intéressé(e) pour apporter votre grain de sel, contactez l'équipe de CDV ;).
         </Note>
+
+        <ClearFix />
 
       </Section>
 
