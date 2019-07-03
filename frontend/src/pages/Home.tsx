@@ -14,9 +14,9 @@ import DownloadExtensionButton from './components/DownloadExtensionButton';
 /*
 
 - Introduction :
-  - présentation très brève de CDV
   - pitch du projet
   - télécharger l'extension
+  - Screenshot (gif commentaires YouTube / CDV)
 
 - Contextualisation de l'information sur internet
   - disponibilité / accessibilité de l'information
@@ -24,17 +24,12 @@ import DownloadExtensionButton from './components/DownloadExtensionButton';
   - désinformation, fake news, fact checking
   - manque d'organisation
 
-- Description du projet
-  - Scope : vision long terme, scope actuel (YouTube)
-  - Extension chrome : affichage de commentaires externes à YouTube embed sous la vidéo
-  - Screenshot (gif commentaires YouTube / CDV)
-  - Problématiques auxquelles répond CDV (lien vers /motivations)
-
 - Utilisation
+  - Extension chrome : affichage de commentaires externes à YouTube embed sous la vidéo
   - Lire les réactions : nuancer l'information principale, mettre en perspective, comprendre des opinions différentes
-  - Rédiger des réactions : partager des sources, des idées, soulever des problématiques, poser des quesions
   - Quick réaction : favoriser le référencement des réactions, mettre en avant les réactions les plus pertinentes
-  - Réactions nestéés : organiser le débat, style reddit
+  - Rédiger des réactions : partager des sources, des idées, soulever des problématiques, poser des quesions, réactions
+    nestéés
   - Modération : signaler les réactions
 
 - Etat d'esprit du projet
@@ -42,6 +37,27 @@ import DownloadExtensionButton from './components/DownloadExtensionButton';
   - open source
   - projet participatif
   - vision long terme, idées futures
+
+--
+
+  J'approuve : je trouve que cette réaction est pertinente et je suis d'accord avec le message
+    elle apporte des éléments me convaincant
+  Je réfute : je trouve que cette réaction est pertinente mais je ne suis pas d'accord avec le message
+    la méthode utilisée me semble incorrecte ou biaisée
+    j'ai une preuve du contraire
+  Je suis septique : je trouve que cette réaction est pertinente
+    elle n'apporte pas assez d'éléments pour me convaincre
+    j'ai besoin de m'informer plus sur le sujet pour me faire une opinion
+    elle évoque une problématique qui vaut la peine d'être discutée plus en profondeur
+
+--
+
+L'homme de paille
+L'homme de fer
+L'effet puits
+L'effet forer
+
+Biais de confirmation
 
 */
 
@@ -66,13 +82,12 @@ const Home: React.FC = () => {
 
         <div style={{
           width: 400,
-          height: 300,
           float: 'right',
-          overflow: 'hidden',
           border: '1px solid #CCC',
           marginLeft: 20,
+          marginBottom: 20,
         }}>
-          <img src="/assets/images/youtube-cdv.gif" style={{ width: 400, marginTop: -70 }} />
+          <img src="/assets/images/youtube-cdv.gif" style={{ width: 400 }} />
         </div>
 
         <p>
@@ -85,7 +100,7 @@ const Home: React.FC = () => {
           envisageable de le déployer à plus grande échelle....
         </p>
 
-        <DownloadExtensionButton url={`https://chrome.google.com/webstore/detail/${env('CHROME_EXTENSION_ID')}`}>
+        <DownloadExtensionButton url={`https://chrome.google.com/webstore/detail/${env.CHROME_EXTENSION_ID}`}>
           télécharger l'extension chrome
         </DownloadExtensionButton>
 
@@ -111,41 +126,55 @@ const Home: React.FC = () => {
 
       </Section>
 
-      <Note>Work in progress...</Note>
-
       <Section title="Utilisation">
 
-      </Section>
+        <SubTitle>Extension chrome</SubTitle>
 
-      <SubTitle>Extension chrome</SubTitle>
-
-      <Section>
         <p>
-          Cette extension permet d'afficher une zone de commentaires venant de CDV sous les vidéos, en plus des
-          commentaires de YouTube. En créant un compte, elle permet aussi de publier une "réaction", c'est à dire un
-          commentaire sur CDV et de répondre aux réactions existantes. C'est parti ?
+          Le principe est simple : l'extension chrome permet d'intégrer une zone de commentaires propre à CDV
+          directement à l'intérieur d'une page web sur internet. Si une page que vous visitez se retrouve modifiée pour
+          ajouter une zone réactions venant de CDV, l'icone de l'extension passe en vert. *screenshot*
         </p>
-      </Section>
 
-      <Section>
         <p>
-          Une fois l'extension installée, rendez-vous sur <a href="https://youtube.com/watch?v=TG3l8N7f7kc">une vidéo
-          YouTube ayant les commentaires de CDV activée</a>, et vous aurez la possibilité de lire les commentaires
-          propres à CDV qui y sont associés. Pour afficher les réponses à une réaction, cliquez sur le nombre de
-          réponses. Si vous vous inscrivez sur la plateforme, il vous sera possible d'effectuer deux type d'actions :
+          Cette zone de réactions est uniquement alimenté par la communauté de CDV, et respectent donc la charte. Ce
+          qui laisse la place aux échanges d'idées dans un cadre bienveillant et respectueux, mais se passera des
+          affirmations sans preuves, des blagues et autres trolls. Pour participer aux conversations, il vous est
+          possible de créer un compte en cliquant sur l'icône de l'extension, en haut à droite de votre navigateur.
+        </p>
+
+        <SubTitle>Intéragir avec la communauté</SubTitle>
+
+        <p>
+          Deux types d'actions sont possible pour participer aux échanges sur CDV :
         </p>
 
         <ul>
-          <li>ajouter une réaction, en réponse à une autre ou non</li>
-          <li>donner votre avis sur une réaction, mais sans y répondre</li>
+          <li>Aprouver ou réfuter une réaction existante</li>
+          <li>Rédiger une nouvelle réaction</li>
         </ul>
 
         <p>
-          Pour créer un compte ou vous connecter à un compte existant, cliquez sur l'icône de l'extension en haut à
-          droite du navigateur.
+          Certaines réactions vont apporter des précisions, vous faire réfléchir, peut-être même vous faire
+          changer d'avis ! Si beaucoup d'utilisateurs trouvent une même réaction pertinente, il semble naturel de
+          la mettre en avant. Il vous est ainsi possible (en étant connecté(e)), d'annoter une réaction existante d'un
+          "J'aprouve", "Je réfute" ou bien "Je suis septique...". Un algorithme (pas celui de YouTube) va comptabiliser
+          le nombre total d'anotations pour vous présenter les réactions les mieux référencer quand vous choisissez de
+          les trier par pertinence.
         </p>
+
+        <Note>
+          Attention ! Réfuter une réaction ne va pas faire baisser son référencement. Au contraire, elle va même être
+          un peu mieux référencée, car vous y avez accordé de l'importance, même si vous n'êtes pas d'accord avec le
+          message. Au passage, l'algorithme évolue constament, dans le but d'améliorer son fonctionnement ; si vous êtes
+          intéressé(e) pour apporter votre grain de sel, contactez l'équipe de CDV ;).
+        </Note>
+
       </Section>
 
+      <Note>Work in progress...</Note>
+
+{/*
       <SubTitle>Donner son avis</SubTitle>
 
       <Section>
@@ -155,42 +184,6 @@ const Home: React.FC = () => {
           retirer) à tout moment. Plus une réaction a d'avis, et mieux elle est référencée. Les avis que vous pouvez
           donner sur une réaction sont :
         </p>
-
-        <ul>
-          <li>
-            J'approuve : je trouve que cette réaction est pertinente et je suis d'accord avec le message
-            <ul>
-              <li>
-                elle apporte des éléments me convaincant
-              </li>
-            </ul>
-          </li>
-          <li>
-            Je réfute : je trouve que cette réaction est pertinente mais je ne suis pas d'accord avec le message
-            <ul>
-              <li>
-                la méthode utilisée me semble incorrecte ou biaisée
-              </li>
-              <li>
-                j'ai une preuve du contraire
-              </li>
-            </ul>
-          </li>
-          <li>
-            Je suis septique : je trouve que cette réaction est pertinente
-            <ul>
-              <li>
-                elle n'apporte pas assez d'éléments pour me convaincre
-              </li>
-              <li>
-                j'ai besoin de m'informer plus sur le sujet pour me faire une opinion
-              </li>
-              <li>
-                elle évoque une problématique qui vaut la peine d'être discutée plus en profondeur
-              </li>
-            </ul>
-          </li>
-        </ul>
       </Section>
 
       <Note>
@@ -233,7 +226,7 @@ const Home: React.FC = () => {
           initiale.
         </p>
       </Section>
-
+*/}
     </div>
   );
 };

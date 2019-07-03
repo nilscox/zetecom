@@ -9,6 +9,7 @@ import Outline from './components/Outline';
 
 /*
 
+- Scope : vision long terme, scope actuel (YouTube)
 - définition de l'information dans le cadre de CDV
 
 - problématiques liés à l'information
