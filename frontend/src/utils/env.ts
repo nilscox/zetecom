@@ -1,24 +1,18 @@
-export type EnvironmentVariable =
-  | 'NODE_ENV'
-  | 'API_URL'
-  | 'BASE_URL'
-  | 'CHROME_EXTENSION_ID';
+const env = {
+  NODE_ENV: process.env.NODE_ENV,
+  API_URL: process.env.API_URL,
+  BASE_URL: process.env.BASE_URL,
+  CHROME_EXTENSION_ID: process.env.CHROME_EXTENSION_ID,
+};
+
+export type EnvironmentVariable = keyof typeof env;
 
 declare global {
   interface Window {
-    env: { [key in EnvironmentVariable]: string | undefined };
+    env: Partial<{ [key in EnvironmentVariable]: string | undefined }>;
   }
 }
 
-export default (name: EnvironmentVariable, defaultValue?: string) => {
-  if (window.env[name])
-    return window.env[name];
+Object.assign(env, window.env || {});
 
-  if (process.env[name])
-    return process.env[name];
-
-  if (defaultValue)
-    return defaultValue;
-
-  throw new Error(`missing environment variable '${name}'`);
-};
+export default env;

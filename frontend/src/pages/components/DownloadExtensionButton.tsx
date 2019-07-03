@@ -1,11 +1,15 @@
 import React from 'react';
 
+import env from '../../utils/env';
+
 type DownloadExtensionProps = {
-  url: string;
   children: string;
 };
 
-const DownloadExtension: React.FC<DownloadExtensionProps> = ({ url, children }) => (
+if (!env.CHROME_EXTENSION_ID)
+  console.warn('CHROME_EXTENSION_ID environment is not set');
+
+const DownloadExtension: React.FC<DownloadExtensionProps> = ({ children }) => (
   <div style={{
     display: 'flex',
     flexDirection: 'row',
@@ -14,12 +18,17 @@ const DownloadExtension: React.FC<DownloadExtensionProps> = ({ url, children }) 
     textAlign: 'center',
   }}>
     <a
-      href={url}
+      href={
+        env.CHROME_EXTENSION_ID
+          ? `https://chrome.google.com/webstore/detail/${env.CHROME_EXTENSION_ID}`
+          : undefined
+      }
       target="_blank"
       rel="noopener noreferrer"
       className="download-extension-button"
       style={{
-        border: '1px solid #4CAF50',
+        border: '1px solid',
+        borderColor: '#4CAF50',
         background: '#81c784',
         padding: '8px 20px',
         borderRadius: 2,
