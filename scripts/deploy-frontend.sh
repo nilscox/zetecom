@@ -23,22 +23,22 @@ initialize_env() {
   ensure_env "DEPLOY_HOSTNAME"
   ensure_env "PRODUCTION_URL" "STAGING_URL"
 
-  if [ "$ENVIRONMENT" != "staging" -a "$ENVIRONMENT" != "production" ]; then
-    err "usage $0 [staging|production]"
+  if [ -z "$PUBLIC_DIR" -o "$ENVIRONMENT" != "staging" -a "$ENVIRONMENT" != "production" ]; then
+    err "usage $0 [directory] [staging|production]"
   fi
 
-  if [ -n "$TRAVIS_BUILD_DIR" ]; then
-    BUILD_DIR="$TRAVIS_BUILD_DIR"
-  fi
-
-  if [ "$ENVIRONMENT" = "staging" ]; then
+  if [ "$ENVIRONMENT" = "production" ]; then
+    DEPLOY_USER="cdv"
+    API_URL="$PRODUCTION_URL"
+    BASE_URL="$PRODUCTION_URL"
+  else
     DEPLOY_USER="cdv-staging"
     API_URL="$STAGING_URL"
     BASE_URL="$STAGING_URL"
   fi
 
-  ENV_PATH="$BUILD_DIR/frontend/public/assets/js/env.js"
-  BUNDLE_PATH="$BUILD_DIR/frontend/public/assets/js/bundle.js"
+  ENV_PATH="$PUBLIC_DIR/assets/js/env.js"
+  BUNDLE_PATH="$PUBLIC_DIR/assets/js/bundle.js"
 
   if [ ! -f "$BUNDLE_PATH" ]; then
     err "file \`$BUNDLE_PATH\` does not exist"
@@ -73,16 +73,15 @@ deploy() {
   echo ssh "$DEPLOY_USER@$DEPLOY_HOSTNAME" 'rm -rf ~/public'
   ssh "$DEPLOY_USER@$DEPLOY_HOSTNAME" 'rm -rf ~/public'
 
-  echo scp -r "$BUILD_DIR/frontend/public" "$DEPLOY_USER@$DEPLOY_HOSTNAME:public"
-  scp -r "$BUILD_DIR/frontend/public" "$DEPLOY_USER@$DEPLOY_HOSTNAME:public" > /dev/null
+  echo scp -r "$PUBLIC_DIR" "$DEPLOY_USER@$DEPLOY_HOSTNAME:public"
+  scp -r "$PUBLIC_DIR" "$DEPLOY_USER@$DEPLOY_HOSTNAME:public" > /dev/null
 
   echo "* deployment success!"
   echo
 }
 
-ENVIRONMENT="$1"
-DEPLOY_USER="cdv"
-BUILD_DIR="."
+PUBLIC_DIR="$1"
+ENVIRONMENT="$2"
 
 initialize_env
 inject_env "NODE_ENV" "API_URL" "BASE_URL" "CHROME_EXTENSION_ID"

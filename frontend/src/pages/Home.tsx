@@ -158,7 +158,7 @@ const Home: React.FC = () => {
           <li>Rédiger une nouvelle réaction</li>
         </ul>
 
-        <FloatingImage src="/assets/images/quick-reactions.png" float="left" width={300} />
+        <FloatingImage src="/assets/images/quick-reactions.png" float="left" width={275} />
 
         <p>
           Certaines réactions vont apporter des précisions, vous faire réfléchir, peut-être même vous faire

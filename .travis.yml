@@ -12,6 +12,7 @@ git:
 env:
   global:
     - NODE_ENV=production
+    - BUILD_ID_FILE=frontend/public/travis-build-id
 
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_ad988ee53a3a_key -iv $encrypted_ad988ee53a3a_iv -in $TRAVIS_BUILD_DIR/scripts/deploy-travis.enc -out /tmp/deploy-travis -d
@@ -48,6 +49,7 @@ jobs:
       script:
         - yarn clean
         - yarn build
+        - echo $TRAVIS_BUILD_ID > $BUILD_ID_FILE
     - name: "build extension"
       before_install: cd chrome-extension
       script: yarn build
@@ -55,16 +57,19 @@ jobs:
     - stage: deploy
       name: "deploy frontend"
       install: skip
-      script: skip
+      script:
+        - if test ! -f "$BUILD_ID_FILE" -o "$(cat "$BUILD_ID_FILE")" != "$TRAVIS_BUILD_ID"; then echo 'invalid build id' >&2; exit 1; fi
+        - cp -r frontend/public ~/frontend
+      before_cache: rm -rf frontend/public
       deploy:
         - provider: script
           skip_cleanup: true
-          script: scripts/deploy-frontend.sh staging
+          script: scripts/deploy-frontend.sh ~/frontend staging
           on:
             branch: dev
 
         - provider: script
           skip_cleanup: true
-          script: scripts/deploy-frontend.sh production
+          script: scripts/deploy-frontend.sh ~/frontend production
           on:
             branch: master
