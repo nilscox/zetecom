@@ -3,6 +3,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import env from '../utils/env';
+
 import SubTitle from './components/SubTitle';
 import Outline from './components/Outline';
 import Section from './components/Section';
@@ -166,7 +168,7 @@ const Home: React.FC = () => {
           nouvelle réaction. Si le sujet de votre message porte sur l'information présente dans la vidéo YouTube,
           ajoutez le en racine, via le formulaire présent en haut, avant les réactions. Si en revanche vous souhaitez
           apporter votre avis par rapport à une réaction existante, il vous faudra cliquer sur le bouton "répondre". Les
-          réponses imbriquées permettent de suivre le fil de la disscusion, et l'évolution du débat.
+          réponses imbriquées permettent de suivre le fil de la discusion, et l'évolution du débat.
         </p>
 
         <p>
@@ -178,6 +180,32 @@ const Home: React.FC = () => {
         </p>
 
         <ClearFix />
+
+      </Section>
+
+      <Section title="Des idées sur le projet ?">
+
+        <p>
+          CDV est pensé dans un but collaboratif au niveau du contenu rédigé par les utilisateurs, mais aussi au niveau
+          de son fonctionnement. Dans un but d'amélioration progressive des idées, de la charte, et de l'état d'esprit
+          du projet en général, les membres de CDV sont invité à <a href="mailto:cdv@nils.cx">en discuter</a> avec
+          l'équipe qui développe la plateforme. Et s'il y a des amis développeurs parmis vous, toutes les sources du
+          projet sont accessibles sur <a href={env.GITHUB_REPO_URL}>github</a>. Issues and pull requests are very
+          welcome :)
+        </p>
+
+        <p>
+          La boite à sugestions est ouverte ! Pour l'instant, il est par exemple envisagé d'intégrer CDV sur d'autres
+          sites d'informations, de mettre en place une interface de modération par la communauté, d'améliorer
+          l'alorithme de référencement... Bientôt, vous pourrez vous aussi proposer des idée d'améliorations ansi que
+          remonter d'éventuels bugs.
+        </p>
+
+        <p>
+          Pour en savoir un peu plus sur les idées et valeurs qui forgent CDV, vous trouverez des informations un peu
+          plus détaillées sur la page <Link to="/motivations">motivations</Link>. Restons à l'écoute, développons notre
+          esprit critique, et... cherchons la vérité !
+        </p>
 
       </Section>
 

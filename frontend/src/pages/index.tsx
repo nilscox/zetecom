@@ -46,7 +46,7 @@ const Pages: React.FC = () => (
     <div className="content" style={{ minHeight: 250 }}>
 
       <nav style={{ position: 'relative' }}>
-        <ul style={{ listStyleType: 'none', position: 'sticky', top: 30 }}>
+        <ul style={{ listStyleType: 'none', position: 'sticky', top: 30, marginTop: 30 }}>
           <NavLink to="/">Accueil</NavLink>
           <NavLink to="/charte">La charte</NavLink>
           <NavLink to="/motivations">Motivations</NavLink>
