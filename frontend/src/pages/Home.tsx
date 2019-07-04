@@ -51,19 +51,6 @@ Je suis septique : je trouve que cette réaction est pertinente
 
 --
 
-Personne n'étant à l'abri d'une erreur, vous pouvez à tout moment modifier le texte d'une réaction. Attention
-cependant à ne pas changer le sens du message ! Autrement, les réactions en réponse à votre message ne seront
-potentiellement plus en harmonie avec le nouveau sens de votre message. Lorsque vous éditez une réaction, une
-étoile apparaît à côté de la date de publication, et il sera toujours possible de consulter l'historique des
-modifications en cliquant sur cette date.
-
-Enfin, après qu'une réaction ait été publiée, il n'est pas possible de l'effacer. Vous avez partagé un message
-à une certaine date, si votre pensée évolue ultérieurement, le message que vous aviez rédigé avant de changer
-d'avis doit rester le même, dans le but de conserver l'évolution du débat et des réponses à votre réaction
-initiale.
-
---
-
 L'homme de paille
 L'homme de fer
 L'effet puits
@@ -95,8 +82,8 @@ const Home: React.FC = () => {
         <FloatingImage src="/assets/images/youtube-cdv.gif" float="right" width={400} />
 
         <p>
-          CDV est une plateforme vous proposant de réagir librement à l'information. Que ce soit un article sur
-          internet, dans la presse, à la télé, ... Mais ça, c'est la vision à long terme. Pour le moment, il n'est
+          CDV est une plateforme qui vous permet de réagir librement à l'information. Que ce soit un article sur
+          internet, dans la presse ou à la télé... Mais ça, c'est la vision à long terme. Pour le moment, il n'est
           possible de réagir qu'à certaines vidéos sur <a href="https://youtube.com">YouTube</a>, via une extension sur
           le navigateur <a href="https://google.com/chrome">Google Chrome</a>. Cette extension ajoute directement sous
           la vidéo, un bouton vous permettant de choisir d'afficher les commentaires YouTube originaux, ou bien les
@@ -112,17 +99,17 @@ const Home: React.FC = () => {
           Sur internet, il règne une foultitude d'informations dont la qualité peut varier du tout au tout. Et
           particulièrement sur YouTube, on trouve aussi bien des reportages très qualitatif sur le monde, l'espace, les
           dernières découvertes scientifiques, que des vidéos relatant de fausses informations, ou incitant à croire à
-          des théories du complot. Et innévitablement, l'espace d'échanges prévu pour discuter convivialement sous la
-          vidéo se retrouve facilement innondé de commentaires dont le but n'est pas de donner son opinion sur le sujet,
-          alors que des réflexions tout à fait pertinentes se retrouvent noyées. Et c'est normal ! La zone de
-          commentaire YouTube n'est pas vraiment prévue pour ça.
+          des théories complotistes. Et innévitablement, l'espace d'échanges prévu pour discuter sous la vidéo se
+          retrouve facilement innondé de commentaires dont le but n'est pas de donner son opinion sur le sujet, et des
+          réflexions tout à fait pertinentes se retrouvent noyées. Et c'est normal&nbsp;! La zone de commentaire YouTube
+          n'est pas vraiment prévue pour ça.
         </p>
 
         <p>
           CDV a été imaginé dans le but de rassembler une communauté de personnes qui se mettent d'accord pour respecter
-          un ensemble de règles, dans une approche septique, qui permettent de donner un cadre clair aux réflexions
-          pouvant émerger en réaction aux informations sur internet. Les "réactions" (les commentaires sur CDV) peuvent
-          être rédigées en réponse à d'autres et les plus impactantes étant mises en avant, comme sur reddit pour les
+          un ensemble de règles, inspirées de principes septiques, qui donnent un cadre clair aux réflexions pouvant
+          émerger en réaction aux informations sur internet. Les "réactions" (les commentaires sur CDV) peuvent être
+          rédigées en réponse à d'autres, les plus impactantes étant mises en avant. Un peu comme sur reddit pour les
           connaisseurs. Prêt(e) à tenter l'exprérience ? Jetez un oeil à <Link to="/charte">la charte</Link> ;)
         </p>
 
@@ -137,13 +124,13 @@ const Home: React.FC = () => {
         <p>
           Le principe est simple : l'extension chrome permet d'intégrer une zone de commentaires propre à CDV
           directement à l'intérieur d'une page web sur internet. Si une page que vous visitez se retrouve modifiée pour
-          ajouter une zone réactions venant de CDV, l'icone de l'extension passe en vert. *screenshot*
+          ajouter un espace d'échange venant de CDV, l'icone de l'extension vous l'indique. *screenshot*
         </p>
 
         <p>
-          Cette zone de réactions est uniquement alimenté par la communauté de CDV, et respectent donc la charte. Ce
-          qui laisse la place aux échanges d'idées dans un cadre bienveillant et respectueux, mais se passera des
-          affirmations sans preuves, des blagues et autres trolls. Pour participer aux conversations, il vous est
+          Cette zone de réactions est uniquement alimenté par la communauté de CDV, et respecte donc la charte. Ce qui
+          laisse la place aux échanges d'idées dans un cadre collaboratif, bienveillant et respectueux, mais se passera
+          des affirmations sans preuves, des blagues et autres trolls. Pour participer aux conversations, il vous est
           possible de créer un compte en cliquant sur l'icône de l'extension, en haut à droite de votre navigateur.
         </p>
 
@@ -163,18 +150,32 @@ const Home: React.FC = () => {
         <p>
           Certaines réactions vont apporter des précisions, vous faire réfléchir, peut-être même vous faire
           changer d'avis ! Si beaucoup d'utilisateurs trouvent une même réaction pertinente, il semble naturel de
-          la mettre en avant. Il vous est ainsi possible (en étant connecté(e)), d'annoter une réaction existante d'un
-          "J'aprouve", "Je réfute" ou bien "Je suis septique...". Un algorithme (pas celui de YouTube) va comptabiliser
-          le nombre total d'anotations pour vous présenter les réactions les mieux référencer quand vous choisissez de
-          les trier par pertinence.
+          la mettre en avant. Pour cela, vous pouvez annoter une réaction existante d'un "J'aprouve", "Je réfute" ou
+          bien "Je suis septique...", pour donner votre avis, entièrement subjectif. Un algorithme (pas celui de
+            YouTube) va comptabiliser le nombre total d'anotations pour vous présenter les réactions les plus annotées
+          lorsque vous choisissez de le tri par pertinence.
         </p>
 
         <Note>
-          Attention ! Réfuter une réaction ne va pas faire baisser son référencement. Au contraire, elle va même être
-          un peu mieux référencée, car vous y avez accordé de l'importance, même si vous n'êtes pas d'accord avec le
-          message. Au passage, l'algorithme évolue constament, dans le but d'améliorer son fonctionnement ; si vous êtes
-          intéressé(e) pour apporter votre grain de sel, contactez l'équipe de CDV ;).
+          Node : réfuter une réaction ne va pas la faire baisser dans le classement. L'algorithme prend en compte
+          que vous y avez accordé de l'importance, même si vous n'êtes pas d'accord avec le message.
         </Note>
+
+        <p>
+          Et bien sur, si vous avez quelque chose à partager avec la communauté, vous pouvez rédiger une
+          nouvelle réaction. Si le sujet de votre message porte sur l'information présente dans la vidéo YouTube,
+          ajoutez le en racine, via le formulaire présent en haut, avant les réactions. Si en revanche vous souhaitez
+          apporter votre avis par rapport à une réaction existante, il vous faudra cliquer sur le bouton "répondre". Les
+          réponses imbriquées permettent de suivre le fil de la disscusion, et l'évolution du débat.
+        </p>
+
+        <p>
+          Personne n'étant à l'abri d'une erreur, vous pouvez à tout moment modifier le texte d'une réaction. Attention
+          cependant à ne pas changer le sens du message, sinon les réactions en réponse à votre message ne seront
+          potentiellement plus en harmonie avec le nouveau sens de votre message. Après qu'une réaction est publiée,
+          il n'est pas possible de l'effacer. Vous avez partagé votre point de vue à un temps, si votre pensée évolue
+          ultérieurement, vous êtes invité(e) à rédiger un nouvau message faisant part de vos nouvelle découvertes...
+        </p>
 
         <ClearFix />
 
