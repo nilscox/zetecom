@@ -11,8 +11,8 @@ git:
 
 env:
   global:
-    - NODE_ENV=production
-    - BUILD_ID_FILE=frontend/public/travis-build-id
+    - NODE_ENV="production"
+    - BUILD_ID_FILE="$TRAVIS_BUILD_DIR/frontend/public/travis-build-id"
 
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_ad988ee53a3a_key -iv $encrypted_ad988ee53a3a_iv -in $TRAVIS_BUILD_DIR/scripts/deploy-travis.enc -out /tmp/deploy-travis -d
@@ -49,7 +49,7 @@ jobs:
       script:
         - yarn clean
         - yarn build
-        - echo $TRAVIS_BUILD_ID > $BUILD_ID_FILE
+        - echo "$TRAVIS_BUILD_ID" > "$BUILD_ID_FILE"
     - name: "build extension"
       before_install: cd chrome-extension
       script: yarn build
