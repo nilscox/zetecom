@@ -211,8 +211,6 @@ const Home: React.FC = () => {
 
       </Section>
 
-      <Note>Work in progress...</Note>
-
     </div>
   );
 };
