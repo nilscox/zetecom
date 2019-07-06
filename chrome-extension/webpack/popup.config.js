@@ -2,7 +2,8 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const Dotenv = require('dotenv-webpack');
+
+require('dotenv').config();
 
 const EXTENSION = path.resolve(__dirname, '..', 'extension');
 
@@ -18,8 +19,9 @@ module.exports = {
   },
 
   plugins: [
-    new Dotenv({
-      safe: true,
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production',
+      BASE_URL: 'http://localhost:8000',
     }),
   ],
 

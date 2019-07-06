@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
-    "dotenv-webpack": "^1.7.0",
+    "dotenv": "^8.0.0",
     "watch": "^1.0.2",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.2"

@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const Dotenv = require('dotenv-webpack');
 
 require('dotenv').config();
 
@@ -38,8 +37,12 @@ module.exports = {
   },
 
   plugins: [
-    new Dotenv({
-      safe: true,
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+      API_URL: 'http://localhost:3000',
+      BASE_URL: 'http://localhost:8000',
+      CHROME_EXTENSION_ID: null,
+      GITHUB_REPO_URL: null,
     }),
   ],
 

@@ -3,7 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const Dotenv = require('dotenv-webpack');
+
+require('dotenv').config();
 
 const EXTENSION_PATH = path.resolve(__dirname, '..', 'extension');
 const INTEGRATIONS_PATH = path.resolve(__dirname, '..', 'src', 'integrations');
@@ -29,8 +30,9 @@ module.exports = {
   },
 
   plugins: [
-    new Dotenv({
-      safe: true,
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production',
+      BASE_URL: 'http://localhost:8000',
     }),
   ],
 
