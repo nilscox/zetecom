@@ -1,8 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
-const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || '8000';
+require('dotenv').config();
+
+const HOST = process.env.WEBPACK_DEV_SERVER_HOST || 'localhost';
+const PORT = process.env.WEBPACK_DEV_SERVER_PORT || '8000';
+const HTTPS = process.env.WEBPACK_DEV_SERVER_HTTPS === 'true';
 
 module.exports = {
 
@@ -34,19 +38,15 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-      API_URL: 'http://localhost:3000',
-      BASE_URL: 'http://localhost:8000',
-      CHROME_EXTENSION_ID: null,
-      GITHUB_REPO_URL: null,
+    new Dotenv({
+      safe: true,
     }),
   ],
 
   devServer: {
     host: HOST,
     port: PORT,
-    https: false,
+    https: HTTPS,
     publicPath: '/assets/js/',
     contentBase: path.resolve(__dirname, 'public'),
     disableHostCheck: true,
