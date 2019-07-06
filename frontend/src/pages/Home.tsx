@@ -152,33 +152,33 @@ const Home: React.FC = () => {
         <FloatingImage src="/assets/images/quick-reactions.png" float="left" width={275} />
 
         <p>
-          Certaines réactions vont apporter des précisions, vous faire réfléchir, peut-être même vous faire
-          changer d'avis ! Si beaucoup d'utilisateurs trouvent une même réaction pertinente, il semble naturel de
-          la mettre en avant. Pour cela, vous pouvez annoter une réaction existante d'un "J'aprouve", "Je réfute" ou
-          bien "Je suis septique...", pour donner votre avis, entièrement subjectif. Un algorithme (pas celui de
-            YouTube) va comptabiliser le nombre total d'anotations pour vous présenter les réactions les plus annotées
-          lorsque vous choisissez de le tri par pertinence.
+          Certaines réactions vont apporter des précisions, vous faire réfléchir, peut-être même vous faire changer
+          d'avis ! Si beaucoup d'utilisateurs trouvent une même réaction pertinente, il semble naturel de la mettre en
+          avant. Pour cela, vous pouvez annoter une réaction existante d'un "J'aprouve", "Je réfute" ou bien "Je suis
+          septique...", pour donner votre avis, entièrement subjectif. Un algorithme va comptabiliser le nombre total
+          d'anotations pour vous présenter les réactions les plus annotées lorsque vous choisissez de le tri par
+          pertinence.
         </p>
 
         <Note>
-          Node : réfuter une réaction ne va pas la faire baisser dans le classement. L'algorithme prend en compte
+          Note : réfuter une réaction ne va pas la faire baisser dans le classement. L'algorithme prend en compte
           que vous y avez accordé de l'importance, même si vous n'êtes pas d'accord avec le message.
         </Note>
 
         <p>
-          Et bien sur, si vous avez quelque chose à partager avec la communauté, vous pouvez rédiger une
-          nouvelle réaction. Si le sujet de votre message porte sur l'information présente dans la vidéo YouTube,
-          ajoutez le en racine, via le formulaire présent en haut, avant les réactions. Si en revanche vous souhaitez
-          apporter votre avis par rapport à une réaction existante, il vous faudra cliquer sur le bouton "répondre". Les
-          réponses imbriquées permettent de suivre le fil de la discusion, et l'évolution du débat.
+          Et bien sur, si vous avez quelque chose à partager avec la communauté, vous pouvez rédiger une nouvelle
+          réaction. Si le sujet de votre message porte sur l'information présente dans la vidéo YouTube, ajoutez le via
+          le formulaire présent tout en haut, avant les réactions. Si en revanche vous souhaitez apporter quelque chose
+          par rapport à une réaction existante, utilisez le bouton "répondre". Les réponses imbriquées permettent de
+          suivre le fil de la discusion et l'évolution du débat.
         </p>
 
         <p>
-          Personne n'étant à l'abri d'une erreur, vous pouvez à tout moment modifier le texte d'une réaction. Attention
-          cependant à ne pas changer le sens du message, sinon les réactions en réponse à votre message ne seront
-          potentiellement plus en harmonie avec le nouveau sens de votre message. Après qu'une réaction est publiée,
-          il n'est pas possible de l'effacer. Vous avez partagé votre point de vue à un temps, si votre pensée évolue
-          ultérieurement, vous êtes invité(e) à rédiger un nouvau message faisant part de vos nouvelle découvertes...
+          Personne n'est à l'abri d'une erreur ! Vous pouvez, à tout moment, modifier le texte d'une réaction dont vous
+          êtes l'auteur, pour en modifier la formulation. Attention cependant garder le sens original du message, de
+          manière à ce que la discusion reste cohérante. Après qu'une réaction est publiée, il n'est pas possible de
+          l'effacer. Vous avez partagé votre point de vue à un moment donné, mais si votre pensée évolue ultérieurement,
+          vous êtes invité(e) à rédiger un nouvau message faisant part de vos découvertes...
         </p>
 
         <ClearFix />
