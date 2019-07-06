@@ -1,3 +1,9 @@
 node_modules
-extension
+
+.env
+
+extension/popup/popup.js
+extension/integrations
+extension/background_script.js
+
 *.zip

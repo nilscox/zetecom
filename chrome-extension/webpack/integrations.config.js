@@ -3,9 +3,10 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
-const EXTENSION_PATH = path.resolve(__dirname, 'extension');
-const INTEGRATIONS_PATH = path.resolve(__dirname, 'integrations');
+const EXTENSION_PATH = path.resolve(__dirname, '..', 'extension');
+const INTEGRATIONS_PATH = path.resolve(__dirname, '..', 'src', 'integrations');
 
 const loadEntries = () => {
   return fs.readdirSync(INTEGRATIONS_PATH)
@@ -28,9 +29,8 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-      BASE_URL: 'http://localhost:8000',
+    new Dotenv({
+      safe: true,
     }),
   ],
 

@@ -23,7 +23,7 @@
   },
   "background": {
     "persistent": false,
-    "scripts": ["assets/js/background_script.js"]
+    "scripts": ["background_script.js"]
   },
   "content_scripts": [
     {

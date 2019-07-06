@@ -2,21 +2,22 @@
   "name": "cdv-chrome-extension",
   "version": "0.1.0",
   "scripts": {
-    "start": "concurrently \"yarn build:popup:watch\" \"yarn build:integrations:watch\" \"yarn build:copy-assets:watch\"",
-    "clean": "rm -rf extension cdv-chrome-extension.zip",
-    "build": "yarn clean && yarn build:popup && yarn build:integrations && yarn build:copy-assets",
-    "build:copy-assets": "cp -r manifest.json assets extension",
-    "build:copy-assets:watch": "watch \"yarn build:copy-assets\" assets",
-    "build:popup": "webpack",
+    "start": "concurrently \"yarn build:popup:watch\" \"yarn build:integrations:watch\" \"yarn build:bg-script:watch\"",
+    "clean": "rm -rf extension/integrations extension/popup/popup.js extension/background_script.js",
+    "build": "yarn build:popup && yarn build:integrations && yarn build:bg-script",
+    "build:popup": "webpack --config webpack/popup.config",
     "build:popup:watch": "yarn build:popup --watch",
-    "build:integrations": "webpack --config webpack.integrations.config",
-    "build:integrations:watch": "yarn build:integrations --watch"
+    "build:integrations": "webpack --config webpack/integrations.config",
+    "build:integrations:watch": "yarn build:integrations --watch",
+    "build:bg-script": "cp src/background_script.js extension",
+    "build:bg-script:watch": "watch \"yarn build:bg-script\" src"
   },
   "dependencies": {
     "iframe-resizer": "^4.1.1"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
+    "dotenv-webpack": "^1.7.0",
     "watch": "^1.0.2",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.2"
