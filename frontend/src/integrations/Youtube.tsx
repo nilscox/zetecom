@@ -58,6 +58,15 @@ type YoutubeProps = {
 const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
   const { fetchingInformation, information } = useInformation(youtubeId);
 
+  useEffect(() => {
+    if (information) {
+      window.parent.postMessage(
+        { type: 'INTEGRATION_LOADED' },
+        'https://www.youtube.com',
+      );
+    }
+  }, [information]);
+
   if (fetchingInformation)
     return <Loader size="big" />;
 

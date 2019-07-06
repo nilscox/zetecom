@@ -1,6 +1,13 @@
 const BASE_URL = process.env.BASE_URL;
 const YOUTUBE_REGEX = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
 
+window.addEventListener('message', (evt) => {
+  const { data } = evt;
+
+  if (data.type === 'INTEGRATION_LOADED')
+    chrome.runtime.sendMessage({ type: 'SET_EXTENSION_ACTIVE', url: window.location.url });
+});
+
 function selectComments(selected, other) {
   selected.style['background'] = '#eee';
   selected.style['font-weight'] = 'bold';

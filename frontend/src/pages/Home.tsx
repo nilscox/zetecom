@@ -112,7 +112,7 @@ const Home: React.FC = () => {
           un ensemble de règles, inspirées de principes septiques, qui donnent un cadre clair aux réflexions pouvant
           émerger en réaction aux informations sur internet. Les "réactions" (les commentaires sur CDV) peuvent être
           rédigées en réponse à d'autres, les plus impactantes étant mises en avant. Un peu comme sur reddit pour les
-          connaisseurs. Prêt(e) à tenter l'exprérience ? Jetez un oeil à <Link to="/charte">la charte</Link> ;)
+          connaisseurs. Prêt(e) à tenter l'exprérience ? Jetez un œil à <Link to="/charte">la charte</Link> ;)
         </p>
 
         <ClearFix />
@@ -123,10 +123,12 @@ const Home: React.FC = () => {
 
         <SubTitle>Extension chrome</SubTitle>
 
+        <FloatingImage width={96} float="right" src="/assets/images/extension-active.png" />
+
         <p>
           Le principe est simple : l'extension chrome permet d'intégrer une zone de commentaires propre à CDV
           directement à l'intérieur d'une page web sur internet. Si une page que vous visitez se retrouve modifiée pour
-          ajouter un espace d'échange venant de CDV, l'icone de l'extension vous l'indique. *screenshot*
+          ajouter un espace d'échange venant de CDV, l'icone de l'extension vous l'indique.
         </p>
 
         <p>

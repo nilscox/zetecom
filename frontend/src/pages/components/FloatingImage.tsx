@@ -9,17 +9,19 @@ type FlotingImageProps = {
 };
 
 const FlotingImage: React.FC<FlotingImageProps> = ({ src, float, width }) => (
-  <div style={{
-    float,
-    border: '1px solid #CCC',
-    marginBottom: 10,
-    ...{
-      left: { marginRight: 20 },
-      right: { marginLeft: 20 },
-    }[float],
-  }}>
-    <img src={src} style={{ width }} />
-  </div>
+  <img
+    style={{
+      width,
+      float,
+      border: '1px solid #CCC',
+      marginBottom: 10,
+      ...{
+        left: { marginRight: 20 },
+        right: { marginLeft: 20 },
+      }[float],
+    }}
+    src={src}
+  />
 );
 
 export default FlotingImage;

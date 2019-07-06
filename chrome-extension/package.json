@@ -2,10 +2,11 @@
   "name": "cdv-chrome-extension",
   "version": "0.1.0",
   "scripts": {
-    "start": "concurrently \"yarn build:popup:watch\" \"yarn build:integrations:watch\"",
+    "start": "concurrently \"yarn build:popup:watch\" \"yarn build:integrations:watch\" \"yarn build:copy-assets:watch\"",
     "clean": "rm -rf extension cdv-chrome-extension.zip",
     "build": "yarn clean && yarn build:popup && yarn build:integrations && yarn build:copy-assets",
-    "build:copy-assets": "cp -r assets icons manifest.json popup.html extension",
+    "build:copy-assets": "cp -r manifest.json assets popup.html extension",
+    "build:copy-assets:watch": "watch \"yarn build:copy-assets\" manifest.json assets popup.html",
     "build:popup": "webpack",
     "build:popup:watch": "yarn build:popup --watch",
     "build:integrations": "webpack --config webpack.integrations.config",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
+    "watch": "^1.0.2",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.2"
   }
