@@ -14,6 +14,4 @@ declare global {
   }
 }
 
-Object.assign(env, window.env || {});
-
 export default env;

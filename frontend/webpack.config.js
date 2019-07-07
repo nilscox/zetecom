@@ -3,15 +3,16 @@ const webpack = require('webpack');
 
 require('dotenv').config();
 
+const NODE_ENV = process.env.NODE_ENV || 'development';
 const HOST = process.env.WEBPACK_DEV_SERVER_HOST || 'localhost';
 const PORT = process.env.WEBPACK_DEV_SERVER_PORT || '8000';
 const HTTPS = process.env.WEBPACK_DEV_SERVER_HTTPS === 'true';
 
 module.exports = {
 
-  mode: 'development',
+  mode: NODE_ENV,
   entry: './src/index.tsx',
-  devtool: 'inline-source-map',
+  devtool: NODE_ENV === 'development' ? 'inline-source-map' : false,
 
   module: {
     rules: [

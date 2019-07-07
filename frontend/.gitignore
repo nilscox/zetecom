@@ -1,5 +1,6 @@
 node_modules
 .env
-public/assets/js/env.js
+.env.*
+!.env.example
 public/assets/js/bundle.js
 public/assets/images/avatars

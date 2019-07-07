@@ -18,10 +18,8 @@ before_deploy:
   - echo "$DEPLOY_KNOWN_HOSTS" >> $HOME/.ssh/known_hosts
 
 stages:
-  - build
   - test
-  # - name: deploy
-  #   if: ((branch = master) OR (branch = dev)) AND (NOT (type = pull_request))
+  - build
 
 install: yarn --production false
 
@@ -42,52 +40,19 @@ jobs:
     - stage: build
       name: "build frontend"
       before_install: cd frontend
-      script:
-        - yarn clean
-        - yarn build
-      # before_deploy:
-      #   - cd public
-      #   - zip -r $TRAVIS_BUILD_DIR/$TRAVIS_TAG.zip .
-        # - git config --local user.name "cdv"
-        # - git config --local user.email "dev@cdv.nils.cx"
-        # - export TRAVIS_TAG="release-${TRAVIS_COMMIT:0:7}"
-        # - git tag "$TRAVIS_TAG"
-      # deploy:
-      #   provider: releases
-      #   api_key:
-      #     secure: Wl/f4YxY6G/+zMW9fZNGm2ZpANwF+UgvRNR3V7wWyrNJ00MkhJyD9rOblkBvZH1WNtRZGkKoGX/1kzP6UB7tEW8RmT9Si3927MV6YSyigFpJaTOrf1SnlLWCKI3XRPfWRWg76Oj+hcAQ8dQ5Ml5uZwcBKtePIZ78roe8+/sIuSxaccS+x47b6sT8JcUmUO53cq04O1O7gM8AXTDxLeaSjXUb97MaENoIoaEizq2ZhcnSsyJaM9yvy/V5KY6pzTDt4Rngtjr22iYN7pPKm8AgYvCg/EE7vhpcYUCm5sM7UkkoNCb1V8uOmDv3Zu35hnRVHkDc+jTy/3p3ml3MyYEO/9bk/8MLtuaSWMXCBteZhUzmF5esvYLlvqADRBzllH0Qxed894nRDEfpbPkDocYRCV4Xe8PuYVBNnZAG2yopZA9Hv4/VUuMFxyDADNAma+EcgM8iBMR20+m7v+QPgk97AgnkKDqHe1gRo67OhIILygUVIvO62ua6to4eMIbla/RXX+Z4Ye5iMybLO+jnNwwAZokHWPDW4+Fg2K/BvukVrW1n0cp/1m0TgSxrQOXd7U5iUL0qn0CxeULvvkszpGt+NfDEBbnspYkgFgLak8KUakjngr1ftO+PTGv2jdBmgQAVpPF/a8MO91UM/ieQVnUds6IK9UT6DBXOOVSO0/sv5Dg=
-      #   file: $TRAVIS_BUILD_DIR/$TRAVIS_TAG.zip
-      #   on:
-      #     branch: master
-      #   skip_cleanup: true
-      #   overwrite: true
-      # deploy:
-      #   provider: releases
-      #   api_key:
-      #     secure: Wl/f4YxY6G/+zMW9fZNGm2ZpANwF+UgvRNR3V7wWyrNJ00MkhJyD9rOblkBvZH1WNtRZGkKoGX/1kzP6UB7tEW8RmT9Si3927MV6YSyigFpJaTOrf1SnlLWCKI3XRPfWRWg76Oj+hcAQ8dQ5Ml5uZwcBKtePIZ78roe8+/sIuSxaccS+x47b6sT8JcUmUO53cq04O1O7gM8AXTDxLeaSjXUb97MaENoIoaEizq2ZhcnSsyJaM9yvy/V5KY6pzTDt4Rngtjr22iYN7pPKm8AgYvCg/EE7vhpcYUCm5sM7UkkoNCb1V8uOmDv3Zu35hnRVHkDc+jTy/3p3ml3MyYEO/9bk/8MLtuaSWMXCBteZhUzmF5esvYLlvqADRBzllH0Qxed894nRDEfpbPkDocYRCV4Xe8PuYVBNnZAG2yopZA9Hv4/VUuMFxyDADNAma+EcgM8iBMR20+m7v+QPgk97AgnkKDqHe1gRo67OhIILygUVIvO62ua6to4eMIbla/RXX+Z4Ye5iMybLO+jnNwwAZokHWPDW4+Fg2K/BvukVrW1n0cp/1m0TgSxrQOXd7U5iUL0qn0CxeULvvkszpGt+NfDEBbnspYkgFgLak8KUakjngr1ftO+PTGv2jdBmgQAVpPF/a8MO91UM/ieQVnUds6IK9UT6DBXOOVSO0/sv5Dg=
-      #   file: $TRAVIS_BUILD_DIR/$TRAVIS_TAG.zip
-      #   on:
-      #     branch: dev
-      #   skip_cleanup: true
-      #   overwrite: true
-      #   prerelease: true
+      before_script: source $TRAVIS_BUILD_DIR/scripts/setup-env.sh
+      script: yarn build
+      deploy:
+        - provider: script
+          script: $TRAVIS_BUILD_DIR/scripts/deploy-frontend.sh "$DEPLOY_USER_PRODUCTION@$DEPLOY_HOSTNAME" public
+          on:
+            branch: master
+          skip_cleanup: true
+        - provider: script
+          script: $TRAVIS_BUILD_DIR/scripts/deploy-frontend.sh "$DEPLOY_USER_STAGING@$DEPLOY_HOSTNAME" public
+          on:
+            branch: dev
+          skip_cleanup: true
     - name: "build extension"
       before_install: cd chrome-extension
       script: yarn build
-
-    - stage: deploy
-      name: "deploy frontend"
-      install: skip
-      script: skip
-      deploy:
-        - provider: script
-          skip_cleanup: true
-          script: scripts/deploy-frontend.sh ~/frontend staging
-          on:
-            branch: dev
-
-        - provider: script
-          skip_cleanup: true
-          script: scripts/deploy-frontend.sh ~/frontend production
-          on:
-            branch: master

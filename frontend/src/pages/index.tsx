@@ -39,7 +39,7 @@ const Divider: React.FC = () => (
 );
 
 const Pages: React.FC = () => (
-  <div className="page" style={{ margin: '50px auto' }}>
+  <div className="page" style={{ margin: '50px auto', padding: '0 20px' }}>
 
     <Header />
 
