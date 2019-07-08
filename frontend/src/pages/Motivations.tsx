@@ -55,7 +55,8 @@ const Motivations: React.FC = () => {
       <p>
         <em>
           Cette page décrit plus en détail les raisons pour lesquelles CDV a vu le jour, et les problématiques
-          auxquelles cette platforme tente d'apporter des solutions. Mais... elle est en cours de rédaction ! Revenez vite :)
+          auxquelles cette platforme tente d'apporter des solutions. Mais... elle est en cours de rédaction ! Revenez
+          vite :)
         </em>
       </p>
 
