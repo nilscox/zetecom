@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import env from '../utils/env';
 
 import SubTitle from './components/SubTitle';
+import EmailValidatedAlert from './components/EmailValidatedAlert';
 import Outline from './components/Outline';
 import Section from './components/Section';
 import Note from './components/Note';
@@ -59,6 +60,8 @@ const Home: React.FC = () => {
       id="Home"
       className="page"
     >
+
+      <EmailValidatedAlert />
 
       <Outline>
         <Link to="/"><em>Chercheurs de vérité</em></Link> est une plateforme <strong>libre</strong> de réaction à
