@@ -15,22 +15,29 @@ const Header: React.FC = () => (
   </div>
 );
 
-const NavLink: React.FC<NavLinkProps> = (props) => (
+const NavLink: React.FC<NavLinkProps & { disabled?: boolean }> = ({ disabled, ...props }) => (
   <li
     style={{
       textAlign: 'right',
       fontSize: '1.4rem',
-      color: '#666',
+      color: disabled ? '#999' : '#666',
       marginBottom: 16,
       textTransform: 'uppercase',
+      ...props.style,
     }}
   >
-    <ReactRouterNavLink
-      exact
-      style={{ textDecoration: 'none', color: 'inherit' }}
-      activeStyle={{ color: '#222', fontWeight: 'bold' }}
-      {...props}
-    />
+    { disabled ? (
+      <div>
+        {props.children}
+      </div>
+    ) : (
+      <ReactRouterNavLink
+        exact
+        style={{ textDecoration: 'none', color: 'inherit' }}
+        activeStyle={{ color: '#222', fontWeight: 'bold' }}
+        {...props}
+      />
+    ) }
   </li>
 );
 
@@ -50,7 +57,7 @@ const Pages: React.FC = () => (
           <NavLink to="/">Accueil</NavLink>
           <NavLink to="/charte">La charte</NavLink>
           <NavLink to="/motivations">Motivations</NavLink>
-          <NavLink to="/faq">FAQ</NavLink>
+          <NavLink to="/faq" disabled>FAQ</NavLink>
         </ul>
       </nav>
 

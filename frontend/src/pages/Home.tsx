@@ -51,15 +51,6 @@ Je suis septique : je trouve que cette réaction est pertinente
   j'ai besoin de m'informer plus sur le sujet pour me faire une opinion
   elle évoque une problématique qui vaut la peine d'être discutée plus en profondeur
 
---
-
-L'homme de paille
-L'homme de fer
-L'effet puits
-L'effet forer
-
-Biais de confirmation
-
 */
 
 const Home: React.FC = () => {
