@@ -66,11 +66,11 @@ const Home: React.FC = () => {
       <Outline>
         <Link to="/"><em>Chercheurs de vérité</em></Link> est une plateforme <strong>libre</strong> de réaction à
         l'information, dont le but est de proposer un <strong>espace d'échange collaboratif</strong> et bienveillant,
-        mais réglementé, visant à faire <strong>avancer la connaissance</strong> via le partage des points de vus de
+        mais réglementé, visant à faire <strong>avancer la connaissance</strong> via le partage des points de vue de
         chaque utilisateur.<br />
         Ici, chacun est libre d'exposer une idée, d'apporter une source, de donner son opinion ou bien de poser des
         questions, du moment que son message apporte quelque chose au débat et qu'il respecte <Link to="/charte">la
-        charte</Link>. En combinant nos cerveaux intelligement, on finira peut-être bien par s'entendre...
+        charte</Link>. En combinant nos cerveaux intelligemment, on finira peut-être bien par s'entendre...
       </Outline>
 
       <Section>
@@ -83,7 +83,7 @@ const Home: React.FC = () => {
           possible de réagir qu'à certaines vidéos sur <a href="https://youtube.com">YouTube</a>, via une extension sur
           le navigateur <a href="https://google.com/chrome">Google Chrome</a>. Cette extension ajoute directement sous
           la vidéo, un bouton vous permettant de choisir d'afficher les commentaires YouTube originaux, ou bien les
-          commentaires de CDV à la place. Si le système fais ses preuves sur YouTube, alors il sera peut-être
+          commentaires de CDV à la place. Si le système fait ses preuves sur YouTube, alors il sera peut-être
           envisageable de le déployer à plus grande échelle....
         </p>
 
@@ -95,8 +95,8 @@ const Home: React.FC = () => {
           Sur internet, il règne une foultitude d'informations dont la qualité peut varier du tout au tout. Et
           particulièrement sur YouTube, on trouve aussi bien des reportages très qualitatif sur le monde, l'espace, les
           dernières découvertes scientifiques, que des vidéos relatant de fausses informations, ou incitant à croire à
-          des théories complotistes. Et innévitablement, l'espace d'échanges prévu pour discuter sous la vidéo se
-          retrouve facilement innondé de commentaires dont le but n'est pas de donner son opinion sur le sujet, et des
+          des théories complotistes. Et inévitablement, l'espace d'échanges prévu pour discuter sous la vidéo se
+          retrouve facilement inondé de commentaires dont le but n'est pas de donner son opinion sur le sujet, et des
           réflexions tout à fait pertinentes se retrouvent noyées. Et c'est normal&nbsp;! La zone de commentaire YouTube
           n'est pas vraiment prévue pour ça.
         </p>
@@ -106,7 +106,7 @@ const Home: React.FC = () => {
           un ensemble de règles, inspirées de principes septiques, qui donnent un cadre clair aux réflexions pouvant
           émerger en réaction aux informations sur internet. Les "réactions" (les commentaires sur CDV) peuvent être
           rédigées en réponse à d'autres, les plus impactantes étant mises en avant. Un peu comme sur reddit pour les
-          connaisseurs. Prêt(e) à tenter l'exprérience ? Jetez un œil à <Link to="/charte">la charte</Link> ;)
+          connaisseurs. Prêt(e) à tenter l'expérience ? Jetez un œil à <Link to="/charte">la charte</Link> ;)
         </p>
 
         <ClearFix />
@@ -122,7 +122,7 @@ const Home: React.FC = () => {
         <p>
           Le principe est simple : l'extension chrome permet d'intégrer une zone de commentaires propre à CDV
           directement à l'intérieur d'une page web sur internet. Si une page que vous visitez se retrouve modifiée pour
-          ajouter un espace d'échange venant de CDV, l'icone de l'extension vous l'indique.
+          ajouter un espace d'échange venant de CDV, l'icône de l'extension vous l'indique.
         </p>
 
         <p>
@@ -135,11 +135,11 @@ const Home: React.FC = () => {
         <SubTitle>Intéragir avec la communauté</SubTitle>
 
         <p>
-          Deux types d'actions sont possible pour participer aux échanges sur CDV :
+          Deux types d'actions sont possibles pour participer aux échanges sur CDV :
         </p>
 
         <ul>
-          <li>Aprouver ou réfuter une réaction existante</li>
+          <li>Approuver ou réfuter une réaction existante</li>
           <li>Rédiger une nouvelle réaction</li>
         </ul>
 
@@ -148,9 +148,9 @@ const Home: React.FC = () => {
         <p>
           Certaines réactions vont apporter des précisions, vous faire réfléchir, peut-être même vous faire changer
           d'avis ! Si beaucoup d'utilisateurs trouvent une même réaction pertinente, il semble naturel de la mettre en
-          avant. Pour cela, vous pouvez annoter une réaction existante d'un "J'aprouve", "Je réfute" ou bien "Je suis
-          septique...", pour donner votre avis, entièrement subjectif. Un algorithme va comptabiliser le nombre total
-          d'anotations pour vous présenter les réactions les plus annotées lorsque vous choisissez de le tri par
+          avant. Pour cela, vous pouvez annoter une réaction existante d'un "J'approuve", "Je réfute" ou bien "Je suis
+          sceptique...", pour donner votre avis, entièrement subjectif. Un algorithme va comptabiliser le nombre total
+          d'annotations pour vous présenter les réactions les plus annotées lorsque vous choisissez de le tri par
           pertinence.
         </p>
 
@@ -164,15 +164,15 @@ const Home: React.FC = () => {
           réaction. Si le sujet de votre message porte sur l'information présente dans la vidéo YouTube, ajoutez le via
           le formulaire présent tout en haut, avant les réactions. Si en revanche vous souhaitez apporter quelque chose
           par rapport à une réaction existante, utilisez le bouton "répondre". Les réponses imbriquées permettent de
-          suivre le fil de la discusion et l'évolution du débat.
+          suivre le fil de la discussion et l'évolution du débat.
         </p>
 
         <p>
           Personne n'est à l'abri d'une erreur ! Vous pouvez, à tout moment, modifier le texte d'une réaction dont vous
           êtes l'auteur, pour en modifier la formulation. Attention cependant garder le sens original du message, de
-          manière à ce que la discusion reste cohérante. Après qu'une réaction est publiée, il n'est pas possible de
+          manière à ce que l'échange reste cohérant. Après qu'une réaction est publiée, il n'est pas possible de
           l'effacer. Vous avez partagé votre point de vue à un moment donné, mais si votre pensée évolue ultérieurement,
-          vous êtes invité(e) à rédiger un nouvau message faisant part de vos découvertes...
+          vous êtes invité(e) à rédiger un nouveau message faisant part de vos découvertes...
         </p>
 
         <ClearFix />
@@ -185,15 +185,15 @@ const Home: React.FC = () => {
           CDV est pensé dans un but collaboratif au niveau du contenu rédigé par les utilisateurs, mais aussi au niveau
           de son fonctionnement. Dans un but d'amélioration progressive des idées, de la charte, et de l'état d'esprit
           du projet en général, les membres de CDV sont invité à <a href="mailto:cdv@nils.cx">en discuter</a> avec
-          l'équipe qui développe la plateforme. Et s'il y a des amis développeurs parmis vous, toutes les sources du
+          l'équipe qui développe la plateforme. Et s'il y a des amis développeurs parmi vous, toutes les sources du
           projet sont accessibles sur <a href={env.GITHUB_REPO_URL}>github</a>. Issues and pull requests are very
           welcome :)
         </p>
 
         <p>
-          La boite à sugestions est ouverte ! Pour l'instant, il est par exemple envisagé d'intégrer CDV sur d'autres
+          La boîte à suggestions est ouverte ! Pour l'instant, il est par exemple envisagé d'intégrer CDV sur d'autres
           sites d'informations, de mettre en place une interface de modération par la communauté, d'améliorer
-          l'alorithme de référencement... Bientôt, vous pourrez vous aussi proposer des idée d'améliorations ansi que
+          l'algorithme de référencement... Bientôt, vous pourrez vous aussi proposer des idées d'améliorations ainsi que
           remonter d'éventuels bugs.
         </p>
 
