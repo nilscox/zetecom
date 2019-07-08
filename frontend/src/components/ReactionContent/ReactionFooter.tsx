@@ -20,8 +20,15 @@ const quickReactions = [
 ];
 
 const useQuickReactions = (reaction: Reaction) => {
+  const qrc: any = {};
+
+  for (const k in reaction.quickReactionsCount) {
+    // FIXME
+    qrc[k.toLowerCase()] = (reaction.quickReactionsCount as any)[k];
+  }
+
   const [userQuickReaction, setUserQuickReaction] = useState(reaction.userQuickReaction);
-  const [quickReactionsCount, setQuickReactionsCount] = useState(reaction.quickReactionsCount);
+  const [quickReactionsCount, setQuickReactionsCount] = useState(qrc);
 
   const onUserQuickReaction = (type: QuickReactionType) => {
     // newQuickReactionsCount

@@ -122,20 +122,20 @@ const Home: React.FC = () => {
         <p>
           Le principe est simple : l'extension chrome permet d'intégrer une zone de commentaires propre à CDV
           directement à l'intérieur d'une page web sur internet. Si une page que vous visitez se retrouve modifiée pour
-          ajouter un espace d'échange venant de CDV, l'icône de l'extension vous l'indique.
+          ajouter un espace d'échange venant d'ici, l'icône de l'extension vous l'indique.
         </p>
 
         <p>
-          Cette zone de réactions est uniquement alimenté par la communauté de CDV, et respecte donc la charte. Ce qui
-          laisse la place aux échanges d'idées dans un cadre collaboratif, bienveillant et respectueux, mais se passera
-          des affirmations sans preuves, des blagues et autres trolls. Pour participer aux conversations, il vous est
+          Cette zone de réactions est uniquement alimenté par la communauté, et respecte donc la charte. Ce qui laisse
+          la place aux échanges d'idées dans un cadre collaboratif, bienveillant et respectueux, mais se passera des
+          affirmations sans preuves, des blagues et autres trolls. Pour participer aux conversations, il vous est
           possible de créer un compte en cliquant sur l'icône de l'extension, en haut à droite de votre navigateur.
         </p>
 
         <SubTitle>Intéragir avec la communauté</SubTitle>
 
         <p>
-          Deux types d'actions sont possibles pour participer aux échanges sur CDV :
+          Deux types d'actions sont possibles pour participer aux échanges :
         </p>
 
         <ul>
@@ -143,14 +143,14 @@ const Home: React.FC = () => {
           <li>Rédiger une nouvelle réaction</li>
         </ul>
 
-        <FloatingImage src="/assets/images/quick-reactions.png" float="left" width={275} />
+        <FloatingImage src="/assets/images/quick-reactions.png" float="left" width={332} />
 
         <p>
           Certaines réactions vont apporter des précisions, vous faire réfléchir, peut-être même vous faire changer
           d'avis ! Si beaucoup d'utilisateurs trouvent une même réaction pertinente, il semble naturel de la mettre en
-          avant. Pour cela, vous pouvez annoter une réaction existante d'un "J'approuve", "Je réfute" ou bien "Je suis
-          sceptique...", pour donner votre avis, entièrement subjectif. Un algorithme va comptabiliser le nombre total
-          d'annotations pour vous présenter les réactions les plus annotées lorsque vous choisissez de le tri par
+          avant. Vous pouvez ainsi annoter une réaction existante d'un "J'approuve" 👍, "Je réfute" 👎, ou bien "Je suis
+          sceptique..." 🧐, pour donner votre avis, entièrement subjectif. Un algorithme va comptabiliser le nombre total
+          d'annotations pour vous présenter les réactions les plus impactantes lorsque vous choisissez de le tri par
           pertinence.
         </p>
 
@@ -184,7 +184,7 @@ const Home: React.FC = () => {
         <p>
           CDV est pensé dans un but collaboratif au niveau du contenu rédigé par les utilisateurs, mais aussi au niveau
           de son fonctionnement. Dans un but d'amélioration progressive des idées, de la charte, et de l'état d'esprit
-          du projet en général, les membres de CDV sont invité à <a href="mailto:cdv@nils.cx">en discuter</a> avec
+          du projet en général, les intéressés sont invité à <a href="mailto:cdv@nils.cx">en discuter</a> avec
           l'équipe qui développe la plateforme. Et s'il y a des amis développeurs parmi vous, toutes les sources du
           projet sont accessibles sur <a href={env.GITHUB_REPO_URL}>github</a>. Issues and pull requests are very
           welcome :)
