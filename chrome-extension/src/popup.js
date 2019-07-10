@@ -1,4 +1,3 @@
-chrome.browserAction.setBadgeText({ text: '' });
 window.addEventListener('DOMContentLoaded', () => {
   const iframe = document.getElementById('popup-iframe');
 
