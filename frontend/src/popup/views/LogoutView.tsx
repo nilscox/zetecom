@@ -5,9 +5,8 @@ import moment from 'moment';
 import { logoutUser } from '../../api/user';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
-import UserAvatar from '../components/UserAvatar';
+import UserAvatar from '../../components/UserAvatar';
 import UserContext from '../../utils/UserContext';
-import env from '../../utils/env';
 
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(false);
@@ -46,7 +45,7 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
             borderBottom: '1px solid #CCC',
           }}
         >
-          <UserAvatar editable user={user} />
+          <UserAvatar user={user} />
           <Typography style={{ marginLeft: 10, fontWeight: 'bold' }}>{ user.nick }</Typography>
         </div>
 

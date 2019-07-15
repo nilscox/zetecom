@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Switch, Route, NavLink as ReactRouterNavLink, NavLinkProps } from 'react-router-dom';
+
+import UserContext from '../utils/UserContext';
+import UserAvatar from '../components/UserAvatar';
 
 import Home from './Home';
 import Rules from './Rules';
@@ -9,11 +12,31 @@ import NotFound from './NotFound';
 
 import './pages.css';
 
-const Header: React.FC = () => (
-  <div style={{ borderBottom: '1px solid #CCC', paddingBottom: 15 }}>
-    <h1 style={{ fontSize: '3rem', lineHeight: '3rem' }}>Chercheurs de vérité</h1>
-  </div>
-);
+const Header: React.FC = () => {
+  const { user } = useContext(UserContext);
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottom: '1px solid #CCC',
+        paddingBottom: 15,
+      }}
+    >
+      <h1 style={{ flex: 1, fontSize: '3rem', lineHeight: '3rem' }}>Chercheurs de vérité</h1>
+
+      { user && (
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <UserAvatar editable user={user} />
+          <div style={{ marginLeft: 10, fontWeight: 'bold' }}>{ user.nick }</div>
+        </div>
+      ) }
+
+    </div>
+  );
+};
 
 const NavLink: React.FC<NavLinkProps & { disabled?: boolean }> = ({ disabled, ...props }) => (
   <li

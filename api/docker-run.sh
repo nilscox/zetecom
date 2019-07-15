@@ -12,7 +12,7 @@ if [ -z "$DOCKER_AVATAR_VOLUME" ]; then err 'missing env DOCKER_AVATAR_VOLUME'; 
 
 DOCKER_ARGS='-dt'
 
-if [ "$DOCKER_INTERACTIVE" == 'true' ]; then DOCKER_ARGS='-it'; fi
+if [ -n "$DOCKER_INTERACTIVE" -a "$DOCKER_INTERACTIVE" == 'true' ]; then DOCKER_ARGS='-it'; fi
 
 docker run \
   "$DOCKER_ARGS" \

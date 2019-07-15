@@ -1,9 +1,8 @@
 import React, { useCallback, useContext } from 'react';
 
-import { User } from '../../types/User';
-import UserContext from '../../utils/UserContext';
-import env from '../../utils/env';
-import { setUserAvatar } from '../../api/user';
+import { User } from '../types/User';
+import UserContext from '../utils/UserContext';
+import { setUserAvatar } from '../api/user';
 
 type ImageUploadProps = {
   allowedTypes: string[];
@@ -46,11 +45,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ allowedTypes, onUpload, child
 };
 
 type UserAvatarProps = {
-  editable: boolean;
+  editable?: boolean;
   user: User;
 };
 
-const UserAvatar: React.FC<UserAvatarProps> = ({ editable, user }) => {
+const UserAvatar: React.FC<UserAvatarProps> = ({ editable = false, user }) => {
   const { user: currentUser, setUser } = useContext(UserContext);
 
   const avatarImg = (
