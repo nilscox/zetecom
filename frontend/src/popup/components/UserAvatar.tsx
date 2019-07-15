@@ -1,0 +1,83 @@
+import React, { useCallback, useContext } from 'react';
+
+import { User } from '../../types/User';
+import UserContext from '../../utils/UserContext';
+import env from '../../utils/env';
+import { setUserAvatar } from '../../api/user';
+
+type ImageUploadProps = {
+  allowedTypes: string[];
+  onUpload: (file: File) => any;
+  children: JSX.Element;
+};
+
+const ImageUpload: React.FC<ImageUploadProps> = ({ allowedTypes, onUpload, children }) => {
+  const fileInputRef = React.createRef<HTMLInputElement>();
+
+  const onFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (files.length === 0)
+      return;
+
+    if (!allowedTypes.includes(files[0].type.split('/')[1]))
+      return;
+
+    onUpload(files[0]);
+  }, [allowedTypes, onUpload]);
+
+  return (
+    <>
+      <input
+        ref={fileInputRef}
+        accept="image/*"
+        type="file"
+        style={{ display: 'none' }}
+        onChange={onFileChange}
+      />
+      <span
+        style={{ cursor: 'pointer' }}
+        onClick={() => fileInputRef.current.click()}
+      >
+        {children}
+      </span>
+    </>
+  );
+};
+
+type UserAvatarProps = {
+  editable: boolean;
+  user: User;
+};
+
+const UserAvatar: React.FC<UserAvatarProps> = ({ editable, user }) => {
+  const { user: currentUser, setUser } = useContext(UserContext);
+
+  const avatarImg = (
+    <img
+      style={{
+        width: 32,
+        height: 32,
+        borderRadius: 16,
+        border: '1px solid #CCC',
+      }}
+      src={user.getAvatarUrl()}
+    />
+  );
+
+  const onUpload = useCallback(async (file: File) => {
+    const updatedUser = await setUserAvatar(file);
+    setUser(updatedUser);
+  }, [setUser]);
+
+  if (!editable || !currentUser || user.id !== currentUser.id)
+    return avatarImg;
+
+  return (
+    <ImageUpload allowedTypes={['png', 'jpg', 'bmp', 'svg']} onUpload={onUpload}>
+      {avatarImg}
+    </ImageUpload>
+  );
+};
+
+export default UserAvatar;

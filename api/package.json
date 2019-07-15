@@ -10,7 +10,7 @@
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "NODE_ENV=development nodemon",
     "start:debug": "NODE_ENV=development nodemon --config nodemon-debug.json",
-    "start:prod": "typeorm migration:run && node dist/src/main.js",
+    "start:prod": "yarn typeorm migration:run && node dist/src/main.js",
     "lint": "tslint -p tsconfig.json -c tslint.json -e 'migrations/*'",
     "test": "jest",
     "test:watch": "jest --watch",

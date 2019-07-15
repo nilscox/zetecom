@@ -1,8 +1,25 @@
+#!/usr/bin/env sh
+
+err() {
+  echo "$@" >&2
+  exit 1
+}
+
+if [ -z "$DOCKER_CONTAINER_NAME" ]; then err 'missing env DOCKER_CONTAINER_NAME'; fi
+if [ -z "$DOCKER_NETWORK" ]; then err 'missing env DOCKER_NETWORK'; fi
+if [ -z "$DOCKER_LISTEN_PORT" ]; then err 'missing env DOCKER_LISTEN_PORT'; fi
+if [ -z "$DOCKER_AVATAR_VOLUME" ]; then err 'missing env DOCKER_AVATAR_VOLUME'; fi
+
+DOCKER_ARGS='-dt'
+
+if [ "$DOCKER_INTERACTIVE" == 'true' ]; then DOCKER_ARGS='-it'; fi
+
 docker run \
-  -it \
-  --name cdv \
-  --network cdv-network \
-  --publish 3000:80 \
+  "$DOCKER_ARGS" \
+  --name "$DOCKER_CONTAINER_NAME" \
+  --network "$DOCKER_NETWORK" \
+  --publish "$DOCKER_LISTEN_PORT":80 \
+  --volume "$DOCKER_AVATAR_VOLUME:/avatars" \
   --env NODE_ENV \
   --env LISTEN_IP \
   --env LISTEN_PORT \
@@ -21,5 +38,6 @@ docker run \
   --env EMAIL_TEMPLATE_DIR \
   --env EMAIL_EXCLUDE_REGEX \
   --env SESSION_SECRET \
+  --env USER_AVATAR_DESTINATION='/avatars' \
   cdv \
   "$@"

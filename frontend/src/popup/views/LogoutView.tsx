@@ -5,6 +5,7 @@ import moment from 'moment';
 import { logoutUser } from '../../api/user';
 import Typography from '../components/Typography';
 import Form from '../components/Form';
+import UserAvatar from '../components/UserAvatar';
 import UserContext from '../../utils/UserContext';
 import env from '../../utils/env';
 
@@ -45,14 +46,7 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
             borderBottom: '1px solid #CCC',
           }}
         >
-          <img
-            style={{ width: 32, height: 32, borderRadius: 16, border: '1px solid #CCC' }}
-            src={`${env.BASE_URL}/assets/images/` + (
-              user.avatar
-                ? `avatars/${user.avatar}`
-                : 'default-avatar.png'
-            )}
-          />
+          <UserAvatar editable user={user} />
           <Typography style={{ marginLeft: 10, fontWeight: 'bold' }}>{ user.nick }</Typography>
         </div>
 

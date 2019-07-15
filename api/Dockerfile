@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json /app
 COPY yarn.lock /app
 
-RUN yarn
+RUN yarn --production=false
 
 ADD . /app
 

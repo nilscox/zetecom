@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AvatarModule } from '../avatar/avatar.module';
 import { EmailModule } from '../email/email.module';
 
 import { UserService } from './user.service';
@@ -11,6 +12,7 @@ import { User } from './user.entity';
   imports: [
     TypeOrmModule.forFeature([User]),
     EmailModule,
+    AvatarModule,
   ],
   controllers: [
     UserController,

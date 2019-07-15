@@ -1,6 +1,7 @@
 node_modules
 
 .env
+.env.*
 
 extension/popup/popup.js
 extension/integrations

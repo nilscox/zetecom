@@ -8,10 +8,4 @@ const env = {
 
 export type EnvironmentVariable = keyof typeof env;
 
-declare global {
-  interface Window {
-    env: Partial<{ [key in EnvironmentVariable]: string | undefined }>;
-  }
-}
-
 export default env;

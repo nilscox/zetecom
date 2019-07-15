@@ -59,6 +59,18 @@ const logoutUser = async (): Promise<void> => {
   });
 };
 
+export const setUserAvatar = async (image: File): Promise<User> => {
+  const uploadData = new FormData();
+
+  uploadData.append('image', image);
+
+  const { data } = await axios.put('/api/user/avatar', uploadData, {
+    withCredentials: true,
+  });
+
+  return parseUser(data);
+};
+
 export {
   fetchUser,
   loginUser,
