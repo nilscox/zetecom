@@ -30,7 +30,7 @@ import { InformationService } from '../information/information.service';
 import { Reaction } from './reaction.entity';
 import { ReactionService } from './reaction.service';
 import { QuickReactionType } from './quick-reaction.entity';
-import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
+import { CreateReactionInDto, CreateMainReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { ReactionOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
@@ -72,12 +72,12 @@ export class ReactionController {
     @Query('sort', new ReactionSortTypePipe()) sort: ReactionSortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Reaction[]> {
-    const reaction = await this.reactionService.findOne({ id });
+    const replies = await this.reactionService.findReplies(id);
 
-    if (!reaction)
+    if (!replies)
       throw new NotFoundException();
 
-    return this.reactionService.find({ parent: reaction }, sort, page);
+    return replies;
   }
 
   @Post()
@@ -85,37 +85,22 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated)
   async create(
-    @Body() dto: CreateReactionInDto,
+    @Body() dto: CreateMainReactionInDto,
     @ReqUser() user: User,
   ): Promise<Reaction> {
-    const information = await this.informationService.findOne({ id: dto.informationId });
+    return this.reactionService.create(dto, user);
+  }
 
-    if (!information)
-      throw new NotFoundException();
-
-    let parent = null;
-
-    if (dto.parentId) {
-      parent = await this.reactionService.findOne({
-        id: dto.parentId,
-        information,
-      });
-
-      if (!parent)
-        throw new BadRequestException('parent not found for informationId');
-    }
-
-    const reaction = await this.reactionService.create(information, dto, user, parent);
-
-    reaction.repliesCount = 0;
-    reaction.quickReactionsCount = {
-      APPROVE: 0,
-      REFUTE: 0,
-      SKEPTIC: 0,
-    };
-    reaction.userQuickReaction = null;
-
-    return reaction;
+  @Post(':parentId')
+  @Output(ReactionOutDto)
+  @UseInterceptors(PopulateReaction)
+  @UseGuards(IsAuthenticated)
+  async createChildren(
+    @Body() dto: CreateReactionInDto,
+    @ReqUser() user: User,
+    @Param('parentId', new ParseIntPipe()) parentId: number,
+  ): Promise<Reaction> {
+    return this.reactionService.create(dto, user, parentId);
   }
 
   @Put(':id')

@@ -5,16 +5,16 @@ export class CreateReactionInDto {
   @IsInt()
   readonly informationId: number;
 
-  @IsInt()
-  @IsOptional()
-  readonly parentId: number;
+  @IsString()
+  @MaxLength(4000)
+  readonly text: string;
+
+}
+
+export class CreateMainReactionInDto extends CreateReactionInDto {
 
   @IsString()
   @IsOptional()
   readonly quote: string;
-
-  @IsString()
-  @MaxLength(4000)
-  readonly text: string;
 
 }
