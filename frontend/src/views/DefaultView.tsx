@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { Reaction } from 'src/types/Reaction';
-import { ReactionSortType } from 'src/types/ReactionSortType';
+import { SortType } from 'src/types/SortType';
 import { classList } from 'src/utils/classList';
 import { ReactionSortTypeProvider } from 'src/utils/ReactionSortTypeContext';
 import InformationContext from 'src/utils/InformationContext';
@@ -20,12 +20,12 @@ const DefaultView = (props: DefaultViewProps) => {
   const information = useContext(InformationContext);
   const [rootReactions, setRootReactions] = useState<Reaction[]>(undefined);
   const [fetchingRootReactions, setFetchingRootReactions] = useState(true);
-  const [sort, setSort] = useState(localStorage.getItem('sort') as ReactionSortType);
+  const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
 
   const sortItems = [
-    { type: ReactionSortType.DATE_ASC, label: 'Date (asc)' },
-    { type: ReactionSortType.DATE_DESC, label: 'Date (desc)' },
-    { type: ReactionSortType.RELEVANCE, label: 'Pertinence' },
+    { type: SortType.DATE_ASC, label: 'Date (asc)' },
+    { type: SortType.DATE_DESC, label: 'Date (desc)' },
+    { type: SortType.RELEVANCE, label: 'Pertinence' },
   ];
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const DefaultView = (props: DefaultViewProps) => {
       });
   }, [information, sort]);
 
-  const onSort = (newSort: ReactionSortType) => {
+  const onSort = (newSort: SortType) => {
     if (newSort === sort)
       return;
 
@@ -49,7 +49,7 @@ const DefaultView = (props: DefaultViewProps) => {
   };
 
   if (!sort)
-    onSort(ReactionSortType.DATE_DESC);
+    onSort(SortType.DATE_DESC);
 
   if (fetchingRootReactions)
     return <Loader size="big" />;

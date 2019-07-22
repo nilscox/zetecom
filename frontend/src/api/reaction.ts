@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-import { ReactionSortType } from 'src/types/ReactionSortType';
+import { SortType } from 'src/types/SortType';
 import { Reaction, QuickReactionType, parseReaction } from 'src/types/Reaction';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ResponseData = any;
 
-export const fetchRootReactions = async (informationId: number, sort: ReactionSortType): Promise<Reaction[]> => {
+export const fetchRootReactions = async (informationId: number, sort: SortType): Promise<Reaction[]> => {
   const { data } = await axios.get(`/api/information/${informationId}/reactions?sort=${sort}`, {
     withCredentials: true,
   });
@@ -22,7 +22,7 @@ export const fetchReaction = async (reactionId: number): Promise<Reaction> => {
   return parseReaction(data);
 };
 
-export const fetchReplies = async (parentId: number, sort: ReactionSortType): Promise<Reaction[]> => {
+export const fetchReplies = async (parentId: number, sort: SortType): Promise<Reaction[]> => {
   const { data } = await axios.get(`/api/reaction/${parentId}/replies?sort=${sort}`, {
     withCredentials: true,
   });

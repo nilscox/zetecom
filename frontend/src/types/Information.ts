@@ -2,7 +2,6 @@ import { User, parseUser } from './User';
 
 export type Information = {
   id: number;
-  slug: string;
   title: string;
   url: string;
   image: string | null;

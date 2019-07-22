@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { Reaction } from 'src/types/Reaction';
-import { ReactionSortType } from 'src/types/ReactionSortType';
+import { SortType } from 'src/types/SortType';
 import { classList } from 'src/utils/classList';
 import ReactionSortTypeContext from 'src/utils/ReactionSortTypeContext';
 import { fetchReplies } from 'src/api/reaction';
@@ -48,7 +48,7 @@ type ReactionContainerProps = {
 };
 
 export const ReactionContainer: React.FC<ReactionContainerProps> = (props) => {
-  const sort = useContext<ReactionSortType>(ReactionSortTypeContext);
+  const sort = useContext<SortType>(ReactionSortTypeContext);
   const [reaction, setReaction] = useState(props.reaction);
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);

@@ -19,7 +19,6 @@ export type ReactionHistory = {
 
 export type Reaction = {
   id: number;
-  slug: string;
   quote: string | null;
   text: string;
   date: Date;
