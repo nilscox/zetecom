@@ -1,7 +1,7 @@
 import { Entity, Column, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 
 import { User } from '../user/user.entity';
-import { Reaction } from '../reaction/reaction.entity';
+import { Subject } from '../subject/subject.entity';
 
 @Entity({ name: 'information', orderBy: { created: 'ASC' } })
 export class Information {
@@ -14,9 +14,6 @@ export class Information {
 
   @Column()
   title: string;
-
-  @Column()
-  slug: string;
 
   @Column({ name: 'youtube_id', nullable: true })
   youtubeId: string;
@@ -31,7 +28,7 @@ export class Information {
   @JoinColumn({ name: 'creator_id' })
   creator: User;
 
-  @OneToMany(type => Reaction, reaction => reaction.information)
-  reactions: Reaction[];
+  @OneToMany(type => Subject, subject => subject.information)
+  subjects: Subject[];
 
 }

@@ -14,23 +14,23 @@ import {
   SetMetadata,
 } from '@nestjs/common';
 
-import { ReactionSortType } from 'Utils/reaction-sort-type';
+import { SortType } from 'Common/sort-type';
 import { IsAuthenticated } from 'Common/auth.guard';
 import { IsAuthor } from 'Common/is-author.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
-import { ReactionSortTypePipe } from 'Common/reaction-sort-type.pipe';
+import { SortTypePipe } from 'Common/sort-type.pipe';
 import { Output } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
 import { Information } from '../information/information.entity';
-import { InformationService } from '../information/information.service';
+import { SubjectService } from '../subject/subject.service';
 
 import { Reaction } from './reaction.entity';
 import { ReactionService } from './reaction.service';
 import { QuickReactionType } from './quick-reaction.entity';
-import { CreateReactionInDto, CreateMainReactionInDto } from './dtos/create-reaction-in.dto';
+import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { ReactionOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
@@ -41,7 +41,7 @@ import { ReportInDto } from './dtos/report-in.dto';
 export class ReactionController {
 
   constructor(
-    private readonly informationService: InformationService,
+    private readonly subjectService: SubjectService,
     private readonly reactionService: ReactionService,
   ) {}
 
@@ -55,21 +55,12 @@ export class ReactionController {
     return this.reactionService.findOne({ id });
   }
 
-  @Get('by-slug/:slug')
-  @Output(ReactionOutDto)
-  @UseInterceptors(PopulateReaction)
-  async findOneBySlug(
-    @Param('slug') slug: string,
-  ): Promise<Reaction> {
-    return this.reactionService.findOne({ slug });
-  }
-
   @Get(':id/replies')
   @Output(ReactionOutDto)
   @UseInterceptors(PopulateReaction)
   async findReplies(
     @Param('id', new ParseIntPipe()) id: number,
-    @Query('sort', new ReactionSortTypePipe()) sort: ReactionSortType,
+    @Query('sort', new SortTypePipe()) sort: SortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Reaction[]> {
     const replies = await this.reactionService.findReplies(id);
@@ -85,22 +76,15 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated)
   async create(
-    @Body() dto: CreateMainReactionInDto,
-    @ReqUser() user: User,
-  ): Promise<Reaction> {
-    return this.reactionService.create(dto, user);
-  }
-
-  @Post(':parentId')
-  @Output(ReactionOutDto)
-  @UseInterceptors(PopulateReaction)
-  @UseGuards(IsAuthenticated)
-  async createChildren(
     @Body() dto: CreateReactionInDto,
     @ReqUser() user: User,
-    @Param('parentId', new ParseIntPipe()) parentId: number,
   ): Promise<Reaction> {
-    return this.reactionService.create(dto, user, parentId);
+    const subject = await this.subjectService.findById(dto.subjectId);
+
+    if (!subject)
+      throw new NotFoundException(`subject with id ${dto.subjectId} not found`);
+
+    return this.reactionService.create(dto, user, subject);
   }
 
   @Put(':id')

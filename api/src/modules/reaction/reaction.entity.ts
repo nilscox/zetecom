@@ -1,7 +1,7 @@
 import { Entity, Column, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
 
 import { User } from '../user/user.entity';
-import { Information } from '../information/information.entity';
+import { Subject } from '../subject/subject.entity';
 import { Message } from './message.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 
@@ -10,12 +10,6 @@ export class Reaction {
 
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ nullable: true })
-  quote: string;
-
-  @Column({ unique: true })
-  slug: string;
 
   @CreateDateColumn()
   created: Date;
@@ -27,9 +21,9 @@ export class Reaction {
   @JoinColumn({ name: 'author_id' })
   author: User;
 
-  @ManyToOne(type => Information, information => information.reactions, { nullable: false })
-  @JoinColumn({ name: 'information_id' })
-  information: Information;
+  @ManyToOne(type => Subject, subject => subject.reactions, { nullable: false })
+  @JoinColumn({ name: 'subject_id' })
+  subject: Subject;
 
   @OneToMany(type => Message, message => message.reaction, { eager: true })
   messages: Message[];

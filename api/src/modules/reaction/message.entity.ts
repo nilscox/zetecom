@@ -1,8 +1,10 @@
 import { Entity, Column, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
 
+import { Subject } from '../subject/subject.entity';
+
 import { Reaction } from './reaction.entity';
 
-@Entity({ name: 'reaction_message', orderBy: { created: 'ASC' } })
+@Entity({ name: 'message', orderBy: { created: 'ASC' } })
 export class Message {
 
   @PrimaryGeneratedColumn()
@@ -14,9 +16,12 @@ export class Message {
   @CreateDateColumn()
   created: Date;
 
-  // TODO: nullable: false
   @ManyToOne(type => Reaction, reaction => reaction.messages, { nullable: true })
   @JoinColumn({ name: 'reaction_id' })
   reaction: Reaction;
+
+  @ManyToOne(type => Subject, subject => subject.messages, { nullable: true })
+  @JoinColumn({ name: 'subject_id' })
+  subject: Subject;
 
 }

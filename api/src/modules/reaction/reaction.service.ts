@@ -1,19 +1,17 @@
-import { NotFoundException, BadRequestException, Inject, forwardRef } from '@nestjs/common';
+import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Repository, FindConditions, FindManyOptions } from 'typeorm';
 
-import { ReactionSortType } from 'Utils/reaction-sort-type';
+import { SortType } from 'Common/sort-type';
 
-import { CreateReactionInDto, CreateMainReactionInDto } from './dtos/create-reaction-in.dto';
+import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { Information } from '../information/information.entity';
-import { InformationService } from '../information/information.service';
+import { Subject } from '../subject/subject.entity';
 import { Message } from './message.entity';
-import { PaginationService } from '../information/services/pagination.service';
 import { Reaction } from './reaction.entity';
 import { Report, ReportType } from './report.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
-import { SlugService } from '../information/services/slug.service';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { User } from '../user/user.entity';
 
@@ -34,12 +32,6 @@ export class ReactionService {
     @InjectRepository(Report)
     private readonly reportRepository: Repository<Report>,
 
-    @Inject(forwardRef(() => InformationService))
-    private readonly informationService: InformationService,
-
-    private readonly slugService: SlugService,
-    private readonly paginationService: PaginationService,
-
   ) {}
 
   async findOne(where): Promise<Reaction> {
@@ -51,20 +43,20 @@ export class ReactionService {
     return result;
   }
 
-  async findMainReactions(informationId: number, sort: ReactionSortType, page: number = 1): Promise<Reaction[]> {
+  async findRootReactions(subject: Subject, sort: SortType, page: number = 1): Promise<Reaction[]> {
     const reactions = await this.reactionRepository.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
       .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
-      .where({ informationId })
+      .where({ subjectId: subject.id })
       .andWhere('reaction.parent_id IS NULL')
-      .orderBy('reaction.created', sort === ReactionSortType.DATE_DESC ? 'DESC' : 'ASC')
+      .orderBy('reaction.created', sort === SortType.DATE_DESC ? 'DESC' : 'ASC')
       .addOrderBy('message.created', 'ASC')
       .getMany();
 
     await this.addQuickReactionsCounts(reactions);
     await this.addRepliesCounts(reactions);
 
-    if (sort === ReactionSortType.RELEVANCE) {
+    if (sort === SortType.RELEVANCE) {
       const sumQuickReacitonsCount = ({ quickReactionsCount: r }: Reaction) => {
         return r.APPROVE + r.REFUTE + r.SKEPTIC;
       };
@@ -89,38 +81,26 @@ export class ReactionService {
       .getMany();
   }
 
-  async create(dto: CreateReactionInDto | CreateMainReactionInDto, user: User, parentId?: number): Promise<Reaction> {
-    const information = await this.informationService.findOne({ id: dto.informationId });
-
-    if (!information)
-      throw new NotFoundException(`information with id ${dto.informationId} not found`);
-
+  async create(dto: CreateReactionInDto, user: User, subject: Subject): Promise<Reaction> {
     let parent: Reaction | null = null;
 
-    if (parentId) {
+    if (dto.parentId) {
       parent = await this.findOne({
-        id: parentId,
-        information,
+        id: dto.parentId,
+        subject,
       });
 
       if (!parent)
-        throw new BadRequestException(`reaction with id ${parentId} and information ${information.id} not found`);
+        throw new BadRequestException(`reaction with id ${dto.parentId} and subject ${subject.id} not found`);
     }
 
     const reaction = new Reaction();
     const message = new Message();
 
-    reaction.information = information;
+    reaction.subject = subject;
     reaction.author = user;
 
-    reaction.slug = this.slugService.randString();
-
-    // code smell
-    if ((dto as CreateMainReactionInDto).quote)
-      reaction.quote = (dto as CreateMainReactionInDto).quote;
-
     message.text = dto.text;
-
     reaction.messages = [message];
 
     if (parent)
@@ -151,9 +131,6 @@ export class ReactionService {
 
       await this.messageRepository.save(message);
     }
-
-    if (dto.quote)
-      reaction.quote = dto.quote;
 
     return await this.reactionRepository.save(reaction);
   }

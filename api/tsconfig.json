@@ -14,8 +14,7 @@
     "baseUrl": "./",
     "resolveJsonModule": true,
     "paths": {
-      "Common/*": ["src/common/*"],
-      "Utils/*": ["src/utils/*"]
+      "Common/*": ["src/common/*"]
     }
   },
   "include": [

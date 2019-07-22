@@ -9,8 +9,8 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 
-import { ReactionSortTypePipe } from 'Common/reaction-sort-type.pipe';
-import { ReactionSortType } from 'Utils/reaction-sort-type';
+import { SortTypePipe } from 'Common/sort-type.pipe';
+import { SortType } from 'Common/sort-type';
 import { IsAuthenticated } from 'Common/auth.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
@@ -18,9 +18,8 @@ import { Output } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
-import { Reaction } from '../reaction/reaction.entity';
-import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
-import { ReactionService } from '../reaction/reaction.service';
+import { Subject } from '../subject/subject.entity';
+import { SubjectOutDto } from '../subject/dtos/subject-out.dto';
 
 import { InformationService } from './information.service';
 import { Information } from './information.entity';
@@ -33,7 +32,6 @@ export class InformationController {
 
   constructor(
     private readonly informationService: InformationService,
-    private readonly reactionService: ReactionService,
   ) {}
 
   @Get()
@@ -51,14 +49,6 @@ export class InformationController {
     return this.informationService.findOne({ id });
   }
 
-  @Get('by-slug/:slug')
-  @Output(InformationOutDto)
-  async findOneBySlug(
-    @Param('slug') slug: string,
-  ): Promise<Information> {
-    return this.informationService.findOne({ slug });
-  }
-
   @Get('by-youtubeId/:youtubeId')
   @Output(InformationOutDto)
   async findOneByYoutubeId(
@@ -72,21 +62,20 @@ export class InformationController {
     return info;
   }
 
-  @Get(':id/reactions')
-  @Output(ReactionOutDto)
-  @UseInterceptors(PopulateReaction)
-  async findRootReactions(
+  @Get(':id/subjects')
+  @Output(SubjectOutDto)
+  async findSubjects(
     @Param('id', new ParseIntPipe()) id: number,
-    @Query('sort', new ReactionSortTypePipe()) sort: ReactionSortType,
+    @Query('sort', new SortTypePipe()) sort: SortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @ReqUser() user: User,
-  ): Promise<Reaction[]> {
+  ): Promise<Subject[]> {
     const information = await this.informationService.findOne({ id });
 
     if (!information)
       return null;
 
-    return this.informationService.findRootReactions(information, sort, page);
+    return this.informationService.findSubjects(information, sort, page);
   }
 
   @Post()

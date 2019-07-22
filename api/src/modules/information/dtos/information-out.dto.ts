@@ -8,9 +8,6 @@ export class InformationOutDto {
   id: number;
 
   @Expose()
-  slug: string;
-
-  @Expose()
   title: string;
 
   @Expose()
