@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { User, parseUser } from '../types/User';
+import { User, parseUser } from 'src/types/User';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ResponseData = any;

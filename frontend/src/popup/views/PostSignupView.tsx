@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
+import UserContext from 'src/utils/UserContext';
+
 import Typography from '../components/Typography';
-import UserContext from '../../utils/UserContext';
 
 const PostSignupView: React.FC<RouteComponentProps> = () => {
   const { user } = useContext(UserContext);

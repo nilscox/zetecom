@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { ReactionSortType } from '../types/ReactionSortType';
-import { Reaction, QuickReactionType, parseReaction } from '../types/Reaction';
+import { ReactionSortType } from 'src/types/ReactionSortType';
+import { Reaction, QuickReactionType, parseReaction } from 'src/types/Reaction';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ResponseData = any;

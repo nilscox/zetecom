@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Switch, Route, NavLink as ReactRouterNavLink, NavLinkProps } from 'react-router-dom';
 
-import UserContext from '../utils/UserContext';
-import UserAvatar from '../components/UserAvatar';
+import UserContext from 'src/utils/UserContext';
+import UserAvatar from 'src/components/UserAvatar';
 
 import Home from './Home';
 import Rules from './Rules';

@@ -7,7 +7,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 
-import UserContext from '../utils/UserContext';
+import UserContext from 'src/utils/UserContext';
 
 import LoginView from './views/LoginView';
 import LogoutView from './views/LogoutView';

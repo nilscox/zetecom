@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Information, parseInformation } from '../types/Information';
+import { Information, parseInformation } from 'src/types/Information';
 
 export const fetchInformationFromYoutubeId = async (youtubeId: string): Promise<Information | undefined> => {
   const { status, data } = await axios.get(`/api/information/by-youtubeId/${youtubeId}`, {

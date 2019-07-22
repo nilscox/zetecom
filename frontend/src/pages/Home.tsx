@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import env from '../utils/env';
+import env from 'src/utils/env';
 
 import SubTitle from './components/SubTitle';
 import EmailValidatedAlert from './components/EmailValidatedAlert';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import env from '../../utils/env';
+import env from 'src/utils/env';
 
 type DownloadExtensionProps = {
   children: string;

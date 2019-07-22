@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { classList } from '../utils/classList';
-import { ReactionSortTypeProvider } from '../utils/ReactionSortTypeContext';
-import { Reaction } from '../types/Reaction';
-import { ReactionSortType } from '../types/ReactionSortType';
-import { fetchRootReactions } from '../api/reaction';
-import InformationContext from '../utils/InformationContext';
-import { ReactionsList } from '../components/ReactionsList';
-import { ReactionForm } from '../components/ReactionForm/ReactionForm';
-import { Loader } from '../components/Loader';
+import { Reaction } from 'src/types/Reaction';
+import { ReactionSortType } from 'src/types/ReactionSortType';
+import { classList } from 'src/utils/classList';
+import { ReactionSortTypeProvider } from 'src/utils/ReactionSortTypeContext';
+import InformationContext from 'src/utils/InformationContext';
+import { fetchRootReactions } from 'src/api/reaction';
+import { ReactionsList } from 'src/components/reactions/ReactionsList';
+import { ReactionForm } from 'src/components/reactions/ReactionForm/ReactionForm';
+import { Loader } from 'src/components/Loader';
 
 import './DefaultView.css';
 

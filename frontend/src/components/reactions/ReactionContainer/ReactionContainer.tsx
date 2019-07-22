@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { classList } from '../../utils/classList';
-import ReactionSortTypeContext from '../../utils/ReactionSortTypeContext';
-import { ReactionSortType } from '../../types/ReactionSortType';
-import { Reaction } from '../../types/Reaction';
-import { fetchReplies } from '../../api/reaction';
+import { Reaction } from 'src/types/Reaction';
+import { ReactionSortType } from 'src/types/ReactionSortType';
+import { classList } from 'src/utils/classList';
+import ReactionSortTypeContext from 'src/utils/ReactionSortTypeContext';
+import { fetchReplies } from 'src/api/reaction';
+import { Loader } from 'src/components/Loader';
+import { Collapse } from 'src/components/Collapse';
+
 import { ReactionContent } from '../ReactionContent/ReactionContent';
 import { ReactionForm } from '../ReactionForm/ReactionForm';
 import { ReactionsList } from '../ReactionsList/ReactionsList';
-import { Loader } from '../Loader';
-import { Collapse } from '../Collapse';
 
 import './ReactionContainer.css';
 

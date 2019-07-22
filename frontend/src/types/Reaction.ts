@@ -39,7 +39,6 @@ export const parseReactionHistory = (data: any): ReactionHistory => {
   };
 };
 
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseReaction = (data: any): Reaction => {
   const mapQuickReaction: { [key: string]: string } = {

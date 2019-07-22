@@ -2,11 +2,12 @@ import React, { useContext, useState } from 'react';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import moment from 'moment';
 
-import { logoutUser } from '../../api/user';
+import UserContext from 'src/utils/UserContext';
+import { logoutUser } from 'src/api/user';
+import UserAvatar from 'src/components/UserAvatar';
+
 import Typography from '../components/Typography';
 import Form from '../components/Form';
-import UserAvatar from '../../components/UserAvatar';
-import UserContext from '../../utils/UserContext';
 
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(false);

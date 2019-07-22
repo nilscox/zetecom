@@ -1,8 +1,8 @@
 import React, { useCallback, useContext } from 'react';
 
-import { User } from '../types/User';
-import UserContext from '../utils/UserContext';
-import { setUserAvatar } from '../api/user';
+import { User } from 'src/types/User';
+import UserContext from 'src/utils/UserContext';
+import { setUserAvatar } from 'src/api/user';
 
 type ImageUploadProps = {
   allowedTypes: string[];

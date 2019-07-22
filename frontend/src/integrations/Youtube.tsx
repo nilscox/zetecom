@@ -1,30 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import queryString from 'query-string';
 
-import { Information } from '../types/Information';
-import { Reaction } from '../types/Reaction';
-import { fetchInformationFromYoutubeId } from '../api/information';
-import { InformationProvider } from '../utils/InformationContext';
-import { MainReactionView } from '../views/MainReactionView';
-import { DefaultView } from '../views/DefaultView';
-import { Loader } from '../components/Loader';
+import { Information } from 'src/types/Information';
+import { Reaction } from 'src/types/Reaction';
+import { InformationProvider } from 'src/utils/InformationContext';
+import { fetchInformationFromYoutubeId } from 'src/api/information';
+import { Loader } from 'src/components/Loader';
+import { DefaultView } from 'src/views/DefaultView';
 
-const AppContent: React.FC = () => {
-  const [mainReaction, setMainReaction] = useState<Reaction>(undefined);
-
-  if (mainReaction) {
-    return (
-      <MainReactionView
-        reaction={mainReaction}
-        setAsMain={setMainReaction}
-      />
-    );
-  }
-
-  return (
-    <DefaultView setAsMain={setMainReaction} />
-  );
-};
+const AppContent: React.FC = () => (
+  <DefaultView setAsMain={() => {}} />
+);
 
 const useInformation = (youtubeId: string) => {
   const [fetchingInformation, setFetching] = useState(false);

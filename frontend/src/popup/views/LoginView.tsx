@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import { loginUser } from '../../api/user';
-import UserContext from '../../utils/UserContext';
+import UserContext from 'src/utils/UserContext';
+import { loginUser } from 'src/api/user';
+
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form from '../components/Form';

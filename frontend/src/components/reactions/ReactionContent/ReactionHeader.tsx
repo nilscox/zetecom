@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import moment from 'moment';
 
-import { classList } from '../../utils/classList';
-import UserContext from '../../utils/UserContext';
-import { Reaction } from '../../types/Reaction';
+import { Reaction } from 'src/types/Reaction';
+import { classList } from 'src/utils/classList';
+import UserContext from 'src/utils/UserContext';
+
 import { ExpandType } from './ReactionContent';
 
 type ReactionHeaderProps = {

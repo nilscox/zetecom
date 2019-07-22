@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import showdown from 'showdown';
 
-import { classList } from '../../utils/classList';
-import { Reaction } from '../../types/Reaction';
+import { classList } from 'src/utils/classList';
+import { Reaction } from 'src/types/Reaction';
 
 type FormTextProps = {
   replyTo?: Reaction;

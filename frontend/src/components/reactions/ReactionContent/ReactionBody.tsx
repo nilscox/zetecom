@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import showdown from 'showdown';
 
-import { Reaction } from '../../types/Reaction';
-import { classList } from '../../utils/classList';
+import { Reaction } from 'src/types/Reaction';
+import { classList } from 'src/utils/classList';
+
 import { ExpandType } from './ReactionContent';
 
 type ReactionBodyProps = {

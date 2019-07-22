@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { User } from '../../types/User';
+import { User } from 'src/types/User';
 
 type FormHeaderProps = {
   author: User;

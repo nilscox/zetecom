@@ -1,9 +1,9 @@
 import React, { forwardRef, useImperativeHandle, useState, SyntheticEvent } from 'react';
 
-import { Reaction } from '../../types/Reaction';
+import { Reaction } from 'src/types/Reaction';
+import { Loader } from 'src/components/Loader';
 
 import { FormText } from './FormText';
-import { Loader } from '../Loader';
 
 type FormBodyProps = {
   preloadedReaction?: Reaction;

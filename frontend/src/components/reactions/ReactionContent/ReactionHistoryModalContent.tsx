@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import showdown from 'showdown';
 
-import { classList } from '../../utils/classList';
-import { Reaction, ReactionHistory } from '../../types/Reaction';
-import { fetchReaction } from '../../api/reaction';
-import { Loader } from '../Loader';
+import { Reaction, ReactionHistory } from 'src/types/Reaction';
+import { classList } from 'src/utils/classList';
+import { fetchReaction } from 'src/api/reaction';
+import { Loader } from 'src/components/Loader';
 
 const converter = new showdown.Converter();
 

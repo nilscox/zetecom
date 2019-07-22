@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import ReactModal from 'react-modal';
 
-import { Reaction } from '../../types/Reaction';
+import { Reaction } from 'src/types/Reaction';
+
+import { ReactionForm } from '../ReactionForm';
+
 import { ReactionHeader } from './ReactionHeader';
 import { ReactionBody } from './ReactionBody';
 import { ReactionFooter } from './ReactionFooter';
 import { ReactionHistoryModalContent } from './ReactionHistoryModalContent';
 import { ReportModalContent } from './ReportModalContent';
-import { ReactionForm } from '../ReactionForm';
 
 import './ReactionContent.css';
 

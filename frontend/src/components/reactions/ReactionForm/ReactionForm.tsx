@@ -1,10 +1,10 @@
 import React, { useContext, useState, useRef } from 'react';
 
-import { Reaction } from '../../types/Reaction';
-import { Information } from '../../types/Information';
-import { postReaction, updateReaction } from '../../api/reaction';
-import InformationContext from '../../utils/InformationContext';
-import UserContext from '../../utils/UserContext';
+import { Reaction } from 'src/types/Reaction';
+import { Information } from 'src/types/Information';
+import InformationContext from 'src/utils/InformationContext';
+import UserContext from 'src/utils/UserContext';
+import { postReaction, updateReaction } from 'src/api/reaction';
 
 import { LoginMessage } from './LoginMessage';
 import { FormHeader } from './FormHeader';

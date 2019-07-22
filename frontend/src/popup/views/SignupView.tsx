@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 
-import UserContext from '../../utils/UserContext';
-import { signupUser } from '../../api/user';
+import UserContext from 'src/utils/UserContext';
+import { signupUser } from 'src/api/user';
+
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form from '../components/Form';

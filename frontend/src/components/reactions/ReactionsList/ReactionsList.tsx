@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Reaction } from '../../types/Reaction';
+import { Reaction } from 'src/types/Reaction';
+
 import { ReactionContainer } from '../ReactionContainer';
 
 type ReactionsListProps = {
