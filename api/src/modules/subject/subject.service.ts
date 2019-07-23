@@ -43,6 +43,7 @@ export class SubjectService {
 
     subject.information = information;
     subject.author = user;
+    subject.subject = dto.subject;
     subject.quote = dto.quote;
 
     message.text = dto.text;

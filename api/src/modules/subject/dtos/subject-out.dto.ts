@@ -36,22 +36,6 @@ export class SubjectOutDto {
   created: Date;
 
   @Expose()
-  reactionsCount: number;
-
-  @Expose()
-  @Type(() => QuickReactionCountDto)
-  quickReactionsCount: QuickReactionCountDto;
-
-  @Expose()
-  @Transform(value => ({
-    APPROVE: 'approve',
-    REFUTE: 'refute',
-    SKEPTIC: 'skeptic',
-    null: null,
-  }[value]))
-  userQuickReaction: string;
-
-  @Expose()
   @Type(() => UserLightOutDto)
   author: UserLightOutDto;
 

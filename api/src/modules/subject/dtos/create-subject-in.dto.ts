@@ -10,6 +10,10 @@ export class CreateSubjectInDto {
   readonly text: string;
 
   @IsString()
+  @MaxLength(240)
+  readonly subject: string;
+
+  @IsString()
   @IsOptional()
   readonly quote: string;
 

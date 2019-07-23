@@ -12,6 +12,9 @@ export class Subject {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ nullable: false })
+  subject: string;
+
   @Column({ nullable: true })
   quote: string;
 
