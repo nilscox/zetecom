@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react';
 
-import { User } from 'src/types/User';
+import { UserLight } from 'src/types/User';
 import UserContext from 'src/utils/UserContext';
 import { setUserAvatar } from 'src/api/user';
 
@@ -46,7 +46,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ allowedTypes, onUpload, child
 
 type UserAvatarProps = {
   editable?: boolean;
-  user: User;
+  user: UserLight;
 };
 
 const UserAvatar: React.FC<UserAvatarProps> = ({ editable = false, user }) => {

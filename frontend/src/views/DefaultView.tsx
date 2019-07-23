@@ -1,25 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { Reaction } from 'src/types/Reaction';
+import { Subject } from 'src/types/Subject';
 import { SortType } from 'src/types/SortType';
 import { classList } from 'src/utils/classList';
 import { ReactionSortTypeProvider } from 'src/utils/ReactionSortTypeContext';
 import InformationContext from 'src/utils/InformationContext';
-import { fetchRootReactions } from 'src/api/reaction';
-import { ReactionsList } from 'src/components/reactions/ReactionsList';
-import { ReactionForm } from 'src/components/reactions/ReactionForm/ReactionForm';
+import { fetchSubjects } from 'src/api/subjects';
+import { SubjectsList } from 'src/components/subjects/SubjectsList';
 import { Loader } from 'src/components/Loader';
 
 import './DefaultView.css';
 
 type DefaultViewProps = {
-  setAsMain: (reaction: Reaction) => void;
+  setAsMain: (subject: Subject) => void;
 };
 
 const DefaultView = (props: DefaultViewProps) => {
   const information = useContext(InformationContext);
-  const [rootReactions, setRootReactions] = useState<Reaction[]>(undefined);
-  const [fetchingRootReactions, setFetchingRootReactions] = useState(true);
+  const [subjects, setSubjects] = useState<Subject[]>(undefined);
+  const [fetchingSubjects, setFetchingSubjects] = useState(true);
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
 
   const sortItems = [
@@ -29,14 +28,14 @@ const DefaultView = (props: DefaultViewProps) => {
   ];
 
   useEffect(() => {
-    setFetchingRootReactions(true);
+    setFetchingSubjects(true);
 
-    fetchRootReactions(information.id, sort)
-      .then(reactions => {
-        if (reactions)
-          setRootReactions(reactions);
+    fetchSubjects(information.id, sort)
+      .then(subjects => {
+        if (subjects)
+          setSubjects(subjects);
 
-        setFetchingRootReactions(false);
+        setFetchingSubjects(false);
       });
   }, [information, sort]);
 
@@ -51,7 +50,7 @@ const DefaultView = (props: DefaultViewProps) => {
   if (!sort)
     onSort(SortType.DATE_DESC);
 
-  if (fetchingRootReactions)
+  if (fetchingSubjects)
     return <Loader size="big" />;
 
   return (
@@ -77,18 +76,11 @@ const DefaultView = (props: DefaultViewProps) => {
 
       </div>
 
-      <div className="root-reaction-form">
-        <ReactionForm
-          onSubmitted={(reaction: Reaction) => setRootReactions([reaction, ...rootReactions])}
-        />
+      <div className="subject-form">
+        { /* TODO */ }
       </div>
 
-      <ReactionSortTypeProvider value={sort}>
-        <ReactionsList
-          reactions={rootReactions}
-          setAsMain={props.setAsMain}
-        />
-      </ReactionSortTypeProvider>
+      <SubjectsList display="FULL" subjects={subjects} />
 
     </div>
   );

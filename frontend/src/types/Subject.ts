@@ -1,4 +1,4 @@
-import { User, parseUser } from './User';
+import { UserLight, parseUser } from './User';
 
 export type Subject = {
   id: number;
@@ -7,7 +7,7 @@ export type Subject = {
   text: string;
   date: Date;
   edited: false | Date;
-  author: Partial<User>;
+  author: UserLight;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

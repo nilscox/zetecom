@@ -1,12 +1,15 @@
-export type User = {
+export type UserLight = {
   id: number;
   nick: string;
-  email: string;
   avatar: string | null;
-  created: Date;
-  updated: Date;
 
   getAvatarUrl: () => string;
+};
+
+export type User = UserLight & {
+  email: string;
+  created: Date;
+  updated: Date;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
