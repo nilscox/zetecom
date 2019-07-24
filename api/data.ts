@@ -1,7 +1,10 @@
+const DATA_DIR = process.env.DATA_DIR || '../data';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+
 const axios = require('axios');
 
-const usersData = require('./data/users');
-const infosData = require('./data/informations');
+const usersData = require(`${DATA_DIR}/users`);
+const infosData = require(`${DATA_DIR}/informations`);
 
 type QuickReactionType = 'APPROVE' | 'REFUTE' | 'SKEPTIC';
 
@@ -129,12 +132,12 @@ async function findOrCreateInformation(information: any, creator: IUser): Promis
   }
 }
 
-async function createReaction(informationId: number, reaction: any, user: IUser, parentId?: number): Promise<IReaction> {
+async function createReaction(subjectId: number, reaction: any, user: IUser, parentId?: number): Promise<IReaction> {
   const hasHistory = reaction.history && reaction.history.length;
   const text = hasHistory ? reaction.history[0] : reaction.text;
 
   const payload = {
-    informationId,
+    subjectId,
     parentId,
     label: reaction.label,
     quote: reaction.quote,
@@ -176,14 +179,31 @@ async function createQuickReaction(reactionId: number, type: QuickReactionType, 
   return reaction;
 }
 
+async function createSubject(informationId: number, subject: any, user: IUser) {
+  const payload = {
+    informationId,
+    subject: subject.subject,
+    quote: subject.quote,
+    text: subject.text,
+  };
+
+  const { data: created } = await axios.post(`/api/subject`, payload, {
+    headers: { cookie: user.cookie },
+  });
+
+  console.log(`subject created: ${created.id} (${created.author.nick}, "${created.text.slice(0, 30)}...")`);
+
+  return created;
+}
+
 async function main() {
-  axios.defaults.baseURL = process.env.BASE_URL || 'http://localhost:3000';
+  axios.defaults.baseURL = BASE_URL;
 
   const users: IUser[] = await Promise.all<IUser>(usersData.map(createUserOrLogin));
   const infos = await Promise.all<IInformation>(infosData.map(i => findOrCreateInformation(i, findUser(users, i.creator))));
 
-  const createReactionRec = async (informationId: number, reaction: any, parentId?: number) => {
-    const created = await createReaction(informationId, reaction, findUser(users, reaction.author), parentId);
+  const createReactionRec = async (subjectId: number, reaction: any, parentId?: number) => {
+    const created = await createReaction(subjectId, reaction, findUser(users, reaction.author), parentId);
 
     if (reaction.quickReactions) {
       const { approve, refute, skeptic } = reaction.quickReactions;
@@ -197,15 +217,21 @@ async function main() {
 
     if (reaction.replies) {
       for (const reply of reaction.replies)
-        await createReactionRec(informationId, reply, created.id);
+        await createReactionRec(subjectId, reply, created.id);
     }
   };
 
   for (let i = 0; i < infosData.length; ++i) {
-    const info = findInformation(infos, infosData[i].url);
+    const infoData = infosData[i];
+    const info = findInformation(infos, infoData.url);
 
-    for (const reaction of infosData[i].reactions)
-      await createReactionRec(info.id, reaction);
+    for (let j = 0; j < infoData.subjects.length; ++j) {
+      const subjectData = infoData.subjects[j];
+      const subject = await createSubject(info.id, infosData[i].subjects[j], findUser(users, subjectData.author));
+
+      for (const reaction of subjectData.reactions)
+        await createReactionRec(subject.id, reaction);
+    }
   }
 
   return 0;

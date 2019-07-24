@@ -3,14 +3,9 @@ import queryString from 'query-string';
 
 import { Information } from 'src/types/Information';
 import { Reaction } from 'src/types/Reaction';
-import { InformationProvider } from 'src/utils/InformationContext';
 import { fetchInformationFromYoutubeId } from 'src/api/information';
-import { Loader } from 'src/components/Loader';
-import { DefaultView } from 'src/views/DefaultView';
-
-const AppContent: React.FC = () => (
-  <DefaultView setAsMain={() => {}} />
-);
+import Loader from 'src/components/Loader';
+import Integration from 'src/components/Integration';
 
 const useInformation = (youtubeId: string) => {
   const [fetchingInformation, setFetching] = useState(false);
@@ -60,14 +55,12 @@ const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
     return <div>L'espace de commentaire CDV n'est pas activé sur cette vidéo.</div>;
 
   return (
-    <InformationProvider value={information}>
-      <div style={{
-        width: 'auto',
-        paddingBottom: 20,
-      }}>
-        <AppContent />
-      </div>
-    </InformationProvider>
+    <div style={{
+      width: 'auto',
+      paddingBottom: 20,
+    }}>
+      <Integration information={information} />
+    </div>
   );
 };
 

@@ -2,7 +2,6 @@ import React, { useContext, useState, useRef } from 'react';
 
 import { Reaction } from 'src/types/Reaction';
 import { Information } from 'src/types/Information';
-import InformationContext from 'src/utils/InformationContext';
 import UserContext from 'src/utils/UserContext';
 import { postReaction, updateReaction } from 'src/api/reaction';
 
@@ -22,7 +21,6 @@ type ReactionFormProps = {
 const ReactionForm = (props: ReactionFormProps) => {
   const { preloadedReaction, replyTo, onClose, onSubmitted } = props;
   const { user } = useContext(UserContext);
-  const information: Information = useContext(InformationContext);
   const [submitting, setSubmitting] = useState(false);
   const formBodyRef = useRef(null);
 
@@ -31,7 +29,7 @@ const ReactionForm = (props: ReactionFormProps) => {
 
     const promise = preloadedReaction
       ? updateReaction(preloadedReaction.id, text)
-      : postReaction(information.id, quote, text, replyTo ? replyTo.id : undefined);
+      : postReaction(42, quote, text, replyTo ? replyTo.id : undefined);
 
     promise
       .then((reaction: Reaction) => {

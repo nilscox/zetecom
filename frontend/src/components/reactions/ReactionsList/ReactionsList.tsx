@@ -6,7 +6,6 @@ import { ReactionContainer } from '../ReactionContainer';
 
 type ReactionsListProps = {
   reactions: Reaction[];
-  setAsMain: (reaction: Reaction) => void;
 };
 
 export const ReactionsList = (props: ReactionsListProps) => {
@@ -16,7 +15,7 @@ export const ReactionsList = (props: ReactionsListProps) => {
         <ReactionContainer
           key={reaction.id}
           reaction={reaction}
-          setAsMain={props.setAsMain}
+          setAsMain={() => {}}
         />
       )) }
     </div>

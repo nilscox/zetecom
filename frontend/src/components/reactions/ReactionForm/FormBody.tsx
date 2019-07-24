@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useState, SyntheticEvent } from 'react';
 
 import { Reaction } from 'src/types/Reaction';
-import { Loader } from 'src/components/Loader';
+import Loader from 'src/components/Loader';
 
 import { FormText } from './FormText';
 

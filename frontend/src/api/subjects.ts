@@ -16,7 +16,7 @@ export const fetchSubjects = async (informationId: number, sort: SortType): Prom
 };
 
 export const fetchReactions = async (subjectId: number, sort: SortType): Promise<Reaction[]> => {
-  const { data } = await axios.get(`/api/reaction/${subjectId}/reactions?sort=${sort}`, {
+  const { data } = await axios.get(`/api/subject/${subjectId}/reactions?sort=${sort}`, {
     withCredentials: true,
   });
 

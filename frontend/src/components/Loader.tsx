@@ -7,7 +7,7 @@ type LoaderProps = {
   style?: React.CSSProperties;
 };
 
-export const Loader: React.FC<LoaderProps> = ({ size = 'medium', style }) => {
+const Loader: React.FC<LoaderProps> = ({ size = 'medium', style }) => {
   const r = {
     small: 6,
     medium: 18,
@@ -42,3 +42,5 @@ export const Loader: React.FC<LoaderProps> = ({ size = 'medium', style }) => {
     </div>
   );
 };
+
+export default Loader;

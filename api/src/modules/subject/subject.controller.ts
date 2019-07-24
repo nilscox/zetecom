@@ -28,6 +28,7 @@ import { Information } from '../information/information.entity';
 import { InformationService } from '../information/information.service';
 import { Reaction } from '../reaction/reaction.entity';
 import { ReactionService } from '../reaction/reaction.service';
+import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
 
 import { Subject } from './subject.entity';
 import { SubjectService } from './subject.service';
@@ -50,7 +51,7 @@ export class SubjectController {
   }
 
   @Get(':id/reactions')
-  @Output(SubjectOutDto)
+  @Output(ReactionOutDto)
   @UseInterceptors(PopulateReaction)
   async findReactions(
     @Param('id', new ParseIntPipe()) id: number,

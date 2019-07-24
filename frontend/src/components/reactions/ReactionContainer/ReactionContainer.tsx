@@ -3,9 +3,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
 import { classList } from 'src/utils/classList';
-import ReactionSortTypeContext from 'src/utils/ReactionSortTypeContext';
 import { fetchReplies } from 'src/api/reaction';
-import { Loader } from 'src/components/Loader';
+import Loader from 'src/components/Loader';
 import { Collapse } from 'src/components/Collapse';
 
 import { ReactionContent } from '../ReactionContent/ReactionContent';
@@ -33,10 +32,7 @@ const ReactionReplies = (props: ReactionRepliesProps) => {
     <div className="reaction-replies">
       <div className="reaction-replies-indent" />
       <div className="reaction-replies-content">
-        <ReactionsList
-          reactions={replies}
-          setAsMain={props.setAsMain}
-        />
+        <ReactionsList reactions={replies} />
       </div>
     </div>
   );
@@ -48,7 +44,7 @@ type ReactionContainerProps = {
 };
 
 export const ReactionContainer: React.FC<ReactionContainerProps> = (props) => {
-  const sort = useContext<SortType>(ReactionSortTypeContext);
+  const sort = SortType.DATE_ASC;
   const [reaction, setReaction] = useState(props.reaction);
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);

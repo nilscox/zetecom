@@ -1,25 +1,32 @@
 import React from 'react';
 
-type FlexProps = {
-  children: React.ReactNode,
+import Box, { BoxProps } from './Box';
+
+type FlexProps = BoxProps & {
   flexDirection?: React.CSSProperties['flexDirection'],
   justifyContent?: React.CSSProperties['justifyContent'],
   alignItems?: React.CSSProperties['alignItems'],
-  styles?: React.CSSProperties,
+  style?: React.CSSProperties,
+  children?: React.ReactNode,
 };
 
-const Flex: React.FC<FlexProps> = ({ children, ...props }) => (
-  <div
-    style={{
-      display: 'flex',
-      flexDirection: props.flexDirection,
-      justifyContent: props.justifyContent,
-      alignItems: props.alignItems,
-    }}
-    {...props.styles}
-  >
-    { children }
-  </div>
-);
+const Flex: React.FC<FlexProps> = ({ children, ...props }) => {
+  const { flexDirection, justifyContent, alignItems, style, ...other } = props;
+
+  return (
+    <Box
+      style={{
+        display: 'flex',
+        flexDirection,
+        justifyContent,
+        alignItems,
+        ...style,
+      }}
+      {...other}
+    >
+      { children }
+    </Box>
+  );
+}
 
 export default Flex;
