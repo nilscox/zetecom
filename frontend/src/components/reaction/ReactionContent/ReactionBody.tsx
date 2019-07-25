@@ -4,7 +4,7 @@ import showdown from 'showdown';
 import { Reaction } from 'src/types/Reaction';
 import { classList } from 'src/utils/classList';
 
-import { ExpandType } from './ReactionContent';
+import { ExpandType } from '../ReactionContent';
 
 type ReactionBodyProps = {
   reaction: Reaction;

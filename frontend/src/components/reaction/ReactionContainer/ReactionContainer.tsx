@@ -4,8 +4,8 @@ import { Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
 import { classList } from 'src/utils/classList';
 import { fetchReplies } from 'src/api/reaction';
-import Loader from 'src/components/Loader';
-import { Collapse } from 'src/components/Collapse';
+import Loader from 'src/components/common/Loader';
+import { Collapse } from 'src/components/common/Collapse';
 
 import { ReactionContent } from '../ReactionContent/ReactionContent';
 import { ReactionForm } from '../ReactionForm/ReactionForm';

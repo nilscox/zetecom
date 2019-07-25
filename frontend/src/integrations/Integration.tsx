@@ -6,10 +6,10 @@ import { SortType } from 'src/types/SortType';
 import { fetchSubjects } from 'src/api/subjects';
 import { useTheme } from 'src/utils/Theme';
 
-import Box from 'src/components/Box';
-import Flex from 'src/components/Flex';
-import Text from 'src/components/Text';
-import Loader from 'src/components/Loader';
+import Box from 'src/components/common/Box';
+import Flex from 'src/components/common/Flex';
+import Text from 'src/components/common/Text';
+import Loader from 'src/components/common/Loader';
 
 import SubjectsListView from './views/SubjectsListView';
 import SubjectView from './views/SubjectView';

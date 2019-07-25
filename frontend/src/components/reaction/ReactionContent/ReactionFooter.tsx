@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 
 import { Reaction, QuickReactionType } from 'src/types/Reaction';
+import { postQuickReaction } from 'src/api/reaction';
 import { classList } from 'src/utils/classList';
 import UserContext from 'src/utils/UserContext';
-import { postQuickReaction } from 'src/api/reaction';
 
 type ReactionFooterProps = {
   reaction: Reaction;

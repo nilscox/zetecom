@@ -47,7 +47,7 @@ export class ReactionService {
     const reactions = await this.reactionRepository.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
       .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
-      .where({ subjectId: subject.id })
+      .where('reaction.subject_id = ' + subject.id)
       .andWhere('reaction.parent_id IS NULL')
       .orderBy('reaction.created', sort === SortType.DATE_DESC ? 'DESC' : 'ASC')
       .addOrderBy('message.created', 'ASC')

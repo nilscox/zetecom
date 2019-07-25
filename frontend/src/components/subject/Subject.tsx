@@ -3,11 +3,11 @@ import React from 'react';
 import { Subject } from 'src/types/Subject';
 import { useTheme } from 'src/utils/Theme';
 
-import UserAvatar from '../UserAvatar';
-import Flex from '../Flex';
-import Box from '../Box';
-import Text from '../Text';
-import MessageBody from '../MessageBody';
+import UserAvatar from 'src/components/common/UserAvatar';
+import Flex from 'src/components/common/Flex';
+import Box from 'src/components/common/Box';
+import Text from 'src/components/common/Text';
+import MarkdownMessage from 'src/components/common/MarkdownMessage';
 
 import SubjectHeader from './SubjectHeader';
 
@@ -33,7 +33,7 @@ const Subject: React.FC<SubjectProps> = ({ subject, onHeaderClick, onViewReactio
   <>
 
     <SubjectHeader subject={subject} onClick={onHeaderClick} />
-    <MessageBody markdown={subject.text} />
+    <MarkdownMessage markdown={subject.text} />
     { onViewReactions && <ViewReactions onClick={onViewReactions} /> }
 
   </>

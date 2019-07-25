@@ -3,11 +3,12 @@ import React, { useCallback, useState } from 'react';
 import { Subject } from 'src/types/Subject';
 import { useTheme } from 'src/utils/Theme';
 
-import UserAvatar from './UserAvatar';
-import Box from './Box';
-import Break from './Break';
+import UserAvatar from 'src/components/common/UserAvatar';
+import Box from 'src/components/common/Box';
+import Break from 'src/components/common/Break';
+
 import SubjectComponent from './Subject';
-import SubjectHeader from './Subject/SubjectHeader';
+import SubjectHeader from './SubjectHeader';
 
 type ClosedSubjectsListProps = {
   subjects: Subject[],

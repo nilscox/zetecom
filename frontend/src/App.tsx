@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { User } from './types/User';
-import { UserProvider } from './utils/UserContext';
-import { fetchUser } from './api/user';
-import Loader from './components/Loader';
-import { ScrollToTop } from './components/ScrollToTop';
+import { User } from 'src/types/User';
+import { fetchUser } from 'src/api/user';
+import { UserProvider } from 'src/utils/UserContext';
+
+import Loader from 'src/components/common/Loader';
+import { ScrollToTop } from 'src/components/common/ScrollToTop';
 
 import Popup from './popup';
 import Integrations from './integrations';

@@ -3,9 +3,10 @@ import moment from 'moment';
 import showdown from 'showdown';
 
 import { Reaction, ReactionHistory } from 'src/types/Reaction';
-import { classList } from 'src/utils/classList';
 import { fetchReaction } from 'src/api/reaction';
-import Loader from 'src/components/Loader';
+import { classList } from 'src/utils/classList';
+
+import Loader from 'src/components/common/Loader';
 
 const converter = new showdown.Converter();
 

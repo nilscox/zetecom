@@ -6,14 +6,15 @@ import { SortType } from 'src/types/SortType';
 import { fetchReactions } from 'src/api/subjects';
 import { useTheme } from 'src/utils/Theme';
 
-import Box from 'src/components/Box';
-import Flex from 'src/components/Flex';
-import Break from 'src/components/Break';
-import Loader from 'src/components/Loader';
-import Text from 'src/components/Text';
-import SortSelect from 'src/components/SortSelect';
-import SubjectComponent from 'src/components/Subject';
-import { ReactionsList } from 'src/components/reactions/ReactionsList';
+import Box from 'src/components/common/Box';
+import Flex from 'src/components/common/Flex';
+import Break from 'src/components/common/Break';
+import Loader from 'src/components/common/Loader';
+import Text from 'src/components/common/Text';
+import SortSelect from 'src/components/common/SortSelect';
+
+import SubjectComponent from 'src/components/subject/Subject';
+import { ReactionsList } from 'src/components/reaction/ReactionsList';
 
 const useReactions = (subject: Subject, sort: SortType) => {
   const [reactions, setReactions] = useState<Reaction[] | undefined>();

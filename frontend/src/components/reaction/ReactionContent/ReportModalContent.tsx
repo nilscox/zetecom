@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { Reaction } from 'src/types/Reaction';
 import { reportReaction } from 'src/api/reaction';
-import Loader from 'src/components/Loader';
+
+import Loader from 'src/components/common/Loader';
 
 import { ReactionBody } from './ReactionBody';
 

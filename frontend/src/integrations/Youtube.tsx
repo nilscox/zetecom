@@ -4,8 +4,10 @@ import queryString from 'query-string';
 import { Information } from 'src/types/Information';
 import { Reaction } from 'src/types/Reaction';
 import { fetchInformationFromYoutubeId } from 'src/api/information';
-import Loader from 'src/components/Loader';
-import Integration from 'src/components/Integration';
+
+import Loader from 'src/components/common/Loader';
+
+import Integration from './Integration';
 
 const useInformation = (youtubeId: string) => {
   const [fetchingInformation, setFetching] = useState(false);

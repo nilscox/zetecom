@@ -5,13 +5,13 @@ import { useTheme } from 'src/utils/Theme';
 
 import Box from './Box';
 
-type MessageBodyProps = {
+type MarkdownMessageProps = {
   markdown: string,
 };
 
 const converter = new showdown.Converter({ tables: true });
 
-const MessageBody: React.FC<MessageBodyProps> = ({ markdown }) => {
+const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ markdown }) => {
   const html = useMemo(() => converter.makeHtml(markdown), [markdown]);
   const { sizes: { medium } } = useTheme();
 
@@ -24,4 +24,4 @@ const MessageBody: React.FC<MessageBodyProps> = ({ markdown }) => {
   );
 };
 
-export default MessageBody;
+export default MarkdownMessage;

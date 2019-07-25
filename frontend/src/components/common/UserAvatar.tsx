@@ -1,8 +1,9 @@
 import React, { useCallback, useContext } from 'react';
 
 import { UserLight } from 'src/types/User';
-import UserContext from 'src/utils/UserContext';
 import { setUserAvatar } from 'src/api/user';
+import UserContext from 'src/utils/UserContext';
+import { useTheme } from 'src/utils/Theme';
 
 type ImageUploadProps = {
   allowedTypes: string[];
@@ -51,6 +52,7 @@ type UserAvatarProps = {
 
 const UserAvatar: React.FC<UserAvatarProps> = ({ editable = false, user }) => {
   const { user: currentUser, setUser } = useContext(UserContext);
+  const { colors: { borderImage } } = useTheme();
 
   const avatarImg = (
     <img
@@ -58,7 +60,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ editable = false, user }) => {
         width: 32,
         height: 32,
         borderRadius: 16,
-        border: '1px solid #CCC',
+        border: `1px solid ${borderImage}`,
       }}
       src={user.getAvatarUrl()}
     />

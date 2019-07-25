@@ -5,10 +5,10 @@ import { UserLight } from 'src/types/User';
 import { Subject } from 'src/types/Subject';
 import { Theme, useTheme } from 'src/utils/Theme';
 
-import Box from '../Box';
-import Flex from '../Flex';
-import Text from '../Text';
-import UserAvatar from '../UserAvatar';
+import Box from 'src/components/common/Box';
+import Flex from 'src/components/common/Flex';
+import Text from 'src/components/common/Text';
+import UserAvatar from 'src/components/common/UserAvatar';
 
 type SubjectHeaderProps = {
   subject: Subject;

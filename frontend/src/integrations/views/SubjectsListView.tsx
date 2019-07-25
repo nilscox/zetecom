@@ -6,12 +6,12 @@ import { SortType } from 'src/types/SortType';
 import { fetchSubjects } from 'src/api/subjects';
 import { useTheme } from 'src/utils/Theme';
 
-import Box from 'src/components/Box';
-import Flex from 'src/components/Flex';
-import Text from 'src/components/Text';
-import Loader from 'src/components/Loader';
-import SortSelect from 'src/components/SortSelect';
-import SubjectsList from 'src/components/SubjectsList';
+import Box from 'src/components/common/Box';
+import Flex from 'src/components/common/Flex';
+import Text from 'src/components/common/Text';
+import Loader from 'src/components/common/Loader';
+import SortSelect from 'src/components/common/SortSelect';
+import SubjectsList from 'src/components/subject/SubjectsList';
 
 const useSubjects = (information: Information, sort: SortType) => {
   const [subjects, setSubjects] = useState<Subject[] | undefined>();

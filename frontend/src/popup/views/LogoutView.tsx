@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import UserContext from 'src/utils/UserContext';
 import { logoutUser } from 'src/api/user';
-import UserAvatar from 'src/components/UserAvatar';
+import UserAvatar from 'src/components/common/UserAvatar';
 
 import Typography from '../components/Typography';
 import Form from '../components/Form';
