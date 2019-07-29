@@ -8,13 +8,14 @@ import { useTheme } from 'src/utils/Theme';
 
 import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
+import Hr from 'src/components/common/Hr';
 import Break from 'src/components/common/Break';
 import Loader from 'src/components/common/Loader';
 import Text from 'src/components/common/Text';
 import SortSelect from 'src/components/common/SortSelect';
 
 import SubjectComponent from 'src/components/subject/Subject';
-import { ReactionsList } from 'src/components/reaction/ReactionsList';
+import ReactionsList from 'src/components/reaction/ReactionsList';
 
 const useReactions = (subject: Subject, sort: SortType) => {
   const [reactions, setReactions] = useState<Reaction[] | undefined>();
@@ -37,7 +38,7 @@ const useReactions = (subject: Subject, sort: SortType) => {
 };
 
 type SubjectViewProps = {
-  subject: Subject,
+  subject: Subject;
   backToSubjectsList: () => void;
 };
 
@@ -63,9 +64,11 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
         <SubjectComponent subject={subject} />
       </Box>
 
-      <Break size={2 * big} />
+      <Break size={big} />
+      <Hr />
+      <Break size={big} />
 
-      { !reactions ? <Loader size="big" /> : <ReactionsList reactions={reactions} /> }
+      { fetchingReactions ? <Loader size="big" /> : <ReactionsList reactions={reactions} /> }
 
     </>
   );
