@@ -53,6 +53,9 @@ const SubjectsListView: React.FC<SubjectsListViewProps> = ({ information, setSub
     setSort(newSort);
   };
 
+  if (subjects)
+    setTimeout(() => setSubject(subjects[0]), 0);
+
   return (
     <>
 

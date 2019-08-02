@@ -1,4 +1,4 @@
-import { User, parseUser } from './User';
+import { UserLight, parseUser } from './User';
 
 export enum QuickReactionType {
   APPROVE = 'approve',
@@ -25,7 +25,7 @@ export type Reaction = {
   edited: false | Date;
   history: ReactionHistory[] | null;
   repliesCount: number;
-  author: Partial<User>;
+  author: UserLight;
   quickReactionsCount: QuickReactionsCount;
   userQuickReaction: QuickReactionType;
 };
