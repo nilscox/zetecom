@@ -7,16 +7,16 @@ import { Reaction, parseReaction } from 'src/types/Reaction';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ResponseData = any;
 
-export const fetchSubjects = async (informationId: number, sort: SortType): Promise<Subject[]> => {
-  const { data } = await axios.get(`/api/information/${informationId}/subjects?sort=${sort}`, {
+export const fetchSubjects = async (informationId: number, sort?: SortType): Promise<Subject[]> => {
+  const { data } = await axios.get(`/api/information/${informationId}/subjects${ sort ? `?sort=${sort}` : '' }`, {
     withCredentials: true,
   });
 
   return data.map((r: ResponseData) => parseSubject(r));
 };
 
-export const fetchReactions = async (subjectId: number, sort: SortType): Promise<Reaction[]> => {
-  const { data } = await axios.get(`/api/subject/${subjectId}/reactions?sort=${sort}`, {
+export const fetchReactions = async (subjectId: number, sort?: SortType): Promise<Reaction[]> => {
+  const { data } = await axios.get(`/api/subject/${subjectId}/reactions${sort ? `?sort=${sort}` : '' }`, {
     withCredentials: true,
   });
 
