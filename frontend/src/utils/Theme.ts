@@ -8,6 +8,7 @@ export type Theme = {
     borderImage: string;
     text: string;
     textLight: string;
+    disabled: string;
   };
   sizes: {
     small: number;
@@ -35,6 +36,7 @@ const defaultTheme: Theme = {
     borderImage: '#999999',
     text: '#333333',
     textLight: '#666666',
+    disabled: '#999999',
   },
   sizes: {
     small: 2,

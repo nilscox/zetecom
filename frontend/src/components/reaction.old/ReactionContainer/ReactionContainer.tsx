@@ -5,7 +5,7 @@ import { SortType } from 'src/types/SortType';
 import { classList } from 'src/utils/classList';
 import { fetchReplies } from 'src/api/reaction';
 import Loader from 'src/components/common/Loader';
-import { Collapse } from 'src/components/common/Collapse';
+import Collapse from 'src/components/common/Collapse';
 
 import { ReactionContent } from '../ReactionContent/ReactionContent';
 import { ReactionForm } from '../ReactionForm/ReactionForm';
@@ -53,7 +53,7 @@ export const ReactionContainer: React.FC<ReactionContainerProps> = (props) => {
 
   useEffect(() => {
     if (displayReplies && !replies) {
-      fetchReplies(reaction.id, sort)
+      fetchReplies(reaction.id)
         .then((replies: Reaction[]) => setReplies(replies))
         .then(() => setFetchingReplies(false));
     }
@@ -103,7 +103,7 @@ export const ReactionContainer: React.FC<ReactionContainerProps> = (props) => {
         onReactionUpdated={setReaction}
       />
 
-      <Collapse isOpened={displayReplyForm}>
+      <Collapse open={displayReplyForm}>
         <div className="reaction-reply-form-wrapper">
           <div className="reaction-reply-form-indent" />
           <div className="reaction-reply-form">
@@ -116,7 +116,7 @@ export const ReactionContainer: React.FC<ReactionContainerProps> = (props) => {
         </div>
       </Collapse>
 
-      <Collapse isOpened={fetchingReplies || !!(displayReplies && replies && replies.length > 0)}>
+      <Collapse open={fetchingReplies || !!(displayReplies && replies && replies.length > 0)}>
         <ReactionReplies
           fetching={fetchingReplies}
           replies={replies}

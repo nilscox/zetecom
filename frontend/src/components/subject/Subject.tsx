@@ -4,7 +4,7 @@ import { Subject } from 'src/types/Subject';
 import { useTheme } from 'src/utils/Theme';
 
 import Box from 'src/components/common/Box';
-import Text from 'src/components/common/Text';
+import Button from 'src/components/common/Button';
 import MarkdownMessage from 'src/components/common/MarkdownMessage';
 
 import SubjectHeader from './SubjectHeader';
@@ -20,9 +20,9 @@ const ViewReactions: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 
   return (
     <Box my={medium}>
-      <Text variant="button" align="center" onClick={onClick}>
+      <Button align="center" onClick={onClick}>
         Voir les réactions
-      </Text>
+      </Button>
     </Box>
   );
 };

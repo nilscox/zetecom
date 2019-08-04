@@ -22,8 +22,8 @@ export const fetchReaction = async (reactionId: number): Promise<Reaction> => {
   return parseReaction(data);
 };
 
-export const fetchReplies = async (parentId: number, sort: SortType): Promise<Reaction[]> => {
-  const { data } = await axios.get(`/api/reaction/${parentId}/replies?sort=${sort}`, {
+export const fetchReplies = async (parentId: number): Promise<Reaction[]> => {
+  const { data } = await axios.get(`/api/reaction/${parentId}/replies`, {
     withCredentials: true,
   });
 

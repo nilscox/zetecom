@@ -4,6 +4,7 @@ import { QuickReactionsCount } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
 import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
+import Button from 'src/components/common/Button';
 import Text from 'src/components/common/Text';
 
 type QuickReactionsProps = {
@@ -47,19 +48,23 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayRepl
       alignItems="center"
       ml={big}
     >
-      <Text variant="button" color="textLight" onClick={onClick}>{ repliesCount } réponses</Text>
-      <Box ml={big}>
-        <Text
-          size="small"
-          color="textLight"
-          style={{
-            transform: displayReplies ? 'rotate(90deg)' : '',
-            transition: 'transform 200ms ease',
-          }}
-        >
-          ▸
-        </Text>
-      </Box>
+      <Button size="small" color="textLight" disabled={repliesCount === 0} onClick={onClick}>
+        { repliesCount } réponse{ repliesCount > 1 ? 's' : '' }
+      </Button>
+      { repliesCount > 0 && (
+        <Box ml={big}>
+          <Text
+            size="small"
+            color="textLight"
+            style={{
+              transform: displayReplies ? 'rotate(90deg)' : '',
+              transition: 'transform 200ms ease',
+            }}
+          >
+            ▸
+          </Text>
+        </Box>
+      ) }
     </Flex>
   );
 };

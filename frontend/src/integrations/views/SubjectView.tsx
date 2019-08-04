@@ -11,6 +11,7 @@ import Flex from 'src/components/common/Flex';
 import Hr from 'src/components/common/Hr';
 import Break from 'src/components/common/Break';
 import Loader from 'src/components/common/Loader';
+import Button from 'src/components/common/Button';
 import Text from 'src/components/common/Text';
 import SortSelect from 'src/components/common/SortSelect';
 
@@ -57,7 +58,7 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
           <SortSelect disabled={!reactions || true} onChange={(sort) => setSort(sort)} />
         </Box>
         <div style={{ flex: 1 }}>
-          <Text variant="button" align="right" onClick={backToSubjectsList}>Retour</Text>
+          <Button align="right" onClick={backToSubjectsList}>Retour</Button>
         </div>
       </Flex>
 

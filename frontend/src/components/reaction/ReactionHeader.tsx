@@ -37,10 +37,10 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited })
         </Box>
       </Flex>
       <Box pt={small} pr={medium} style={{ position: 'absolute', top: 0, right: 0 }}>
-        { edited ? (
-          <Text variant="note">{ moment(edited).format(DATE_FORMAT) }</Text>
+        { !edited ? (
+          <Text variant="note">{ moment(date).format(DATE_FORMAT) }</Text>
         ) : (
-          <Text variant="note" style={{ fontStyle: 'oblique' }}>* { moment(date).format(DATE_FORMAT) }</Text>
+          <Text variant="note" style={{ fontStyle: 'oblique' }}>* { moment(edited).format(DATE_FORMAT) }</Text>
         ) }
       </Box>
     </div>
