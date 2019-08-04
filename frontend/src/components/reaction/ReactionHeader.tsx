@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 import { Reaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
@@ -7,13 +8,16 @@ import Flex from 'src/components/common/Flex';
 import Text from 'src/components/common/Text';
 import UserAvatar from 'src/components/common/UserAvatar';
 
+const DATE_FORMAT = '[Le] DD.MM.YYYY [à] hh:mm';
+
 type ReactionHeaderProps = {
   author: Reaction['author'];
+  date: Reaction['date'];
   edited: Reaction['edited'];
 };
 
-const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, edited }) => {
-  const { sizes: { medium, big }, colors: { backgroundLight, borderLight }, borderRadius } = useTheme();
+const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited }) => {
+  const { sizes: { small, medium, big }, colors: { backgroundLight, borderLight }, borderRadius } = useTheme();
 
   return (
     <div
@@ -23,6 +27,7 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, edited }) => {
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,
         padding: medium,
+        position: 'relative',
       }}
     >
       <Flex flexDirection="row" alignItems="center">
@@ -31,6 +36,13 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, edited }) => {
           <Text size="big" style={{ fontWeight: 'bold' }}>{ author.nick }</Text>
         </Box>
       </Flex>
+      <Box pt={small} pr={medium} style={{ position: 'absolute', top: 0, right: 0 }}>
+        { edited ? (
+          <Text variant="note">{ moment(edited).format(DATE_FORMAT) }</Text>
+        ) : (
+          <Text variant="note" style={{ fontStyle: 'oblique' }}>* { moment(date).format(DATE_FORMAT) }</Text>
+        ) }
+      </Box>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Theme, useTheme } from 'src/utils/Theme';
 
@@ -43,7 +43,7 @@ const getStyles: (theme: Theme) => { [key in TextVariant]: React.CSSProperties }
 
   },
   note: {
-    fontSize: 14,
+    fontSize: theme.fontSizes.small,
     color: theme.colors.textLight,
   },
   button: {
@@ -63,8 +63,8 @@ const onelineStyle: React.CSSProperties = {
 
 const Text: React.FC<TextProps> = ({
   variant = 'text',
-  size = 'medium',
-  color = 'text',
+  size,
+  color,
   align,
   oneline,
   style,
@@ -72,12 +72,13 @@ const Text: React.FC<TextProps> = ({
   ...props
 }) => {
   const theme = useTheme();
-  const variantStyles = getStyles(theme);
+  const variantStyles = useMemo(() => getStyles(theme), [theme]);
+
   const styles: React.CSSProperties = {
     ...variantStyles[variant],
-    fontSize: theme.fontSizes[size],
-    color: theme.colors[color],
-    textAlign: align,
+    ...(size && { fontSize: theme.fontSizes[size] }),
+    ...(color && { color: theme.colors[color] }),
+    ...(align && { textAlign: align }),
     ...(oneline && onelineStyle),
     ...style,
   };
