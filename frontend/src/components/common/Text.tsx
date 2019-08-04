@@ -15,6 +15,8 @@ type TextVariant =
 export type TextProps = React.HTMLAttributes<HTMLDivElement> & {
   oneline?: boolean,
   variant?: TextVariant,
+  size?: keyof Theme['fontSizes'],
+  color?: keyof Theme['colors'],
   align?: React.CSSProperties['textAlign'],
   style?: React.CSSProperties,
   children?: React.ReactNode,
@@ -36,7 +38,6 @@ const getStyles: (theme: Theme) => { [key in TextVariant]: React.CSSProperties }
   'subject-title': {
     fontSize: 18,
     fontWeight: 'bold',
-    color: theme.colors.text,
   },
   'subject-quote': {
 
@@ -60,7 +61,16 @@ const onelineStyle: React.CSSProperties = {
   maxWidth: '100%',
 };
 
-const Text: React.FC<TextProps> = ({ oneline, variant = 'text', align, style, children, ...props }) => {
+const Text: React.FC<TextProps> = ({
+  oneline,
+  variant = 'text',
+  size = 'medium',
+  color = 'text',
+  align,
+  style,
+  children,
+  ...props
+}) => {
   const theme = useTheme();
   const styles = getStyles(theme);
 
@@ -68,6 +78,8 @@ const Text: React.FC<TextProps> = ({ oneline, variant = 'text', align, style, ch
     <div
       style={{
         ...styles[variant],
+        ...(size && { fontSize: theme.fontSizes[size] }),
+        ...(color && { color: theme.colors[color] }),
         ...(oneline && onelineStyle),
         ...(align && { textAlign: align }),
         ...style,

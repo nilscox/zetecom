@@ -30,10 +30,11 @@ const SubjectHeader: React.FC<SubjectHeaderProps> = ({ subject: { subject, autho
       px={big}
       flexDirection="row"
       alignItems="center"
-      borderRadius={borderRadius}
       style={{
         backgroundColor: (!transparent || hover) && colors.backgroundLight,
         borderBottom: `1px solid ${colors.borderLight}`,
+        borderTopLeftRadius: borderRadius,
+        borderTopRightRadius: borderRadius,
         cursor: onClick && 'pointer',
       }}
       onMouseEnter={() => setHover(true)}
@@ -42,8 +43,8 @@ const SubjectHeader: React.FC<SubjectHeaderProps> = ({ subject: { subject, autho
     >
 
       <div style={{ maxWidth: '100%' }}>
-        <Text oneline variant="subject-title">{ subject }</Text>
-        <Text variant="note">Par <b>{ author.nick }</b>, le { moment(date).format('DD.MM.YYYY') }</Text>
+        <Text oneline variant="subject-title" size="big">{ subject }</Text>
+        <Text variant="note" size="small">Par <b>{ author.nick }</b>, le { moment(date).format('DD.MM.YYYY') }</Text>
       </div>
 
     </Flex>

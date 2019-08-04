@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Reaction } from 'src/types/Reaction';
 
@@ -8,10 +8,15 @@ type ReactionContainerProps = {
   reaction: Reaction;
 };
 
-const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction }) => (
-  <>
-    <ReactionComponent reaction={reaction} />
-  </>
-);
+const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction }) => {
+  const [displayReplies, setDisplayReplies] = useState(false);
+  const toggleReplies = () => setDisplayReplies(!displayReplies);
+
+  return (
+    <>
+      <ReactionComponent reaction={reaction} displayReplies={displayReplies} toggleReplies={toggleReplies} />
+    </>
+  );
+};
 
 export default ReactionContainer;

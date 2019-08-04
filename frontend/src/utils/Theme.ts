@@ -14,6 +14,16 @@ export type Theme = {
     medium: number,
     big: number,
   },
+  fontSizes: {
+    small: number,
+    medium: number,
+    big: number,
+  },
+  animation: {
+    fast: number,
+    medium: number,
+    slow: number,
+  },
   borderRadius: number,
 };
 
@@ -30,6 +40,16 @@ const defaultTheme: Theme = {
     small: 2,
     medium: 5,
     big: 10,
+  },
+  fontSizes: {
+    small: 14,
+    medium: 16,
+    big: 18,
+  },
+  animation: {
+    fast: 90,
+    medium: 200,
+    slow: 340,
   },
   borderRadius: 4,
 };

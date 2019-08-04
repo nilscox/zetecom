@@ -40,13 +40,18 @@ type YoutubeProps = {
 
 const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
   const { fetchingInformation, information } = useInformation(youtubeId);
+  const [margin, setMargin] = useState(0);
 
   useEffect(() => {
     if (information) {
-      window.parent.postMessage(
-        { type: 'INTEGRATION_LOADED' },
-        'https://www.youtube.com',
-      );
+      if (window.parent === window)
+        setMargin(15);
+      else {
+        window.parent.postMessage(
+          { type: 'INTEGRATION_LOADED' },
+          'https://www.youtube.com',
+        );
+      }
     }
   }, [information]);
 
@@ -59,6 +64,7 @@ const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
   return (
     <div style={{
       width: 'auto',
+      margin: `0 ${margin}px`,
       paddingBottom: 20,
     }}>
       <Integration information={information} />

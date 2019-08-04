@@ -4,6 +4,7 @@ import { Reaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
 import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
+import Text from 'src/components/common/Text';
 import UserAvatar from 'src/components/common/UserAvatar';
 
 type ReactionHeaderProps = {
@@ -12,20 +13,22 @@ type ReactionHeaderProps = {
 };
 
 const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, edited }) => {
-  const { sizes: { big }, colors: { backgroundLight, borderLight }, borderRadius } = useTheme();
+  const { sizes: { medium, big }, colors: { backgroundLight, borderLight }, borderRadius } = useTheme();
 
   return (
     <div
       style={{
         background: backgroundLight,
-        borderBottomColor: borderLight,
-        borderRadius,
+        borderBottom: `1px solid ${borderLight}`,
+        borderTopLeftRadius: borderRadius,
+        borderTopRightRadius: borderRadius,
+        padding: medium,
       }}
     >
       <Flex flexDirection="row" alignItems="center">
         <UserAvatar user={author} />
         <Box ml={big}>
-          <span style={{ fontWeight: 'bold' }}>{ author.nick }</span>
+          <Text size="big" style={{ fontWeight: 'bold' }}>{ author.nick }</Text>
         </Box>
       </Flex>
     </div>
