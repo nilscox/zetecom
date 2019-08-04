@@ -22,10 +22,10 @@ if (!fs.existsSync(USER_AVATAR_DESTINATION))
   fs.mkdirSync(USER_AVATAR_DESTINATION);
 
 export const multerStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination(req, file, cb) {
     cb(null, USER_AVATAR_DESTINATION);
   },
-  filename: function (req, file, cb) {
+  filename(req, file, cb) {
     if (!req.user)
       return cb(new Error('multerStorage: req.user must exist'));
 
