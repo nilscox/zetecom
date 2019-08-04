@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 
 import { User } from '../types/User';
 
@@ -20,3 +20,9 @@ const UserContext = createContext<UserContextValue | undefined>(undefined);
 export default UserContext;
 export const UserProvider = UserContext.Provider;
 export const UserConsumer = UserContext.Consumer;
+
+export const useCurrentUser = () => {
+  const { user } = useContext(UserContext);
+
+  return user;
+};

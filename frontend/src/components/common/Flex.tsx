@@ -3,6 +3,7 @@ import React from 'react';
 import Box, { BoxProps } from './Box';
 
 type FlexProps = BoxProps & {
+  flex?: React.CSSProperties['flex'];
   flexDirection?: React.CSSProperties['flexDirection'];
   justifyContent?: React.CSSProperties['justifyContent'];
   alignItems?: React.CSSProperties['alignItems'];
@@ -11,12 +12,13 @@ type FlexProps = BoxProps & {
 };
 
 const Flex: React.FC<FlexProps> = ({ children, ...props }) => {
-  const { flexDirection, justifyContent, alignItems, style, ...other } = props;
+  const { flex, flexDirection, justifyContent, alignItems, style, ...other } = props;
 
   return (
     <Box
       style={{
         display: 'flex',
+        flex,
         flexDirection,
         justifyContent,
         alignItems,

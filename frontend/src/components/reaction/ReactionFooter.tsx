@@ -69,11 +69,28 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayRepl
   );
 };
 
+type ReplyButtonProps = {
+  onReply: () => void;
+};
+
+const ReplyButton: React.FC<ReplyButtonProps> = ({ onReply }) => {
+  const { sizes: { big } } = useTheme();
+
+  return (
+    <Box mr={big}>
+      <Button onClick={onReply}>
+        Répondre
+      </Button>
+    </Box>
+  );
+};
+
 type ReactionFooterProps = {
   quickReactionsCount: QuickReactionsCount;
   repliesCount: number;
   displayReplies: boolean;
   toggleReplies: () => void;
+  onReply: () => void;
 };
 
 const ReactionFooter: React.FC<ReactionFooterProps> = ({
@@ -81,11 +98,12 @@ const ReactionFooter: React.FC<ReactionFooterProps> = ({
   repliesCount,
   displayReplies,
   toggleReplies,
+  onReply,
 }) => {
   const { colors: { borderLight } } = useTheme();
 
   return (
-    <Flex flexDirection="row" style={{ borderTop: `1px solid ${borderLight}` }}>
+    <Flex flexDirection="row" alignItems="center" style={{ borderTop: `1px solid ${borderLight}` }}>
       <QuickReactions icon="/assets/images/1f44d.png" count={quickReactionsCount.approve} />
       <VBreak />
       <QuickReactions icon="/assets/images/1f44e.png" count={quickReactionsCount.refute} />
@@ -93,6 +111,8 @@ const ReactionFooter: React.FC<ReactionFooterProps> = ({
       <QuickReactions icon="/assets/images/1f9d0.png" count={quickReactionsCount.skeptic} />
       <VBreak />
       <RepliesButton repliesCount={repliesCount} displayReplies={displayReplies} onClick={toggleReplies} />
+      <Flex flex={1} />
+      <ReplyButton onReply={onReply} />
     </Flex>
   );
 };
