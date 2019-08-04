@@ -13,13 +13,13 @@ type TextVariant =
   | 'button';
 
 export type TextProps = React.HTMLAttributes<HTMLDivElement> & {
-  oneline?: boolean,
-  variant?: TextVariant,
-  size?: keyof Theme['fontSizes'],
-  color?: keyof Theme['colors'],
-  align?: React.CSSProperties['textAlign'],
-  style?: React.CSSProperties,
-  children?: React.ReactNode,
+  variant?: TextVariant;
+  size?: keyof Theme['fontSizes'];
+  color?: keyof Theme['colors'];
+  align?: React.CSSProperties['textAlign'];
+  oneline?: boolean;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
 };
 
 const getStyles: (theme: Theme) => { [key in TextVariant]: React.CSSProperties } = theme => ({
@@ -62,30 +62,28 @@ const onelineStyle: React.CSSProperties = {
 };
 
 const Text: React.FC<TextProps> = ({
-  oneline,
   variant = 'text',
   size = 'medium',
   color = 'text',
   align,
+  oneline,
   style,
   children,
   ...props
 }) => {
   const theme = useTheme();
-  const styles = getStyles(theme);
+  const variantStyles = getStyles(theme);
+  const styles: React.CSSProperties = {
+    ...variantStyles[variant],
+    fontSize: theme.fontSizes[size],
+    color: theme.colors[color],
+    textAlign: align,
+    ...(oneline && onelineStyle),
+    ...style,
+  };
 
   return (
-    <div
-      style={{
-        ...styles[variant],
-        ...(size && { fontSize: theme.fontSizes[size] }),
-        ...(color && { color: theme.colors[color] }),
-        ...(oneline && onelineStyle),
-        ...(align && { textAlign: align }),
-        ...style,
-      }}
-      {...props}
-    >
+    <div style={styles} {...props}>
       { children }
     </div>
   );

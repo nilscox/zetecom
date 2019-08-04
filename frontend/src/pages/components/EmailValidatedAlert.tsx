@@ -6,7 +6,6 @@ const ALERT_TIMEOUT = 5000;
 
 const EmailValidatedAlert: React.FC = () => {
   const [show, setShow] = useState(true);
-  const width = window.innerWidth;
 
   if (queryString.parse(location.search)['email-validated'] !== 'true')
     return null;

@@ -51,10 +51,17 @@ const SubjectsListView: React.FC<SubjectsListViewProps> = ({ information, setSub
 
     localStorage.setItem('sort', newSort);
     setSort(newSort);
+
+    // TODO: do sort
   };
 
+  // TODO
   if (subjects)
     setTimeout(() => setSubject(subjects[0]), 0);
+
+  // TODO
+  if (!fetchingSubjects && !subjects)
+    return <>wtf?!</>;
 
   return (
     <>
@@ -62,11 +69,11 @@ const SubjectsListView: React.FC<SubjectsListViewProps> = ({ information, setSub
       <Flex m={big} flexDirection="row" alignItems="center">
         <Text>Tri :</Text>
         <Box ml={big}>
-          <SortSelect disabled={!subjects} onChange={(sort) => setSort(sort)} />
+          <SortSelect disabled={!subjects} onChange={onSort} />
         </Box>
       </Flex>
 
-      { !subjects ? <Loader size="big" /> : <SubjectsList subjects={subjects} setSubject={setSubject} /> }
+      { fetchingSubjects ? <Loader size="big" /> : <SubjectsList subjects={subjects} setSubject={setSubject} /> }
 
     </>
   );

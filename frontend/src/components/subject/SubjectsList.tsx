@@ -1,9 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Subject } from 'src/types/Subject';
 import { useTheme } from 'src/utils/Theme';
 
-import UserAvatar from 'src/components/common/UserAvatar';
 import Box from 'src/components/common/Box';
 import Break from 'src/components/common/Break';
 
@@ -11,18 +10,25 @@ import SubjectComponent from './Subject';
 import SubjectHeader from './SubjectHeader';
 
 type ClosedSubjectsListProps = {
-  subjects: Subject[],
+  subjects: Subject[];
   setOpen: (id: number) => void;
 };
 
-const isLast = (arr: any[], n: number) => n === arr.length - 1;
+function isFirst<T>(arr: T[], n: number) {
+  // such wow!
+  return n === 0;
+}
+
+function isLast<T>(arr: T[], n: number) {
+  return n === arr.length - 1;
+}
 
 const ClosedSubjectsList: React.FC<ClosedSubjectsListProps> = ({ subjects, setOpen }) => {
-  const { sizes: { big }, colors, borderRadius } = useTheme();
+  const { colors, borderRadius } = useTheme();
 
   return (
     <Box border={`1px solid ${colors.border}`} borderRadius={borderRadius}>
-      {subjects.map((subject, n) => (
+      {subjects.map(subject => (
         <div key={subject.id}>
           <SubjectHeader transparent subject={subject} onClick={() => setOpen(subject.id)} />
         </div>
@@ -32,7 +38,7 @@ const ClosedSubjectsList: React.FC<ClosedSubjectsListProps> = ({ subjects, setOp
 };
 
 type SubjectsListProps = {
-  subjects: Subject[],
+  subjects: Subject[];
   setSubject: (subject: Subject) => void;
 };
 
@@ -42,11 +48,11 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, setSubject }) => 
   const openIdx = subjects.findIndex(s => s.id === open);
 
   if (open === null)
-    return <ClosedSubjectsList subjects={subjects} setOpen={setOpen} />
+    return <ClosedSubjectsList subjects={subjects} setOpen={setOpen} />;
 
   return (
     <>
-      { openIdx > 0 && (
+      { isFirst(subjects, openIdx) && (
         <>
           <ClosedSubjectsList subjects={subjects.slice(0, openIdx)} setOpen={setOpen} />
           <Break size={big} />
@@ -61,7 +67,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, setSubject }) => 
         />
       </Box>
 
-      { openIdx < subjects.length - 1 && (
+      { !isLast(subjects, openIdx) && (
         <>
           <Break size={big} />
           <ClosedSubjectsList subjects={subjects.slice(openIdx + 1)} setOpen={setOpen} />

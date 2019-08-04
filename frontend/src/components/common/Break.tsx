@@ -1,7 +1,7 @@
 import React from 'react';
 
 type BreakProps = {
-  size: number,
+  size: number;
 };
 
 const Break: React.FC<BreakProps> = ({ size }) => (

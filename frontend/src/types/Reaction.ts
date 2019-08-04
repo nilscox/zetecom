@@ -56,6 +56,7 @@ export const parseReaction = (data: any): Reaction => {
     quickReactionsCount: Object.keys(data.quickReactionsCount).reduce((obj, key) => {
       obj[mapQuickReaction[key]] = data.quickReactionsCount[key];
       return obj;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }, {} as any),
     userQuickReaction: mapQuickReaction[data.userQuickReaction],
   };

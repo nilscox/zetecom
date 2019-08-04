@@ -6,7 +6,7 @@ import { useTheme } from 'src/utils/Theme';
 import Box from './Box';
 
 type MarkdownMessageProps = {
-  markdown: string,
+  markdown: string;
 };
 
 const converter = new showdown.Converter({ tables: true });

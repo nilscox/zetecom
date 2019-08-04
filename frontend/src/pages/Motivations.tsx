@@ -2,11 +2,6 @@
 
 import React from 'react';
 
-import SubTitle from './components/SubTitle';
-import Section from './components/Section';
-import Note from './components/Note';
-import Outline from './components/Outline';
-
 /*
 
 *plus ou moins en vrac*

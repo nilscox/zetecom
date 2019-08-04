@@ -43,6 +43,7 @@ type SubjectViewProps = {
 };
 
 const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
   const { sizes: { big }, colors: { border }, borderRadius } = useTheme();
   const { fetchingReactions, reactions } = useReactions(subject, SortType.DATE_ASC);

@@ -2,29 +2,29 @@ import { createContext, useContext } from 'react';
 
 export type Theme = {
   colors: {
-    backgroundLight: string,
-    border: string,
-    borderLight: string,
-    borderImage: string,
-    text: string,
-    textLight: string,
-  },
+    backgroundLight: string;
+    border: string;
+    borderLight: string;
+    borderImage: string;
+    text: string;
+    textLight: string;
+  };
   sizes: {
-    small: number,
-    medium: number,
-    big: number,
-  },
+    small: number;
+    medium: number;
+    big: number;
+  };
   fontSizes: {
-    small: number,
-    medium: number,
-    big: number,
-  },
+    small: number;
+    medium: number;
+    big: number;
+  };
   animation: {
-    fast: number,
-    medium: number,
-    slow: number,
-  },
-  borderRadius: number,
+    fast: number;
+    medium: number;
+    slow: number;
+  };
+  borderRadius: number;
 };
 
 const defaultTheme: Theme = {

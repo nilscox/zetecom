@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import queryString from 'query-string';
 
 import { Information } from 'src/types/Information';
-import { Reaction } from 'src/types/Reaction';
 import { fetchInformationFromYoutubeId } from 'src/api/information';
 
 import Loader from 'src/components/common/Loader';

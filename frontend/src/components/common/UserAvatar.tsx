@@ -7,7 +7,7 @@ import { useTheme } from 'src/utils/Theme';
 
 type ImageUploadProps = {
   allowedTypes: string[];
-  onUpload: (file: File) => any;
+  onUpload: (file: File) => void;
   children: JSX.Element;
 };
 

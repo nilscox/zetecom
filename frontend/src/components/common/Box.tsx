@@ -1,16 +1,16 @@
 import React from 'react';
 
 export type BoxProps = React.HTMLAttributes<HTMLDivElement> & {
-  m?: number,
-  ml?: number, mt?: number, mr?: number, mb?: number,
-  mx?: number, my?: number,
-  p?: number,
-  pl?: number, pt?: number, pr?: number, pb?: number,
-  px?: number, py?: number,
-  border?: string,
-  borderRadius?: number,
-  style?: React.CSSProperties,
-  children?: React.ReactNode,
+  m?: number;
+  ml?: number; mt?: number; mr?: number; mb?: number;
+  mx?: number; my?: number;
+  p?: number;
+  pl?: number; pt?: number; pr?: number; pb?: number;
+  px?: number; py?: number;
+  border?: string;
+  borderRadius?: number;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
 };
 
 const Box: React.FC<BoxProps> = ({ children, ...props }) => {
@@ -25,11 +25,15 @@ const Box: React.FC<BoxProps> = ({ children, ...props }) => {
   const margin: number[] = [mt || 0, mr || 0, mb || 0, ml || 0];
   const padding: number[] = [pt || 0, pr || 0, pb || 0, pl || 0];
 
-  if (mx) margin[1] = margin[3] = mx;
-  if (my) margin[0] = margin[2] = my;
+  if (mx)
+    margin[1] = margin[3] = mx;
+  if (my)
+    margin[0] = margin[2] = my;
 
-  if (px) padding[1] = padding[3] = px;
-  if (py) padding[0] = padding[2] = py;
+  if (px)
+    padding[1] = padding[3] = px;
+  if (py)
+    padding[0] = padding[2] = py;
 
   return (
     <div
