@@ -18,7 +18,7 @@ const UserAvatarNick: React.FC<UserAvatarNickProps> = ({ user }) => {
     <Flex flexDirection="row" alignItems="center">
       <UserAvatar user={user} />
       <Box ml={big}>
-        <Text size="big" style={{ fontWeight: 'bold' }}>{ user.nick }</Text>
+        <Text size="big" bold>{ user.nick }</Text>
       </Box>
     </Flex>
   );

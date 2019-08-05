@@ -7,8 +7,6 @@ type TextVariant =
   | 'title'
   | 'subtitle'
   | 'text'
-  | 'subject-title'
-  | 'subject-quote'
   | 'note'
   | 'button';
 
@@ -17,6 +15,7 @@ export type TextProps = React.HTMLAttributes<HTMLDivElement> & {
   size?: keyof Theme['fontSizes'];
   color?: keyof Theme['colors'];
   align?: React.CSSProperties['textAlign'];
+  bold?: boolean;
   oneline?: boolean;
   style?: React.CSSProperties;
   children?: React.ReactNode;
@@ -33,17 +32,10 @@ const getStyles: (theme: Theme) => { [key in TextVariant]: React.CSSProperties }
 
   },
   text: {
-
-  },
-  'subject-title': {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  'subject-quote': {
-
+    color: theme.colors.text,
   },
   note: {
-    fontSize: theme.fontSizes.small,
+    fontSize: theme.fontSizes.note,
     color: theme.colors.textLight,
   },
   button: {
@@ -66,6 +58,7 @@ const Text: React.FC<TextProps> = ({
   size,
   color,
   align,
+  bold,
   oneline,
   style,
   children,
@@ -79,6 +72,7 @@ const Text: React.FC<TextProps> = ({
     ...(size && { fontSize: theme.fontSizes[size] }),
     ...(color && { color: theme.colors[color] }),
     ...(align && { textAlign: align }),
+    ...(bold && { fontWeight: 'bold' }),
     ...(oneline && onelineStyle),
     ...style,
   };

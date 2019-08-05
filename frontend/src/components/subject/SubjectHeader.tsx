@@ -40,7 +40,7 @@ const SubjectHeader: React.FC<SubjectHeaderProps> = ({ subject: { subject, autho
     >
 
       <div style={{ maxWidth: '100%' }}>
-        <Text oneline variant="subject-title" size="big">{ subject }</Text>
+        <Text oneline bold size="big">{ subject }</Text>
         <Text variant="note" size="small">Par <b>{ author.nick }</b>, le { moment(date).format('DD.MM.YYYY') }</Text>
       </div>
 

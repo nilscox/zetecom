@@ -11,17 +11,30 @@ type ReactionProps = {
   reaction: Reaction;
   displayReplies: boolean;
   toggleReplies: () => void;
+  displayReplyForm: boolean;
   onReply: () => void;
 };
 
-const ReactionComponent: React.FC<ReactionProps> = ({ reaction, displayReplies, toggleReplies, onReply }) => {
+const ReactionComponent: React.FC<ReactionProps> = ({
+  reaction,
+  displayReplies,
+  toggleReplies,
+  displayReplyForm,
+  onReply,
+}) => {
   const { colors: { border }, borderRadius } = useTheme();
 
   return (
     <div id={`reaction-${reaction.id}`} style={{ border: `1px solid ${border}`, borderRadius }}>
       <ReactionHeader {...reaction} />
       <ReactionBody {...reaction} />
-      <ReactionFooter {...reaction} displayReplies={displayReplies} toggleReplies={toggleReplies} onReply={onReply} />
+      <ReactionFooter
+        {...reaction}
+        displayReplies={displayReplies}
+        toggleReplies={toggleReplies}
+        displayReplyForm={displayReplyForm}
+        onReply={onReply}
+      />
     </div>
   );
 };

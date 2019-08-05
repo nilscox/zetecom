@@ -70,15 +70,16 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayRepl
 };
 
 type ReplyButtonProps = {
+  disabled: boolean;
   onReply: () => void;
 };
 
-const ReplyButton: React.FC<ReplyButtonProps> = ({ onReply }) => {
+const ReplyButton: React.FC<ReplyButtonProps> = ({ disabled, onReply }) => {
   const { sizes: { big } } = useTheme();
 
   return (
     <Box mr={big}>
-      <Button onClick={onReply}>
+      <Button disabled={disabled} onClick={onReply}>
         Répondre
       </Button>
     </Box>
@@ -90,6 +91,7 @@ type ReactionFooterProps = {
   repliesCount: number;
   displayReplies: boolean;
   toggleReplies: () => void;
+  displayReplyForm: boolean;
   onReply: () => void;
 };
 
@@ -98,6 +100,7 @@ const ReactionFooter: React.FC<ReactionFooterProps> = ({
   repliesCount,
   displayReplies,
   toggleReplies,
+  displayReplyForm,
   onReply,
 }) => {
   const { colors: { borderLight } } = useTheme();
@@ -112,7 +115,7 @@ const ReactionFooter: React.FC<ReactionFooterProps> = ({
       <VBreak />
       <RepliesButton repliesCount={repliesCount} displayReplies={displayReplies} onClick={toggleReplies} />
       <Flex flex={1} />
-      <ReplyButton onReply={onReply} />
+      <ReplyButton disabled={displayReplyForm} onReply={onReply} />
     </Flex>
   );
 };

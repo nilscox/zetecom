@@ -50,7 +50,7 @@ type ReactionContainerProps = {
 const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction }) => {
   const [displayReplies, setDisplayReplies] = useState(false);
   const [fetchReplies, setFetchReplies] = useState(false);
-  const [displayReplyForm, setDisplayReplyForm] = useState(true); // TODO: change to false
+  const [displayReplyForm, setDisplayReplyForm] = useState(false); // TODO: change to false
   const { fetchingReplies, replies } = useReplies(fetchReplies ? reaction : undefined);
 
   const { sizes: { big } } = useTheme();
@@ -67,6 +67,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction }) => {
         reaction={reaction}
         displayReplies={displayReplies}
         toggleReplies={toggleReplies}
+        displayReplyForm={displayReplyForm}
         onReply={() => setDisplayReplyForm(true)}
       />
 

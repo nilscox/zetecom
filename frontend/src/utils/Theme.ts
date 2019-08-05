@@ -16,6 +16,7 @@ export type Theme = {
     big: number;
   };
   fontSizes: {
+    note: number;
     small: number;
     medium: number;
     big: number;
@@ -30,7 +31,7 @@ export type Theme = {
 
 const defaultTheme: Theme = {
   colors: {
-    backgroundLight: '#f0f0f0',
+    backgroundLight: '#f9f9f9',
     border: '#cccccc',
     borderLight: '#eeeeee',
     borderImage: '#999999',
@@ -44,6 +45,7 @@ const defaultTheme: Theme = {
     big: 10,
   },
   fontSizes: {
+    note: 12,
     small: 14,
     medium: 16,
     big: 18,

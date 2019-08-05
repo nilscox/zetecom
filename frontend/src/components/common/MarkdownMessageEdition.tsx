@@ -1,0 +1,102 @@
+import React, { useState } from 'react';
+
+import { useTheme } from 'src/utils/Theme';
+import Button from 'src/components/common/Button';
+import Box from 'src/components/common/Box';
+import Flex from 'src/components/common/Flex';
+import MarkdownMessage from 'src/components/common/MarkdownMessage';
+
+type TabProps = {
+  active: boolean;
+  children: React.ReactNode;
+};
+
+const Tab: React.FC<TabProps> = ({ active, children }) => {
+  return (
+    <Box
+      px={10}
+      py={2}
+      style={{
+        border: '1px solid #CCC',
+        borderBottom: active ? 'none' : '1px solid #CCC',
+      }}
+    >
+      { children }
+    </Box>
+  );
+};
+
+const TabSeparator = () => {
+  const { sizes: { big } } = useTheme();
+
+  return (
+    <Box style={{ width: big, borderBottom: '1px solid #CCC' }} />
+  );
+};
+
+const TabFiller = () => (
+  <Flex style={{ flex: 1, borderBottom: '1px solid #CCC' }} />
+);
+
+type MarkdownMessageFieldProps = {
+  message: string;
+  setMessage: (message: string) => void;
+};
+
+const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, setMessage }) => {
+  const { sizes: { big } } = useTheme();
+  return (
+    <textarea
+      style={{ border: 'none', padding: big, outline: 'none', resize: 'vertical' }}
+      placeholder="Composez votre message..."
+      rows={4}
+      value={message}
+      onChange={e => setMessage(e.target.value)}
+    />
+  );
+};
+
+type MarkdownMessagePreviewProps = {
+  message: string;
+};
+
+const MarkdownMessagePreview: React.FC<MarkdownMessagePreviewProps> = ({ message }) => {
+  return <MarkdownMessage style={{ minHeight: 42 }} markdown={message} />;
+};
+
+type MarkdownMessageEditionProps = {
+  message: string;
+  setMessage: (message: string) => void;
+};
+
+const MarkdownMessageEdition: React.FC<MarkdownMessageEditionProps> = ({ message, setMessage }) => {
+  const { sizes: { medium, big } } = useTheme();
+  const [currentTab, setCurrentTab] = useState<'edit' | 'preview'>('edit');
+
+  return (
+    <Flex flexDirection="column" mt={medium}>
+
+      <Flex flexDirection="row">
+        <TabSeparator />
+        <Tab active={currentTab === 'edit'}>
+          <Button size="small" onClick={() => setCurrentTab('edit')}>Editer</Button>
+        </Tab>
+        <TabSeparator />
+        <Tab active={currentTab === 'preview'}>
+          <Button size="small" onClick={() => setCurrentTab('preview')}>Aperçu</Button>
+        </Tab>
+        <TabFiller />
+      </Flex>
+
+      { currentTab === 'edit' && <MarkdownMessageField message={message} setMessage={setMessage} /> }
+      { currentTab === 'preview' && <MarkdownMessagePreview message={message} /> }
+
+      <Flex flexDirection="row" justifyContent="flex-end" px={big} py={medium} style={{ borderTop: '1px solid #CCC' }}>
+        <Button disabled={message.length === 0} style={{ }} onClick={() => {}}>Envoyer</Button>
+      </Flex>
+
+    </Flex>
+  );
+};
+
+export default MarkdownMessageEdition;

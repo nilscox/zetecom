@@ -1,5 +1,23 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSpring, animated, config } from 'react-spring';
+
+declare const ResizeObserver: any;
+
+const useResize = (ref: React.RefObject<any>) => {
+  const [rect, setRect] = useState<any | null>(null);
+
+  useEffect(() => {
+    const ro = new ResizeObserver((entries: any) => {
+      setRect(entries[0].contentRect);
+    });
+
+    ro.observe(ref.current);
+
+    return () => ro.unobserve(ref.current);
+  }, [ref.current]);
+
+  return rect;
+};
 
 type CollapseProps = {
   open: boolean;
@@ -11,6 +29,8 @@ const Collapse: React.FC<CollapseProps> = ({ open, innerMargin = 0, children }) 
   const [props, set] = useSpring(() => ({ height: 0, config: { ...config.stiff, clamp: true } }));
   const ref = useRef(null);
 
+  const rect = useResize(ref);
+
   const setHeight = () => {
     const height = ref.current.getBoundingClientRect().height + innerMargin;
 
@@ -20,8 +40,7 @@ const Collapse: React.FC<CollapseProps> = ({ open, innerMargin = 0, children }) 
       set({ height: 0 });
   };
 
-  useEffect(setHeight, [open, set]);
-  useLayoutEffect(setHeight);
+  useEffect(setHeight, [open, set, rect && rect.height]);
 
   return (
     <animated.div style={{ ...props, overflow: 'hidden' }}>
@@ -31,3 +50,6 @@ const Collapse: React.FC<CollapseProps> = ({ open, innerMargin = 0, children }) 
 };
 
 export default Collapse;
+
+// wanna bypass collapse?
+// export default ({ open, children }: any) => open ? children : null;

@@ -9,7 +9,7 @@ type ButtonProps = TextProps & {
 
 const Button: React.FC<ButtonProps> = ({ disabled, onClick, ...props }) => {
   if (disabled)
-    return <Text variant="button" style={{ cursor: 'initial' }} {...props} color="disabled" />;
+    return <Text variant="button" {...props} style={{ cursor: 'initial', ...props.style }} color="disabled" />;
 
   return (
     <Text variant="button" onClick={onClick} {...props} />
