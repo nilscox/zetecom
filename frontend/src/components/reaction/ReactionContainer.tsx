@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { Subject } from 'src/types/Subject';
 import { Reaction } from 'src/types/Reaction';
 import { fetchReplies } from 'src/api/reaction';
 import { useTheme } from 'src/utils/Theme';
@@ -44,10 +45,11 @@ const Indented: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 type ReactionContainerProps = {
+  subject: Subject;
   reaction: Reaction;
 };
 
-const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction }) => {
+const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction }) => {
   const [displayReplies, setDisplayReplies] = useState(false);
   const [fetchReplies, setFetchReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false); // TODO: change to false
@@ -73,7 +75,8 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction }) => {
 
       <Collapse open={displayReplyForm} innerMargin={big}>
         <Indented>
-          <ReactionForm parent={reaction} closeForm={() => setDisplayReplyForm(false)} />
+          {/* TODO: onCreated */}
+          <ReactionForm subject={subject} parent={reaction} closeForm={() => setDisplayReplyForm(false)} onCreated={() => {}} />
         </Indented>
       </Collapse>
 
@@ -82,7 +85,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction }) => {
           { fetchingReplies ? (
             <Loader />
           ) : (
-            <ReactionsList reactions={replies} />
+            <ReactionsList subject={subject} reactions={replies} />
           ) }
         </Indented>
       </Collapse>

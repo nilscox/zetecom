@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { Subject } from 'src/types/Subject';
 import { Reaction } from 'src/types/Reaction';
+import { postReaction } from 'src/api/reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
+import Button from 'src/components/common/Button';
 import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
 import Text from 'src/components/common/Text';
@@ -39,38 +42,77 @@ const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
   );
 };
 
-type FormQuoteProps = {
-  quote: string;
-  setQuote: (quote: string) => void;
+type SubmitButtonProps = {
+  message: string;
 };
 
-const FormQuote: React.FC<FormQuoteProps> = ({ quote, setQuote }) => {
-  const { sizes: { medium }, colors: { border }, borderRadius } = useTheme();
+const SubmitButton: React.FC<SubmitButtonProps> = ({ message }) => {
+  const { sizes: { medium, big } } = useTheme();
 
   return (
-    <input
-      style={{ margin: medium, padding: medium, border: `1px solid ${border}`, borderRadius }}
-      value={quote}
-      placeholder="Citation (optionelle)"
-      onChange={e => setQuote(e.target.value)}
-    />
+    <Flex flexDirection="row" justifyContent="flex-end" px={big} py={medium} style={{ borderTop: '1px solid #CCC' }}>
+      <button type="submit" disabled={message.length === 0} onClick={() => {}}>Envoyer</button>
+    </Flex>
   );
 };
 
-type ReactionFormProps = {
-  parent?: Reaction;
-  closeForm?: () => void;
+const usePostReaction = () => {
+  const [created, setCreated] = useState<Reaction | null>(null);
+
+  return [
+    created,
+    (data: {
+      subjectId: number;
+      text: string;
+      parentId?: number;
+    }) => {
+      postReaction(
+        data.subjectId,
+        data.text,
+        data.parentId,
+      )
+        .then((reaction) => {
+          setCreated(reaction);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    },
+  ] as const;
 };
 
-const ReactionForm: React.FC<ReactionFormProps> = ({ parent, closeForm }) => {
+type ReactionFormProps = {
+  subject: Subject;
+  parent?: Reaction;
+  closeForm?: () => void;
+  onCreated: (reaction: Reaction) => void;
+};
+
+const ReactionForm: React.FC<ReactionFormProps> = ({ subject, parent, closeForm, onCreated }) => {
   const { colors: { border }, borderRadius } = useTheme();
   const [message, setMessage] = useState('');
+  const [created, postReaction] = usePostReaction();
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    postReaction({
+      subjectId: subject.id,
+      text: message,
+      parentId: parent.id,
+    });
+  };
+
+  useEffect(() => void created && onCreated(created), [created]);
 
   return (
-    <Flex flexDirection="column" style={{ border: `1px solid ${border}`, borderRadius }}>
-      <FormHeader closeForm={closeForm} />
-      <MarkdownMessageEdition message={message} setMessage={setMessage} />
-    </Flex>
+    <form onSubmit={onSubmit}>
+      <Flex flexDirection="column" style={{ border: `1px solid ${border}`, borderRadius }}>
+        <FormHeader closeForm={closeForm} />
+        <MarkdownMessageEdition message={message} setMessage={setMessage} />
+        <SubmitButton message={message} />
+      </Flex>
+    </form>
   );
 };
 

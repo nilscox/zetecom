@@ -70,7 +70,7 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
       <Hr />
       <Break size={big} />
 
-      { fetchingReactions ? <Loader size="big" /> : <ReactionsList reactions={reactions} /> }
+      { fetchingReactions ? <Loader size="big" /> : <ReactionsList subject={subject} reactions={reactions} /> }
 
     </>
   );

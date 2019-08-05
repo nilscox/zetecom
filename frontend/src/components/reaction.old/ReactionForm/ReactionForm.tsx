@@ -29,7 +29,7 @@ const ReactionForm = (props: ReactionFormProps) => {
 
     const promise = preloadedReaction
       ? updateReaction(preloadedReaction.id, text)
-      : postReaction(42, quote, text, replyTo ? replyTo.id : undefined);
+      : postReaction(42, text, replyTo ? replyTo.id : undefined);
 
     promise
       .then((reaction: Reaction) => {

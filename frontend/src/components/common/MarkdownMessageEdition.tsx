@@ -70,7 +70,7 @@ type MarkdownMessageEditionProps = {
 };
 
 const MarkdownMessageEdition: React.FC<MarkdownMessageEditionProps> = ({ message, setMessage }) => {
-  const { sizes: { medium, big } } = useTheme();
+  const { sizes: { medium } } = useTheme();
   const [currentTab, setCurrentTab] = useState<'edit' | 'preview'>('edit');
 
   return (
@@ -90,10 +90,6 @@ const MarkdownMessageEdition: React.FC<MarkdownMessageEditionProps> = ({ message
 
       { currentTab === 'edit' && <MarkdownMessageField message={message} setMessage={setMessage} /> }
       { currentTab === 'preview' && <MarkdownMessagePreview message={message} /> }
-
-      <Flex flexDirection="row" justifyContent="flex-end" px={big} py={medium} style={{ borderTop: '1px solid #CCC' }}>
-        <Button disabled={message.length === 0} style={{ }} onClick={() => {}}>Envoyer</Button>
-      </Flex>
 
     </Flex>
   );

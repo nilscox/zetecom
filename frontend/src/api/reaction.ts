@@ -31,12 +31,11 @@ export const fetchReplies = async (parentId: number): Promise<Reaction[]> => {
 };
 
 export const postReaction = async (
-  informationId: number,
-  quote: string | null,
+  subjectId: number,
   text: string,
   parentId?: number,
 ): Promise<Reaction> => {
-  const payload = { informationId, quote, text, parentId };
+  const payload = { subjectId, text, parentId };
 
   const { data } = await axios.post('/api/reaction', payload, {
     withCredentials: true,
