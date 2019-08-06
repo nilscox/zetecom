@@ -4,6 +4,7 @@ import { Subject } from 'src/types/Subject';
 import { Reaction } from 'src/types/Reaction';
 import { fetchReplies } from 'src/api/reaction';
 import { useTheme } from 'src/utils/Theme';
+import Flex from 'src/components/common/Flex';
 import Loader from 'src/components/common/Loader';
 import Collapse from 'src/components/common/Collapse';
 
@@ -38,9 +39,12 @@ const Indented: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { sizes: { big }, colors: { border } } = useTheme();
 
   return (
-    <div style={{ marginTop: big, borderLeft: `8px solid ${border}`, paddingLeft: big }}>
-      { children }
-    </div>
+    <Flex flexDirection="row" pt={big}>
+      <div style={{ borderLeft: `8px solid ${border}`, paddingLeft: big }} />
+      <div style={{ flex: 1 }}>
+        { children }
+      </div>
+    </Flex>
   );
 };
 
@@ -73,14 +77,14 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
         onReply={() => setDisplayReplyForm(true)}
       />
 
-      <Collapse open={displayReplyForm} innerMargin={big}>
+      <Collapse open={displayReplyForm}>
         <Indented>
           {/* TODO: onCreated */}
           <ReactionForm subject={subject} parent={reaction} closeForm={() => setDisplayReplyForm(false)} onCreated={() => {}} />
         </Indented>
       </Collapse>
 
-      <Collapse open={displayReplies} innerMargin={big}>
+      <Collapse open={displayReplies}>
         <Indented>
           { fetchingReplies ? (
             <Loader />
