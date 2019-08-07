@@ -55,14 +55,6 @@ const SubjectsListView: React.FC<SubjectsListViewProps> = ({ information, setSub
     // TODO: do sort
   };
 
-  // TODO
-  if (subjects)
-    setTimeout(() => setSubject(subjects[0]), 0);
-
-  // TODO
-  if (!fetchingSubjects && !subjects)
-    return <>wtf?!</>;
-
   return (
     <>
 
