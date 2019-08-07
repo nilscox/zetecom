@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type BoxProps = React.HTMLAttributes<HTMLDivElement> & {
+export type BoxProps = React.HTMLProps<HTMLDivElement> & {
   m?: number;
   ml?: number; mt?: number; mr?: number; mb?: number;
   mx?: number; my?: number;

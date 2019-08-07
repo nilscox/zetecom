@@ -20,7 +20,7 @@ const ViewReactions: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 
   return (
     <Box my={medium}>
-      <Button align="center" onClick={onClick}>
+      <Button text={{ align: 'center' }} onClick={onClick}>
         Voir les réactions
       </Button>
     </Box>

@@ -2,17 +2,51 @@ import React from 'react';
 
 import Text, { TextProps } from 'src/components/common/Text';
 
-type ButtonProps = TextProps & {
+type ButtonProps = Omit<React.HTMLProps<HTMLButtonElement>, 'size'> & {
+  type?: React.HTMLProps<HTMLButtonElement>['type'];
   disabled?: boolean;
-  onClick: (e: React.MouseEvent<HTMLElement>) => void;
+  size?: TextProps['size'];
+  color?: TextProps['color'];
+  text?: TextProps;
+  children: React.ReactNode;
 };
 
-const Button: React.FC<ButtonProps> = ({ disabled, onClick, ...props }) => {
-  if (disabled)
-    return <Text variant="button" {...props} style={{ cursor: 'initial', ...props.style }} color="disabled" />;
-
+const Button: React.FC<ButtonProps> = ({
+  type = 'button',
+  disabled,
+  size,
+  color,
+  text,
+  children,
+  ...props
+}) => {
   return (
-    <Text variant="button" onClick={onClick} {...props} />
+    <button
+      type={type as any}
+      disabled={disabled}
+      style={{
+        border: 'none',
+        background: 'none',
+        outline: 'none',
+        ...props.style,
+      }}
+      {...props}
+    >
+
+      <Text
+        variant="button"
+        size={size}
+        color={disabled ? 'disabled' : color}
+        style={{
+          cursor: disabled ? 'initial' : 'pointer',
+          ...(text && text.style),
+        }}
+        {...text}
+      >
+        { children }
+      </Text>
+
+    </button>
   );
 };
 

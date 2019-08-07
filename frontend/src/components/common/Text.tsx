@@ -10,7 +10,7 @@ type TextVariant =
   | 'note'
   | 'button';
 
-export type TextProps = React.HTMLAttributes<HTMLDivElement> & {
+export type TextProps = Omit<React.HTMLProps<HTMLDivElement>, 'size'> & {
   variant?: TextVariant;
   size?: keyof Theme['fontSizes'];
   color?: keyof Theme['colors'];

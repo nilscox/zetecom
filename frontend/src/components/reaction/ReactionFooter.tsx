@@ -43,29 +43,34 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayRepl
   const { sizes: { big } } = useTheme();
 
   return (
-    <Flex
-      flexDirection="row"
-      alignItems="center"
-      ml={big}
+    <Button
+      size="small"
+      color="textLight"
+      disabled={!onClick || repliesCount === 0}
+      onClick={onClick}
     >
-      <Button size="small" color="textLight" disabled={repliesCount === 0} onClick={onClick}>
+      <Flex
+        flexDirection="row"
+        alignItems="center"
+        ml={big}
+      >
         { repliesCount } réponse{ repliesCount > 1 ? 's' : '' }
-      </Button>
-      { repliesCount > 0 && (
-        <Box ml={big}>
-          <Text
-            size="small"
-            color="textLight"
-            style={{
-              transform: displayReplies ? 'rotate(90deg)' : '',
-              transition: 'transform 200ms ease',
-            }}
-          >
-            ▸
-          </Text>
-        </Box>
-      ) }
-    </Flex>
+        { repliesCount > 0 && (
+          <Box ml={big}>
+            <Text
+              size="small"
+              style={{
+                transform: displayReplies ? 'rotate(90deg)' : '',
+                transition: 'transform 200ms ease',
+                color: 'inherit',
+              }}
+            >
+              ▸
+            </Text>
+          </Box>
+        ) }
+      </Flex>
+    </Button>
   );
 };
 
@@ -90,7 +95,7 @@ type ReactionFooterProps = {
   quickReactionsCount: QuickReactionsCount;
   repliesCount: number;
   displayReplies: boolean;
-  toggleReplies: () => void;
+  toggleReplies: () => void | null;
   displayReplyForm: boolean;
   onReply: () => void;
 };

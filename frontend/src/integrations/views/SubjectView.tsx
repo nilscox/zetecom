@@ -58,7 +58,7 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
           <SortSelect disabled={!reactions || true} onChange={(sort) => setSort(sort)} />
         </Box>
         <div style={{ flex: 1 }}>
-          <Button align="right" onClick={backToSubjectsList}>Retour</Button>
+          <Button text={{ align: 'right' }} onClick={backToSubjectsList}>Retour</Button>
         </div>
       </Flex>
 

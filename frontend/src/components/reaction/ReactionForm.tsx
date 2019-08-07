@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Subject } from 'src/types/Subject';
 import { Reaction } from 'src/types/Reaction';
@@ -51,34 +51,9 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ message }) => {
 
   return (
     <Flex flexDirection="row" justifyContent="flex-end" px={big} py={medium} style={{ borderTop: '1px solid #CCC' }}>
-      <button type="submit" disabled={message.length === 0} onClick={() => {}}>Envoyer</button>
+      <Button type="submit" disabled={message.length === 0}>Envoyer</Button>
     </Flex>
   );
-};
-
-const usePostReaction = () => {
-  const [created, setCreated] = useState<Reaction | null>(null);
-
-  return [
-    created,
-    (data: {
-      subjectId: number;
-      text: string;
-      parentId?: number;
-    }) => {
-      postReaction(
-        data.subjectId,
-        data.text,
-        data.parentId,
-      )
-        .then((reaction) => {
-          setCreated(reaction);
-        })
-        .catch((e) => {
-          console.error(e);
-        });
-    },
-  ] as const;
 };
 
 type ReactionFormProps = {
@@ -91,19 +66,30 @@ type ReactionFormProps = {
 const ReactionForm: React.FC<ReactionFormProps> = ({ subject, parent, closeForm, onCreated }) => {
   const { colors: { border }, borderRadius } = useTheme();
   const [message, setMessage] = useState('');
-  const [created, postReaction] = usePostReaction();
+
+  const onPostReaction = useCallback(
+    (data: { subjectId: number; text: string; parentId?: number }) => {
+      return postReaction(
+        data.subjectId,
+        data.text,
+        data.parentId,
+      )
+        .then(onCreated)
+        .then(() => setMessage(''))
+        .catch(console.error);
+    },
+    [onCreated],
+  );
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    postReaction({
+    onPostReaction({
       subjectId: subject.id,
       text: message,
       parentId: parent.id,
     });
   };
-
-  useEffect(() => void created && onCreated(created), [created]);
 
   return (
     <form onSubmit={onSubmit}>

@@ -10,7 +10,7 @@ import ReactionFooter from './ReactionFooter';
 type ReactionProps = {
   reaction: Reaction;
   displayReplies: boolean;
-  toggleReplies: () => void;
+  toggleReplies: () => void | null;
   displayReplyForm: boolean;
   onReply: () => void;
 };

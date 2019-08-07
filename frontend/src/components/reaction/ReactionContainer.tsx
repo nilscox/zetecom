@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { Subject } from 'src/types/Subject';
 import { Reaction } from 'src/types/Reaction';
@@ -16,22 +16,31 @@ const useReplies = (parent?: Reaction) => {
   const [replies, setReplies] = useState<Reaction[] | undefined>();
   const [fetching, setFetching] = useState(true);
 
-  useEffect(() => {
+  const onFetchReplies = useCallback(async () => {
     if (!parent)
       return;
 
     setFetching(true);
 
-    fetchReplies(parent.id)
-      .then(replies => {
-        setReplies(replies);
-        setFetching(false);
-      });
-  }, [parent]);
+    try {
+      setReplies(await fetchReplies(parent.id));
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setFetching(false);
+    }
+
+  }, [parent, setReplies, setFetching]);
+
+  const addReply = useCallback((reply: Reaction) => {
+    setReplies([reply, ...replies]);
+  }, [setReplies, replies]);
 
   return {
     fetchingReplies: fetching,
     replies,
+    fetchReplies: onFetchReplies,
+    addReply,
   };
 };
 
@@ -55,16 +64,26 @@ type ReactionContainerProps = {
 
 const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction }) => {
   const [displayReplies, setDisplayReplies] = useState(false);
-  const [fetchReplies, setFetchReplies] = useState(false);
-  const [displayReplyForm, setDisplayReplyForm] = useState(false); // TODO: change to false
-  const { fetchingReplies, replies } = useReplies(fetchReplies ? reaction : undefined);
+  const [displayReplyForm, setDisplayReplyForm] = useState(false);
+  const { fetchingReplies, replies, fetchReplies, addReply } = useReplies(reaction);
+  const [showReplyForm, hideReplyForm] = [true, false].map(v => () => setDisplayReplyForm(v));
 
-  const { sizes: { big } } = useTheme();
+  const toggleReplies = useCallback(() => {
+    if (!replies)
+      fetchReplies();
 
-  const toggleReplies = () => {
-    setFetchReplies(true);
     setDisplayReplies(!displayReplies);
-  };
+  }, [replies, fetchReplies, setDisplayReplies, displayReplies]);
+
+  const onCreated = useCallback((reaction: Reaction) => {
+    addReply(reaction);
+    hideReplyForm();
+  }, [addReply, hideReplyForm]);
+
+  useEffect(() => {
+    if (displayReplyForm && !displayReplies)
+      setTimeout(toggleReplies, 100);
+  }, [displayReplyForm, displayReplies, setDisplayReplies]);
 
   return (
     <>
@@ -72,15 +91,19 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
       <ReactionComponent
         reaction={reaction}
         displayReplies={displayReplies}
-        toggleReplies={toggleReplies}
+        toggleReplies={!displayReplyForm ? toggleReplies : null}
         displayReplyForm={displayReplyForm}
-        onReply={() => setDisplayReplyForm(true)}
+        onReply={showReplyForm}
       />
 
       <Collapse open={displayReplyForm}>
         <Indented>
-          {/* TODO: onCreated */}
-          <ReactionForm subject={subject} parent={reaction} closeForm={() => setDisplayReplyForm(false)} onCreated={() => {}} />
+          <ReactionForm
+            subject={subject}
+            parent={reaction}
+            closeForm={hideReplyForm}
+            onCreated={onCreated}
+          />
         </Indented>
       </Collapse>
 

@@ -10,7 +10,7 @@ type MarkdownMessageProps = {
   style?: React.CSSProperties;
 };
 
-const converter = new showdown.Converter({ tables: true });
+const converter = new showdown.Converter({ tables: true, simpleLineBreaks: false });
 
 const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ markdown, style }) => {
   const html = useMemo(() => converter.makeHtml(markdown), [markdown]);

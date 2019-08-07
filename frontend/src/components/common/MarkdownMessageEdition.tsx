@@ -79,7 +79,7 @@ const MarkdownMessageEdition: React.FC<MarkdownMessageEditionProps> = ({ message
       <Flex flexDirection="row">
         <TabSeparator />
         <Tab active={currentTab === 'edit'}>
-          <Button size="small" onClick={() => setCurrentTab('edit')}>Editer</Button>
+        <Button size="small" onClick={() => setCurrentTab('edit')}>Editer</Button>
         </Tab>
         <TabSeparator />
         <Tab active={currentTab === 'preview'}>
