@@ -5,8 +5,7 @@ import axios from 'axios';
 import moment from 'moment';
 import queryString from 'query-string';
 
-import { App } from './App';
-
+import App from './App';
 import env from './utils/env';
 
 const root = document.getElementById('app');

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { Subject } from 'src/types/Subject';
 import { Reaction } from 'src/types/Reaction';
@@ -32,9 +32,22 @@ const useReactions = (subject: Subject, sort: SortType) => {
       });
   }, [subject, sort]);
 
+  const onEdited = useCallback((reaction: Reaction) => {
+    const idx = reactions.findIndex(r => r.id === reaction.id);
+
+    if (idx < 0)
+      return;
+
+    setReactions([
+      ...reactions.slice(0, idx),
+      reaction,
+      ...reactions.slice(idx + 1)]);
+  }, [setReactions, reactions]);
+
   return {
     fetchingReactions: fetching,
     reactions,
+    onReactionEdited: onEdited,
   };
 };
 
@@ -47,7 +60,7 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
   const { sizes: { big }, colors: { border }, borderRadius } = useTheme();
-  const { fetchingReactions, reactions } = useReactions(subject, SortType.DATE_ASC);
+  const { fetchingReactions, reactions, onReactionEdited } = useReactions(subject, SortType.DATE_ASC);
 
   return (
     <>
@@ -70,7 +83,11 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
       <Hr />
       <Break size={big} />
 
-      { fetchingReactions ? <Loader size="big" /> : <ReactionsList subject={subject} reactions={reactions} /> }
+      { fetchingReactions ? (
+        <Loader size="big" />
+      ) : (
+        <ReactionsList subject={subject} reactions={reactions} onEdited={onReactionEdited} />
+      ) }
 
     </>
   );

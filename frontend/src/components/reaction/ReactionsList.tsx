@@ -10,16 +10,17 @@ import ReactionContainer from './ReactionContainer';
 type ReactionsListProps = {
   subject: Subject;
   reactions: Reaction[];
+  onEdited: (reaction: Reaction) => void;
 };
 
-const ReactionsList: React.FC<ReactionsListProps> = ({ subject, reactions }) => {
+const ReactionsList: React.FC<ReactionsListProps> = ({ subject, reactions, onEdited }) => {
   const { sizes: { big } } = useTheme();
 
   return (
     <>
       { reactions.map((r, n) => (
         <div key={r.id}>
-          <ReactionContainer subject={subject} reaction={r} />
+          <ReactionContainer subject={subject} reaction={r} onEdited={onEdited} />
           { n < reactions.length - 1 && <Break size={big} /> }
         </div>
       )) }

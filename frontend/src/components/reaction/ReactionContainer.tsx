@@ -10,7 +10,7 @@ import Collapse from 'src/components/common/Collapse';
 
 import ReactionComponent from './Reaction';
 import ReactionsList from './ReactionsList';
-import ReactionForm from './ReactionForm';
+import ReactionForm, { ReactionEditionForm } from './ReactionForm';
 
 const useReplies = (parent?: Reaction) => {
   const [replies, setReplies] = useState<Reaction[] | undefined>();
@@ -36,11 +36,19 @@ const useReplies = (parent?: Reaction) => {
     setReplies([reply, ...replies]);
   }, [setReplies, replies]);
 
+  const replaceReplyAt = useCallback((index: number, reply: Reaction) => {
+    setReplies([
+      ...replies.slice(0, index),
+      reply,
+      ...replies.slice(index + 1)]);
+  }, [setReplies, replies]);
+
   return {
     fetchingReplies: fetching,
     replies,
     fetchReplies: onFetchReplies,
     addReply,
+    replaceReplyAt,
   };
 };
 
@@ -60,13 +68,17 @@ const Indented: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 type ReactionContainerProps = {
   subject: Subject;
   reaction: Reaction;
+  onEdited: (reaction: Reaction) => void;
 };
 
-const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction }) => {
+const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction, onEdited }) => {
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
-  const { fetchingReplies, replies, fetchReplies, addReply } = useReplies(reaction);
+  const { fetchingReplies, replies, fetchReplies, addReply, replaceReplyAt } = useReplies(reaction);
+  const [editing, setEditing] = useState(false);
+
   const [showReplyForm, hideReplyForm] = [true, false].map(v => () => setDisplayReplyForm(v));
+  const [edit, closeEditionForm] = [true, false].map(v => () => setEditing(v));
 
   const toggleReplies = useCallback(() => {
     if (!replies)
@@ -80,6 +92,23 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
     hideReplyForm();
   }, [addReply, hideReplyForm]);
 
+  const onReplyEdited = useCallback((reply: Reaction) => {
+    if (!replies)
+      return;
+
+    const idx = replies.findIndex(r => r.id === reply.id);
+
+    if (idx < 0)
+      return;
+
+    replaceReplyAt(idx, reply);
+  }, [replies, replaceReplyAt]);
+
+  const onReactionEdited = useCallback((reaction: Reaction) => {
+    onEdited(reaction);
+    closeEditionForm();
+  }, [onEdited]);
+
   useEffect(() => {
     if (displayReplyForm && !displayReplies)
       setTimeout(toggleReplies, 100);
@@ -88,13 +117,22 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
   return (
     <>
 
-      <ReactionComponent
-        reaction={reaction}
-        displayReplies={displayReplies}
-        toggleReplies={!displayReplyForm ? toggleReplies : null}
-        displayReplyForm={displayReplyForm}
-        onReply={showReplyForm}
-      />
+      { editing ? (
+        <ReactionEditionForm
+          reaction={reaction}
+          onEdited={onReactionEdited}
+          closeForm={closeEditionForm}
+        />
+      ) : (
+        <ReactionComponent
+          reaction={reaction}
+          displayReplies={displayReplies}
+          toggleReplies={!displayReplyForm ? toggleReplies : null}
+          displayReplyForm={displayReplyForm}
+          onReply={showReplyForm}
+          onEdit={edit}
+        />
+      ) }
 
       <Collapse open={displayReplyForm}>
         <Indented>
@@ -112,7 +150,11 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
           { fetchingReplies ? (
             <Loader />
           ) : (
-            <ReactionsList subject={subject} reactions={replies} />
+            <ReactionsList
+              subject={subject}
+              reactions={replies}
+              onEdited={onReplyEdited}
+            />
           ) }
         </Indented>
       </Collapse>

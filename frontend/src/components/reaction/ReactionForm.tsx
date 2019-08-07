@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useCallback, useState } from 'react';
 
 import { Subject } from 'src/types/Subject';
 import { Reaction } from 'src/types/Reaction';
-import { postReaction } from 'src/api/reaction';
+import { postReaction, updateReaction } from 'src/api/reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import Button from 'src/components/common/Button';
@@ -57,49 +57,114 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ message }) => {
 };
 
 type ReactionFormProps = {
-  subject: Subject;
-  parent?: Reaction;
+  placeholder: string;
+  preloadedMessage?: string;
   closeForm?: () => void;
-  onCreated: (reaction: Reaction) => void;
+  onSubmit: (message: string) => void;
 };
 
-const ReactionForm: React.FC<ReactionFormProps> = ({ subject, parent, closeForm, onCreated }) => {
+const ReactionForm: React.FC<ReactionFormProps> = (
+  { placeholder, preloadedMessage = '', closeForm, onSubmit },
+  ref: React.Ref<{}>,
+) => {
   const { colors: { border }, borderRadius } = useTheme();
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(preloadedMessage);
 
-  const onPostReaction = useCallback(
-    (data: { subjectId: number; text: string; parentId?: number }) => {
-      return postReaction(
-        data.subjectId,
-        data.text,
-        data.parentId,
-      )
-        .then(onCreated)
-        .then(() => setMessage(''))
-        .catch(console.error);
-    },
-    [onCreated],
-  );
+  useImperativeHandle(ref, () => ({
+    clear: () => setMessage(''),
+  }));
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmitForm = useCallback((e: React.FormEvent) => {
     e.preventDefault();
-
-    onPostReaction({
-      subjectId: subject.id,
-      text: message,
-      parentId: parent.id,
-    });
-  };
+    onSubmit(message);
+  }, [onSubmit, message]);
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmitForm}>
       <Flex flexDirection="column" style={{ border: `1px solid ${border}`, borderRadius }}>
         <FormHeader closeForm={closeForm} />
-        <MarkdownMessageEdition message={message} setMessage={setMessage} />
+        <MarkdownMessageEdition placeholder={placeholder} message={message} setMessage={setMessage} />
         <SubmitButton message={message} />
       </Flex>
     </form>
   );
 };
 
-export default ReactionForm;
+const ReactionFormRef = forwardRef(ReactionForm);
+
+type ReactionCreationFormProps = {
+  subject: Subject;
+  parent?: Reaction;
+  closeForm?: () => void;
+  onCreated: (reaction: Reaction) => void;
+};
+
+const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
+  subject,
+  parent,
+  closeForm,
+  onCreated,
+}) => {
+  const formRef = React.useRef(null);
+
+  const onPostReaction = useCallback(async (message: string) => {
+    try {
+      const created = await postReaction(subject.id, message, parent ? parent.id : undefined);
+
+      onCreated(created);
+
+      if (formRef.current)
+        formRef.current.clear();
+    } catch (e) {
+      console.error(e);
+    }
+  }, [onCreated, formRef.current]);
+
+  return (
+    <ReactionFormRef
+      ref={formRef}
+      placeholder={
+        parent
+          ? `Répondez à ${parent.author.nick}`
+          : 'Composez votre message...'
+      }
+      onSubmit={onPostReaction}
+      closeForm={closeForm}
+    />
+  );
+};
+
+type ReactionEditionFormProps = {
+  reaction: Reaction;
+  onEdited: (reaction: Reaction) => void;
+  closeForm: () => void;
+};
+
+export const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reaction, onEdited, closeForm }) => {
+  const formRef = React.useRef(null);
+
+  const onEditReaction = useCallback(async (message: string) => {
+    try {
+      const edited = await updateReaction(reaction.id, message);
+
+      onEdited(edited);
+
+      if (formRef.current)
+        formRef.current.clear();
+    } catch (e) {
+      console.error(e);
+    }
+  }, [onEdited, formRef.current]);
+
+  return (
+    <ReactionFormRef
+      ref={formRef}
+      placeholder="Éditez votre message..."
+      preloadedMessage={reaction.text}
+      onSubmit={onEditReaction}
+      closeForm={closeForm}
+    />
+  );
+};
+
+export default ReactionCreationForm;

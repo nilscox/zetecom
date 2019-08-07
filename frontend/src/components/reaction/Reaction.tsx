@@ -13,6 +13,7 @@ type ReactionProps = {
   toggleReplies: () => void | null;
   displayReplyForm: boolean;
   onReply: () => void;
+  onEdit: () => void;
 };
 
 const ReactionComponent: React.FC<ReactionProps> = ({
@@ -21,12 +22,13 @@ const ReactionComponent: React.FC<ReactionProps> = ({
   toggleReplies,
   displayReplyForm,
   onReply,
+  onEdit,
 }) => {
   const { colors: { border }, borderRadius } = useTheme();
 
   return (
     <div id={`reaction-${reaction.id}`} style={{ border: `1px solid ${border}`, borderRadius }}>
-      <ReactionHeader {...reaction} />
+      <ReactionHeader {...reaction} onEdit={onEdit} />
       <ReactionBody {...reaction} />
       <ReactionFooter
         {...reaction}

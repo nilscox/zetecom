@@ -40,15 +40,16 @@ const TabFiller = () => (
 
 type MarkdownMessageFieldProps = {
   message: string;
+  placeholder?: string;
   setMessage: (message: string) => void;
 };
 
-const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, setMessage }) => {
+const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, placeholder, setMessage }) => {
   const { sizes: { big } } = useTheme();
   return (
     <textarea
       style={{ border: 'none', padding: big, outline: 'none', resize: 'vertical' }}
-      placeholder="Composez votre message..."
+      placeholder={placeholder}
       rows={4}
       value={message}
       onChange={e => setMessage(e.target.value)}
@@ -66,10 +67,11 @@ const MarkdownMessagePreview: React.FC<MarkdownMessagePreviewProps> = ({ message
 
 type MarkdownMessageEditionProps = {
   message: string;
+  placeholder?: string;
   setMessage: (message: string) => void;
 };
 
-const MarkdownMessageEdition: React.FC<MarkdownMessageEditionProps> = ({ message, setMessage }) => {
+const MarkdownMessageEdition: React.FC<MarkdownMessageEditionProps> = ({ message, placeholder, setMessage }) => {
   const { sizes: { medium } } = useTheme();
   const [currentTab, setCurrentTab] = useState<'edit' | 'preview'>('edit');
 
@@ -79,7 +81,7 @@ const MarkdownMessageEdition: React.FC<MarkdownMessageEditionProps> = ({ message
       <Flex flexDirection="row">
         <TabSeparator />
         <Tab active={currentTab === 'edit'}>
-        <Button size="small" onClick={() => setCurrentTab('edit')}>Editer</Button>
+          <Button size="small" onClick={() => setCurrentTab('edit')}>Editer</Button>
         </Tab>
         <TabSeparator />
         <Tab active={currentTab === 'preview'}>
@@ -88,8 +90,20 @@ const MarkdownMessageEdition: React.FC<MarkdownMessageEditionProps> = ({ message
         <TabFiller />
       </Flex>
 
-      { currentTab === 'edit' && <MarkdownMessageField message={message} setMessage={setMessage} /> }
-      { currentTab === 'preview' && <MarkdownMessagePreview message={message} /> }
+      {
+        {
+          edit: (
+            <MarkdownMessageField
+              message={message}
+              placeholder={placeholder}
+              setMessage={setMessage}
+            />
+          ),
+          preview: (
+            <MarkdownMessagePreview message={message} />
+          ),
+        }[currentTab]
+      }
 
     </Flex>
   );
