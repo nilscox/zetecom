@@ -122,8 +122,7 @@ export class ReactionController {
 
     await this.reactionService.setQuickReaction(reaction, user, dto.type);
 
-    // TODO: wtf?!
-    return this.reactionService.findOne({ reactionId: reaction.id });
+    return this.reactionService.findOne({ id: reaction.id });
   }
 
   @Post(':id/report')
