@@ -3,6 +3,7 @@ import { createContext, useContext } from 'react';
 export type Theme = {
   colors: {
     backgroundLight: string;
+    backgroundHeavy: string;
     border: string;
     borderLight: string;
     borderImage: string;
@@ -32,6 +33,7 @@ export type Theme = {
 const defaultTheme: Theme = {
   colors: {
     backgroundLight: '#f9f9f9',
+    backgroundHeavy: '#eeeeee',
     border: '#cccccc',
     borderLight: '#eeeeee',
     borderImage: '#999999',

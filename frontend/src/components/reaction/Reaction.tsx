@@ -32,6 +32,7 @@ const ReactionComponent: React.FC<ReactionProps> = ({
       <ReactionBody {...reaction} />
       <ReactionFooter
         {...reaction}
+        reactionId={reaction.id}
         displayReplies={displayReplies}
         toggleReplies={toggleReplies}
         displayReplyForm={displayReplyForm}

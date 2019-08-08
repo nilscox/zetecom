@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
-import { QuickReactionsCount } from 'src/types/Reaction';
+import { QuickReactionType, QuickReactionsCount } from 'src/types/Reaction';
+import { postQuickReaction } from 'src/api/reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import Flex from 'src/components/common/Flex';
@@ -8,16 +9,36 @@ import Box from 'src/components/common/Box';
 import Button from 'src/components/common/Button';
 import Text from 'src/components/common/Text';
 
-type QuickReactionsProps = {
-  icon: string;
-  count: number;
-};
-
-const QuickReactions: React.FC<QuickReactionsProps> = ({ icon, count }) => {
-  const { sizes: { small, medium, big } } = useTheme();
+const VBreak: React.FC = () => {
+  const { colors: { borderLight } } = useTheme();
 
   return (
-    <Flex mx={big} p={small} flexDirection="row" alignItems="center">
+    <div style={{ borderRight: `1px solid ${borderLight}` }} />
+  );
+};
+
+type QuickReactionProps = {
+  icon: string;
+  count: number;
+  userQuickReaction?: boolean;
+  onClick?: () => void;
+};
+
+const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, userQuickReaction, onClick }) => {
+  const { sizes: { small, medium, big }, colors: { backgroundHeavy } } = useTheme();
+
+  return (
+    <Flex
+      px={big}
+      py={small}
+      flexDirection="row"
+      alignItems="center"
+      style={{
+        backgroundColor: userQuickReaction ? backgroundHeavy : 'transparent',
+        cursor: onClick ? 'pointer' : 'initial',
+      }}
+      onClick={() => onClick && onClick()}
+    >
       <img src={icon} width={24} height={24} />
       <Box ml={medium}>
         <Text>{ count }</Text>
@@ -26,11 +47,87 @@ const QuickReactions: React.FC<QuickReactionsProps> = ({ icon, count }) => {
   );
 };
 
-const VBreak: React.FC = () => {
-  const { colors: { borderLight } } = useTheme();
+const useQuickReactions = (
+  reactionId: number,
+  qrc: QuickReactionsCount,
+  originalUserQuickReaction: QuickReactionType,
+) => {
+  const user = useCurrentUser();
+  const [updatedQuickReaction, setUpdatedQuickReaction] = useState<QuickReactionType | undefined>();
+  const userQuickReaction = updatedQuickReaction || originalUserQuickReaction;
+
+  const quickReactions: { [key in QuickReactionType]: QuickReactionProps } = {
+    approve: {
+      icon: '/assets/images/1f44d.png',
+      count: qrc.approve,
+    },
+    refute: {
+      icon: '/assets/images/1f44e.png',
+      count: qrc.refute,
+    },
+    skeptic: {
+      icon: '/assets/images/1f9d0.png',
+      count: qrc.skeptic,
+    },
+  };
+
+  const updateUserQuickReaction = useCallback(async (type: QuickReactionType) => {
+    try {
+      const updated = await postQuickReaction(reactionId, type);
+      setUpdatedQuickReaction(updated.userQuickReaction);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [reactionId, postQuickReaction, setUpdatedQuickReaction]);
+
+  const getQuickReactionProps = useCallback((type: QuickReactionType): QuickReactionProps => {
+    const props = quickReactions[type];
+
+    if (type === userQuickReaction)
+      props.userQuickReaction = true;
+
+    if (user && type !== userQuickReaction)
+      props.onClick = () => updateUserQuickReaction(type);
+
+    if (updatedQuickReaction) {
+      if (originalUserQuickReaction !== type && updatedQuickReaction === type)
+        props.count++;
+      if (originalUserQuickReaction === type && updatedQuickReaction !== type)
+        props.count--;
+    }
+
+    return props;
+  }, [quickReactions, userQuickReaction, originalUserQuickReaction, updatedQuickReaction]);
+
+  return {
+    approve: getQuickReactionProps(QuickReactionType.APPROVE),
+    refute: getQuickReactionProps(QuickReactionType.REFUTE),
+    skeptic: getQuickReactionProps(QuickReactionType.SKEPTIC),
+  };
+};
+
+type QuickReactionsProps = {
+  reactionId: number;
+  quickReactionsCount: QuickReactionsCount;
+  userQuickReaction: QuickReactionType;
+};
+
+const QuickReactions: React.FC<QuickReactionsProps> = ({
+  reactionId,
+  quickReactionsCount: qrc,
+  userQuickReaction: originalUserQuickReaction,
+}) => {
+  const props = useQuickReactions(reactionId, qrc, originalUserQuickReaction);
 
   return (
-    <div style={{ borderRight: `1px solid ${borderLight}` }} />
+    <Flex>
+      <QuickReaction {...props[QuickReactionType.APPROVE]} />
+      <VBreak />
+      <QuickReaction {...props[QuickReactionType.REFUTE]} />
+      <VBreak />
+      <QuickReaction {...props[QuickReactionType.SKEPTIC]} />
+      <VBreak />
+    </Flex>
   );
 };
 
@@ -97,8 +194,10 @@ const ReplyButton: React.FC<ReplyButtonProps> = ({ disabled, onReply }) => {
 };
 
 type ReactionFooterProps = {
+  reactionId: number;
   quickReactionsCount: QuickReactionsCount;
   repliesCount: number;
+  userQuickReaction: QuickReactionType;
   displayReplies: boolean;
   toggleReplies: () => void | null;
   displayReplyForm: boolean;
@@ -106,8 +205,10 @@ type ReactionFooterProps = {
 };
 
 const ReactionFooter: React.FC<ReactionFooterProps> = ({
+  reactionId,
   quickReactionsCount,
   repliesCount,
+  userQuickReaction,
   displayReplies,
   toggleReplies,
   displayReplyForm,
@@ -117,15 +218,18 @@ const ReactionFooter: React.FC<ReactionFooterProps> = ({
 
   return (
     <Flex flexDirection="row" alignItems="center" style={{ borderTop: `1px solid ${borderLight}` }}>
-      <QuickReactions icon="/assets/images/1f44d.png" count={quickReactionsCount.approve} />
-      <VBreak />
-      <QuickReactions icon="/assets/images/1f44e.png" count={quickReactionsCount.refute} />
-      <VBreak />
-      <QuickReactions icon="/assets/images/1f9d0.png" count={quickReactionsCount.skeptic} />
-      <VBreak />
+
+      <QuickReactions
+        reactionId={reactionId}
+        quickReactionsCount={quickReactionsCount}
+        userQuickReaction={userQuickReaction}
+      />
+
       <RepliesButton repliesCount={repliesCount} displayReplies={displayReplies} onClick={toggleReplies} />
+
       <Flex flex={1} />
       <ReplyButton disabled={displayReplyForm} onReply={onReply} />
+
     </Flex>
   );
 };
