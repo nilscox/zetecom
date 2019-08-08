@@ -14,11 +14,6 @@ type ClosedSubjectsListProps = {
   setOpen: (id: number) => void;
 };
 
-function isFirst<T>(arr: T[], n: number) {
-  // such wow!
-  return n === 0;
-}
-
 function isLast<T>(arr: T[], n: number) {
   return n === arr.length - 1;
 }
@@ -52,7 +47,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, setSubject }) => 
 
   return (
     <>
-      { isFirst(subjects, openIdx) && (
+      { (
         <>
           <ClosedSubjectsList subjects={subjects.slice(0, openIdx)} setOpen={setOpen} />
           <Break size={big} />

@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import moment from 'moment';
 
 import { Reaction } from 'src/types/Reaction';
+import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
-import UserContext from 'src/utils/UserContext';
 import Button from 'src/components/common/Button';
 import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
@@ -42,7 +42,7 @@ type ReactionHeaderProps = {
 
 const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, onEdit }) => {
   const { sizes: { small, medium }, colors: { backgroundLight, borderLight }, borderRadius } = useTheme();
-  const { user } = useContext(UserContext);
+  const user = useCurrentUser();
 
   return (
     <div
@@ -67,7 +67,7 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
       </Box>
 
       <Box pt={small} pr={medium} style={{ position: 'absolute', bottom: 0, right: 0 }}>
-        { author.id === user.id && <EditButton onClick={onEdit} /> }
+        { user && user.id === author.id && <EditButton onClick={onEdit} /> }
       </Box>
 
     </div>

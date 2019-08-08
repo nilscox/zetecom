@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { QuickReactionsCount } from 'src/types/Reaction';
+import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
@@ -81,6 +82,10 @@ type ReplyButtonProps = {
 
 const ReplyButton: React.FC<ReplyButtonProps> = ({ disabled, onReply }) => {
   const { sizes: { big } } = useTheme();
+  const user = useCurrentUser();
+
+  if (!user)
+    return null;
 
   return (
     <Box mr={big}>
