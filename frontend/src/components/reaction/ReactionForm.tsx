@@ -13,7 +13,7 @@ import UserAvatarNick from 'src/components/common/UserAvatarNick';
 import MarkdownMessageEdition from 'src/components/common/MarkdownMessageEdition';
 
 type FormHeaderProps = {
-  closeForm: () => void;
+  closeForm?: () => void;
 };
 
 const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
@@ -34,24 +34,26 @@ const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
         position: 'relative',
       }}
     >
-      <Box mr={medium} style={{ position: 'absolute', top: 0, right: 0 }}>
-        <Text color="textLight" style={{ cursor: 'pointer' }} onClick={closeForm}>×</Text>
-      </Box>
+      { closeForm && (
+        <Box mr={medium} style={{ position: 'absolute', top: 0, right: 0 }}>
+          <Text color="textLight" style={{ cursor: 'pointer' }} onClick={closeForm}>×</Text>
+        </Box>
+      ) }
       <UserAvatarNick user={user} />
     </div>
   );
 };
 
 type SubmitButtonProps = {
-  message: string;
+  disabled: boolean;
 };
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ message }) => {
+const SubmitButton: React.FC<SubmitButtonProps> = ({ disabled }) => {
   const { sizes: { medium, big } } = useTheme();
 
   return (
     <Flex flexDirection="row" justifyContent="flex-end" px={big} py={medium} style={{ borderTop: '1px solid #CCC' }}>
-      <Button type="submit" disabled={message.length === 0}>Envoyer</Button>
+      <Button type="submit" disabled={disabled}>Envoyer</Button>
     </Flex>
   );
 };
@@ -84,7 +86,7 @@ const ReactionForm: React.FC<ReactionFormProps> = (
       <Flex flexDirection="column" style={{ border: `1px solid ${border}`, borderRadius }}>
         <FormHeader closeForm={closeForm} />
         <MarkdownMessageEdition placeholder={placeholder} message={message} setMessage={setMessage} />
-        <SubmitButton message={message} />
+        <SubmitButton disabled={message.length === 0} />
       </Flex>
     </form>
   );
@@ -137,7 +139,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
 type ReactionEditionFormProps = {
   reaction: Reaction;
   onEdited: (reaction: Reaction) => void;
-  closeForm: () => void;
+  closeForm?: () => void;
 };
 
 export const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reaction, onEdited, closeForm }) => {

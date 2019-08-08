@@ -28,6 +28,7 @@ export type Theme = {
     slow: number;
   };
   borderRadius: number;
+  borderRadiusInput: number;
 };
 
 const defaultTheme: Theme = {
@@ -58,6 +59,7 @@ const defaultTheme: Theme = {
     slow: 340,
   },
   borderRadius: 4,
+  borderRadiusInput: 2,
 };
 
 /**
