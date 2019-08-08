@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
-
-import { QuickReactionType, QuickReactionsCount } from 'src/types/Reaction';
+import { Reaction, QuickReactionType, QuickReactionsCount } from 'src/types/Reaction';
 import { postQuickReaction } from 'src/api/reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
@@ -39,16 +38,20 @@ const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, userQuickRea
       }}
       onClick={() => onClick && onClick()}
     >
+
       <img src={icon} width={24} height={24} />
+
       <Box ml={medium}>
         <Text>{ count }</Text>
       </Box>
+
     </Flex>
   );
 };
 
 const useQuickReactions = (
   reactionId: number,
+  authorId: number,
   qrc: QuickReactionsCount,
   originalUserQuickReaction: QuickReactionType,
 ) => {
@@ -86,7 +89,7 @@ const useQuickReactions = (
     if (type === userQuickReaction)
       props.userQuickReaction = true;
 
-    if (user && type !== userQuickReaction)
+    if (user && user.id !== authorId && type !== userQuickReaction)
       props.onClick = () => updateUserQuickReaction(type);
 
     if (updatedQuickReaction) {
@@ -107,26 +110,29 @@ const useQuickReactions = (
 };
 
 type QuickReactionsProps = {
-  reactionId: number;
-  quickReactionsCount: QuickReactionsCount;
-  userQuickReaction: QuickReactionType;
+  reaction: Reaction;
 };
 
-const QuickReactions: React.FC<QuickReactionsProps> = ({
-  reactionId,
-  quickReactionsCount: qrc,
-  userQuickReaction: originalUserQuickReaction,
-}) => {
-  const props = useQuickReactions(reactionId, qrc, originalUserQuickReaction);
+const QuickReactions: React.FC<QuickReactionsProps> = ({ reaction }) => {
+  const props = useQuickReactions(
+    reaction.id,
+    reaction.author.id,
+    reaction.quickReactionsCount,
+    reaction.userQuickReaction,
+  );
 
   return (
     <Flex>
+
       <QuickReaction {...props[QuickReactionType.APPROVE]} />
       <VBreak />
+
       <QuickReaction {...props[QuickReactionType.REFUTE]} />
       <VBreak />
+
       <QuickReaction {...props[QuickReactionType.SKEPTIC]} />
       <VBreak />
+
     </Flex>
   );
 };
@@ -152,7 +158,9 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayRepl
         alignItems="center"
         ml={big}
       >
+
         { repliesCount } réponse{ repliesCount > 1 ? 's' : '' }
+
         { repliesCount > 0 && (
           <Box ml={big}>
             <Text
@@ -168,6 +176,7 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayRepl
           </Box>
         ) }
       </Flex>
+
     </Button>
   );
 };
@@ -194,10 +203,7 @@ const ReplyButton: React.FC<ReplyButtonProps> = ({ disabled, onReply }) => {
 };
 
 type ReactionFooterProps = {
-  reactionId: number;
-  quickReactionsCount: QuickReactionsCount;
-  repliesCount: number;
-  userQuickReaction: QuickReactionType;
+  reaction: Reaction;
   displayReplies: boolean;
   toggleReplies: () => void | null;
   displayReplyForm: boolean;
@@ -205,10 +211,7 @@ type ReactionFooterProps = {
 };
 
 const ReactionFooter: React.FC<ReactionFooterProps> = ({
-  reactionId,
-  quickReactionsCount,
-  repliesCount,
-  userQuickReaction,
+  reaction,
   displayReplies,
   toggleReplies,
   displayReplyForm,
@@ -220,12 +223,10 @@ const ReactionFooter: React.FC<ReactionFooterProps> = ({
     <Flex flexDirection="row" alignItems="center" style={{ borderTop: `1px solid ${borderLight}` }}>
 
       <QuickReactions
-        reactionId={reactionId}
-        quickReactionsCount={quickReactionsCount}
-        userQuickReaction={userQuickReaction}
+        reaction={reaction}
       />
 
-      <RepliesButton repliesCount={repliesCount} displayReplies={displayReplies} onClick={toggleReplies} />
+      <RepliesButton repliesCount={reaction.repliesCount} displayReplies={displayReplies} onClick={toggleReplies} />
 
       <Flex flex={1} />
       <ReplyButton disabled={displayReplyForm} onReply={onReply} />

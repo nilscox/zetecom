@@ -120,6 +120,9 @@ export class ReactionController {
     if (!reaction)
       throw new NotFoundException();
 
+    if (user.id === reaction.author.id)
+      throw new UnauthorizedException();
+
     await this.reactionService.setQuickReaction(reaction, user, dto.type);
 
     return this.reactionService.findOne({ id: reaction.id });

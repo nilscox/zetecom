@@ -31,8 +31,7 @@ const ReactionComponent: React.FC<ReactionProps> = ({
       <ReactionHeader {...reaction} onEdit={onEdit} />
       <ReactionBody {...reaction} />
       <ReactionFooter
-        {...reaction}
-        reactionId={reaction.id}
+        reaction={reaction}
         displayReplies={displayReplies}
         toggleReplies={toggleReplies}
         displayReplyForm={displayReplyForm}

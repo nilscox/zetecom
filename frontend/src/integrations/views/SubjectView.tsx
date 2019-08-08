@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { useCurrentUser } from 'src/utils/UserContext';
 import { Subject } from 'src/types/Subject';
 import { Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
@@ -17,6 +18,7 @@ import SortSelect from 'src/components/common/SortSelect';
 
 import SubjectComponent from 'src/components/subject/Subject';
 import ReactionsList from 'src/components/reaction/ReactionsList';
+import ReactionForm from 'src/components/reaction/ReactionForm';
 
 const useReactions = (subject: Subject, sort: SortType) => {
   const [reactions, setReactions] = useState<Reaction[] | undefined>();
@@ -31,6 +33,13 @@ const useReactions = (subject: Subject, sort: SortType) => {
         setFetching(false);
       });
   }, [subject, sort]);
+
+  const onCreated = useCallback((reaction: Reaction) => {
+    setReactions([
+      reaction,
+      ...reactions,
+    ]);
+  }, [setReactions, reactions]);
 
   const onEdited = useCallback((reaction: Reaction) => {
     const idx = reactions.findIndex(r => r.id === reaction.id);
@@ -47,6 +56,7 @@ const useReactions = (subject: Subject, sort: SortType) => {
   return {
     fetchingReactions: fetching,
     reactions,
+    onReactionCreated: onCreated,
     onReactionEdited: onEdited,
   };
 };
@@ -57,10 +67,17 @@ type SubjectViewProps = {
 };
 
 const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }) => {
+  const user = useCurrentUser();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
   const { sizes: { big }, colors: { border }, borderRadius } = useTheme();
-  const { fetchingReactions, reactions, onReactionEdited } = useReactions(subject, SortType.DATE_ASC);
+
+  const {
+    fetchingReactions,
+    reactions,
+    onReactionCreated,
+    onReactionEdited,
+  } = useReactions(subject, SortType.DATE_ASC);
 
   return (
     <>
@@ -82,6 +99,13 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
       <Break size={big} />
       <Hr />
       <Break size={big} />
+
+      { user && (
+        <>
+          <ReactionForm subject={subject} onCreated={onReactionCreated} />
+          <Break size={big} />
+        </>
+      ) }
 
       { fetchingReactions ? (
         <Loader size="big" />
