@@ -55,4 +55,29 @@ export class SubjectService {
     return subject;
   }
 
+  async addTotalReactionsCount(subjects: Subject[]): Promise<Subject[]> {
+    if (!subjects.length)
+      return [];
+
+    const reactionsCounts = await this.subjectRepository.createQueryBuilder('subject')
+      .select('subject.id')
+      .addSelect('COUNT(r.id)')
+      .innerJoin('subject.reactions', 'r')
+      .where('subject.id IN (' + subjects.map(s => s.id) + ')')
+      .groupBy('subject.id')
+      .getRawMany();
+
+    subjects.forEach(subject => {
+      const reactionsCount = reactionsCounts.find(rc => rc.subject_id === subject.id);
+
+      if (!reactionsCount)
+        subject.reactionsCount = 0;
+      else
+        subject.reactionsCount = parseInt(reactionsCount.count);
+    });
+
+    console.log(subjects);
+    return subjects;
+  }
+
 }

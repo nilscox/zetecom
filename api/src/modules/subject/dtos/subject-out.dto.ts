@@ -39,6 +39,9 @@ export class SubjectOutDto {
   @Type(() => UserLightOutDto)
   author: UserLightOutDto;
 
+  @Expose()
+  reactionsCount: number;
+
   messages: Message[];
 
 }

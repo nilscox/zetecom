@@ -8,6 +8,7 @@ export type Subject = {
   date: Date;
   edited: false | Date;
   author: UserLight;
+  reactionsCount: number;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

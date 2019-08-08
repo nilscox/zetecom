@@ -19,6 +19,7 @@ import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
 import { Subject } from '../subject/subject.entity';
+import { SubjectService } from '../subject/subject.service';
 import { SubjectOutDto } from '../subject/dtos/subject-out.dto';
 
 import { InformationService } from './information.service';
@@ -32,6 +33,7 @@ export class InformationController {
 
   constructor(
     private readonly informationService: InformationService,
+    private readonly subjectService: SubjectService,
   ) {}
 
   @Get()
@@ -75,7 +77,11 @@ export class InformationController {
     if (!information)
       return null;
 
-    return this.informationService.findSubjects(information, sort, page);
+    const subjects = await this.informationService.findSubjects(information, sort, page);
+
+    await this.subjectService.addTotalReactionsCount(subjects);
+
+    return subjects;
   }
 
   @Post()
