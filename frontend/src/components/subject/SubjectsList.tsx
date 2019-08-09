@@ -32,7 +32,7 @@ const ClosedSubjectsList: React.FC<ClosedSubjectsListProps> = ({ subjects, setOp
   );
 };
 
-type SubjectsListProps = {
+export type SubjectsListProps = {
   subjects: Subject[];
   setSubject: (subject: Subject) => void;
 };

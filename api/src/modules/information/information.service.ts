@@ -46,8 +46,8 @@ export class InformationService {
     return this.informationRepository.findOne(id);
   }
 
-  async findSubjects(information: Information, sort: SortType, page: number = 1): Promise<Subject[]> {
-    return this.subjectService.findAll(information, sort, page);
+  async findSubjects(information: Information, sort: SortType, page: number = 1, search?: string): Promise<Subject[]> {
+    return this.subjectService.findAll(information, sort, page, search);
   }
 
   async create(dto: CreateInformationInDto, creator: User): Promise<Information> {

@@ -70,6 +70,7 @@ export class InformationController {
     @Param('id', new ParseIntPipe()) id: number,
     @Query('sort', new SortTypePipe()) sort: SortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+    @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
     @ReqUser() user: User,
   ): Promise<Subject[]> {
     const information = await this.informationService.findOne({ id });
@@ -77,7 +78,7 @@ export class InformationController {
     if (!information)
       return null;
 
-    const subjects = await this.informationService.findSubjects(information, sort, page);
+    const subjects = await this.informationService.findSubjects(information, sort, page, search);
 
     await this.subjectService.addTotalReactionsCount(subjects);
 

@@ -1,7 +1,7 @@
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { Repository, FindConditions, FindManyOptions } from 'typeorm';
+import { Repository, FindConditions, FindManyOptions, Like } from 'typeorm';
 
 import { SortType } from 'Common/sort-type';
 
@@ -29,8 +29,18 @@ export class SubjectService {
 
   ) {}
 
-  async findAll(information, sort: SortType, page: number = 1): Promise<Subject[]> {
-    return this.subjectRepository.find();
+  async findAll(information, sort: SortType, page: number = 1, search?: String): Promise<Subject[]> {
+    const qb = this.subjectRepository.createQueryBuilder('subject')
+      .leftJoinAndSelect('subject.author', 'author')
+      .leftJoinAndSelect('subject.messages', 'messages');
+
+    if (search && search.length > 0) {
+      qb.where('subject.subject ILIKE :search', { search: `%${search}%` });
+      qb.orWhere('subject.quote ILIKE :search', { search: `%${search}%` });
+      qb.orWhere('messages.text ILIKE :search', { search: `%${search}%` });
+    }
+
+    return qb.getMany();
   }
 
   async findById(id: number): Promise<Subject> {
@@ -76,7 +86,6 @@ export class SubjectService {
         subject.reactionsCount = parseInt(reactionsCount.count);
     });
 
-    console.log(subjects);
     return subjects;
   }
 

@@ -16,6 +16,7 @@ export type TextProps = Omit<React.HTMLProps<HTMLDivElement>, 'size'> & {
   color?: keyof Theme['colors'];
   align?: React.CSSProperties['textAlign'];
   bold?: boolean;
+  uppercase?: boolean;
   oneline?: boolean;
   style?: React.CSSProperties;
   children?: React.ReactNode;
@@ -59,6 +60,7 @@ const Text: React.FC<TextProps> = ({
   color,
   align,
   bold,
+  uppercase,
   oneline,
   style,
   children,
@@ -73,6 +75,7 @@ const Text: React.FC<TextProps> = ({
     ...(color && { color: theme.colors[color] }),
     ...(align && { textAlign: align }),
     ...(bold && { fontWeight: 'bold' }),
+    ...(uppercase && { textTransform: 'uppercase' }),
     ...(oneline && onelineStyle),
     ...style,
   };

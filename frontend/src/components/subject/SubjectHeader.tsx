@@ -5,7 +5,6 @@ import { Subject } from 'src/types/Subject';
 import { useTheme } from 'src/utils/Theme';
 
 import Flex from 'src/components/common/Flex';
-import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
 
 type SubjectHeaderProps = {

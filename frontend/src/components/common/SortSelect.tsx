@@ -9,7 +9,7 @@ type SortSelectProps = {
 };
 
 const SortSelect: React.FC<SortSelectProps> = ({ disabled, onChange }) => {
-  const { sizes: { small, medium } } = useTheme();
+  const { sizes: { small, medium }, colors: { border }, borderRadiusInput: borderRadius } = useTheme();
 
   return (
     <select
@@ -17,6 +17,8 @@ const SortSelect: React.FC<SortSelectProps> = ({ disabled, onChange }) => {
         padding: `${small}px ${medium}px`,
         background: 'transparent',
         outline: 'none',
+        border: `1px solid ${border}`,
+        borderRadius,
       }}
       disabled={disabled}
       onChange={(e) => onChange(e.target.value as SortType)}
