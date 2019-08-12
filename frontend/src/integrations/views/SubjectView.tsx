@@ -79,6 +79,24 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
     onReactionEdited,
   } = useReactions(subject, SortType.DATE_ASC);
 
+  const getReactionsList = () => {
+    if (!reactions.length) {
+      return (
+        <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight: 60 }}>
+          <Text uppercase color="textLight">Il n'y a pas encore de réaction. Connectez-vous pour réagir !</Text>
+        </Flex>
+      );
+    }
+
+    return (
+      <ReactionsList
+        subject={subject}
+        reactions={reactions}
+        onEdited={onReactionEdited}
+      />
+    );
+  };
+
   return (
     <>
 
@@ -107,11 +125,7 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
         </>
       ) }
 
-      { fetchingReactions ? (
-        <Loader size="big" />
-      ) : (
-        <ReactionsList subject={subject} reactions={reactions} onEdited={onReactionEdited} />
-      ) }
+      { fetchingReactions ? <Loader size="big" /> : getReactionsList() }
 
     </>
   );
