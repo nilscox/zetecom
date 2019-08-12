@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+
 import React, { useCallback, useState } from 'react';
 import { Reaction, QuickReactionType, QuickReactionsCount } from 'src/types/Reaction';
 import { postQuickReaction } from 'src/api/reaction';

@@ -22,11 +22,6 @@ export type Theme = {
     medium: number;
     big: number;
   };
-  animation: {
-    fast: number;
-    medium: number;
-    slow: number;
-  };
   borderRadius: number;
   borderRadiusInput: number;
 };
@@ -52,11 +47,6 @@ const defaultTheme: Theme = {
     small: 14,
     medium: 16,
     big: 18,
-  },
-  animation: {
-    fast: 90,
-    medium: 200,
-    slow: 340,
   },
   borderRadius: 4,
   borderRadiusInput: 2,

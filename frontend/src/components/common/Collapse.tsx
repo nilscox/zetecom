@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import  { Collapse as ReactCollapse } from 'react-collapse';
+import React from 'react';
+import { Collapse as ReactCollapse } from 'react-collapse';
 import { presets } from 'react-motion';
-
-import { useTheme } from 'src/utils/Theme';
 
 type CollapseProps = {
   open: boolean;
@@ -10,10 +8,8 @@ type CollapseProps = {
 };
 
 const Collapse: React.FC<CollapseProps> = ({ open, children }) => {
-  const { animation: { slow } } = useTheme();
-
   return (
-    <ReactCollapse isOpened={open} springConfig={presets.stiff as any}>
+    <ReactCollapse isOpened={open} springConfig={presets.stiff as {}}>
       { children }
     </ReactCollapse>
   );

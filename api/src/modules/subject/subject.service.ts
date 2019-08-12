@@ -29,7 +29,7 @@ export class SubjectService {
 
   ) {}
 
-  async findAll(information, sort: SortType, page: number = 1, search?: String): Promise<Subject[]> {
+  async findAll(information, sort: SortType, page: number = 1, search?: string): Promise<Subject[]> {
     const qb = this.subjectRepository.createQueryBuilder('subject')
       .leftJoinAndSelect('subject.author', 'author')
       .leftJoinAndSelect('subject.messages', 'messages');
@@ -83,7 +83,7 @@ export class SubjectService {
       if (!reactionsCount)
         subject.reactionsCount = 0;
       else
-        subject.reactionsCount = parseInt(reactionsCount.count);
+        subject.reactionsCount = parseInt(reactionsCount.count, 10);
     });
 
     return subjects;
