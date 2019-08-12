@@ -49,7 +49,7 @@ type SubjectProps = {
 const SubjectComponent: React.FC<SubjectProps> = ({ subject, onHeaderClick, onViewReactions }) => (
   <>
 
-    <SubjectHeader subject={subject} onClick={onHeaderClick} />
+    <SubjectHeader subject={subject} onClick={onHeaderClick} onViewReactions={onViewReactions} />
     { subject.quote && <SubjectQuote>{ subject.quote }</SubjectQuote> }
     <MarkdownMessage markdown={subject.text} />
     { onViewReactions && <ViewReactions onClick={onViewReactions} /> }

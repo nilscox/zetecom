@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import moment from 'moment';
 
 import { Subject } from 'src/types/Subject';
@@ -11,6 +11,7 @@ type SubjectHeaderProps = {
   subject: Subject;
   transparent?: boolean;
   onClick?: () => void;
+  onViewReactions?: () => void;
 };
 
 const SubjectHeader: React.FC<SubjectHeaderProps> = ({
@@ -22,6 +23,7 @@ const SubjectHeader: React.FC<SubjectHeaderProps> = ({
   },
   transparent,
   onClick,
+  onViewReactions,
 }) => {
   const [hover, setHover] = useState(false);
   const {
@@ -29,6 +31,14 @@ const SubjectHeader: React.FC<SubjectHeaderProps> = ({
     colors,
     borderRadius,
   } = useTheme();
+
+  const onReactionsCountClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!onViewReactions)
+      return;
+
+    e.preventDefault();
+    onViewReactions();
+  }, [onViewReactions]);
 
   return (
     <Flex
@@ -59,6 +69,7 @@ const SubjectHeader: React.FC<SubjectHeaderProps> = ({
           flexDirection="row"
           alignItems="center"
           style={{ position: 'absolute', top: medium, right: 0 }}
+          onClick={onReactionsCountClick}
         >
           <Text color="textLight" style={{ marginRight: small }}>
             { reactionsCount }
