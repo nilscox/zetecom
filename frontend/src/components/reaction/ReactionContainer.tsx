@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { Subject } from 'src/types/Subject';
 import { Reaction } from 'src/types/Reaction';
+import env from 'src/utils/env';
 import { fetchReplies } from 'src/api/reaction';
 import { useTheme } from 'src/utils/Theme';
 import Flex from 'src/components/common/Flex';
@@ -52,6 +53,16 @@ const useReplies = (parent?: Reaction) => {
   };
 };
 
+const useReport = (reaction: Reaction) => {
+  const reportUrl = `${env.BASE_URL}/integration/reaction/${reaction.id}/report`;
+
+  const report = useCallback(() => {
+    window.open(reportUrl, '_blank', 'width=600,height=800,resizable=no');
+  }, [reaction.id]);
+
+  return report;
+};
+
 const Indented: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { sizes: { big }, colors: { border } } = useTheme();
 
@@ -75,6 +86,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
   const { fetchingReplies, replies, fetchReplies, addReply, replaceReplyAt } = useReplies(reaction);
+  const report = useReport(reaction);
   const [editing, setEditing] = useState(false);
 
   const [showReplyForm, hideReplyForm] = [true, false].map(v => () => setDisplayReplyForm(v));
@@ -131,6 +143,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
           displayReplyForm={displayReplyForm}
           onReply={showReplyForm}
           onEdit={edit}
+          onReport={report}
         />
       ) }
 

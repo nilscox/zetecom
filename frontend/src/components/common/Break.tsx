@@ -4,6 +4,7 @@ import { Theme, useTheme } from 'src/utils/Theme';
 
 type BreakProps = {
   size: number | keyof Theme['sizes'];
+  factor?: number;
 };
 
 const Break: React.FC<BreakProps> = ({ size }) => {

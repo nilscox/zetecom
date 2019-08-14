@@ -30,7 +30,8 @@ const getStyles: (theme: Theme) => { [key in TextVariant]: React.CSSProperties }
 
   },
   subtitle: {
-
+    color: theme.colors.textLight,
+    fontSize: 22,
   },
   text: {
     color: theme.colors.text,

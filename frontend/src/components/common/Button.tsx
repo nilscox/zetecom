@@ -2,7 +2,7 @@ import React from 'react';
 
 import Text, { TextProps } from 'src/components/common/Text';
 
-type ButtonProps = Omit<React.HTMLProps<HTMLButtonElement>, 'size'> & {
+export type ButtonProps = Omit<React.HTMLProps<HTMLButtonElement>, 'size'> & {
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
   disabled?: boolean;
   size?: TextProps['size'];
@@ -17,6 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   size,
   color,
   text,
+  style,
   children,
   ...props
 }) => {
@@ -28,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({
         border: 'none',
         background: 'none',
         outline: 'none',
-        ...props.style,
+        ...style,
       }}
       {...props}
     >

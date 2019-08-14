@@ -2,19 +2,22 @@ import React from 'react';
 
 import { useTheme } from 'src/utils/Theme';
 
-type InputProps = React.HTMLProps<HTMLInputElement>;
+type TextAreaProps = React.HTMLProps<HTMLTextAreaElement> & {
+  fullWidth?: boolean;
+};
 
-const Input: React.FC<InputProps> = ({ style, ...props }) => {
+const TextArea: React.FC<TextAreaProps> = ({ fullWidth = false, style, ...props }) => {
   const { sizes: { medium }, colors: { border }, borderRadiusInput: borderRadius } = useTheme();
 
   return (
-    <input
+    <textarea
       style={{
         padding: medium,
         boxSizing: 'border-box',
         border: `1px solid ${border}`,
         borderRadius,
         outline: 'none',
+        ...(fullWidth && { width: '100%' }),
         ...style,
       }}
       {...props}
@@ -22,4 +25,4 @@ const Input: React.FC<InputProps> = ({ style, ...props }) => {
   );
 };
 
-export default Input;
+export default TextArea;
