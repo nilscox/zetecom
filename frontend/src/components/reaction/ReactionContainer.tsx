@@ -63,6 +63,16 @@ const useReport = (reaction: Reaction) => {
   return report;
 };
 
+const useViewHistory = (reaction: Reaction) => {
+  const historyUrl = `${env.BASE_URL}/integration/reaction/${reaction.id}/history`;
+
+  const viewHistory = useCallback(() => {
+    window.open(historyUrl, '_blank', 'width=600,height=800,resizable=no');
+  }, [reaction.id]);
+
+  return viewHistory;
+};
+
 const Indented: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { sizes: { big }, colors: { border } } = useTheme();
 
@@ -87,6 +97,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
   const { fetchingReplies, replies, fetchReplies, addReply, replaceReplyAt } = useReplies(reaction);
   const report = useReport(reaction);
+  const viewHistory = useViewHistory(reaction);
   const [editing, setEditing] = useState(false);
 
   const [showReplyForm, hideReplyForm] = [true, false].map(v => () => setDisplayReplyForm(v));
@@ -143,6 +154,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
           displayReplyForm={displayReplyForm}
           onReply={showReplyForm}
           onEdit={edit}
+          onViewHistory={viewHistory}
           onReport={report}
         />
       ) }

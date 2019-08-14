@@ -14,6 +14,7 @@ type ReactionProps = {
   displayReplyForm: boolean;
   onReply: () => void;
   onEdit: () => void;
+  onViewHistory: () => void;
   onReport: () => void;
 };
 
@@ -24,13 +25,14 @@ const ReactionComponent: React.FC<ReactionProps> = ({
   displayReplyForm,
   onReply,
   onEdit,
+  onViewHistory,
   onReport,
 }) => {
   const { colors: { border }, borderRadius } = useTheme();
 
   return (
     <div id={`reaction-${reaction.id}`} style={{ border: `1px solid ${border}`, borderRadius }}>
-      <ReactionHeader {...reaction} onEdit={onEdit} onReport={onReport} />
+      <ReactionHeader {...reaction} onEdit={onEdit} onViewHistory={onViewHistory} onReport={onReport} />
       <ReactionBody {...reaction} />
       <ReactionFooter
         reaction={reaction}

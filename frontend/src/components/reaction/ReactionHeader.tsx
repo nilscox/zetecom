@@ -24,7 +24,7 @@ const ReportButton: React.FC<ReportButtonProps> = ({ show, onClick }) => {
       onClick={onClick}
       style={{ opacity: show ? 1 : 0, transition: 'opacity 160ms ease' }}
       color="textWarning"
-      text={{ style: { fontSize: '11px' } }}
+      text={{ style: { fontSize: '11px', display: 'block', position: 'relative', top: -1 } }}
     >
       Signaler
     </Button>
@@ -58,10 +58,11 @@ type ReactionHeaderProps = {
   date: Reaction['date'];
   edited: Reaction['edited'];
   onEdit: () => void;
+  onViewHistory: () => void;
   onReport: () => void;
 };
 
-const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, onEdit, onReport }) => {
+const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, onEdit, onViewHistory, onReport }) => {
   const { sizes: { small, medium }, colors: { backgroundLight, borderLight }, borderRadius } = useTheme();
   const [displayReportButton, setDisplayReportButton] = useState(false);
   const [showReportButton, hideReportButton] = [true, false].map(v => () => setDisplayReportButton(v));
@@ -95,7 +96,13 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
         { !edited ? (
           <Text variant="note">{ moment(date).format(DATE_FORMAT) }</Text>
         ) : (
-          <Text variant="note" style={{ fontStyle: 'oblique' }}>* { moment(edited).format(DATE_FORMAT) }</Text>
+          <Text
+            variant="note"
+            style={{ fontStyle: 'oblique', cursor: 'pointer' }}
+            onClick={onViewHistory}
+          >
+            *&nbsp;{ moment(edited).format(DATE_FORMAT) }
+          </Text>
         ) }
 
       </Flex>
