@@ -81,6 +81,9 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
 
   const getReactionsList = () => {
     if (!reactions.length) {
+      if (user)
+        return null;
+
       return (
         <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight: 60 }}>
           <Text uppercase color="textLight">Il n'y a pas encore de réaction. Connectez-vous pour réagir !</Text>

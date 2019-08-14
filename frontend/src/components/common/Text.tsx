@@ -82,9 +82,9 @@ const Text: React.FC<TextProps> = ({
   };
 
   return (
-    <div style={styles} {...props}>
+    <span style={styles} {...props}>
       { children }
-    </div>
+    </span>
   );
 };
 

@@ -90,7 +90,7 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
         onMouseLeave={hideReportButton}
       >
 
-        <ReportButton show={displayReportButton} onClick={onReport} />
+        { user && user.id !== author.id && <ReportButton show={displayReportButton} onClick={onReport} /> }
 
         { !edited ? (
           <Text variant="note">{ moment(date).format(DATE_FORMAT) }</Text>
