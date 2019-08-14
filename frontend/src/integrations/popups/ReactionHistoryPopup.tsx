@@ -47,7 +47,7 @@ const ReactionHistoryPopup: React.FC<ReactionHistoryPopupProps> = ({ match }) =>
 
   const history = [
     { date: reaction.edited, text: reaction.text },
-    ...reaction.history,
+    ...reaction.history.reverse(),
   ];
 
   return (
