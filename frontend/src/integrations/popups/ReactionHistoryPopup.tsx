@@ -1,11 +1,10 @@
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import { useTheme } from 'src/utils/Theme';
 
-import { Reaction } from 'src/types/Reaction';
-import { fetchReaction } from 'src/api/reaction';
+import { useReaction } from 'src/api/reaction';
 import Break from 'src/components/common/Break';
 import Loader from 'src/components/common/Loader';
 import Box from 'src/components/common/Box';
@@ -16,30 +15,10 @@ import ReactionBody from 'src/components/reaction/ReactionBody';
 
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] hh:mm';
 
-const useReaction = (reactionId: number) => {
-  const [reaction, setReaction] = useState<Reaction | undefined>();
-  const [fetching, setFetching] = useState(true);
-
-  useEffect(() => {
-    setFetching(true);
-
-    fetchReaction(reactionId)
-      .then(reaction => {
-        setReaction(reaction);
-        setFetching(false);
-      });
-  }, [reactionId]);
-
-  return {
-    fetchingReaction: fetching,
-    reaction,
-  };
-};
-
 type ReactionHistoryPopupProps = RouteComponentProps<{ id: string }>;
 
 const ReactionHistoryPopup: React.FC<ReactionHistoryPopupProps> = ({ match }) => {
-  const { fetchingReaction, reaction } = useReaction(parseInt(match.params.id, 10));
+  const [reaction, { loading: fetchingReaction }] = useReaction(parseInt(match.params.id, 10));
   const { colors: { border }, sizes: { big } } = useTheme();
 
   if (fetchingReaction)

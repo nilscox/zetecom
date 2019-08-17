@@ -1,73 +1,154 @@
+import { useCallback, useState } from 'react';
 import axios from 'axios';
+import useAxios, { AxiosHookAsync, ResponseData, AxiosHook, useAxiosMeta } from './use-axios';
 
-import { SortType } from 'src/types/SortType';
 import { Reaction, QuickReactionType, parseReaction } from 'src/types/Reaction';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type ResponseData = any;
+export const useReaction: AxiosHook<Reaction> = (reactionId: string) => {
+  const url = `/api/reaction/${reactionId}`;
 
-export const fetchRootReactions = async (informationId: number, sort: SortType): Promise<Reaction[]> => {
-  const { data } = await axios.get(`/api/information/${informationId}/reactions?sort=${sort}`, {
-    withCredentials: true,
-  });
-
-  return data.map((r: ResponseData) => parseReaction(r));
+  return useAxios<Reaction>({ url, withCredentials: true }, parseReaction);
 };
 
-export const fetchReaction = async (reactionId: number): Promise<Reaction> => {
-  const { data } = await axios.get(`/api/reaction/${reactionId}`, {
-    withCredentials: true,
-  });
-
-  return parseReaction(data);
+type ReactionRepliesExtra= {
+  replies: Reaction[];
+  addReply: (reply: Reaction) => void;
+  replaceReplyAt: (index: number, reply: Reaction) => void;
 };
 
-export const fetchReplies = async (parentId: number): Promise<Reaction[]> => {
-  const { data } = await axios.get(`/api/reaction/${parentId}/replies`, {
-    withCredentials: true,
-  });
+export const useReactionReplies: AxiosHookAsync<Reaction[], ReactionRepliesExtra> = (parent: Reaction) => {
+  const url = `/api/reaction/${parent.id}/replies`;
+  const [meta, setMeta] = useAxiosMeta();
+  const [replies, setReplies] = useState<Reaction[] | undefined>();
 
-  return data.map((r: ResponseData) => parseReaction(r));
+  const fetch = useCallback(async () => {
+    if (!parent)
+      return;
+
+    try {
+      setMeta({ loading: true });
+
+      const { data } = await axios(url, { withCredentials: true });
+      const parsed = data.map((r: ResponseData) => parseReaction(r));
+
+      setReplies(parsed);
+
+      return parsed;
+    } catch (e) {
+      setMeta({ error: e });
+    } finally {
+      setMeta({ loading: false });
+    }
+  }, [parent, url, setReplies, setMeta]);
+
+  const addReply = useCallback((reply: Reaction) => {
+    setReplies([reply, ...replies]);
+  }, [setReplies, replies]);
+
+  const replaceReplyAt = useCallback((index: number, reply: Reaction) => {
+    setReplies([
+      ...replies.slice(0, index),
+      reply,
+      ...replies.slice(index + 1)]);
+  }, [setReplies, replies]);
+
+  return [
+    fetch,
+    meta,
+    {
+      replies,
+      addReply,
+      replaceReplyAt,
+    },
+  ] as const;
 };
 
-export const postReaction = async (
-  subjectId: number,
-  text: string,
-  parentId?: number,
-): Promise<Reaction> => {
-  const payload = { subjectId, text, parentId };
+export const usePostReaction: AxiosHookAsync<Reaction> = () => {
+  const [meta, setMeta] = useAxiosMeta();
 
-  const { data } = await axios.post('/api/reaction', payload, {
-    withCredentials: true,
-  });
+  const post = async (subjectId: number, text: string, parentId?: number) => {
+    const payload = { subjectId, text, parentId };
 
-  return parseReaction(data);
+    try {
+      setMeta({ loading: true });
+
+      const { data } = await axios.post('/api/reaction', payload, { withCredentials: true });
+
+      return parseReaction(data);
+    } catch (e) {
+      setMeta({ error: e });
+    } finally {
+      setMeta({ loading: false });
+    }
+  };
+
+  return [post, meta] as const;
 };
 
-export const updateReaction = async (reactionId: number, text: string): Promise<Reaction> => {
-  const payload = { text };
+export const useUpdateReaction: AxiosHookAsync<Reaction> = () => {
+  const [meta, setMeta] = useAxiosMeta();
 
-  const { data } = await axios.put(`/api/reaction/${reactionId}`, payload, {
-    withCredentials: true,
-  });
+  const post = async (reactionId: number, text: string) => {
+    const payload = { text };
 
-  return parseReaction(data);
+    try {
+      setMeta({ loading: true });
+
+      const { data } = await axios.put(`/api/reaction/${reactionId}`, payload, { withCredentials: true });
+
+      return parseReaction(data);
+    } catch (e) {
+      setMeta({ error: e });
+    } finally {
+      setMeta({ loading: false });
+    }
+  };
+
+  return [post, meta] as const;
 };
 
-export const postQuickReaction = async (reactionId: number, type: QuickReactionType): Promise<Reaction> => {
-  const payload = { type: type ? type.toUpperCase() : null };
+export const usePostQuickReaction: AxiosHookAsync<Reaction> = () => {
+  const [meta, setMeta] = useAxiosMeta();
 
-  const { data } = await axios.post(`/api/reaction/${reactionId}/quick-reaction`, payload, {
-    withCredentials: true,
-  });
+  const post = async (reactionId: number, type: QuickReactionType) => {
+    const payload = { type: type ? type.toUpperCase() : null };
 
-  return parseReaction(data);
+    try {
+      setMeta({ loading: true });
+
+      const { data } = await axios.post(`/api/reaction/${reactionId}/quick-reaction`, payload, {
+        withCredentials: true,
+      });
+
+      return parseReaction(data);
+    } catch (e) {
+      setMeta({ error: e });
+    } finally {
+      setMeta({ loading: false });
+    }
+  };
+
+  return [post, meta] as const;
 };
 
-export const reportReaction = async (reactionId: number, type: string, message?: string): Promise<void> => {
-  const payload = { type, message };
+export const useReportReaction: AxiosHookAsync<void> = (reactionId: number, type: string, message?: string) => {
+  const [meta, setMeta] = useAxiosMeta();
 
-  await axios.post(`/api/reaction/${reactionId}/report`, payload, {
-    withCredentials: true,
-  });
+  const report = async (reactionId: number, type: QuickReactionType) => {
+    const payload = { type, message };
+
+    try {
+      setMeta({ loading: true });
+
+      await axios.post(`/api/reaction/${reactionId}/report`, payload, {
+        withCredentials: true,
+      });
+    } catch (e) {
+      setMeta({ error: e });
+    } finally {
+      setMeta({ loading: false });
+    }
+  };
+
+  return [report, meta] as const;
 };

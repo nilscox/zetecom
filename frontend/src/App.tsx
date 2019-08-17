@@ -7,6 +7,7 @@ import { UserProvider } from 'src/utils/UserContext';
 
 import Loader from 'src/components/common/Loader';
 import { ScrollToTop } from 'src/components/common/ScrollToTop';
+import ErrorBoundary from 'src/components/common/ErrorBoundary';
 
 import Popup from './popup';
 import Integrations from './integrations';
@@ -45,22 +46,24 @@ const App: React.FC = () => {
     return <Loader size="big" />;
 
   return (
-    <UserProvider value={{ user, setUser }}>
-      <Router>
+    <ErrorBoundary>
+      <UserProvider value={{ user, setUser }}>
+        <Router>
 
-        <ScrollToTop />
+          <ScrollToTop />
 
-        <Switch>
+          <Switch>
 
-          <Route path="/popup" component={Popup} />
+            <Route path="/popup" component={Popup} />
 
-          <Route path="/integration" component={Integrations} />
+            <Route path="/integration" component={Integrations} />
 
-          <Route component={Pages} />
+            <Route component={Pages} />
 
-        </Switch>
-      </Router>
-    </UserProvider>
+          </Switch>
+        </Router>
+      </UserProvider>
+    </ErrorBoundary>
   );
 };
 

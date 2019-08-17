@@ -1,44 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import queryString from 'query-string';
 
-import { Information } from 'src/types/Information';
-import { fetchInformationFromYoutubeId } from 'src/api/information';
+import { useInformationFromYoutubeId } from 'src/api/information';
 
 import Loader from 'src/components/common/Loader';
 
 import Integration from './Integration';
-
-const useInformation = (youtubeId: string) => {
-  const [fetchingInformation, setFetching] = useState(false);
-  const [information, setInformation] = useState<Information>(undefined);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        setFetching(true);
-
-        const info = await fetchInformationFromYoutubeId(youtubeId);
-
-        if (info)
-          setInformation(info);
-      } finally {
-        setFetching(false);
-      }
-    })();
-  }, [youtubeId]);
-
-  return {
-    fetchingInformation,
-    information,
-  };
-};
 
 type YoutubeProps = {
   youtubeId: string;
 };
 
 const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
-  const { fetchingInformation, information } = useInformation(youtubeId);
+  const [information, { loading: fetchingInformation, error }] = useInformationFromYoutubeId(youtubeId);
   const [margin, setMargin] = useState(0);
 
   useEffect(() => {

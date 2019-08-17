@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useDebounce } from 'use-debounce';
+import React, { useState } from 'react';
 
 import { useCurrentUser } from 'src/utils/UserContext';
 import { Information } from 'src/types/Information';
 import { Subject } from 'src/types/Subject';
 import { SortType } from 'src/types/SortType';
-import { fetchSubjects } from 'src/api/subjects';
+import { useSubjects } from 'src/api/subjects';
 import { useTheme } from 'src/utils/Theme';
 
 import Break from 'src/components/common/Break';
@@ -31,29 +30,6 @@ const SubjectsListOrNotFound: React.FC<SubjectsListProps> = (props) => {
   return <SubjectsList {...props} />;
 };
 
-const useSubjects = (information: Information, sort: SortType, search: string) => {
-  const [subjects, setSubjects] = useState<Subject[] | undefined>();
-  const [fetching, setFetching] = useState(true);
-  const [searchDebounced] = useDebounce(search, 300);
-
-  useEffect(() => {
-    setFetching(true);
-
-    fetchSubjects(information.id, sort, searchDebounced)
-      .then(subjects => {
-        if (subjects)
-          setSubjects(subjects);
-
-        setFetching(false);
-      });
-  }, [information, sort, searchDebounced]);
-
-  return {
-    fetchingSubjects: fetching,
-    subjects,
-  };
-};
-
 type SubjectsListViewProps = {
   information?: Information;
   setSubject: (subject: Subject) => void;
@@ -65,7 +41,7 @@ const SubjectsListView: React.FC<SubjectsListViewProps> = ({ information, setSub
   const [search, setSearch] = useState('');
   const [displaySubjectForm, setDisplaySubjectForm] = useState(false);
   const { sizes: { big } } = useTheme();
-  const { fetchingSubjects, subjects } = useSubjects(information, sort, search);
+  const [subjects, { loading: fetchingSubjects }] = useSubjects(information, sort, search);
   const [showSubjectForm, hideSubjectForm] = [true, false].map(v => () => setDisplaySubjectForm(v));
 
   const onSort = (newSort: SortType) => {

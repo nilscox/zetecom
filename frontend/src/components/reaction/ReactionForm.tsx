@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useCallback, useState } from 'r
 
 import { Subject } from 'src/types/Subject';
 import { Reaction } from 'src/types/Reaction';
-import { postReaction, updateReaction } from 'src/api/reaction';
+import { usePostReaction, useUpdateReaction } from 'src/api/reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import Button from 'src/components/common/Button';
@@ -108,12 +108,11 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
   onCreated,
 }) => {
   const formRef = React.useRef(null);
+  const [post] = usePostReaction();
 
   const onPostReaction = useCallback(async (message: string) => {
     try {
-      const created = await postReaction(subject.id, message, parent ? parent.id : undefined);
-
-      onCreated(created);
+      onCreated(await post(subject.id, message, parent ? parent.id : undefined));
 
       if (formRef.current)
         formRef.current.clear();
@@ -144,12 +143,11 @@ type ReactionEditionFormProps = {
 
 export const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reaction, onEdited, closeForm }) => {
   const formRef = React.useRef(null);
+  const [update] = useUpdateReaction();
 
   const onEditReaction = useCallback(async (message: string) => {
     try {
-      const edited = await updateReaction(reaction.id, message);
-
-      onEdited(edited);
+      onEdited(await update(reaction.id, message));
 
       if (formRef.current)
         formRef.current.clear();

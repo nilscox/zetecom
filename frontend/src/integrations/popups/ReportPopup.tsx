@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import { useTheme } from 'src/utils/Theme';
 
-import { Reaction } from 'src/types/Reaction';
-import { fetchReaction, reportReaction } from 'src/api/reaction';
+import { useReaction, useReportReaction } from 'src/api/reaction';
 import Break from 'src/components/common/Break';
 import Collapse from 'src/components/common/Collapse';
 import Button, { ButtonProps } from 'src/components/common/Button';
@@ -17,29 +16,9 @@ import Select from 'src/components/common/Select';
 
 import ReactionBody from 'src/components/reaction/ReactionBody';
 
-const useReaction = (reactionId: number) => {
-  const [reaction, setReaction] = useState<Reaction | undefined>();
-  const [fetching, setFetching] = useState(true);
+const POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT = 3000;
 
-  useEffect(() => {
-    setFetching(true);
-
-    fetchReaction(reactionId)
-      .then(reaction => {
-        setReaction(reaction);
-        setFetching(false);
-      });
-  }, [reactionId]);
-
-  return {
-    fetchingReaction: fetching,
-    reaction,
-  };
-};
-
-type ReportButtonProps = Omit<ButtonProps, 'children'>;
-
-const ReportButton: React.FC<ReportButtonProps> = (props) => {
+const ReportButton: React.FC<ButtonProps> = (props) => {
   const { colors: { textLight, textWarning } } = useTheme();
   const [hover, setHover] = useState(false);
 
@@ -90,21 +69,22 @@ const ReportSuccess: React.FC = () => {
 type ReportPopupProps = RouteComponentProps<{ id: string }>;
 
 const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
-  const { fetchingReaction, reaction } = useReaction(parseInt(match.params.id, 10));
+  const [reaction, { loading: fetchingReaction, error: fetchError }] = useReaction(parseInt(match.params.id, 10));
   const [reportType, setReportType] = useState('MISINFORMATION');
   const [message, setMessage] = useState('');
   const [displayMessage, setDisplayMessage] = useState(false);
   const [success, setSuccess] = useState(false);
   const { colors: { border }, sizes: { big }, borderRadius } = useTheme();
+  const [report, { loading: reportLoading, error: reportError }] = useReportReaction();
 
   const submit = async () => {
     if (!reaction)
       return;
 
     try {
-      await reportReaction(reaction.id, reportType, message !== '' ? message : undefined);
+      await report(reaction.id, reportType, message !== '' ? message : undefined);
       setSuccess(true);
-      setTimeout(window.close, 3000);
+      setTimeout(window.close, POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT);
     } catch (e) {
       console.error(e);
     }
@@ -117,6 +97,9 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
 
   if (fetchingReaction)
     return <Loader size="big" />;
+
+  if (fetchError)
+    throw fetchError;
 
   if (success)
     return <ReportSuccess />;
@@ -179,7 +162,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
       </Collapse>
 
       <Flex mt={4 * big} flexDirection="row" justifyContent="center">
-        <ReportButton onClick={submit} />
+        <ReportButton loading={reportLoading} onClick={submit} />
       </Flex>
 
     </Box>

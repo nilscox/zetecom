@@ -2,7 +2,7 @@
 
 import React, { useCallback, useState } from 'react';
 import { Reaction, QuickReactionType, QuickReactionsCount } from 'src/types/Reaction';
-import { postQuickReaction } from 'src/api/reaction';
+import { usePostQuickReaction } from 'src/api/reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import Flex from 'src/components/common/Flex';
@@ -58,6 +58,7 @@ const useQuickReactions = (
   originalUserQuickReaction: QuickReactionType,
 ) => {
   const user = useCurrentUser();
+  const [post] = usePostQuickReaction();
   const [updatedQuickReaction, setUpdatedQuickReaction] = useState<QuickReactionType | undefined>();
   const userQuickReaction = updatedQuickReaction || originalUserQuickReaction;
 
@@ -78,12 +79,12 @@ const useQuickReactions = (
 
   const updateUserQuickReaction = useCallback(async (type: QuickReactionType) => {
     try {
-      const updated = await postQuickReaction(reactionId, type);
+      const updated = await post(reactionId, type);
       setUpdatedQuickReaction(updated.userQuickReaction);
     } catch (e) {
       console.error(e);
     }
-  }, [reactionId, postQuickReaction, setUpdatedQuickReaction]);
+  }, [reactionId, post, setUpdatedQuickReaction]);
 
   const getQuickReactionProps = useCallback((type: QuickReactionType): QuickReactionProps => {
     const props = quickReactions[type];
@@ -165,8 +166,7 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayRepl
 
         { repliesCount > 0 && (
           <Box ml={big}>
-            <Text
-              size="small"
+            <div
               style={{
                 transform: displayReplies ? 'rotate(90deg)' : '',
                 transition: 'transform 200ms ease',
@@ -174,7 +174,7 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayRepl
               }}
             >
               ▸
-            </Text>
+            </div>
           </Box>
         ) }
       </Flex>

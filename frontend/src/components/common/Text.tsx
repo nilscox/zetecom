@@ -12,7 +12,7 @@ type TextVariant =
 
 export type TextProps = Omit<React.HTMLProps<HTMLDivElement>, 'size'> & {
   variant?: TextVariant;
-  size?: keyof Theme['fontSizes'];
+  size?: keyof Theme['fontSizes'] | number;
   color?: keyof Theme['colors'];
   align?: React.CSSProperties['textAlign'];
   bold?: boolean;
@@ -27,7 +27,9 @@ const getStyles: (theme: Theme) => { [key in TextVariant]: React.CSSProperties }
 
   },
   title: {
-
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: theme.colors.textLight,
   },
   subtitle: {
     color: theme.colors.textLight,
@@ -69,10 +71,11 @@ const Text: React.FC<TextProps> = ({
 }) => {
   const theme = useTheme();
   const variantStyles = useMemo(() => getStyles(theme), [theme]);
+  const fontSize = typeof size === 'string' ? theme.fontSizes[size] : size + 'px';
 
   const styles: React.CSSProperties = {
     ...variantStyles[variant],
-    ...(size && { fontSize: theme.fontSizes[size] }),
+    ...(size && { fontSize }),
     ...(color && { color: theme.colors[color] }),
     ...(align && { textAlign: align }),
     ...(bold && { fontWeight: 'bold' }),

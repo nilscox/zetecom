@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useCurrentUser } from 'src/utils/UserContext';
 import { Subject } from 'src/types/Subject';
-import { Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
-import { fetchReactions } from 'src/api/subjects';
+import { useRootReactions } from 'src/api/subjects';
 import { useTheme } from 'src/utils/Theme';
 
 import Box from 'src/components/common/Box';
@@ -20,47 +19,6 @@ import SubjectComponent from 'src/components/subject/Subject';
 import ReactionsList from 'src/components/reaction/ReactionsList';
 import ReactionForm from 'src/components/reaction/ReactionForm';
 
-const useReactions = (subject: Subject, sort: SortType) => {
-  const [reactions, setReactions] = useState<Reaction[] | undefined>();
-  const [fetching, setFetching] = useState(true);
-
-  useEffect(() => {
-    setFetching(true);
-
-    fetchReactions(subject.id, sort)
-      .then(reactions => {
-        setReactions(reactions);
-        setFetching(false);
-      });
-  }, [subject, sort]);
-
-  const onCreated = useCallback((reaction: Reaction) => {
-    setReactions([
-      reaction,
-      ...reactions,
-    ]);
-  }, [setReactions, reactions]);
-
-  const onEdited = useCallback((reaction: Reaction) => {
-    const idx = reactions.findIndex(r => r.id === reaction.id);
-
-    if (idx < 0)
-      return;
-
-    setReactions([
-      ...reactions.slice(0, idx),
-      reaction,
-      ...reactions.slice(idx + 1)]);
-  }, [setReactions, reactions]);
-
-  return {
-    fetchingReactions: fetching,
-    reactions,
-    onReactionCreated: onCreated,
-    onReactionEdited: onEdited,
-  };
-};
-
 type SubjectViewProps = {
   subject: Subject;
   backToSubjectsList: () => void;
@@ -72,12 +30,11 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
   const { sizes: { big }, colors: { border }, borderRadius } = useTheme();
 
-  const {
-    fetchingReactions,
+  const [
     reactions,
-    onReactionCreated,
-    onReactionEdited,
-  } = useReactions(subject, SortType.DATE_ASC);
+    { loading: fetchingReactions, error },
+    { onCreated: onReactionCreated, onEdited: onReactionEdited },
+  ] = useRootReactions(subject, SortType.DATE_ASC);
 
   const getReactionsList = () => {
     if (!reactions.length) {

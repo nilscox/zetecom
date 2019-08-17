@@ -1,22 +1,25 @@
 import React from 'react';
 
+import Loader from 'src/components/common/Loader';
 import Text, { TextProps } from 'src/components/common/Text';
 
 export type ButtonProps = Omit<React.HTMLProps<HTMLButtonElement>, 'size'> & {
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
   disabled?: boolean;
+  loading?: boolean;
   size?: TextProps['size'];
   color?: TextProps['color'];
   text?: TextProps;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const Button: React.FC<ButtonProps> = ({
   type = 'button',
   disabled,
+  loading,
   size,
   color,
-  text,
+  text: { style: textStyle, ...textProps } = {},
   style,
   children,
   ...props
@@ -29,6 +32,7 @@ const Button: React.FC<ButtonProps> = ({
         border: 'none',
         background: 'none',
         outline: 'none',
+        position: 'relative',
         ...style,
       }}
       {...props}
@@ -39,13 +43,27 @@ const Button: React.FC<ButtonProps> = ({
         size={size}
         color={disabled ? 'disabled' : color}
         style={{
-          cursor: disabled ? 'initial' : 'pointer',
-          ...(text && text.style),
+          cursor: loading || disabled ? 'initial' : 'pointer',
+          visibility: loading ? 'hidden' : 'visible',
+          ...(textStyle),
         }}
-        {...text}
+        {...textProps}
       >
         { children }
       </Text>
+
+      { loading && (
+        <Loader
+          size="small"
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+          }}
+        />
+      ) }
 
     </button>
   );

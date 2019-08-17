@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 import { Subject } from 'src/types/Subject';
-import { postSubject } from 'src/api/subjects';
+import { usePostSubject } from 'src/api/subjects';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
-import Button from 'src/components/common/Button';
+import Button, { ButtonProps } from 'src/components/common/Button';
 import Input from 'src/components/common/Input';
 import Text from 'src/components/common/Text';
 import UserAvatarNick from 'src/components/common/UserAvatarNick';
@@ -78,16 +78,14 @@ const FormQuote: React.FC<FormQuoteProps> = ({ quote, setQuote }) => {
   );
 };
 
-type SubmitButtonProps = {
-  disabled: boolean;
-};
+type SubmitButtonProps = ButtonProps;
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ disabled }) => {
+const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
   const { sizes: { medium, big } } = useTheme();
 
   return (
     <Flex flexDirection="row" justifyContent="flex-end" px={big} py={medium} style={{ borderTop: '1px solid #CCC' }}>
-      <Button type="submit" disabled={disabled}>Envoyer</Button>
+      <Button type="submit" {...props}>Envoyer</Button>
     </Flex>
   );
 };
@@ -103,16 +101,11 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onC
   const [subject, setSubject] = useState('');
   const [quote, setQuote] = useState('');
   const [message, setMessage] = useState('');
+  const [post, { loading: loadingCreated, error }] = usePostSubject();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    try {
-      const created = await postSubject(informationId, subject, quote, message);
-      onCreated(created);
-    } catch (e) {
-      console.error(e);
-    }
+    onCreated(await post(informationId, subject, quote, message));
   };
 
   return (
@@ -122,7 +115,7 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onC
         <FormSubject subject={subject} setSubject={setSubject} />
         <FormQuote quote={quote} setQuote={setQuote} />
         <MarkdownMessageEdition placeholder="Description du sujet..." message={message} setMessage={setMessage} />
-        <SubmitButton disabled={subject.length === 0 || message.length === 0} />
+        <SubmitButton loading={loadingCreated} disabled={subject.length === 0 || message.length === 0} />
       </Flex>
     </form>
   );

@@ -16,6 +16,9 @@ type ReactionsListProps = {
 const ReactionsList: React.FC<ReactionsListProps> = ({ subject, reactions, onEdited }) => {
   const { sizes: { big } } = useTheme();
 
+  if (!reactions.length)
+    return null;
+
   return (
     <>
       { reactions.map((r, n) => (

@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Subject } from 'src/types/Subject';
 import { Reaction } from 'src/types/Reaction';
 import env from 'src/utils/env';
-import { fetchReplies } from 'src/api/reaction';
+import { useReactionReplies } from 'src/api/reaction';
 import { useTheme } from 'src/utils/Theme';
 import Flex from 'src/components/common/Flex';
 import Loader from 'src/components/common/Loader';
@@ -12,46 +12,6 @@ import Collapse from 'src/components/common/Collapse';
 import ReactionComponent from './Reaction';
 import ReactionsList from './ReactionsList';
 import ReactionForm, { ReactionEditionForm } from './ReactionForm';
-
-const useReplies = (parent?: Reaction) => {
-  const [replies, setReplies] = useState<Reaction[] | undefined>();
-  const [fetching, setFetching] = useState(true);
-
-  const onFetchReplies = useCallback(async () => {
-    if (!parent)
-      return;
-
-    setFetching(true);
-
-    try {
-      setReplies(await fetchReplies(parent.id));
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setFetching(false);
-    }
-
-  }, [parent, setReplies, setFetching]);
-
-  const addReply = useCallback((reply: Reaction) => {
-    setReplies([reply, ...replies]);
-  }, [setReplies, replies]);
-
-  const replaceReplyAt = useCallback((index: number, reply: Reaction) => {
-    setReplies([
-      ...replies.slice(0, index),
-      reply,
-      ...replies.slice(index + 1)]);
-  }, [setReplies, replies]);
-
-  return {
-    fetchingReplies: fetching,
-    replies,
-    fetchReplies: onFetchReplies,
-    addReply,
-    replaceReplyAt,
-  };
-};
 
 const useReport = (reaction: Reaction) => {
   const reportUrl = `${env.BASE_URL}/integration/reaction/${reaction.id}/report`;
@@ -95,7 +55,11 @@ type ReactionContainerProps = {
 const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction, onEdited }) => {
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
-  const { fetchingReplies, replies, fetchReplies, addReply, replaceReplyAt } = useReplies(reaction);
+  const [
+    fetchReplies,
+    { loading: fetchingReplies, error },
+    { replies, addReply, replaceReplyAt },
+  ] = useReactionReplies(reaction);
   const report = useReport(reaction);
   const viewHistory = useViewHistory(reaction);
   const [editing, setEditing] = useState(false);
@@ -177,7 +141,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
           ) : (
             <ReactionsList
               subject={subject}
-              reactions={replies}
+              reactions={replies || []}
               onEdited={onReplyEdited}
             />
           ) }
