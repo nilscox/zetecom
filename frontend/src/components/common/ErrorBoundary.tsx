@@ -9,27 +9,30 @@ import Box from './Box';
 
 const Error: React.FC<{ error: Error }> = ({ error }) => {
   return (
-    <Flex
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      style={{
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      }}
-    >
-      <Text variant="title" align="center">
-        Une erreur s'est produite... x(
-      </Text>
-      <Box my={42}>
-        <Text align="center">
-          Réessayez plus tard ! ¯\_(ツ)_/¯
+    <>
+      <div style={{ display: 'relative', minHeight: 200 }} />
+      <Flex
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+        }}
+      >
+        <Text variant="title" align="center">
+          Une erreur s'est produite... x(
         </Text>
-      </Box>
-    </Flex>
+        <Box my={42}>
+          <Text align="center">
+            Réessayez plus tard ! ¯\_(ツ)_/¯
+          </Text>
+        </Box>
+      </Flex>
+    </>
   );
 };
 

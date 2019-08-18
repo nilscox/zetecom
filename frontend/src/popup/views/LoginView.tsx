@@ -1,83 +1,90 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import UserContext from 'src/utils/UserContext';
-import { loginUser } from 'src/api/user';
+import { useLoginUser } from 'src/api/user';
+import { useTheme } from 'src/utils/Theme';
+import Box from 'src/components/common/Box';
+import Button from 'src/components/common/Button';
+import FormError from 'src/components/common/FormError';
 
+import Form, { useFormErrors } from '../components/Form';
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
-import Form from '../components/Form';
 
-type ERROR_TYPE =
-  | 'EMAIL_INVALID_FORMAT'
-  | 'INVALID_CREDENTIALS'
-  | 'UNKNOWN';
+const getGlobalError = (error: any) => {
+  if (!error || !error.isAxiosError)
+    return null;
 
-const ERROR_MSG: { [key in ERROR_TYPE]: string } = {
-  EMAIL_INVALID_FORMAT: 'Format d\'adresse email invalide.',
-  INVALID_CREDENTIALS: 'Identifiants invalides.',
-  UNKNOWN: 'Une erreur s\'est produite... :/',
+  if (error.response.status === 401)
+    return 'Combinaison email / mot de passe non valide';
+
+  return null;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getErrors = (body?: any): { [key: string]: string } => {
-  if (!body)
-    return {};
+const getFieldErrors = (error: any) => {
+  if (!error || !error.isAxiosError || error.response.status !== 400)
+    return null;
 
-  const errors: {[key: string]: string} = {};
+  const fields = error.response.data;
 
-  if (body.email && body.email.isEmail)
-    errors.email = ERROR_MSG.EMAIL_INVALID_FORMAT;
-  if (body.message === 'INVALID_CREDENTIALS')
-    errors.global = ERROR_MSG.INVALID_CREDENTIALS;
+  const getErrorMessage = (obj: any) => {
+    const constraint = Object.keys(obj)[0];
 
-  if (Object.keys(errors).length === 0)
-    errors.global = ERROR_MSG.UNKNOWN;
+    switch (constraint) {
+    case 'isEmail':
+      return 'Format d\'adresse email non valide';
+    default:
+      return 'Invalide';
+    }
+  };
 
-  return errors;
+  return Object.keys(fields)
+    .reduce((errors, field) => ({
+      [field]: getErrorMessage(fields[field]),
+      ...errors,
+    }), {} as any);
 };
 
 const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ [key: string]: string }>(getErrors());
   const { setUser } = useContext(UserContext);
+  const [login, { loading, error }] = useLoginUser();
+  const { sizes: { big } } = useTheme();
+  const [globalError, fieldErrors, resetErrors, errorsHandled] = useFormErrors(error, getGlobalError, getFieldErrors);
+  const errors = fieldErrors || {};
 
-  const isFormValid = (values: { [field: string]: string }) => {
-    for (let field of ['email', 'password']) {
-      if (values[field].length === 0)
-        return false;
-    }
-
-    return true;
-  };
-
-  const loginSubmit = async (values: { [field: string]: string }) => {
-    setLoading(true);
-
+  const onSubmit = async (values: { [fields: string]: string }) => {
     const credentials = {
       email: values.email,
       password: values.password,
     };
 
-    try {
-      const user = await loginUser(credentials);
-      setUser(user);
-      history.push('/popup/logout');
-    } catch (e) {
-      setErrors(getErrors(e.body));
-    } finally {
-      setLoading(false);
-    }
+    const user = await login(credentials);
+
+    setUser(user);
+    history.push('/popup/logout');
   };
+
+  if (!loading && error && !errorsHandled)
+    throw error;
 
   return (
     <>
+
       <ViewHeader />
+
       <div style={{ padding: '0 40px' }}>
-        <Typography>
-          Connectez-vous sur CDV pour interagir avec le reste de la communauté.
-        </Typography>
+
+        <Box my={big}>
+          <Typography>
+            Connectez-vous sur CDV pour interagir avec le reste de la communauté.
+          </Typography>
+        </Box>
+
         <Form
+          onSubmit={onSubmit}
+          errors={getFieldErrors(error)}
+          onChange={resetErrors}
           fields={{
             email: {
               type: 'email',
@@ -90,12 +97,16 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
               errorMessage: errors.password,
             },
           }}
-          globalErrorMessage={errors.global}
-          submitButtonValue="Connexion"
-          isLoading={loading}
-          isValid={isFormValid}
-          onSubmit={loginSubmit}
-        />
+        >
+
+          { globalError && <FormError>{ globalError }</FormError> }
+
+          <Box my={big} style={{ alignSelf: 'center' }}>
+            <Button type="submit" size="big" loading={loading}>Connexion</Button>
+          </Box>
+
+        </Form>
+
       </div>
     </>
   );

@@ -1,6 +1,9 @@
+import { useCallback } from 'react';
 import axios from 'axios';
 
 import { User, parseUser } from 'src/types/User';
+
+import { AxiosHookAsync, useAxiosMeta } from './use-axios';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ResponseData = any;
@@ -17,46 +20,91 @@ const fetchUser = async (): Promise<User | undefined> => {
   return parseUser(data);
 };
 
-type LoginUserArgs = {
-  email: string;
-  password: string;
+export const useLoginUser: AxiosHookAsync<User> = () => {
+  const url = '/api/auth/login';
+  const [meta, setMeta] = useAxiosMeta();
+
+  const login = useCallback(async ({ email, password }: { email: string; password: string }) => {
+    const payload = { email, password };
+
+    try {
+      setMeta({ loading: true });
+
+      const { data } = await axios.post(url, payload, {
+        withCredentials: true,
+      });
+
+      return parseUser(data);
+    } catch (error) {
+      setMeta({ error });
+      throw error;
+    } finally {
+      setMeta({ loading: false });
+    }
+  }, [url]);
+
+  return [
+    login,
+    meta,
+  ] as const;
 };
 
-const loginUser = async ({ email, password }: LoginUserArgs): Promise<User> => {
-  const { data } = await axios.post('/api/auth/login', {
-    email,
-    password,
-  }, {
-    withCredentials: true,
-  });
-
-  return parseUser(data);
-};
-
-type SignupUserArgs = {
+type SignupUserParams = {
   email: string;
   password: string;
   nick: string;
   avatar?: string;
 };
 
-const signupUser = async ({ email, password, nick, avatar }: SignupUserArgs): Promise<User> => {
-  const { data } = await axios.post('/api/auth/signup', {
-    email,
-    password,
-    nick,
-    avatar,
-  }, {
-    withCredentials: true,
-  });
+export const useSignupUser: AxiosHookAsync<User> = () => {
+  const url = '/api/auth/signup';
+  const [meta, setMeta] = useAxiosMeta();
 
-  return parseUser(data);
+  const signup = useCallback(async ({ email, password, nick, avatar }: SignupUserParams) => {
+    const payload = { email, password, nick, avatar };
+
+    try {
+      setMeta({ loading: true });
+
+      const { data } = await axios.post(url, payload, {
+        withCredentials: true,
+      });
+
+      return parseUser(data);
+    } catch (error) {
+      setMeta({ error });
+      throw error;
+    } finally {
+      setMeta({ loading: false });
+    }
+  }, [url]);
+
+  return [
+    signup,
+    meta,
+  ] as const;
 };
 
-const logoutUser = async (): Promise<void> => {
-  await axios.post('/api/auth/logout', {}, {
-    withCredentials: true,
-  });
+export const useLogoutUser: AxiosHookAsync<void> = () => {
+  const url = '/api/auth/logout';
+  const [meta, setMeta] = useAxiosMeta();
+
+  const logout = useCallback(async () => {
+    try {
+      setMeta({ loading: true });
+      await axios.post(url, {}, { withCredentials: true });
+    } catch (error) {
+      setMeta({ error });
+      throw error;
+    } finally {
+      setMeta({ loading: false });
+    }
+  }, [url]);
+
+  return [
+    logout,
+    meta,
+  ] as const;
 };
 
 export const setUserAvatar = async (image: File): Promise<User> => {
@@ -73,7 +121,4 @@ export const setUserAvatar = async (image: File): Promise<User> => {
 
 export {
   fetchUser,
-  loginUser,
-  signupUser,
-  logoutUser,
 };

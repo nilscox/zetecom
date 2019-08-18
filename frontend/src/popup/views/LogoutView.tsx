@@ -1,36 +1,34 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import moment from 'moment';
 
 import UserContext from 'src/utils/UserContext';
-import { logoutUser } from 'src/api/user';
+import { useTheme } from 'src/utils/Theme';
+import { useLogoutUser } from 'src/api/user';
 import UserAvatar from 'src/components/common/UserAvatar';
+import Button from 'src/components/common/Button';
+import Box from 'src/components/common/Box';
 
 import Typography from '../components/Typography';
 import Form from '../components/Form';
 
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const { sizes: { big } } = useTheme();
   const { user, setUser } = useContext(UserContext);
+  const [logout, { loading, error }] = useLogoutUser();
 
   const logoutSubmit = async () => {
-    setLoading(true);
+    await logout();
 
-    try {
-      await logoutUser();
-      setUser(null);
-      history.push('/popup/login');
-    } catch (e) {
-      console.error('logout error: ', e);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
+    setUser(null);
+    history.push('/popup/login');
   };
 
   if (!user)
     return <Redirect to="/" />;
+
+  if (!loading && error)
+    throw error;
 
   return (
     <>
@@ -65,13 +63,11 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
           </>
         </Typography>
 
-        <Form
-          fields={{}}
-          submitButtonValue="Déconnexion"
-          isLoading={loading}
-          globalErrorMessage={error ? 'Une erreur s\'est produite... :/' : undefined}
-          onSubmit={logoutSubmit}
-        />
+        <Form onSubmit={logoutSubmit}>
+          <Box my={big} pt={2 * big} style={{ alignSelf: 'center' }}>
+            <Button type="submit" size="big" loading={loading}>Déconnexion</Button>
+          </Box>
+        </Form>
 
       </div>
     </>

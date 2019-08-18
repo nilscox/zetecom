@@ -1,22 +1,24 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
+
+import Input, { InputProps } from 'src/components/common/Input';
 
 import FormError from './FormError';
 
-export type FormFieldProps = React.PropsWithoutRef<JSX.IntrinsicElements['input']> & {
+export type FormInputProps = InputProps & {
   errorMessage?: string;
   onTextChange: (text: string) => void;
 };
 
-const FormField: React.FC<FormFieldProps> = ({
+const FormInput: React.FC<FormInputProps> = ({
   errorMessage,
   onTextChange,
   ...props
 }) => {
   const [value, setValue] = useState('');
 
-  const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    onTextChange(e.target.value);
+  const handleTextChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setValue(e.currentTarget.value);
+    onTextChange(e.currentTarget.value);
   };
 
   return (
@@ -28,9 +30,10 @@ const FormField: React.FC<FormFieldProps> = ({
         alignItems: 'stretch',
       }}
     >
-      <FormError style={{ textAlign: 'right' }}>{errorMessage}</FormError>
-      <input
+      { errorMessage && <FormError style={{ textAlign: 'right' }}>{errorMessage}</FormError> }
+      <Input
         style={{
+          margin: '5px 0',
           padding: '5px 10px',
           borderRadius: '2px',
           border: '1px solid #ccc',
@@ -43,4 +46,4 @@ const FormField: React.FC<FormFieldProps> = ({
   );
 };
 
-export default FormField;
+export default FormInput;

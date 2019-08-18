@@ -1,12 +1,18 @@
 import React, { useState, useContext } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
+import { useSignupUser } from 'src/api/user';
 import UserContext from 'src/utils/UserContext';
-import { signupUser } from 'src/api/user';
+import { useTheme } from 'src/utils/Theme';
+
+import Button from 'src/components/common/Button';
+import Box from 'src/components/common/Box';
 
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
-import Form from '../components/Form';
+import Form, { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from '../components/Form';
+import FormError from '../components/FormError';
 
 type AcceptRulesCheckbox = {
   onChange: (value: boolean) => void;
@@ -41,85 +47,80 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
   );
 };
 
-type ERROR_TYPE =
-  | 'EMAIL_INVALID_FORMAT'
-  | 'EMAIL_ALREADY_EXISTS'
-  | 'NICK_TOO_SHORT'
-  | 'NICK_TOO_LONG'
-  | 'NICK_ALREADY_EXISTS'
-  | 'PASSWORD_TOO_SHORT'
-  | 'PASSWORD_TOO_LONG'
-  | 'PASSWORD_UNSECURE'
-  | 'UNKNOWN';
+const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
+  if (!error || !error.isAxiosError)
+    return null;
 
-const ERROR_MSG: { [key in ERROR_TYPE]: string } = {
-  EMAIL_INVALID_FORMAT: 'Format d\'adresse email invalide.',
-  EMAIL_ALREADY_EXISTS: 'Cette adresse email est déjà utilisée.',
-  NICK_TOO_SHORT: 'Ce pseudo est trop court.',
-  NICK_TOO_LONG: 'Ce pseudo est trop long.',
-  NICK_ALREADY_EXISTS: 'Ce pseudo est déjà utilisé.',
-  PASSWORD_TOO_SHORT: 'Ce mot de passe est trop court.',
-  PASSWORD_TOO_LONG: 'Ce mot de passe est trop long.',
-  PASSWORD_UNSECURE: 'Ce mot de passe n\'est pas assez sécurisé.',
-  UNKNOWN: 'Une erreur s\'est produite... :/',
+  if (error.response.status === 401)
+    return 'Combinaison email / mot de passe non valide';
+
+  if (error.response.status !== 400)
+    return null;
+
+  const { message } = error.response.data;
+
+  if (message === 'PASSWORD_UNSECURE')
+    return 'Ce mot de passe n\'est pas assez sécurisé.';
+
+  if (message === 'NICK_ALREADY_EXISTS')
+    return 'Ce pseudo est déjà utilisé.';
+
+  if (message === 'EMAIL_ALREADY_EXISTS')
+    return 'Cette adresse email est déjà utilisée.';
+
+  return null;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getErrors = (body?: any): { [key: string]: string } => {
-  if (!body)
-    return {};
+const getFieldErrors: FieldErrorsHandler = (error: AxiosError) => {
+  if (!error || !error.isAxiosError || error.response.status !== 400)
+    return null;
 
-  const errors: {[key: string]: string} = {};
+  const fields = error.response.data;
 
-  if (body.email && body.email.isEmail)
-    errors.email = ERROR_MSG.EMAIL_INVALID_FORMAT;
-  if (body.message === 'EMAIL_ALREADY_EXISTS')
-    errors.email = ERROR_MSG.EMAIL_ALREADY_EXISTS;
+  const getErrorMessage = (field: string, obj: { [key: string]: string }) => {
+    const constraint = Object.keys(obj)[0];
 
-  if (body.nick && body.nick.minLength)
-    errors.nick = ERROR_MSG.NICK_TOO_SHORT;
-  if (body.nick && body.nick.maxLength)
-    errors.nick = ERROR_MSG.NICK_TOO_LONG;
-  if (body.message === 'NICK_ALREADY_EXISTS')
-    errors.nick = ERROR_MSG.NICK_ALREADY_EXISTS;
+    if (field === 'email' && constraint === 'isEmail')
+      return 'Format d\'adresse email invalide.';
 
-  if (body.password && body.password.minLength)
-    errors.password = ERROR_MSG.PASSWORD_TOO_SHORT;
-  if (body.password && body.password.maxLength)
-    errors.password = ERROR_MSG.PASSWORD_TOO_LONG;
-  if (body.message === 'PASSWORD_UNSECURE')
-    errors.password = ERROR_MSG.PASSWORD_UNSECURE;
+    if (field === 'nick' && constraint === 'minLength')
+      return 'Ce pseudo est trop court.';
 
-  if (Object.keys(errors).length === 0)
-    errors.global = ERROR_MSG.UNKNOWN;
+    if (field === 'nick' && constraint === 'maxLength')
+      return 'Ce pseudo est trop long.';
 
-  return errors;
+    if (field === 'password' && constraint === 'minLength')
+      return 'Ce mot de passe est trop court.';
+
+    if (field === 'password' && constraint === 'maxLength')
+      return 'Ce mot de passe est trop long... :o';
+
+  };
+
+  return Object.keys(fields)
+    .reduce((errors, field) => ({
+      [field]: getErrorMessage(field, fields[field]),
+      ...errors,
+    }), {} as any);
 };
 
 const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
+  const { sizes: { big } } = useTheme();
+  const [signup, { loading, error }] = useSignupUser();
   const [didAcceptRules, setDidAcceptRules] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ [key: string]: string }>(getErrors());
+  const [globalError, fieldErrors, resetErrors, handled] = useFormErrors(error, getGlobalError, getFieldErrors);
+  const errors = fieldErrors || {};
   const { setUser } = useContext(UserContext);
 
   const signupSubmit = async (values: { [field: string]: string }) => {
-    setLoading(true);
-
-    const data = {
+    const user = await signup({
       email: values.email,
       password: values.password,
       nick: values.nick,
-    };
+    });
 
-    try {
-      const user = await signupUser(data);
-      setUser(user);
-      history.push('/popup/signup/post-signup');
-    } catch (e) {
-      setErrors(getErrors(e.body));
-    } finally {
-      setLoading(false);
-    }
+    setUser(user);
+    history.push('/popup/signup/post-signup');
   };
 
   const isFormValid = (values: { [field: string]: string }) => {
@@ -134,17 +135,26 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
     return true;
   };
 
+  if (!loading && error && !handled)
+    throw error;
+
+  console.log(globalError);
   return (
     <>
       <ViewHeader />
+
       <div style={{ padding: '0 40px' }}>
-        <Typography>
-          <>
-            Créez votre compte sur CDV. Avant de vous inscrire, veillez à avoir lu
-            au moins <Link to="/" target="_blank">la page de présentation</Link>, ainsi que{' '}
-            <Link to="/charte" target="_blank">la charte</Link>.
-          </>
-        </Typography>
+
+        <Box my={big}>
+          <Typography>
+            <>
+              Pour créer votre compte sur CDV, c'est par ici. Avant de vous inscrire, veillez à
+              avoir lu au moins <Link to="/" target="_blank">la page de présentation</Link>, ainsi
+              que{' '} <Link to="/charte" target="_blank">la charte</Link>.
+            </>
+          </Typography>
+        </Box>
+
         <Form
           fields={{
             email: {
@@ -164,12 +174,19 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
             },
             acceptRules: <AcceptRulesCheckbox onChange={setDidAcceptRules} />,
           }}
-          submitButtonValue="Inscription"
-          globalErrorMessage={errors.global}
           isValid={isFormValid}
-          isLoading={loading}
+          onChange={resetErrors}
           onSubmit={signupSubmit}
-        />
+        >
+
+          { globalError && <FormError>{ globalError }</FormError> }
+
+          <Box my={big} style={{ alignSelf: 'center' }}>
+            <Button type="submit" size="big" loading={loading} disabled={!isFormValid}>Inscription</Button>
+          </Box>
+
+        </Form>
+
       </div>
     </>
   );

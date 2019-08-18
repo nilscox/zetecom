@@ -1,20 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import FormField, { FormFieldProps } from './FormField';
-import FormSubmit from './FormSubmit';
-import FormError from './FormError';
+import FormInput, { FormInputProps } from './FormInput';
 
-type Omit<K, T> = Pick<T, Exclude<keyof T, K>>;
+export type GlobalErrorHandler = (error: Error) => string | null;
+export type FieldErrorsHandler = (error: Error) => ({ [key: string]: string });
 
-type FormField = Omit<'onTextChange', FormFieldProps>;
+export const useFormErrors = (
+  error: Error,
+  getGlobalError: GlobalErrorHandler,
+  getFieldErrors: FieldErrorsHandler,
+) => {
+  const [global, setGlobal] = useState(getGlobalError(error));
+  const [fields, setFields] = useState(getFieldErrors(error));
+  const [handled, setHandled] = useState(!!error && (!!global || !!fields));
+
+  useEffect(() => {
+    const g = getGlobalError(error);
+    const f = getFieldErrors(error);
+
+    setGlobal(g);
+    setFields(f);
+    setHandled(!!error && (!!g || !!f));
+  }, [error]);
+
+  const reset = () => {
+    setGlobal(null);
+    setFields(null);
+  };
+
+  return [
+    global,
+    fields,
+    reset,
+    handled,
+  ] as const;
+};
+
+type FormField = Omit<FormInputProps, 'onTextChange'>;
 
 type FormProps = {
-  fields: { [name: string]: FormField | JSX.Element };
-  submitButtonValue: string;
-  globalErrorMessage?: string;
-  isLoading?: boolean;
+  fields?: { [name: string]: FormField | JSX.Element };
+  errors?: ({ [key: string]: string });
+  children?: React.ReactNode;
   isValid?: (values: { [fields: string]: string }) => boolean;
-  onSubmit: (values: { [fields: string]: string }) => void;
+  onChange?: (key: string, value: string) => void;
+  onSubmit?: (values: { [fields: string]: string }) => void;
 };
 
 type FieldProps = FormField & {
@@ -22,12 +52,11 @@ type FieldProps = FormField & {
 };
 
 const Form: React.FC<FormProps> = ({
-  fields,
-  submitButtonValue,
-  globalErrorMessage,
-  isLoading = false,
+  fields = {},
+  children = null,
   isValid = () => true,
-  onSubmit,
+  onChange = () => {},
+  onSubmit = () => {},
 }) => {
   const [values, setValues] = useState<{ [name: string]: string }>(
     Object.keys(fields).reduce((o: { [name: string]: string }, k: string) => {
@@ -43,6 +72,9 @@ const Form: React.FC<FormProps> = ({
     updatedValues[key] = text;
 
     setValues(updatedValues);
+
+    if (onChange)
+      onChange(key, text);
   };
 
   const handleSubmit = (e: React.SyntheticEvent) => {
@@ -65,15 +97,14 @@ const Form: React.FC<FormProps> = ({
         React.isValidElement(fields[key]) ? (
           <div key={key}>{fields[key]}</div>
         ) : (
-          <FormField
+          <FormInput
             key={key}
             {...fields[key] as FormField}
             onTextChange={(text) => handleTextChange(key, text)}
           />
         )
       )}
-      <FormError style={{ textAlign: 'center', fontSize: '1rem' }}>{globalErrorMessage}</FormError>
-      <FormSubmit disabled={!valid} value={submitButtonValue} isLoading={isLoading} />
+      { children }
     </form>
   );
 };
