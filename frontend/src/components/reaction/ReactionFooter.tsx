@@ -59,7 +59,7 @@ const useQuickReactions = (
 ) => {
   const user = useCurrentUser();
   const [post] = usePostQuickReaction();
-  const [updatedQuickReaction, setUpdatedQuickReaction] = useState<QuickReactionType | undefined>();
+  const [updatedQuickReaction, setUpdatedQuickReaction] = useState<QuickReactionType | null>(null);
   const userQuickReaction = updatedQuickReaction || originalUserQuickReaction;
 
   const quickReactions: { [key in QuickReactionType]: QuickReactionProps } = {
@@ -92,8 +92,8 @@ const useQuickReactions = (
     if (type === userQuickReaction)
       props.userQuickReaction = true;
 
-    if (user && user.id !== authorId && type !== userQuickReaction)
-      props.onClick = () => updateUserQuickReaction(type);
+    if (user && user.id !== authorId)
+      props.onClick = () => updateUserQuickReaction(type === userQuickReaction ? null : type);
 
     if (updatedQuickReaction) {
       if (originalUserQuickReaction !== type && updatedQuickReaction === type)
