@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import { Subject } from 'src/types/Subject';
@@ -16,6 +17,7 @@ type SubjectHeaderProps = {
 
 const SubjectHeader: React.FC<SubjectHeaderProps> = ({
   subject: {
+    id: subjectId,
     subject,
     author,
     date,
@@ -23,7 +25,6 @@ const SubjectHeader: React.FC<SubjectHeaderProps> = ({
   },
   transparent,
   onClick,
-  onViewReactions,
 }) => {
   const [hover, setHover] = useState(false);
   const {
@@ -31,14 +32,6 @@ const SubjectHeader: React.FC<SubjectHeaderProps> = ({
     colors,
     borderRadius,
   } = useTheme();
-
-  const onReactionsCountClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!onViewReactions)
-      return;
-
-    e.preventDefault();
-    onViewReactions();
-  }, [onViewReactions]);
 
   return (
     <Flex
@@ -68,18 +61,19 @@ const SubjectHeader: React.FC<SubjectHeaderProps> = ({
           <Text variant="note" size="small">Par <b>{ author.nick }</b>, le { moment(date).format('DD.MM.YYYY') }</Text>
         </div>
 
-        <Flex
-          mr={medium}
-          flexDirection="row"
-          alignItems="center"
-          style={{ position: 'absolute', top: medium, right: 0 }}
-          onClick={onReactionsCountClick}
-        >
-          <Text color="textLight" style={{ marginRight: small }}>
-            { reactionsCount }
-          </Text>
-          <img src="/assets/images/comment.png" style={{ width: 20, height: 20, opacity: 0.8 }} />
-        </Flex>
+        <Link to={`/subject/${subjectId}`}>
+          <Flex
+            mr={medium}
+            flexDirection="row"
+            alignItems="center"
+            style={{ position: 'absolute', top: medium, right: 0 }}
+          >
+            <Text color="textLight" style={{ marginRight: small }}>
+              { reactionsCount }
+            </Text>
+            <img src="/assets/images/comment.png" style={{ width: 20, height: 20, opacity: 0.8 }} />
+          </Flex>
+        </Link>
 
       </div>
 

@@ -19,6 +19,10 @@ export const useSubjects: AxiosHook<Subject[]> = (information: Information, sort
   return useAxios<Subject[]>({ url }, parse);
 };
 
+export const useSubject: AxiosHook<Subject> = (subjectId: string) => {
+  return useAxios<Subject>({ url: `/api/subject/${subjectId}` }, parseSubject);
+};
+
 export const usePostSubject: AxiosHookAsync<Subject> = () => {
   const [meta, setMeta] = useAxiosMeta();
 
@@ -53,8 +57,8 @@ type RootReactionsExtra = {
   onEdited: (reaction: Reaction) => void;
 };
 
-export const useRootReactions: AxiosHook<Reaction[], RootReactionsExtra> = (subject: Subject, sort: SortType) => {
-  const url = `/api/subject/${subject.id}/reactions` + (sort ? `?sort=${sort}` : '');
+export const useRootReactions: AxiosHook<Reaction[], RootReactionsExtra> = (subjectId: string, sort: SortType) => {
+  const url = `/api/subject/${subjectId}/reactions` + (sort ? `?sort=${sort}` : '');
   const opts = { url, withCredentials: true };
   const parse = (data: ResponseData) => data.map((r: ResponseData) => parseReaction(r));
 

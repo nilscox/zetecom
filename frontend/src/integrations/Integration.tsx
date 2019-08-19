@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { HashRouter as Router, Route } from 'react-router-dom';
 
 import { Information } from 'src/types/Information';
-import { Subject } from 'src/types/Subject';
 
 import SubjectsListView from './views/SubjectsListView';
 import SubjectView from './views/SubjectView';
@@ -11,12 +11,12 @@ type IntegrationProps = {
 };
 
 const Integration: React.FC<IntegrationProps> = ({ information }) => {
-  const [currentSubject, setCurrentSubject] = useState<Subject | undefined>();
-
-  if (currentSubject)
-    return <SubjectView subject={currentSubject} backToSubjectsList={() => setCurrentSubject(undefined)} />;
-
-  return <SubjectsListView information={information} setSubject={setCurrentSubject} />;
+  return (
+    <Router>
+      <Route path="/" exact render={(props) => <SubjectsListView information={information} {...props} />} />
+      <Route path="/subject/:id" exact component={SubjectView} />
+    </Router>
+  );
 };
 
 export default Integration;

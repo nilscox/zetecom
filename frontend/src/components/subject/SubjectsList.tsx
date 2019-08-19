@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-
+7
 import { Subject } from 'src/types/Subject';
 import { useTheme } from 'src/utils/Theme';
 
@@ -12,14 +12,13 @@ import SubjectHeader from './SubjectHeader';
 type ClosedSubjectsListProps = {
   subjects: Subject[];
   setOpen: (id: number) => void;
-  onViewReactions: (id: number) => void;
 };
 
 function isLast<T>(arr: T[], n: number) {
   return n === arr.length - 1;
 }
 
-const ClosedSubjectsList: React.FC<ClosedSubjectsListProps> = ({ subjects, setOpen, onViewReactions }) => {
+const ClosedSubjectsList: React.FC<ClosedSubjectsListProps> = ({ subjects, setOpen }) => {
   const { colors, borderRadius } = useTheme();
 
   return (
@@ -30,7 +29,6 @@ const ClosedSubjectsList: React.FC<ClosedSubjectsListProps> = ({ subjects, setOp
             transparent
             subject={subject}
             onClick={() => setOpen(subject.id)}
-            onViewReactions={() => onViewReactions(subject.id)}
           />
         </div>
       ))}
@@ -40,21 +38,15 @@ const ClosedSubjectsList: React.FC<ClosedSubjectsListProps> = ({ subjects, setOp
 
 export type SubjectsListProps = {
   subjects: Subject[];
-  setSubject: (subject: Subject) => void;
 };
 
-const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, setSubject }) => {
+const SubjectsList: React.FC<SubjectsListProps> = ({ subjects }) => {
   const [open, setOpen] = useState<number | null>(null);
   const { sizes: { big }, colors, borderRadius } = useTheme();
   const openIdx = subjects.findIndex(s => s.id === open);
-  const onViewReactions = useCallback((id: number) => {
-    const idx = subjects.findIndex(s => s.id === id);
-
-    setSubject(subjects[idx]);
-  }, [setSubject, subjects]);
 
   if (open === null)
-    return <ClosedSubjectsList subjects={subjects} setOpen={setOpen} onViewReactions={onViewReactions} />;
+    return <ClosedSubjectsList subjects={subjects} setOpen={setOpen} />;
 
   return (
     <>
@@ -63,7 +55,6 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, setSubject }) => 
           <ClosedSubjectsList
             subjects={subjects.slice(0, openIdx)}
             setOpen={setOpen}
-            onViewReactions={onViewReactions}
           />
           <Break size={big} />
         </>
@@ -71,9 +62,9 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, setSubject }) => 
 
       <Box border={`1px solid ${colors.border}`} borderRadius={borderRadius}>
         <SubjectComponent
+          displayReactionsLink
           subject={subjects[openIdx]}
           onHeaderClick={() => setOpen(null)}
-          onViewReactions={() => onViewReactions(open)}
         />
       </Box>
 
@@ -83,7 +74,6 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects, setSubject }) => 
           <ClosedSubjectsList
             subjects={subjects.slice(openIdx + 1)}
             setOpen={setOpen}
-            onViewReactions={onViewReactions}
           />
         </>
       ) }

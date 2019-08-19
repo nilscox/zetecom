@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { useCurrentUser } from 'src/utils/UserContext';
 import { Information } from 'src/types/Information';
@@ -30,12 +31,11 @@ const SubjectsListOrNotFound: React.FC<SubjectsListProps> = (props) => {
   return <SubjectsList {...props} />;
 };
 
-type SubjectsListViewProps = {
+type SubjectsListViewProps = RouteComponentProps & {
   information?: Information;
-  setSubject: (subject: Subject) => void;
 };
 
-const SubjectsListView: React.FC<SubjectsListViewProps> = ({ information, setSubject }) => {
+const SubjectsListView: React.FC<SubjectsListViewProps> = ({ history, information }) => {
   const user = useCurrentUser();
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
   const [search, setSearch] = useState('');
@@ -77,7 +77,7 @@ const SubjectsListView: React.FC<SubjectsListViewProps> = ({ information, setSub
       { displaySubjectForm && (
         <SubjectForm
           informationId={information.id}
-          onCreated={setSubject}
+          onCreated={(subject) => history.push(`/subject/${subject.id}`)}
           onClose={hideSubjectForm}
         />
       ) }
@@ -87,7 +87,7 @@ const SubjectsListView: React.FC<SubjectsListViewProps> = ({ information, setSub
       { fetchingSubjects ? (
         <Loader size="big" />
       ) : (
-        <SubjectsListOrNotFound subjects={subjects} setSubject={setSubject} />
+        <SubjectsListOrNotFound subjects={subjects} />
       ) }
 
     </>

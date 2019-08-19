@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
+import { useTheme } from 'src/utils/Theme';
+import Box from 'src/components/common/Box';
+import Button from 'src/components/common/Button';
+
 import FormInput, { FormInputProps } from './FormInput';
+import FormError from './FormError';
 
 export type GlobalErrorHandler = (error: Error) => string | null;
 export type FieldErrorsHandler = (error: Error) => ({ [key: string]: string });
@@ -40,8 +45,9 @@ type FormField = Omit<FormInputProps, 'onTextChange'>;
 
 type FormProps = {
   fields?: { [name: string]: FormField | JSX.Element };
-  errors?: ({ [key: string]: string });
-  children?: React.ReactNode;
+  loading?: boolean;
+  submitButtonValue?: string;
+  globalError?: string;
   isValid?: (values: { [fields: string]: string }) => boolean;
   onChange?: (key: string, value: string) => void;
   onSubmit?: (values: { [fields: string]: string }) => void;
@@ -53,11 +59,14 @@ type FieldProps = FormField & {
 
 const Form: React.FC<FormProps> = ({
   fields = {},
-  children = null,
+  loading = false,
+  submitButtonValue,
+  globalError,
   isValid = () => true,
   onChange = () => {},
   onSubmit = () => {},
 }) => {
+  const { sizes: { big } } = useTheme();
   const [values, setValues] = useState<{ [name: string]: string }>(
     Object.keys(fields).reduce((o: { [name: string]: string }, k: string) => {
       o[k] = '';
@@ -104,7 +113,13 @@ const Form: React.FC<FormProps> = ({
           />
         )
       )}
-      { children }
+
+      { globalError && <FormError>{ globalError }</FormError> }
+
+      <Box my={big} style={{ alignSelf: 'center' }}>
+        <Button type="submit" size="big" loading={loading} disabled={!valid}>{ submitButtonValue }</Button>
+      </Box>
+
     </form>
   );
 };

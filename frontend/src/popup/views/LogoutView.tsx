@@ -63,11 +63,9 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
           </>
         </Typography>
 
-        <Form onSubmit={logoutSubmit}>
-          <Box my={big} pt={2 * big} style={{ alignSelf: 'center' }}>
-            <Button type="submit" size="big" loading={loading}>Déconnexion</Button>
-          </Box>
-        </Form>
+        <Box mt={big} style={{ alignSelf: 'center' }}>
+          <Form onSubmit={logoutSubmit} loading={loading} submitButtonValue="Déconnexion" />
+        </Box>
 
       </div>
     </>

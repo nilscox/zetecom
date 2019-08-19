@@ -65,6 +65,10 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
     history.push('/popup/logout');
   };
 
+  const isFormValid = (values: { [field: string]: string }) => {
+    return values.email.length > 0 && values.password.length > 0;
+  };
+
   if (!loading && error && !errorsHandled)
     throw error;
 
@@ -82,9 +86,12 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
         </Box>
 
         <Form
-          onSubmit={onSubmit}
-          errors={getFieldErrors(error)}
+          loading={loading}
+          globalError={globalError}
+          submitButtonValue="Connexion"
           onChange={resetErrors}
+          isValid={isFormValid}
+          onSubmit={onSubmit}
           fields={{
             email: {
               type: 'email',
@@ -97,15 +104,7 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
               errorMessage: errors.password,
             },
           }}
-        >
-
-          { globalError && <FormError>{ globalError }</FormError> }
-
-          <Box my={big} style={{ alignSelf: 'center' }}>
-            <Button type="submit" size="big" loading={loading}>Connexion</Button>
-          </Box>
-
-        </Form>
+        />
 
       </div>
     </>

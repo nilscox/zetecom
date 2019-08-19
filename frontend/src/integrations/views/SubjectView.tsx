@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { useCurrentUser } from 'src/utils/UserContext';
-import { Subject } from 'src/types/Subject';
 import { SortType } from 'src/types/SortType';
-import { useRootReactions } from 'src/api/subjects';
+import { useSubject, useRootReactions } from 'src/api/subjects';
 import { useTheme } from 'src/utils/Theme';
 
 import Box from 'src/components/common/Box';
@@ -11,7 +11,7 @@ import Flex from 'src/components/common/Flex';
 import Hr from 'src/components/common/Hr';
 import Break from 'src/components/common/Break';
 import Loader from 'src/components/common/Loader';
-import Button from 'src/components/common/Button';
+import Link from 'src/components/common/Link';
 import Text from 'src/components/common/Text';
 import SortSelect from 'src/components/common/SortSelect';
 
@@ -19,22 +19,20 @@ import SubjectComponent from 'src/components/subject/Subject';
 import ReactionsList from 'src/components/reaction/ReactionsList';
 import ReactionForm from 'src/components/reaction/ReactionForm';
 
-type SubjectViewProps = {
-  subject: Subject;
-  backToSubjectsList: () => void;
-};
+type SubjectViewProps = RouteComponentProps<{ id: string }>;
 
-const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }) => {
+const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
   const user = useCurrentUser();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
   const { sizes: { big }, colors: { border }, borderRadius } = useTheme();
+  const [subject, { loading, error: fetchSubjectError }] = useSubject(match.params.id);
 
   const [
     reactions,
     { loading: fetchingReactions, error },
     { onCreated: onReactionCreated, onEdited: onReactionEdited },
-  ] = useRootReactions(subject, SortType.DATE_ASC);
+  ] = useRootReactions(match.params.id, SortType.DATE_ASC);
 
   const getReactionsList = () => {
     if (!reactions.length) {
@@ -57,6 +55,9 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
     );
   };
 
+  if (loading)
+    return <Loader size="big" />;
+
   return (
     <>
 
@@ -66,12 +67,12 @@ const SubjectView: React.FC<SubjectViewProps> = ({ subject, backToSubjectsList }
           <SortSelect disabled={!reactions || true} onChange={(sort) => setSort(sort)} />
         </Box>
         <Flex flex={1} flexDirection="row" justifyContent="flex-end" alignItems="center">
-          <Button onClick={backToSubjectsList}>Retour</Button>
+          <Link to="/">Retour</Link>
         </Flex>
       </Flex>
 
       <Box border={`1px solid ${border}`} borderRadius={borderRadius}>
-        <SubjectComponent subject={subject} />
+        <SubjectComponent displayReactionsLink={false} subject={subject} />
       </Box>
 
       <Break size={big} />

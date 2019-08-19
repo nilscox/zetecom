@@ -138,7 +138,6 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
   if (!loading && error && !handled)
     throw error;
 
-  console.log(globalError);
   return (
     <>
       <ViewHeader />
@@ -156,6 +155,12 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
         </Box>
 
         <Form
+          loading={loading}
+          globalError={globalError}
+          submitButtonValue="Inscription"
+          isValid={isFormValid}
+          onChange={resetErrors}
+          onSubmit={signupSubmit}
           fields={{
             email: {
               type: 'email',
@@ -174,18 +179,7 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
             },
             acceptRules: <AcceptRulesCheckbox onChange={setDidAcceptRules} />,
           }}
-          isValid={isFormValid}
-          onChange={resetErrors}
-          onSubmit={signupSubmit}
-        >
-
-          { globalError && <FormError>{ globalError }</FormError> }
-
-          <Box my={big} style={{ alignSelf: 'center' }}>
-            <Button type="submit" size="big" loading={loading} disabled={!isFormValid}>Inscription</Button>
-          </Box>
-
-        </Form>
+        />
 
       </div>
     </>
