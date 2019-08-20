@@ -1,6 +1,6 @@
 {
   "name": "cdv-chrome-extension",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "scripts": {
     "start": "concurrently \"yarn build:popup:watch\" \"yarn build:integrations:watch\" \"yarn build:bg-script:watch\"",
     "clean": "rm -rf extension/integrations extension/popup/popup.js extension/background_script.js",
