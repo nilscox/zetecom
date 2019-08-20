@@ -60,22 +60,23 @@ function createButtons() {
   };
 }
 
-function render(rootTag, youtubeComments, youtubeId) {
+function render(youtubeId, youtubeComments, setButtons, setIntegration) {
+  const integration = document.createElement('div');
   const iframe = document.createElement('iframe');
   const { buttons, buttonYT, buttonCDV } = createButtons();
 
   buttonYT.onclick = () => {
     selectComments(buttonYT, buttonCDV);
 
-    rootTag.removeChild(rootTag.lastChild);
-    rootTag.appendChild(youtubeComments);
+    integration.style.display = 'none';
+    youtubeComments.style.display = 'block';
   };
 
   buttonCDV.onclick = () => {
     selectComments(buttonCDV, buttonYT);
 
-    rootTag.removeChild(rootTag.lastChild);
-    rootTag.appendChild(iframe);
+    youtubeComments.style.display = 'none';
+    integration.style.display = 'block';
   };
 
   iframe.id = 'cdv-iframe';
@@ -85,8 +86,10 @@ function render(rootTag, youtubeComments, youtubeId) {
   iframe.style.minWidth = '100%';
   iframe.style.display = 'block';
 
-  rootTag.appendChild(buttons);
-  rootTag.appendChild(iframe);
+  integration.appendChild(iframe);
+
+  setButtons(buttons);
+  setIntegration(integration);
 
   iFrameResize({ log: false, checkOrigin: false }, iframe);
 }
@@ -103,13 +106,17 @@ function main() {
   if (!comments)
     return setTimeout(main, 500);
 
-  const rootTag = document.createElement('div');
-  const parent = comments.parentNode;
+  const buttons = document.createElement('div');
+  const integration = document.createElement('div');
 
-  comments.remove();
-  parent.appendChild(rootTag);
+  comments.style.display = 'none';
 
-  render(rootTag, comments, youtubeId[1]);
+  render(
+    youtubeId[1],
+    comments,
+    buttons => comments.insertAdjacentElement('beforebegin', buttons),
+    integration => comments.insertAdjacentElement('afterend', integration),
+  );
 };
 
 main();
