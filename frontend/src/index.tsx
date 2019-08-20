@@ -1,12 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import ReactModal from 'react-modal';
 import axios from 'axios';
 import moment from 'moment';
 import queryString from 'query-string';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactModal from 'react-modal';
+import * as Sentry from '@sentry/browser';
 
 import App from './App';
 import env from './utils/env';
+
+if (env.NODE_ENV === 'production')
+  Sentry.init({ dsn: 'https://51c4eddbbeee4643a355e27533be2891@sentry.io/1536528' });
 
 const root = document.getElementById('app');
 

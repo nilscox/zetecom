@@ -12,8 +12,12 @@ type YoutubeProps = {
 };
 
 const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
-  const [information, { loading: fetchingInformation, error }] = useInformationFromYoutubeId(youtubeId);
   const [margin, setMargin] = useState(0);
+
+  const [
+    information,
+    { loading: fetchingInformation, error: fetchInformationError },
+  ] = useInformationFromYoutubeId(youtubeId);
 
   useEffect(() => {
     if (information) {
@@ -27,6 +31,9 @@ const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
       }
     }
   }, [information]);
+
+  if (!fetchingInformation && fetchInformationError)
+    throw fetchInformationError;
 
   if (fetchingInformation)
     return <Loader size="big" />;

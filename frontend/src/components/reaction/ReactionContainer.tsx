@@ -57,7 +57,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
   const [
     fetchReplies,
-    { loading: fetchingReplies, error },
+    { loading: fetchingReplies, error: fetchRepliesError },
     { replies, addReply, replaceReplyAt },
   ] = useReactionReplies(reaction);
   const report = useReport(reaction);
@@ -68,7 +68,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
   const [edit, closeEditionForm] = [true, false].map(v => () => setEditing(v));
 
   const toggleReplies = useCallback(() => {
-    if (!replies)
+    if (!replies && !fetchRepliesError)
       fetchReplies();
 
     setDisplayReplies(!displayReplies);
@@ -97,9 +97,14 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
   }, [onEdited]);
 
   useEffect(() => {
-    if (displayReplyForm && !displayReplies)
-      setTimeout(toggleReplies, 100);
+    if (displayReplyForm && !displayReplies) {
+      const timeout = setTimeout(toggleReplies, 100);
+      return () => clearTimeout(timeout);
+    }
   }, [displayReplyForm, displayReplies, setDisplayReplies]);
+
+  if (!fetchingReplies && fetchRepliesError)
+    throw fetchRepliesError;
 
   return (
     <>

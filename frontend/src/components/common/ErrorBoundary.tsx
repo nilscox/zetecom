@@ -1,40 +1,43 @@
 import React, { ErrorInfo } from 'react';
+import * as Sentry from '@sentry/browser';
+
+import env from 'src/utils/env';
 
 import Text from './Text';
 import Flex from './Flex';
 import Box from './Box';
 
+const { NODE_ENV } = env;
+
 // disable react's logging is not possible for now
 // https://github.com/facebook/react/issues/15069
 
-const Error: React.FC<{ error: Error }> = ({ error }) => {
-  return (
-    <>
-      <div style={{ display: 'relative', minHeight: 200 }} />
-      <Flex
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
-        }}
-      >
-        <Text variant="title" align="center">
-          Une erreur s'est produite... x(
+const GenericErrorView: React.FC = () => (
+  <>
+    <div style={{ display: 'relative', minHeight: 200 }} />
+    <Flex
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      style={{
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+      }}
+    >
+      <Text variant="title" align="center">
+        Une erreur s'est produite... x(
+      </Text>
+      <Box my={42}>
+        <Text align="center">
+          Réessayez plus tard ! ¯\_(ツ)_/¯
         </Text>
-        <Box my={42}>
-          <Text align="center">
-            Réessayez plus tard ! ¯\_(ツ)_/¯
-          </Text>
-        </Box>
-      </Flex>
-    </>
-  );
-};
+      </Box>
+    </Flex>
+  </>
+);
 
 type ErrorBoundaryProps = {
   children: React.ReactNode;
@@ -55,7 +58,15 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error(error, errorInfo);
+    if (['development', 'test'].includes(NODE_ENV))
+      console.error(error, errorInfo);
+
+    if (NODE_ENV === 'production') {
+      Sentry.withScope(scope => {
+        scope.setExtras(errorInfo);
+        Sentry.captureException(error);
+      });
+    }
   }
 
   public render() {
@@ -63,7 +74,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     const { error } = this.state;
 
     if (error !== null)
-      return <Error error={error} />;
+      return <GenericErrorView />;
 
     return children;
   }

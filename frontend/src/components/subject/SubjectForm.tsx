@@ -101,12 +101,19 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onC
   const [subject, setSubject] = useState('');
   const [quote, setQuote] = useState('');
   const [message, setMessage] = useState('');
-  const [post, { loading: loadingCreated, error }] = usePostSubject();
+
+  const [
+    postSubject,
+    { loading: postSubjectLoading, error: postSubjectError },
+  ] = usePostSubject();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onCreated(await post(informationId, subject, quote, message));
+    onCreated(await postSubject(informationId, subject, quote, message));
   };
+
+  if (postSubjectError)
+    throw postSubjectError;
 
   return (
     <form onSubmit={onSubmit}>
@@ -115,7 +122,7 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onC
         <FormSubject subject={subject} setSubject={setSubject} />
         <FormQuote quote={quote} setQuote={setQuote} />
         <MarkdownMessageEdition placeholder="Description du sujet..." message={message} setMessage={setMessage} />
-        <SubmitButton loading={loadingCreated} disabled={subject.length === 0 || message.length === 0} />
+        <SubmitButton loading={postSubjectLoading} disabled={subject.length === 0 || message.length === 0} />
       </Flex>
     </form>
   );

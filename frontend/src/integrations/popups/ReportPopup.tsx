@@ -95,11 +95,14 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
     setDisplayMessage(type === 'OTHER');
   };
 
+  if (!fetchingReaction && fetchError)
+    throw fetchError;
+
+  if (!reportLoading && reportError)
+    throw reportError;
+
   if (fetchingReaction)
     return <Loader size="big" />;
-
-  if (fetchError)
-    throw fetchError;
 
   if (success)
     return <ReportSuccess />;

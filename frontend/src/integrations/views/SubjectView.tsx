@@ -26,13 +26,18 @@ const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
   const { sizes: { big }, colors: { border }, borderRadius } = useTheme();
-  const [subject, { loading, error: fetchSubjectError }] = useSubject(match.params.id);
+  const [subject, { loading: fetchingSubject, error: fetchSubjectError }] = useSubject(match.params.id);
 
   const [
     reactions,
-    { loading: fetchingReactions, error },
+    { loading: fetchingRootReactions, error: fetchRootReactionsError },
     { onCreated: onReactionCreated, onEdited: onReactionEdited },
   ] = useRootReactions(match.params.id, SortType.DATE_ASC);
+
+  if (!fetchingSubject && fetchSubjectError)
+    throw fetchSubjectError;
+  if (!fetchingRootReactions && fetchRootReactionsError)
+    throw fetchRootReactionsError;
 
   const getReactionsList = () => {
     if (!reactions.length) {
@@ -55,7 +60,7 @@ const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
     );
   };
 
-  if (loading)
+  if (fetchingSubject)
     return <Loader size="big" />;
 
   return (
@@ -86,7 +91,7 @@ const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
         </>
       ) }
 
-      { fetchingReactions ? <Loader size="big" /> : getReactionsList() }
+      { fetchingRootReactions ? <Loader size="big" /> : getReactionsList() }
 
     </>
   );
