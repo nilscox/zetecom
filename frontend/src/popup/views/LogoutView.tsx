@@ -43,23 +43,29 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
         }}
       >
         <UserAvatar user={user} />
-        <Text style={{ marginLeft: 10, fontWeight: 'bold' }}>{ user.nick }</Text>
+        <Box ml={big}>
+          <Text bold>{ user.nick }</Text>
+        </Box>
       </Flex>
 
-      <Text style={{ margin: '15px 0' }}>
-        <>Email: { user.email }</>
-      </Text>
+      <Box my={big}>
+        <Text>
+          Email: { user.email }
+        </Text>
+      </Box>
 
-      <Text style={{ margin: '15px 0' }}>
-        <>Inscrit(e) depuis le: { moment(user.created).format('DD MM YYYY') }</>
-      </Text>
+      <Box my={big}>
+        <Text>
+          Inscrit(e) depuis le: { moment(user.created).format('DD MM YYYY') }
+        </Text>
+      </Box>
 
-      <Text>
-        <>
+      <Box my={big}>
+        <Text>
           Vous êtes connecté(e) sur <Link to="/" target="_blank">CDV</Link> en tant que <em>{ user.nick }</em>.
           La charte est accessible <Link to="/charte" target="_blank">ici</Link>.
-        </>
-      </Text>
+        </Text>
+      </Box>
 
       <Box mt={big} style={{ alignSelf: 'center' }}>
         <Form onSubmit={logoutSubmit} loading={loading} submitButtonValue="Déconnexion" />
