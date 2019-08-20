@@ -1,5 +1,6 @@
 import React from 'react';
-import Typography from './Typography';
+
+import Text from 'src/components/common/Text';
 
 type FormErrorProps = {
   children?: string;
@@ -9,11 +10,7 @@ type FormErrorProps = {
 const FormError: React.FC<FormErrorProps> = ({ children, style }) => {
   return (
     <div style={{ margin: '2px 0', ...style }}>
-      {children !== undefined ? (
-        <Typography variant="error">{children}</Typography>
-      ) : (
-        <Typography variant="error">&nbsp;</Typography>
-      )}
+      <Text variant="error">{children}</Text>
     </div>
   );
 };

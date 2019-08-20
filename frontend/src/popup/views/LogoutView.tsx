@@ -6,13 +6,14 @@ import UserContext from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import { useLogoutUser } from 'src/api/user';
 import UserAvatar from 'src/components/common/UserAvatar';
+import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
+import Text from 'src/components/common/Text';
 
-import Typography from '../components/Typography';
 import Form from '../components/Form';
 
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
-  const { sizes: { big } } = useTheme();
+  const { sizes: { medium, big } } = useTheme();
   const { user, setUser } = useContext(UserContext);
   const [logout, { loading, error }] = useLogoutUser();
 
@@ -30,44 +31,41 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
     throw error;
 
   return (
-    <>
-      <div style={{ padding: '0 40px' }}>
+    <Box px={4 * big}>
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            margin: '10px 0',
-            paddingBottom: 5,
-            borderBottom: '1px solid #CCC',
-          }}
-        >
-          <UserAvatar user={user} />
-          <Typography style={{ marginLeft: 10, fontWeight: 'bold' }}>{ user.nick }</Typography>
-        </div>
+      <Flex
+        flexDirection="row"
+        alignItems="center"
+        my={big}
+        pb={medium}
+        style={{
+          borderBottom: '1px solid #CCC',
+        }}
+      >
+        <UserAvatar user={user} />
+        <Text style={{ marginLeft: 10, fontWeight: 'bold' }}>{ user.nick }</Text>
+      </Flex>
 
-        <Typography style={{ margin: '15px 0' }}>
-          <>Email: { user.email }</>
-        </Typography>
+      <Text style={{ margin: '15px 0' }}>
+        <>Email: { user.email }</>
+      </Text>
 
-        <Typography style={{ margin: '15px 0' }}>
-          <>Inscrit(e) depuis le: { moment(user.created).format('DD MM YYYY') }</>
-        </Typography>
+      <Text style={{ margin: '15px 0' }}>
+        <>Inscrit(e) depuis le: { moment(user.created).format('DD MM YYYY') }</>
+      </Text>
 
-        <Typography>
-          <>
-            Vous êtes connecté(e) sur <Link to="/" target="_blank">CDV</Link> en tant que <em>{ user.nick }</em>.
-            La charte est accessible <Link to="/charte" target="_blank">ici</Link>.
-          </>
-        </Typography>
+      <Text>
+        <>
+          Vous êtes connecté(e) sur <Link to="/" target="_blank">CDV</Link> en tant que <em>{ user.nick }</em>.
+          La charte est accessible <Link to="/charte" target="_blank">ici</Link>.
+        </>
+      </Text>
 
-        <Box mt={big} style={{ alignSelf: 'center' }}>
-          <Form onSubmit={logoutSubmit} loading={loading} submitButtonValue="Déconnexion" />
-        </Box>
+      <Box mt={big} style={{ alignSelf: 'center' }}>
+        <Form onSubmit={logoutSubmit} loading={loading} submitButtonValue="Déconnexion" />
+      </Box>
 
-      </div>
-    </>
+    </Box>
   );
 };
 

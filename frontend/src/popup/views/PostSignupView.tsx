@@ -1,22 +1,24 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import UserContext from 'src/utils/UserContext';
-
-import Typography from '../components/Typography';
+import { useCurrentUser } from 'src/utils/UserContext';
+import { useTheme } from 'src/utils/Theme';
+import Box from 'src/components/common/Box';
+import Text from 'src/components/common/Text';
 
 const PostSignupView: React.FC<RouteComponentProps> = () => {
-  const { user } = useContext(UserContext);
+  const { sizes: { big } } = useTheme();
+  const user = useCurrentUser();
 
   return (
-    <div style={{ padding: '20px 40px' }}>
-      <Typography>
+    <Box px={4 * big} py={2 * big}>
+      <Text>
         <>
           Pour finaliser votre inscription, un email vous a été envoyé à{' '}
           <code>{user && user.email}</code>.
         </>
-      </Typography>
-    </div>
+      </Text>
+    </Box>
   );
 };
 

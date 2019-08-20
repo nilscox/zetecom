@@ -6,10 +6,10 @@ import UserContext from 'src/utils/UserContext';
 import { useLoginUser } from 'src/api/user';
 import { useTheme } from 'src/utils/Theme';
 import Box from 'src/components/common/Box';
+import Text from 'src/components/common/Text';
 
 import Form, { useFormErrors } from '../components/Form';
 import ViewHeader from '../components/ViewHeader';
-import Typography from '../components/Typography';
 
 const getGlobalError = (error: AxiosError) => {
   if (!error || !error.isAxiosError)
@@ -77,12 +77,12 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
 
       <ViewHeader />
 
-      <div style={{ padding: '0 40px' }}>
+      <Box px={4 * big}>
 
         <Box my={big}>
-          <Typography>
+          <Text>
             Connectez-vous sur CDV pour interagir avec le reste de la communauté.
-          </Typography>
+          </Text>
         </Box>
 
         <Form
@@ -106,7 +106,7 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
           }}
         />
 
-      </div>
+      </Box>
     </>
   );
 };

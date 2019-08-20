@@ -7,9 +7,9 @@ import UserContext from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 
 import Box from 'src/components/common/Box';
+import Text from 'src/components/common/Text';
 
 import ViewHeader from '../components/ViewHeader';
-import Typography from '../components/Typography';
 import Form, { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from '../components/Form';
 
 type AcceptRulesCheckbox = {
@@ -32,7 +32,7 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
         onChange={handleChange}
         style={{ verticalAlign: 'middle' }}
       />
-      <Typography
+      <Text
         style={{
           fontSize: '0.9rem',
           display: 'inline',
@@ -40,7 +40,7 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
         }}
       >
         J&apos;accepte la charte de CDV.
-      </Typography>
+      </Text>
     </div>
   );
 };
@@ -134,16 +134,16 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
     <>
       <ViewHeader />
 
-      <div style={{ padding: '0 40px' }}>
+      <Box px={40}>
 
         <Box my={big}>
-          <Typography>
+          <Text>
             <>
               Pour créer votre compte sur CDV, c'est par ici. Avant de vous inscrire, veillez à
               avoir lu au moins <Link to="/" target="_blank">la page de présentation</Link>, ainsi
               que{' '} <Link to="/charte" target="_blank">la charte</Link>.
             </>
-          </Typography>
+          </Text>
         </Box>
 
         <Form
@@ -173,7 +173,7 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
           }}
         />
 
-      </div>
+      </Box>
     </>
   );
 };

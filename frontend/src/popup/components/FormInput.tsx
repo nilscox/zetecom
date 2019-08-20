@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { useTheme } from 'src/utils/Theme';
+import Flex from 'src/components/common/Flex';
 import Input, { InputProps } from 'src/components/common/Input';
 
 import FormError from './FormError';
@@ -14,6 +16,7 @@ const FormInput: React.FC<FormInputProps> = ({
   onTextChange,
   ...props
 }) => {
+  const { sizes: { medium } } = useTheme();
   const [value, setValue] = useState('');
 
   const handleTextChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -22,13 +25,10 @@ const FormInput: React.FC<FormInputProps> = ({
   };
 
   return (
-    <div
-      style={{
-        marginBottom: '5px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-      }}
+    <Flex
+      flexDirection="column"
+      mb={medium}
+      alignItems="stretch"
     >
       { errorMessage && <FormError style={{ textAlign: 'right' }}>{errorMessage}</FormError> }
       <Input
@@ -42,7 +42,7 @@ const FormInput: React.FC<FormInputProps> = ({
         onChange={e => handleTextChange(e)}
         {...props}
       />
-    </div>
+    </Flex>
   );
 };
 

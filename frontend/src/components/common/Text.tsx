@@ -7,6 +7,7 @@ type TextVariant =
   | 'title'
   | 'subtitle'
   | 'text'
+  | 'error'
   | 'note'
   | 'button';
 
@@ -37,6 +38,11 @@ const getStyles: (theme: Theme) => { [key in TextVariant]: React.CSSProperties }
   },
   text: {
     color: theme.colors.text,
+  },
+  error: {
+    fontSize: theme.fontSizes.small,
+    color: theme.colors.textWarning,
+    fontWeight: 'bold',
   },
   note: {
     fontSize: theme.fontSizes.note,

@@ -1,12 +1,18 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import Typography from '../components/Typography';
+import { useTheme } from 'src/utils/Theme';
+import Box from 'src/components/common/Box';
+import Text from 'src/components/common/Text';
 
-const PasswordResetView: React.FC<RouteComponentProps> = () => (
-  <div style={{ padding: '0 40px' }}>
-    <Typography textAlign="center">PasswordReset</Typography>
-  </div>
-);
+const PasswordResetView: React.FC<RouteComponentProps> = () => {
+  const { sizes: { big } } = useTheme();
+
+  return (
+    <Box px={4 * big}>
+      <Text align="center">PasswordReset</Text>
+    </Box>
+  );
+};
 
 export default PasswordResetView;
