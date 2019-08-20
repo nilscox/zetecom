@@ -9,6 +9,10 @@ import { SignupUserInDto } from '../authentication/dtos/signup-user-in.dto';
 import { User } from './user.entity';
 import { EmailService } from '../email/email.service';
 
+const {
+  EMAIL_ACCOUNT_VERIFICATION,
+} = process.env;
+
 @Injectable()
 export class UserService {
 
@@ -49,7 +53,7 @@ export class UserService {
     user.avatar = avatar;
     user.emailValidationToken = uuidv4();
 
-    if (process.env.NODE_ENV === 'production')
+    if (EMAIL_ACCOUNT_VERIFICATION === 'true')
       await this.emailService.sendEmailValidationEmail(user);
     else
       user.emailValidated = true;

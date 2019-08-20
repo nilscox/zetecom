@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import UserContext from 'src/utils/UserContext';
 import { useLoginUser } from 'src/api/user';
 import { useTheme } from 'src/utils/Theme';
 import Box from 'src/components/common/Box';
-import Button from 'src/components/common/Button';
-import FormError from 'src/components/common/FormError';
 
 import Form, { useFormErrors } from '../components/Form';
 import ViewHeader from '../components/ViewHeader';
@@ -16,8 +14,13 @@ const getGlobalError = (error: any) => {
   if (!error || !error.isAxiosError)
     return null;
 
-  if (error.response.status === 401)
+  const { response: { status, data: { message } } } = error;
+
+  if (status === 401 && message === 'INVALID_CREDENTIALS')
     return 'Combinaison email / mot de passe non valide';
+
+  if (status === 401 && message === 'EMAIL_NOT_VALIDATED')
+    return 'Votre adresse email n\'a pas été validée, verifiez dans vos spams !';
 
   return null;
 };

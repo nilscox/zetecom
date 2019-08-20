@@ -10,7 +10,7 @@ const {
   EMAIL_USER,
   EMAIL_PASSWORD,
   EMAIL_TEMPLATE_DIR,
-  EMAIL_EXCLUDE_REGEX,
+  EMAIL_BYPASS,
   BASE_URL,
 } = process.env;
 
@@ -47,7 +47,7 @@ export class EmailService {
   }
 
   private sendEmail(to: string, subject: string, text: string, html: string): Promise<any> {
-    if (EMAIL_EXCLUDE_REGEX && to.match(new RegExp(EMAIL_EXCLUDE_REGEX)))
+    if (EMAIL_BYPASS === 'true')
       return Promise.resolve();
 
     return new Promise((resolve, reject) => {

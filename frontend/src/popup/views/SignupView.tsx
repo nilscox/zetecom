@@ -6,13 +6,11 @@ import { useSignupUser } from 'src/api/user';
 import UserContext from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 
-import Button from 'src/components/common/Button';
 import Box from 'src/components/common/Box';
 
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 import Form, { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from '../components/Form';
-import FormError from '../components/FormError';
 
 type AcceptRulesCheckbox = {
   onChange: (value: boolean) => void;
@@ -51,21 +49,15 @@ const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
   if (!error || !error.isAxiosError)
     return null;
 
-  if (error.response.status === 401)
-    return 'Combinaison email / mot de passe non valide';
+  const { response: { status, data: { message } } } = error;
 
-  if (error.response.status !== 400)
-    return null;
-
-  const { message } = error.response.data;
-
-  if (message === 'PASSWORD_UNSECURE')
+  if (status === 400 && message === 'PASSWORD_UNSECURE')
     return 'Ce mot de passe n\'est pas assez sécurisé.';
 
-  if (message === 'NICK_ALREADY_EXISTS')
+  if (status === 400 && message === 'NICK_ALREADY_EXISTS')
     return 'Ce pseudo est déjà utilisé.';
 
-  if (message === 'EMAIL_ALREADY_EXISTS')
+  if (status === 400 && message === 'EMAIL_ALREADY_EXISTS')
     return 'Cette adresse email est déjà utilisée.';
 
   return null;
