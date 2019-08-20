@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import React, { useContext } from 'react';
 import { RouteComponentProps } from 'react-router';
 
@@ -10,7 +11,7 @@ import Form, { useFormErrors } from '../components/Form';
 import ViewHeader from '../components/ViewHeader';
 import Typography from '../components/Typography';
 
-const getGlobalError = (error: any) => {
+const getGlobalError = (error: AxiosError) => {
   if (!error || !error.isAxiosError)
     return null;
 
@@ -25,28 +26,24 @@ const getGlobalError = (error: any) => {
   return null;
 };
 
-const getFieldErrors = (error: any) => {
+const getFieldErrors = (error: AxiosError) => {
   if (!error || !error.isAxiosError || error.response.status !== 400)
     return null;
 
   const fields = error.response.data;
 
-  const getErrorMessage = (obj: any) => {
+  const getErrorMessage = (field: string, obj: { [key: string]: string }) => {
     const constraint = Object.keys(obj)[0];
 
-    switch (constraint) {
-    case 'isEmail':
+    if (field === 'email' && constraint === 'isEmail')
       return 'Format d\'adresse email non valide';
-    default:
-      return 'Invalide';
-    }
   };
 
   return Object.keys(fields)
     .reduce((errors, field) => ({
-      [field]: getErrorMessage(fields[field]),
+      [field]: getErrorMessage(field, fields[field]),
       ...errors,
-    }), {} as any);
+    }), {});
 };
 
 const LoginView: React.FC<RouteComponentProps> = ({ history }) => {

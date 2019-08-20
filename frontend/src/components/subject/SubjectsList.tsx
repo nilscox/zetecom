@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-7
+import React, { useState } from 'react';
+
 import { Subject } from 'src/types/Subject';
 import { useTheme } from 'src/utils/Theme';
 

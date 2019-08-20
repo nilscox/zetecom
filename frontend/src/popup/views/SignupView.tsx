@@ -93,7 +93,7 @@ const getFieldErrors: FieldErrorsHandler = (error: AxiosError) => {
     .reduce((errors, field) => ({
       [field]: getErrorMessage(field, fields[field]),
       ...errors,
-    }), {} as any);
+    }), {});
 };
 
 const SignupView: React.FC<RouteComponentProps> = ({ history }) => {

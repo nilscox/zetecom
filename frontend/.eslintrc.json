@@ -34,7 +34,7 @@
     "comma-spacing": "error",
     "eol-last": "error",
     "func-call-spacing": "error",
-    "indent": ["error", 2, { "SwitchCase": 0 }],
+    "indent": "off",
     "jsx-quotes": "error",
     "key-spacing": "error",
     "keyword-spacing": "error",
@@ -57,7 +57,7 @@
     "nonblock-statement-body-position": ["error", "below"],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/prefer-interface": "off",
-    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/indent": ["error", 2, { "SwitchCase": 0 }],
     "react/prop-types": "off",
     "react/no-unescaped-entities": "off"
   }

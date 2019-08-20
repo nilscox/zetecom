@@ -6,7 +6,6 @@ import UserContext from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import { useLogoutUser } from 'src/api/user';
 import UserAvatar from 'src/components/common/UserAvatar';
-import Button from 'src/components/common/Button';
 import Box from 'src/components/common/Box';
 
 import Typography from '../components/Typography';

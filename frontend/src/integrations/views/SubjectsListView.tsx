@@ -3,7 +3,6 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import { useCurrentUser } from 'src/utils/UserContext';
 import { Information } from 'src/types/Information';
-import { Subject } from 'src/types/Subject';
 import { SortType } from 'src/types/SortType';
 import { useSubjects } from 'src/api/subjects';
 import { useTheme } from 'src/utils/Theme';
