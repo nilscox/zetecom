@@ -12,7 +12,7 @@ import Form, { useFormErrors } from '../components/Form';
 import ViewHeader from '../components/ViewHeader';
 
 const getGlobalError = (error: AxiosError) => {
-  if (!error || !error.isAxiosError)
+  if (!error || !error.response)
     return null;
 
   const { response: { status, data: { message } } } = error;
@@ -27,7 +27,7 @@ const getGlobalError = (error: AxiosError) => {
 };
 
 const getFieldErrors = (error: AxiosError) => {
-  if (!error || !error.isAxiosError || error.response.status !== 400)
+  if (!error || !error.response || error.response.status !== 400)
     return null;
 
   const fields = error.response.data;

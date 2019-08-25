@@ -1,5 +1,10 @@
+/* eslint-disable */
+
 const path = require('path');
 const webpack = require('webpack');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 require('dotenv').config();
 
@@ -11,33 +16,60 @@ const HTTPS = process.env.WEBPACK_DEV_SERVER_HTTPS === 'true';
 module.exports = {
 
   mode: NODE_ENV,
-  entry: './src/index.tsx',
   devtool: NODE_ENV === 'development' ? 'inline-source-map' : false,
 
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
+  entry: {
+    main: './src/index.tsx',
+  },
+
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].js',
   },
 
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
+      'react-dom': '@hot-loader/react-dom',
       src: path.resolve(__dirname, 'src'),
     },
   },
 
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'public', 'assets', 'js'),
+  module: {
+    rules: [
+
+      {
+        test: /\.(j|t)sx?$/,
+        include: path.resolve(__dirname, 'src'),
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            babelrc: false,
+            presets: [
+              [
+                '@babel/preset-env',
+                { targets: { browsers: 'last 2 versions' } }, // or whatever your project requires
+              ],
+              '@babel/preset-typescript',
+              '@babel/preset-react',
+            ],
+            plugins: [
+              // plugin-proposal-decorators is only needed if you're using experimental decorators in TypeScript
+              ['@babel/plugin-proposal-decorators', { legacy: true }],
+              ['@babel/plugin-proposal-class-properties', { loose: true }],
+              'react-hot-loader/babel',
+            ],
+          },
+        },
+      },
+
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+
+    ],
   },
 
   plugins: [
@@ -48,16 +80,28 @@ module.exports = {
       CHROME_EXTENSION_ID: null,
       GITHUB_REPO_URL: null,
     }),
+    new ForkTsCheckerWebpackPlugin(),
+    new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'public', 'index.html'),
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, 'public', 'assets'),
+        to: path.resolve(__dirname, 'dist', 'assets'),
+      },
+      path.resolve(__dirname, 'public', 'robots.txt')
+    ]),
   ],
 
   devServer: {
     host: HOST,
     port: PORT,
     https: HTTPS,
-    publicPath: '/assets/js/',
     contentBase: path.resolve(__dirname, 'public'),
     disableHostCheck: true,
     historyApiFallback: true,
+    hot: true,
   },
 
 };

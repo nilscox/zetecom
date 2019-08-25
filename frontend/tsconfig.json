@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "./public/assets/js",
+    "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "esnext",

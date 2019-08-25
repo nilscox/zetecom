@@ -26,7 +26,7 @@ const setup = () => {
   moment.locale('fr');
   axios.defaults.baseURL = getApiRootUrl();
 
-  ReactModal.setAppElement('#app');
+  ReactModal.setAppElement(root);
 
   if (env.NODE_ENV === 'devlopment') {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,9 +34,5 @@ const setup = () => {
   }
 };
 
-const renderApp = (root: HTMLElement) => {
-  ReactDOM.render(<App />, root);
-};
-
 setup();
-renderApp(root);
+ReactDOM.render(<App />, root);

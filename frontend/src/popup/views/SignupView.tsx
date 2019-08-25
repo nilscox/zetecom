@@ -46,7 +46,7 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
 };
 
 const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
-  if (!error || !error.isAxiosError)
+  if (!error || !error.response)
     return null;
 
   const { response: { status, data: { message } } } = error;
@@ -64,7 +64,7 @@ const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
 };
 
 const getFieldErrors: FieldErrorsHandler = (error: AxiosError) => {
-  if (!error || !error.isAxiosError || error.response.status !== 400)
+  if (!error || !error.response || error.response.status !== 400)
     return null;
 
   const fields = error.response.data;

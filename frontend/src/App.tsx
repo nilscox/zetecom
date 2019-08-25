@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { hot } from 'react-hot-loader/root';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { User } from 'src/types/User';
@@ -67,4 +68,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default hot(App);
