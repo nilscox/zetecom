@@ -24,6 +24,7 @@ module.exports = {
 
   output: {
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     filename: '[name].js',
   },
 
@@ -77,7 +78,7 @@ module.exports = {
       NODE_ENV: 'development',
       API_URL: 'http://localhost:3000',
       BASE_URL: 'http://localhost:8000',
-      CHROME_EXTENSION_ID: null,
+      CHROME_EXTENSION_URL: null,
       GITHUB_REPO_URL: null,
     }),
     new ForkTsCheckerWebpackPlugin(),

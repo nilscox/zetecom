@@ -6,8 +6,8 @@ type DownloadExtensionProps = {
   children: string;
 };
 
-if (!env.CHROME_EXTENSION_ID)
-  console.warn('CHROME_EXTENSION_ID environment is not set');
+if (!env.CHROME_EXTENSION_URL)
+  console.warn('CHROME_EXTENSION_URL environment is not set');
 
 const DownloadExtension: React.FC<DownloadExtensionProps> = ({ children }) => (
   <div style={{
@@ -18,11 +18,7 @@ const DownloadExtension: React.FC<DownloadExtensionProps> = ({ children }) => (
     textAlign: 'center',
   }}>
     <a
-      href={
-        env.CHROME_EXTENSION_ID
-          ? `https://chrome.google.com/webstore/detail/${env.CHROME_EXTENSION_ID}`
-          : undefined
-      }
+      href={env.CHROME_EXTENSION_URL}
       target="_blank"
       rel="noopener noreferrer"
       className="download-extension-button"

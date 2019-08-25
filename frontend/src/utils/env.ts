@@ -2,7 +2,7 @@ const env = {
   NODE_ENV: process.env.NODE_ENV,
   API_URL: process.env.API_URL,
   BASE_URL: process.env.BASE_URL,
-  CHROME_EXTENSION_ID: process.env.CHROME_EXTENSION_ID,
+  CHROME_EXTENSION_URL: process.env.CHROME_EXTENSION_URL,
   GITHUB_REPO_URL: process.env.GITHUB_REPO_URL,
 };
 

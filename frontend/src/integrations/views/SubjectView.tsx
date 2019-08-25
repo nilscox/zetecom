@@ -46,7 +46,9 @@ const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
 
       return (
         <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight: 60 }}>
-          <Text uppercase color="textLight">Il n'y a pas encore de réaction. Connectez-vous pour réagir !</Text>
+          <Text uppercase color="textLight">
+            Il n'y a pas encore de réaction à ce sujet. Connectez-vous pour réagir !
+          </Text>
         </Flex>
       );
     }
