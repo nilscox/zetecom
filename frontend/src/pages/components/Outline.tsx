@@ -12,7 +12,7 @@ const Outline: React.FC<OutlineProps> = ({ children }) => (
       lineHeight: 1.5,
     }}
   >
-    <p>{ children }</p>
+    { children }
   </div>
 );
 

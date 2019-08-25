@@ -4,10 +4,7 @@ import Title from './components/Title';
 
 const FAQ: React.FC = () => {
   return (
-    <div
-      id="FAQ"
-      className="page"
-    >
+    <div id="FAQ">
 
       <Title>FAQ</Title>
 

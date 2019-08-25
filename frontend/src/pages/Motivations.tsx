@@ -42,10 +42,7 @@ import React from 'react';
 
 const Motivations: React.FC = () => {
   return (
-    <div
-      id="Motivations"
-      className="page"
-    >
+    <div id="Motivations">
 
       <p>
         <em>

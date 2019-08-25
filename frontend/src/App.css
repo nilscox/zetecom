@@ -44,18 +44,7 @@ a {
 }
 
 .page {
-  max-width: 640px;
+  width: 100%;
+  max-width: 2000px;
   box-sizing: border-box;
-}
-
-@media only screen and (min-width: 1000px) {
-  .page {
-    max-width: 940px;
-  }
-}
-
-@media only screen and (min-width: 1400px) {
-  .page {
-    max-width: 1300px;
-  }
 }

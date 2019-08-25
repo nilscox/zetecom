@@ -30,10 +30,7 @@ const Rule: React.FC = ({ children }) => (
 
 const Rules: React.FC = () => {
   return (
-    <div
-      id="Rules"
-      className="page"
-    >
+    <div id="Rules">
 
       <Title>La charte de CDV</Title>
 

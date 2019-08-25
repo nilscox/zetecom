@@ -9,9 +9,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 require('dotenv').config();
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const HOST = process.env.WEBPACK_DEV_SERVER_HOST || 'localhost';
-const PORT = process.env.WEBPACK_DEV_SERVER_PORT || '8000';
-const HTTPS = process.env.WEBPACK_DEV_SERVER_HTTPS === 'true';
+const HOST = process.env.WDS_HOST || 'localhost';
+const PORT = process.env.WDS_PORT || '8000';
+const HTTPS = process.env.WDS_HTTPS === 'true';
 
 module.exports = {
 

@@ -11,3 +11,10 @@
   font-style: normal;
   font-weight: bold;
 }
+
+@font-face {
+  font-family: 'Domine';
+  src: url('/assets/fonts/Domine/Domine-Regular.ttf');
+  font-style: normal;
+  font-weight: bold;
+}
