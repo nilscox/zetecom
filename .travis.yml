@@ -42,17 +42,6 @@ jobs:
       before_install: cd frontend
       before_script: source $TRAVIS_BUILD_DIR/scripts/setup-env.sh
       script: yarn build
-      deploy:
-        - provider: script
-          script: $TRAVIS_BUILD_DIR/scripts/deploy-frontend.sh "$DEPLOY_USER_PRODUCTION@$DEPLOY_HOSTNAME" public
-          on:
-            branch: master
-          skip_cleanup: true
-        - provider: script
-          script: $TRAVIS_BUILD_DIR/scripts/deploy-frontend.sh "$DEPLOY_USER_STAGING@$DEPLOY_HOSTNAME" public
-          on:
-            branch: dev
-          skip_cleanup: true
     - name: "build extension"
       before_install: cd chrome-extension
       script: yarn build
