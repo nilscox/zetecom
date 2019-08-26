@@ -72,23 +72,23 @@ const cards = [
 
 const sentences = [
   {
-    text: 'L\'extension chrome intègre des zones de commentaires directement sur les sites d\'information',
+    text: 'Une extension chrome intègre des zones de commentaires directement sur les sites d\'information',
     subtext: 'Pour savoir ce qu\'en pense la communauté tout de suite après avoir lu un article sur le site d\'un journal, ou une vidéo sur YouTube !',
   },
   {
-    text: 'Les commentaires peuvent être triés par pertinence',
+    text: 'Des messages mis en avant, jugés les plus pertinents par la communauté',
     subtext: 'Pour voir les réactions les mieux construites, qui apportent des éléments clés, ou bien les plus controversées.',
   },
   {
-    text: 'Les échanges ont lieu dans cadre sain et rigoureux',
+    text: 'Un cadre sain et rigoureux, propice aux échanges',
     subtext: 'Pour participer aux échanges, il faut accepter une charte posant les bases nécessaires à un débat constructif.',
   },
   {
-    text: 'Les messages peuvent être mis en page de façon structurée',
-    subtext: 'Pour permettre la plus grande clareté, il est possible de formatter avec des liens, des listes, des tableaux, des titres, ...',
+    text: 'Des messages mis en page ne façon structurée',
+    subtext: 'Pour permettre la plus grande clareté, réactions peuvent comporter des liens, des listes, des tableaux, des titres, ...',
   },
   {
-    text: 'La modération des débats est faite par des membres de la communauté',
+    text: 'Une modération des débats assurée par des membres de la communauté',
     subtext: 'Pour garder des échanges clairs et éviter les dérives, il faut parfois faire la police. On aimerait bien éviter, mais est-ce possible ?',
   },
 ];
