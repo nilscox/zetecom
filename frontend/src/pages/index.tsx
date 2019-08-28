@@ -55,7 +55,7 @@ const Pages: React.FC = () => (
           <NavLink to="/utilisation">Utilisation</NavLink>
           <NavLink to="/charte">La charte</NavLink>
           <NavLink to="/motivations">Motivations</NavLink>
-          <NavLink to="/faq" disabled>FAQ</NavLink>
+          <NavLink to="/faq">FAQ</NavLink>
         </ul>
       </nav>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Title from './Title';
+import PageTitle from './PageTitle';
 
 type SectionProps = {
   title?: string;
@@ -9,7 +9,7 @@ type SectionProps = {
 
 const Section: React.FC<SectionProps> = ({ title, children }) => (
   <div style={{ margin: '20px 0' }}>
-    { title && <Title>{ title }</Title> }
+    { title && <PageTitle>{ title }</PageTitle> }
     { children }
   </div>
 );

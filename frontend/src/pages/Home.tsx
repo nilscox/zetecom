@@ -10,6 +10,8 @@ import Text from 'src/components/common/Text';
 import EmailValidatedAlert from './components/EmailValidatedAlert';
 import Outline from './components/Outline';
 import Card from './components/Card';
+import DownloadExtension from './components/DownloadExtensionButton';
+import PageTitle from './components/PageTitle';
 
 /*
 
@@ -45,8 +47,8 @@ Qu'est-ce que c'est ?
 
 const Sentence: React.FC<{ text: React.ReactNode; subtext: React.ReactNode }> = ({ text, subtext }) => (
   <Box ml={30}>
-    <div><Text bold style={{ color: '#444' }}>{ text }</Text></div>
-    <div><Text style={{ fontSize: 14 }}>{ subtext }</Text></div>
+    <div><h3><Text bold style={{ color: '#444' }}>{ text }</Text></h3></div>
+    <div><p><Text style={{ fontSize: 16 }}>{ subtext }</Text></p></div>
   </Box>
 );
 
@@ -72,8 +74,8 @@ const cards = [
 
 const sentences = [
   {
-    text: 'Une extension chrome intègre des zones de commentaires directement sur les sites d\'information',
-    subtext: 'Pour savoir ce qu\'en pense la communauté tout de suite après avoir lu un article sur le site d\'un journal, ou une vidéo sur YouTube !',
+    text: 'Des zones de commentaires intégrées directement sur les sites d\'information, via une extension chrome',
+    subtext: 'Pour savoir ce qu\'en pense la communauté, tout de suite après avoir lu un article sur le site d\'un journal, ou une vidéo sur YouTube !',
   },
   {
     text: 'Des messages mis en avant, jugés les plus pertinents par la communauté',
@@ -84,8 +86,8 @@ const sentences = [
     subtext: 'Pour participer aux échanges, il faut accepter une charte posant les bases nécessaires à un débat constructif.',
   },
   {
-    text: 'Des messages mis en page ne façon structurée',
-    subtext: 'Pour permettre la plus grande clareté, réactions peuvent comporter des liens, des listes, des tableaux, des titres, ...',
+    text: 'Des messages mis en page de façon structurée',
+    subtext: 'Pour permettre une plus grande clareté, les réactions peuvent comporter des liens, des listes, des tableaux, des titres, ...',
   },
   {
     text: 'Une modération des débats assurée par des membres de la communauté',
@@ -103,7 +105,7 @@ const Home: React.FC = () => (
     <Outline>
       <p>
         <Link to="/"><em>Chercheurs de vérité</em></Link>, c'est une platforme qui donne accès à un <strong>espace
-        d'échange collaboratif</strong>, pour réagir à l'information qui nous est transmise par les médias.
+        d'échange collaboratif</strong>, pour réagir à l'information diffusée par les médias.
       </p>
       <p>
         Une <Link to="/utilisation">extension chrome</Link> permet d'ajouter sur certain sites internet, une zone de
@@ -116,7 +118,38 @@ const Home: React.FC = () => (
       { cards.map((props, n) => <Card key={n} {...props} />) }
     </Flex>
 
-    <Flex mt={60} flexDirection="row">
+    <Box mt={40} mb={20}>
+      <PageTitle>L'information sur internet</PageTitle>
+    </Box>
+
+    <p style={{ fontSize: 18 }}>
+      <Text>
+        Depuis quelques dixaines d'années, les évolutions technologiques ont enclenchées une vrai{' '}
+        <a href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</a>, qui a radicalement
+        bouleversé note façon de communiquer <em>et de nous informer</em>. En contrepartie, un nombre croissant de
+        problématiques liées à l'information émergent, notamment dans la diffusion de celle-ci par les médias. Les
+        articles relatant des faits hors du commun étant plus attrayants, les contenus sont parfois plus sensationaliste
+        que vrai.
+      </Text>
+    </p>
+    <p style={{ fontSize: 18 }}>
+      <Text>
+        Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensembles, intélligement, face à cette abondance
+        d'information sur internet ? CDV a pour ambition d'apporter des solutions à ces problématiques, en proposant une
+        plateforme qui <em>vous</em> permet de réagir librement aux médias sur internet, comme des articles de presse ou
+        des vidéos sur YouTube.
+      </Text>
+    </p>
+
+    <DownloadExtension>
+      Télécharger l'extension chrome
+    </DownloadExtension>
+
+    <Box mt={40} mb={20}>
+      <PageTitle>Que propose CDV ?</PageTitle>
+    </Box>
+
+    <Flex flexDirection="row">
 
       <Flex flex={1}>
         <img

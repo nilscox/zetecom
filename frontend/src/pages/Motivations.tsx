@@ -38,6 +38,8 @@ import React from 'react';
 
 - contexte du projet (esprit critique / zététique...)
 
+la tribune <a href="https://nofake.science">nofake.science</a> dénonce une négligence du traitement des informations scientifiques par la presse.
+
 */
 
 const Motivations: React.FC = () => {

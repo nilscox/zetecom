@@ -2,7 +2,9 @@
 
 import React from 'react';
 
-import Title from './components/Title';
+import Box from 'src/components/common/Box';
+
+import PageTitle from './components/PageTitle';
 import SubTitle from './components/SubTitle';
 import Note from './components/Note';
 
@@ -32,7 +34,9 @@ const Rules: React.FC = () => {
   return (
     <div id="Rules">
 
-      <Title>La charte de CDV</Title>
+      <Box mt={40} mb={20}>
+        <PageTitle>La charte de CDV</PageTitle>
+      </Box>
 
       <SubTitle>Introduction</SubTitle>
 

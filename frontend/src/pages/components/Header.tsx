@@ -45,11 +45,11 @@ const Header: React.FC = () => {
           <div
             style={{
               flex: 1,
-              fontSize: '1.6rem',
-              lineHeight: '1.6rem',
+              fontSize: '1.5rem',
               color: '#666',
               letterSpacing: '6px',
-              textAlign: 'center',
+              textAlign: 'left',
+              marginLeft: 3,
             }}
           >
             { SUBTITLE }
