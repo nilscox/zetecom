@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/nilscox/cdv.svg?branch=dev)](https://travis-ci.org/nilscox/cdv)
+[![Build Status](https://github.com/nilscox/cdv/workflows/frontend/badge.svg)](https://github.com/nilscox/cdv/actions)
 
 This is where the code of CDV lives. For more information about the project, please have a look at the website:
 [https://cdv.nils.cx](https://cdv.nils.cx), if you understand french :).
