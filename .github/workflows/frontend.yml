@@ -1,0 +1,38 @@
+name: frontend
+
+on: [push]
+
+jobs:
+  build:
+
+    name: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - run: npm i -g yarn
+    - run: yarn install --production=false
+      working-directory: ./frontend
+    - run: yarn build
+      working-directory: ./frontend
+    - run: yarn lint
+      working-directory: ./frontend
+
+  test:
+
+    name: test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - run: npm i -g yarn
+    - run: yarn install --production=false
+      working-directory: ./frontend
+    - run: yarn test
+      working-directory: ./frontend
