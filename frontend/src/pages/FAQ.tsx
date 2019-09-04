@@ -4,6 +4,8 @@ import PageTitle from './components/PageTitle';
 import Box from 'src/components/common/Box';
 import env from 'src/utils/env';
 
+/* eslint-disable max-len */
+
 const questions = [
   {
     question: 'Comment créer un compte sur CDV ?',
@@ -23,7 +25,7 @@ const questions = [
     question: 'Comment créer une nouvelle zone de commentaires ?',
     answer: (
       <>
-        Il est nécéssaire de <a href="mailto:nils@nils.cx">contacter</a> l'équipe qui développe le projet pour demander
+        Il est nécéssaire de <a href="mailto:nils@nils.cx">contacter</a> l'équaoeaeipe qui développe le projet pour demander
         l'ajout d'une nouvelle zone de commentaire.
       </>
     ),
@@ -95,6 +97,8 @@ const questions = [
     answer: <><a href="mailto:nils@nils.cx">Contactez</a> l'équipe qui développe le projet !</>,
   },
 ];
+
+/* eslint-enable max-len */
 
 type QuestionProps = {
   question: React.ReactNode;

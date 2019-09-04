@@ -5,7 +5,8 @@
     "start": "webpack-dev-server",
     "build": "webpack",
     "clean": "rimraf dist",
-    "lint": "eslint 'src/**/*.ts{,x}'"
+    "lint": "eslint 'src/**/*.ts{,x}'",
+    "test": "exit 0"
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.9.0",
