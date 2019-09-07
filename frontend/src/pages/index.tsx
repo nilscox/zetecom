@@ -1,6 +1,8 @@
 import React from 'react';
 import { Switch, Route, NavLink as ReactRouterNavLink, NavLinkProps } from 'react-router-dom';
 
+import Flex from 'src/components/common/Flex';
+
 import Home from './Home';
 import Usage from './Usage';
 import Rules from './Rules';
@@ -39,17 +41,17 @@ const NavLink: React.FC<NavLinkProps & { disabled?: boolean }> = ({ disabled, ..
 );
 
 const Divider: React.FC = () => (
-  <div className="divider"></div>
+  <div style={{ borderRight: '1px solid #CCC', margin: '0 10px' }}/>
 );
 
 const Pages: React.FC = () => (
-  <div className="page" style={{ margin: '50px auto', padding: '0 10%' }}>
+  <div className="page" style={{ margin: 'auto', padding: '0 10%', color: '#222' }}>
 
     <Header />
 
-    <div className="content" style={{ minHeight: 250 }}>
+    <Flex style={{ minHeight: 250 }}>
 
-      <nav style={{ position: 'relative' }}>
+      <nav style={{ flex: 1, position: 'relative' }}>
         <ul style={{ listStyleType: 'none', position: 'sticky', top: 30, marginTop: 30 }}>
           <NavLink to="/">Accueil</NavLink>
           <NavLink to="/utilisation">Utilisation</NavLink>
@@ -61,7 +63,7 @@ const Pages: React.FC = () => (
 
       <Divider />
 
-      <main style={{ paddingLeft: 10 }}>
+      <main style={{ flex: 4, paddingLeft: 10 }}>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/utilisation" exact component={Usage} />
@@ -72,7 +74,7 @@ const Pages: React.FC = () => (
         </Switch>
       </main>
 
-    </div>
+    </Flex>
 
   </div>
 );

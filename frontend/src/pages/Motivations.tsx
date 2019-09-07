@@ -1,9 +1,11 @@
 /* eslint-disable max-lines, react/no-unescaped-entities */
 
 import React from 'react';
-import Title from './components/Title';
+
 import env from 'src/utils/env';
 import Link from 'src/components/common/Link';
+
+import Title from './components/Title';
 
 /*
 
@@ -25,27 +27,27 @@ import Link from 'src/components/common/Link';
   - fake news / junk news
   - publi-information
   - manque de rigueur des médias
-  - addiction au buzz, aux contenus sensionalistes
+  - addiction au buzz, aux contenus sensationnalistes
   - biais et arguments fallacieux
   - manque de possibilité de réagir
   - manque d'organisation / modération
   - manque de bienveillance, d'ouverture d'esprit
   - manque d'esprit critique, de méthode
-  - débat stérils / débat sémantique (dispute verbale)
+  - débat stériles / débat sémantique (dispute verbale)
 
 - réponses à ces problématiques
   - non partisan
   - la charte
     - respect des autres
     - empêche les messages vides de sens
-    - pousse à comprendres les opinions sans prégujés
+    - pousse à comprendre les opinions sans préjugés
   - réponses nestées
   - référencement des réactions
   - modération
   - transparence
   - Non partisan : aucune affiliation envers quelque entité que ce soit
 
-- Etat d'esprit du projet
+- État d'esprit du projet
   - communauté, charte, algo de référencement
   - open source
   - projet participatif
@@ -55,15 +57,13 @@ import Link from 'src/components/common/Link';
 
 const Motivations: React.FC = () => {
   return (
-    <div id="Motivations">
+    <>
 
-      <p>
-        <em>
-          Cette page décrit plus en détail les raisons pour lesquelles CDV a vu le jour, et les problématiques
-          auxquelles cette plateforme tente d'apporter des solutions. Mais... elle est en cours de rédaction ! Revenez
-          vite :)
-        </em>
-      </p>
+      <em>
+        Cette page décrit plus en détail les raisons pour lesquelles CDV a vu le jour, et les problématiques
+        auxquelles cette plateforme tente d'apporter des solutions. Mais... elle est en cours de rédaction ! Revenez
+        vite :)
+      </em>
 
       <p style={{ display: 'none' }}>
         Il existe sur internet, un grand nombre d'informations dont la qualité peut varier du tout au tout. Et
@@ -90,7 +90,7 @@ const Motivations: React.FC = () => {
       <p style={{ display: 'none' }}>
         CDV est pensé dans un but collaboratif au niveau du contenu rédigé par les utilisateurs, mais aussi au niveau
         de son fonctionnement. Dans un but d'amélioration progressive des idées, de la charte, et de l'état d'esprit
-        du projet en général, les intéressés sont invité à <a href="mailto:cdv@nils.cx">en discuter</a> avec
+        du projet en général, les intéressés sont invité à <Link to="/faq#contact">en discuter</Link> avec
         l'équipe qui développe la plateforme. Et s'il y a des amis développeurs parmi vous, toutes les sources du
         projet sont accessibles sur <a href={env.GITHUB_REPO_URL}>github</a>. Issues and pull requests are very
         welcome :)
@@ -109,7 +109,7 @@ const Motivations: React.FC = () => {
         esprit critique, et... cherchons la vérité !
       </p>
 
-    </div>
+    </>
   );
 };
 

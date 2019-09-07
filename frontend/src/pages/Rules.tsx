@@ -1,8 +1,6 @@
-/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable max-lines, react/no-unescaped-entities */
 
 import React from 'react';
-
-import Box from 'src/components/common/Box';
 
 import Title from './components/Title';
 import SubTitle from './components/SubTitle';
@@ -12,15 +10,15 @@ import Note from './components/Note';
 
 - 1. En tant que lecteur
   - 1.1. Je suis invité à lire les réactions des autres utilisateurs de CDV, en bonne intélligence.
-  - 1.2. Je comprends et j'interprête le message avec recul et méthode.
+  - 1.2. Je comprends et j'interprète le message avec recul et méthode.
   - 1.3. Je vérifie les sources.
   - 1.4. J'estime à quelle point je pense que la réaction est vraie et apporte du sens à mon opinion.
   - 1.5. Je signale une réaction qui ne respecte pas cette charte.
 
 - 2. En tant que rédacteur
   - 2.1. Je formule mon message de manière claire et en allant droit au but.
-  - 2.2. Je différencie une réaction factuelle d'une réaciton d'opinion.
-  - 2.3. J'apporte les sources nécéssaires pour vérifier les faits énoncés.
+  - 2.2. Je différencie une réaction factuelle d'une réaction d'opinion.
+  - 2.3. J'apporte les sources nécessaires pour vérifier les faits énoncés.
   - 2.4. Je répond aux réactions des autres utilisateurs avec respect et courtoisie.
   - 2.5. Je peux éditer une réaction à condition que le sens original du message ne change pas.
 
@@ -32,7 +30,7 @@ const Rule: React.FC = ({ children }) => (
 
 const Rules: React.FC = () => {
   return (
-    <div id="Rules" className="page">
+    <>
 
       <Title>La charte de CDV</Title>
 
@@ -100,7 +98,7 @@ const Rules: React.FC = () => {
         faire la différence entre une information factuelle (éventuellement sourcée), et une opinion. Un fait peut vous
         faire changer d'avis sur un sujet si vous n'êtes pas capable de l'infirmer, et si les sources sont solides. En
         revanche, une opinion est subjective et personnelle, et ne peut être vérifiée. Mais peut-être qu'un point de vue
-        différent sur un sujet peut vous amener à réfléchir d'une façon que vous n'auriez pas concidérée.
+        différent sur un sujet peut vous amener à réfléchir d'une façon que vous n'auriez pas considérée.
       </Note>
 
       <Rule>1.5. Je signale une réaction qui ne respecte pas cette charte.</Rule>
@@ -134,7 +132,7 @@ const Rules: React.FC = () => {
         votre opinion, si ces deux parties sont explicitées.
       </Note>
 
-      <Rule>2.3. J'apporte les sources nécéssaires pour vérifier les faits énoncés.</Rule>
+      <Rule>2.3. J'apporte les sources nécessaires pour vérifier les faits énoncés.</Rule>
 
       <Note>
         Dans le cas où votre réaction est factuelle, il est nécessaire d'y apporter les sources permettant de vérifier
@@ -163,7 +161,7 @@ const Rules: React.FC = () => {
         nécessaire de conserver le sens original des conversations pour comprendre l'évolution des échanges.
       </Note>
 
-    </div>
+    </>
   );
 };
 

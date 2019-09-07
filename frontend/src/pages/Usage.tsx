@@ -1,15 +1,12 @@
-/* eslint-disable react/no-unescaped-entities, max-lines */
+/* eslint-disable max-lines, react/no-unescaped-entities */
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-import env from 'src/utils/env';
-
+import Title from './components/Title';
 import SubTitle from './components/SubTitle';
 import Note from './components/Note';
 import DownloadExtension from './components/DownloadExtensionButton';
 import FloatingImage, { ClearFix } from './components/FloatingImage';
-import Title from './components/Title';
 
 /*
 
@@ -59,10 +56,7 @@ Je suis septique : je trouve que cette réaction est pertinente
 
 const Home: React.FC = () => {
   return (
-    <div
-      id="Usage"
-      className="page"
-    >
+    <>
 
       <Title>Installation</Title>
 
@@ -196,7 +190,7 @@ const Home: React.FC = () => {
         - changement de mot de passe / suppression du compte{'\n'}
       </pre>
 
-    </div>
+    </>
   );
 };
 

@@ -6,14 +6,12 @@ const TITLE = 'Chercheurs de vérité';
 const SUBTITLE = 'Décryptons l\'information !';
 
 const Header: React.FC = () => (
-  <div
-    style={{
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      borderBottom: '1px solid #CCC',
-      paddingBottom: 15,
-    }}
+  <Flex
+    flexDirection="row"
+    alignItems="center"
+    mt={40}
+    pb={15}
+    style={{ borderBottom: '1px solid #CCC' }}
   >
 
     <Flex flexDirection="row" alignItems="flex-start" style={{ height: 90 }}>
@@ -54,7 +52,7 @@ const Header: React.FC = () => (
 
     </Flex>
 
-  </div>
+  </Flex>
 );
 
 export default Header;

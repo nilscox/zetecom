@@ -1,12 +1,13 @@
+/* eslint-disable max-lines, react/no-unescaped-entities */
+
 import React from 'react';
 
-import Title from './components/Title';
-import Box from 'src/components/common/Box';
 import env from 'src/utils/env';
+import Box from 'src/components/common/Box';
 
-import Tlkio from './components/Tlkio';
+import Title from './components/Title';
 import SubTitle from './components/SubTitle';
-import Break from 'src/components/common/Break';
+import Tlkio from './components/Tlkio';
 
 /* eslint-disable max-len */
 
@@ -118,18 +119,12 @@ type QuestionProps = {
   answer: React.ReactNode;
 };
 
-const Question: React.FC<QuestionProps> = ({ question, answer }) => {
-  return (
-    <Box my={12}>
-      <strong>
-        {question}
-      </strong>
-      <p>
-        {answer}
-      </p>
-    </Box>
-  );
-};
+const Question: React.FC<QuestionProps> = ({ question, answer }) => (
+  <Box my={12}>
+    <strong>{ question }</strong>
+    <p>{ answer }</p>
+  </Box>
+);
 
 const Questions: React.FC = () => (
   <>
@@ -158,14 +153,14 @@ const Contact = () => (
 
 const FAQ: React.FC = () => {
   return (
-    <div id="FAQ" className="page">
+    <>
 
       <Title>Questions posées fréquemment</Title>
 
       <Questions />
       <Contact />
 
-    </div>
+    </>
   );
 };
 
