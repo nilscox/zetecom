@@ -1,7 +1,7 @@
 /* eslint-disable max-lines, react/no-unescaped-entities */
 
 import React from 'react';
-import Section from './components/Section';
+import Title from './components/Title';
 import env from 'src/utils/env';
 import Link from 'src/components/common/Link';
 
@@ -65,7 +65,7 @@ const Motivations: React.FC = () => {
         </em>
       </p>
 
-      <p>
+      <p style={{ display: 'none' }}>
         Il existe sur internet, un grand nombre d'informations dont la qualité peut varier du tout au tout. Et
         particulièrement sur YouTube, on trouve aussi bien des reportages très qualitatif sur le monde, l'espace, les
         dernières découvertes scientifiques, que des vidéos relatant de fausses informations, ou incitant à croire à
@@ -75,7 +75,7 @@ const Motivations: React.FC = () => {
         n'est pas vraiment prévue pour ça.
       </p>
 
-      <p>
+      <p style={{ display: 'none' }}>
         CDV a été imaginé dans le but de rassembler une communauté de personnes qui se mettent d'accord pour respecter
         un ensemble de règles, inspirées de principes septiques, qui donnent un cadre clair aux réflexions pouvant
         émerger en réaction aux informations sur internet. Les "réactions" (les commentaires sur CDV) peuvent être
@@ -83,31 +83,31 @@ const Motivations: React.FC = () => {
         connaisseurs. Prêt(e) à tenter l'expérience ? Jetez un œil à <Link to="/charte">la charte</Link> ;)
       </p>
 
-      <Section title="Des idées sur le projet ?">
+      <div style={{ display: 'none' }}>
+        <Title>Des idées sur le projet ?</Title>
+      </div>
 
-        <p>
-          CDV est pensé dans un but collaboratif au niveau du contenu rédigé par les utilisateurs, mais aussi au niveau
-          de son fonctionnement. Dans un but d'amélioration progressive des idées, de la charte, et de l'état d'esprit
-          du projet en général, les intéressés sont invité à <a href="mailto:cdv@nils.cx">en discuter</a> avec
-          l'équipe qui développe la plateforme. Et s'il y a des amis développeurs parmi vous, toutes les sources du
-          projet sont accessibles sur <a href={env.GITHUB_REPO_URL}>github</a>. Issues and pull requests are very
-          welcome :)
-        </p>
+      <p style={{ display: 'none' }}>
+        CDV est pensé dans un but collaboratif au niveau du contenu rédigé par les utilisateurs, mais aussi au niveau
+        de son fonctionnement. Dans un but d'amélioration progressive des idées, de la charte, et de l'état d'esprit
+        du projet en général, les intéressés sont invité à <a href="mailto:cdv@nils.cx">en discuter</a> avec
+        l'équipe qui développe la plateforme. Et s'il y a des amis développeurs parmi vous, toutes les sources du
+        projet sont accessibles sur <a href={env.GITHUB_REPO_URL}>github</a>. Issues and pull requests are very
+        welcome :)
+      </p>
 
-        <p>
-          La boîte à suggestions est ouverte ! Pour l'instant, il est par exemple envisagé d'intégrer CDV sur d'autres
-          sites d'informations, de mettre en place une interface de modération par la communauté, d'améliorer
-          l'algorithme de référencement... Bientôt, vous pourrez vous aussi proposer des idées d'améliorations ainsi que
-          remonter d'éventuels bugs.
-        </p>
+      <p style={{ display: 'none' }}>
+        La boîte à suggestions est ouverte ! Pour l'instant, il est par exemple envisagé d'intégrer CDV sur d'autres
+        sites d'informations, de mettre en place une interface de modération par la communauté, d'améliorer
+        l'algorithme de référencement... Bientôt, vous pourrez vous aussi proposer des idées d'améliorations ainsi que
+        remonter d'éventuels bugs.
+      </p>
 
-        <p>
-          Pour en savoir un peu plus sur les idées et valeurs qui forgent CDV, vous trouverez des informations un peu
-          plus détaillées sur la page <Link to="/motivations">motivations</Link>. Restons à l'écoute, développons notre
-          esprit critique, et... cherchons la vérité !
-        </p>
-
-      </Section>
+      <p style={{ display: 'none' }}>
+        Pour en savoir un peu plus sur les idées et valeurs qui forgent CDV, vous trouverez des informations un peu
+        plus détaillées sur la page <Link to="/motivations">motivations</Link>. Restons à l'écoute, développons notre
+        esprit critique, et... cherchons la vérité !
+      </p>
 
     </div>
   );

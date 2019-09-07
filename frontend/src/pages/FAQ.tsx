@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PageTitle from './components/PageTitle';
+import Title from './components/Title';
 import Box from 'src/components/common/Box';
 import env from 'src/utils/env';
 
@@ -53,6 +53,15 @@ const questions = [
       <>
         Il est possible de supprimer un compte en <a href="#contact">contactant</a> l'équipe qui développe
         le projet.
+      </>
+    ),
+  },
+  {
+    question: 'Comment modifier le mot de passe d\'un compte ?',
+    answer: (
+      <>
+        Pour modifier le mot de passe d'un compte, il faut passer par la page de mot de passe oublié, accessible dans
+        la popup lorsque vous n'êtes pas connecté.
       </>
     ),
   },
@@ -130,29 +139,28 @@ const Questions: React.FC = () => (
 
 const Contact = () => (
   <div id="contact">
-    <Box mt={40} mb={20}>
-      <SubTitle>Une idée à proposer ? Un bug à remonter ?</SubTitle>
-    </Box>
-    L'équipe à l'origine de CDV est à l'écoute via ces différents canaux de communication :
+    <SubTitle>Une idée à proposer ? Un bug à remonter ?</SubTitle>
+
+    <p>L'équipe à l'origine de CDV est à l'écoute via ces différents canaux de communication :</p>
+
     <ul>
       <li>Par email, à l'adresse <a href="mailto:cdv@nils.cx">cdv@nils.cx</a></li>
       <li>Sur twitter, via le compte de <a href="https://twitter.com/NilsCox">@NilsCox</a></li>
       <li>Par chat, via <a href="https://tlk.io/cdv" target="_blank" rel="noopener noreferrer">tlk.io</a></li>
     </ul>
-    <Box mt={40} mb={20}>
-      <SubTitle>Chat en direct</SubTitle>
-    </Box>
+
+    <SubTitle>Chat en direct</SubTitle>
+
     <Tlkio />
+
   </div>
 );
 
 const FAQ: React.FC = () => {
   return (
-    <div id="FAQ">
+    <div id="FAQ" className="page">
 
-      <Box mt={40} mb={20}>
-        <PageTitle>Questions posées fréquemment</PageTitle>
-      </Box>
+      <Title>Questions posées fréquemment</Title>
 
       <Questions />
       <Contact />

@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react';
+import env from 'src/utils/env';
+
+const { BASE_URL } = env;
 
 const Tlkio: React.FC = () => {
-  useEffect(() => window.postMessage({ type: 'TLKIO_READY' }, 'http://localhost:8000'), []);
+  useEffect(() => window.postMessage({ type: 'TLKIO_READY' }, BASE_URL), []);
 
   return (
     <div
       id="tlkio"
       data-channel="cdv"
       data-theme="theme--minimal"
-      data-custom-css="http://localhost:8000/assets/css/tlkio.css"
-      style={{ width: '100%', maxWidth: 820, height: 600, border: '2px solid #CCC' }}
+      data-custom-css={`${BASE_URL}/assets/css/tlkio.css`}
+      style={{ width: '100%', maxWidth: 820, height: 600, border: '2px solid #EEE' }}
     />
   );
 };

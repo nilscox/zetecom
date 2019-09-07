@@ -11,7 +11,7 @@ import EmailValidatedAlert from './components/EmailValidatedAlert';
 import Outline from './components/Outline';
 import Card from './components/Card';
 import DownloadExtension from './components/DownloadExtensionButton';
-import PageTitle from './components/PageTitle';
+import Title from './components/Title';
 
 /*
 
@@ -119,7 +119,7 @@ const Home: React.FC = () => (
     </Flex>
 
     <Box mt={40} mb={20}>
-      <PageTitle>L'information sur internet</PageTitle>
+      <Title>L'information sur internet</Title>
     </Box>
 
     <p style={{ fontSize: 18 }}>
@@ -146,7 +146,7 @@ const Home: React.FC = () => (
     </DownloadExtension>
 
     <Box mt={40} mb={20}>
-      <PageTitle>Que propose CDV ?</PageTitle>
+      <Title>Que propose CDV ?</Title>
     </Box>
 
     <Flex flexDirection="row">
