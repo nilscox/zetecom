@@ -119,7 +119,7 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
     if (!didAcceptRules)
       return false;
 
-    for (let field of ['email', 'password', 'nick']) {
+    for (const field of ['email', 'password', 'nick']) {
       if (values[field].length === 0)
         return false;
     }
