@@ -22,7 +22,8 @@
     }
   },
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "react-hooks"
   ],
   "rules": {
     "no-console": "off",
@@ -63,6 +64,8 @@
     "@typescript-eslint/prefer-interface": "off",
     "@typescript-eslint/indent": ["error", 2, { "SwitchCase": 0 }],
     "react/prop-types": "off",
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

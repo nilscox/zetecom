@@ -7,13 +7,13 @@ const ALERT_TIMEOUT = 5000;
 const EmailValidatedAlert: React.FC = () => {
   const [show, setShow] = useState(true);
 
-  if (queryString.parse(location.search)['email-validated'] !== 'true')
-    return null;
-
   useEffect(() => {
     const timeout = setTimeout(() => setShow(false), ALERT_TIMEOUT);
     return () => clearTimeout(timeout);
   }, []);
+
+  if (queryString.parse(location.search)['email-validated'] !== 'true')
+    return null;
 
   // not so mobile friendly :/
   return (
