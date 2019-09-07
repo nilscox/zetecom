@@ -142,7 +142,7 @@ const Home: React.FC = () => (
     </p>
 
     <DownloadExtension>
-      Télécharger l'extension chrome
+      Installer l'extension chrome
     </DownloadExtension>
 
     <Box mt={40} mb={20}>

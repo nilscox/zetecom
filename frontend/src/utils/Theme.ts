@@ -50,7 +50,7 @@ const defaultTheme: Theme = {
     medium: 16,
     big: 18,
   },
-  borderRadius: 4,
+  borderRadius: 2,
   borderRadiusInput: 2,
 };
 

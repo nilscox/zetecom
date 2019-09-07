@@ -1,6 +1,9 @@
 /* eslint-disable max-lines, react/no-unescaped-entities */
 
 import React from 'react';
+import Section from './components/Section';
+import env from 'src/utils/env';
+import Link from 'src/components/common/Link';
 
 /*
 
@@ -8,6 +11,12 @@ import React from 'react';
 
 - Scope : vision long terme, scope actuel (YouTube)
 - définition de l'information dans le cadre de CDV
+
+- Contextualisation de l'information sur internet
+  - disponibilité / accessibilité de l'information
+  - qualité de l'information
+  - désinformation, fake news, fact checking
+  - manque d'organisation
 
 - problématiques liés à l'information
   - surinformation / infobésité
@@ -36,7 +45,11 @@ import React from 'react';
   - transparence
   - Non partisan : aucune affiliation envers quelque entité que ce soit
 
-- contexte du projet (esprit critique / zététique...)
+- Etat d'esprit du projet
+  - communauté, charte, algo de référencement
+  - open source
+  - projet participatif
+  - vision long terme, idées futures
 
 */
 
@@ -51,6 +64,50 @@ const Motivations: React.FC = () => {
           vite :)
         </em>
       </p>
+
+      <p>
+        Il existe sur internet, un grand nombre d'informations dont la qualité peut varier du tout au tout. Et
+        particulièrement sur YouTube, on trouve aussi bien des reportages très qualitatif sur le monde, l'espace, les
+        dernières découvertes scientifiques, que des vidéos relatant de fausses informations, ou incitant à croire à
+        des théories complotistes. Et inévitablement, l'espace d'échanges prévu pour discuter sous la vidéo se
+        retrouve facilement inondé de commentaires dont le but n'est pas de donner son opinion sur le sujet, et des
+        réflexions tout à fait pertinentes se retrouvent noyées. Et c'est normal&nbsp;! La zone de commentaire YouTube
+        n'est pas vraiment prévue pour ça.
+      </p>
+
+      <p>
+        CDV a été imaginé dans le but de rassembler une communauté de personnes qui se mettent d'accord pour respecter
+        un ensemble de règles, inspirées de principes septiques, qui donnent un cadre clair aux réflexions pouvant
+        émerger en réaction aux informations sur internet. Les "réactions" (les commentaires sur CDV) peuvent être
+        rédigées en réponse à d'autres, les plus impactantes étant mises en avant. Un peu comme sur reddit pour les
+        connaisseurs. Prêt(e) à tenter l'expérience ? Jetez un œil à <Link to="/charte">la charte</Link> ;)
+      </p>
+
+      <Section title="Des idées sur le projet ?">
+
+        <p>
+          CDV est pensé dans un but collaboratif au niveau du contenu rédigé par les utilisateurs, mais aussi au niveau
+          de son fonctionnement. Dans un but d'amélioration progressive des idées, de la charte, et de l'état d'esprit
+          du projet en général, les intéressés sont invité à <a href="mailto:cdv@nils.cx">en discuter</a> avec
+          l'équipe qui développe la plateforme. Et s'il y a des amis développeurs parmi vous, toutes les sources du
+          projet sont accessibles sur <a href={env.GITHUB_REPO_URL}>github</a>. Issues and pull requests are very
+          welcome :)
+        </p>
+
+        <p>
+          La boîte à suggestions est ouverte ! Pour l'instant, il est par exemple envisagé d'intégrer CDV sur d'autres
+          sites d'informations, de mettre en place une interface de modération par la communauté, d'améliorer
+          l'algorithme de référencement... Bientôt, vous pourrez vous aussi proposer des idées d'améliorations ainsi que
+          remonter d'éventuels bugs.
+        </p>
+
+        <p>
+          Pour en savoir un peu plus sur les idées et valeurs qui forgent CDV, vous trouverez des informations un peu
+          plus détaillées sur la page <Link to="/motivations">motivations</Link>. Restons à l'écoute, développons notre
+          esprit critique, et... cherchons la vérité !
+        </p>
+
+      </Section>
 
     </div>
   );

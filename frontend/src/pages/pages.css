@@ -52,6 +52,7 @@
 
 .page a {
   color: #222;
+  text-decoration: underline;
 }
 
 .page a:hover {

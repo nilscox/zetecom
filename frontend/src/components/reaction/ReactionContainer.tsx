@@ -38,7 +38,7 @@ const Indented: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <Flex flexDirection="row" pt={big}>
-      <div style={{ borderLeft: `8px solid ${border}`, paddingLeft: big }} />
+      <div style={{ borderLeft: `6px solid ${border}`, paddingLeft: big + 2 }} />
       <div style={{ flex: 1 }}>
         { children }
       </div>
