@@ -4,6 +4,10 @@ import PageTitle from './components/PageTitle';
 import Box from 'src/components/common/Box';
 import env from 'src/utils/env';
 
+import Tlkio from './components/Tlkio';
+import SubTitle from './components/SubTitle';
+import Break from 'src/components/common/Break';
+
 /* eslint-disable max-len */
 
 const questions = [
@@ -12,7 +16,7 @@ const questions = [
     answer: (
       <>
         Le projet étant en phase de test, l'inscription n'est pas encore ouverte à tous pour l'instant. Si vous
-        souhaitez faire partie des testeurs, vous pouvez <a href="mailto:nils@nils.cx">contacter</a> l'équipe qui développe
+        souhaitez faire partie des testeurs, vous pouvez <a href="#contact">contacter</a> l'équipe qui développe
         le projet.
       </>
     ),
@@ -25,7 +29,7 @@ const questions = [
     question: 'Comment créer une nouvelle zone de commentaires ?',
     answer: (
       <>
-        Il est nécéssaire de <a href="mailto:nils@nils.cx">contacter</a> l'équaoeaeipe qui développe le projet pour demander
+        Il est nécéssaire de <a href="#contact">contacter</a> l'équaoeaeipe qui développe le projet pour demander
         l'ajout d'une nouvelle zone de commentaire.
       </>
     ),
@@ -47,7 +51,7 @@ const questions = [
     question: 'Comment supprimer un compte sur CDV ?',
     answer: (
       <>
-        Il est possible de supprimer un compte en <a href="mailto:nils@nils.cx">contactant</a> l'équipe qui développe
+        Il est possible de supprimer un compte en <a href="#contact">contactant</a> l'équipe qui développe
         le projet.
       </>
     ),
@@ -57,7 +61,7 @@ const questions = [
     answer: (
       <>
         Si vous avez des idées pour améliorer la charte, que ce soit sur le fond ou sur la forme, vous pouvez{' '}
-        <a href="mailto:nils@nils.cx">contacter</a> l'équipe qui développe le projet.
+        <a href="#contact">contacter</a> l'équipe qui développe le projet.
       </>
     ),
   },
@@ -65,7 +69,7 @@ const questions = [
     question: 'Comment remonter un bug ou proposer de nouvelles fonctionnalités ?',
     answer: (
       <>
-        Vous l'aurez peut-être deviné, <a href="mailto:nils@nils.cx">contactez</a> l'équipe qui développe le projet.
+        Vous l'aurez peut-être deviné, <a href="#contact">contactez</a> l'équipe qui développe le projet.
       </>
     ),
   },
@@ -86,7 +90,7 @@ const questions = [
     question: 'Peut-on participer au projet',
     answer: (
       <>
-        Si vous souhaitez participer au projet, vous êtes invités à <a href="mailto:nils@nils.cx">contactez</a> l'équipe
+        Si vous souhaitez participer au projet, vous êtes invités à <a href="#contact">contactez</a> l'équipe
         qui développe le projet pour en discuter. Et si vous êtes développeurs et que le projet vous intéresse
         techniquement, les source sont <a href={env.GITHUB_REPO_URL}>disponibles sur github</a>.
       </>
@@ -94,7 +98,7 @@ const questions = [
   },
   {
     question: 'Votre question ne figure pas dans cette liste... ?',
-    answer: <><a href="mailto:nils@nils.cx">Contactez</a> l'équipe qui développe le projet !</>,
+    answer: <><a href="#contact">Contactez</a> l'équipe qui développe le projet !</>,
   },
 ];
 
@@ -118,6 +122,30 @@ const Question: React.FC<QuestionProps> = ({ question, answer }) => {
   );
 };
 
+const Questions: React.FC = () => (
+  <>
+    { questions.map((props, n) => <Question key={n} {...props} />) }
+  </>
+);
+
+const Contact = () => (
+  <div id="contact">
+    <Box mt={40} mb={20}>
+      <SubTitle>Une idée à proposer ? Un bug à remonter ?</SubTitle>
+    </Box>
+    L'équipe à l'origine de CDV est à l'écoute via ces différents canaux de communication :
+    <ul>
+      <li>Par email, à l'adresse <a href="mailto:cdv@nils.cx">cdv@nils.cx</a></li>
+      <li>Sur twitter, via le compte de <a href="https://twitter.com/NilsCox">@NilsCox</a></li>
+      <li>Par chat, via <a href="https://tlk.io/cdv" target="_blank" rel="noopener noreferrer">tlk.io</a></li>
+    </ul>
+    <Box mt={40} mb={20}>
+      <SubTitle>Chat en direct</SubTitle>
+    </Box>
+    <Tlkio />
+  </div>
+);
+
 const FAQ: React.FC = () => {
   return (
     <div id="FAQ">
@@ -126,7 +154,8 @@ const FAQ: React.FC = () => {
         <PageTitle>Questions posées fréquemment</PageTitle>
       </Box>
 
-      {questions.map((props, n) => <Question key={n} {...props} />)}
+      <Questions />
+      <Contact />
 
     </div>
   );
