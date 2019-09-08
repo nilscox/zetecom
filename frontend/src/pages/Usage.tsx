@@ -20,6 +20,8 @@ import FloatingImage, { ClearFix } from './components/FloatingImage';
     - regrouper les réactions par thématiques portant sur l'information
     - recherche / tri
     - création
+      - lien direct avec l'information
+      - citation
   - lire les réactions
     - ouvrir un sujet (retour à la liste des sujets)
     - lire les réponses
@@ -29,30 +31,19 @@ import FloatingImage, { ClearFix } from './components/FloatingImage';
       - mettre en évidence des biais
       - apporter des sources
       - poser des questions
-    - quick réactions : favoriser le référencement pour mettre en avant les réactions les plus pertinentes ou les plus controversées
+    - réactions nestées
     - modération : signaler les réactions
+  - quick réactions
+    - favoriser le référencement pour mettre en avant les réactions les plus pertinentes ou les plus controversées
   - rédiger une réaction
     - respect de la charte : cadrer les débats, zone saine d'écoute et de partage collaboratif
     - scope (sujet, réponse)
-    - citation
     - format markdown
     - édition
   - inscription
     - inscription / authentification (email -> spam)
     - mot de passe oublié
     - changement de mot de passe / suppression du compte
-
---
-
-J'approuve : je trouve que cette réaction est pertinente et je suis d'accord avec le message
-  elle apporte des éléments me convaincant
-Je réfute : je trouve que cette réaction est pertinente mais je ne suis pas d'accord avec le message
-  la méthode utilisée me semble incorrecte ou biaisée
-  j'ai une preuve du contraire
-Je suis septique : je trouve que cette réaction est pertinente
-  elle n'apporte pas assez d'éléments pour me convaincre
-  j'ai besoin de m'informer plus sur le sujet pour me faire une opinion
-  elle évoque une problématique qui vaut la peine d'être discutée plus en profondeur
 
 */
 
@@ -74,9 +65,9 @@ const Home: React.FC = () => {
       </DownloadExtension>
 
       <p>
-        Une fois l'extension installée, il vous est possible de consulter les zones de commentaires sur les sites
-        supportés. Pour le moment, des zones de commentaires CDV existent sur certaines vidéos YouTube uniquement.
-        Bientôt, d'autres sites d'informations seront supportés.
+        Une fois l'extension installée, il vous est possible de consulter les zones de commentaires CDV sur certains
+        sites. Pour le moment, elles sont activées sur certaines vidéos YouTube uniquement. Bientôt, d'autres sites
+        d'informations seront supportés.
       </p>
 
       <Title>Utilisation</Title>
@@ -84,10 +75,10 @@ const Home: React.FC = () => {
       <FloatingImage width={96} float="right" src="/assets/images/extension-active.png" />
 
       <p>
-        Lorsque vous visitez une page web qui intègre une zone de commentaires CDV, l'icône de l'extension vous
-        l'indique par un status actif, en affichant un badge vert. Vous pouvez alors trouver cette zone de
-        commentaires sur la page et lire les débats en cours, regroupés par sujets. Pour participer aux échanges, il
-        vous faudra <a href="#signup">créer un compte sur la plateforme</a>.
+        Lorsque vous visitez une page web qui intègre une zone de commentaires, l'icône de l'extension vous l'indique
+        par un status actif, en affichant un badge vert. Vous trouverez dans la page une liste de sujets, regroupant les
+        commentaires par thématiques. Cela peut être pour discuter de la validité d'un argument, pour remettre en cause
+        l'information en apportant des sources, ou encore pour poser une question...
       </p>
 
       <ClearFix />
@@ -99,19 +90,14 @@ const Home: React.FC = () => {
       <p>
         Les zones de commentaires regroupent les réactions par sujet, pour permettre de cibler un point précis à
         débattre. La liste n'affiche par défaut que le titre de chaque sujet, mais il est possible de cliquer sur ce
-        titre pour lire la description du sujet, et ouvrir les réactions qui y sont rattachées.
+        titre pour lire sa description et ouvrir les réactions qui y sont rattachées.
       </p>
 
       <p>
-        Pour naviguer efficacement entre les sujets existants, ils peuvent être triés par date de création ou bien
-        par pertinence, et un champ de recherche permet de trouver les thématiques qui ont déjà été abordé.
-      </p>
-
-      <p>
-        Si vous êtes <a href="#signup">inscris sur CDV</a>, vous pouvez ouvrir un nouveau sujet. Veillez à rechercher
-        en premier lieu qu'il n'existe pas déjà parmi les sujets existants, pour éviter les doublons. Dans le cas
-        d'une vidéo YouTube, si vous ouvrez un sujet relatif à des mots prononcés ou écrits dans la vidéo, pensez à
-        insérer le minutage de cette citation.
+        Si vous êtes <a href="#signup">inscris sur CDV</a>, vous pouvez ouvrir un nouveau sujet. Chaque sujet doit être
+        directement rattaché à l'information, et n'être traité qu'une seule fois (pensez à utiliser la fonction de
+        recherche). Si vous faites référence à une partie énoncée dans l'information, utilisez le champ "citation" pour
+        la préciser. Dans le cas d'une vidéo YouTube pensez à inclure le minutage de cette citation.
       </p>
 
       <p>
@@ -122,26 +108,32 @@ const Home: React.FC = () => {
 
       <ClearFix />
 
-      <Note>
-        Note : la suite de cette page est en cours de réaction...
-      </Note>
-
       <SubTitle>Lire les réactions</SubTitle>
 
-      <ul>
-        <li>ouvrir un sujet</li>
-        <li>lire les réponses : nuancer l'information, mettre en perspective, comprendre des opinions différentes, mettre en évidence des biais, apporter des sources, poser des questions</li>
-        <li>quick réactions : favoriser le référencement pour mettre en avant les réactions les plus pertinentes ou les plus controversées</li>
-        <li>modération : signaler les réactions</li>
-      </ul>
-
-      <p style={{ display: 'none' }}>
+      <p>
         Les échanges qui se déroulent dans les espaces de commentaires sont uniquement alimenté par la communauté, et
         respectent donc la charte. Ce qui laisse la place aux échanges d'idées dans un cadre collaboratif,
-        bienveillant et respectueux, mais se passera des affirmations sans preuves, des blagues et autres trolls.
+        bienveillant et respectueux, mais se passera des affirmations sans preuves, des blagues et autres trolls. Les
+        points de vus des membres de la communauté vont permettre de nuancer l'information ou de discuter plus en détail
+        sur certains points, de manière construite et rigoureuse.
       </p>
 
-      <p style={{ display: 'none' }}>
+      <p>
+        Afin de suivre l'évolution des débats et garder un lien entre les messages, une réaction peut être rattachée
+        directement au sujet, ou bien être rédigée en réponse à une autre. Pour faciliter la lecture, les réponses sont
+        cachées par défaut.
+      </p>
+
+      <p>
+        Si une réaction n'a pas sa place dans une zone de commentaires CDV, il est possible de la signaler. Cela enverra
+        une notification aux modérateurs, qui prendront une décision en fonction de la situation. Attention cependant à
+        signaler les réaction pour de bonnes raisons ! Un message qui va à l'encontre de vos idées n'est pas un motif
+        raisonnable...
+      </p>
+
+      <SubTitle>Quick reaction</SubTitle>
+
+      <p>
         Certaines réactions vont apporter des précisions, vous faire réfléchir, peut-être même vous faire changer
         d'avis ! Si beaucoup d'utilisateurs trouvent une même réaction pertinente, il semble naturel de la mettre en
         avant. Vous pouvez ainsi annoter une réaction existante d'un "J'approuve" 👍, "Je réfute" 👎, ou bien "Je suis
@@ -150,14 +142,39 @@ const Home: React.FC = () => {
         pertinence.
       </p>
 
-      <div style={{ display: 'none' }}>
-        <Note>
-          Note : réfuter une réaction ne va pas la faire baisser dans le classement. L'algorithme prend en compte
-          que vous y avez accordé de l'importance, même si vous n'êtes pas d'accord avec le message.
-        </Note>
-      </div>
+      <ul>
+        <li>
+          👍 J'approuve : je trouve que cette réaction est pertinente et je suis d'accord avec le message
+          <ul>
+            <li>elle apporte des éléments me convaincant</li>
+          </ul>
+        </li>
+        <li>
+          👎 Je réfute : je trouve que cette réaction est pertinente mais je ne suis pas d'accord avec le message
+          <ul>
+            <li>la méthode utilisée me semble incorrecte ou biaisée j'ai une preuve du contraire</li>
+          </ul>
+        </li>
+        <li>
+          🧐 Je suis septique : je trouve que cette réaction est pertinente
+          <ul>
+            <li>elle n'apporte pas assez d'éléments pour me convaincre</li>
+            <li>j'ai besoin de m'informer plus sur le sujet pour me faire une opinion</li>
+            <li>elle évoque une problématique qui vaut la peine d'être discutée plus en profondeur</li>
+          </ul>
+        </li>
+      </ul>
+
+      <Note>
+        Note : réfuter une réaction ne va pas la faire baisser dans le classement. L'algorithme prend en compte
+        que vous y avez accordé de l'importance, même si vous n'êtes pas d'accord avec le message.
+      </Note>
 
       <SubTitle>Rédiger une réaction</SubTitle>
+
+      <Note>
+        Note : la suite de cette page est en cours de réaction...
+      </Note>
 
       <ul>
         <li>respect de la charte : cadrer les débats, zone saine d'écoute et de partage collaboratif</li>
