@@ -8,6 +8,8 @@ import Note from './components/Note';
 import DownloadExtension from './components/DownloadExtensionButton';
 import FloatingImage, { ClearFix } from './components/FloatingImage';
 
+/* eslint-disable max-len */
+
 /*
 
 - Installation
@@ -126,12 +128,12 @@ const Home: React.FC = () => {
 
       <SubTitle>Lire les réactions</SubTitle>
 
-      <pre style={{ width: 0 }}>
-        - ouvrir un sujet{'\n'}
-        - lire les réponses : nuancer l'information, mettre en perspective, comprendre des opinions différentes, mettre en évidence des biais, apporter des sources, poser des questions{'\n'}
-        - quick réactions : favoriser le référencement pour mettre en avant les réactions les plus pertinentes ou les plus controversées{'\n'}
-        - modération : signaler les réactions{'\n'}
-      </pre>
+      <ul>
+        <li>ouvrir un sujet</li>
+        <li>lire les réponses : nuancer l'information, mettre en perspective, comprendre des opinions différentes, mettre en évidence des biais, apporter des sources, poser des questions</li>
+        <li>quick réactions : favoriser le référencement pour mettre en avant les réactions les plus pertinentes ou les plus controversées</li>
+        <li>modération : signaler les réactions</li>
+      </ul>
 
       <p style={{ display: 'none' }}>
         Les échanges qui se déroulent dans les espaces de commentaires sont uniquement alimenté par la communauté, et
@@ -157,12 +159,12 @@ const Home: React.FC = () => {
 
       <SubTitle>Rédiger une réaction</SubTitle>
 
-      <pre style={{ width: 0 }}>
-        - respect de la charte : cadrer les débats, zone saine d'écoute et de partage collaboratif{'\n'}
-        - scope (sujet, réponse){'\n'}
-        - citation{'\n'}
-        - format markdown{'\n'}
-      </pre>
+      <ul>
+        <li>respect de la charte : cadrer les débats, zone saine d'écoute et de partage collaboratif</li>
+        <li>scope (sujet, réponse)</li>
+        <li>citation</li>
+        <li>format markdown</li>
+      </ul>
 
       <p style={{ display: 'none' }}>
         Et bien sur, si vous avez quelque chose à partager avec la communauté, vous pouvez rédiger une nouvelle
@@ -184,14 +186,16 @@ const Home: React.FC = () => {
 
       <Title>Inscription</Title>
 
-      <pre style={{ width: 0 }}>
-        - inscription / authentification (email -> spam){'\n'}
-        - mot de passe oublié{'\n'}
-        - changement de mot de passe / suppression du compte{'\n'}
-      </pre>
+      <ul>
+        <li>inscription / authentification (email -> spam)</li>
+        <li>mot de passe oublié</li>
+        <li>changement de mot de passe / suppression du compte</li>
+      </ul>
 
     </>
   );
 };
+
+/* eslint-enable max-len */
 
 export default Home;

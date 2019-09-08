@@ -59,7 +59,7 @@ const Motivations: React.FC = () => {
   return (
     <>
 
-      <em>
+      <em style={{ display: 'block', margin: '30px 0' }}>
         Cette page décrit plus en détail les raisons pour lesquelles CDV a vu le jour, et les problématiques
         auxquelles cette plateforme tente d'apporter des solutions. Mais... elle est en cours de rédaction ! Revenez
         vite :)

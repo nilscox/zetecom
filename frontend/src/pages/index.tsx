@@ -63,7 +63,7 @@ const Pages: React.FC = () => (
 
       <Divider />
 
-      <main style={{ flex: 4, paddingLeft: 10 }}>
+      <main style={{ flex: 4, minWidth: 1000, paddingLeft: 10 }}>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/utilisation" exact component={Usage} />

@@ -152,13 +152,13 @@ const Home: React.FC = () => (
 
     <Flex flexDirection="row">
 
-      <Flex flex={1}>
+      <div style={{ flex: 1 }}>
         <img
           src="/assets/images/youtube-cdv.gif"
           alt="screenshot youtube cdv"
           style={{ width: '100%', border: '1px solid #CCC' }}
         />
-      </Flex>
+      </div>
 
       <Flex flex={1} flexDirection="column" justifyContent="space-between">
         { sentences.map((props, n) => <Sentence key={n} {...props} />) }
