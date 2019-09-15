@@ -13,6 +13,7 @@ import Card from './components/Card';
 import DownloadExtension from './components/DownloadExtensionButton';
 import EmailValidatedAlert from './components/EmailValidatedAlert';
 import Break from 'src/components/common/Break';
+import Image from './components/Image';
 
 /*
 
@@ -100,23 +101,27 @@ const Sentence: React.FC<{ text: React.ReactNode; subtext: React.ReactNode }> = 
 
 const Home: React.FC = () => (
   <>
-
     <EmailValidatedAlert />
 
     <Outline>
       <p>
-        <Link to="/"><em>Chercheurs de vérité</em></Link>, c'est une plateforme qui donne accès à un <strong>espace
-        d'échange collaboratif</strong>, pour réagir à l'information diffusée par les médias.
+        <Link to="/">
+          <em>Chercheurs de vérité</em>
+        </Link>
+        , c'est une plateforme qui donne accès à un <strong>espace d'échange collaboratif</strong>,
+        pour réagir à l'information diffusée par les médias.
       </p>
       <p>
-        Une <Link to="/utilisation">extension chrome</Link> permet d'ajouter sur certain sites internet, une zone de
-        commentaire où les membres de la communauté partagent leurs opinions, apportent des sources, relèvent des
-        biais, ou encore posent des questions...
+        Une <Link to="/utilisation">extension chrome</Link> permet d'ajouter sur certain sites
+        internet, une zone de commentaire où les membres de la communauté partagent leurs opinions,
+        apportent des sources, relèvent des biais, ou encore posent des questions...
       </p>
     </Outline>
 
     <Flex flexDirection="row" justifyContent="space-around">
-      { cards.map((props, n) => <Card key={n} {...props} />) }
+      {cards.map((props, n) => (
+        <Card key={n} {...props} />
+      ))}
     </Flex>
 
     <Box mt={40} mb={20}>
@@ -126,35 +131,34 @@ const Home: React.FC = () => (
     <p style={{ fontSize: 18 }}>
       <Text>
         Depuis quelques dizaines d'années, les évolutions technologiques ont enclenchées une vrai{' '}
-        <a href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</a>, qui a radicalement
-        bouleversé note façon de communiquer <em>et de nous informer</em>. En contrepartie, un nombre croissant de
-        problématiques liées à l'information émergent, notamment dans la diffusion de celle-ci par les médias. Les
-        articles relatant des faits hors du commun étant plus attrayants, les contenus sont parfois plus
-        sensationnaliste que vrai.
+        <a href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</a>, qui a
+        radicalement bouleversé note façon de communiquer <em>et de nous informer</em>. En
+        contrepartie, un nombre croissant de problématiques liées à l'information émergent,
+        notamment dans la diffusion de celle-ci par les médias. Les articles relatant des faits hors
+        du commun étant plus attrayants, les contenus sont parfois plus sensationnaliste que vrai.
       </Text>
     </p>
 
     <p style={{ fontSize: 18 }}>
       <Text>
-        Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensembles, intelligemment, face à cette
-        abondance d'information sur internet ? CDV a pour ambition d'apporter des solutions à ces problématiques, en
-        proposant une plateforme qui <em>vous</em> permet de réagir librement aux médias sur internet, comme des
-        articles de presse ou des vidéos sur YouTube.
+        Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensembles, intelligemment,
+        face à cette abondance d'information sur internet ? CDV a pour ambition d'apporter des
+        solutions à ces problématiques, en proposant une plateforme qui <em>vous</em> permet de
+        réagir librement aux médias sur internet, comme des articles de presse ou des vidéos sur
+        YouTube.
       </Text>
     </p>
 
-    <DownloadExtension>
-      Installer l'extension chrome
-    </DownloadExtension>
+    <DownloadExtension>Installer l'extension chrome</DownloadExtension>
 
     <Box mt={40} mb={20}>
       <Title id="Que propose CDV">Que propose CDV ?</Title>
     </Box>
 
     <Flex flexDirection="row">
-
       <div style={{ flex: 1 }}>
-        <img
+        <Image
+          maximize
           src="/assets/images/youtube-cdv.gif"
           alt="screenshot youtube cdv"
           style={{ width: '100%', border: '1px solid #CCC' }}
@@ -162,9 +166,10 @@ const Home: React.FC = () => (
       </div>
 
       <Flex flex={1} flexDirection="column" justifyContent="space-between">
-        { sentences.map((props, n) => <Sentence key={n} {...props} />) }
+        {sentences.map((props, n) => (
+          <Sentence key={n} {...props} />
+        ))}
       </Flex>
-
     </Flex>
 
     <Break size="big" />
@@ -173,33 +178,34 @@ const Home: React.FC = () => (
 
     <p style={{ fontSize: 18 }}>
       <Text>
-        Si vous voulez comprendre l'information et participer à des échanges constructifs sur internet, alors
-        rejoignez-nous ! Nous faisons tout pour construire une communauté bienveillante, attentive aux biais, qui sait
-        écouter et partager ses opinions en apportant des arguments solides selon son sens critique et une méthode
-        rigoureuse.
+        Si vous voulez comprendre l'information et participer à des échanges constructifs sur
+        internet, alors rejoignez-nous ! Nous faisons tout pour construire une communauté
+        bienveillante, attentive aux biais, qui sait écouter et partager ses opinions en apportant
+        des arguments solides selon son sens critique et une méthode rigoureuse.
       </Text>
     </p>
 
     <p style={{ fontSize: 18 }}>
       <Text>
-        Mais il est certes difficile de constituer une telle communauté. Un point central du projet repose sur{' '}
-        <Link to="/charte">la charte</Link>, qui tente d'apporter un cadre propice aux débats. Consacrez une dizaine de
-        minutes à sa lecture, avant de vous inscrire. Et si vous souhaitez apporter une évolution des règles, n'hésitez
-        pas à <Link to="/faq#contact">envoyer un message</Link> à l'équipe qui développe le projet.
+        Mais il est certes difficile de constituer une telle communauté. Un point central du projet
+        repose sur <Link to="/charte">la charte</Link>, qui tente d'apporter un cadre propice aux
+        débats. Consacrez une dizaine de minutes à sa lecture, avant de vous inscrire. Et si vous
+        souhaitez apporter une évolution des règles, n'hésitez pas à{' '}
+        <Link to="/faq#contact">envoyer un message</Link> à l'équipe qui développe le projet.
       </Text>
     </p>
 
     <p style={{ fontSize: 18 }}>
       <Text>
-        Vous voulez en savoir plus ? La page <Link to="/motivations">motivation</Link> explique plus en détail les
-        raisons pour lesquelles CDV a vu le jour, et l'état d'esprit du projet. Et pour commencer à utiliser l'extension
-        dès maintenant, rendez-vous sur la page <Link to="/utilisation">utilisation</Link>. A bientôt sur internet !
+        Vous voulez en savoir plus ? La page <Link to="/motivations">motivation</Link> explique plus
+        en détail les raisons pour lesquelles CDV a vu le jour, et l'état d'esprit du projet. Et
+        pour commencer à utiliser l'extension dès maintenant, rendez-vous sur la page{' '}
+        <Link to="/utilisation">utilisation</Link>. A bientôt sur internet !
       </Text>
     </p>
 
     <Break size="big" />
     <Break size="big" />
-
   </>
 );
 
