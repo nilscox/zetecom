@@ -12,6 +12,7 @@ import Outline from './components/Outline';
 import Card from './components/Card';
 import DownloadExtension from './components/DownloadExtensionButton';
 import EmailValidatedAlert from './components/EmailValidatedAlert';
+import Break from 'src/components/common/Break';
 
 /*
 
@@ -165,6 +166,39 @@ const Home: React.FC = () => (
       </Flex>
 
     </Flex>
+
+    <Break size="big" />
+    <Break size="big" />
+    <Break size="big" />
+
+    <p style={{ fontSize: 18 }}>
+      <Text>
+        Si vous voulez comprendre l'information et participer à des échanges constructifs sur internet, alors
+        rejoignez-nous ! Nous faisons tout pour construire une communauté bienveillante, attentive aux biais, qui sait
+        écouter et partager ses opinions en apportant des arguments solides selon son sens critique et une méthode
+        rigoureuse.
+      </Text>
+    </p>
+
+    <p style={{ fontSize: 18 }}>
+      <Text>
+        Mais il est certes difficile de constituer une telle communauté. Un point central du projet repose sur{' '}
+        <Link to="/charte">la charte</Link>, qui tente d'apporter un cadre propice aux débats. Consacrez une dizaine de
+        minutes à sa lecture, avant de vous inscrire. Et si vous souhaitez apporter une évolution des règles, n'hésitez
+        pas à <Link to="/faq#contact">envoyer un message</Link> à l'équipe qui développe le projet.
+      </Text>
+    </p>
+
+    <p style={{ fontSize: 18 }}>
+      <Text>
+        Vous voulez en savoir plus ? La page <Link to="/motivations">motivation</Link> explique plus en détail les
+        raisons pour lesquelles CDV a vu le jour, et l'état d'esprit du projet. Et pour commencer à utiliser l'extension
+        dès maintenant, rendez-vous sur la page <Link to="/utilisation">utilisation</Link>. A bientôt sur internet !
+      </Text>
+    </p>
+
+    <Break size="big" />
+    <Break size="big" />
 
   </>
 );
