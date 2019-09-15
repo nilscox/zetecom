@@ -6,9 +6,8 @@ import Title from './components/Title';
 import SubTitle from './components/SubTitle';
 import Note from './components/Note';
 import DownloadExtension from './components/DownloadExtensionButton';
-import FloatingImage, { ClearFix } from './components/FloatingImage';
-
-/* eslint-disable max-len */
+import Image from './components/Image';
+import Flex from 'src/components/common/Flex';
 
 /*
 
@@ -47,11 +46,60 @@ import FloatingImage, { ClearFix } from './components/FloatingImage';
 
 */
 
-const Home: React.FC = () => {
-  return (
-    <>
+const NavigationSection: React.FC<{ section: string }> = ({ section, children }) => (
+  <li style={{ paddingBottom: 15 }}>
+    <div style={{ fontSize: '1.2rem', color: '#444' }}>
+      <a style={{ textDecoration: 'none' }} href={`#${section.replace(' ', '_')}`}>{ section }</a>
+    </div>
+    { children && (
+      <ul style={{ listStyleType: 'none', paddingLeft: 15, margin: 0 }}>
+        { children }
+      </ul>
+    ) }
+  </li>
+);
 
-      <Title>Installation</Title>
+const NavigationSubSection: React.FC<{ name: string }> = ({ name }) => (
+  <li style={{ color: '#555' }}>
+    <a style={{ textDecoration: 'none' }} href={`#${name.replace(/ /g, '_')}`}>{ name }</a>
+  </li>
+);
+
+const Navigation: React.FC = () => (
+  <nav style={{ flex: 1, order: 2, position: 'relative' }}>
+
+    <ul style={{ position: 'sticky', top: 30, listStyleType: 'none', paddingLeft: 15, margin: 0, marginTop: 30 }}>
+
+      <NavigationSection section="Installation" />
+
+      <NavigationSection section="Utilisation">
+        <NavigationSubSection name="Liste des sujets" />
+        <NavigationSubSection name="Lire les réactions" />
+        <NavigationSubSection name="Quick réactions" />
+        <NavigationSubSection name="Rédiger une réaction" />
+      </NavigationSection>
+
+      <NavigationSection section="Inscription">
+        <NavigationSubSection name="Inscription / Connexion" />
+        <NavigationSubSection name="Mot de passe oublié" />
+        <NavigationSubSection name="Changement de mot de passe" />
+      </NavigationSection>
+
+      <NavigationSection section="Modération">
+        <NavigationSubSection name="Signaler une réaction" />
+        <NavigationSubSection name="Rejoindre les modérateurs" />
+      </NavigationSection>
+
+    </ul>
+
+  </nav>
+);
+
+const Usage: React.FC = () => {
+  return (
+    <div style={{ flex: 4 }}>
+
+      <Title id="Installation">Installation</Title>
 
       <p>
         Pour permettre l'ajout d'une zone de commentaires sur les sites que vous visitez, il est nécessaire de passer
@@ -70,45 +118,53 @@ const Home: React.FC = () => {
         d'informations seront supportés.
       </p>
 
-      <Title>Utilisation</Title>
+      <Title id="Utilisation">Utilisation</Title>
 
-      <FloatingImage width={96} float="right" src="/assets/images/extension-active.png" />
+      <Image style={{ width: 96, float: 'right', margin: '0 0 10px 10px' }} src="/assets/images/extension-active.png" />
 
       <p>
         Lorsque vous visitez une page web qui intègre une zone de commentaires, l'icône de l'extension vous l'indique
-        par un status actif, en affichant un badge vert. Vous trouverez dans la page une liste de sujets, regroupant les
-        commentaires par thématiques. Cela peut être pour discuter de la validité d'un argument, pour remettre en cause
-        l'information en apportant des sources, ou encore pour poser une question...
+        par un status actif, en affichant un badge vert.
       </p>
 
-      <ClearFix />
-
-      <SubTitle>Liste des sujets</SubTitle>
-
-      <FloatingImage width={640} float="left" src="/assets/images/subjects.png" />
-
-      <p>
-        Les zones de commentaires regroupent les réactions par sujet, pour permettre de cibler un point précis à
-        débattre. La liste n'affiche par défaut que le titre de chaque sujet, mais il est possible de cliquer sur ce
-        titre pour lire sa description et ouvrir les réactions qui y sont rattachées.
+      <p style={{ clear: 'right' }}>
+        Vous trouverez dans la page une liste de sujets, regroupant les commentaires par thématiques. Cela peut être
+        pour discuter de la validité d'un argument, pour remettre en cause l'information en apportant des sources, ou
+        encore pour poser une question...
       </p>
 
-      <p>
-        Si vous êtes <a href="#signup">inscris sur CDV</a>, vous pouvez ouvrir un nouveau sujet. Chaque sujet doit être
-        directement rattaché à l'information, et n'être traité qu'une seule fois (pensez à utiliser la fonction de
-        recherche). Si vous faites référence à une partie énoncée dans l'information, utilisez le champ "citation" pour
-        la préciser. Dans le cas d'une vidéo YouTube pensez à inclure le minutage de cette citation.
-      </p>
+      <SubTitle id="Liste_des_sujets">Liste des sujets</SubTitle>
 
-      <p>
-        Pour aller plus vite, vous pouvez ouvrir les réactions d'un sujet directement en cliquant sur le nombre de
-        commentaires, en haut à droite de chaque ligne dans la liste. Après avoir ouvert un sujet, il est possible de
-        revenir à la liste via le bouton "retour".
-      </p>
+      <Flex flexDirection="row">
 
-      <ClearFix />
+        <div style={{ flex: 1 }}>
+          <p>
+            Les zones de commentaires regroupent les réactions par sujet, pour permettre de cibler un point précis à
+            débattre. La liste n'affiche par défaut que le titre de chaque sujet, mais il est possible de cliquer sur ce
+            titre pour lire sa description et ouvrir les réactions qui y sont rattachées.
+          </p>
 
-      <SubTitle>Lire les réactions</SubTitle>
+          <p>
+            Si vous êtes <a href="#signup">inscris sur CDV</a>, vous pouvez ouvrir un nouveau sujet. Chaque sujet doit
+            être directement rattaché à l'information, et n'être traité qu'une seule fois (pensez à utiliser la fonction
+            de recherche). Si vous faites référence à une partie énoncée dans l'information, utilisez le champ
+            "citation" pour  préciser. Dans le cas d'une vidéo YouTube pensez à inclure le minutage de cette citation.
+          </p>
+
+          <p>
+            Pour aller plus vite, vous pouvez ouvrir les réactions d'un sujet directement en cliquant sur le nombre de
+            commentaires, en haut à droite de chaque ligne dans la liste. Après avoir ouvert un sujet, il est possible
+            de revenir à la liste via le bouton "retour".
+          </p>
+        </div>
+
+        <div style={{ flex: 1, paddingLeft: 15 }}>
+          <Image src="/assets/images/subjects.png" style={{ width: '100%' }} />
+        </div>
+
+      </Flex>
+
+      <SubTitle id="Lire_les_réactions">Lire les réactions</SubTitle>
 
       <p>
         Les échanges qui se déroulent dans les espaces de commentaires sont uniquement alimenté par la communauté, et
@@ -131,7 +187,7 @@ const Home: React.FC = () => {
         raisonnable...
       </p>
 
-      <SubTitle>Quick reaction</SubTitle>
+      <SubTitle id="Quick_réactions">Quick réactions</SubTitle>
 
       <p>
         Certaines réactions vont apporter des précisions, vous faire réfléchir, peut-être même vous faire changer
@@ -170,7 +226,7 @@ const Home: React.FC = () => {
         que vous y avez accordé de l'importance, même si vous n'êtes pas d'accord avec le message.
       </Note>
 
-      <SubTitle>Rédiger une réaction</SubTitle>
+      <SubTitle id="Rédiger_une_réaction">Rédiger une réaction</SubTitle>
 
       <Note>
         Note : la suite de cette page est en cours de réaction...
@@ -199,20 +255,30 @@ const Home: React.FC = () => {
         vous êtes invité(e) à rédiger un nouveau message faisant part de vos découvertes...
       </p>
 
-      <ClearFix />
-
-      <Title>Inscription</Title>
+      <Title id="Inscription">Inscription</Title>
 
       <ul>
-        <li>inscription / authentification (email -> spam)</li>
+        <li>inscription</li>
         <li>mot de passe oublié</li>
-        <li>changement de mot de passe / suppression du compte</li>
+        <li>changement de mot de passe</li>
       </ul>
 
-    </>
+      <Title id="Modération">Modération</Title>
+
+      <ul>
+        <li>Signaler une réaction</li>
+        <li>Rejoindre les modérateurs</li>
+      </ul>
+
+    </div>
   );
 };
 
-/* eslint-enable max-len */
+const UsagePage: React.FC = () => (
+  <Flex flexDirection="row">
+    <Navigation />
+    <Usage />
+  </Flex>
+);
 
-export default Home;
+export default UsagePage;

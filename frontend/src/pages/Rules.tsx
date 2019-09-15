@@ -32,9 +32,9 @@ const Rules: React.FC = () => {
   return (
     <>
 
-      <Title>La charte de CDV</Title>
+      <Title id="charte">La charte de CDV</Title>
 
-      <SubTitle>Introduction</SubTitle>
+      <SubTitle id="introduction">Introduction</SubTitle>
 
       <p>
         La charte présente une liste de règles qu'il est important de lire et de comprendre dans le but de donner un
@@ -55,7 +55,7 @@ const Rules: React.FC = () => {
         des possibilités d'évolution (formulation, exemples, points manquants...).
       </p>
 
-      <SubTitle>1. En tant que lecteur</SubTitle>
+      <SubTitle id="1 En tant que lecteur">1. En tant que lecteur</SubTitle>
 
       <Rule>
         1.1. Je suis invité à lire les réactions des autres utilisateurs de CDV, en bonne intélligence.
@@ -111,7 +111,7 @@ const Rules: React.FC = () => {
         bienveillance pour savoir comment agir.
       </Note>
 
-      <SubTitle>2. En tant que rédacteur</SubTitle>
+      <SubTitle id="2 En tant que rédacteur">2. En tant que rédacteur</SubTitle>
 
       <Rule>2.1. Je formule mon message de manière claire et en allant droit au but.</Rule>
 

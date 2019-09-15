@@ -133,8 +133,8 @@ const Questions: React.FC = () => (
 );
 
 const Contact = () => (
-  <div id="contact">
-    <SubTitle>Une idée à proposer ? Un bug à remonter ?</SubTitle>
+  <>
+    <SubTitle id="contact">Une idée à proposer ? Un bug à remonter ?</SubTitle>
 
     <p>L'équipe à l'origine de CDV est à l'écoute via ces différents canaux de communication :</p>
 
@@ -144,18 +144,18 @@ const Contact = () => (
       <li>Par chat, via <a href="https://tlk.io/cdv" target="_blank" rel="noopener noreferrer">tlk.io</a></li>
     </ul>
 
-    <SubTitle>Chat en direct</SubTitle>
+    <SubTitle id="chat">Chat en direct</SubTitle>
 
     <Tlkio />
 
-  </div>
+  </>
 );
 
 const FAQ: React.FC = () => {
   return (
     <>
 
-      <Title>Questions posées fréquemment</Title>
+      <Title id="faq">Questions posées fréquemment</Title>
 
       <Questions />
       <Contact />

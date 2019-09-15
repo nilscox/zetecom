@@ -119,7 +119,7 @@ const Home: React.FC = () => (
     </Flex>
 
     <Box mt={40} mb={20}>
-      <Title>L'information sur internet</Title>
+      <Title id="L information sur internet">L'information sur internet</Title>
     </Box>
 
     <p style={{ fontSize: 18 }}>
@@ -147,7 +147,7 @@ const Home: React.FC = () => (
     </DownloadExtension>
 
     <Box mt={40} mb={20}>
-      <Title>Que propose CDV ?</Title>
+      <Title id="Que propose CDV">Que propose CDV ?</Title>
     </Box>
 
     <Flex flexDirection="row">

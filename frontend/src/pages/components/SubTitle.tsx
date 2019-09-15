@@ -1,11 +1,11 @@
 import React from 'react';
 
 type SubTitleProps = {
-  children: React.ReactNode;
+  id: string;
 };
 
-const SubTitle: React.FC<SubTitleProps> = ({ children }) => (
-  <h3 style={{ fontSize: '1.5rem', lineHeight: '1.5rem', margin: 25, marginTop: 40 }}>{ children }</h3>
+const SubTitle: React.FC<SubTitleProps> = ({ id, children }) => (
+  <h3 id={id} style={{ fontSize: '1.5rem', lineHeight: '1.5rem', margin: 25, marginTop: 40 }}>{ children }</h3>
 );
 
 export default SubTitle;

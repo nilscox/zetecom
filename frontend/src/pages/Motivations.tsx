@@ -84,7 +84,7 @@ const Motivations: React.FC = () => {
       </p>
 
       <div style={{ display: 'none' }}>
-        <Title>Des idées sur le projet ?</Title>
+        <Title id="Des idées sur le projet">Des idées sur le projet ?</Title>
       </div>
 
       <p style={{ display: 'none' }}>
