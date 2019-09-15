@@ -8,6 +8,7 @@ import Note from './components/Note';
 import DownloadExtension from './components/DownloadExtensionButton';
 import Image from './components/Image';
 import Flex from 'src/components/common/Flex';
+import { Link } from 'react-router-dom';
 
 /*
 
@@ -37,8 +38,8 @@ import Flex from 'src/components/common/Flex';
   - rédiger une réaction
     - respect de la charte : cadrer les débats, zone saine d'écoute et de partage collaboratif
     - scope (sujet, réponse)
-    - format markdown
     - édition
+    - format markdown
   - inscription
     - inscription / authentification (email -> spam)
     - mot de passe oublié
@@ -139,7 +140,7 @@ const Usage: React.FC = () => {
 
         <div style={{ flex: 1 }}>
           <p>
-            Les zones de commentaires regroupent les réactions par sujet, pour permettre de cibler un point précis à
+            Les zones de commentaires regroupent les réactions par sujet pour permettre de cibler un point précis à
             débattre. La liste n'affiche par défaut que le titre de chaque sujet, mais il est possible de cliquer sur ce
             titre pour lire sa description et ouvrir les réactions qui y sont rattachées.
           </p>
@@ -148,7 +149,7 @@ const Usage: React.FC = () => {
             Si vous êtes <a href="#signup">inscris sur CDV</a>, vous pouvez ouvrir un nouveau sujet. Chaque sujet doit
             être directement rattaché à l'information, et n'être traité qu'une seule fois (pensez à utiliser la fonction
             de recherche). Si vous faites référence à une partie énoncée dans l'information, utilisez le champ
-            "citation" pour  préciser. Dans le cas d'une vidéo YouTube pensez à inclure le minutage de cette citation.
+            "citation" pour la préciser. Dans le cas d'une vidéo YouTube pensez à inclure le minutage de cette citation.
           </p>
 
           <p>
@@ -228,34 +229,53 @@ const Usage: React.FC = () => {
 
       <SubTitle id="Rédiger_une_réaction">Rédiger une réaction</SubTitle>
 
-      <Note>
-        Note : la suite de cette page est en cours de réaction...
-      </Note>
-
-      <ul>
+      <ul style={{ display: 'none' }}>
         <li>respect de la charte : cadrer les débats, zone saine d'écoute et de partage collaboratif</li>
         <li>scope (sujet, réponse)</li>
-        <li>citation</li>
+        <li>édition</li>
         <li>format markdown</li>
       </ul>
 
-      <p style={{ display: 'none' }}>
-        Et bien sur, si vous avez quelque chose à partager avec la communauté, vous pouvez rédiger une nouvelle
-        réaction. Si le sujet de votre message porte sur l'information présente dans la vidéo YouTube, ajoutez le via
-        le formulaire présent tout en haut, avant les réactions. Si en revanche vous souhaitez apporter quelque chose
-        par rapport à une réaction existante, utilisez le bouton "répondre". Les réponses imbriquées permettent de
-        suivre le fil de la discussion et l'évolution du débat.
+      <p>
+        Si vous avez quelque chose à partager avec la communauté, vous pouvez rédiger une nouvelle réaction. Vous
+        devrez pour cela <Link to="#inscription">créer un compte</Link>, et donc lire et accepter <Link to="/charte">la
+        charte de CDV</Link>. Gardez bien ces règles en tête lorsque vous écrivez un message.
       </p>
 
-      <p style={{ display: 'none' }}>
-        Personne n'est à l'abri d'une erreur ! Vous pouvez, à tout moment, modifier le texte d'une réaction dont vous
-        êtes l'auteur, pour en modifier la formulation. Attention cependant garder le sens original du message, de
-        manière à ce que l'échange reste cohérent. Après qu'une réaction est publiée, il n'est pas possible de
-        l'effacer. Vous avez partagé votre point de vue à un moment donné, mais si votre pensée évolue ultérieurement,
-        vous êtes invité(e) à rédiger un nouveau message faisant part de vos découvertes...
+      <p>
+        Deux types de réactions sont possibles :
+      </p>
+
+      <ul>
+        <li>en réponse au sujet directement</li>
+        <li>en réponse à une autre réaction</li>
+      </ul>
+
+      <p>
+        Veillez à bien identifier à quel message vous répondez, et donc à rédiger le votre à l'emplacement adéquat. Les
+        réponses imbriquées permettant de suivre l'évolution des échanges.
+      </p>
+
+      <p>
+        Personne n'est à l'abri d'une erreur ! Vous pouvez, à tout moment modifier une réaction dont vous êtes l'auteur,
+        pour changer la formulation. Attention cependant à conserver le sens original du message, de manière à ce que
+        l'échange reste cohérent. Après qu'une réaction est publiée, il n'est pas possible de l'effacer. Vous avez
+        partagé votre point de vue à un moment donné, mais si votre pensée évolue ultérieurement, vous êtes invité(e) à
+        rédiger un nouveau message faisant part de vos découvertes...
+      </p>
+
+      <p>
+        Les réactions sur CDV supportent un outil de mise en page simple, permettant d'inclure des liens, du texte en
+        gras ou en italique, des listes, des tableaux, etc... via un langage de balisage, le{' '}
+        <a href="https://docs.microsoft.com/fr-fr/contribute/how-to-write-use-markdown">markdown</a>. Un onglet "aperçu"
+        vous permet de visualiser le message tel qu'il va apparaître, avant de le poster.
       </p>
 
       <Title id="Inscription">Inscription</Title>
+
+      <Note>
+        Note : la suite de cette page est en cours de réaction...
+      </Note>
 
       <ul>
         <li>inscription</li>
