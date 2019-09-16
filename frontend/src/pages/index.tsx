@@ -1,5 +1,5 @@
-import React from 'react';
-import { Switch, Route, NavLink as ReactRouterNavLink, NavLinkProps } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Switch, Route, NavLink as ReactRouterNavLink, NavLinkProps, RouteComponentProps } from 'react-router-dom';
 
 import Flex from 'src/components/common/Flex';
 
@@ -14,45 +14,97 @@ import Header from './components/Header';
 
 import './pages.css';
 
-const NavLink: React.FC<NavLinkProps & { disabled?: boolean }> = ({ disabled, ...props }) => (
-  <li
-    style={{
-      textAlign: 'right',
-      fontSize: '1.4rem',
-      color: disabled ? '#999' : '#666',
-      marginBottom: 16,
-      textTransform: 'uppercase',
-      ...props.style,
-    }}
-  >
-    { disabled ? (
-      <div>
-        {props.children}
-      </div>
-    ) : (
-      <ReactRouterNavLink
-        exact
-        style={{ textDecoration: 'none', color: 'inherit' }}
-        activeStyle={{ color: '#222', fontWeight: 'bold' }}
-        {...props}
-      />
-    ) }
-  </li>
+const useResponsive = () => {
+  const breakpoint = 1000;
+  const { innerWidth: width } = window;
+  const isMobile = width < breakpoint;
+
+  function choose<T = any>(options: { mobile: T; desktop: T }): T {
+    if (isMobile)
+      return options.mobile;
+
+    return options.desktop;
+  }
+
+  const Choose: React.FC<{ mobile: React.ReactNode; desktop: React.ReactNode }> = (props) => <>{choose(props)}</>;
+
+  return {
+    isMobile,
+    isDesktop: !isMobile,
+    choose,
+    Choose,
+  };
+};
+
+const NavLink: React.FC<NavLinkProps & { disabled?: boolean }> = ({ disabled, ...props }) => {
+  const { choose } = useResponsive();
+
+  return (
+    <li
+      style={{
+        textAlign: choose({ desktop: 'right', mobile: 'left' }),
+        fontSize: '1.4rem',
+        color: disabled ? '#999' : '#666',
+        marginBottom: 16,
+        textTransform: 'uppercase',
+        ...props.style,
+      }}
+    >
+      { disabled ? (
+        <div>
+          {props.children}
+        </div>
+      ) : (
+        <ReactRouterNavLink
+          exact
+          style={{ textDecoration: 'none', color: 'inherit' }}
+          activeStyle={{ color: '#222', fontWeight: 'bold' }}
+          {...props}
+        />
+      ) }
+    </li>
+  );
+};
+
+const DividerDesktop: React.FC = () => <div style={{ borderRight: '1px solid #CCC', margin: '0 10px' }}/>;
+const DividerMobile: React.FC = () => <div style={{ width: '100%', borderTop: '1px solid #CCC' }}/>;
+
+const NavigationDesktop: React.FC = () => (
+  <nav style={{ flex: 1, position: 'relative' }}>
+    <ul style={{ listStyleType: 'none', position: 'sticky', top: 30, marginTop: 30 }}>
+      <NavLink to="/">Accueil</NavLink>
+      <NavLink to="/utilisation">Utilisation</NavLink>
+      <NavLink to="/charte">La charte</NavLink>
+      <NavLink to="/motivations">Motivations</NavLink>
+      <NavLink to="/faq">FAQ</NavLink>
+    </ul>
+  </nav>
 );
 
-const Divider: React.FC = () => (
-  <div style={{ borderRight: '1px solid #CCC', margin: '0 10px' }}/>
-);
+const NavigationMobile: React.FC<{ location: RouteComponentProps['location'] }> = ({ location }) => {
+  const [dropdown, showDropdown] = useState(false);
+  const routes = {
+    '/': 'Accueil',
+    '/utilisation': 'Utilisation',
+    '/charte': 'La charte',
+    '/motivations': 'Motivations',
+    '/faq': 'FAQ',
+  };
 
-const Pages: React.FC = () => (
-  <div className="page" style={{ margin: 'auto', padding: '0 10%', color: '#222' }}>
-
-    <Header />
-
-    <Flex style={{ minHeight: 250 }}>
-
-      <nav style={{ flex: 1, position: 'relative' }}>
-        <ul style={{ listStyleType: 'none', position: 'sticky', top: 30, marginTop: 30 }}>
+  if (dropdown) {
+    return (
+      <nav style={{ position: 'relative', height: 40, zIndex: 1 }}>
+        <ul
+          style={{
+            listStyleType: 'none',
+            position: 'absolute',
+            padding: 0,
+            paddingLeft: 22,
+            width: '100%',
+            backgroundColor: '#FFF',
+            borderBottom: '1px solid #CCC',
+          }}
+        >
           <NavLink to="/">Accueil</NavLink>
           <NavLink to="/utilisation">Utilisation</NavLink>
           <NavLink to="/charte">La charte</NavLink>
@@ -60,23 +112,63 @@ const Pages: React.FC = () => (
           <NavLink to="/faq">FAQ</NavLink>
         </ul>
       </nav>
+    );
+  }
 
-      <Divider />
+  if (!Object.keys(routes).includes(location.pathname))
+    return null;
 
-      <main style={{ flex: 4, minWidth: 1000, paddingLeft: 10 }}>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/utilisation" exact component={Usage} />
-          <Route path="/charte" exact component={Rules} />
-          <Route path="/motivations" exact component={Motivations} />
-          <Route path="/faq" exact component={FAQ} />
-          <Route component={NotFound} />
-        </Switch>
-      </main>
+  return (
+    <nav>
+      <Flex
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="flex-start"
+        style={{ height: 40 }}
+      >
+        <span
+          style={{
+            fontSize: '1.4rem',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+          }}
+          onClick={() => showDropdown(!dropdown)}
+        >
+          ≡ { (routes as any)[location.pathname] }
+        </span>
+      </Flex>
+    </nav>
+  );
+};
 
-    </Flex>
+const Pages: React.FC<RouteComponentProps> = ({ location }) => {
+  const { choose, Choose } = useResponsive();
 
-  </div>
-);
+  return (
+    <div className="page" style={{ margin: 'auto', padding: '0 10%', color: '#222' }}>
+
+      <Header />
+
+      <Flex flexDirection={choose({ mobile: 'column', desktop: 'row' })} style={{ minHeight: 250 }}>
+
+        <Choose mobile={<NavigationMobile location={location} />} desktop={<NavigationDesktop />} />
+        <Choose mobile={<DividerMobile />} desktop={<DividerDesktop />} />
+
+        <main style={{ flex: 4, paddingLeft: 10 }}>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/utilisation" exact component={Usage} />
+            <Route path="/charte" exact component={Rules} />
+            <Route path="/motivations" exact component={Motivations} />
+            <Route path="/faq" exact component={FAQ} />
+            <Route component={NotFound} />
+          </Switch>
+        </main>
+
+      </Flex>
+
+    </div>
+  );
+};
 
 export default Pages;

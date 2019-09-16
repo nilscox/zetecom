@@ -45,6 +45,5 @@ a {
 
 .page {
   width: 100%;
-  max-width: 2000px;
   box-sizing: border-box;
 }
