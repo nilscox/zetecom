@@ -11,7 +11,7 @@ type CardProps = {
 
 const Card: React.FC<CardProps> = ({ text, subtext, image }) => {
   return (
-    <Flex flexDirection="column" mx={10} flex={1}>
+    <Flex flexDirection="column" mx={10} flex={1} style={{ minWidth: 325, maxWidth: 425 }}>
 
       <Flex flexDirection="column" alignItems="center" style={{ padding: 30, height: 140 }}>
         <img src={image} alt={text} style={{ height: '100%', opacity: 0.8 }} />

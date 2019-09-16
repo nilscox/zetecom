@@ -14,6 +14,7 @@ import DownloadExtension from './components/DownloadExtensionButton';
 import EmailValidatedAlert from './components/EmailValidatedAlert';
 import Break from 'src/components/common/Break';
 import Image from './components/Image';
+import useResponsive from './hooks/useResponsive';
 
 /*
 
@@ -99,30 +100,67 @@ const Sentence: React.FC<{ text: React.ReactNode; subtext: React.ReactNode }> = 
   </Box>
 );
 
+const Pitch: React.FC = () => (
+  <Outline>
+    <p>
+      <Link to="/">
+        <em>Chercheurs de vérité</em>
+      </Link>
+      , c'est une plateforme qui donne accès à un <strong>espace d'échange collaboratif</strong>,
+      pour réagir à l'information diffusée par les médias.
+    </p>
+    <p>
+      Une <Link to="/utilisation">extension chrome</Link> permet d'ajouter sur certain sites
+      internet, une zone de commentaire où les membres de la communauté partagent leurs opinions,
+      apportent des sources, relèvent des biais, ou encore posent des questions...
+    </p>
+  </Outline>
+);
+
+const WhyCards: React.FC = () => (
+  <Flex flexDirection="row" justifyContent="space-around" style={{ flexWrap: 'wrap' }}>
+    { cards.map((props, n) => (
+      <Card key={n} {...props} />
+    )) }
+  </Flex>
+);
+
+const What: React.FC = () => {
+  const { choose } = useResponsive(1200);
+
+  return (
+    <>
+      <Box mt={40} mb={20}>
+        <Title id="Que propose CDV">Que propose CDV ?</Title>
+      </Box>
+
+      <Flex flexDirection={choose({ desktop: 'row', mobile: 'column' })}>
+        <div style={{ flex: 1, marginBottom: choose({ desktop: undefined, mobile: 15 }) }}>
+          <Image
+            maximize
+            src="/assets/images/youtube-cdv.gif"
+            alt="screenshot youtube cdv"
+            style={{ width: '100%' }}
+          />
+        </div>
+
+        <Flex flex={1} flexDirection="column" justifyContent="space-between">
+          {sentences.map((props, n) => (
+            <Sentence key={n} {...props} />
+          ))}
+        </Flex>
+      </Flex>
+    </>
+  );
+};
+
 const Home: React.FC = () => (
   <>
     <EmailValidatedAlert />
 
-    <Outline>
-      <p>
-        <Link to="/">
-          <em>Chercheurs de vérité</em>
-        </Link>
-        , c'est une plateforme qui donne accès à un <strong>espace d'échange collaboratif</strong>,
-        pour réagir à l'information diffusée par les médias.
-      </p>
-      <p>
-        Une <Link to="/utilisation">extension chrome</Link> permet d'ajouter sur certain sites
-        internet, une zone de commentaire où les membres de la communauté partagent leurs opinions,
-        apportent des sources, relèvent des biais, ou encore posent des questions...
-      </p>
-    </Outline>
+    <Pitch />
 
-    <Flex flexDirection="row" justifyContent="space-around">
-      {cards.map((props, n) => (
-        <Card key={n} {...props} />
-      ))}
-    </Flex>
+    <WhyCards />
 
     <Box mt={40} mb={20}>
       <Title id="L information sur internet">L'information sur internet</Title>
@@ -151,26 +189,7 @@ const Home: React.FC = () => (
 
     <DownloadExtension>Installer l'extension chrome</DownloadExtension>
 
-    <Box mt={40} mb={20}>
-      <Title id="Que propose CDV">Que propose CDV ?</Title>
-    </Box>
-
-    <Flex flexDirection="row">
-      <div style={{ flex: 1 }}>
-        <Image
-          maximize
-          src="/assets/images/youtube-cdv.gif"
-          alt="screenshot youtube cdv"
-          style={{ width: '100%', border: '1px solid #CCC' }}
-        />
-      </div>
-
-      <Flex flex={1} flexDirection="column" justifyContent="space-between">
-        {sentences.map((props, n) => (
-          <Sentence key={n} {...props} />
-        ))}
-      </Flex>
-    </Flex>
+    <What />
 
     <Break size="big" />
     <Break size="big" />

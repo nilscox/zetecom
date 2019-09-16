@@ -10,31 +10,10 @@ import Motivations from './Motivations';
 import FAQ from './FAQ';
 import NotFound from './NotFound';
 
+import useResponsive from './hooks/useResponsive';
 import Header from './components/Header';
 
 import './pages.css';
-
-const useResponsive = () => {
-  const breakpoint = 1000;
-  const { innerWidth: width } = window;
-  const isMobile = width < breakpoint;
-
-  function choose<T = any>(options: { mobile: T; desktop: T }): T {
-    if (isMobile)
-      return options.mobile;
-
-    return options.desktop;
-  }
-
-  const Choose: React.FC<{ mobile: React.ReactNode; desktop: React.ReactNode }> = (props) => <>{choose(props)}</>;
-
-  return {
-    isMobile,
-    isDesktop: !isMobile,
-    choose,
-    Choose,
-  };
-};
 
 const NavLink: React.FC<NavLinkProps & { disabled?: boolean }> = ({ disabled, ...props }) => {
   const { choose } = useResponsive();
@@ -93,7 +72,7 @@ const NavigationMobile: React.FC<{ location: RouteComponentProps['location'] }> 
 
   if (dropdown) {
     return (
-      <nav style={{ position: 'relative', height: 40, zIndex: 1 }}>
+      <nav style={{ position: 'relative', height: 40, zIndex: 1 }} onClick={() => showDropdown(false)}>
         <ul
           style={{
             listStyleType: 'none',
@@ -101,7 +80,7 @@ const NavigationMobile: React.FC<{ location: RouteComponentProps['location'] }> 
             padding: 0,
             paddingLeft: 22,
             width: '100%',
-            backgroundColor: '#FFF',
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
             borderBottom: '1px solid #CCC',
           }}
         >

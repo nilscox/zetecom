@@ -1,58 +1,68 @@
 import React from 'react';
 
 import Flex from 'src/components/common/Flex';
+import useResponsive from '../hooks/useResponsive';
 
 const TITLE = 'Chercheurs de vérité';
 const SUBTITLE = 'Décryptons l\'information !';
 
-const Header: React.FC = () => (
-  <Flex
-    flexDirection="row"
-    alignItems="center"
-    mt={40}
-    pb={15}
-    style={{ borderBottom: '1px solid #CCC' }}
-  >
+const Header: React.FC = () => {
+  const { choose } = useResponsive(800);
 
-    <Flex flexDirection="row" alignItems="flex-start" style={{ height: 90 }}>
+  return (
+    <Flex
+      flexDirection="row"
+      alignItems="center"
+      mt={40}
+      pb={15}
+      style={{ borderBottom: '1px solid #CCC' }}
+    >
 
-      <img
-        src="/assets/images/logo.png"
-        alt="logo"
-        style={{ height: '100%', width: 'auto', marginTop: -6, opacity: 0.8 }}
-      />
+      <Flex flexDirection="row" alignItems="flex-start" style={{ height: choose({ desktop: 90, mobile: 70 }) }}>
 
-      <Flex flexDirection="column" pl={15}>
+        <img
+          src="/assets/images/logo.png"
+          alt="logo"
+          style={{ height: '100%', width: 'auto', marginTop: -6, opacity: 0.8 }}
+        />
 
-        <h1
-          style={{
-            flex: 1,
-            fontSize: '3rem',
-            lineHeight: '3rem',
-            fontFamily: 'domine',
-          }}
-        >
-          { TITLE }
-        </h1>
+        <Flex flexDirection="column" pl={15}>
 
-        <div
-          style={{
-            flex: 1,
-            fontSize: '1.5rem',
-            color: '#666',
-            letterSpacing: '6px',
-            textAlign: 'left',
-            marginLeft: 3,
-          }}
-        >
-          { SUBTITLE }
-        </div>
+          <h1
+            style={{
+              flex: 1,
+              ...choose({
+                desktop: { fontSize: '3rem', lineHeight: '3rem' },
+                mobile: { fontSize: '2rem', lineHeight: '2rem' },
+              }),
+              fontFamily: 'domine',
+            }}
+          >
+            { TITLE }
+          </h1>
+
+          <div
+            style={{
+              flex: 1,
+              ...choose({
+                desktop: { fontSize: '1.5rem' },
+                mobile: { fontSize: '1.2rem' },
+              }),
+              color: '#666',
+              letterSpacing: choose({ mobile: 4, desktop: 6 }),
+              textAlign: 'left',
+              marginLeft: 3,
+            }}
+          >
+            { SUBTITLE }
+          </div>
+
+        </Flex>
 
       </Flex>
 
     </Flex>
-
-  </Flex>
-);
+  );
+}
 
 export default Header;
