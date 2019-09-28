@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import { useTheme } from 'src/utils/Theme';
 
-import { useReaction, useReportReaction } from 'src/api/reaction';
 import Break from 'src/components/common/Break';
 import Collapse from 'src/components/common/Collapse';
 import Button, { ButtonProps } from 'src/components/common/Button';
@@ -15,6 +14,8 @@ import TextArea from 'src/components/common/TextArea';
 import Select from 'src/components/common/Select';
 
 import ReactionBody from 'src/components/reaction/ReactionBody';
+import useAxios from 'src/hooks/use-axios';
+import { parseReaction } from 'src/types/Reaction';
 
 const POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT = 3000;
 
@@ -69,25 +70,37 @@ const ReportSuccess: React.FC = () => {
 type ReportPopupProps = RouteComponentProps<{ id: string }>;
 
 const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
-  const [reaction, { loading: fetchingReaction, error: fetchError }] = useReaction(parseInt(match.params.id, 10));
   const [reportType, setReportType] = useState('MISINFORMATION');
   const [message, setMessage] = useState('');
   const [displayMessage, setDisplayMessage] = useState(false);
   const [success, setSuccess] = useState(false);
   const { colors: { border }, sizes: { big }, borderRadius } = useTheme();
-  const [report, { loading: reportLoading, error: reportError }] = useReportReaction();
 
-  const submit = async () => {
-    if (!reaction)
-      return;
+  const [{ data: reaction, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseReaction);
 
-    try {
-      await report(reaction.id, reportType, message !== '' ? message : undefined);
+  const opts = { method: 'POST', url: `/api/reaction/${reaction.id}/report`, withCredentials: true };
+  const [{
+    response,
+    loading: reportLoading,
+    error: reportError,
+  }, report] = useAxios(opts, () => undefined, { manual: true });
+
+  if (error)
+    throw error;
+
+  if (reportError)
+    throw error;
+
+  useEffect(() => {
+    if (response.status === 204) {
       setSuccess(true);
       setTimeout(window.close, POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT);
-    } catch (e) {
-      console.error(e);
     }
+  }, [response, setSuccess]);
+
+  const onSubmit = async () => {
+    if (reaction)
+      report({ data: { reactionId: reaction.id, reportType, message: message !== '' ? message : undefined } });
   };
 
   const onReportTypeChange = (type: string) => {
@@ -95,13 +108,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
     setDisplayMessage(type === 'OTHER');
   };
 
-  if (!fetchingReaction && fetchError)
-    throw fetchError;
-
-  if (!reportLoading && reportError)
-    throw reportError;
-
-  if (fetchingReaction)
+  if (loading)
     return <Loader size="big" />;
 
   if (success)
@@ -165,7 +172,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
       </Collapse>
 
       <Flex mt={4 * big} flexDirection="row" justifyContent="center">
-        <ReportButton loading={reportLoading} onClick={submit} />
+        <ReportButton loading={reportLoading} onClick={onSubmit} />
       </Flex>
 
     </Box>

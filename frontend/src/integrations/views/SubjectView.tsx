@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { useCurrentUser } from 'src/utils/UserContext';
+import { parseReaction, Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
-import { useSubject, useRootReactions } from 'src/api/subjects';
 import { useTheme } from 'src/utils/Theme';
+import { useCurrentUser } from 'src/utils/UserContext';
 
 import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
@@ -19,25 +19,70 @@ import SubjectComponent from 'src/components/subject/Subject';
 import ReactionsList from 'src/components/reaction/ReactionsList';
 import ReactionForm from 'src/components/reaction/ReactionForm';
 
+import useAxios from 'src/hooks/use-axios';
+import { parseSubject } from 'src/types/Subject';
+
+const useRootReactions = (subjectId: string, sort: SortType) => {
+  const url = `/api/subject/${subjectId}/reactions` + (sort ? `?sort=${sort}` : '');
+  const opts = { url, withCredentials: true };
+  const parse = useCallback((data: any) => data.map(parseReaction), []);
+
+  const [{ data, loading, error, status }] = useAxios(opts, parse);
+  const [reactions, setReactions] = useState<Reaction[]>([]);
+
+  useEffect(() => {
+    if (status(200))
+      setReactions(data);
+  }, [status, data]);
+
+  const onCreated = (reaction: Reaction) => {
+    setReactions([
+      reaction,
+      ...reactions,
+    ]);
+  };
+
+  const onEdited = (reaction: Reaction) => {
+    const idx = reactions.findIndex((r: Reaction) => r.id === reaction.id);
+
+    if (idx < 0)
+      return;
+
+    setReactions([
+      ...reactions.slice(0, idx),
+      reaction,
+      ...reactions.slice(idx + 1)]);
+  };
+
+  return [
+    { reactions, loading, error },
+    { onCreated, onEdited },
+  ] as const;
+};
+
 type SubjectViewProps = RouteComponentProps<{ id: string }>;
 
 const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
   const user = useCurrentUser();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
   const { sizes: { big }, colors: { border }, borderRadius } = useTheme();
-  const [subject, { loading: fetchingSubject, error: fetchSubjectError }] = useSubject(match.params.id);
+
+  const [{
+    data: subject,
+    loading: loadingSubject,
+    error: subjectError,
+  }] = useAxios('/api/subject/' + match.params.id, parseSubject);
 
   const [
-    reactions,
-    { loading: fetchingRootReactions, error: fetchRootReactionsError },
+    { reactions, loading: loadingRootReactions, error: rootReactionsError },
     { onCreated: onReactionCreated, onEdited: onReactionEdited },
   ] = useRootReactions(match.params.id, SortType.DATE_ASC);
 
-  if (!fetchingSubject && fetchSubjectError)
-    throw fetchSubjectError;
-  if (!fetchingRootReactions && fetchRootReactionsError)
-    throw fetchRootReactionsError;
+  if (subjectError)
+    throw subjectError;
+
+  if (rootReactionsError)
+    throw rootReactionsError;
 
   const getReactionsList = () => {
     if (!reactions.length) {
@@ -62,7 +107,7 @@ const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
     );
   };
 
-  if (fetchingSubject)
+  if (loadingSubject)
     return <Loader size="big" />;
 
   return (
@@ -93,7 +138,7 @@ const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
         </>
       ) }
 
-      { fetchingRootReactions ? <Loader size="big" /> : getReactionsList() }
+      { loadingRootReactions ? <Loader size="big" /> : getReactionsList() }
 
     </>
   );

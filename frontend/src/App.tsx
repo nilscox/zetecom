@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { User } from 'src/types/User';
-import { fetchUser } from 'src/api/user';
+import { User, parseUser } from 'src/types/User';
 import { UserProvider } from 'src/utils/UserContext';
 
 import Loader from 'src/components/common/Loader';
@@ -14,34 +13,32 @@ import Popup from './popup';
 import Integrations from './integrations';
 import Pages from './pages';
 
+import useAxios from './hooks/use-axios';
+
 import './App.css';
 
 const useUser = () => {
-  const [user, setUser] = useState<User | null | undefined>(undefined);
+  const opts = { url: '/api/auth/me', validateStatus: (s: number) => [200, 403].includes(s), withCredentials: true };
+  const [{ response, data, error, status }] = useAxios(opts, parseUser);
+  const [user, setUser] = useState<User | undefined | null>();
+
+  if (error)
+    throw error;
 
   useEffect(() => {
-    (async () => {
-      try {
-        const user = await fetchUser();
+    if (response) {
+      if (status(200))
+        setUser(data);
+      else
+        setUser(null);
+    }
+  }, [response, status, data]);
 
-        if (user)
-          setUser(user);
-        else
-          setUser(null);
-      } catch (e) {
-        console.log(e);
-      }
-    })();
-  }, []);
-
-  return {
-    user,
-    setUser,
-  };
+  return [user, setUser] as const;
 };
 
 const App: React.FC = () => {
-  const { user, setUser } = useUser();
+  const [user, setUser] = useUser();
 
   if (user === undefined)
     return <Loader size="big" />;

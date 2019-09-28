@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import queryString from 'query-string';
+import { useDebounce } from 'use-debounce';
 
 import { useCurrentUser } from 'src/utils/UserContext';
 import { Information } from 'src/types/Information';
+import { parseSubject } from 'src/types/Subject';
 import { SortType } from 'src/types/SortType';
-import { useSubjects } from 'src/api/subjects';
 import { useTheme } from 'src/utils/Theme';
 
 import Break from 'src/components/common/Break';
@@ -18,6 +20,8 @@ import SortSelect from 'src/components/common/SortSelect';
 import SubjectsList, { SubjectsListProps } from 'src/components/subject/SubjectsList';
 import SubjectForm from 'src/components/subject/SubjectForm';
 
+import useAxios from 'src/hooks/use-axios';
+
 const SubjectsListOrNotFound: React.FC<SubjectsListProps> = (props) => {
   if (!props.subjects.length) {
     return (
@@ -30,18 +34,29 @@ const SubjectsListOrNotFound: React.FC<SubjectsListProps> = (props) => {
   return <SubjectsList {...props} />;
 };
 
+const useSubjects = (informationId: number, sort: SortType, search?: string) => {
+  const [searchDebounced] = useDebounce(search, 300);
+  const qs = queryString.stringify({ sort, search: searchDebounced });
+  const url = `/api/information/${informationId}/subjects` + (qs ? '?' + qs : '');
+  const parse = useCallback((data: any) => data.map(parseSubject), []);
+
+  return useAxios(url, parse);
+};
+
 type SubjectsListViewProps = RouteComponentProps & {
   information?: Information;
 };
 
 const SubjectsListView: React.FC<SubjectsListViewProps> = ({ history, information }) => {
   const user = useCurrentUser();
+  const { sizes: { big } } = useTheme();
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
   const [search, setSearch] = useState('');
+
   const [displaySubjectForm, setDisplaySubjectForm] = useState(false);
-  const { sizes: { big } } = useTheme();
-  const [subjects, { loading: fetchingSubjects }] = useSubjects(information, sort, search);
   const [showSubjectForm, hideSubjectForm] = [true, false].map(v => () => setDisplaySubjectForm(v));
+
+  const [{ data: subjects, loading }] = useSubjects(information.id, sort, search);
 
   const onSort = (newSort: SortType) => {
     if (newSort === sort)
@@ -83,7 +98,7 @@ const SubjectsListView: React.FC<SubjectsListViewProps> = ({ history, informatio
 
       <Break size="big" />
 
-      { fetchingSubjects ? (
+      { loading ? (
         <Loader size="big" />
       ) : (
         <SubjectsListOrNotFound subjects={subjects} />

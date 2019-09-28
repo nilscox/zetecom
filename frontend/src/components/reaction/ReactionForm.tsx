@@ -1,8 +1,7 @@
-import React, { forwardRef, useImperativeHandle, useCallback, useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useCallback, useState, useEffect } from 'react';
 
 import { Subject } from 'src/types/Subject';
-import { Reaction } from 'src/types/Reaction';
-import { usePostReaction, useUpdateReaction } from 'src/api/reaction';
+import { Reaction, parseReaction } from 'src/types/Reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import Button from 'src/components/common/Button';
@@ -11,6 +10,7 @@ import Flex from 'src/components/common/Flex';
 import Text from 'src/components/common/Text';
 import UserAvatarNick from 'src/components/common/UserAvatarNick';
 import MarkdownMessageEdition from 'src/components/common/MarkdownMessageEdition';
+import useAxios from 'src/hooks/use-axios';
 
 type FormHeaderProps = {
   closeForm?: () => void;
@@ -108,18 +108,28 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
   onCreated,
 }) => {
   const formRef = React.useRef(null);
-  const [post] = usePostReaction();
 
-  const onPostReaction = useCallback(async (message: string) => {
-    try {
-      onCreated(await post(subject.id, message, parent ? parent.id : undefined));
+  const opts = { method: 'POST', url: '/api/reaction', withCredentials: true };
+  const [{ data, loading, error }, postReaction] = useAxios(opts, parseReaction, { manual: true });
 
-      if (formRef.current)
-        formRef.current.clear();
-    } catch (e) {
-      console.error(e);
-    }
-  }, [onCreated, formRef.current]);
+  if (error)
+    throw error;
+
+  const onSubmit = (text: string) => postReaction({
+    data: {
+      subjectId: subject.id,
+      parentId: parent ? parent.id : undefined,
+      text,
+    },
+  });
+
+  useEffect(() => {
+    if (data)
+      onCreated(data);
+
+    if (formRef.current)
+      formRef.current.clear();
+  }, [data, onCreated, formRef]);
 
   return (
     <ReactionFormRef
@@ -129,7 +139,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
           ? `Répondez à ${parent.author.nick}`
           : 'Composez votre message...'
       }
-      onSubmit={onPostReaction}
+      onSubmit={onSubmit}
       closeForm={closeForm}
     />
   );
@@ -143,25 +153,29 @@ type ReactionEditionFormProps = {
 
 export const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reaction, onEdited, closeForm }) => {
   const formRef = React.useRef(null);
-  const [update] = useUpdateReaction();
 
-  const onEditReaction = useCallback(async (message: string) => {
-    try {
-      onEdited(await update(reaction.id, message));
+  const opts = { method: 'PUT', url: '/api/reaction/' + reaction.id, withCredentials: true };
+  const [{ data, loading, error }, postReaction] = useAxios(opts, parseReaction, { manual: true });
 
-      if (formRef.current)
-        formRef.current.clear();
-    } catch (e) {
-      console.error(e);
-    }
-  }, [onEdited, formRef.current]);
+  if (error)
+    throw error;
+
+  const onSubmit = (text: string) => postReaction({ data: { text } });
+
+  useEffect(() => {
+    if (data)
+      onEdited(data);
+
+    if (formRef.current)
+      formRef.current.clear();
+  }, [data, onEdited, formRef]);
 
   return (
     <ReactionFormRef
       ref={formRef}
       placeholder="Éditez votre message..."
       preloadedMessage={reaction.text}
-      onSubmit={onEditReaction}
+      onSubmit={onSubmit}
       closeForm={closeForm}
     />
   );

@@ -63,6 +63,6 @@ const Header: React.FC = () => {
 
     </Flex>
   );
-}
+};
 
 export default Header;

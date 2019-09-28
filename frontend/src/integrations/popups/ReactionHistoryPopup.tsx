@@ -2,9 +2,9 @@ import moment from 'moment';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 
+import { parseReaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
 
-import { useReaction } from 'src/api/reaction';
 import Break from 'src/components/common/Break';
 import Loader from 'src/components/common/Loader';
 import Box from 'src/components/common/Box';
@@ -13,15 +13,20 @@ import Text from 'src/components/common/Text';
 
 import ReactionBody from 'src/components/reaction/ReactionBody';
 
+import useAxios from 'src/hooks/use-axios';
+
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] hh:mm';
 
 type ReactionHistoryPopupProps = RouteComponentProps<{ id: string }>;
 
 const ReactionHistoryPopup: React.FC<ReactionHistoryPopupProps> = ({ match }) => {
-  const [reaction, { loading: fetchingReaction }] = useReaction(parseInt(match.params.id, 10));
   const { colors: { border }, sizes: { big } } = useTheme();
+  const [{ data: reaction, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseReaction);
 
-  if (fetchingReaction)
+  if (error)
+    throw error;
+
+  if (loading)
     return <Loader size="big" />;
 
   const history = [

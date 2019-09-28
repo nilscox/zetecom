@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Subject } from 'src/types/Subject';
-import { usePostSubject } from 'src/api/subjects';
+import { Subject, parseSubject } from 'src/types/Subject';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import Flex from 'src/components/common/Flex';
@@ -11,6 +10,7 @@ import Input from 'src/components/common/Input';
 import Text from 'src/components/common/Text';
 import UserAvatarNick from 'src/components/common/UserAvatarNick';
 import MarkdownMessageEdition from 'src/components/common/MarkdownMessageEdition';
+import useAxios from 'src/hooks/use-axios';
 
 type FormHeaderProps = {
   onClose: () => void;
@@ -102,18 +102,21 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onC
   const [quote, setQuote] = useState('');
   const [message, setMessage] = useState('');
 
-  const [
-    postSubject,
-    { loading: postSubjectLoading, error: postSubjectError },
-  ] = usePostSubject();
+  const opts = { method: 'POST', url: '/api/subject', withCredentials: true };
+  const [{ data: created, loading, error }, postSubject] = useAxios(opts, parseSubject, { manual: true });
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onCreated(await postSubject(informationId, subject, quote, message));
+    postSubject({ data: { informationId, subject, quote, message } });
   };
 
-  if (postSubjectError)
-    throw postSubjectError;
+  useEffect(() => {
+    if (created)
+      onCreated(created);
+  }, [created, onCreated]);
+
+  if (error)
+    throw error;
 
   return (
     <form onSubmit={onSubmit}>
@@ -122,7 +125,7 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onC
         <FormSubject subject={subject} setSubject={setSubject} />
         <FormQuote quote={quote} setQuote={setQuote} />
         <MarkdownMessageEdition placeholder="Description du sujet..." message={message} setMessage={setMessage} />
-        <SubmitButton loading={postSubjectLoading} disabled={subject.length === 0 || message.length === 0} />
+        <SubmitButton loading={loading} disabled={subject.length === 0 || message.length === 0} />
       </Flex>
     </form>
   );

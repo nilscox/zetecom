@@ -1,15 +1,16 @@
 import { AxiosError } from 'axios';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 
 import UserContext from 'src/utils/UserContext';
-import { useLoginUser } from 'src/api/user';
 import { useTheme } from 'src/utils/Theme';
 import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
 
 import Form, { useFormErrors } from '../components/Form';
 import ViewHeader from '../components/ViewHeader';
+import useAxios from 'src/hooks/use-axios';
+import { parseUser } from 'src/types/User';
 
 const getGlobalError = (error: AxiosError) => {
   if (!error || !error.response)
@@ -48,29 +49,34 @@ const getFieldErrors = (error: AxiosError) => {
 
 const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
   const { setUser } = useContext(UserContext);
-  const [login, { loading, error }] = useLoginUser();
   const { sizes: { big } } = useTheme();
+
+  const opts = { method: 'POST', url: '/api/auth/login', withCredentials: true };
+  const [{ data: user, loading, error, status }, login] = useAxios(opts, parseUser, { manual: true });
+
   const [globalError, fieldErrors, resetErrors, errorsHandled] = useFormErrors(error, getGlobalError, getFieldErrors);
   const errors = fieldErrors || {};
 
-  const onSubmit = async (values: { [fields: string]: string }) => {
-    const credentials = {
+  if (error && !errorsHandled)
+    throw error;
+
+  const onSubmit = (values: { [fields: string]: string }) => login({
+    data: {
       email: values.email,
       password: values.password,
-    };
+    },
+  });
 
-    const user = await login(credentials);
-
-    setUser(user);
-    history.push('/popup/logout');
-  };
+  useEffect(() => {
+    if (status(200)) {
+      setUser(user);
+      history.push('/popup/logout');
+    }
+  }, [status, user, setUser, history]);
 
   const isFormValid = (values: { [field: string]: string }) => {
     return values.email.length > 0 && values.password.length > 0;
   };
-
-  if (!loading && error && !errorsHandled)
-    throw error;
 
   return (
     <>

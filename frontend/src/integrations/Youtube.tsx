@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import queryString from 'query-string';
 
-import { useInformationFromYoutubeId } from 'src/api/information';
-
+import { parseInformation } from 'src/types/Information';
+import useQueryString from 'src/hooks/useQueryString';
 import Loader from 'src/components/common/Loader';
 
 import Integration from './Integration';
+import useAxios from 'src/hooks/use-axios';
 
 type YoutubeProps = {
   youtubeId: string;
 };
 
 const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
-  const [margin, setMargin] = useState(0);
+  const [{ data: information, loading, error }] = useAxios(
+    `/api/information/by-youtubeId/${youtubeId}`,
+    parseInformation,
+  );
 
-  const [
-    information,
-    { loading: fetchingInformation, error: fetchInformationError },
-  ] = useInformationFromYoutubeId(youtubeId);
+  const [margin, setMargin] = useState(0);
 
   useEffect(() => {
     if (information) {
@@ -32,10 +32,10 @@ const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
     }
   }, [information]);
 
-  if (!fetchingInformation && fetchInformationError)
-    throw fetchInformationError;
+  if (error)
+    throw error;
 
-  if (fetchingInformation)
+  if (loading)
     return <Loader size="big" />;
 
   if (!information)
@@ -53,7 +53,7 @@ const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
 };
 
 const YoutubeIntegration: React.FC = () => {
-  const { youtubeId } = queryString.parse(window.location.search);
+  const { youtubeId } = useQueryString();
 
   if (!youtubeId || typeof youtubeId !== 'string')
     return null;

@@ -1,14 +1,14 @@
 /* eslint-disable max-lines */
 
-import React, { useCallback, useState } from 'react';
-import { Reaction, QuickReactionType, QuickReactionsCount } from 'src/types/Reaction';
-import { usePostQuickReaction } from 'src/api/reaction';
+import React, { useState, useEffect } from 'react';
+import { Reaction, QuickReactionType, QuickReactionsCount, parseReaction } from 'src/types/Reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
 import Button from 'src/components/common/Button';
 import Text from 'src/components/common/Text';
+import useAxios from 'src/hooks/use-axios';
 
 const VBreak: React.FC = () => {
   const { colors: { borderLight } } = useTheme();
@@ -58,9 +58,31 @@ const useQuickReactions = (
   originalUserQuickReaction: QuickReactionType,
 ) => {
   const user = useCurrentUser();
-  const [post] = usePostQuickReaction();
   const [updatedQuickReaction, setUpdatedQuickReaction] = useState<QuickReactionType | null>(null);
   const userQuickReaction = updatedQuickReaction || originalUserQuickReaction;
+
+  const opts = { method: 'POST', url: `/api/reaction/${reactionId}/quick-reaction`, withCredentials: true };
+  const [{ data: updated, error, status }, post] = useAxios(opts, parseReaction, { manual: true });
+
+  if (error)
+    throw error;
+
+  const updateUserQuickReaction = (type: QuickReactionType) => {
+    post({
+      data: {
+        reactionId,
+        type: type ? type.toUpperCase() : null,
+      },
+    });
+
+    // optimist update
+    setUpdatedQuickReaction(type);
+  };
+
+  useEffect(() => {
+    if (status(200))
+      setUpdatedQuickReaction(updated.userQuickReaction);
+  }, [status, updated, setUpdatedQuickReaction]);
 
   const quickReactions: { [key in QuickReactionType]: QuickReactionProps } = {
     approve: {
@@ -77,16 +99,7 @@ const useQuickReactions = (
     },
   };
 
-  const updateUserQuickReaction = useCallback(async (type: QuickReactionType) => {
-    try {
-      const updated = await post(reactionId, type);
-      setUpdatedQuickReaction(updated.userQuickReaction);
-    } catch (e) {
-      console.error(e);
-    }
-  }, [reactionId, post, setUpdatedQuickReaction]);
-
-  const getQuickReactionProps = useCallback((type: QuickReactionType): QuickReactionProps => {
+  const getQuickReactionProps = (type: QuickReactionType): QuickReactionProps => {
     const props = quickReactions[type];
 
     if (type === userQuickReaction)
@@ -103,7 +116,7 @@ const useQuickReactions = (
     }
 
     return props;
-  }, [quickReactions, userQuickReaction, originalUserQuickReaction, updatedQuickReaction]);
+  };
 
   return {
     approve: getQuickReactionProps(QuickReactionType.APPROVE),

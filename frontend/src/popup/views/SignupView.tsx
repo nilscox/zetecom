@@ -1,13 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
-import { useSignupUser } from 'src/api/user';
+import { parseUser } from 'src/types/User';
 import UserContext from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 
 import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
+
+import useAxios from 'src/hooks/use-axios';
 
 import ViewHeader from '../components/ViewHeader';
 import Form, { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from '../components/Form';
@@ -98,22 +100,29 @@ const getFieldErrors: FieldErrorsHandler = (error: AxiosError) => {
 
 const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
   const { sizes: { big } } = useTheme();
-  const [signup, { loading, error }] = useSignupUser();
   const [didAcceptRules, setDidAcceptRules] = useState(false);
-  const [globalError, fieldErrors, resetErrors, handled] = useFormErrors(error, getGlobalError, getFieldErrors);
-  const errors = fieldErrors || {};
   const { setUser } = useContext(UserContext);
 
-  const signupSubmit = async (values: { [field: string]: string }) => {
-    const user = await signup({
+  const opts = { method: 'POST', url: '/api/auth/signup', withCredentials: true };
+  const [{ data: user, loading, error, status }, signup] = useAxios(opts, parseUser, { manual: true });
+
+  const [globalError, fieldErrors, resetErrors, handled] = useFormErrors(error, getGlobalError, getFieldErrors);
+  const errors = fieldErrors || {};
+
+  const submitSignup = async (values: { [field: string]: string }) => signup({
+    data: {
       email: values.email,
       password: values.password,
       nick: values.nick,
-    });
+    },
+  });
 
-    setUser(user);
-    history.push('/popup/signup/post-signup');
-  };
+  useEffect(() => {
+    if (status(201)) {
+      setUser(user);
+      history.push('/popup/signup/post-signup');
+    }
+  }, [status, user, setUser, history]);
 
   const isFormValid = (values: { [field: string]: string }) => {
     if (!didAcceptRules)
@@ -152,7 +161,7 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
           submitButtonValue="Inscription"
           isValid={isFormValid}
           onChange={resetErrors}
-          onSubmit={signupSubmit}
+          onSubmit={submitSignup}
           fields={{
             email: {
               type: 'email',

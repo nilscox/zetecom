@@ -1,7 +1,6 @@
 import React, { useCallback, useContext } from 'react';
 
 import { UserLight } from 'src/types/User';
-import { setUserAvatar } from 'src/api/user';
 import UserContext from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 
@@ -67,8 +66,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ editable = false, user }) => {
   );
 
   const onUpload = useCallback(async (file: File) => {
-    const updatedUser = await setUserAvatar(file);
-    setUser(updatedUser);
+    console.log('image upload not implemented');
   }, [setUser]);
 
   if (!editable || !currentUser || user.id !== currentUser.id)

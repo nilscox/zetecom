@@ -1,33 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import moment from 'moment';
 
 import UserContext from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
-import { useLogoutUser } from 'src/api/user';
 import UserAvatar from 'src/components/common/UserAvatar';
 import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
 
 import Form from '../components/Form';
+import useAxios from 'src/hooks/use-axios';
 
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const { sizes: { medium, big } } = useTheme();
   const { user, setUser } = useContext(UserContext);
-  const [logout, { loading, error }] = useLogoutUser();
 
-  const logoutSubmit = async () => {
-    await logout();
+  const opts = { method: 'POST', url: '/api/auth/logout', withCredentials: true };
+  const [{ error, loading, response }, logout] = useAxios(opts, () => undefined, { manual: true });
 
-    setUser(null);
-    history.push('/popup/login');
-  };
+  useEffect(() => {
+    if (response && response.status === 204) {
+      setUser(null);
+      history.push('/popup/login');
+    }
+  }, [response, setUser, history]);
 
   if (!user)
     return <Redirect to="/" />;
 
-  if (!loading && error)
+  if (error)
     throw error;
 
   return (
@@ -68,7 +70,7 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
       </Box>
 
       <Box mt={big} style={{ alignSelf: 'center' }}>
-        <Form onSubmit={logoutSubmit} loading={loading} submitButtonValue="Déconnexion" />
+        <Form onSubmit={logout} loading={loading} submitButtonValue="Déconnexion" />
       </Box>
 
     </Box>
