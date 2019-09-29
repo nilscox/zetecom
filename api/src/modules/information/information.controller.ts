@@ -42,13 +42,30 @@ export class InformationController {
     return this.informationService.findAll();
   }
 
-  // TODO: handle 404
   @Get(':id')
   @Output(InformationOutDto)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Information> {
-    return this.informationService.findOne({ id });
+    const info = this.informationService.findOne({ id });
+
+    if (!info)
+      throw new NotFoundException();
+
+    return info;
+  }
+
+  @Get('by-url/:url')
+  @Output(InformationOutDto)
+  async findOneByUrl(
+    @Param('url') url: string,
+  ): Promise<Information> {
+    const info = this.informationService.findOne({ url: decodeURIComponent(url) });
+
+    if (!info)
+      throw new NotFoundException();
+
+    return info;
   }
 
   @Get('by-youtubeId/:youtubeId')

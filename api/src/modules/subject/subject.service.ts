@@ -32,7 +32,8 @@ export class SubjectService {
   async findAll(information, sort: SortType, page: number = 1, search?: string): Promise<Subject[]> {
     const qb = this.subjectRepository.createQueryBuilder('subject')
       .leftJoinAndSelect('subject.author', 'author')
-      .leftJoinAndSelect('subject.messages', 'messages');
+      .leftJoinAndSelect('subject.messages', 'messages')
+      .where('subject.information_id = ' + information.id);
 
     if (search && search.length > 0) {
       qb.where('subject.subject ILIKE :search', { search: `%${search}%` });
