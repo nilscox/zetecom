@@ -34,6 +34,10 @@
         "https://www.youtube.com/watch*"
       ],
       "js": ["assets/js/iframeResizer.min.js", "integrations/youtube.js"]
+    },
+    {
+      "matches": ["https://www.lemonde.fr/*"],
+      "js": ["assets/js/iframeResizer.min.js", "integrations/lemonde.js"]
     }
   ]
 }
