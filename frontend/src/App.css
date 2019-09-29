@@ -6,10 +6,6 @@
 
 #app {
   height: 100%;
-  min-height: 600px;
-  background: white;
-  padding: 10px;
-  border: 1px solid #CCC;
 }
 
 button {

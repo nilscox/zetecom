@@ -33,14 +33,14 @@ export const useReactionReplies = (parent: Reaction) => {
 
   const addReply = useCallback((reply: Reaction) => {
     setReplies([reply, ...replies]);
-  }, [setReplies, replies]);
+  }, [replies]);
 
   const replaceReplyAt = useCallback((index: number, reply: Reaction) => {
     setReplies([
       ...replies.slice(0, index),
       reply,
       ...replies.slice(index + 1)]);
-  }, [setReplies, replies]);
+  }, [replies]);
 
   return [
     { replies, loading, error },
@@ -87,10 +87,11 @@ type ReactionContainerProps = {
   onEdited: (reaction: Reaction) => void;
 };
 
-const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction, onEdited }) => {
+const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction: originalReaction, onEdited }) => {
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [reaction, setReaction] = useState(originalReaction);
 
   const [
     { replies, loading, error },
@@ -113,9 +114,13 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
     setDisplayReplies(!displayReplies);
   }, [replies, error, fetchReplies, setDisplayReplies, displayReplies]);
 
-  const onCreated = (reaction: Reaction) => {
-    addReply(reaction);
+  const onCreated = (created: Reaction) => {
+    addReply(created);
     hideReplyForm();
+    setReaction({
+      ...reaction,
+      repliesCount: reaction.repliesCount + 1,
+    });
   };
 
   const onReplyEdited = (reply: Reaction) => {

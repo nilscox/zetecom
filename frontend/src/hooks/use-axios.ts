@@ -10,11 +10,15 @@ export default function useAxios<T>(
   const [{ data, loading, error, response }, refetch] = useAxiosHook(config, options);
 
   const parsed = useMemo(() => {
-    if (data && !error)
-      return parse(data);
+    if (response) {
+      if (data && !error && [200, 201].includes(response.status))
+        return parse(data);
+      else
+        return undefined;
+    }
 
-    return undefined;
-  }, [data, error, parse]);
+    return null;
+  }, [response, data, error, parse]);
 
   const status = useCallback((s: number | number[]): boolean => {
     if (!response)
@@ -30,7 +34,7 @@ export default function useAxios<T>(
     {
       data: parsed,
       raw: data,
-      loading: loading || (data && !parsed),
+      loading: loading || (data && parsed === null),
       error,
       response,
       status,

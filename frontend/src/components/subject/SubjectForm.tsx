@@ -107,13 +107,15 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onC
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    postSubject({ data: { informationId, subject, quote, message } });
+    postSubject({ data: { informationId, subject, quote, text: message } });
   };
 
   useEffect(() => {
     if (created)
       onCreated(created);
-  }, [created, onCreated]);
+  // prevent infinite recursion due to `onCreated` being changed when called
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [created]);
 
   if (error)
     throw error;

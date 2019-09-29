@@ -46,6 +46,7 @@ type MarkdownMessageFieldProps = {
 
 const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, placeholder, setMessage }) => {
   const { sizes: { big } } = useTheme();
+
   return (
     <textarea
       style={{ border: 'none', padding: big, outline: 'none', resize: 'vertical' }}

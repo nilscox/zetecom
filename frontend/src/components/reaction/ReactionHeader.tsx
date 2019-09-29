@@ -98,6 +98,7 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
         ) : (
           <Text
             variant="note"
+            title="Édité"
             style={{ fontStyle: 'oblique', cursor: 'pointer' }}
             onClick={onViewHistory}
           >

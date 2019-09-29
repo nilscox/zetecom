@@ -1,12 +1,15 @@
 import React from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 
+import UrlIntegration from './UrlIntegration';
 import Youtube from './Youtube';
+
 import ReactionHistoryPopup from './popups/ReactionHistoryPopup';
 import ReportPopup from './popups/ReportPopup';
 
 const Integrations: React.FC<RouteComponentProps> = () => (
   <Switch>
+    <Route path="/integration" exact component={UrlIntegration} />
     <Route path="/integration/youtube" exact component={Youtube} />
     <Route path="/integration/reaction/:id/history" exact component={ReactionHistoryPopup} />
     <Route path="/integration/reaction/:id/report" exact component={ReportPopup} />

@@ -45,15 +45,16 @@ const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
 };
 
 type SubmitButtonProps = {
+  loading: boolean;
   disabled: boolean;
 };
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ disabled }) => {
+const SubmitButton: React.FC<SubmitButtonProps> = ({ loading, disabled }) => {
   const { sizes: { medium, big } } = useTheme();
 
   return (
     <Flex flexDirection="row" justifyContent="flex-end" px={big} py={medium} style={{ borderTop: '1px solid #CCC' }}>
-      <Button type="submit" disabled={disabled}>Envoyer</Button>
+      <Button type="submit" loading={loading} disabled={disabled}>Envoyer</Button>
     </Flex>
   );
 };
@@ -61,12 +62,13 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ disabled }) => {
 type ReactionFormProps = {
   placeholder: string;
   preloadedMessage?: string;
+  loading: boolean;
   closeForm?: () => void;
   onSubmit: (message: string) => void;
 };
 
 const ReactionForm: React.FC<ReactionFormProps> = (
-  { placeholder, preloadedMessage = '', closeForm, onSubmit },
+  { placeholder, preloadedMessage = '', loading, closeForm, onSubmit },
   ref: React.Ref<{}>,
 ) => {
   const { colors: { border }, borderRadius } = useTheme();
@@ -86,7 +88,7 @@ const ReactionForm: React.FC<ReactionFormProps> = (
       <Flex flexDirection="column" border={`1px solid ${border}`} borderRadius={borderRadius}>
         <FormHeader closeForm={closeForm} />
         <MarkdownMessageEdition placeholder={placeholder} message={message} setMessage={setMessage} />
-        <SubmitButton disabled={message.length === 0} />
+        <SubmitButton loading={loading} disabled={message.length === 0} />
       </Flex>
     </form>
   );
@@ -124,12 +126,15 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
   });
 
   useEffect(() => {
-    if (data)
+    if (data) {
       onCreated(data);
 
-    if (formRef.current)
-      formRef.current.clear();
-  }, [data, onCreated, formRef]);
+      if (formRef.current)
+        formRef.current.clear();
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, formRef]);
 
   return (
     <ReactionFormRef
@@ -139,6 +144,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
           ? `Répondez à ${parent.author.nick}`
           : 'Composez votre message...'
       }
+      loading={loading}
       onSubmit={onSubmit}
       closeForm={closeForm}
     />
@@ -163,11 +169,14 @@ export const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reacti
   const onSubmit = (text: string) => postReaction({ data: { text } });
 
   useEffect(() => {
-    if (data)
+    if (data) {
       onEdited(data);
 
-    if (formRef.current)
-      formRef.current.clear();
+      if (formRef.current)
+        formRef.current.clear();
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, onEdited, formRef]);
 
   return (
@@ -175,6 +184,7 @@ export const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reacti
       ref={formRef}
       placeholder="Éditez votre message..."
       preloadedMessage={reaction.text}
+      loading={loading}
       onSubmit={onSubmit}
       closeForm={closeForm}
     />
