@@ -31,16 +31,14 @@ export const useReactionReplies = (parent: Reaction) => {
       fetch();
   };
 
-  const addReply = useCallback((reply: Reaction) => {
-    setReplies([reply, ...replies]);
-  }, [replies]);
+  const addReply = (reply: Reaction) => setReplies([reply, ...replies]);
 
-  const replaceReplyAt = useCallback((index: number, reply: Reaction) => {
+  const replaceReplyAt = (index: number, reply: Reaction) => {
     setReplies([
       ...replies.slice(0, index),
       reply,
       ...replies.slice(index + 1)]);
-  }, [replies]);
+  };
 
   return [
     { replies, loading, error },
