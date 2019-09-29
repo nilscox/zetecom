@@ -9,7 +9,7 @@ import useQueryString from 'src/hooks/useQueryString';
 
 import Integration from './Integration';
 
-const DOMAIN_NAME_REGEXP = /^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)/;
+const DOMAIN_NAME_REGEXP = /^(?:https?:\/\/)?(?:[^@/\n]+@)?(?:www\.)?([^:/?\n]+)/;
 
 const UrlIntegration: React.FC<RouteComponentProps> = () => {
   const { url } = useQueryString();

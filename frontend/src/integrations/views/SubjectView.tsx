@@ -19,13 +19,13 @@ import SubjectComponent from 'src/components/subject/Subject';
 import ReactionsList from 'src/components/reaction/ReactionsList';
 import ReactionForm from 'src/components/reaction/ReactionForm';
 
-import useAxios from 'src/hooks/use-axios';
+import useAxios, { ResponseData } from 'src/hooks/use-axios';
 import { parseSubject } from 'src/types/Subject';
 
 const useRootReactions = (subjectId: string, sort: SortType) => {
   const url = `/api/subject/${subjectId}/reactions` + (sort ? `?sort=${sort}` : '');
   const opts = { url, withCredentials: true };
-  const parse = useCallback((data: any) => data.map(parseReaction), []);
+  const parse = useCallback((data: ResponseData) => data.map(parseReaction), []);
 
   const [{ data, loading, error, status }] = useAxios(opts, parse);
   const [reactions, setReactions] = useState<Reaction[]>([]);
@@ -64,6 +64,7 @@ type SubjectViewProps = RouteComponentProps<{ id: string }>;
 
 const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
   const user = useCurrentUser();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
   const { sizes: { big }, colors: { border }, borderRadius } = useTheme();
 

@@ -4,6 +4,7 @@ const useResponsive = (breakpoint = 1000) => {
   const { innerWidth: width } = window;
   const isMobile = width < breakpoint;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function choose<T = any>(options: { mobile: T; desktop: T }): T {
     if (isMobile)
       return options.mobile;

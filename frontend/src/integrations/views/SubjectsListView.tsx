@@ -20,7 +20,7 @@ import SortSelect from 'src/components/common/SortSelect';
 import SubjectsList, { SubjectsListProps } from 'src/components/subject/SubjectsList';
 import SubjectForm from 'src/components/subject/SubjectForm';
 
-import useAxios from 'src/hooks/use-axios';
+import useAxios, { ResponseData } from 'src/hooks/use-axios';
 
 const SubjectsListOrNotFound: React.FC<SubjectsListProps> = (props) => {
   if (!props.subjects.length) {
@@ -38,7 +38,7 @@ const useSubjects = (informationId: number, sort: SortType, search?: string) => 
   const [searchDebounced] = useDebounce(search, 300);
   const qs = queryString.stringify({ sort, search: searchDebounced });
   const url = `/api/information/${informationId}/subjects` + (qs ? '?' + qs : '');
-  const parse = useCallback((data: any) => data.map(parseSubject), []);
+  const parse = useCallback((data: ResponseData) => data.map(parseSubject), []);
 
   return useAxios(url, parse);
 };

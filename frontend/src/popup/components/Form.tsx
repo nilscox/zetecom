@@ -26,7 +26,7 @@ export const useFormErrors = (
     setGlobal(g);
     setFields(f);
     setHandled(!!error && (!!g || !!f));
-  }, [error]);
+  }, [error, getGlobalError, getFieldErrors]);
 
   const reset = () => {
     setGlobal(null);

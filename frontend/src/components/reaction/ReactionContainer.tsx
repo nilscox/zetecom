@@ -8,7 +8,7 @@ import Flex from 'src/components/common/Flex';
 import Loader from 'src/components/common/Loader';
 import Collapse from 'src/components/common/Collapse';
 
-import useAxios from 'src/hooks/use-axios';
+import useAxios, { ResponseData } from 'src/hooks/use-axios';
 
 import ReactionComponent from './Reaction';
 import ReactionsList from './ReactionsList';
@@ -18,7 +18,7 @@ export const useReactionReplies = (parent: Reaction) => {
   const [replies, setReplies] = useState<Reaction[] | undefined>();
 
   const url = `/api/reaction/${parent.id}/replies`;
-  const parse = useCallback((data: any) => data.map(parseReaction), []);
+  const parse = useCallback((data: ResponseData) => data.map(parseReaction), []);
   const [{ data, loading, error }, fetch] = useAxios(url, parse, { manual: true });
 
   useEffect(() => {

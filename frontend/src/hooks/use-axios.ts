@@ -2,9 +2,12 @@ import { useMemo, useCallback } from 'react';
 import { AxiosRequestConfig } from 'axios';
 import useAxiosHook, { Options as AxiosHooksOptions } from 'axios-hooks';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ResponseData = any;
+
 export default function useAxios<T>(
   config: AxiosRequestConfig | string,
-  parse: (data: any) => T,
+  parse: (data: ResponseData) => T,
   options?: AxiosHooksOptions,
 ) {
   const [{ data, loading, error, response }, refetch] = useAxiosHook(config, options);
