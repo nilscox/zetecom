@@ -9,6 +9,8 @@ import useQueryString from 'src/hooks/useQueryString';
 
 import Integration from './Integration';
 
+const DOMAIN_NAME_REGEXP = /^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)/;
+
 const UrlIntegration: React.FC<RouteComponentProps> = () => {
   const { url } = useQueryString();
   const [margin, setMargin] = useState(0);
@@ -24,13 +26,19 @@ const UrlIntegration: React.FC<RouteComponentProps> = () => {
       if (window.parent === window)
         setMargin(15);
       else {
-        window.parent.postMessage(
-          { type: 'INTEGRATION_LOADED' },
-          'https://www.youtube.com',
-        );
+        const match = DOMAIN_NAME_REGEXP.exec(url as string);
+
+        if (!match)
+          console.warn('[CDV] Cannot find domain name from url');
+        else {
+          window.parent.postMessage(
+            { type: 'INTEGRATION_LOADED' },
+            match[0],
+          );
+        }
       }
     }
-  }, [information]);
+  }, [information, url]);
 
   if (error)
     throw error;
