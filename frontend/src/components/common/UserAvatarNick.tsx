@@ -16,7 +16,7 @@ const UserAvatarNick: React.FC<UserAvatarNickProps> = ({ user }) => {
 
   return (
     <Flex flexDirection="row" alignItems="center">
-      <UserAvatar user={user} />
+      <UserAvatar editable user={user} />
       <Box ml={big}>
         <Text size="big" bold>{ user.nick }</Text>
       </Box>

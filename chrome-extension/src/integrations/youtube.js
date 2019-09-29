@@ -13,7 +13,7 @@ function selectComments(selected, other) {
   selected.style['font-weight'] = 'bold';
   selected.style['cursor'] = 'initial';
 
-  other.style['background'] = 'transparent';
+  other.style['background'] = 'white';
   other.style['font-weight'] = 'initial';
   other.style['cursor'] = 'pointer';
 }
@@ -22,7 +22,7 @@ function createButtons() {
   const commonButtonsStyle = {};
 
   commonButtonsStyle['border'] = '1px solid #ccc';
-  commonButtonsStyle['background'] = 'transparent';
+  commonButtonsStyle['background'] = 'white';
   commonButtonsStyle['color'] = '#222';
   commonButtonsStyle['padding'] = '10px 20px';
   commonButtonsStyle['margin'] = '0';
@@ -49,6 +49,7 @@ function createButtons() {
   const buttonsGroup = document.createElement('div');
 
   buttonsGroup.style['text-align'] = 'center';
+  buttonsGroup.style['margin-bottom'] = '10px';
 
   buttonsGroup.appendChild(buttonYT);
   buttonsGroup.appendChild(buttonCDV);

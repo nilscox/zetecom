@@ -1,8 +1,9 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 
-import { UserLight } from 'src/types/User';
+import { UserLight, parseUser } from 'src/types/User';
 import UserContext from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
+import useAxios from 'src/hooks/use-axios';
 
 type ImageUploadProps = {
   allowedTypes: string[];
@@ -34,12 +35,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ allowedTypes, onUpload, child
         style={{ display: 'none' }}
         onChange={onFileChange}
       />
-      <span
-        style={{ cursor: 'pointer' }}
+      <div
+        style={{ display: 'inline-flex', cursor: 'pointer' }}
         onClick={() => fileInputRef.current.click()}
       >
         {children}
-      </span>
+      </div>
     </>
   );
 };
@@ -53,6 +54,35 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ editable = false, user }) => {
   const { user: currentUser, setUser } = useContext(UserContext);
   const { colors: { borderImage } } = useTheme();
 
+  const opts = {
+    method: 'PUT',
+    url: '/api/user/avatar',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    withCredentials: true,
+  };
+  const [{
+    data: updatedUser,
+    loading,
+    error,
+    status,
+  }, upload] = useAxios(opts, parseUser, { manual: true });
+
+  if (error)
+    throw error;
+
+  useEffect(() => {
+    if (status(200))
+      setUser(updatedUser);
+  }, [status, setUser, updatedUser]);
+
+  const onUpload = useCallback((file: File) => {
+    const formData = new FormData();
+
+    formData.append('image', file);
+
+    upload({ data: formData });
+  }, [upload]);
+
   const avatarImg = (
     <img
       style={{
@@ -60,14 +90,11 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ editable = false, user }) => {
         height: 32,
         borderRadius: 16,
         border: `1px solid ${borderImage}`,
+        opacity: loading ? 0.7 : 1,
       }}
       src={user.getAvatarUrl()}
     />
   );
-
-  const onUpload = useCallback(async (file: File) => {
-    console.log('image upload not implemented');
-  }, [setUser]);
 
   if (!editable || !currentUser || user.id !== currentUser.id)
     return avatarImg;
