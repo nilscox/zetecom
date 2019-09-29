@@ -123,7 +123,7 @@ const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
         </Flex>
       </Flex>
 
-      <Box border={`1px solid ${border}`} borderRadius={borderRadius}>
+      <Box border={`1px solid ${border}`} borderRadius={borderRadius} style={{ background: 'white' }}>
         <SubjectComponent displayReactionsLink={false} subject={subject} />
       </Box>
 

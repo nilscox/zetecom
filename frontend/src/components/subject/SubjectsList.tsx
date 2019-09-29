@@ -60,7 +60,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects }) => {
         </>
       ) }
 
-      <Box border={`1px solid ${colors.border}`} borderRadius={borderRadius}>
+      <Box border={`1px solid ${colors.border}`} borderRadius={borderRadius} style={{ background: 'white' }}>
         <SubjectComponent
           displayReactionsLink
           subject={subjects[openIdx]}

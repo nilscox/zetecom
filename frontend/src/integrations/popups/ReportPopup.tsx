@@ -78,29 +78,37 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
 
   const [{ data: reaction, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseReaction);
 
-  const opts = { method: 'POST', url: `/api/reaction/${reaction.id}/report`, withCredentials: true };
+  const opts = { method: 'POST', withCredentials: true };
   const [{
-    response,
     loading: reportLoading,
     error: reportError,
+    status,
   }, report] = useAxios(opts, () => undefined, { manual: true });
 
   if (error)
     throw error;
 
   if (reportError)
-    throw error;
+    throw reportError;
 
   useEffect(() => {
-    if (response.status === 204) {
+    if (status(201)) {
       setSuccess(true);
       setTimeout(window.close, POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT);
     }
-  }, [response, setSuccess]);
+  }, [status, setSuccess]);
 
   const onSubmit = async () => {
-    if (reaction)
-      report({ data: { reactionId: reaction.id, reportType, message: message !== '' ? message : undefined } });
+    if (reaction) {
+      report({
+        url: `/api/reaction/${reaction.id}/report`,
+        data: {
+          reactionId: reaction.id,
+          type: reportType,
+          message: message !== '' ? message : undefined,
+        },
+      });
+    }
   };
 
   const onReportTypeChange = (type: string) => {

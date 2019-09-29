@@ -120,7 +120,7 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onC
 
   return (
     <form onSubmit={onSubmit}>
-      <Flex flexDirection="column" style={{ border: `1px solid ${border}`, borderRadius }}>
+      <Flex flexDirection="column" style={{ border: `1px solid ${border}`, borderRadius, background: 'white' }}>
         <FormHeader onClose={onClose} />
         <FormSubject subject={subject} setSubject={setSubject} />
         <FormQuote quote={quote} setQuote={setQuote} />
