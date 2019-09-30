@@ -102,13 +102,8 @@ async function createUserOrLogin(user: any): Promise<IUser> {
 }
 
 async function findOrCreateInformation(information: any, creator: IUser): Promise<IInformation> {
-  const match = /watch\?v=(.*)$/.exec(information.url);
-
-  if (!match)
-    throw new Error('Missing youtubeId in URL: ' + information.url);
-
   try {
-    const { data: found } = await axios.get(`/api/information/by-youtubeId/${match[1]}`);
+    const { data: found } = await axios.get(`/api/information/by-url/${information.url}`);
 
     return found;
   } catch (e) {
