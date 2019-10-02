@@ -5,16 +5,18 @@ type ImageProps = {
   src: string;
   alt?: string;
   style?: React.CSSProperties;
+  containerStyle?: React.CSSProperties,
+  float?: React.CSSProperties['float'];
   maximize?: boolean;
 };
 
-const Image: React.FC<ImageProps> = ({ src, alt, style, maximize = false }) => {
+const Image: React.FC<ImageProps> = ({ src, alt, style, containerStyle, float, maximize = false }) => {
   const [open, setOpen] = useState(false);
   const image = (
     <img
       alt={alt || 'image'}
       src={src}
-      style={{ border: '1px solid #CCC', ...style }}
+      style={{ border: '1px solid #CCC', boxSizing: 'border-box', ...style }}
     />
   );
 
@@ -23,9 +25,18 @@ const Image: React.FC<ImageProps> = ({ src, alt, style, maximize = false }) => {
 
   return (
     <>
-      <figure style={{ textAlign: 'center', color: '#999', cursor: 'pointer' }} onClick={() => setOpen(true)}>
+      <figure
+        style={{
+          textAlign: 'center',
+          color: '#999',
+          cursor: 'pointer',
+          float,
+          ...containerStyle,
+        }}
+        onClick={() => setOpen(true)}
+      >
         { image }
-        <figcaption style={{ fontSize: '0.6em', lineHeight: 0 }}>
+        <figcaption style={{ fontSize: '0.7em', lineHeight: '5px' }}>
           Cliquez sur l'image pour l'afficher en grand.
         </figcaption>
       </figure>
