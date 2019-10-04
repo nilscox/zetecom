@@ -14,7 +14,7 @@ import { parseUser } from 'src/types/User';
 
 const getGlobalError = (error: AxiosError) => {
   if (!error || !error.response)
-    return null;
+    return;
 
   const { response: { status, data: { message } } } = error;
 
@@ -23,13 +23,11 @@ const getGlobalError = (error: AxiosError) => {
 
   if (status === 401 && message === 'EMAIL_NOT_VALIDATED')
     return 'Votre adresse email n\'a pas été validée, verifiez dans vos spams !';
-
-  return null;
 };
 
 const getFieldErrors = (error: AxiosError) => {
   if (!error || !error.response || error.response.status !== 400)
-    return null;
+    return;
 
   const fields = error.response.data;
 
@@ -54,11 +52,7 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
   const opts = { method: 'POST', url: '/api/auth/login', withCredentials: true };
   const [{ data: user, loading, error, status }, login] = useAxios(opts, parseUser, { manual: true });
 
-  const [globalError, fieldErrors, resetErrors, errorsHandled] = useFormErrors(error, getGlobalError, getFieldErrors);
-  const errors = fieldErrors || {};
-
-  if (error && !errorsHandled)
-    throw error;
+  const [globalError, errors = {}, resetErrors] = useFormErrors(error, getGlobalError, getFieldErrors);
 
   const onSubmit = (values: { [fields: string]: string }) => login({
     data: {

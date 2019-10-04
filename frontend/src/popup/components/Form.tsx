@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 import { useTheme } from 'src/utils/Theme';
 import Box from 'src/components/common/Box';
@@ -11,33 +11,40 @@ export type GlobalErrorHandler = (error: Error) => string | null;
 export type FieldErrorsHandler = (error: Error) => ({ [key: string]: string });
 
 export const useFormErrors = (
-  error: Error,
+  error: Error | undefined,
   getGlobalError: GlobalErrorHandler,
   getFieldErrors: FieldErrorsHandler,
 ) => {
-  const [global, setGlobal] = useState(getGlobalError(error));
-  const [fields, setFields] = useState(getFieldErrors(error));
-  const [handled, setHandled] = useState(!!error && (!!global || !!fields));
+  const [unhandledError, setUnhandledError] = useState();
+  const [global, setGlobal] = useState();
+  const [fields, setFields] = useState();
+
+  if (unhandledError)
+    throw unhandledError;
 
   useEffect(() => {
+    if (!error)
+      return;
+
     const g = getGlobalError(error);
     const f = getFieldErrors(error);
 
     setGlobal(g);
     setFields(f);
-    setHandled(!!error && (!!g || !!f));
+
+    if (!!error && !g && !f)
+      setUnhandledError(error);
   }, [error, getGlobalError, getFieldErrors]);
 
   const reset = () => {
-    setGlobal(null);
-    setFields(null);
+    setGlobal(undefined);
+    setFields(undefined);
   };
 
   return [
     global,
     fields,
     reset,
-    handled,
   ] as const;
 };
 

@@ -49,7 +49,7 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
 
 const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
   if (!error || !error.response)
-    return null;
+    return;
 
   const { response: { status, data: { message } } } = error;
 
@@ -61,13 +61,11 @@ const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
 
   if (status === 400 && message === 'EMAIL_ALREADY_EXISTS')
     return 'Cette adresse email est déjà utilisée.';
-
-  return null;
 };
 
 const getFieldErrors: FieldErrorsHandler = (error: AxiosError) => {
   if (!error || !error.response || error.response.status !== 400)
-    return null;
+    return;
 
   const fields = error.response.data;
 
@@ -88,7 +86,6 @@ const getFieldErrors: FieldErrorsHandler = (error: AxiosError) => {
 
     if (field === 'password' && constraint === 'maxLength')
       return 'Ce mot de passe est trop long... :o';
-
   };
 
   return Object.keys(fields)
@@ -106,8 +103,7 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
   const opts = { method: 'POST', url: '/api/auth/signup', withCredentials: true };
   const [{ data: user, loading, error, status }, signup] = useAxios(opts, parseUser, { manual: true });
 
-  const [globalError, fieldErrors, resetErrors, handled] = useFormErrors(error, getGlobalError, getFieldErrors);
-  const errors = fieldErrors || {};
+  const [globalError, errors = {}, resetErrors] = useFormErrors(error, getGlobalError, getFieldErrors);
 
   const submitSignup = async (values: { [field: string]: string }) => signup({
     data: {
@@ -135,9 +131,6 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
 
     return true;
   };
-
-  if (!loading && error && !handled)
-    throw error;
 
   return (
     <>
