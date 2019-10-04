@@ -5,7 +5,7 @@ type ImageProps = {
   src: string;
   alt?: string;
   style?: React.CSSProperties;
-  containerStyle?: React.CSSProperties,
+  containerStyle?: React.CSSProperties;
   float?: React.CSSProperties['float'];
   maximize?: boolean;
 };

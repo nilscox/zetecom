@@ -9,7 +9,6 @@ import DownloadExtension from './components/DownloadExtensionButton';
 import Image from './components/Image';
 import Flex from 'src/components/common/Flex';
 import { Link } from 'react-router-dom';
-import { TextAndImage } from './components/TextAndImage';
 import Break from 'src/components/common/Break';
 import useResponsive from './hooks/useResponsive';
 
