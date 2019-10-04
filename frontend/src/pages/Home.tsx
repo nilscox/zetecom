@@ -168,12 +168,12 @@ const Home: React.FC = () => (
 
     <p style={{ fontSize: 18 }}>
       <Text>
-        Depuis quelques dizaines d'années, les évolutions technologiques ont enclenchées une vrai{' '}
-        <a href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</a>, qui a
-        radicalement bouleversé note façon de communiquer <em>et de nous informer</em>. En
-        contrepartie, un nombre croissant de problématiques liées à l'information émergent,
-        notamment dans la diffusion de celle-ci par les médias. Les articles relatant des faits hors
-        du commun étant plus attrayants, les contenus sont parfois plus sensationnaliste que vrai.
+        Depuis quelques dizaines d'années, les évolutions technologiques ont enclenchées une vraie{' '}
+        <a href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</a>, qui a radicalement
+        bouleversé note façon de communiquer <em>et de nous informer</em>. En contrepartie, un nombre croissant de
+        problématiques liées à l'information émergent, notamment dans la diffusion de celle-ci par les médias. Les
+        articles relatant des faits hors du commun étant plus attrayants, les contenus sont parfois plus
+        sensationnalistes que vrai.
       </Text>
     </p>
 

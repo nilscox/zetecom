@@ -37,7 +37,7 @@ const Image: React.FC<ImageProps> = ({ src, alt, style, containerStyle, float, m
       >
         { image }
         <figcaption style={{ fontSize: '0.7em', lineHeight: '5px' }}>
-          Cliquez sur l'image pour l'afficher en grand.
+          Cliquez sur l'image pour l'agrandir.
         </figcaption>
       </figure>
 

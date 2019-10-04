@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useTheme } from 'src/utils/Theme';
 import Box from 'src/components/common/Box';

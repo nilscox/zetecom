@@ -30,8 +30,8 @@ const questions = [
     question: 'Comment créer une nouvelle zone de commentaires ?',
     answer: (
       <>
-        Il est nécéssaire de <a href="#contact">contacter</a> l'équaoeaeipe qui développe le projet pour demander
-        l'ajout d'une nouvelle zone de commentaire.
+        Il est nécéssaire de <a href="#contact">contacter</a> l'équipe qui développe le projet pour demander l'ajout
+        d'une nouvelle zone de commentaire.
       </>
     ),
   },
@@ -49,11 +49,20 @@ const questions = [
     answer: 'Les messages signalés sont traités par des membres volontaires de la communauté.',
   },
   {
-    question: 'Comment supprimer un compte sur CDV ?',
+    question: 'Qui peut devenir modérateur ?',
+    answer: (
+      <>
+        Tous les membres de la communauté ! Si vous êtes motivé(e), <a href="#contact">contactez</a> l'équipe qui
+        développe le projet pour expliquer les raisons qui motivent ce choix, nous en discuterons directement.
+      </>
+    ),
+  },
+  {
+    question: 'Comment supprimer un compte de CDV ?',
     answer: (
       <>
         Il est possible de supprimer un compte en <a href="#contact">contactant</a> l'équipe qui développe
-        le projet.
+        le projet par email, depuis l'adresse associée au compte à supprimer.
       </>
     ),
   },
@@ -61,17 +70,8 @@ const questions = [
     question: 'Comment modifier le mot de passe d\'un compte ?',
     answer: (
       <>
-        Pour modifier le mot de passe d'un compte, il faut passer par la page de mot de passe oublié, accessible dans
-        la popup lorsque vous n'êtes pas connecté.
-      </>
-    ),
-  },
-  {
-    question: 'Peut-on proposer des évolutions de la charte ?',
-    answer: (
-      <>
-        Si vous avez des idées pour améliorer la charte, que ce soit sur le fond ou sur la forme, vous pouvez{' '}
-        <a href="#contact">contacter</a> l'équipe qui développe le projet.
+        Pour modifier le mot de passe d'un compte, cliquez sur le lien "mot de passe oublié" accessible via la popup de
+        l'extension lorsque vous n'êtes pas connecté.
       </>
     ),
   },
@@ -100,9 +100,10 @@ const questions = [
     question: 'Peut-on participer au projet',
     answer: (
       <>
-        Si vous souhaitez participer au projet, vous êtes invités à <a href="#contact">contactez</a> l'équipe
-        qui développe le projet pour en discuter. Et si vous êtes développeurs et que le projet vous intéresse
-        techniquement, les source sont <a href={env.GITHUB_REPO_URL}>disponibles sur github</a>.
+        Si vous souhaitez participer au projet, pour donner des feedbacks ou proposer des axes d'amélioration, vous êtes
+        invité(e) à <a href="#contact">contactez</a> l'équipe qui développe le projet pour en discuter. Et si vous êtes
+        développeurs et que le projet vous intéresse techniquement, les source sont disponibles sur{' '}
+        <a href={env.GITHUB_REPO_URL}>github</a>.
       </>
     ),
   },
