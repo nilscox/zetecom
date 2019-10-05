@@ -33,6 +33,7 @@
     "@babel/preset-env": "^7.6.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.6.0",
+    "@cypress/webpack-preprocessor": "^4.1.0",
     "@types/lru-cache": "^5.1.0",
     "@types/react-collapse": "^4.0.2",
     "@types/react-dom": "^16.9.0",
@@ -47,6 +48,8 @@
     "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.2.0",
+    "cypress": "^3.4.1",
+    "cypress-cucumber-preprocessor": "^1.16.1",
     "dotenv": "^8.1.0",
     "dotenv-webpack": "^1.7.0",
     "eslint": "^6.3.0",
@@ -57,6 +60,7 @@
     "react-hot-loader": "^4.12.12",
     "rimraf": "^3.0.0",
     "style-loader": "^1.0.0",
+    "ts-loader": "^6.2.0",
     "typescript": "^3.6.2",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8",
@@ -64,5 +68,8 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
   }
 }

@@ -11,6 +11,7 @@ const Header: React.FC = () => {
 
   return (
     <Flex
+      data-e2e="header"
       flexDirection="row"
       alignItems="center"
       mt={40}

@@ -43,7 +43,7 @@ const NavLink: React.FC<NavLinkProps & { disabled?: boolean }> = ({ disabled, ..
 };
 
 const NavigationDesktop: React.FC = () => (
-  <nav style={{ flex: 1, position: 'relative' }}>
+  <nav data-e2e="navigation" style={{ flex: 1, position: 'relative' }}>
     <ul style={{ listStyleType: 'none', position: 'sticky', top: 30, marginTop: 30 }}>
       <NavLink to="/">Accueil</NavLink>
       <NavLink to="/utilisation">Utilisation</NavLink>
@@ -59,7 +59,15 @@ const NavigationMobile: React.FC<{ location: RouteComponentProps['location'] }> 
 
   if (dropdown) {
     return (
-      <nav style={{ position: 'relative', height: 40, zIndex: 1 }} onClick={() => showDropdown(false)}>
+      <nav
+        data-e2e="navigation"
+        style={{
+          position: 'relative',
+          height: 40,
+          zIndex: 1,
+        }}
+        onClick={() => showDropdown(false)}
+      >
         <ul
           style={{
             listStyleType: 'none',

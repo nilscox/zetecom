@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "strict": true,
+    "esModuleInterop": true,
+    "types": ["cypress"]
+  },
+  "include": [
+    "integration",
+    "support"
+  ]
+}
