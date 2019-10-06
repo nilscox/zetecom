@@ -4,13 +4,7 @@ import { NavLink as ReactRouterNavLink, NavLinkProps, RouteComponentProps } from
 import Flex from 'src/components/common/Flex';
 import useResponsive from '../hooks/useResponsive';
 
-const routes = {
-  '/': 'Accueil',
-  '/utilisation': 'Utilisation',
-  '/charte': 'La charte',
-  '/motivations': 'Motivations',
-  '/faq': 'FAQ',
-};
+import { routes } from '../index';
 
 const NavLink: React.FC<NavLinkProps & { disabled?: boolean }> = ({ disabled, ...props }) => {
   const { choose } = useResponsive();
@@ -45,11 +39,9 @@ const NavLink: React.FC<NavLinkProps & { disabled?: boolean }> = ({ disabled, ..
 const NavigationDesktop: React.FC = () => (
   <nav data-e2e="navigation" style={{ flex: 1, position: 'relative' }}>
     <ul style={{ listStyleType: 'none', position: 'sticky', top: 30, marginTop: 30 }}>
-      <NavLink to="/">Accueil</NavLink>
-      <NavLink to="/utilisation">Utilisation</NavLink>
-      <NavLink to="/charte">La charte</NavLink>
-      <NavLink to="/motivations">Motivations</NavLink>
-      <NavLink to="/faq">FAQ</NavLink>
+      { routes.map(({ id, path, label }) => (
+        <NavLink key={id} to={path}>{ label }</NavLink>
+      )) }
     </ul>
   </nav>
 );
@@ -79,11 +71,9 @@ const NavigationMobile: React.FC<{ location: RouteComponentProps['location'] }> 
             borderBottom: '1px solid #CCC',
           }}
         >
-          <NavLink to="/">Accueil</NavLink>
-          <NavLink to="/utilisation">Utilisation</NavLink>
-          <NavLink to="/charte">La charte</NavLink>
-          <NavLink to="/motivations">Motivations</NavLink>
-          <NavLink to="/faq">FAQ</NavLink>
+          { routes.map(({ id, path, label }) => (
+            <NavLink key={id} to={path}>{ label }</NavLink>
+          )) }
         </ul>
       </nav>
     );
@@ -108,7 +98,7 @@ const NavigationMobile: React.FC<{ location: RouteComponentProps['location'] }> 
           }}
           onClick={() => showDropdown(!dropdown)}
         >
-          ≡ { (routes)[location.pathname as keyof typeof routes] }
+          ≡ { (routes)[location.pathname as keyof typeof routes].label }
         </span>
       </Flex>
     </nav>
