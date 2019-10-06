@@ -10,7 +10,7 @@ window.addEventListener('message', (evt) => {
 function render(articleContent) {
   const iframe = document.createElement('iframe');
 
-  iframe.id = 'cdv-iframe';
+  iframe.id = 'ri-iframe';
   iframe.src = `${BASE_URL}/integration?url=${window.location.href}`;
   iframe.scrolling = 'no';
   iframe.frameBorder = 'no';
@@ -28,7 +28,7 @@ function main() {
   const articleContent = document.getElementsByClassName('article__content')[0];
 
   if (!articleContent) {
-    // console.warn('[CDV] element "section.article__content" not found');
+    // console.warn('element "section.article__content" not found');
     return setTimeout(main, 500);
   }
 

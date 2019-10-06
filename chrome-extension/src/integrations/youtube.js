@@ -29,22 +29,22 @@ function createButtons() {
   commonButtonsStyle['outline'] = 'none';
 
   const buttonYT = document.createElement('button');
-  const buttonCDV = document.createElement('button');
+  const buttonRI = document.createElement('button');
 
   Object.assign(buttonYT.style, commonButtonsStyle);
-  Object.assign(buttonCDV.style, commonButtonsStyle);
+  Object.assign(buttonRI.style, commonButtonsStyle);
 
   buttonYT.style['border-bottom-left-radius'] = '4px';
   buttonYT.style['border-top-left-radius'] = '4px';
-  buttonCDV.style['border-bottom-right-radius'] = '4px';
-  buttonCDV.style['border-top-right-radius'] = '4px';
+  buttonRI.style['border-bottom-right-radius'] = '4px';
+  buttonRI.style['border-top-right-radius'] = '4px';
 
-  buttonCDV.style['border-left'] = 'none';
+  buttonRI.style['border-left'] = 'none';
 
-  selectComments(buttonCDV, buttonYT);
+  selectComments(buttonRI, buttonYT);
 
   buttonYT.innerText = 'Commentaires YouTube';
-  buttonCDV.innerText = 'Commentaires CDV';
+  buttonRI.innerText = 'Commentaires RI';
 
   const buttonsGroup = document.createElement('div');
 
@@ -53,35 +53,35 @@ function createButtons() {
   buttonsGroup.style['margin-bottom'] = '10px';
 
   buttonsGroup.appendChild(buttonYT);
-  buttonsGroup.appendChild(buttonCDV);
+  buttonsGroup.appendChild(buttonRI);
 
   return {
     buttons: buttonsGroup,
     buttonYT,
-    buttonCDV,
+    buttonRI,
   };
 }
 
 function render(youtubeId, youtubeComments, setButtons, setIntegration) {
   const integration = document.createElement('div');
   const iframe = document.createElement('iframe');
-  const { buttons, buttonYT, buttonCDV } = createButtons();
+  const { buttons, buttonYT, buttonRI } = createButtons();
 
   buttonYT.onclick = () => {
-    selectComments(buttonYT, buttonCDV);
+    selectComments(buttonYT, buttonRI);
 
     integration.style.display = 'none';
     youtubeComments.style.display = 'block';
   };
 
-  buttonCDV.onclick = () => {
-    selectComments(buttonCDV, buttonYT);
+  buttonRI.onclick = () => {
+    selectComments(buttonRI, buttonYT);
 
     youtubeComments.style.display = 'none';
     integration.style.display = 'block';
   };
 
-  iframe.id = 'cdv-iframe';
+  iframe.id = 'ri-iframe';
   iframe.src = `${BASE_URL}/integration/youtube?youtubeId=${youtubeId}`;
   iframe.scrolling = 'no';
   iframe.style.width = '1px';

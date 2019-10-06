@@ -1,5 +1,6 @@
 {
-  "name": "cdv-chrome-extension",
+  "name": "reagir-information-chrome-extension",
+  "description": "Réagir à l'information - Chrome extension",
   "version": "0.3.0",
   "scripts": {
     "start": "concurrently \"yarn build:popup:watch\" \"yarn build:integrations:watch\" \"yarn build:bg-script:watch\"",
@@ -11,7 +12,7 @@
     "build:integrations:watch": "yarn build:integrations --watch",
     "build:bg-script": "cp src/background_script.js extension",
     "build:bg-script:watch": "watch \"yarn build:bg-script\" src",
-    "zip": "(cd extension && zip -r ../cdv-chrome-extension.zip .)"
+    "zip": "(cd extension && zip -r ../reagir-information-chrome-extension.zip .)"
   },
   "dependencies": {
     "iframe-resizer": "^4.1.1"

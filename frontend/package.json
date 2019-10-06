@@ -1,4 +1,6 @@
 {
+  "name": "reagir-information-frontend",
+  "description": "Réagir à l'information - Frontend",
   "version": "0.3.0",
   "licence": "MIT",
   "scripts": {

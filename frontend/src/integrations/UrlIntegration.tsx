@@ -29,7 +29,7 @@ const UrlIntegration: React.FC<RouteComponentProps> = () => {
         const match = DOMAIN_NAME_REGEXP.exec(url as string);
 
         if (!match)
-          console.warn('[CDV] Cannot find domain name from url');
+          console.warn('Cannot find domain name from url');
         else {
           window.parent.postMessage(
             { type: 'INTEGRATION_LOADED' },
@@ -49,7 +49,7 @@ const UrlIntegration: React.FC<RouteComponentProps> = () => {
   if (status(404)) {
     return (
       <div style={{ height: '100%' }}>
-        L'espace de commentaire CDV n'est pas activé sur cette page.
+        L'espace de commentaire n'est pas activé sur cette page.
       </div>
     );
   }

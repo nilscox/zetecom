@@ -39,7 +39,7 @@ const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
     return <Loader size="big" />;
 
   if (!information)
-    return <div>L'espace de commentaire CDV n'est pas activé sur cette vidéo.</div>;
+    return <div>L'espace de commentaire n'est pas activé sur cette vidéo.</div>;
 
   return (
     <div style={{
