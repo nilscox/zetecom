@@ -9,7 +9,7 @@ import Note from './components/Note';
 /*
 
 - 1. En tant que lecteur
-  - 1.1. Je suis invité à lire les réactions des autres utilisateurs de CDV, en bonne intélligence.
+  - 1.1. Je suis invité à lire les réactions des autres utilisateurs, en bonne intélligence.
   - 1.2. Je comprends et j'interprète le message avec recul et méthode.
   - 1.3. Je vérifie les sources.
   - 1.4. J'estime à quelle point je pense que la réaction est vraie et apporte du sens à mon opinion.
@@ -32,14 +32,15 @@ const Rules: React.FC = () => {
   return (
     <>
 
-      <Title id="charte">La charte de CDV</Title>
+      <Title id="charte">La charte de Réagir à l'information</Title>
 
       <SubTitle id="introduction">Introduction</SubTitle>
 
       <p>
         La charte présente une liste de règles qu'il est important de lire et de comprendre dans le but de donner un
-        cadre aux discussions présentes sur CDV. Ces règles sont simples, et présentées de manière à ce qu'elles soient
-        comprises au mieux par l'ensemble des utilisateurs. Réservez une dizaine de minutes à leur lecture.
+        cadre aux discussions présentes sur Réagir à l'information. Ces règles sont simples, et présentées de manière à
+        ce qu'elles soient comprises au mieux par l'ensemble des utilisateurs. Réservez une dizaine de minutes à leur
+        lecture.
       </p>
 
       <p>
@@ -50,24 +51,24 @@ const Rules: React.FC = () => {
 
       <p>
         Dans un but d'amélioration continue, ces règles évoluent ! De temps en temps, il est possible que certaines
-        règles de la charte soient mises à jour, dans le but de mieux correspondre avec les valeurs de CDV. Lorsque
-        cela arrive, un email vous informant des dernières modifications vous est envoyé. De plus, chacun peut proposer
-        des possibilités d'évolution (formulation, exemples, points manquants...).
+        règles de la charte soient mises à jour, dans le but de mieux correspondre avec les valeurs de la communauté.
+        Lorsque cela arrive, un email vous informant des dernières modifications vous est envoyé. De plus, chacun peut
+        proposer des possibilités d'évolution (formulation, exemples, points manquants...).
       </p>
 
       <SubTitle id="1 En tant que lecteur">1. En tant que lecteur</SubTitle>
 
       <Rule>
-        1.1. Je suis invité à lire les réactions des autres utilisateurs de CDV, en bonne intelligence.
+        1.1. Je suis invité à lire les réactions des autres utilisateurs, en bonne intelligence.
       </Rule>
 
       <Note>
-        Les utilisateurs de CDV ont des choses à dire, et vous serez sans doute intéressés de les lire. Pour bien
-        comprendre l'auteur d'une réaction, il est important de commencer par mettre de côté ses préjugés et aprioris
-        sur le sujet, dans le but d'éviter de comprendre une version biaisée du message. Il faut donc <em>suspendre son
-        jugement</em> le temps de la lecture. Chacun a sa vision du monde, les mots utilisés ont peut-être un sens
-        légèrement différent pour vous et pour l'auteur. Jouez le jeu, et tentez de comprendre le fond du message qu'il
-        a voulu transmettre.
+        Chacun à son mot à dire, et vous serez sans doute intéressés de lire ce que les internautes pensent de
+        l'information. Pour bien comprendre l'auteur d'une réaction, il est important de commencer par mettre de côté
+        ses préjugés et aprioris sur le sujet, dans le but d'éviter de comprendre une version biaisée du message. Il
+        faut donc <em>suspendre son jugement</em> le temps de la lecture. Chacun a sa vision du monde, les mots utilisés
+        ont peut-être un sens légèrement différent pour vous et pour l'auteur. Jouez le jeu, et tentez de comprendre le
+        fond du message qu'il a voulu transmettre.
       </Note>
 
       <Rule>1.2. Je comprends et j'interprète le message avec recul et méthode.</Rule>

@@ -18,12 +18,12 @@ import useResponsive from './hooks/useResponsive';
 
 /*
 
-Chercheurs de Vérité
+Réagir à l'information
 Décryptons l'information !
 
 En 10 mots:
-  - CDV est un espace de discussions collaboratives en réaction à l'information
-  - CDV est un espace d'échange collaboratif en réaction à l'information
+  - Réagir à l'information est un espace de discussions collaboratives en réaction à l'information
+  - Réagir à l'information est un espace d'échange collaboratif en réaction à l'information
 
 Pourquoi ?
   - Rassembler une communauté de personnes pour réfléchir ensemble à ce que disent les médias
@@ -31,7 +31,7 @@ Pourquoi ?
   - Offrir une place aux débats dans un climat de confiance sur la toile
 
 Comment ?
-  - Des zones de commentaires liées à cdv intégrées sur les sites d'information
+  - Des zones de commentaires liées à Réagir à l'information intégrées sur les sites d'information
   - Un tri des commentaires par pertinence
   - Un cadre saint et rigoureux dans les échanges, instauré par une charte
   - Des messages correctement formatés pour maximiser la clarté des propos
@@ -104,7 +104,7 @@ const Pitch: React.FC = () => (
   <Outline>
     <p>
       <Link to="/">
-        <em>Chercheurs de vérité</em>
+        <em>Réagir à l'information
       </Link>
       , c'est une plateforme qui donne accès à un <strong>espace d'échange collaboratif</strong>,
       pour réagir à l'information diffusée par les médias.
@@ -131,15 +131,15 @@ const What: React.FC = () => {
   return (
     <>
       <Box mt={40} mb={20}>
-        <Title id="Que propose CDV">Que propose CDV ?</Title>
+        <Title id="Que propose Réagir à l'information">Que propose Réagir à l'information ?</Title>
       </Box>
 
       <Flex flexDirection={choose({ desktop: 'row', mobile: 'column' })}>
         <div style={{ flex: 1, marginBottom: choose({ desktop: undefined, mobile: 15 }) }}>
           <Image
             maximize
-            src="/assets/images/youtube-cdv.gif"
-            alt="screenshot youtube cdv"
+            src="/assets/images/youtube-ri.gif"
+            alt="screenshot youtube réagir à l'information"
             style={{ width: '100%' }}
           />
         </div>
@@ -179,11 +179,10 @@ const Home: React.FC = () => (
 
     <p style={{ fontSize: 18 }}>
       <Text>
-        Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensembles, intelligemment,
-        face à cette abondance d'information sur internet ? CDV a pour ambition d'apporter des
-        solutions à ces problématiques, en proposant une plateforme qui <em>vous</em> permet de
-        réagir librement aux médias sur internet, comme des articles de presse ou des vidéos sur
-        YouTube.
+        Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensembles, intelligemment, face à cette
+        abondance d'information sur internet ? Réagir à l'information a pour ambition d'apporter des solutions à ces
+        problématiques, en proposant une plateforme qui <em>vous</em> permet de réagir librement aux médias sur
+        internet, comme des articles de presse ou des vidéos sur YouTube.
       </Text>
     </p>
 
@@ -217,7 +216,7 @@ const Home: React.FC = () => (
     <p style={{ fontSize: 18 }}>
       <Text>
         Vous voulez en savoir plus ? La page <Link to="/motivations">motivation</Link> explique plus
-        en détail les raisons pour lesquelles CDV a vu le jour, et l'état d'esprit du projet. Et
+        en détail les raisons pour lesquelles le projet a vu le jour, et l'état d'esprit du projet. Et
         pour commencer à utiliser l'extension dès maintenant, rendez-vous sur la page{' '}
         <Link to="/utilisation">utilisation</Link>. A bientôt sur internet !
       </Text>

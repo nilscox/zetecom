@@ -60,8 +60,8 @@ const Motivations: React.FC = () => {
     <>
 
       <em style={{ display: 'block', margin: '30px 0' }}>
-        Cette page décrit plus en détail les raisons pour lesquelles CDV a vu le jour, et les problématiques auxquelles
-        le projet tente d'apporter des solutions. Mais... elle est en cours de rédaction ! Revenez vite :)
+        Cette page décrit plus en détail les raisons pour lesquelles ce projet a vu le jour, et les problématiques
+        auxquelles le projet tente d'apporter des solutions. Mais... elle est en cours de rédaction ! Revenez vite :)
       </em>
 
       <p style={{ display: 'none' }}>

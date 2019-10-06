@@ -156,16 +156,16 @@ const Usage: React.FC = () => (
     <DownloadExtension>Installer l'extension chrome</DownloadExtension>
 
     <p>
-      Une fois l'extension installée, il vous est possible de consulter les zones de commentaires CDV sur certains
-      sites. Pour le moment, elles ne sont activées que sur certaines vidéos YouTube. Bientôt, d'autres sites
-      d'informations seront supportés.
+      Une fois l'extension installée, il vous est possible de consulter les zones de commentaires intégrées sur certains
+      sites internet. Pour le moment, elles ne sont activées que sur certaines vidéos YouTube. Plus tard, bien d'autres
+      sites d'informations seront supportés.
     </p>
 
     <Title id="Utilisation">Utilisation</Title>
 
     <p>
-      Lorsque vous visitez un site qui intègre une zone de commentaires CDV, l'icône de l'extension affiche un badge
-      vert, indiquant un statut "actif" sur cette page.
+      Lorsque vous visitez un site qui intègre une zone de commentaires propre à Réagir à l'information, l'icône de
+      l'extension affiche un badge vert, indiquant un statut "actif" sur cette page.
     </p>
 
     <p>
@@ -185,10 +185,10 @@ const Usage: React.FC = () => (
     </p>
 
     <p>
-      Si vous êtes <a href="#Inscription">inscrit sur CDV</a>, vous pouvez ouvrir un nouveau sujet. Chaque
-      sujet doit être directement rattaché à l'information, et n'être traité qu'une fois (pensez à utiliser la fonction
-      de recherche). Si vous faites référence à une partie énoncée dans l'information, utilisez le champ "citation" pour
-      la préciser. Et dans le cas d'une vidéo YouTube, à inclure son minutage.
+      Si vous êtes <a href="#Inscription">inscrit</a>, vous pouvez ouvrir un nouveau sujet. Chaque sujet doit être
+      directement rattaché à l'information, et n'être traité qu'une fois (pensez à utiliser la fonction de recherche).
+      Si vous faites référence à une partie énoncée dans l'information, utilisez le champ "citation" pour la préciser.
+      Et dans le cas d'une vidéo YouTube, à inclure son minutage.
     </p>
 
     <p>
@@ -216,9 +216,9 @@ const Usage: React.FC = () => (
     </p>
 
     <p>
-      Si une réaction n'a pas sa place dans une zone de commentaires CDV, il est possible de la signaler. Cela enverra
-      une notification aux modérateurs, qui prendront une décision en fonction de la situation. Attention cependant
-      à signaler les réactions pour de bonnes raisons ! Un message qui va à l'encontre de vos idées n'est pas un motif
+      Si une réaction n'a pas sa place dans une zone de commentaires, il est possible de la signaler. Cela enverra une
+      notification aux modérateurs, qui prendront une décision en fonction de la situation. Attention cependant à
+      signaler les réactions pour de bonnes raisons ! Un message qui va à l'encontre de vos idées n'est pas un motif
       raisonnable... Voir la section <Link to="#Modération">modération</Link> de cette page pour plus d'informations.
     </p>
 
@@ -259,7 +259,8 @@ const Usage: React.FC = () => (
     <p>
       Si vous avez quelque chose à partager avec la communauté, vous pouvez rédiger une nouvelle réaction. Vous devrez
       pour cela <Link to="#Inscription">créer un compte</Link>, et donc lire et accepter <Link to="/charte">la charte de
-      CDV</Link>. Gardez bien à l'esprit les règles de la deuxième section lorsque vous écrivez un message.
+      Réagir à l'information</Link>. Gardez bien à l'esprit les règles de la deuxième section lorsque vous écrivez un
+      message.
     </p>
 
     <p>Deux emplacements sont possibles pour créer une nouvelle réaction :</p>
@@ -283,8 +284,8 @@ const Usage: React.FC = () => (
     </p>
 
     <p>
-      Les réactions sur CDV supportent un outil de mise en page simple, permettant d'inclure des liens, du texte en gras
-      ou en italique, des listes, des tableaux, etc., via un langage de balisage, le{' '}
+      Les réactions supportent un outil de mise en page simple, permettant d'inclure des liens, du texte en gras ou en
+      italique, des listes, des tableaux, etc., via un langage de balisage, le{' '}
       <a href="https://docs.microsoft.com/fr-fr/contribute/how-to-write-use-markdown">markdown</a>. Un onglet "aperçu"
       vous permet de visualiser le message tel qu'il va apparaître, avant de le poster.
     </p>
@@ -296,16 +297,16 @@ const Usage: React.FC = () => (
     <ImagePopup />
 
     <p>
-      La création d'un compte sur la plateforme vous permettra de devenir membre de la communauté, et de participer
-      aux débats en proposant votre avis dans de nouvelles réactions, en attribuant des quick-réactions, ou encore en
-      signalant des réactions inappropriées.
+      La création d'un compte vous permettra de devenir membre de la communauté, et de participer aux débats en
+      proposant votre avis dans de nouvelles réactions, en attribuant des quick-réactions, ou encore en signalant des
+      réactions inappropriées.
     </p>
 
     <p>
-      La qualité des échanges présents sur CDV découlent de l'attention que les membres portent à la lecture de la
-      charte. Il est donc primordial de consacrer une dizaine de minutes à sa lecture avant de vous inscrire. Très loin
-      des conditions générales d'utilisations ou de textes de loi, elle énonce au contraire quelques règles, simples et
-      compréhensibles, apportant aux débats un cadre d'écoute, propice aux réflexions.
+      La qualité des échanges présents sur la plateforme découlent de l'attention que les membres portent à la lecture
+      de la charte. Il est donc primordial de consacrer une dizaine de minutes à sa lecture avant de vous inscrire. Très
+      loin des conditions générales d'utilisations ou de textes de loi, elle énonce au contraire quelques règles,
+      simples et compréhensibles, apportant aux débats un cadre d'écoute, propice aux réflexions.
     </p>
 
     <p>
@@ -328,7 +329,7 @@ const Usage: React.FC = () => (
     <SubTitle id="Suppression_du_compte">Suppression du compte</SubTitle>
 
     <p>
-      Si vous n'avez plus besoin de votre compte sur CDV, vous pouvez en demander la suppression en{' '}
+      Si vous n'avez plus besoin de votre compte, vous pouvez en demander la suppression en{' '}
       <Link to="/faq#contact">contactant</Link> l'équipe qui développe le projet.
     </p>
 
@@ -352,9 +353,9 @@ const Usage: React.FC = () => (
     <SubTitle id="Rejoindre_les_modérateurs">Rejoindre les modérateurs</SubTitle>
 
     <p>
-      La modération des échanges présents sur CDV est assurée par des membres bénévoles de la communauté. Et nous
-      accueillons avec plaisir de nouveau modérateurs ! <Link to="/faq#contact">Contactez</Link> l'équipe qui
-      développe ce projet en expliquant les raisons qui motivent ce choix, nous en discuterons directement.
+      La modération des échanges est assurée par des membres bénévoles de la communauté. Et nous accueillons avec
+      plaisir de nouveau modérateurs ! <Link to="/faq#contact">Contactez</Link> l'équipe qui développe ce projet en
+      expliquant les raisons qui motivent ce choix, nous en discuterons directement.
     </p>
 
     <Break size="big" />

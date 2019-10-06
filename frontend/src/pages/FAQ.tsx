@@ -13,7 +13,7 @@ import Tlkio from './components/Tlkio';
 
 const questions = [
   {
-    question: 'Comment créer un compte sur CDV ?',
+    question: 'Comment créer un compte sur Réaciton à l\'information ?',
     answer: (
       <>
         Le projet étant en phase de test, l'inscription n'est pas encore ouverte à tous pour l'instant. Si vous
@@ -22,10 +22,17 @@ const questions = [
       </>
     ),
   },
+
   {
     question: 'Où trouver la liste des zones de commentaires disponibles avec l\'extension ?',
-    answer: 'Pour le moment, il n\'est pas possible de lister les pages contenant une zone de commentaire CDV.',
+    answer: (
+      <>
+        Pour le moment, il n\'est pas possible de lister les pages contenant une zone de commentaire propre à la
+        platforme.
+      </>
+    )
   },
+
   {
     question: 'Comment créer une nouvelle zone de commentaires ?',
     answer: (
@@ -35,6 +42,7 @@ const questions = [
       </>
     ),
   },
+
   {
     question: 'Comment mettre en page une réaction ?',
     answer: (
@@ -44,10 +52,12 @@ const questions = [
       </>
     ),
   },
+
   {
     question: 'Comment est assurée la modération ?',
     answer: 'Les messages signalés sont traités par des membres volontaires de la communauté.',
   },
+
   {
     question: 'Qui peut devenir modérateur ?',
     answer: (
@@ -57,8 +67,9 @@ const questions = [
       </>
     ),
   },
+
   {
-    question: 'Comment supprimer un compte de CDV ?',
+    question: 'Comment supprimer un compte de la platforme ?',
     answer: (
       <>
         Il est possible de supprimer un compte en <a href="#contact">contactant</a> l'équipe qui développe
@@ -66,6 +77,7 @@ const questions = [
       </>
     ),
   },
+
   {
     question: 'Comment modifier le mot de passe d\'un compte ?',
     answer: (
@@ -75,6 +87,7 @@ const questions = [
       </>
     ),
   },
+
   {
     question: 'Comment remonter un bug ou proposer de nouvelles fonctionnalités ?',
     answer: (
@@ -83,19 +96,22 @@ const questions = [
       </>
     ),
   },
+
   {
     question: 'Comment le projet est-il financé ?',
-    answer: 'Le but de CDV n\'est pas de faire de l\'argent, et aucun financement n\'est en jeu.',
+    answer: 'Le but du projet n\'est pas de faire de l\'argent, et aucun financement n\'est en jeu.',
   },
+
   {
-    question: 'Qui développe CDV ?',
+    question: 'Qui développe Réaction à l\'information ?',
     answer: (
       <>
-        CDV est développé par une <a href="https://nils.cx">petite</a> <a href="https://bopzor.me">équipe</a> de
+        Le projet est développé par une <a href="https://nils.cx">petite</a> <a href="https://bopzor.me">équipe</a> de
         développeurs passionnés d'esprit critique et de zététique.
       </>
     ),
   },
+
   {
     question: 'Peut-on participer au projet',
     answer: (
@@ -107,6 +123,7 @@ const questions = [
       </>
     ),
   },
+
   {
     question: 'Votre question ne figure pas dans cette liste... ?',
     answer: <><a href="#contact">Contactez</a> l'équipe qui développe le projet !</>,
@@ -137,12 +154,12 @@ const Contact = () => (
   <>
     <SubTitle id="contact">Une idée à proposer ? Un bug à remonter ?</SubTitle>
 
-    <p>L'équipe à l'origine de CDV est à l'écoute via ces différents canaux de communication :</p>
+    <p>L'équipe à l'origine de Réagir à l'information est à l'écoute via ces différents canaux de communication :</p>
 
     <ul>
-      <li>Par email, à l'adresse <a href="mailto:cdv@nils.cx">cdv@nils.cx</a></li>
+      <li>Par email, à l'adresse <a href="mailto:reaction-information@nils.cx">reaction-information@nils.cx</a></li>
       <li>Sur twitter, via le compte de <a href="https://twitter.com/NilsCox">@NilsCox</a></li>
-      <li>Par chat, via <a href="https://tlk.io/cdv" target="_blank" rel="noopener noreferrer">tlk.io</a></li>
+      <li>Par chat, via <a href="https://tlk.io/reaction-information" target="_blank" rel="noopener noreferrer">tlk.io</a></li>
     </ul>
 
     <SubTitle id="chat">Chat en direct</SubTitle>
