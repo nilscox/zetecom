@@ -10,6 +10,7 @@ const ViewHeader: React.FC = () => {
 
   return (
     <Flex
+      data-e2e="popup-header"
       my={10}
       pb={medium}
       style={{
