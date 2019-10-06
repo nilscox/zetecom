@@ -30,7 +30,7 @@ const questions = [
         Pour le moment, il n\'est pas possible de lister les pages contenant une zone de commentaire propre à la
         platforme.
       </>
-    )
+    ),
   },
 
   {
@@ -159,7 +159,9 @@ const Contact = () => (
     <ul>
       <li>Par email, à l'adresse <a href="mailto:reaction-information@nils.cx">reaction-information@nils.cx</a></li>
       <li>Sur twitter, via le compte de <a href="https://twitter.com/NilsCox">@NilsCox</a></li>
-      <li>Par chat, via <a href="https://tlk.io/reaction-information" target="_blank" rel="noopener noreferrer">tlk.io</a></li>
+      <li>
+        Par chat, via <a href="https://tlk.io/reaction-information" target="_blank" rel="noopener noreferrer">tlk.io</a>
+      </li>
     </ul>
 
     <SubTitle id="chat">Chat en direct</SubTitle>

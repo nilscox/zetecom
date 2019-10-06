@@ -48,6 +48,10 @@ const NavigationDesktop: React.FC = () => (
 
 const NavigationMobile: React.FC<{ location: RouteComponentProps['location'] }> = ({ location }) => {
   const [dropdown, showDropdown] = useState(false);
+  const currentRoute = routes.find(({ path }) => path === location.pathname);
+
+  if (!currentRoute)
+    return null;
 
   if (dropdown) {
     return (
@@ -79,9 +83,6 @@ const NavigationMobile: React.FC<{ location: RouteComponentProps['location'] }> 
     );
   }
 
-  if (!Object.keys(routes).includes(location.pathname))
-    return null;
-
   return (
     <nav>
       <Flex
@@ -98,7 +99,7 @@ const NavigationMobile: React.FC<{ location: RouteComponentProps['location'] }> 
           }}
           onClick={() => showDropdown(!dropdown)}
         >
-          ≡ { (routes)[location.pathname as keyof typeof routes].label }
+          ≡ { currentRoute.label }
         </span>
       </Flex>
     </nav>

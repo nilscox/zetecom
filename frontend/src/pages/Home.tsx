@@ -104,7 +104,7 @@ const Pitch: React.FC = () => (
   <Outline>
     <p>
       <Link to="/">
-        <em>Réagir à l'information
+        <em>Réagir à l'information</em>
       </Link>
       , c'est une plateforme qui donne accès à un <strong>espace d'échange collaboratif</strong>,
       pour réagir à l'information diffusée par les médias.

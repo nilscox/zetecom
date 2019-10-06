@@ -53,6 +53,16 @@ const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
 
   const { response: { status, data: { message } } } = error;
 
+  if (status === 401 && message === 'EMAIL_NOT_AUTHORIZED') {
+    return (
+      <>
+        Les inscriptions ne sont pas encore ouvertes.<br />
+        Si vous souhaitez participer à la beta, <a href="/faq#contact" target="_blank">contactez nous</a> pour autoriser
+        votre adresse email.
+      </>
+    );
+  }
+
   if (status === 400 && message === 'PASSWORD_UNSECURE')
     return 'Ce mot de passe n\'est pas assez sécurisé.';
 

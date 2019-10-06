@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ReactNode } from 'react';
 
 import { useTheme } from 'src/utils/Theme';
 import Box from 'src/components/common/Box';
@@ -7,8 +7,8 @@ import Button from 'src/components/common/Button';
 import FormInput, { FormInputProps } from './FormInput';
 import FormError from './FormError';
 
-export type GlobalErrorHandler = (error: Error) => string | null;
-export type FieldErrorsHandler = (error: Error) => ({ [key: string]: string });
+export type GlobalErrorHandler = (error: Error) => ReactNode | null;
+export type FieldErrorsHandler = (error: Error) => ({ [key: string]: ReactNode });
 
 export const useFormErrors = (
   error: Error | undefined,
