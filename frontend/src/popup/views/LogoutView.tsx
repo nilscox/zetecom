@@ -64,8 +64,8 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
 
       <Box my={big}>
         <Text>
-          Vous êtes connecté(e) sur <Link to="/" target="_blank">CDV</Link> en tant que <em>{ user.nick }</em>.
-          La charte est accessible <Link to="/charte" target="_blank">ici</Link>.
+          Vous êtes connecté(e) sur <Link to="/" target="_blank">Réagir à l'information</Link> en tant que{' '}
+          <em>{ user.nick }</em>. La charte est accessible <Link to="/charte" target="_blank">ici</Link>.
         </Text>
       </Box>
 

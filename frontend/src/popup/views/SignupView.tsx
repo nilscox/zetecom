@@ -41,7 +41,7 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
           marginLeft: 5,
         }}
       >
-        J&apos;accepte la charte de CDV.
+        J&apos;accepte la charte.
       </Text>
     </div>
   );
@@ -141,9 +141,9 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
         <Box my={big}>
           <Text>
             <>
-              Pour créer votre compte sur CDV, c'est par ici. Avant de vous inscrire, veillez à
-              avoir lu au moins <Link to="/" target="_blank">la page de présentation</Link>, ainsi
-              que{' '} <Link to="/charte" target="_blank">la charte</Link>.
+              Pour créer votre compte sur Réagir à l'information, c'est par ici. Avant de vous inscrire, veillez à avoir
+              lu au moins <Link to="/" target="_blank">la page de présentation</Link>, ainsi que{' '}
+              <Link to="/charte" target="_blank">la charte</Link>.
             </>
           </Text>
         </Box>

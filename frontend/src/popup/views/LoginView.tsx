@@ -81,7 +81,7 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
 
         <Box my={big}>
           <Text>
-            Connectez-vous sur CDV pour interagir avec le reste de la communauté.
+            Connectez-vous sur Réagir à l'information pour interagir avec le reste de la communauté.
           </Text>
         </Box>
 
