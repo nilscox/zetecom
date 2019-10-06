@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { hot } from 'react-hot-loader/root';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { User, parseUser } from 'src/types/User';
-import { UserProvider } from 'src/utils/UserContext';
-
-import Loader from 'src/components/common/Loader';
 import { ScrollToTop } from 'src/components/common/ScrollToTop';
 import ErrorBoundary from 'src/components/common/ErrorBoundary';
 
@@ -13,56 +9,25 @@ import Popup from './popup';
 import Integrations from './integrations';
 import Pages from './pages';
 
-import useAxios from './hooks/use-axios';
-
 import './App.css';
 
-const useUser = () => {
-  const opts = { url: '/api/auth/me', validateStatus: (s: number) => [200, 403].includes(s), withCredentials: true };
-  const [{ response, data, error, status }] = useAxios(opts, parseUser);
-  const [user, setUser] = useState<User | undefined | null>();
+const App: React.FC = () => (
+  <ErrorBoundary>
+    <Router>
 
-  if (error)
-    throw error;
+      <ScrollToTop />
 
-  useEffect(() => {
-    if (response) {
-      if (status(200))
-        setUser(data);
-      else
-        setUser(null);
-    }
-  }, [response, status, data]);
+      <Switch>
 
-  return [user, setUser] as const;
-};
+        <Route path="/popup" component={Popup} />
 
-const App: React.FC = () => {
-  const [user, setUser] = useUser();
+        <Route path="/integration" component={Integrations} />
 
-  if (user === undefined)
-    return <Loader size="big" />;
+        <Route component={Pages} />
 
-  return (
-    <ErrorBoundary>
-      <UserProvider value={{ user, setUser }}>
-        <Router>
-
-          <ScrollToTop />
-
-          <Switch>
-
-            <Route path="/popup" component={Popup} />
-
-            <Route path="/integration" component={Integrations} />
-
-            <Route component={Pages} />
-
-          </Switch>
-        </Router>
-      </UserProvider>
-    </ErrorBoundary>
-  );
-};
+      </Switch>
+    </Router>
+  </ErrorBoundary>
+);
 
 export default hot(App);

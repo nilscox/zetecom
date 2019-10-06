@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   Route,
   RouteComponentProps,
@@ -7,7 +7,9 @@ import {
   withRouter,
 } from 'react-router-dom';
 
-import UserContext from 'src/utils/UserContext';
+import { UserProvider } from 'src/utils/UserContext';
+import Loader from 'src/components/common/Loader';
+import useUser from 'src/hooks/use-user';
 
 import LoginView from './views/LoginView';
 import LogoutView from './views/LogoutView';
@@ -16,23 +18,28 @@ import PostSignupView from './views/PostSignupView';
 import PasswordResetView from './views/PasswordResetView';
 
 const Popup: React.FC<RouteComponentProps> = () => {
-  const { user } = useContext(UserContext);
+  const [user, setUser] = useUser();
+
+  if (user === undefined)
+    return <Loader size="big" />;
 
   return (
-    <div style={{ paddingBottom: 15 }}>
-      <Switch>
+    <UserProvider value={{ user, setUser }}>
+      <div style={{ paddingBottom: 15 }}>
+        <Switch>
 
-        <Route path="/popup/login" component={LoginView} />
-        <Route path="/popup/signup" exact component={SignupView} />
-        <Route path="/popup/signup/post-signup" component={PostSignupView} />
-        <Route path="/popup/password-reset" component={PasswordResetView} />
+          <Route path="/popup/login" component={LoginView} />
+          <Route path="/popup/signup" exact component={SignupView} />
+          <Route path="/popup/signup/post-signup" component={PostSignupView} />
+          <Route path="/popup/password-reset" component={PasswordResetView} />
 
-        <Route path="/popup/logout" component={LogoutView} />
+          <Route path="/popup/logout" component={LogoutView} />
 
-        <Route render={() => <Redirect to={user ? '/popup/logout' : '/popup/login'} />} />
+          <Route render={() => <Redirect to={user ? '/popup/logout' : '/popup/login'} />} />
 
-      </Switch>
-    </div>
+        </Switch>
+      </div>
+    </UserProvider>
   );
 };
 
