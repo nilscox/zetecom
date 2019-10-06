@@ -103,7 +103,7 @@ const questions = [
   },
 
   {
-    question: 'Qui développe Réaction à l\'information ?',
+    question: 'Qui développe Réagir à l\'information ?',
     answer: (
       <>
         Le projet est développé par une <a href="https://nils.cx">petite</a> <a href="https://bopzor.me">équipe</a> de

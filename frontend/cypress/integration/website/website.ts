@@ -1,7 +1,7 @@
 import { Then, When } from 'cypress-cucumber-preprocessor/steps';
 
 Then('I see the header', () => {
-  cy.dataE2e('header').contains('h1', 'Chercheurs de vérité');
+  cy.dataE2e('header').contains('h1', 'Réagir à l\'information');
   cy.dataE2e('header').contains('Décryptons l\'information !');
 });
 

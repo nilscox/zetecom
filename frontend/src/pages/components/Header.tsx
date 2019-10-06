@@ -3,8 +3,8 @@ import React from 'react';
 import Flex from 'src/components/common/Flex';
 import useResponsive from '../hooks/useResponsive';
 
-const TITLE = 'Chercheurs de vérité';
-const SUBTITLE = 'Décryptons l\'information !';
+const TITLE = 'Réagir à l\'information';
+const SUBTITLE = 'Décryptons les médias !';
 
 const Header: React.FC = () => {
   const { choose } = useResponsive(800);

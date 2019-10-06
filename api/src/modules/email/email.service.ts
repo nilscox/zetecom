@@ -59,7 +59,7 @@ export class EmailService {
       });
 
       const opts: any = {
-        from: 'Chercheurs de vérité <reply-if-you-want@nils.cx>',
+        from: 'Réagir à l\'information <reply-if-you-want@nils.cx>',
         to,
         subject,
       };
