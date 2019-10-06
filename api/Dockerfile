@@ -12,5 +12,6 @@ RUN yarn --production=false
 ADD . /app
 
 RUN yarn build
+RUN yarn lint
 
 CMD yarn start:prod
