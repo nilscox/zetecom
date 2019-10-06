@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
@@ -40,6 +40,10 @@ export class UserService {
 
   async create(dto: SignupUserInDto): Promise<User> {
     const { email, password, nick, avatar } = dto;
+
+    if (!await this.emailService.isAthorized(email))
+      throw new UnauthorizedException('EMAIL_NOT_AUTHORIZED');
+
     const existing = await this.userRepository.findOne({ where: { email } });
 
     if (existing !== undefined)

@@ -1,9 +1,12 @@
 import * as path from 'path';
 import { readFileSync, readdirSync } from 'fs';
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import * as email from 'emailjs';
 
 import { User } from '../user/user.entity';
+import { AuthorizedEmail } from './authorized-email.entity';
 
 const {
   EMAIL_HOST,
@@ -30,6 +33,11 @@ for (const templateFile of templateFiles) {
 
 @Injectable()
 export class EmailService {
+
+  constructor(
+    @InjectRepository(AuthorizedEmail)
+    private readonly authorizedEmailRepository: Repository<AuthorizedEmail>,
+  ) {}
 
   private static renderTemplate(templateName, replacement: {[key: string]: string}) {
     const template: { html: string, txt: string } = templates[templateName];
@@ -101,6 +109,24 @@ export class EmailService {
       template.text,
       template.html,
     );
+  }
+
+  // tslint:disable-next-line: no-shadowed-variable
+  async isAthorized(email: string): Promise<boolean> {
+    return (await this.authorizedEmailRepository.count({ email })) === 1;
+  }
+
+  findAllAuthorized(): Promise<AuthorizedEmail[]> {
+    return this.authorizedEmailRepository.find();
+  }
+
+  // tslint:disable-next-line: no-shadowed-variable
+  authorize(email: string): Promise<AuthorizedEmail> {
+    const authorizedEmail = new AuthorizedEmail();
+
+    authorizedEmail.email = email;
+
+    return this.authorizedEmailRepository.save(authorizedEmail);
   }
 
 }
