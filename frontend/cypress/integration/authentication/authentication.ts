@@ -11,7 +11,7 @@ Then('I see the popup header', () => {
 });
 
 When('I accept the rules', () => {
-  cy.contains('J\'accepte la charte de CDV.').siblings('input[type="checkbox"]').first().click();
+  cy.contains('J\'accepte la charte.').siblings('input[type="checkbox"]').first().click();
 });
 
 When(
@@ -20,7 +20,7 @@ When(
     cy.get('[placeholder="Email"]').type(email);
     cy.get('[placeholder="Mot de passe"]').type(password);
     cy.get('[placeholder="Pseudo"]').type(nick);
-    cy.contains('J\'accepte la charte de CDV.').siblings('input[type="checkbox"]').first().click();
+    cy.contains('J\'accepte la charte.').siblings('input[type="checkbox"]').first().click();
     cy.contains('button', 'Inscription').click();
   });
 

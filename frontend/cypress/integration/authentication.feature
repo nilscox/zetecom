@@ -57,7 +57,7 @@ Feature: Authentication
     Then the button with label "Connexion" should not be disabled
     When I click on the button with label "Connexion"
     Then the browser navigates to /popup/logout
-    And I read "Vous êtes connecté(e) sur CDV en tant que someone."
+    And I read "Vous êtes connecté(e) en tant que someone."
 
   Scenario: Login - invalid credentials
     When I navigate to /popup/login

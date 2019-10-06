@@ -9,7 +9,7 @@ const Tlkio: React.FC = () => {
   return (
     <div
       id="tlkio"
-      data-channel="cdv"
+      data-channel="reagir-information"
       data-theme="theme--minimal"
       data-custom-css={`${BASE_URL}/assets/css/tlkio.css`}
       style={{ width: '100%', maxWidth: 820, height: 600, border: '2px solid #EEE' }}
