@@ -49,6 +49,7 @@ function createButtons() {
   const buttonsGroup = document.createElement('div');
 
   buttonsGroup.style['text-align'] = 'center';
+  buttonsGroup.style['margin-top'] = '10px';
   buttonsGroup.style['margin-bottom'] = '10px';
 
   buttonsGroup.appendChild(buttonYT);

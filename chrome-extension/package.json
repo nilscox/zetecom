@@ -10,7 +10,8 @@
     "build:integrations": "webpack --config webpack/integrations.config",
     "build:integrations:watch": "yarn build:integrations --watch",
     "build:bg-script": "cp src/background_script.js extension",
-    "build:bg-script:watch": "watch \"yarn build:bg-script\" src"
+    "build:bg-script:watch": "watch \"yarn build:bg-script\" src",
+    "zip": "(cd extension && zip -r ../cdv-chrome-extension.zip .)"
   },
   "dependencies": {
     "iframe-resizer": "^4.1.1"
