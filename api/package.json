@@ -1,7 +1,7 @@
 {
-  "name": "cdv-api",
+  "name": "rali-api",
   "version": "0.3.0",
-  "description": "CDV API",
+  "description": "Réagir à l'information - API",
   "author": "",
   "license": "MIT",
   "scripts": {

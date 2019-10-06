@@ -97,7 +97,7 @@ export class EmailService {
 
     return this.sendEmail(
       user.email,
-      '[CDV] Bienvenue sur CDV ! Confirmez votre adresse email',
+      'Bienvenue sur Réagir à l\'information ! Confirmez votre adresse email',
       template.text,
       template.html,
     );

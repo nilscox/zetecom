@@ -39,5 +39,5 @@ docker run \
   --env EMAIL_EXCLUDE_REGEX \
   --env SESSION_SECRET \
   --env USER_AVATAR_DESTINATION='/avatars' \
-  cdv \
+  rali \
   "$@"
