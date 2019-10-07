@@ -117,8 +117,10 @@ const Rules: React.FC = () => {
       <Rule>2.1. Je formule mon message de manière claire et rigoureuse.</Rule>
 
       <Note>
-        Vous avez votre mot à dire ! Et c'est très bien, CDV est fait pour ça. Votre message doit cependant avoir du
-        sens par rapport à l'information, ou à la réaction à laquelle il répond. // TODO
+        Vous avez votre mot à dire ! Mais pour être sûr que votre message soit correctement interprété par le reste de
+        la communauté, il doit être précis dans les arguments qu'il avance, sans laisser la place au doute. Prenez le
+        temps de le structurer si nécessaire, cela rendra votre propos plus clair s'il est complexe. Enfin, votre
+        message doit avoir un sens par rapport au sujet auquel il s'adresse, ou à la réaction à laquelle il répond.
       </Note>
 
       <Rule>2.2. Je différencie une réaction factuelle d'une réaction d'opinion.</Rule>

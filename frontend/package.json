@@ -2,13 +2,12 @@
   "name": "reagir-information-frontend",
   "description": "Réagir à l'information - Frontend",
   "version": "0.3.0",
-  "licence": "MIT",
+  "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",
     "clean": "rimraf dist",
-    "lint": "eslint 'src/**/*.ts{,x}'",
-    "test": "exit 0"
+    "lint": "eslint 'src/**/*.ts{,x}'"
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.9.0",
