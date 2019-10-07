@@ -1,0 +1,15 @@
+.git
+.gitignore
+
+.dockerignore
+Dockerfile
+
+node_modules
+
+.env
+.env.*
+
+dist
+
+cypress.json
+cypress
