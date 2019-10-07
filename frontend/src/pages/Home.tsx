@@ -103,11 +103,8 @@ const Sentence: React.FC<{ text: React.ReactNode; subtext: React.ReactNode }> = 
 const Pitch: React.FC = () => (
   <Outline>
     <p>
-      <Link to="/">
-        <em>Réagir à l'information</em>
-      </Link>
-      , c'est une plateforme qui donne accès à un <strong>espace d'échange collaboratif</strong>,
-      pour réagir à l'information diffusée par les médias.
+      <Link to="/"><em>Réagir à l'information</em></Link>, c'est une plateforme qui donne accès à un <strong>espace
+        d'échange collaboratif</strong>, pour discuter ensemble de l'information diffusée par les médias.
     </p>
     <p>
       Une <Link to="/utilisation">extension chrome</Link> permet d'ajouter sur certain sites

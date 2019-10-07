@@ -10,6 +10,7 @@ import Motivations from './Motivations';
 import FAQ from './FAQ';
 import NotFound from './NotFound';
 
+import NewNameAlert from './components/NewNameAlert';
 import Navigation from './components/Navigation';
 import Header from './components/Header';
 import useResponsive from './hooks/useResponsive';
@@ -43,6 +44,8 @@ const Pages: React.FC<RouteComponentProps> = ({ location }) => {
         color: '#222',
       }}
     >
+
+      <NewNameAlert />
 
       <Header />
 
