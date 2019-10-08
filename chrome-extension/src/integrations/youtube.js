@@ -44,7 +44,7 @@ function createButtons() {
   selectComments(buttonRI, buttonYT);
 
   buttonYT.innerText = 'Commentaires YouTube';
-  buttonRI.innerText = 'Commentaires RI';
+  buttonRI.innerText = 'Commentaires Réagir à l\'information';
 
   const buttonsGroup = document.createElement('div');
 
