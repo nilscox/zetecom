@@ -1,0 +1,61 @@
+version: '3'
+services:
+
+  postgresql:
+    image: postgres
+    container_name: ri-postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: db
+
+
+  api:
+    build: ./api
+    container_name: ri-api
+    ports:
+      - 3000:3000
+    volumes:
+      - ./avatars:/avatars
+      - ./email-templates:/app/email-templates
+    command: bash -c "sleep 2 && yarn start:prod"
+    environment:
+      NODE_ENV: production
+      LISTEN_IP: 0.0.0.0
+      LISTEN_PORT: 3000
+      BASE_URL: http://localhost:8000
+      DB_HOST: ri-postgres
+      DB_PORT: 5432
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: db
+      DB_SYNC: 'true'
+      DB_ENTITIES: ./dist/src/**/*.entity.js
+      DB_DEBUG: 'false'
+      EMAIL_HOST: domain.tld
+      EMAIL_USER: username
+      EMAIL_PASSWORD: password
+      EMAIL_BYPASS: 'true'
+      EMAIL_ACCOUNT_VERIFICATION: 'false'
+      SESSION_SECRET: sekret
+      EMAIL_TEMPLATE_DIR: /app/email-templates
+      DATA_DIR: /app/data
+      USER_AVATAR_DESTINATION: /avatars
+
+
+  frontend:
+    build: ./frontend
+    container_name: ri-frontend
+    ports:
+      - 8000:80
+      - 8443:443
+    volumes:
+      - ./certs:/certs
+    environment:
+      NODE_ENV: production
+      API_URL: http://localhost:3000
+      BASE_URL: http://localhost:8000
+      CHROME_EXTENSION_URL:
+      GITHUB_REPO_URL:
