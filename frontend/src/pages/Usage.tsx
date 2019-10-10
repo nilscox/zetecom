@@ -156,9 +156,9 @@ const Usage: React.FC = () => (
     <DownloadExtension>Installer l'extension chrome</DownloadExtension>
 
     <p>
-      Une fois l'extension installée, il vous est possible de consulter les zones de commentaires intégrées sur certains
+      Une fois l'extension installée, il vous est possible de consulter les zones de commentaires intégrées sur des
       sites internet. Pour le moment, elles ne sont activées que sur certaines vidéos YouTube. Plus tard, bien d'autres
-      sites d'informations seront supportés.
+      sites d'informations seront acessibles.
     </p>
 
     <Title id="Utilisation">Utilisation</Title>
@@ -236,7 +236,7 @@ const Usage: React.FC = () => (
     <ul>
       <li>
         👍 J'approuve : je trouve que cette réaction est pertinente et je suis d'accord avec le message. Elle apporte
-        des éléments me convaincant.
+        des éléments qui me convainquent.
       </li>
       <li>
         👎 Je réfute : je trouve que cette réaction est pertinente mais je ne suis pas d'accord avec le message. La
@@ -346,7 +346,7 @@ const Usage: React.FC = () => (
     </p>
 
     <Note>
-      Note : vous n'avez la possibilité de signaler une réaction qu'avec un compte utilisateur. Voir la section{' '}
+      Note : vous ne pouvez signaler une réaction qu'avec un compte utilisateur. Voir la section{' '}
       <Link to="#Inscription">inscription</Link> de cette page pour en créer un si vous n'en avez pas déjà.
     </Note>
 

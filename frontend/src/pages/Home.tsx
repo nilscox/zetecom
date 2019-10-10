@@ -53,12 +53,12 @@ Qu'est-ce que c'est ?
 const cards = [
   {
     text: 'Rassembler une communauté de personnes pour réfléchir ensemble',
-    subtext: 'Parce que les informations telles que présentes dans les médias valent la peine d\'être discutées, pour être correctement interprétées',
+    subtext: 'Parce que les informations telles qu\'elles sont présentées dans les médias méritent souvent d\'être discutées pour être correctement interprétées',
     image: '/assets/images/community.png',
   },
   {
     text: 'Lutter contre les fausses informations',
-    subtext: 'Parce que malgré toute notre bonne volonté, on peut toujours se faire avoir par des biais, et croire pour de mauvaises raisons',
+    subtext: 'Parce qu\'il ne sufft pas de voulair être informé pour ne pas être induit en erreur, et croire pour de mauvaises raisons',
     image: '/assets/images/fake-news.png',
   },
   {
@@ -78,12 +78,12 @@ const sentences = [
     subtext: 'Pour voir les réactions les mieux construites, qui apportent des éléments clés, ou bien les plus controversées.',
   },
   {
-    text: 'Un cadre sain et rigoureux, propice aux échanges',
+    text: 'Un cadre sain, propice aux échanges',
     subtext: 'Pour participer aux échanges, il faut accepter une charte posant les bases nécessaires à un débat constructif.',
   },
   {
     text: 'Des messages mis en page de façon structurée',
-    subtext: 'Pour permettre une plus grande clarté, les réactions peuvent comporter des liens, des listes, des tableaux, des titres, ...',
+    subtext: 'Pour permettre une plus grande clarté, les réactions peuvent comporter des liens, des listes, des tableaux, des titres, etc.',
   },
   {
     text: 'Une modération des débats assurée par des membres de la communauté',
@@ -107,7 +107,7 @@ const Pitch: React.FC = () => (
         d'échange collaboratif</strong>, pour discuter ensemble de l'information diffusée par les médias.
     </p>
     <p>
-      Une <Link to="/utilisation">extension chrome</Link> permet d'ajouter sur certain sites
+      Une <Link to="/utilisation">extension chrome</Link> permet d'ajouter sur certains sites
       internet, une zone de commentaire où les membres de la communauté partagent leurs opinions,
       apportent des sources, relèvent des biais, ou encore posent des questions...
     </p>
@@ -165,20 +165,20 @@ const Home: React.FC = () => (
 
     <p style={{ fontSize: 18 }}>
       <Text>
-        Depuis quelques dizaines d'années, les évolutions technologiques ont enclenchées une vraie{' '}
+        Depuis quelques dizaines d'années, les évolutions technologiques ont enclenché une vraie{' '}
         <a href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</a>, qui a radicalement
-        bouleversé note façon de communiquer <em>et de nous informer</em>. En contrepartie, un nombre croissant de
+        bouleversé notre façon de communiquer <em>et de nous informer</em>. En contrepartie, un nombre croissant de
         problématiques liées à l'information émergent, notamment dans la diffusion de celle-ci par les médias. Les
         articles relatant des faits hors du commun étant plus attrayants, les contenus sont parfois plus
-        sensationnalistes que vrai.
+        sensationnalistes que vrais.
       </Text>
     </p>
 
     <p style={{ fontSize: 18 }}>
       <Text>
-        Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensembles, intelligemment, face à cette
+        Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensemble, intelligemment, face à cette
         abondance d'information sur internet ? Réagir à l'information a pour ambition d'apporter des solutions à ces
-        problématiques, en proposant une plateforme qui <em>vous</em> permet de réagir librement aux médias sur
+        problèmes, en proposant une plateforme qui <em>vous</em> permet de réagir librement aux médias sur
         internet, comme des articles de presse ou des vidéos sur YouTube.
       </Text>
     </p>
@@ -213,7 +213,7 @@ const Home: React.FC = () => (
     <p style={{ fontSize: 18 }}>
       <Text>
         Vous voulez en savoir plus ? La page <Link to="/motivations">motivation</Link> explique plus
-        en détail les raisons pour lesquelles le projet a vu le jour, et l'état d'esprit du projet. Et
+        en détail les raisons pour lesquelles le projet a vu le jour, et son état d'esprit. Et
         pour commencer à utiliser l'extension dès maintenant, rendez-vous sur la page{' '}
         <Link to="/utilisation">utilisation</Link>. A bientôt sur internet !
       </Text>

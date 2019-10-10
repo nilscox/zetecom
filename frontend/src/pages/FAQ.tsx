@@ -27,7 +27,7 @@ const questions = [
     question: 'Où trouver la liste des zones de commentaires disponibles avec l\'extension ?',
     answer: (
       <>
-        Pour le moment, il n\'est pas possible de lister les pages contenant une zone de commentaire propre à la
+        Pour le moment, il n'est pas possible de lister les pages contenant une zone de commentaire propre à la
         platforme.
       </>
     ),
@@ -37,7 +37,7 @@ const questions = [
     question: 'Comment créer une nouvelle zone de commentaires ?',
     answer: (
       <>
-        Il est nécéssaire de <a href="#contact">contacter</a> l'équipe qui développe le projet pour demander l'ajout
+        Il est nécessaire de <a href="#contact">contacter</a> l'équipe qui développe le projet pour demander l'ajout
         d'une nouvelle zone de commentaire.
       </>
     ),
@@ -73,7 +73,7 @@ const questions = [
     answer: (
       <>
         Il est possible de supprimer un compte en <a href="#contact">contactant</a> l'équipe qui développe
-        le projet par email, depuis l'adresse associée au compte à supprimer.
+        le projet par e-mail, depuis l'adresse associée au compte à supprimer.
       </>
     ),
   },
@@ -89,7 +89,7 @@ const questions = [
   },
 
   {
-    question: 'Comment remonter un bug ou proposer de nouvelles fonctionnalités ?',
+    question: 'Comment signaler un bug ou proposer de nouvelles fonctionnalités ?',
     answer: (
       <>
         Vous l'aurez peut-être deviné, <a href="#contact">contactez</a> l'équipe qui développe le projet.
@@ -99,7 +99,7 @@ const questions = [
 
   {
     question: 'Comment le projet est-il financé ?',
-    answer: 'Le but du projet n\'est pas de faire de l\'argent, et aucun financement n\'est en jeu.',
+    answer: 'Le but du projet n\'est pas de faire du profit, et aucun financement n\'est en jeu.',
   },
 
   {
@@ -152,12 +152,12 @@ const Questions: React.FC = () => (
 
 const Contact = () => (
   <>
-    <SubTitle id="contact">Une idée à proposer ? Un bug à remonter ?</SubTitle>
+    <SubTitle id="contact">Une idée à proposer ? Un bug à signaler ?</SubTitle>
 
     <p>L'équipe à l'origine de Réagir à l'information est à l'écoute via ces différents canaux de communication :</p>
 
     <ul>
-      <li>Par email, à l'adresse <a href="mailto:reaction-information@nils.cx">reaction-information@nils.cx</a></li>
+      <li>Par e-mail, à l'adresse <a href="mailto:reaction-information@nils.cx">reaction-information@nils.cx</a></li>
       <li>Sur twitter, via le compte de <a href="https://twitter.com/NilsCox">@NilsCox</a></li>
       <li>
         Par chat, via <a href="https://tlk.io/reaction-information" target="_blank" rel="noopener noreferrer">tlk.io</a>
