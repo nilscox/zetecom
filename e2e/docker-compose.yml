@@ -14,7 +14,7 @@ services:
 
 
   api:
-    image: nilscox/reagir-information-api:dev
+    image: nilscox/reagir-information-api:$GIT_BRANCH
     container_name: ri-api-ci
     hostname: ri-api-ci
     ports:
@@ -25,6 +25,7 @@ services:
     command: bash -c "sleep 4 && yarn db:drop && yarn start:prod"
     environment:
       NODE_ENV: development
+      CI: 'true'
       LISTEN_IP: 0.0.0.0
       LISTEN_PORT: 3000
       BASE_URL: http://ri-frontend-ci
@@ -48,7 +49,7 @@ services:
 
 
   restoredb:
-    image: nilscox/reagir-information-api:dev
+    image: nilscox/reagir-information-api:$GIT_BRANCH
     container_name: ri-restoredb-ci
     hostname: ri-restoredb-ci
     ports:
@@ -67,7 +68,7 @@ services:
 
 
   frontend:
-    image: nilscox/reagir-information-frontend:dev
+    image: nilscox/reagir-information-frontend:$GIT_BRANCH
     container_name: ri-frontend-ci
     hostname: ri-frontend-ci
     ports:

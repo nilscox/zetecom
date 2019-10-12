@@ -5,10 +5,11 @@
   "license": "MIT",
   "scripts": {
     "start": "cypress open",
-    "start:local": "docker-compose -f docker-compose.yml -f docker-compose.local.yml build && docker-compose -f docker-compose.yml -f docker-compose.local.yml up --abort-on-container-exit",
-    "start:open": "docker-compose -f docker-compose.yml -f docker-compose.open.yml up --abort-on-container-exit",
-    "start:open-local": "docker-compose -f docker-compose.yml -f docker-compose.open.yml -f docker-compose.local.yml up --abort-on-container-exit",
-    "start:ci": "docker-compose up --abort-on-container-exit"
+    "docker-compose": "GIT_BRANCH=$(git symbolic-ref --short -q HEAD) docker-compose -f docker-compose.yml",
+    "start:local": "yarn docker-compose -f docker-compose.local.yml build && yarn docker-compose -f docker-compose.local.yml up --abort-on-container-exit",
+    "start:open": "yarn docker-compose -f docker-compose.open.yml up --abort-on-container-exit",
+    "start:open-local": "yarn docker-compose -f docker-compose.open.yml -f docker-compose.local.yml up --abort-on-container-exit",
+    "start:ci": "yarn docker-compose up --abort-on-container-exit"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^4.1.0",
