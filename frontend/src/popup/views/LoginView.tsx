@@ -1,8 +1,7 @@
 import { AxiosError } from 'axios';
-import React, { useContext, useEffect } from 'react';
-import { RouteComponentProps } from 'react-router';
+import React, { useEffect } from 'react';
+import { RouteComponentProps, Redirect } from 'react-router';
 
-import UserContext from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
@@ -11,6 +10,7 @@ import Form, { useFormErrors } from '../components/Form';
 import ViewHeader from '../components/ViewHeader';
 import useAxios from 'src/hooks/use-axios';
 import { parseUser } from 'src/types/User';
+import useUser from 'src/hooks/use-user';
 
 const getGlobalError = (error: AxiosError) => {
   if (!error || !error.response)
@@ -46,7 +46,7 @@ const getFieldErrors = (error: AxiosError) => {
 };
 
 const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
-  const { setUser } = useContext(UserContext);
+  const [currentUser, setUser] = useUser();
   const { sizes: { big } } = useTheme();
 
   const opts = { method: 'POST', url: '/api/auth/login', withCredentials: true };
@@ -71,6 +71,9 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
   const isFormValid = (values: { [field: string]: string }) => {
     return values.email.length > 0 && values.password.length > 0;
   };
+
+  if (currentUser)
+    return <Redirect to="/popup/logout" />;
 
   return (
     <>

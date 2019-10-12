@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps, Link, Redirect } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
 import { parseUser } from 'src/types/User';
-import UserContext from 'src/utils/UserContext';
+import UserContext, { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 
 import Box from 'src/components/common/Box';
@@ -19,12 +19,16 @@ type AcceptRulesCheckbox = {
 };
 
 const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ onChange }) => {
+  const user = useCurrentUser();
   const [value, setValue] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.checked);
     onChange(e.target.checked);
   };
+
+  if (user)
+    return <Redirect to="/popup/logout" />;
 
   return (
     <div style={{ margin: '10px 0' }}>

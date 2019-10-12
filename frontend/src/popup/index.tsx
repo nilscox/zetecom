@@ -1,15 +1,8 @@
 import React from 'react';
-import {
-  Route,
-  RouteComponentProps,
-  Switch,
-  Redirect,
-  withRouter,
-} from 'react-router-dom';
+import { Route, RouteComponentProps, Switch, Redirect, withRouter } from 'react-router-dom';
 
-import { UserProvider } from 'src/utils/UserContext';
+import { UserProvider, useUserContext } from 'src/utils/UserContext';
 import Loader from 'src/components/common/Loader';
-import useUser from 'src/hooks/use-user';
 
 import LoginView from './views/LoginView';
 import LogoutView from './views/LogoutView';
@@ -18,7 +11,7 @@ import PostSignupView from './views/PostSignupView';
 import PasswordResetView from './views/PasswordResetView';
 
 const Popup: React.FC<RouteComponentProps> = () => {
-  const [user, setUser] = useUser();
+  const [user, setUser] = useUserContext();
 
   if (user === undefined)
     return <Loader size="big" />;

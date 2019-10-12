@@ -1,9 +1,8 @@
 import React from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 
-import { UserProvider } from 'src/utils/UserContext';
+import { UserProvider, useUserContext } from 'src/utils/UserContext';
 import Loader from 'src/components/common/Loader';
-import useUser from 'src/hooks/use-user';
 
 import UrlIntegration from './UrlIntegration';
 import Youtube from './Youtube';
@@ -12,7 +11,7 @@ import ReactionHistoryPopup from './popups/ReactionHistoryPopup';
 import ReportPopup from './popups/ReportPopup';
 
 const Integrations: React.FC<RouteComponentProps> = () => {
-  const [user, setUser] = useUser();
+  const [user, setUser] = useUserContext();
 
   if (user === undefined)
     return <Loader size="big" />;

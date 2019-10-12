@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import moment from 'moment';
 
-import UserContext from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
 import UserAvatar from 'src/components/common/UserAvatar';
 import Flex from 'src/components/common/Flex';
@@ -11,26 +10,27 @@ import Text from 'src/components/common/Text';
 
 import Form from '../components/Form';
 import useAxios from 'src/hooks/use-axios';
+import useUser from 'src/hooks/use-user';
 
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const { sizes: { medium, big } } = useTheme();
-  const { user, setUser } = useContext(UserContext);
+  const [user, setUser] = useUser();
 
   const opts = { method: 'POST', url: '/api/auth/logout', withCredentials: true };
-  const [{ error, loading, response }, logout] = useAxios(opts, () => undefined, { manual: true });
-
-  useEffect(() => {
-    if (response && response.status === 204) {
-      setUser(null);
-      history.push('/popup/login');
-    }
-  }, [response, setUser, history]);
-
-  if (!user)
-    return <Redirect to="/" />;
+  const [{ error, loading, status }, logout] = useAxios(opts, () => undefined, { manual: true });
 
   if (error)
     throw error;
+
+  useEffect(() => {
+    if (status(204)) {
+      setUser(null);
+      history.push('/popup/login');
+    }
+  }, [status, setUser, history]);
+
+  if (!user)
+    return <Redirect to="/popup/login" />;
 
   return (
     <Box px={4 * big}>
