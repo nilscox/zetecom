@@ -38,6 +38,10 @@
     {
       "matches": ["https://www.lemonde.fr/*"],
       "js": ["assets/js/iframeResizer.min.js", "integrations/lemonde.js"]
+    },
+    {
+      "matches": ["https://skeptikon.fr/videos/watch/*"],
+      "js": ["assets/js/iframeResizer.min.js", "integrations/skeptikon.js"]
     }
   ]
 }
