@@ -91,7 +91,7 @@ const Motivations: React.FC = () => {
         de son fonctionnement. Dans un but d'amélioration progressive des idées, de la charte, et de l'état d'esprit
         du projet en général, les intéressés sont invité à <Link to="/faq#contact">en discuter</Link> avec
         l'équipe qui développe la plateforme. Et s'il y a des amis développeurs parmi vous, toutes les sources du
-        projet sont accessibles sur <a href={env.GITHUB_REPO_URL}>github</a>. Issues and pull requests are very
+        projet sont accessibles sur <a href={env.REPOSITORY_URL}>github</a>. Issues and pull requests are very
         welcome :)
       </p>
 

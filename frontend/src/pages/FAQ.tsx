@@ -119,7 +119,7 @@ const questions = [
         Si vous souhaitez participer au projet, pour donner des feedbacks ou proposer des axes d'amélioration, vous êtes
         invité(e) à <a href="#contact">contactez</a> l'équipe qui développe le projet pour en discuter. Et si vous êtes
         développeurs et que le projet vous intéresse techniquement, les source sont disponibles sur{' '}
-        <a href={env.GITHUB_REPO_URL}>github</a>.
+        <a href={env.REPOSITORY_URL}>github</a>.
       </>
     ),
   },

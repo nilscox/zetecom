@@ -79,7 +79,7 @@ module.exports = {
       API_URL: 'http://localhost:3000',
       BASE_URL: 'http://localhost:8000',
       CHROME_EXTENSION_URL: null,
-      GITHUB_REPO_URL: null,
+      REPOSITORY_URL: null,
     }),
     new ForkTsCheckerWebpackPlugin(),
     new webpack.NamedModulesPlugin(),
