@@ -2,7 +2,7 @@ version: '3'
 services:
 
   postgresql:
-    image: postgres
+    image: postgres:11.5
     container_name: ri-postgres-ci
     hostname: ri-postgres-ci
     ports:
