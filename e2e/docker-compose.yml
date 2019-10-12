@@ -20,8 +20,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ../avatars:/avatars
-      - ../email-templates:/app/email-templates
+      - ./avatars:/avatars
+      - ./email-templates:/app/email-templates
     command: bash -c "sleep 4 && yarn db:drop && yarn start:prod"
     environment:
       NODE_ENV: development
@@ -74,7 +74,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ../certs:/certs
+      - ./certs:/certs
     environment:
       NODE_ENV: production
       API_UPSTREAM: http://ri-api-ci:3000

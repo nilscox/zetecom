@@ -1,0 +1,2 @@
+Welcome.
+{email_validation_link}
