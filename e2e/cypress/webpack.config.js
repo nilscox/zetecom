@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
@@ -24,4 +26,10 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new webpack.EnvironmentPlugin({
+      API_URL: 'http://localhost:3000',
+      RESTOREDB_URL: 'http://localhost:4242',
+    }),
+  ],
 };
