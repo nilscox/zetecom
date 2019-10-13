@@ -1,4 +1,4 @@
-name: Build
+name: Build & e2e
 
 on: [push]
 
@@ -34,6 +34,9 @@ jobs:
     needs: [api, frontend]
     steps:
     - uses: actions/checkout@v1
+      with:
+        ref: ${{ github.ref }}
+    - run: git checkout $(echo '${{ github.ref }}' | sed 's|.*/||')
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
