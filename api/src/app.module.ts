@@ -41,6 +41,8 @@ const MemoryStore = memorystore(expressSession);
 export class AppModule {
 
   configure(consumer: MiddlewareConsumer) {
+    const middlewares = [];
+
     ExpressSessionMiddleware.configure({
       // one year
       cookie: { maxAge: Date.now() + (30 * 86400 * 1000) },
@@ -53,10 +55,17 @@ export class AppModule {
       saveUninitialized: true,
     });
 
-    MorganMiddleware.configure(process.env.NODE_ENV === 'production' ? 'combined' : 'dev');
+    middlewares.push(ExpressSessionMiddleware);
+
+    if (process.env.CI !== 'true') {
+      MorganMiddleware.configure(process.env.NODE_ENV === 'production' ? 'combined' : 'dev');
+      middlewares.push(MorganMiddleware);
+    }
+
+    middlewares.push(UserMiddleware);
 
     consumer
-      .apply(ExpressSessionMiddleware, MorganMiddleware, UserMiddleware)
+      .apply(...middlewares)
       .forRoutes('*');
 
     if (process.env.NODE_ENV === 'development') {
