@@ -54,7 +54,7 @@ const SubjectHeader: React.FC<SubjectHeaderProps> = ({
 
       <div style={{ maxWidth: '100%' }}>
 
-        <div>
+        <div className="subject-title">
           <Text oneline bold size="big">{ subject }</Text>
         </div>
         <div>

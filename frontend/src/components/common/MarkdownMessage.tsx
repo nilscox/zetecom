@@ -3,16 +3,16 @@ import showdown from 'showdown';
 
 import { useTheme } from 'src/utils/Theme';
 
-import Box from './Box';
+import Box, { BoxProps } from './Box';
 
-type MarkdownMessageProps = {
+type MarkdownMessageProps = BoxProps & {
   markdown: string;
   style?: React.CSSProperties;
 };
 
 const converter = new showdown.Converter({ tables: true, simpleLineBreaks: false });
 
-const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ markdown, style }) => {
+const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ markdown, style, ...props }) => {
   const html = useMemo(() => converter.makeHtml(markdown), [markdown]);
   const { sizes: { medium } } = useTheme();
 
@@ -22,6 +22,7 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ markdown, style }) =>
       className="markdown-github"
       style={style}
       dangerouslySetInnerHTML={{ __html: html }}
+      {...props}
     />
   );
 };

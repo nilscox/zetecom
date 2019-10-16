@@ -121,7 +121,7 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onC
     throw error;
 
   return (
-    <form onSubmit={onSubmit}>
+    <form className="subject-form" onSubmit={onSubmit}>
       <Flex flexDirection="column" border={`1px solid ${border}`} borderRadius={borderRadius}>
         <FormHeader onClose={onClose} />
         <FormSubject subject={subject} setSubject={setSubject} />

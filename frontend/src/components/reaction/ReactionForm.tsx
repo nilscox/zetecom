@@ -84,7 +84,7 @@ const ReactionForm: React.FC<ReactionFormProps> = (
   }, [onSubmit, message]);
 
   return (
-    <form onSubmit={onSubmitForm}>
+    <form className="reaction-form" onSubmit={onSubmitForm}>
       <Flex flexDirection="column" border={`1px solid ${border}`} borderRadius={borderRadius}>
         <FormHeader closeForm={closeForm} />
         <MarkdownMessageEdition placeholder={placeholder} message={message} setMessage={setMessage} />

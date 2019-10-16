@@ -1,21 +1,10 @@
 import { Given } from 'cypress-cucumber-preprocessor/steps';
 
-const {
-  API_URL = 'http://localhost:3000',
-} = process.env;
+const { API_URL = 'http://localhost:3000' } = process.env;
 
-Cypress.Cookies.debug(true);
-
-Given('the email {string} is authorized', (email: string) => {
-  cy.request({
-    method: 'POST',
-    url: API_URL + '/api/email/authorize',
-    body: { email },
-  });
-});
-
-Given('I am logged in', () => {
+export const loginOrSignup = ({ email = 'email@domail.tld', password = 'secure p4ssword', nick = 'someone' } = {}) => {
   let user: any = null;
+
   const setUserOnStatus = (status: number | number[]) => (res: Cypress.Response) => {
     if (Array.isArray(status)) {
       if (status.includes(res.status))
@@ -36,10 +25,7 @@ Given('I am logged in', () => {
     return cy.request({
       method: 'POST',
       url: API_URL + '/api/auth/login',
-      body: {
-        email: 'email@domain.tld',
-        password: 'secure p4ssword',
-      },
+      body: { email, password },
       failOnStatusCode: false,
     })
       .then(setUserOnStatus(200));
@@ -52,18 +38,14 @@ Given('I am logged in', () => {
     return cy.request({
       method: 'POST',
       url: API_URL + '/api/email/authorize',
-      body: { email: 'email@domain.tld' },
+      body: { email },
       failOnStatusCode: false,
     })
       .then(() => {
         return cy.request({
           method: 'POST',
           url: API_URL + '/api/auth/signup',
-          body: {
-            email: 'email@domain.tld',
-            password: 'secure p4ssword',
-            nick: 'someone',
-          },
+          body: { email, password, nick },
         });
       })
       .then(setUserOnStatus(201));
@@ -72,6 +54,18 @@ Given('I am logged in', () => {
   return fetchMe()
     .then(login)
     .then(signup);
+};
+
+Given('the email {string} is authorized', (email: string) => {
+  cy.request({
+    method: 'POST',
+    url: API_URL + '/api/email/authorize',
+    body: { email },
+  });
+});
+
+Given('I am logged in', () => {
+  loginOrSignup();
 });
 
 Given('I am logged out', () => {

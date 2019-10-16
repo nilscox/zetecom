@@ -13,6 +13,7 @@ import SubjectHeader from './SubjectHeader';
 
 const SubjectQuote: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <Box
+    className="subject-quote"
     m={15}
     mb={0}
     style={{
@@ -47,14 +48,14 @@ type SubjectProps = {
 };
 
 const SubjectComponent: React.FC<SubjectProps> = ({ subject, displayReactionsLink, onHeaderClick }) => (
-  <>
+  <div className="subject" id={`subject-${subject.id}`}>
 
     <SubjectHeader subject={subject} onClick={onHeaderClick} />
     { subject.quote && <SubjectQuote>{ subject.quote }</SubjectQuote> }
-    <MarkdownMessage markdown={subject.text} />
+    <MarkdownMessage className="subject-description" markdown={subject.text} />
     { displayReactionsLink && <ViewReactionsLink subjectId={subject.id} /> }
 
-  </>
+  </div>
 );
 
 export default SubjectComponent;

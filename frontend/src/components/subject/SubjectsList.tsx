@@ -24,7 +24,7 @@ const ClosedSubjectsList: React.FC<ClosedSubjectsListProps> = ({ subjects, setOp
   return (
     <Box border={`1px solid ${colors.border}`} borderRadius={borderRadius}>
       {subjects.map(subject => (
-        <div key={subject.id}>
+        <div key={subject.id} className="subject" id={`subject-${subject.id}`}>
           <SubjectHeader
             transparent
             subject={subject}
@@ -45,11 +45,16 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects }) => {
   const { sizes: { big }, colors, borderRadius } = useTheme();
   const openIdx = subjects.findIndex(s => s.id === open);
 
-  if (open === null)
-    return <ClosedSubjectsList subjects={subjects} setOpen={setOpen} />;
+  if (open === null) {
+    return (
+      <div className="subjects-list">
+        <ClosedSubjectsList subjects={subjects} setOpen={setOpen} />
+      </div>
+    );
+  }
 
   return (
-    <>
+    <div className="subjects-list">
       { (
         <>
           <ClosedSubjectsList
@@ -77,7 +82,7 @@ const SubjectsList: React.FC<SubjectsListProps> = ({ subjects }) => {
           />
         </>
       ) }
-    </>
+    </div>
   );
 };
 

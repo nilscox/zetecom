@@ -3,9 +3,6 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
 const axios = require('axios');
 
-const usersData = require(`${DATA_DIR}/users`);
-const infosData = require(`${DATA_DIR}/informations`);
-
 type QuickReactionType = 'APPROVE' | 'REFUTE' | 'SKEPTIC';
 
 interface IUser {
@@ -56,7 +53,7 @@ function findInformation(informations: IInformation[], url: string): IInformatio
   return informations.find(i => i.url === url);
 }
 
-async function createUserOrLogin(user: any): Promise<IUser> {
+async function loginOrSignup(user: any): Promise<IUser> {
   const signup = async () => {
     const payload = {
       email: user.email,
@@ -64,6 +61,8 @@ async function createUserOrLogin(user: any): Promise<IUser> {
       nick: user.nick,
       avatar: user.avatar,
     };
+
+    await axios.post('/api/email/authorize', { email: user.email }, { validateStatus: s => [200, 500].includes });
 
     return axios.post('/api/auth/signup', payload);
   };
@@ -78,21 +77,18 @@ async function createUserOrLogin(user: any): Promise<IUser> {
   };
 
   try {
-    const { headers, data } = await signup();
+    const { headers, data } = await login();
 
-    console.log(`user created: ${data.id} (${data.nick})`);
+    console.log(`user logged in: ${data.id} (${data.nick})`);
 
     return {
       ...data,
       cookie: headers['set-cookie'][0].split(';')[0],
     };
   } catch (e) {
-    const { response: r } = e;
+    const { headers, data } = await signup();
 
-    if (!r || r.status !== 400 || r.data.message !== 'NICK_ALREADY_EXISTS')
-      throw e;
-
-    const { headers, data } = await login();
+    console.log(`user signed up: ${data.id} (${data.nick})`);
 
     return {
       ...data,
@@ -191,11 +187,14 @@ async function createSubject(informationId: number, subject: any, user: IUser) {
   return created;
 }
 
-async function main() {
+async function main(data: any) {
   axios.defaults.baseURL = BASE_URL;
 
-  const users: IUser[] = await Promise.all<IUser>(usersData.map(createUserOrLogin));
-  const infos = await Promise.all<IInformation>(infosData.map(i => findOrCreateInformation(i, findUser(users, i.creator))));
+  if (!data)
+    return 1;
+
+  const users: IUser[] = await Promise.all<IUser>(data.users.map(loginOrSignup));
+  const infos = await Promise.all<IInformation>(data.informations.map(i => findOrCreateInformation(i, findUser(users, i.creator))));
 
   const createReactionRec = async (subjectId: number, reaction: any, parentId?: number) => {
     const created = await createReaction(subjectId, reaction, findUser(users, reaction.author), parentId);
@@ -216,13 +215,11 @@ async function main() {
     }
   };
 
-  for (let i = 0; i < infosData.length; ++i) {
-    const infoData = infosData[i];
+  for (const infoData of data.informations) {
     const info = findInformation(infos, infoData.url);
 
-    for (let j = 0; j < infoData.subjects.length; ++j) {
-      const subjectData = infoData.subjects[j];
-      const subject = await createSubject(info.id, infosData[i].subjects[j], findUser(users, subjectData.author));
+    for (const subjectData of infoData.subjects) {
+      const subject = await createSubject(info.id, subjectData, findUser(users, subjectData.author));
 
       for (const reaction of subjectData.reactions)
         await createReactionRec(subject.id, reaction);
@@ -232,9 +229,42 @@ async function main() {
   return 0;
 }
 
+const readInputFromStdin = (): any => {
+  const stdin = process.stdin;
+
+  stdin.resume();
+  stdin.setEncoding('utf8');
+
+  return new Promise(r => {
+    const input = [];
+
+    stdin.on('data', input.push.bind(input));
+
+    stdin.on('end', () => {
+      try {
+        r(JSON.parse(input.join()));
+      } catch (e) {
+        console.log('cannot parse json');
+        r();
+      }
+    });
+  });
+};
+
 (async () => {
   try {
-    process.exitCode = await main();
+    let input;
+
+    if (process.argv[2]) {
+      input = {
+        users: require(`${process.argv[2]}/users`),
+        infos: require(`${process.argv[2]}/informations`),
+      };
+    } else {
+      input = await readInputFromStdin();
+    }
+
+    process.exitCode = await main(input);
   } catch (e) {
     const { response } = e;
 

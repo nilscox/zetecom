@@ -1,0 +1,178 @@
+{
+  "users": [
+
+    { "nick": "user1", "email": "user1@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user2", "email": "user2@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user3", "email": "user3@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user4", "email": "user4@domain.tld", "password": "secure p4ssword" }
+
+  ],
+  "informations": [
+
+    {
+      "title": "Interesting news!",
+      "url": "https://news.fake/article/1",
+      "creator": "user4",
+      "subjects": [
+
+        {
+          "author": "user1",
+          "quote": null,
+          "subject": "subject 1",
+          "text": "subject 1 description",
+          "reactions": [
+
+            {
+              "author": "user2",
+              "quickReactions": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": "reaction 1.1 text",
+              "history": [],
+              "replies": [
+
+                {
+                  "author": "user3",
+                  "quickReactions": {
+                    "approve": [],
+                    "refute": [],
+                    "skeptic": []
+                  },
+                  "text": "reaction 1.1.1 text"
+                },
+
+                {
+                  "author": "user4",
+                  "quickReactions": {
+                    "approve": [],
+                    "refute": [],
+                    "skeptic": []
+                  },
+                  "text": "reaction 1.1.2 text"
+                }
+
+              ]
+            },
+
+            {
+              "author": "user1",
+              "quickReactions": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": "reaction 1.2 text",
+              "history": [],
+              "replies": [
+
+                {
+                  "author": "user2",
+                  "quickReactions": {
+                    "approve": [],
+                    "refute": [],
+                    "skeptic": []
+                  },
+                  "text": "reaction 1.2.1 text"
+                },
+
+                {
+                  "author": "user3",
+                  "quickReactions": {
+                    "approve": [],
+                    "refute": [],
+                    "skeptic": []
+                  },
+                  "text": "reaction 1.2.2 text"
+                }
+
+              ]
+            }
+
+          ]
+        },
+
+        {
+          "author": "user2",
+          "quote": null,
+          "subject": "subject 2",
+          "text": "subject 2 description",
+          "reactions": [
+
+            {
+              "author": "user3",
+              "quickReactions": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": "reaction 2.1 text",
+              "history": [],
+              "replies": [
+
+                {
+                  "author": "user4",
+                  "quickReactions": {
+                    "approve": [],
+                    "refute": [],
+                    "skeptic": []
+                  },
+                  "text": "reaction 2.1.1 text"
+                },
+
+                {
+                  "author": "user1",
+                  "quickReactions": {
+                    "approve": [],
+                    "refute": [],
+                    "skeptic": []
+                  },
+                  "text": "reaction 2.1.2 text"
+                }
+
+              ]
+            },
+
+            {
+              "author": "user2",
+              "quickReactions": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": "reaction 2.2 text",
+              "history": [],
+              "replies": [
+
+                {
+                  "author": "user3",
+                  "quickReactions": {
+                    "approve": [],
+                    "refute": [],
+                    "skeptic": []
+                  },
+                  "text": "reaction 2.2.1 text"
+                },
+
+                {
+                  "author": "user4",
+                  "quickReactions": {
+                    "approve": [],
+                    "refute": [],
+                    "skeptic": []
+                  },
+                  "text": "reaction 2.2.2 text"
+                }
+
+              ]
+            }
+
+          ]
+        }
+      ]
+
+    }
+
+  ]
+}

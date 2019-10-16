@@ -20,14 +20,14 @@ const ReactionsList: React.FC<ReactionsListProps> = ({ subject, reactions, onEdi
     return null;
 
   return (
-    <>
+    <div className="reactions-list">
       { reactions.map((r, n) => (
         <div key={r.id}>
           <ReactionContainer subject={subject} reaction={r} onEdited={onEdited} />
           { n < reactions.length - 1 && <Break size={big} /> }
         </div>
       )) }
-    </>
+    </div>
   );
 };
 
