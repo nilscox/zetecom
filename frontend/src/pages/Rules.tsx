@@ -28,6 +28,7 @@ const Rule: React.FC = ({ children }) => (
   <h4 style={{ fontSize: '1.2rem', margin: 10, marginLeft: 50 }}><em>{ children }</em></h4>
 );
 
+/* eslint-disable */
 const Rules: React.FC = () => {
   return (
     <>
@@ -114,23 +115,23 @@ const Rules: React.FC = () => {
 
       <SubTitle id="2 En tant que rédacteur">2. En tant que rédacteur</SubTitle>
 
-      <Rule>2.1. Je formule mon message de manière claire et rigoureuse</Rule>
+      <Rule>2.1. Je formule mon message clairement</Rule>
 
       <Note>
-        Vous avez votre mot à dire ! Mais pour être sûr(e) que votre message soit correctement interprété par le reste
-        de la communauté, il doit être précis dans les arguments qu'il avance, sans laisser la place au doute. Prenez le
-        temps de le structurer si nécessaire, cela rendra votre propos plus clair s'il est complexe. Enfin, votre
-        message doit avoir un sens par rapport au sujet auquel il s'adresse, ou à la réaction à laquelle il répond.
+        Pour partager une réaction avec le reste de la communauté, assurez-vous dans un premier temps que votre message
+        a un sens par rapport au sujet auquel il s'adresse, ou à la réaction à laquelle il répond. Prenez le temps de le
+        structurer si nécessaire, cela rendra votre propos plus clair s'il est complexe. Enfin, votre but ne doit pas
+        être de convaincre, mais d'apporter vos arguments ou expliquer votre façon de penser, en vous disant que d'autre
+        personnes pourront être d'accord avec vous.
       </Note>
 
-      <Rule>2.2. Je différencie une réaction factuelle d'une réaction d'opinion</Rule>
+      <Rule>2.2. Je différencie les faits de mes opinions</Rule>
 
       <Note>
         Votre message peut énoncer un ou plusieurs faits, objectifs, ou bien faire part d'une opinion, subjective et
-        personnelle. Il est important de faire la distinction entre ces deux types de messages et surtout d'éviter de
-        faire passer vos opinions ou vos croyances pour des faits vérifiés. Volontairement ou non, d'ailleurs. Bien sûr,
-        il vous est possible d'énoncer un fait puis d'y apporter votre opinion, si ces deux parties sont clairement
-        explicitées.
+        personnelle. Si votre réflexion se base sur des hypotèses, elles doivent être explicitées. Cela évitera aux
+        lecteurs de concidérer que vos pensées ou vos vos croyances sont pour vous des faits avérés. Bien sûr, il vous
+        est possible d'énoncer un fait puis d'expliquer ce que vous en pensez.
       </Note>
 
       <Rule>2.3. J'apporte les sources nécessaires pour vérifier les faits énoncés</Rule>

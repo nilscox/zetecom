@@ -58,7 +58,7 @@ const cards = [
   },
   {
     text: 'Lutter contre les fausses informations',
-    subtext: 'Parce qu\'il ne sufft pas de voulair être informé pour ne pas être induit en erreur, et croire pour de mauvaises raisons',
+    subtext: 'Parce qu\'il ne sufft pas de vouloir être informé pour ne pas être induit en erreur, et croire pour de mauvaises raisons',
     image: '/assets/images/fake-news.png',
   },
   {
@@ -193,10 +193,10 @@ const Home: React.FC = () => (
 
     <p style={{ fontSize: 18 }}>
       <Text>
-        Si vous voulez comprendre l'information et participer à des échanges constructifs sur
-        internet, alors rejoignez-nous ! Nous faisons tout pour construire une communauté
-        bienveillante, attentive aux biais, qui sait écouter et partager ses opinions en apportant
-        des arguments solides selon son sens critique et une méthode rigoureuse.
+        Nous tentons de rassembler sur cette plateforme, des personnes bienveillantes, attentives aux biais, qui savent
+        écouter et partager leurs opinions en apportant des arguments selon son leur critique et une méthode rigoureuse.
+        Si vous voulez comprendre l'information et participer à des échanges constructifs sur internet, prenez une
+        seconde pour ajouter un marque page, et pourquoi pas <Link to="/usage#inscription">vous inscrire</Link> !
       </Text>
     </p>
 
