@@ -37,9 +37,9 @@ Feature: Authentication
     And I type "email@domain.tld" in the "Email" field
     And I type "secure p4ssword" in the "Mot de passe" field
     And I type "someone" in the "Pseudo" field
-    Then the button with label "Inscription" should be disabled
+    Then the button with label "Inscription" is disabled
     When I accept the rules
-    Then the button with label "Inscription" should not be disabled
+    Then the button with label "Inscription" is not disabled
     When I click on the button with label "Inscription"
     Then the browser navigates to /popup/signup/post-signup
     And I read "un email vous a été envoyé à email@domain.tld"
@@ -79,9 +79,9 @@ Feature: Authentication
   Scenario: Login
     When I navigate to /popup/login
     And I type "email@domain.tld" in the "Email" field
-    Then the button with label "Connexion" should be disabled
+    Then the button with label "Connexion" is disabled
     When I type "secure p4ssword" in the "Mot de passe" field
-    Then the button with label "Connexion" should not be disabled
+    Then the button with label "Connexion" is not disabled
     When I click on the button with label "Connexion"
     Then the browser navigates to /popup/logout
     And I read "Vous êtes connecté(e) sur Réagir à l'information en tant que someone."
@@ -99,6 +99,6 @@ Feature: Authentication
   Scenario: Logout
     Given I am logged in
     When I open the popup
-    Then the button with label "Déconnexion" should not be disabled
+    Then the button with label "Déconnexion" is not disabled
     When I click on the button with label "Déconnexion"
     Then the browser navigates to /popup/login
