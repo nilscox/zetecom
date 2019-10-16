@@ -47,7 +47,7 @@ export class InformationController {
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Information> {
-    const info = this.informationService.findOne({ id });
+    const info = await this.informationService.findOne({ id });
 
     if (!info)
       throw new NotFoundException();
@@ -60,7 +60,7 @@ export class InformationController {
   async findOneByUrl(
     @Param('url') url: string,
   ): Promise<Information> {
-    const info = this.informationService.findOne({ url: decodeURIComponent(url) });
+    const info = await this.informationService.findOne({ url: decodeURIComponent(url) });
 
     if (!info)
       throw new NotFoundException();
