@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { parseInformation } from 'src/types/Information';
-import useQueryString from 'src/hooks/useQueryString';
+import useQueryString from 'src/hooks/use-query-string';
 import Loader from 'src/components/common/Loader';
 
 import Integration from './Integration';
