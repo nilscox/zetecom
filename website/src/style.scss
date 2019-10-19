@@ -1,5 +1,26 @@
 @import "variables.scss";
 
+@font-face {
+  font-family: 'Nunito Sans';
+  src: url('/assets/fonts/NunitoSans/NunitoSans-Regular.ttf');
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Nunito Sans';
+  src: url('/assets/fonts/NunitoSans/NunitoSans-Bold.ttf');
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Domine';
+  src: url('/assets/fonts/Domine/Domine-Regular.ttf');
+  font-style: normal;
+  font-weight: bold;
+}
+
 body {
   font-size: 16px;
   line-height: 22px;
@@ -39,7 +60,7 @@ body {
 
   h2 {
     font-size: 24px;
-    font-family: 'domine';
+    font-family: 'Domine';
     margin: 40px 20px 20px;
 
     @media screen and (min-width: $break-medium) {

@@ -1,7 +1,7 @@
 const path = require('path');
-const { EnvironmentPlugin } = require('webpack');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 
@@ -36,13 +36,30 @@ module.exports = {
       {
         test: /\.(svg|png|gif)$/,
         use: [
-          'file-loader',
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'assets/images',
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              pngquant: {
+                quality: [0.65, 0.90],
+                speed: 4,
+              },
+              gifsicle: {
+                optimizationLevel: 2,
+              },
+            },
+          },
         ],
       },
 
     ],
   },
-
 
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -54,7 +71,7 @@ module.exports = {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'styles.css',
+      filename: 'assets/css/styles.css',
       ignoreOrder: false,
     }),
 
@@ -73,6 +90,9 @@ module.exports = {
       }
     }),
 
+    new CopyPlugin([
+      { from: 'static/**/*', to: 'dist/assets' },
+    ]),
   ],
 
   optimization: {
