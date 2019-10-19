@@ -1,0 +1,97 @@
+@import "variables.scss";
+
+body {
+  font-size: 16px;
+  line-height: 22px;
+  font-family: 'Nunito Sans';
+  color: #444;
+
+  @media screen and (min-width: $break-medium) {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  @media screen and (min-width: $break-large) {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  @media screen and (min-width: $break-desktop) {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  em {
+    font-style: oblique;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  p {
+    margin: 10px 0;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-family: 'domine';
+    margin: 40px 20px 20px;
+
+    @media screen and (min-width: $break-medium) {
+      margin: 50px 20px 20px;
+      font-size: 28px;
+    }
+  }
+
+  .hide {
+    display: none;
+  }
+
+  .wording {
+    background: #FEE;
+  }
+
+  .page {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+
+    @media screen and (min-width: $break-small) {
+      padding: 20px;
+    }
+
+    @media screen and (min-width: $break-medium) {
+      padding: 30px;
+      padding-top: 20px;
+    }
+
+    @media screen and (min-width: $break-large) {
+      padding: 0 10%;
+      padding-top: 30px;
+    }
+
+    .page-content {
+      display: flex;
+      flex-direction: column;
+
+      @media screen and (min-width: $break-desktop) {
+        flex-direction: row;
+        border-top: 1px solid #CCC;
+
+        nav {
+          flex: 1;
+        }
+
+        main {
+          flex: 4;
+          padding: 10px;
+        }
+      }
+    }
+  }
+}

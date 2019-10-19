@@ -1,0 +1,126 @@
+@import "../variables.scss";
+
+.page#page-home nav.navigation .navigation-link {
+  @media screen and (max-width: $break-small) { transform: translateY(0 * 0px) }
+  @media screen and (min-width: $break-small) { transform: translateY(0 * 0px) }
+}
+
+.page#page-usage nav.navigation .navigation-link {
+  @media screen and (max-width: $break-small) { transform: translateY(1 * -30px) }
+  @media screen and (min-width: $break-small) { transform: translateY(1 * -40px) }
+}
+
+.page#page-rules nav.navigation .navigation-link {
+  @media screen and (max-width: $break-small) { transform: translateY(2 * -30px) }
+  @media screen and (min-width: $break-small) { transform: translateY(2 * -40px) }
+}
+
+.page#page-motivations nav.navigation .navigation-link {
+  @media screen and (max-width: $break-small) { transform: translateY(3 * -30px) }
+  @media screen and (min-width: $break-small) { transform: translateY(3 * -40px) }
+}
+
+.page#page-faq nav.navigation .navigation-link {
+  @media screen and (max-width: $break-small) { transform: translateY(4 * -30px) }
+  @media screen and (min-width: $break-small) { transform: translateY(4 * -40px) }
+}
+
+nav.navigation {
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  overflow: hidden;
+  text-transform: uppercase;
+  transition: height 220ms ease-in-out;
+
+  border-top: 1px solid #CCC;
+  border-bottom: 1px solid #CCC;
+
+  @media screen and (min-width: $break-small) {
+    height: 40px;
+  }
+
+  @media screen and (min-width: $break-desktop) {
+    display: block;
+    border-top: none;
+    border-bottom: none;
+    height: auto;
+    text-align: right;
+    padding: 10px;
+    border-right: 1px solid #CCC;
+    position: relative;
+    overflow: initial;
+
+    .navigation-burger {
+      display: none;
+    }
+  }
+
+  &.open {
+    height: calc(5 * 30px);
+
+    @media screen and (min-width: $break-small) {
+      height: calc(5 * 40px);
+    }
+
+    .navigation-link {
+      transform: translateY(0) !important;
+    }
+  }
+
+  .navigation-burger {
+    font-size: 30px;
+    line-height: 30px;
+    margin-right: 10px;
+    cursor: pointer;
+
+    @media screen and (min-width: $break-small) {
+      line-height: 40px;
+    }
+  }
+
+  .navigation-links {
+    flex: 1;
+    height: 30px;
+    line-height: 30px;
+
+    @media screen and (min-width: $break-small) {
+      line-height: 40px;
+    }
+
+    @media screen and (min-width: $break-desktop) {
+      line-height: initial;
+      position: sticky;
+      top: 30px;
+      margin-top: 30px;
+      height: auto;
+    }
+
+    a.navigation-link {
+      display: block;
+      text-decoration: none;
+      font-size: 20px;
+
+      transition: transform 220ms ease-in-out;
+
+      @media screen and (min-width: $break-small) {
+        font-size: 22px;
+      }
+
+      @media screen and (min-width: $break-desktop) {
+        color: #666;
+        margin-bottom: 10px;
+        transition: transform 0s;
+        transform: translateY(0) !important;
+      }
+
+      &.active {
+        font-weight: bold;
+
+        @media screen and (min-width: $break-desktop) {
+          color: #333;
+        }
+      }
+    }
+  }
+}
