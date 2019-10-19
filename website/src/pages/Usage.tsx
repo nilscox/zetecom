@@ -7,9 +7,12 @@ import SubTitle from '../components/SubTitle';
 import Note from '../components/Note';
 import DownloadExtension from '../components/DownloadExtensionButton';
 import Image from '../components/Image';
-import Flex from 'src/components/Flex';
-import Break from 'src/components/Break';
 import Link from 'src/components/Link';
+
+import imageSubjects from 'src/images/subjects.png';
+import imagePopupLogin from 'src/images/popup-login.png';
+
+import './Usage.scss';
 
 /*
 
@@ -48,50 +51,28 @@ import Link from 'src/components/Link';
 
 */
 
-const ImageSubjects: React.FC = () => {
-  return (
-    <Image
-      maximize
-      float="right"
-      src="/assets/images/subjects.png"
-      style={{
-        ...choose({
-          mobile: { width: '100%' },
-          desktop: { width: 320 },
-        }),
-      }}
-      containerStyle={{
-        marginLeft: 30,
-        marginBottom: 10,
-      }}
-    />
-  );
-};
+const ImageSubjects: React.FC = () => (
+  <Image
+    maximize
+    src={imageSubjects}
+    containerClassName="usage-image-wrapper"
+    figureClassName="usage-image-subject"
+    alt="screenshot liste sujets réagir à l'information"
+  />
+);
 
-const ImagePopup: React.FC = () => {
-  return (
-    <Image
-      maximize
-      float="right"
-      src="/assets/images/popup-login.png"
-      style={{
-        ...choose({
-          mobile: { width: '100%' },
-          desktop: { width: 340 },
-        }),
-      }}
-      containerStyle={{
-        marginLeft: 30,
-        marginBottom: 10,
-      }}
-    />
-  );
-};
-
-const choose = ({ desktop }: any) => desktop;
+const ImagePopup: React.FC = () => (
+  <Image
+    maximize
+    src={imagePopupLogin}
+    containerClassName="usage-image-wrapper"
+    figureClassName="usage-image-popup"
+    alt="screenshot popup extension réagir à l'information"
+  />
+);
 
 const Usage: React.FC = () => (
-  <div style={{ flex: 4 }}>
+  <div className="usage-content-wrapper">
     <Title id="Installation">Installation</Title>
 
     <p>
@@ -145,7 +126,7 @@ const Usage: React.FC = () => (
       à la liste via le bouton "retour".
     </p>
 
-    <div style={{ clear: 'both' }} />
+    <div className="usage-clear" />
 
     <SubTitle id="Lire_les_réactions">Lire les réactions</SubTitle>
 
@@ -264,7 +245,7 @@ const Usage: React.FC = () => (
       trouvez pas cet e-mail quelques minutes après votre inscription.
     </p>
 
-    <div style={{ clear: 'both' }} />
+    <div className="usage-clear" />
 
     <SubTitle id="Mot_de_passe_oublié">Mot de passe oublié</SubTitle>
 
@@ -305,8 +286,6 @@ const Usage: React.FC = () => (
       plaisir de nouveau modérateurs ! <Link href="/faq#contact">Contactez</Link> l'équipe qui développe ce projet en
       expliquant les raisons qui motivent ce choix, nous en discuterons directement.
     </p>
-
-    <Break size="big" />
 
   </div>
 );

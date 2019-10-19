@@ -2,20 +2,17 @@
 
 import React from 'react';
 
-import Flex from 'src/components/Flex';
-
 import Title from '../components/Title';
 import Card from '../components/Card';
 import DownloadExtension from '../components/DownloadExtensionButton';
 import EmailValidatedAlert from '../components/EmailValidatedAlert';
-import Break from 'src/components/Break';
 import Image from '../components/Image';
 import Link from 'src/components/Link';
 
 import './Home.scss';
 import Note from 'src/components/Note';
 
-import imageYoutubRi from 'assets/images/youtube-ri.gif';
+import imageYoutubRi from 'src/images/youtube-ri.gif';
 
 /*
 
@@ -55,17 +52,17 @@ const cards = [
   {
     text: 'Rassembler une communauté de personnes pour réfléchir ensemble',
     subtext: 'Parce que les informations telles qu\'elles sont présentées dans les médias méritent souvent d\'être discutées pour être correctement interprétées',
-    image: '/assets/images/community.png',
+    image: 'src/images/community.png',
   },
   {
     text: 'Lutter contre les fausses informations',
     subtext: 'Parce qu\'il ne sufft pas de vouloir être informé pour ne pas être induit en erreur, et croire pour de mauvaises raisons',
-    image: '/assets/images/fake-news.png',
+    image: 'src/images/fake-news.png',
   },
   {
     text: 'Offrir une place aux débats dans un climat de confiance sur la toile',
     subtext: 'Parce qu\'il est souvent difficile de communiquer dans un cadre collaboratif et respectueux à travers un écran',
-    image: '/assets/images/trust.png',
+    image: 'src/images/trust.png',
   },
 ];
 
@@ -142,16 +139,17 @@ const Home: React.FC = () => (
       <Image
         maximize
         src={imageYoutubRi}
+        containerClassName="what-image-flex-container"
         alt="screenshot youtube réagir à l'information"
       />
-      <Flex flex={1} flexDirection="column" justifyContent="space-between">
+      <div className="what-item-wrapper">
         { sentences.map(({ text, subtext }, n) => (
           <div key={n} className="what-item">
             <h3>{ text }</h3>
             <p>{ subtext }</p>
           </div>
         )) }
-      </Flex>
+      </div>
     </div>
 
     <p>
@@ -180,8 +178,7 @@ const Home: React.FC = () => (
       message depuis l'adresse e-mail à autoriser à nils@nils.cx. Nous vous répondrons rapidement.
     </Note>
 
-    <Break size="big" />
-    <Break size="big" />
+    <div className="break" />
   </>
 );
 
