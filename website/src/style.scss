@@ -58,6 +58,12 @@ body {
     margin: 10px 0;
   }
 
+  ul {
+    margin: 10px 0;
+    padding-left: 40px;
+    list-style-type: initial;
+  }
+
   h2 {
     font-size: 24px;
     font-family: 'Domine';
@@ -67,6 +73,14 @@ body {
       margin: 50px 20px 20px;
       font-size: 28px;
     }
+  }
+
+  h3 {
+    font-size: 24px;
+    line-height: 24px;
+    margin: 25px;
+    margin-top: 45px;
+    margin-bottom: 15px;
   }
 
   .hide {

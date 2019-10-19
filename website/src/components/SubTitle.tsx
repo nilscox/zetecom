@@ -5,16 +5,7 @@ type SubTitleProps = {
 };
 
 const SubTitle: React.FC<SubTitleProps> = ({ id, children }) => (
-  <h3
-    id={id}
-    style={{
-      fontSize: '1.5rem',
-      lineHeight: '1.5rem',
-      margin: 25,
-      marginTop: 45,
-      marginBottom: 15,
-    }}
-  >
+  <h3 id={id}>
     { children }
   </h3>
 );

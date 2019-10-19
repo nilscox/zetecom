@@ -2,20 +2,15 @@ import React, { useEffect } from 'react';
 
 import { useEnvironment } from 'src/index';
 
-const Tlkio: React.FC = () => {
-  const { BASE_URL } = useEnvironment();
+import './Tlkio.scss';
 
-  useEffect(() => window.postMessage({ type: 'TLKIO_READY' }, BASE_URL), []);
-
-  return (
-    <div
-      id="tlkio"
-      data-channel="reagir-information"
-      data-theme="theme--minimal"
-      data-custom-css={`${BASE_URL}/assets/css/tlkio.css`}
-      style={{ width: '100%', maxWidth: 820, height: 600, border: '2px solid #EEE' }}
-    />
-  );
-};
+const Tlkio: React.FC = () => (
+  <div
+    id="tlkio"
+    data-channel="reagir-information"
+    data-theme="theme--minimal"
+    data-custom-css={useEnvironment().BASE_URL + '/assets/css/tlkio.css'}
+  />
+);
 
 export default Tlkio;
