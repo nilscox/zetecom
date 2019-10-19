@@ -1,11 +1,12 @@
 const path = require('path');
+const { EnvironmentPlugin } = require('webpack');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
 
   mode: 'development',
-  entry: './index.tsx',
+  entry: './src/index.tsx',
   devtool: 'inline-source-map',
 
   output: {
@@ -24,11 +25,18 @@ module.exports = {
       },
 
       {
-        test: /\.scss$/i,
+        test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
           'sass-loader',
+        ],
+      },
+
+      {
+        test: /\.(svg|png|gif)$/,
+        use: [
+          'file-loader',
         ],
       },
 
@@ -40,7 +48,8 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
     alias: {
       'src': path.resolve(__dirname, 'src'),
-    }
+      'assets': path.resolve(__dirname, 'assets'),
+    },
   },
 
   plugins: [
@@ -54,12 +63,16 @@ module.exports = {
         '/',
       ],
       locals: {
-        greet: 'Hello'
+        NODE_ENV: process.env.NODE_ENV || 'development',
+        BASE_URL: process.env.BASE_URL || 'http://localhost:8000',
+        CHROME_EXTENSION_URL: process.env.CHROME_EXTENSION_URL,
+        REPOSITORY_URL: process.env.REPOSITORY_URL,
       },
       globals: {
         window: {}
       }
-    })
+    }),
+
   ],
 
   optimization: {

@@ -1,14 +1,13 @@
 import React from 'react';
 
-import routes from 'src/routes';
-import { usePage } from 'src/PageContext';
+import { usePage } from 'src/index';
+import routes from 'src/pages';
 
 import './Navgation.scss';
 
 const Navigation = () => {
   const page = usePage();
   const active = (path: string) => page.path === path;
-  const pageIdx = routes.indexOf(page);
 
   return (
     <nav className="navigation">

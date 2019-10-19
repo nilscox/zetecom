@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 
-import env from 'src/env';
-
-const { BASE_URL = '' } = env;
+import { useEnvironment } from 'src/index';
 
 const Tlkio: React.FC = () => {
+  const { BASE_URL } = useEnvironment();
+
   useEffect(() => window.postMessage({ type: 'TLKIO_READY' }, BASE_URL), []);
 
   return (

@@ -1,8 +1,8 @@
 @import "../variables.scss";
 
 .page#page-home nav.navigation .navigation-link {
-  @media screen and (max-width: $break-small) { transform: translateY(0 * 0px) }
-  @media screen and (min-width: $break-small) { transform: translateY(0 * 0px) }
+  @media screen and (max-width: $break-small) { transform: translateY(0 * -30px) }
+  @media screen and (min-width: $break-small) { transform: translateY(0 * -40px) }
 }
 
 .page#page-usage nav.navigation .navigation-link {
@@ -50,10 +50,6 @@ nav.navigation {
     border-right: 1px solid #CCC;
     position: relative;
     overflow: initial;
-
-    .navigation-burger {
-      display: none;
-    }
   }
 
   &.open {
@@ -76,6 +72,10 @@ nav.navigation {
 
     @media screen and (min-width: $break-small) {
       line-height: 40px;
+    }
+
+    @media screen and (min-width: $break-desktop) {
+      display: none;
     }
   }
 

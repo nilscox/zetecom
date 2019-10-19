@@ -3,15 +3,9 @@ import React from 'react';
 import './style.scss';
 import PageHeader from './components/PageHeader';
 import Navigation from './components/Navigation';
+import { Page as PageType } from './pages';
 
-type PageProps = {
-  id: string;
-  path: string;
-  label: string;
-  Component: React.ComponentType,
-};
-
-const PageLayout: React.FC<PageProps> = ({ id, path, label, Component }) => (
+const PageLayout: React.FC<PageType> = ({ id, Component }) => (
   <div className="page" id={`page-${id}`}>
 
     <PageHeader />

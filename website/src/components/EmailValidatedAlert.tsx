@@ -22,7 +22,7 @@ const EmailValidatedAlert: React.FC = () => {
   }, []);
 
   // if (!location || queryString.parse(location.search)['email-validated'] !== 'true')
-  //   return null;
+    return null;
 
   // not so mobile friendly :/
   return (
