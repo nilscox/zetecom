@@ -34,22 +34,32 @@
       flex-direction: row;
     }
 
-    figure {
-      margin-bottom: 20px;
+    .what-image-flex-container {
       flex: 1;
 
-      img {
-        width: 100%;
+      figure {
+        margin-bottom: 20px;
       }
     }
 
-    .what-item {
+    .what-item-wrapper {
       flex: 1;
-      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
-      h3 {
-        font-weight: bold;
+      .what-item {
+        flex: 1;
+        padding-left: 20px;
+
+        h3 {
+          font-weight: bold;
+        }
       }
     }
+  }
+
+  .break {
+    height: 48px;
   }
 }

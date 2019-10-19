@@ -6,6 +6,8 @@ import Title from 'src/components/Title';
 import SubTitle from 'src/components/SubTitle';
 import Note from 'src/components/Note';
 
+import './Rules.scss';
+
 /*
 
 - 1. En tant que lecteur
@@ -25,7 +27,7 @@ import Note from 'src/components/Note';
 */
 
 const Rule: React.FC = ({ children }) => (
-  <h4 style={{ fontSize: '1.2rem', margin: 10, marginLeft: 50 }}><em>{ children }</em></h4>
+  <h4 className="route-title"><em>{ children }</em></h4>
 );
 
 /* eslint-disable */

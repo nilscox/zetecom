@@ -1,0 +1,23 @@
+a.image-container {
+  text-decoration: none;
+
+  .image-border {
+    border: 1px solid #CCC;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  figure {
+
+    &.image-figure {
+      text-align: center;
+      color: #999;
+      cursor: pointer;
+
+      .image-figcaption {
+        font-size: 12px;
+        line-height: 5px;
+      }
+    }
+  }
+}
