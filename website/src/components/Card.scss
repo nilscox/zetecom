@@ -1,0 +1,53 @@
+@import "../variables.scss";
+
+.card {
+  flex: 1;
+  flex-direction: column;
+  min-width: 320px;
+  max-width: 360px;
+  margin: 0 10px;
+
+  .card-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    height: 120px;
+
+    @media screen and (min-width: $break-medium) {
+      height: 140px;
+    }
+
+    img {
+      height: 100%;
+      opacity: 0.8;
+    }
+  }
+
+  .card-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    height: 45px;
+    line-height: 20px;
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    margin-top: 10px;
+    padding: 0 15px;
+
+    @media screen and (min-width: $break-medium) {
+      font-size: 18px;
+    }
+  }
+
+  .card-subtext {
+    font-size: 15px;
+    line-height: 18px;
+    margin-top: 10px;
+
+    @media screen and (min-width: $break-medium) {
+      line-height: 20px;
+    }
+  }
+}
