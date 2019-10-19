@@ -1,0 +1,27 @@
+#new-name-banner {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: rgb(240, 250, 255);
+  color: #040f4a;
+  z-index: 1;
+  padding: 50px 80px;
+  border-top: 1px solid #CCF;
+  box-sizing: border-box;
+
+  .close {
+    font-size: 52;
+    color: #66C;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .new-name-banner-heading {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+}
