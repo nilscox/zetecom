@@ -91,7 +91,10 @@ module.exports = {
     }),
 
     new CopyPlugin([
-      { from: 'static/**/*', to: 'dist/assets' },
+      {
+        from: 'static/**/*',
+        transformPath: target => target.replace(/^static/, 'assets'),
+      },
     ]),
   ],
 

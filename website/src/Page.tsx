@@ -23,7 +23,7 @@ const PageLayout: React.FC<PageType> = ({ id, Component }) => (
   </div>
 );
 
-const Page: React.FC<PageProps> = (props) => (
+const Page: React.FC<PageType> = (props) => (
   <html lang="fr">
     <head>
 
@@ -35,8 +35,7 @@ const Page: React.FC<PageProps> = (props) => (
 
       <link type="text/css" rel="stylesheet" href="/assets/css/reset.css" />
       <link type="text/css" rel="stylesheet" href="/assets/css/reset.css" />
-      <link type="text/css" rel="stylesheet" href="/assets/css/fonts.css" />
-      <link type="text/css" rel="stylesheet" href="/styles.css" />
+      <link type="text/css" rel="stylesheet" href="/assets/css/styles.css" />
 
     </head>
     <body>
