@@ -1,3 +1,5 @@
+const { BASE_URL } = window.env || {};
+
 // mobile navigation
 
 const navigation = document.querySelector('.navigation');
@@ -26,3 +28,8 @@ newNameBannerClose.addEventListener('click', () => {
 
 if (!localStorage.getItem('nn'))
   newNameBanner.classList.remove('hide');
+
+// tlkio
+
+if (BASE_URL && !BASE_URL.match(/localhost/))
+  window.postMessage({ type: 'TLKIO_READY' }, window.env.BASE_URL);
