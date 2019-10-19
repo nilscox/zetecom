@@ -1,13 +1,16 @@
 import React from 'react';
 
-import './style.scss';
+import NewNameBanner from './components/NewNameBanner';
 import PageHeader from './components/PageHeader';
 import Navigation from './components/Navigation';
 import { Page as PageType } from './pages';
 
+import './style.scss';
+
 const PageLayout: React.FC<PageType> = ({ id, Component }) => (
   <div className="page" id={`page-${id}`}>
 
+    <NewNameBanner />
     <PageHeader />
 
     <div className="page-content">
@@ -40,22 +43,9 @@ const Page: React.FC<PageType> = (props) => (
     </head>
     <body>
       <PageLayout {...props} />
+
+      <script type="text/javascript" src="/assets/js/client.js" />
       <script src="http://localhost:8000/webpack-dev-server.js" />
-      <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `
-        const navigation = document.querySelector('.navigation');
-        const burger = navigation.querySelector('.navigation-burger');
-
-        let navigationOpen = false;
-
-        burger.addEventListener('click', () => {
-          navigationOpen = !navigationOpen;
-
-          if (navigationOpen)
-            navigation.classList.add('open');
-          else
-            navigation.classList.remove('open');
-        });
-      ` }} />
 
     </body>
   </html>
