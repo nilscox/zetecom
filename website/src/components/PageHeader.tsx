@@ -1,11 +1,13 @@
 import React from 'react';
 
+import Logo from 'src/images/logo.png';
+
 import './PageHeader.scss';
 
 const PageHeader: React.FC = () => (
   <div className="page-header">
 
-    <img className="logo" src="/assets/images/logo.png" alt="Logo Réagir à l'information" />
+    <img className="logo" src={Logo} alt="Logo de Réagir à l'information" />
 
     <div className="header-title">
       <h1 className="title">Réagir à l'information</h1>

@@ -10,7 +10,6 @@ import Image from '../components/Image';
 import Link from 'src/components/Link';
 
 import './Home.scss';
-import Note from 'src/components/Note';
 
 import imageYoutubRi from 'src/images/youtube-ri.gif';
 
@@ -171,12 +170,6 @@ const Home: React.FC = () => (
       raisons pour lesquelles le projet a vu le jour, et son état d'esprit. Et pour commencer à utiliser l'extension dès
       maintenant, rendez-vous sur la page <Link href="/utilisation">utilisation</Link>. A bientôt sur internet !
     </p>
-
-    <Note>
-      Le projet est encore très jeune (les premières inscriptions on démarrées en Octobre 2019), il est donc pour
-      le moment nécessaire d'autoriser manuellement votre adresse e-mail pour vous inscrire. Pour ce faire, envoyez un
-      message depuis l'adresse e-mail à autoriser à nils@nils.cx. Nous vous répondrons rapidement.
-    </Note>
 
     <div className="break" />
   </>

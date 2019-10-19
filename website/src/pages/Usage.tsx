@@ -4,7 +4,6 @@ import React from 'react';
 
 import Title from '../components/Title';
 import SubTitle from '../components/SubTitle';
-import Note from '../components/Note';
 import DownloadExtension from '../components/DownloadExtensionButton';
 import Image from '../components/Image';
 import Link from 'src/components/Link';
@@ -51,26 +50,6 @@ import './Usage.scss';
 
 */
 
-const ImageSubjects: React.FC = () => (
-  <Image
-    maximize
-    src={imageSubjects}
-    containerClassName="usage-image-wrapper"
-    figureClassName="usage-image-subject"
-    alt="screenshot liste sujets réagir à l'information"
-  />
-);
-
-const ImagePopup: React.FC = () => (
-  <Image
-    maximize
-    src={imagePopupLogin}
-    containerClassName="usage-image-wrapper"
-    figureClassName="usage-image-popup"
-    alt="screenshot popup extension réagir à l'information"
-  />
-);
-
 const Usage: React.FC = () => (
   <div className="usage-content-wrapper">
     <Title id="Installation">Installation</Title>
@@ -105,7 +84,13 @@ const Usage: React.FC = () => (
 
     <SubTitle id="Liste_des_sujets">Liste des sujets</SubTitle>
 
-    <ImageSubjects />
+    <Image
+      maximize
+      src={imageSubjects}
+      containerClassName="usage-image-wrapper"
+      figureClassName="usage-image-subject"
+      alt="screenshot liste sujets réagir à l'information"
+    />
 
     <p>
       Les zones de commentaires regroupent les réactions par sujet, pour permettre de cibler un point précis à débattre.
@@ -178,10 +163,10 @@ const Usage: React.FC = () => (
       </li>
     </ul>
 
-    <Note>
+    <div className="note">
       Note : réfuter une réaction ne va pas la faire baisser dans le classement. L'algorithme prend en compte que vous
       y avez accordé de l'importance, même si vous n'êtes pas d'accord avec le message.
-    </Note>
+    </div>
 
     <SubTitle id="Rédiger_une_réaction">Rédiger une réaction</SubTitle>
 
@@ -223,7 +208,13 @@ const Usage: React.FC = () => (
 
     <SubTitle id="Inscription_/_Connexion">Inscription / Connexion</SubTitle>
 
-    <ImagePopup />
+    <Image
+      maximize
+      src={imagePopupLogin}
+      containerClassName="usage-image-wrapper"
+      figureClassName="usage-image-popup"
+      alt="screenshot popup extension réagir à l'information"
+    />
 
     <p>
       La création d'un compte vous permettra de devenir membre de la communauté, et de participer aux débats en
@@ -244,6 +235,12 @@ const Usage: React.FC = () => (
       vous invitant à valider votre compte en cliquant sur un lien. Pensez à vérifier dans vos spams si vous ne
       trouvez pas cet e-mail quelques minutes après votre inscription.
     </p>
+
+    <div className="note">
+      Le projet est encore très jeune (les premières inscriptions on démarrées en Octobre 2019), il est donc pour
+      le moment nécessaire d'autoriser manuellement votre adresse e-mail pour vous inscrire. Pour ce faire, envoyez un
+      message depuis l'adresse e-mail à autoriser à nils@nils.cx. Nous vous répondrons rapidement.
+    </div>
 
     <div className="usage-clear" />
 
@@ -274,10 +271,10 @@ const Usage: React.FC = () => (
       signalement, et de valider.
     </p>
 
-    <Note>
+    <div className="note">
       Note : vous ne pouvez signaler une réaction qu'avec un compte utilisateur. Voir la section{' '}
       <Link href="#Inscription">inscription</Link> de cette page pour en créer un si vous n'en avez pas déjà.
-    </Note>
+    </div>
 
     <SubTitle id="Rejoindre_les_modérateurs">Rejoindre les modérateurs</SubTitle>
 
