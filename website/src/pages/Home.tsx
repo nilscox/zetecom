@@ -15,6 +15,8 @@ import Link from 'src/components/Link';
 import './Home.scss';
 import Note from 'src/components/Note';
 
+import imageYoutubRi from 'assets/images/youtube-ri.gif';
+
 /*
 
 Réagir à l'information
@@ -139,12 +141,12 @@ const Home: React.FC = () => (
     <div className="what">
       <Image
         maximize
-        src="/assets/images/youtube-ri.gif"
+        src={imageYoutubRi}
         alt="screenshot youtube réagir à l'information"
       />
       <Flex flex={1} flexDirection="column" justifyContent="space-between">
-        { sentences.map(({ text, subtext }) => (
-          <div className="what-item">
+        { sentences.map(({ text, subtext }, n) => (
+          <div key={n} className="what-item">
             <h3>{ text }</h3>
             <p>{ subtext }</p>
           </div>

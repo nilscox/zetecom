@@ -2,151 +2,89 @@
 
 import React from 'react';
 
-import env from 'src/env';
 import Box from 'src/components/Box';
 
 import Title from '../components/Title';
 import SubTitle from '../components/SubTitle';
 import Tlkio from '../components/Tlkio';
-
-/* eslint-disable max-len */
-
-const questions = [
-  {
-    question: 'Comment créer un compte sur Réaciton à l\'information ?',
-    answer: (
-      <>
-        Le projet étant en phase de test, l'inscription n'est pas encore ouverte à tous pour l'instant. Si vous
-        souhaitez faire partie des testeurs, vous pouvez <a href="#contact">contacter</a> l'équipe qui développe
-        le projet.
-      </>
-    ),
-  },
-
-  {
-    question: 'Où trouver la liste des zones de commentaires disponibles avec l\'extension ?',
-    answer: (
-      <>
-        Pour le moment, il n'est pas possible de lister les pages contenant une zone de commentaire propre à la
-        platforme.
-      </>
-    ),
-  },
-
-  {
-    question: 'Comment créer une nouvelle zone de commentaires ?',
-    answer: (
-      <>
-        Il est nécessaire de <a href="#contact">contacter</a> l'équipe qui développe le projet pour demander l'ajout
-        d'une nouvelle zone de commentaire.
-      </>
-    ),
-  },
-
-  {
-    question: 'Comment mettre en page une réaction ?',
-    answer: (
-      <>
-        Les messages peuvent être rédigées en <a href="https://fr.wikipedia.org/wiki/Markdown">markdown</a>, un langage
-        de balisage permettant une mise en forme simple.
-      </>
-    ),
-  },
-
-  {
-    question: 'Comment est assurée la modération ?',
-    answer: 'Les messages signalés sont traités par des membres volontaires de la communauté.',
-  },
-
-  {
-    question: 'Qui peut devenir modérateur ?',
-    answer: (
-      <>
-        Tous les membres de la communauté ! Si vous êtes motivé(e), <a href="#contact">contactez</a> l'équipe qui
-        développe le projet pour expliquer les raisons qui motivent ce choix, nous en discuterons directement.
-      </>
-    ),
-  },
-
-  {
-    question: 'Comment supprimer un compte de la platforme ?',
-    answer: (
-      <>
-        Il est possible de supprimer un compte en <a href="#contact">contactant</a> l'équipe qui développe
-        le projet par e-mail, depuis l'adresse associée au compte à supprimer.
-      </>
-    ),
-  },
-
-  {
-    question: 'Comment modifier le mot de passe d\'un compte ?',
-    answer: (
-      <>
-        Pour modifier le mot de passe d'un compte, cliquez sur le lien "mot de passe oublié" accessible via la popup de
-        l'extension lorsque vous n'êtes pas connecté.
-      </>
-    ),
-  },
-
-  {
-    question: 'Comment signaler un bug ou proposer de nouvelles fonctionnalités ?',
-    answer: (
-      <>
-        Vous l'aurez peut-être deviné, <a href="#contact">contactez</a> l'équipe qui développe le projet.
-      </>
-    ),
-  },
-
-  {
-    question: 'Comment le projet est-il financé ?',
-    answer: 'Le but du projet n\'est pas de faire du profit, et aucun financement n\'est en jeu.',
-  },
-
-  {
-    question: 'Qui développe Réagir à l\'information ?',
-    answer: (
-      <>
-        Le projet est développé par une <a href="https://nils.cx">petite</a> <a href="https://bopzor.me">équipe</a> de
-        développeurs passionnés d'esprit critique et de zététique.
-      </>
-    ),
-  },
-
-  {
-    question: 'Peut-on participer au projet',
-    answer: (
-      <>
-        Si vous souhaitez participer au projet, pour donner des feedbacks ou proposer des axes d'amélioration, vous êtes
-        invité(e) à <a href="#contact">contactez</a> l'équipe qui développe le projet pour en discuter. Et si vous êtes
-        développeurs et que le projet vous intéresse techniquement, les source sont disponibles sur{' '}
-        <a href={env.REPOSITORY_URL}>github</a>.
-      </>
-    ),
-  },
-
-  {
-    question: 'Votre question ne figure pas dans cette liste... ?',
-    answer: <><a href="#contact">Contactez</a> l'équipe qui développe le projet !</>,
-  },
-];
-
-/* eslint-enable max-len */
+import { useEnvironment } from 'src';
 
 type QuestionProps = {
   question: React.ReactNode;
-  answer: React.ReactNode;
 };
 
-const Question: React.FC<QuestionProps> = ({ question, answer }) => (
+const Question: React.FC<QuestionProps> = ({ question, children }) => (
   <Box my={12}>
     <strong>{ question }</strong>
-    <p>{ answer }</p>
+    <p>{ children }</p>
   </Box>
 );
 
 const Questions: React.FC = () => (
   <>
-    { questions.map((props, n) => <Question key={n} {...props} />) }
+    <Question question="Comment créer un compte sur Réaciton à l\'information ?">
+      Le projet étant en phase de test, l'inscription n'est pas encore ouverte à tous pour l'instant. Si vous
+      souhaitez faire partie des testeurs, vous pouvez <a href="#contact">contacter</a> l'équipe qui développe
+      le projet.
+    </Question>
+
+    <Question question="Où trouver la liste des zones de commentaires disponibles avec l\'extension ?">
+      Pour le moment, il n'est pas possible de lister les pages contenant une zone de commentaire propre à la
+      platforme.
+    </Question>
+
+    <Question question="Comment créer une nouvelle zone de commentaires ?">
+      Il est nécessaire de <a href="#contact">contacter</a> l'équipe qui développe le projet pour demander l'ajout
+      d'une nouvelle zone de commentaire.
+    </Question>
+
+    <Question question="Comment mettre en page une réaction ?">
+      Les messages peuvent être rédigées en <a href="https://fr.wikipedia.org/wiki/Markdown">markdown</a>, un langage
+      de balisage permettant une mise en forme simple.
+    </Question>
+
+    <Question question="Comment est assurée la modération ?">
+      Les messages signalés sont traités par des membres volontaires de la communauté.
+    </Question>
+
+    <Question question="Qui peut devenir modérateur ?">
+      Tous les membres de la communauté ! Si vous êtes motivé(e), <a href="#contact">contactez</a> l'équipe qui
+      développe le projet pour expliquer les raisons qui motivent ce choix, nous en discuterons directement.
+    </Question>
+
+    <Question question="Comment supprimer un compte de la platforme ?">
+      Il est possible de supprimer un compte en <a href="#contact">contactant</a> l'équipe qui développe
+      le projet par e-mail, depuis l'adresse associée au compte à supprimer.
+    </Question>
+
+    <Question question="Comment modifier le mot de passe d\'un compte ?">
+      Pour modifier le mot de passe d'un compte, cliquez sur le lien "mot de passe oublié" accessible via la popup de
+      l'extension lorsque vous n'êtes pas connecté.
+    </Question>
+
+    <Question question="Comment signaler un bug ou proposer de nouvelles fonctionnalités ?">
+      Vous l'aurez peut-être deviné, <a href="#contact">contactez</a> l'équipe qui développe le projet.
+    </Question>
+
+    <Question question="Comment le projet est-il financé ?">
+      Le but du projet n\'est pas de faire du profit, et aucun financement n\'est en jeu.
+    </Question>
+
+    <Question question="Qui développe Réagir à l\'information ?">
+      Le projet est développé par une <a href="https://nils.cx">petite</a> <a href="https://bopzor.me">équipe</a> de
+      développeurs passionnés d'esprit critique et de zététique.
+    </Question>
+
+    <Question question="Peut-on participer au projet">
+      Si vous souhaitez participer au projet, pour donner des feedbacks ou proposer des axes d'amélioration, vous êtes
+      invité(e) à <a href="#contact">contactez</a> l'équipe qui développe le projet pour en discuter. Et si vous êtes
+      développeurs et que le projet vous intéresse techniquement, les source sont disponibles sur
+      <a href={useEnvironment().REPOSITORY_URL}>github</a>.
+    </Question>
+
+    <Question question="Votre question ne figure pas dans cette liste... ?">
+      <a href="#contact">Contactez</a> l'équipe qui développe le projet !
+    </Question>
   </>
 );
 
