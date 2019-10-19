@@ -5,7 +5,7 @@ import { parseInformation } from 'src/types/Information';
 import Loader from 'src/components/common/Loader';
 
 import useAxios from 'src/hooks/use-axios';
-import useQueryString from 'src/hooks/useQueryString';
+import useQueryString from 'src/hooks/use-query-string';
 
 import Integration from './Integration';
 
