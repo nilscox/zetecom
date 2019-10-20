@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      iframe { border: 1px solid #999; }
+      iframe::-webkit-scrollbar { display: none; }
+    </style>
+  </head>
+  <body>
+
+    <script>
+
+const formats = [
+  [[320, 560], [419, 735]],
+  [[420, 735], [559, 980]],
+  [[560, 980], [799, 1400]],
+  [[800, 1400], [999, 1750]],
+];
+
+const { body } = document;
+
+formats.forEach(([min, max]) => {
+  const row = document.createElement('div');
+
+  row.style.display = 'flex';
+  row.style.flexDirection = 'row';
+  row.style.alignItems = 'center';
+  row.style.justifyContent = 'space-evenly';
+  row.style.marginBottom = '30px';
+
+  [min, max].forEach(([width, height]) => {
+    const container = document.createElement('div');
+
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.alignItems = 'center';
+
+    const iframe = document.createElement('iframe');
+
+    iframe.src = 'http://localhost:8000';
+    iframe.width = width;
+    iframe.height = height;
+
+    container.appendChild(iframe);
+
+    const info = document.createElement('div');
+
+    info.innerText = [width, height].join(' x ');
+
+    container.appendChild(info);
+
+    row.appendChild(container);
+  });
+
+  body.appendChild(row);
+});
+
+    </script>
+  </body>
+</html>

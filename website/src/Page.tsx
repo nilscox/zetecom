@@ -51,13 +51,16 @@ const Page: React.FC<PageType> = (props) => (
       <script
         type="text/javascript"
         dangerouslySetInnerHTML={{
-          __html: 'window.env = ' + JSON.stringify({ BASE_URL: useEnvironment('BASE_URL') }),
+          __html: 'window.env = ' + JSON.stringify({
+            BASE_URL: useEnvironment('BASE_URL'),
+            NODE_ENV: useEnvironment('NODE_ENV'),
+          }),
         }}
       />
 
       <script type="text/javascript" src="/assets/js/client.js" />
       { useEnvironment('NODE_ENV') === 'development' && (
-        <script src="http://localhost:8000/webpack-dev-server.js" />
+        <script src={useEnvironment('BASE_URL') + '/webpack-dev-server.js'} />
       ) }
 
     </body>

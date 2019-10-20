@@ -7,6 +7,10 @@
   max-width: 360px;
   margin: 0 10px;
 
+  @media screen and (max-width: $break-small) {
+    min-width: 300px;
+  }
+
   .card-image {
     display: flex;
     flex-direction: column;
