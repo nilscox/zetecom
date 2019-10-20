@@ -25,7 +25,7 @@ body {
   font-size: 16px;
   line-height: 22px;
   font-family: 'Nunito Sans';
-  color: #444;
+  color: #333;
 
   @media screen and (min-width: $break-medium) {
     font-size: 18px;
@@ -48,10 +48,17 @@ body {
 
   strong {
     font-weight: bold;
+    color: #555;
   }
 
   a {
     color: inherit;
+    text-decoration: underline;
+    text-decoration-color: #999;
+
+    &:hover {
+      color: #666;
+    }
   }
 
   p {
