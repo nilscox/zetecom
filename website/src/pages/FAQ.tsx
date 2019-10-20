@@ -95,11 +95,11 @@ const FAQ: React.FC = () => {
       <p>L'équipe à l'origine de Réagir à l'information est à l'écoute via ces différents canaux de communication :</p>
 
       <ul>
-        <li>Par e-mail, à l'adresse <a href="mailto:reaction-information@nils.cx">reaction-information@nils.cx</a></li>
+        <li>Par e-mail, à l'adresse <a href="mailto:reagir-information@nils.cx">reagir-information@nils.cx</a></li>
         <li>Sur twitter, via le compte de <a href="https://twitter.com/NilsCox">@NilsCox</a></li>
         <li>
           Par chat, via{' '}
-          <a href="https://tlk.io/reaction-information" target="_blank" rel="noopener noreferrer">tlk.io</a>
+          <a href="https://tlk.io/reagir-information" target="_blank" rel="noopener noreferrer">tlk.io</a>
         </li>
       </ul>
 
