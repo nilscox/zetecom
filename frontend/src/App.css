@@ -42,8 +42,3 @@ a {
 .ReactModal__Overlay--before-close{
   opacity: 0;
 }
-
-.page {
-  width: 100%;
-  box-sizing: border-box;
-}
