@@ -4,6 +4,7 @@ import React from 'react';
 
 import { useEnvironment } from 'src/index';
 import Title from 'src/components/Title';
+import Link from 'src/components/Link';
 
 /*
 
@@ -79,7 +80,7 @@ const Motivations: React.FC = () => {
         un ensemble de règles, inspirées de principes septiques, qui donnent un cadre clair aux réflexions pouvant
         émerger en réaction aux informations sur internet. Les "réactions" (les commentaires sur CDV) peuvent être
         rédigées en réponse à d'autres, les plus impactantes étant mises en avant. Un peu comme sur reddit pour les
-        connaisseurs. Prêt(e) à tenter l'expérience ? Jetez un œil à <a href="/charte">la charte</a> ;)
+        connaisseurs. Prêt(e) à tenter l'expérience ? Jetez un œil à <Link href="/charte.html">la charte</Link> ;)
       </p>
 
       <div className="hide">
@@ -89,9 +90,10 @@ const Motivations: React.FC = () => {
       <p className="hide">
         CDV est pensé dans un but collaboratif au niveau du contenu rédigé par les utilisateurs, mais aussi au niveau
         de son fonctionnement. Dans un but d'amélioration progressive des idées, de la charte, et de l'état d'esprit
-        du projet en général, les intéressés sont invité à <a href="/faq#contact">en discuter</a> avec l'équipe qui
-        développe la plateforme. Et s'il y a des amis développeurs parmi vous, toutes les sources du projet sont
-        accessibles sur <a href={REPOSITORY_URL}>github</a>. Issues and pull requests are very welcome :)
+        du projet en général, les intéressés sont invité à <Link href="/faq.html#contact">en discuter</Link> avec
+        l'équipe qui développe la plateforme. Et s'il y a des amis développeurs parmi vous, toutes les sources du projet
+        sont accessibles sur <Link openInNewTab href={REPOSITORY_URL}>github</Link>. Issues and pull requests are very
+        welcome :)
       </p>
 
       <p className="hide">
@@ -103,8 +105,8 @@ const Motivations: React.FC = () => {
 
       <p className="hide">
         Pour en savoir un peu plus sur les idées et valeurs qui forgent CDV, vous trouverez des informations un peu
-        plus détaillées sur la page <a href="/motivations">motivations</a>. Restons à l'écoute, développons notre esprit
-        critique, et... cherchons la vérité !
+        plus détaillées sur la page <Link href="/motivations.html">motivations</Link>. Restons à l'écoute, développons
+        notre esprit critique, et... cherchons la vérité !
       </p>
 
     </>

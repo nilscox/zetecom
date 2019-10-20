@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Link from 'src/components/Link';
+
 import './NewNameBanner.scss';
 
 const NewNameBanner: React.FC = () => (
@@ -13,7 +15,7 @@ const NewNameBanner: React.FC = () => (
     <div>
       Bienvenue sur <strong>Réagir à l'information</strong> ! Même concept, toujours un nom temporaire mais cette fois
       complètement neutre. Le nom définitif reste encore à définir... Des idées ? Laissez-nous un{' '}
-      <a href="/faq#contact">petit message</a> !
+      <Link href="/faq.html#contact">petit message</Link> !
     </div>
   </div>
 );

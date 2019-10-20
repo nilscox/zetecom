@@ -2,10 +2,11 @@
 
 import React from 'react';
 
-import Title from '../components/Title';
-import SubTitle from '../components/SubTitle';
-import DownloadExtension from '../components/DownloadExtensionButton';
-import Image from '../components/Image';
+import Title from 'src/components/Title';
+import SubTitle from 'src/components/SubTitle';
+import Link from 'src/components/Link';
+import DownloadExtension from 'src/components/DownloadExtensionButton';
+import Image from 'src/components/Image';
 
 import imageSubjects from 'src/images/subjects.png';
 import imagePopupLogin from 'src/images/popup-login.png';
@@ -56,8 +57,8 @@ const Usage: React.FC = () => (
     <p>
       Pour permettre l'ajout d'une zone de commentaires sur les sites que vous visitez, il est nécessaire de passer par
       une extension sur votre navigateur, disponible pour l'instant uniquement sur le navigateur{' '}
-      <a href="https://google.com/chrome" target="_blank" rel="noopener noreferrer">Google Chrome</a>. Cliquez sur le
-      bouton ci-dessous pour accéder à la page de l'extension, et cliquez sur "Ajouter à Chrome".
+      <Link openInNewTab href="https://google.com/chrome">Google Chrome</Link>. Cliquez sur le bouton ci-dessous pour
+      accéder à la page de l'extension, et cliquez sur "Ajouter à Chrome".
     </p>
 
     <DownloadExtension>Installer l'extension chrome</DownloadExtension>
@@ -92,7 +93,7 @@ const Usage: React.FC = () => (
     </p>
 
     <p>
-      Si vous êtes <a href="#Inscription">inscrit</a>, vous pouvez ouvrir un nouveau sujet. Chaque sujet doit être
+      Si vous êtes <Link href="#Inscription">inscrit</Link>, vous pouvez ouvrir un nouveau sujet. Chaque sujet doit être
       directement rattaché à l'information, et n'être traité qu'une fois (pensez à utiliser la fonction de recherche).
       Si vous faites référence à une partie énoncée dans l'information, utilisez le champ "citation" pour la préciser.
       Et dans le cas d'une vidéo YouTube, à inclure son minutage.
@@ -126,7 +127,7 @@ const Usage: React.FC = () => (
       Si une réaction n'a pas sa place dans une zone de commentaires, il est possible de la signaler. Cela enverra une
       notification aux modérateurs, qui prendront une décision en fonction de la situation. Attention cependant à
       signaler les réactions pour de bonnes raisons ! Un message qui va à l'encontre de vos idées n'est pas un motif
-      raisonnable... Voir la section <a href="#Modération">modération</a> de cette page pour plus d'informations.
+      raisonnable... Voir la section <Link href="#Modération">modération</Link> de cette page pour plus d'informations.
     </p>
 
     <SubTitle id="Quick réactions">Quick réactions</SubTitle>
@@ -165,9 +166,9 @@ const Usage: React.FC = () => (
 
     <p>
       Si vous avez quelque chose à partager avec la communauté, vous pouvez rédiger une nouvelle réaction. Vous devrez
-      pour cela <a href="#Inscription">créer un compte</a>, et donc lire et accepter <a href="/charte">la charte de
-      Réagir à l'information</a>. Gardez bien à l'esprit les règles de la deuxième section lorsque vous écrivez un
-      message.
+      pour cela <Link href="#Inscription">créer un compte</Link>, et donc lire et accepter <Link href="/charte.html">la
+      charte de Réagir à l'information</Link>. Gardez bien à l'esprit les règles de la deuxième section lorsque vous
+      écrivez un message.
     </p>
 
     <p>Deux emplacements sont possibles pour créer une nouvelle réaction :</p>
@@ -193,8 +194,8 @@ const Usage: React.FC = () => (
     <p>
       Les réactions supportent un outil de mise en page simple, permettant d'inclure des liens, du texte en gras ou en
       italique, des listes, des tableaux, etc., via un langage de balisage, le{' '}
-      <a href="https://docs.microsoft.com/fr-fr/contribute/how-to-write-use-markdown">markdown</a>. Un onglet "aperçu"
-      vous permet de visualiser le message tel qu'il va apparaître, avant de le poster.
+      <Link openInNewTab href="https://docs.microsoft.com/fr-fr/contribute/how-to-write-use-markdown">markdown</Link>.
+      Un onglet "aperçu" vous permet de visualiser le message tel qu'il va apparaître, avant de le poster.
     </p>
 
     <Title id="Inscription">Inscription</Title>
@@ -243,7 +244,7 @@ const Usage: React.FC = () => (
 
     <p>
       Si vous n'avez plus besoin de votre compte, vous pouvez en demander la suppression en{' '}
-      <a href="/faq#contact">contactant</a> l'équipe qui développe le projet.
+      <Link href="/faq.html#contact">contactant</Link> l'équipe qui développe le projet.
     </p>
 
     <Title id="Modération">Modération</Title>
@@ -260,15 +261,15 @@ const Usage: React.FC = () => (
 
     <div className="note">
       Note : vous ne pouvez signaler une réaction qu'avec un compte utilisateur. Voir la section{' '}
-      <a href="#Inscription">inscription</a> de cette page pour en créer un si vous n'en avez pas déjà.
+      <Link href="#Inscription">inscription</Link> de cette page pour en créer un si vous n'en avez pas déjà.
     </div>
 
     <SubTitle id="Rejoindre les modérateurs">Rejoindre les modérateurs</SubTitle>
 
     <p>
       La modération des échanges est assurée par des membres bénévoles de la communauté. Et nous accueillons avec
-      plaisir de nouveau modérateurs ! <a href="/faq#contact">Contactez</a> l'équipe qui développe ce projet en
-      expliquant les raisons qui motivent ce choix, nous en discuterons directement.
+      plaisir de nouveau modérateurs ! <Link href="/faq.html#contact">Contactez</Link> l'équipe qui développe ce projet
+      en expliquant les raisons qui motivent ce choix, nous en discuterons directement.
     </p>
 
   </>

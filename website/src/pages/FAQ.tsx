@@ -2,10 +2,11 @@
 
 import React from 'react';
 
-import Title from '../components/Title';
-import SubTitle from '../components/SubTitle';
-import Tlkio from '../components/Tlkio';
-import { useEnvironment } from 'src';
+import Title from 'src/components/Title';
+import SubTitle from 'src/components/SubTitle';
+import Link from 'src/components/Link';
+import Tlkio from 'src/components/Tlkio';
+import { useEnvironment } from 'src/index';
 
 import './FAQ.scss';
 
@@ -28,7 +29,7 @@ const FAQ: React.FC = () => {
 
       <Question question="Comment créer un compte sur Réaciton à l'information ?">
         Le projet étant en phase de test, l'inscription n'est pas encore ouverte à tous pour l'instant. Si vous
-        souhaitez faire partie des testeurs, vous pouvez <a href="#contact">contacter</a> l'équipe qui développe
+        souhaitez faire partie des testeurs, vous pouvez <Link href="#contact">contacter</Link> l'équipe qui développe
         le projet.
       </Question>
 
@@ -38,13 +39,13 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Comment créer une nouvelle zone de commentaires ?">
-        Il est nécessaire de <a href="#contact">contacter</a> l'équipe qui développe le projet pour demander l'ajout
-        d'une nouvelle zone de commentaire.
+        Il est nécessaire de <Link href="#contact">contacter</Link> l'équipe qui développe le projet pour demander
+        l'ajout d'une nouvelle zone de commentaire.
       </Question>
 
       <Question question="Comment mettre en page une réaction ?">
-        Les messages peuvent être rédigées en <a href="https://fr.wikipedia.org/wiki/Markdown">markdown</a>, un langage
-        de balisage permettant une mise en forme simple.
+        Les messages peuvent être rédigées en <Link href="https://fr.wikipedia.org/wiki/Markdown">markdown</Link>, un
+        langage de balisage permettant une mise en forme simple.
       </Question>
 
       <Question question="Comment est assurée la modération ?">
@@ -52,12 +53,12 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Qui peut devenir modérateur ?">
-        Tous les membres de la communauté ! Si vous êtes motivé(e), <a href="#contact">contactez</a> l'équipe qui
+        Tous les membres de la communauté ! Si vous êtes motivé(e), <Link href="#contact">contactez</Link> l'équipe qui
         développe le projet pour expliquer les raisons qui motivent ce choix, nous en discuterons directement.
       </Question>
 
       <Question question="Comment supprimer un compte de la platforme ?">
-        Il est possible de supprimer un compte en <a href="#contact">contactant</a> l'équipe qui développe
+        Il est possible de supprimer un compte en <Link href="#contact">contactant</Link> l'équipe qui développe
         le projet par e-mail, depuis l'adresse associée au compte à supprimer.
       </Question>
 
@@ -67,7 +68,7 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Comment signaler un bug ou proposer de nouvelles fonctionnalités ?">
-        Vous l'aurez peut-être deviné, <a href="#contact">contactez</a> l'équipe qui développe le projet.
+        Vous l'aurez peut-être deviné, <Link href="#contact">contactez</Link> l'équipe qui développe le projet.
       </Question>
 
       <Question question="Comment le projet est-il financé ?">
@@ -75,19 +76,20 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Qui développe Réagir à l'information ?">
-        Le projet est développé par une <a href="https://nils.cx">petite</a> <a href="https://bopzor.me">équipe</a> de
-        développeurs passionnés d'esprit critique et de zététique.
+        Le projet est développé par une <Link openInNewTab href="https://nils.cx">petite</Link>{' '}
+        <Link openInNewTab href="https://bopzor.me">équipe</Link> de développeurs passionnés d'esprit critique et de{' '}
+        <Link openInNewTab href="https://fr.wikipedia.org/wiki/Zététique">zététique</Link>.
       </Question>
 
       <Question question="Peut-on participer au projet">
         Si vous souhaitez participer au projet, pour donner des feedbacks ou proposer des axes d'amélioration, vous êtes
-        invité(e) à <a href="#contact">contactez</a> l'équipe qui développe le projet pour en discuter. Et si vous êtes
-        développeurs et que le projet vous intéresse techniquement, les source sont disponibles sur
-        <a href={useEnvironment('REPOSITORY_URL')}>github</a>.
+        invité(e) à <Link href="#contact">contactez</Link> l'équipe qui développe le projet pour en discuter. Et si vous
+        êtes développeurs et que le projet vous intéresse techniquement, les source sont disponibles sur{' '}
+        <Link href={useEnvironment('REPOSITORY_URL')}>github</Link>.
       </Question>
 
       <Question question="Votre question ne figure pas dans cette liste... ?">
-        <a href="#contact">Contactez</a> l'équipe qui développe le projet !
+        <Link href="#contact">Contactez</Link> l'équipe qui développe le projet !
       </Question>
 
       <SubTitle id="contact">Une idée à proposer ? Un bug à signaler ?</SubTitle>
@@ -95,12 +97,11 @@ const FAQ: React.FC = () => {
       <p>L'équipe à l'origine de Réagir à l'information est à l'écoute via ces différents canaux de communication :</p>
 
       <ul>
-        <li>Par e-mail, à l'adresse <a href="mailto:reagir-information@nils.cx">reagir-information@nils.cx</a></li>
-        <li>Sur twitter, via le compte de <a href="https://twitter.com/NilsCox">@NilsCox</a></li>
         <li>
-          Par chat, via{' '}
-          <a href="https://tlk.io/reagir-information" target="_blank" rel="noopener noreferrer">tlk.io</a>
+          Par e-mail, à l'adresse <Link href="mailto:reagir-information@nils.cx">reagir-information@nils.cx</Link>
         </li>
+        <li>Sur twitter, via le compte de <Link openInNewTab href="https://twitter.com/NilsCox">@NilsCox</Link></li>
+        <li>Par chat, via <Link openInNewTab href="https://tlk.io/reagir-information" >tlk.io</Link></li>
       </ul>
 
       <SubTitle id="chat">Chat en direct</SubTitle>

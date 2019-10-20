@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Link from 'src/components/Link';
+
 import './Image.scss';
 
 type ImageProps = {
@@ -10,9 +12,9 @@ type ImageProps = {
 const Image: React.FC<ImageProps> = ({ src, alt }) => (
   <figure className="image-container">
 
-    <a href={src} target="_blank">
+    <Link openInNewTab href={src}>
       <img alt={alt} src={src} />
-    </a>
+    </Link>
 
     <figcaption>
       Cliquez sur l'image pour l'agrandir.

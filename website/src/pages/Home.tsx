@@ -2,17 +2,18 @@
 
 import React from 'react';
 
-import Title from '../components/Title';
-import Card from '../components/Card';
-import DownloadExtension from '../components/DownloadExtensionButton';
-import Image from '../components/Image';
-
-import './Home.scss';
+import Title from 'src/components/Title';
+import Link from 'src/components/Link';
+import Image from 'src/components/Image';
+import Card from 'src/components/Card';
+import DownloadExtension from 'src/components/DownloadExtensionButton';
 
 import imageCommunity from 'src/images/community.png';
 import imageFakeNews from 'src/images/fake-news.png';
 import imageTrust from 'src/images/trust.png';
 import imageYoutubRi from 'src/images/youtube-ri.gif';
+
+import './Home.scss';
 
 /*
 
@@ -50,14 +51,14 @@ const Home: React.FC = () => (
   <>
 
     <div className="heading">
-      <a href="/"><em>Réagir à l'information</em></a>,
+      <Link href="/"><em>Réagir à l'information</em></Link>,
       c'est une plateforme qui donne accès à un <strong>espace d'échange collaboratif</strong>, pour discuter ensemble
       de l'information diffusée par les médias.
 
       <p className="hide">
-        Une <a href="/utilisation">extension chrome</a> permet d'ajouter sur certains sites internet, une zone de
-        commentaire où les membres de la communauté partagent leurs opinions, apportent des sources, relèvent des biais,
-        ou encore posent des questions...
+        Une <Link href="/utilisation.html">extension chrome</Link> permet d'ajouter sur certains sites internet, une
+        zone de commentaire où les membres de la communauté partagent leurs opinions, apportent des sources, relèvent
+        des biais, ou encore posent des questions...
       </p>
 
     </div>
@@ -86,7 +87,7 @@ const Home: React.FC = () => (
 
     <p>
       Depuis quelques dizaines d'années, les évolutions technologiques ont enclenché une vraie{' '}
-      <a target="_blank" href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</a>, qui a
+      <Link openInNewTab href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</Link>, qui a
       radicalement bouleversé notre façon de communiquer <em>et de nous informer</em>. En contrepartie, un nombre
       croissant de problématiques liées à l'information émergent, notamment dans la diffusion de celle-ci par les
       médias. Les articles relatant des faits hors du commun étant plus attrayants, les contenus sont parfois plus
@@ -159,20 +160,21 @@ const Home: React.FC = () => (
       Nous tentons de rassembler sur cette plateforme, des personnes bienveillantes, attentives aux biais, qui savent
       écouter et partager leurs opinions, tout en gardant un œil critique face aux arguments qu'on leur présente.
       Si vous voulez mieux comprendre l'information et participer à des échanges constructifs sur internet, prenez une
-      seconde pour ajouter un marque page, et pourquoi pas <a href="/usage#inscription">vous inscrire</a> !
+      seconde pour ajouter un marque page, et pourquoi pas{' '}
+      <Link href="/utilisation.html#Inscription">vous inscrire</Link> !
     </p>
 
     <p className="wording">
       Mais il est certes difficile de constituer une telle communauté. Un point central du projet repose sur{' '}
-      <a href="/charte">la charte</a>, qui tente d'apporter un cadre propice aux débats. Consacrez une dizaine de
-      minutes à sa lecture, avant de vous inscrire. Et si vous souhaitez apporter une évolution des règles, n'hésitez
-      pas à <a href="/faq#contact">envoyer un message</a> à l'équipe qui développe le projet.
+      <Link href="/charte.html">la charte</Link>, qui tente d'apporter un cadre propice aux débats. Consacrez une
+      dizaine de minutes à sa lecture, avant de vous inscrire. Et si vous souhaitez apporter une évolution des règles,
+      n'hésitez pas à <Link href="/faq.html#contact">envoyer un message</Link> à l'équipe qui développe le projet.
     </p>
 
     <p>
-      Vous voulez en savoir plus ? La page <a href="/motivations">motivations</a> explique plus en détail les raisons
-      pour lesquelles le projet a vu le jour, et son état d'esprit. Et pour commencer à utiliser l'extension dès
-      maintenant, rendez-vous sur la page <a href="/utilisation">utilisation</a>. A bientôt sur internet !
+      Vous voulez en savoir plus ? La page <Link href="/motivations.html">motivations</Link> explique plus en détail les
+      raisons pour lesquelles le projet a vu le jour, et son état d'esprit. Et pour commencer à utiliser l'extension dès
+      maintenant, rendez-vous sur la page <Link href="/utilisation.html">utilisation</Link>. A bientôt sur internet !
     </p>
 
   </>
