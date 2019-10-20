@@ -26,10 +26,10 @@ import './Rules.scss';
 */
 
 const Rule: React.FC<{ rule: string }> = ({ rule, children }) => (
-  <>
-    <h4 className="route-title"><em>{ rule }</em></h4>
+  <div className="rule">
+    <h4 className="rule-title"><em>{ rule }</em></h4>
     <div className="note rule-description">{ children }</div>
-  </>
+  </div>
 );
 
 /* eslint-disable */
@@ -37,9 +37,9 @@ const Rules: React.FC = () => {
   return (
     <>
 
-      <Title id="charte">La charte de Réagir à l'information</Title>
+      <Title id="Charte">La charte de Réagir à l'information</Title>
 
-      <SubTitle id="introduction">Introduction</SubTitle>
+      <SubTitle id="Introduction">Introduction</SubTitle>
 
       <p>
         La charte présente une liste de règles qu'il est important de lire et de comprendre dans le but de donner un

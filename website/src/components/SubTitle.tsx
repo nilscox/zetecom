@@ -5,7 +5,7 @@ type SubTitleProps = {
 };
 
 const SubTitle: React.FC<SubTitleProps> = ({ id, children }) => (
-  <h3 id={id}>
+  <h3 id={id.replace(' ', '_')}>
     { children }
   </h3>
 );

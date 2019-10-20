@@ -55,7 +55,7 @@ import Link from 'src/components/Link';
 */
 
 const Motivations: React.FC = () => {
-  const { REPOSITORY_URL } = useEnvironment();
+  const REPOSITORY_URL = useEnvironment('REPOSITORY_URL');
 
   return (
     <>

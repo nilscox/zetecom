@@ -5,12 +5,14 @@ import React from 'react';
 import Title from '../components/Title';
 import Card from '../components/Card';
 import DownloadExtension from '../components/DownloadExtensionButton';
-import EmailValidatedAlert from '../components/EmailValidatedAlert';
 import Image from '../components/Image';
 import Link from 'src/components/Link';
 
 import './Home.scss';
 
+import imageCommunity from 'src/images/community.png';
+import imageFakeNews from 'src/images/fake-news.png';
+import imageTrust from 'src/images/trust.png';
 import imageYoutubRi from 'src/images/youtube-ri.gif';
 
 /*
@@ -45,54 +47,8 @@ Qu'est-ce que c'est ?
 
 */
 
-/* eslint-disable max-len */
-
-const cards = [
-  {
-    text: 'Rassembler une communauté de personnes pour réfléchir ensemble',
-    subtext: 'Parce que les informations telles qu\'elles sont présentées dans les médias méritent souvent d\'être discutées pour être correctement interprétées',
-    image: 'src/images/community.png',
-  },
-  {
-    text: 'Lutter contre les fausses informations',
-    subtext: 'Parce qu\'il ne sufft pas de vouloir être informé pour ne pas être induit en erreur, et croire pour de mauvaises raisons',
-    image: 'src/images/fake-news.png',
-  },
-  {
-    text: 'Offrir une place aux débats dans un climat de confiance sur la toile',
-    subtext: 'Parce qu\'il est souvent difficile de communiquer dans un cadre collaboratif et respectueux à travers un écran',
-    image: 'src/images/trust.png',
-  },
-];
-
-const sentences = [
-  {
-    text: 'Des zones de commentaires intégrées directement sur les sites d\'information, via une extension chrome',
-    subtext: 'Pour savoir ce qu\'en pense la communauté, tout de suite après avoir lu un article sur le site d\'un journal, ou une vidéo sur YouTube !',
-  },
-  {
-    text: 'Des messages mis en avant, jugés les plus pertinents par la communauté',
-    subtext: 'Pour voir les réactions les mieux construites, qui apportent des éléments clés, ou bien les plus controversées.',
-  },
-  {
-    text: 'Un cadre sain, propice aux échanges',
-    subtext: 'Pour participer aux échanges, il faut accepter une charte posant les bases nécessaires à un débat constructif.',
-  },
-  {
-    text: 'Des messages mis en page de façon structurée',
-    subtext: 'Pour permettre une plus grande clarté, les réactions peuvent comporter des liens, des listes, des tableaux, des titres, etc.',
-  },
-  {
-    text: 'Une modération des débats assurée par des membres de la communauté',
-    subtext: 'Pour garder des échanges clairs et éviter les dérives, il faut parfois faire la police. On aimerait bien éviter, mais est-ce possible ?',
-  },
-];
-
-/* eslint-enable max-len */
-
 const Home: React.FC = () => (
   <>
-    <EmailValidatedAlert />
 
     <div className="heading">
       <Link href="/"><em>Réagir à l'information</em></Link>, c'est une plateforme qui donne accès à un <strong>espace
@@ -107,9 +63,21 @@ const Home: React.FC = () => (
     <Title id="Les objectifs">Les objectifs ?</Title>
 
     <div className="why">
-      { cards.map((props, n) => (
-        <Card key={n} {...props} />
-      )) }
+
+      <Card text="Rassembler une communauté de personnes pour réfléchir ensemble" image={imageCommunity}>
+        Parce que les informations telles qu\'elles sont présentées dans les médias méritent souvent d\'être discutées
+        pour être correctement interprétées
+      </Card>
+
+      <Card text="Lutter contre les fausses informations" image={imageFakeNews}>
+        Parce qu\'il ne sufft pas de vouloir être informé pour ne pas être induit en erreur, et croire pour de
+        mauvaises raisons
+      </Card>
+
+      <Card text="Offrir une place aux débats dans un climat de confiance sur la toile" image={imageTrust}>
+        Parce qu\'il est souvent difficile de communiquer dans un cadre collaboratif et respectueux à travers un écran
+      </Card>
+
     </div>
 
     <Title id="Pourquoi">Pourquoi ?</Title>
@@ -139,15 +107,52 @@ const Home: React.FC = () => (
         maximize
         src={imageYoutubRi}
         containerClassName="what-image-flex-container"
-        alt="screenshot youtube réagir à l'information"
+        alt="screenshot youtube / Réagir à l'information"
       />
       <div className="what-item-wrapper">
-        { sentences.map(({ text, subtext }, n) => (
-          <div key={n} className="what-item">
-            <h3>{ text }</h3>
-            <p>{ subtext }</p>
-          </div>
-        )) }
+
+        <div className="what-item">
+          <h3>
+            Des zones de commentaires intégrées directement sur les sites d\'information, via une extension chrome
+          </h3>
+          <p>
+            Pour savoir ce qu\'en pense la communauté, tout de suite après avoir lu un article sur le site d\'un
+            journal, ou une vidéo sur YouTube !
+          </p>
+        </div>
+
+        <div className="what-item">
+          <h3>Des messages mis en avant, jugés les plus pertinents par la communauté</h3>
+          <p>
+            Pour voir les réactions les mieux construites, qui apportent des éléments clés, ou bien les plus
+            controversées.
+          </p>
+        </div>
+
+        <div className="what-item">
+          <h3>Un cadre sain, propice aux échanges</h3>
+          <p>
+            Pour participer aux échanges, il faut accepter une charte posant les bases nécessaires à un débat
+            constructif.
+          </p>
+        </div>
+
+        <div className="what-item">
+          <h3>Des messages mis en page de façon structurée</h3>
+          <p>
+            Pour permettre une plus grande clarté, les réactions peuvent comporter des liens, des listes, des tableaux,
+            des titres, etc.
+          </p>
+        </div>
+
+        <div className="what-item">
+          <h3>Une modération des débats assurée par des membres de la communauté</h3>
+          <p>
+            Pour garder des échanges clairs et éviter les dérives, il faut parfois faire la police. On aimerait bien
+            éviter, mais est-ce possible ?
+          </p>
+        </div>
+
       </div>
     </div>
 
@@ -171,7 +176,6 @@ const Home: React.FC = () => (
       maintenant, rendez-vous sur la page <Link href="/utilisation">utilisation</Link>. A bientôt sur internet !
     </p>
 
-    <div className="break" />
   </>
 );
 
