@@ -10,5 +10,11 @@
       margin-left: 30px;
       max-width: 340px;
     }
+
+    @media screen and (min-width: $break-desktop) {
+      float: right;
+      margin-left: 30px;
+      max-width: 440px;
+    }
   }
 }
