@@ -86,10 +86,10 @@ const Home: React.FC = () => (
 
     <p>
       Depuis quelques dizaines d'années, les évolutions technologiques ont enclenché une vraie{' '}
-      <a href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</a>, qui a radicalement
-      bouleversé notre façon de communiquer <em>et de nous informer</em>. En contrepartie, un nombre croissant de
-      problématiques liées à l'information émergent, notamment dans la diffusion de celle-ci par les médias. Les
-      articles relatant des faits hors du commun étant plus attrayants, les contenus sont parfois plus
+      <a target="_blank" href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</a>, qui a
+      radicalement bouleversé notre façon de communiquer <em>et de nous informer</em>. En contrepartie, un nombre
+      croissant de problématiques liées à l'information émergent, notamment dans la diffusion de celle-ci par les
+      médias. Les articles relatant des faits hors du commun étant plus attrayants, les contenus sont parfois plus
       sensationnalistes que vrais.
     </p>
 
