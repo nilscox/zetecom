@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { useEnvironment } from 'src/index';
-
-import NewNameBanner from './components/NewNameBanner';
-import PageHeader from './components/PageHeader';
-import Navigation from './components/Navigation';
-import { Page as PageType } from './pages';
+import NewNameBanner from 'src/components/NewNameBanner';
+import EmailValidatedAlert from 'src/components/EmailValidatedAlert';
+import PageHeader from 'src/components/PageHeader';
+import Navigation from 'src/components/Navigation';
+import { Page as PageType } from 'src/pages';
 
 import './style.scss';
 
@@ -13,6 +13,7 @@ const PageLayout: React.FC<PageType> = ({ id, Component }) => (
   <div className="page" id={`page-${id}`}>
 
     <NewNameBanner />
+    <EmailValidatedAlert />
     <PageHeader />
 
     <div className="page-content">
@@ -44,17 +45,20 @@ const Page: React.FC<PageType> = (props) => (
 
     </head>
     <body>
+
       <PageLayout {...props} />
 
       <script
         type="text/javascript"
         dangerouslySetInnerHTML={{
-          __html: 'window.env = ' + JSON.stringify({ BASE_URL: useEnvironment().BASE_URL }),
+          __html: 'window.env = ' + JSON.stringify({ BASE_URL: useEnvironment('BASE_URL') }),
         }}
       />
 
       <script type="text/javascript" src="/assets/js/client.js" />
-      <script src="http://localhost:8000/webpack-dev-server.js" />
+      { useEnvironment('NODE_ENV') === 'development' && (
+        <script src="http://localhost:8000/webpack-dev-server.js" />
+      ) }
 
     </body>
   </html>

@@ -2,22 +2,22 @@
 
 import React from 'react';
 
-import Box from 'src/components/Box';
-
 import Title from '../components/Title';
 import SubTitle from '../components/SubTitle';
 import Tlkio from '../components/Tlkio';
 import { useEnvironment } from 'src';
+
+import './FAQ.scss';
 
 type QuestionProps = {
   question: React.ReactNode;
 };
 
 const Question: React.FC<QuestionProps> = ({ question, children }) => (
-  <Box my={12}>
+  <div className="question">
     <strong>{ question }</strong>
     <p>{ children }</p>
-  </Box>
+  </div>
 );
 
 const Questions: React.FC = () => (
@@ -79,7 +79,7 @@ const Questions: React.FC = () => (
       Si vous souhaitez participer au projet, pour donner des feedbacks ou proposer des axes d'amélioration, vous êtes
       invité(e) à <a href="#contact">contactez</a> l'équipe qui développe le projet pour en discuter. Et si vous êtes
       développeurs et que le projet vous intéresse techniquement, les source sont disponibles sur
-      <a href={useEnvironment().REPOSITORY_URL}>github</a>.
+      <a href={useEnvironment('REPOSITORY_URL')}>github</a>.
     </Question>
 
     <Question question="Votre question ne figure pas dans cette liste... ?">

@@ -9,7 +9,7 @@ const Tlkio: React.FC = () => (
     id="tlkio"
     data-channel="reagir-information"
     data-theme="theme--minimal"
-    data-custom-css={useEnvironment().BASE_URL + '/assets/css/tlkio.css'}
+    data-custom-css={useEnvironment('BASE_URL') + '/assets/css/tlkio.css'}
   />
 );
 

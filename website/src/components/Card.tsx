@@ -1,16 +1,14 @@
 import React from 'react';
 
-import Flex from 'src/components/Flex';
-
 import './Card.scss';
 
 type CardProps = {
   text: string;
-  subtext: string;
+  children: string;
   image: string;
 };
 
-const Card: React.FC<CardProps> = ({ text, subtext, image }) => {
+const Card: React.FC<CardProps> = ({ text, children, image }) => {
   return (
     <div className="card">
 
@@ -23,7 +21,7 @@ const Card: React.FC<CardProps> = ({ text, subtext, image }) => {
       </div>
 
       <div className="card-subtext">
-        { subtext }
+        { children }
       </div>
 
     </div>

@@ -52,15 +52,17 @@ nav.navigation {
     overflow: initial;
   }
 
-  &.open {
-    height: calc(5 * 30px);
+  @media screen and (max-width: $break-desktop) {
+    &.open {
+      height: calc(5 * 30px);
 
-    @media screen and (min-width: $break-small) {
-      height: calc(5 * 40px);
-    }
+      @media screen and (min-width: $break-small) {
+        height: calc(5 * 40px);
+      }
 
-    .navigation-link {
-      transform: translateY(0) !important;
+      .navigation-link {
+        transform: translateY(0) !important;
+      }
     }
   }
 
@@ -100,7 +102,6 @@ nav.navigation {
       display: block;
       text-decoration: none;
       font-size: 20px;
-
       transition: transform 220ms ease-in-out;
 
       @media screen and (min-width: $break-small) {

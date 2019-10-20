@@ -51,7 +51,7 @@ import './Usage.scss';
 */
 
 const Usage: React.FC = () => (
-  <div className="usage-content-wrapper">
+  <>
     <Title id="Installation">Installation</Title>
 
     <p>
@@ -82,7 +82,7 @@ const Usage: React.FC = () => (
       sources, ou encore pour poser une question...
     </p>
 
-    <SubTitle id="Liste_des_sujets">Liste des sujets</SubTitle>
+    <SubTitle id="Liste des sujets">Liste des sujets</SubTitle>
 
     <Image
       maximize
@@ -111,9 +111,9 @@ const Usage: React.FC = () => (
       à la liste via le bouton "retour".
     </p>
 
-    <div className="usage-clear" />
+    <div className="clear" />
 
-    <SubTitle id="Lire_les_réactions">Lire les réactions</SubTitle>
+    <SubTitle id="Lire les réactions">Lire les réactions</SubTitle>
 
     <p>
       Les échanges qui se déroulent dans les espaces de commentaires sont uniquement alimentés par la communauté, et
@@ -136,7 +136,7 @@ const Usage: React.FC = () => (
       raisonnable... Voir la section <Link href="#Modération">modération</Link> de cette page pour plus d'informations.
     </p>
 
-    <SubTitle id="Quick_réactions">Quick réactions</SubTitle>
+    <SubTitle id="Quick réactions">Quick réactions</SubTitle>
 
     <p>
       Certaines réactions vont apporter des précisions, vous faire réfléchir, peut-être même vous faire changer d'avis !
@@ -168,7 +168,7 @@ const Usage: React.FC = () => (
       y avez accordé de l'importance, même si vous n'êtes pas d'accord avec le message.
     </div>
 
-    <SubTitle id="Rédiger_une_réaction">Rédiger une réaction</SubTitle>
+    <SubTitle id="Rédiger une réaction">Rédiger une réaction</SubTitle>
 
     <p>
       Si vous avez quelque chose à partager avec la communauté, vous pouvez rédiger une nouvelle réaction. Vous devrez
@@ -206,7 +206,7 @@ const Usage: React.FC = () => (
 
     <Title id="Inscription">Inscription</Title>
 
-    <SubTitle id="Inscription_/_Connexion">Inscription / Connexion</SubTitle>
+    <SubTitle id="Inscription / Connexion">Inscription / Connexion</SubTitle>
 
     <Image
       maximize
@@ -236,15 +236,15 @@ const Usage: React.FC = () => (
       trouvez pas cet e-mail quelques minutes après votre inscription.
     </p>
 
+    <div className="clear" />
+
     <div className="note">
       Le projet est encore très jeune (les premières inscriptions on démarrées en Octobre 2019), il est donc pour
       le moment nécessaire d'autoriser manuellement votre adresse e-mail pour vous inscrire. Pour ce faire, envoyez un
       message depuis l'adresse e-mail à autoriser à nils@nils.cx. Nous vous répondrons rapidement.
     </div>
 
-    <div className="usage-clear" />
-
-    <SubTitle id="Mot_de_passe_oublié">Mot de passe oublié</SubTitle>
+    <SubTitle id="Mot de passe oublié">Mot de passe oublié</SubTitle>
 
     <p>
       Il arrive d'égarer son mot de passe... Aucun problème, la popup de l'extension vous permet de demander un
@@ -252,7 +252,7 @@ const Usage: React.FC = () => (
       changer.
     </p>
 
-    <SubTitle id="Suppression_du_compte">Suppression du compte</SubTitle>
+    <SubTitle id="Suppression du compte">Suppression du compte</SubTitle>
 
     <p>
       Si vous n'avez plus besoin de votre compte, vous pouvez en demander la suppression en{' '}
@@ -261,7 +261,7 @@ const Usage: React.FC = () => (
 
     <Title id="Modération">Modération</Title>
 
-    <SubTitle id="Signaler_une_réaction">Signaler une réaction</SubTitle>
+    <SubTitle id="Signaler une réaction">Signaler une réaction</SubTitle>
 
     <p>
       Si vous lisez une réaction qui ne respecte pas la charte, alors vous pouvez la signaler. Il est important de
@@ -276,7 +276,7 @@ const Usage: React.FC = () => (
       <Link href="#Inscription">inscription</Link> de cette page pour en créer un si vous n'en avez pas déjà.
     </div>
 
-    <SubTitle id="Rejoindre_les_modérateurs">Rejoindre les modérateurs</SubTitle>
+    <SubTitle id="Rejoindre les modérateurs">Rejoindre les modérateurs</SubTitle>
 
     <p>
       La modération des échanges est assurée par des membres bénévoles de la communauté. Et nous accueillons avec
@@ -284,7 +284,7 @@ const Usage: React.FC = () => (
       expliquant les raisons qui motivent ce choix, nous en discuterons directement.
     </p>
 
-  </div>
+  </>
 );
 
 export default Usage;

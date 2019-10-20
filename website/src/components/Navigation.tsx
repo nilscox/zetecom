@@ -1,13 +1,18 @@
 import React from 'react';
 
 import { usePage } from 'src/index';
-import routes from 'src/pages';
+import pages from 'src/pages';
 
 import './Navgation.scss';
 
-const Navigation = () => {
+const useActivePage = () => {
   const page = usePage();
-  const active = (path: string) => page.path === path;
+
+  return (path: string) => page.path === path;
+}
+
+const Navigation = () => {
+  const active = useActivePage();
 
   return (
     <nav className="navigation">
@@ -15,7 +20,7 @@ const Navigation = () => {
       <div className="navigation-burger">≡</div>
 
       <div className="navigation-links">
-        { routes.map(({ id, label, path }) => (
+        { pages.map(({ id, label, path }) => (
           <a key={id} className={'navigation-link' + (active(path) ? ' active' : '')} href={path}>
             { label }
           </a>
