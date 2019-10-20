@@ -68,6 +68,9 @@ const Page: React.FC<PageType> = (props) => (
         <script src={useEnvironment('BASE_URL') + '/webpack-dev-server.js'} />
       ) }
 
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-143537578-1" />
+      <script type="text/javascript" src="/assets/js/gtag.js" />
+
     </body>
   </html>
 );
