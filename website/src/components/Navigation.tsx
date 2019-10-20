@@ -2,6 +2,7 @@ import React from 'react';
 
 import { usePage } from 'src/index';
 import pages from 'src/pages';
+import Link from 'src/components/Link';
 
 import './Navgation.scss';
 
@@ -21,9 +22,9 @@ const Navigation = () => {
 
       <div className="navigation-links">
         { pages.map(({ id, label, path }) => (
-          <a key={id} className={'navigation-link' + (active(path) ? ' active' : '')} href={path}>
+          <Link key={id} className={'navigation-link' + (active(path) ? ' active' : '')} href={path}>
             { label }
-          </a>
+          </Link>
         )) }
       </div>
 
