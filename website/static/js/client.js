@@ -55,10 +55,3 @@ newNameBannerClose.addEventListener('click', function() {
 
 if (!localStorage.getItem('nn'))
   newNameBanner.classList.remove('hide');
-
-// tlkio
-
-window.addEventListener('DOMContentLoaded', function() {
-  if (NODE_ENV === 'production')
-    window.postMessage({ type: 'TLKIO_READY' }, BASE_URL);
-});

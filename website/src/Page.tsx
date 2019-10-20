@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useEnvironment } from 'src/index';
+import { useEnvironment, usePage } from 'src/index';
 import NewNameBanner from 'src/components/NewNameBanner';
 import EmailValidatedAlert from 'src/components/EmailValidatedAlert';
 import PageHeader from 'src/components/PageHeader';
@@ -59,6 +59,11 @@ const Page: React.FC<PageType> = (props) => (
       />
 
       <script type="text/javascript" src="/assets/js/client.js" />
+
+      { useEnvironment('NODE_ENV') === 'production' && usePage().id === 'faq' && (
+        <script type="text/javascript" src="https://tlk.io/embed.js" />
+      ) }
+
       { useEnvironment('NODE_ENV') === 'development' && (
         <script src={useEnvironment('BASE_URL') + '/webpack-dev-server.js'} />
       ) }
