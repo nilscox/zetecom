@@ -8,19 +8,17 @@ type ImageProps = {
 };
 
 const Image: React.FC<ImageProps> = ({ src, alt }) => (
-  <a href={src} target="_blank" className="image-container">
+  <figure className="image-container">
 
-    <figure>
-
+    <a href={src} target="_blank">
       <img alt={alt} src={src} />
+    </a>
 
-      <figcaption>
-        Cliquez sur l'image pour l'agrandir.
-      </figcaption>
+    <figcaption>
+      Cliquez sur l'image pour l'agrandir.
+    </figcaption>
 
-    </figure>
-
-  </a>
+  </figure>
 );
 
 export default Image;

@@ -8,17 +8,21 @@ var NODE_ENV = window.env.NODE_ENV;
 
 var navigation = document.querySelector('.navigation');
 var burger = navigation.querySelector('.navigation-burger');
+var main = document.querySelector('main');
 
 var navigationOpen = false;
 
-burger.addEventListener('click', function() {
-  navigationOpen = !navigationOpen;
+function showNavigation(show) {
+  navigationOpen = show;
 
   if (navigationOpen)
     navigation.classList.add('open');
   else
     navigation.classList.remove('open');
-});
+}
+
+burger.addEventListener('click', function() { showNavigation(!navigationOpen); });
+main.addEventListener('click', function() { showNavigation(false); });
 
 // email validated
 
