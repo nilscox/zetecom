@@ -6,7 +6,6 @@ import Title from '../components/Title';
 import Card from '../components/Card';
 import DownloadExtension from '../components/DownloadExtensionButton';
 import Image from '../components/Image';
-import Link from 'src/components/Link';
 
 import './Home.scss';
 
@@ -51,13 +50,16 @@ const Home: React.FC = () => (
   <>
 
     <div className="heading">
-      <Link href="/"><em>Réagir à l'information</em></Link>, c'est une plateforme qui donne accès à un <strong>espace
-        d'échange collaboratif</strong>, pour discuter ensemble de l'information diffusée par les médias.
+      <a href="/"><em>Réagir à l'information</em></a>,
+      c'est une plateforme qui donne accès à un <strong>espace d'échange collaboratif</strong>, pour discuter ensemble
+      de l'information diffusée par les médias.
+
       <p className="hide">
-        Une <Link href="/utilisation">extension chrome</Link> permet d'ajouter sur certains sites
-        internet, une zone de commentaire où les membres de la communauté partagent leurs opinions,
-        apportent des sources, relèvent des biais, ou encore posent des questions...
+        Une <a href="/utilisation">extension chrome</a> permet d'ajouter sur certains sites internet, une zone de
+        commentaire où les membres de la communauté partagent leurs opinions, apportent des sources, relèvent des biais,
+        ou encore posent des questions...
       </p>
+
     </div>
 
     <Title id="Les objectifs">Les objectifs ?</Title>
@@ -65,17 +67,17 @@ const Home: React.FC = () => (
     <div className="why">
 
       <Card text="Rassembler une communauté de personnes pour réfléchir ensemble" image={imageCommunity}>
-        Parce que les informations telles qu\'elles sont présentées dans les médias méritent souvent d\'être discutées
+        Parce que les informations telles qu'elles sont présentées dans les médias méritent souvent d'être discutées
         pour être correctement interprétées
       </Card>
 
       <Card text="Lutter contre les fausses informations" image={imageFakeNews}>
-        Parce qu\'il ne sufft pas de vouloir être informé pour ne pas être induit en erreur, et croire pour de
-        mauvaises raisons
+        Parce qu'il ne sufft pas de vouloir être informé pour ne pas être induit en erreur, et croire pour de mauvaises
+        raisons
       </Card>
 
       <Card text="Offrir une place aux débats dans un climat de confiance sur la toile" image={imageTrust}>
-        Parce qu\'il est souvent difficile de communiquer dans un cadre collaboratif et respectueux à travers un écran
+        Parce qu'il est souvent difficile de communiquer dans un cadre collaboratif et respectueux à travers un écran
       </Card>
 
     </div>
@@ -92,10 +94,10 @@ const Home: React.FC = () => (
     </p>
 
     <p>
-      Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensemble, intelligemment, face à cette
-      abondance d'information sur internet ? Réagir à l'information a pour ambition d'apporter des solutions à ces
-      problèmes, en proposant une plateforme qui <em>vous</em> permet de réagir librement aux médias sur
-      internet, comme des articles de presse ou des vidéos sur YouTube.
+      Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensemble, intelligemment, face à cette abondance
+      d'information ? Réagir à l'information a pour ambition d'apporter des solutions à ces problèmes, en proposant une
+      plateforme qui <em>vous</em> permet de réagir librement aux médias sur internet, comme des articles de presse ou
+      des vidéos sur YouTube.
     </p>
 
     <DownloadExtension>Installer l'extension chrome</DownloadExtension>
@@ -103,21 +105,18 @@ const Home: React.FC = () => (
     <Title id="Comment">Comment ?</Title>
 
     <div className="what">
-      <Image
-        maximize
-        src={imageYoutubRi}
-        containerClassName="what-image-flex-container"
-        alt="screenshot youtube / Réagir à l'information"
-      />
-      <div className="what-item-wrapper">
+
+      <Image src={imageYoutubRi} alt="screenshot youtube / Réagir à l'information" />
+
+      <div className="what-items">
 
         <div className="what-item">
           <h3>
-            Des zones de commentaires intégrées directement sur les sites d\'information, via une extension chrome
+            Des zones de commentaires intégrées directement sur les sites d'information, via une extension chrome
           </h3>
           <p>
-            Pour savoir ce qu\'en pense la communauté, tout de suite après avoir lu un article sur le site d\'un
-            journal, ou une vidéo sur YouTube !
+            Pour savoir ce qu'en pense la communauté, tout de suite après avoir lu un article sur le site d'un journal,
+            ou une vidéo sur YouTube !
           </p>
         </div>
 
@@ -160,20 +159,20 @@ const Home: React.FC = () => (
       Nous tentons de rassembler sur cette plateforme, des personnes bienveillantes, attentives aux biais, qui savent
       écouter et partager leurs opinions, tout en gardant un œil critique face aux arguments qu'on leur présente.
       Si vous voulez mieux comprendre l'information et participer à des échanges constructifs sur internet, prenez une
-      seconde pour ajouter un marque page, et pourquoi pas <Link href="/usage#inscription">vous inscrire</Link> !
+      seconde pour ajouter un marque page, et pourquoi pas <a href="/usage#inscription">vous inscrire</a> !
     </p>
 
     <p className="wording">
       Mais il est certes difficile de constituer une telle communauté. Un point central du projet repose sur{' '}
-      <Link href="/charte">la charte</Link>, qui tente d'apporter un cadre propice aux débats. Consacrez une dizaine de
+      <a href="/charte">la charte</a>, qui tente d'apporter un cadre propice aux débats. Consacrez une dizaine de
       minutes à sa lecture, avant de vous inscrire. Et si vous souhaitez apporter une évolution des règles, n'hésitez
-      pas à <Link href="/faq#contact">envoyer un message</Link> à l'équipe qui développe le projet.
+      pas à <a href="/faq#contact">envoyer un message</a> à l'équipe qui développe le projet.
     </p>
 
     <p>
-      Vous voulez en savoir plus ? La page <Link href="/motivations">motivations</Link> explique plus en détail les
-      raisons pour lesquelles le projet a vu le jour, et son état d'esprit. Et pour commencer à utiliser l'extension dès
-      maintenant, rendez-vous sur la page <Link href="/utilisation">utilisation</Link>. A bientôt sur internet !
+      Vous voulez en savoir plus ? La page <a href="/motivations">motivations</a> explique plus en détail les raisons
+      pour lesquelles le projet a vu le jour, et son état d'esprit. Et pour commencer à utiliser l'extension dès
+      maintenant, rendez-vous sur la page <a href="/utilisation">utilisation</a>. A bientôt sur internet !
     </p>
 
   </>

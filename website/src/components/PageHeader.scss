@@ -53,13 +53,13 @@
     }
 
     .subtitle {
-      font-size: 14px;
+      font-size: 13px;
       letter-spacing: 4px;
       color: #666;
 
       @media screen and (min-width: $break-small) {
-        font-size: 20px;
-        line-height: 20px;
+        font-size: 18px;
+        line-height: 18px;
       }
 
       @media screen and (min-width: $break-medium) {
@@ -69,8 +69,8 @@
       }
 
       @media screen and (min-width: $break-large) {
-        font-size: 28px;
-        line-height: 28px;
+        font-size: 26px;
+        line-height: 26px;
       }
     }
   }

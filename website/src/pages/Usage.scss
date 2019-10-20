@@ -2,27 +2,13 @@
 
 .page#page-usage {
 
-  .usage-content-wrapper {
+  .image-container {
+    margin-bottom: 10px;
 
-    .usage-image-wrapper {
-      margin-left: 30px;
-      margin-bottom: 10px;
+    @media screen and (min-width: $break-medium) {
       float: right;
-
-      figure {
-
-        &.usage-image-subject {
-          @media screen and (min-width: $break-desktop) {
-            width: 320px;
-          }
-        }
-
-        &.usage-image-popup {
-          @media screen and (min-width: $break-desktop) {
-            width: 340px;
-          }
-        }
-      }
+      margin-left: 30px;
+      max-width: 340px;
     }
   }
 }

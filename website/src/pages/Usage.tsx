@@ -6,7 +6,6 @@ import Title from '../components/Title';
 import SubTitle from '../components/SubTitle';
 import DownloadExtension from '../components/DownloadExtensionButton';
 import Image from '../components/Image';
-import Link from 'src/components/Link';
 
 import imageSubjects from 'src/images/subjects.png';
 import imagePopupLogin from 'src/images/popup-login.png';
@@ -84,13 +83,7 @@ const Usage: React.FC = () => (
 
     <SubTitle id="Liste des sujets">Liste des sujets</SubTitle>
 
-    <Image
-      maximize
-      src={imageSubjects}
-      containerClassName="usage-image-wrapper"
-      figureClassName="usage-image-subject"
-      alt="screenshot liste sujets réagir à l'information"
-    />
+    <Image src={imageSubjects} alt="screenshot liste sujets réagir à l'information" />
 
     <p>
       Les zones de commentaires regroupent les réactions par sujet, pour permettre de cibler un point précis à débattre.
@@ -133,7 +126,7 @@ const Usage: React.FC = () => (
       Si une réaction n'a pas sa place dans une zone de commentaires, il est possible de la signaler. Cela enverra une
       notification aux modérateurs, qui prendront une décision en fonction de la situation. Attention cependant à
       signaler les réactions pour de bonnes raisons ! Un message qui va à l'encontre de vos idées n'est pas un motif
-      raisonnable... Voir la section <Link href="#Modération">modération</Link> de cette page pour plus d'informations.
+      raisonnable... Voir la section <a href="#Modération">modération</a> de cette page pour plus d'informations.
     </p>
 
     <SubTitle id="Quick réactions">Quick réactions</SubTitle>
@@ -172,8 +165,8 @@ const Usage: React.FC = () => (
 
     <p>
       Si vous avez quelque chose à partager avec la communauté, vous pouvez rédiger une nouvelle réaction. Vous devrez
-      pour cela <Link href="#Inscription">créer un compte</Link>, et donc lire et accepter <Link href="/charte">la charte de
-      Réagir à l'information</Link>. Gardez bien à l'esprit les règles de la deuxième section lorsque vous écrivez un
+      pour cela <a href="#Inscription">créer un compte</a>, et donc lire et accepter <a href="/charte">la charte de
+      Réagir à l'information</a>. Gardez bien à l'esprit les règles de la deuxième section lorsque vous écrivez un
       message.
     </p>
 
@@ -208,13 +201,7 @@ const Usage: React.FC = () => (
 
     <SubTitle id="Inscription / Connexion">Inscription / Connexion</SubTitle>
 
-    <Image
-      maximize
-      src={imagePopupLogin}
-      containerClassName="usage-image-wrapper"
-      figureClassName="usage-image-popup"
-      alt="screenshot popup extension réagir à l'information"
-    />
+    <Image src={imagePopupLogin} alt="screenshot popup extension réagir à l'information" />
 
     <p>
       La création d'un compte vous permettra de devenir membre de la communauté, et de participer aux débats en
@@ -256,7 +243,7 @@ const Usage: React.FC = () => (
 
     <p>
       Si vous n'avez plus besoin de votre compte, vous pouvez en demander la suppression en{' '}
-      <Link href="/faq#contact">contactant</Link> l'équipe qui développe le projet.
+      <a href="/faq#contact">contactant</a> l'équipe qui développe le projet.
     </p>
 
     <Title id="Modération">Modération</Title>
@@ -273,14 +260,14 @@ const Usage: React.FC = () => (
 
     <div className="note">
       Note : vous ne pouvez signaler une réaction qu'avec un compte utilisateur. Voir la section{' '}
-      <Link href="#Inscription">inscription</Link> de cette page pour en créer un si vous n'en avez pas déjà.
+      <a href="#Inscription">inscription</a> de cette page pour en créer un si vous n'en avez pas déjà.
     </div>
 
     <SubTitle id="Rejoindre les modérateurs">Rejoindre les modérateurs</SubTitle>
 
     <p>
       La modération des échanges est assurée par des membres bénévoles de la communauté. Et nous accueillons avec
-      plaisir de nouveau modérateurs ! <Link href="/faq#contact">Contactez</Link> l'équipe qui développe ce projet en
+      plaisir de nouveau modérateurs ! <a href="/faq#contact">Contactez</a> l'équipe qui développe ce projet en
       expliquant les raisons qui motivent ce choix, nous en discuterons directement.
     </p>
 

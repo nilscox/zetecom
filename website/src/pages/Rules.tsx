@@ -88,14 +88,19 @@ const Rules: React.FC = () => {
         Surtout si vous êtes prêt à remettre en question les informations sourcées.
       </Rule>
 
-      <Rule rule="1.4. J'estime à quel point je pense que la réaction est vraie et apporte du sens à mon opinion">
-        Une fois le message compris et vérifié, vous pouvez vous forger votre propre opinion. Avec une dose raisonnable
-        d'esprit critique, vous êtes en mesure d'estimer le poids que vous accordez au message. Attention cependant, à
-        faire la différence entre une information factuelle (éventuellement sourcée), et une opinion. Un fait peut vous
-        faire changer d'avis tant que vous n'êtes pas en mesure de l'infirmer, et si les sources sont solides. En
-        revanche, une opinion est subjective et personnelle, et ne peut être vérifiée. Mais peut-être qu'un point de vue
-        différent sur un sujet peut vous amener à réfléchir d'une façon que vous n'auriez pas considérée.
-      </Rule>
+      <div className="rule">
+        <h4 className="rule-title wording">
+          <em>1.4. J'estime à quel point je pense que la réaction est vraie et apporte du sens à mon opinion</em>
+        </h4>
+        <div className="note rule-description">
+          Une fois le message compris et vérifié, vous pouvez vous forger votre propre opinion. Avec une dose raisonnable
+          d'esprit critique, vous êtes en mesure d'estimer le poids que vous accordez au message. Attention cependant, à
+          faire la différence entre une information factuelle (éventuellement sourcée), et une opinion. Un fait peut vous
+          faire changer d'avis tant que vous n'êtes pas en mesure de l'infirmer, et si les sources sont solides. En
+          revanche, une opinion est subjective et personnelle, et ne peut être vérifiée. Mais peut-être qu'un point de vue
+          différent sur un sujet peut vous amener à réfléchir d'une façon que vous n'auriez pas considérée.
+        </div>
+      </div>
 
       <Rule rule="1.5. Je signale une réaction qui ne respecte pas cette charte">
         Il peut arriver qu'une réaction ne respecte pas la charte. Il vous est dans ce cas possible de la signaler,
