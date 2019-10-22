@@ -12,6 +12,8 @@ import Form from '../components/Form';
 import useAxios from 'src/hooks/use-axios';
 import useUser from 'src/hooks/use-user';
 
+const { WEBSITE_URL } = process.env;
+
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const { sizes: { medium, big } } = useTheme();
   const [user, setUser] = useUser();
@@ -64,8 +66,8 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
 
       <Box my={big}>
         <Text>
-          Vous êtes connecté(e) sur <Link to="/" target="_blank">Réagir à l'information</Link> en tant que{' '}
-          <em>{ user.nick }</em>. La charte est accessible <Link to="/charte" target="_blank">ici</Link>.
+          Vous êtes connecté(e) sur <a href={WEBSITE_URL} target="_blank">Réagir à l'information</a> en tant que{' '}
+          <em>{ user.nick }</em>. La charte est accessible <a href={WEBSITE_URL + '/charte'} target="_blank">ici</a>.
         </Text>
       </Box>
 
