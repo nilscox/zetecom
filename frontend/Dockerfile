@@ -35,7 +35,7 @@ RUN apt update
 
 RUN mkdir /logs
 
-COPY nginx.template.conf /nginx.template.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
