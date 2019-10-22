@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
 import moment from 'moment';
 
 import { useTheme } from 'src/utils/Theme';
@@ -9,10 +9,9 @@ import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
 
 import Form from '../components/Form';
+import WebsiteLink from '../components/WebsiteLink';
 import useAxios from 'src/hooks/use-axios';
 import useUser from 'src/hooks/use-user';
-
-const { WEBSITE_URL } = process.env;
 
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const { sizes: { medium, big } } = useTheme();
@@ -66,8 +65,8 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
 
       <Box my={big}>
         <Text>
-          Vous êtes connecté(e) sur <a href={WEBSITE_URL} target="_blank">Réagir à l'information</a> en tant que{' '}
-          <em>{ user.nick }</em>. La charte est accessible <a href={WEBSITE_URL + '/charte'} target="_blank">ici</a>.
+          Vous êtes connecté(e) sur <WebsiteLink to="/">Réagir à l'information</WebsiteLink> en tant que{' '}
+          <em>{ user.nick }</em>. La charte est accessible <WebsiteLink to="/charte.html">ici</WebsiteLink>.
         </Text>
       </Box>
 

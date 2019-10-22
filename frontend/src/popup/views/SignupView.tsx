@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { RouteComponentProps, Link, Redirect } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import { AxiosError } from 'axios';
 
 import { parseUser } from 'src/types/User';
@@ -12,9 +12,8 @@ import Text from 'src/components/common/Text';
 import useAxios from 'src/hooks/use-axios';
 
 import ViewHeader from '../components/ViewHeader';
+import WebsiteLink from '../components/WebsiteLink';
 import Form, { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from '../components/Form';
-
-const { WEBSITE_URL } = process.env;
 
 type AcceptRulesCheckbox = {
   onChange: (value: boolean) => void;
@@ -63,8 +62,8 @@ const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
     return (
       <>
         Les inscriptions ne sont pas encore ouvertes.<br />
-        Si vous souhaitez participer à la beta, <a href={WEBSITE_URL + '/faq#contact'} target="_blank">contactez nous</a> pour autoriser
-        votre adresse email.
+        Si vous souhaitez participer à la beta, <WebsiteLink to="/faq.html#contact">contactez nous</WebsiteLink> pour
+        autoriser votre adresse email.
       </>
     );
   }
@@ -158,8 +157,8 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
           <Text>
             <>
               Pour créer votre compte sur Réagir à l'information, c'est par ici. Avant de vous inscrire, veillez à avoir
-              lu au moins <a href={WEBSITE_URL} target="_blank">la page de présentation</a>, ainsi que{' '}
-              <a href={WEBSITE_URL + '/charte'} target="_blank">la charte</a>.
+              lu au moins <WebsiteLink to="/">la page de présentation</WebsiteLink>, ainsi que{' '}
+              <WebsiteLink to="/charte.html">la charte</WebsiteLink>.
             </>
           </Text>
         </Box>
