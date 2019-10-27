@@ -27,7 +27,7 @@ const FAQ: React.FC = () => {
 
       <Title id="faq">Questions posées fréquemment</Title>
 
-      <Question question="Comment créer un compte sur Réaciton à l'information ?">
+      <Question question="Comment créer un compte sur Réagir à l'information ?">
         Le projet étant en phase de test, l'inscription n'est pas encore ouverte à tous pour l'instant. Si vous
         souhaitez faire partie des testeurs, vous pouvez <Link href="#contact">contacter</Link> l'équipe qui développe
         le projet.
