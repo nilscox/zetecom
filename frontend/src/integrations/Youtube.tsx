@@ -15,7 +15,7 @@ const Youtube: React.FC<YoutubeProps> = ({ youtubeId }) => {
   const [{ data: information, loading, error }] = useAxios(
     {
       url: `/api/information/by-youtubeId/${youtubeId}`,
-      validateStatus: [200, 404].includes,
+      validateStatus: s => [200, 404].includes(s),
     },
     parseInformation,
   );

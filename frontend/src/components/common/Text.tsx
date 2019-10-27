@@ -18,7 +18,7 @@ export type TextProps = Omit<React.HTMLProps<HTMLDivElement>, 'size'> & {
   align?: React.CSSProperties['textAlign'];
   bold?: boolean;
   uppercase?: boolean;
-  oneline?: boolean;
+  ellipsis?: number;
   style?: React.CSSProperties;
   children?: React.ReactNode;
 };
@@ -56,13 +56,6 @@ const getStyles: (theme: Theme) => { [key in TextVariant]: React.CSSProperties }
   },
 });
 
-const onelineStyle: React.CSSProperties = {
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  maxWidth: '100%',
-};
-
 const Text: React.FC<TextProps> = ({
   variant = 'text',
   size,
@@ -70,7 +63,7 @@ const Text: React.FC<TextProps> = ({
   align,
   bold,
   uppercase,
-  oneline,
+  ellipsis,
   style,
   children,
   ...props
@@ -79,6 +72,9 @@ const Text: React.FC<TextProps> = ({
   const variantStyles = useMemo(() => getStyles(theme), [theme]);
   const fontSize = typeof size === 'string' ? theme.fontSizes[size] : size + 'px';
 
+  if (ellipsis && typeof children === 'string' && children.length > ellipsis)
+    children = children.substr(0, ellipsis) + '...';
+
   const styles: React.CSSProperties = {
     ...variantStyles[variant],
     ...(size && { fontSize }),
@@ -86,7 +82,6 @@ const Text: React.FC<TextProps> = ({
     ...(align && { textAlign: align }),
     ...(bold && { fontWeight: 'bold' }),
     ...(uppercase && { textTransform: 'uppercase' }),
-    ...(oneline && onelineStyle),
     ...style,
   };
 
