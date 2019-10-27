@@ -83,7 +83,7 @@ const FAQ: React.FC = () => {
 
       <Question question="Peut-on participer au projet">
         Si vous souhaitez participer au projet, pour donner des feedbacks ou proposer des axes d'amélioration, vous êtes
-        invité(e) à <Link href="#contact">contactez</Link> l'équipe qui développe le projet pour en discuter. Et si vous
+        invité(e) à <Link href="#contact">contacter</Link> l'équipe qui développe le projet pour en discuter. Et si vous
         êtes développeurs et que le projet vous intéresse techniquement, les source sont disponibles sur{' '}
         <Link href={useEnvironment('REPOSITORY_URL')}>github</Link>.
       </Question>

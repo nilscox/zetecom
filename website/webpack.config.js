@@ -3,6 +3,11 @@ const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin'
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
+const {
+  HOST = '0.0.0.0',
+  PORT = 8080,
+} = process.env;
+
 module.exports = {
 
   mode: 'development',
@@ -111,8 +116,8 @@ module.exports = {
   },
 
   devServer: {
-    host: '0.0.0.0',
-    port: 8000,
+    host: HOST,
+    port: PORT,
     inline: false,
   },
 
