@@ -18,7 +18,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./avatars:/avatars
+      - ./avatars:/app/avatars
       - ./email-templates:/app/email-templates
     command: bash -c "sleep 2 && yarn start:prod"
     environment:
@@ -42,20 +42,27 @@ services:
       SESSION_SECRET: sekret
       EMAIL_TEMPLATE_DIR: /app/email-templates
       DATA_DIR: /app/data
-      USER_AVATAR_DESTINATION: /avatars
+      USER_AVATAR_DESTINATION: /app/avatars
 
 
-  frontend:
-    build: ./frontend
-    container_name: ri-frontend
+  extension:
+    build: ./extension
+    container_name: ri-extension
     ports:
       - 8000:80
-      - 8443:443
-    volumes:
-      - ./certs:/certs
     environment:
       NODE_ENV: production
       API_URL: http://localhost:3000
-      BASE_URL: http://localhost:8000
+      EXTENSION_URL: http://localhost:8000
+      WEBSITE_URL: http://localhost:8080
       CHROME_EXTENSION_URL:
       GITHUB_REPO_URL:
+
+
+  website:
+    image: nginx
+    container_name: ri-website
+    ports:
+      - 8080:80
+    volumes:
+      - ./website/dist:/usr/share/nginx/html:ro
