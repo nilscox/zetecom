@@ -1,9 +1,3 @@
-if (!window.env)
-  window.env = {};
-
-var BASE_URL = window.env.BASE_URL;
-var NODE_ENV = window.env.NODE_ENV;
-
 // mobile navigation
 
 var navigation = document.querySelector('.navigation');

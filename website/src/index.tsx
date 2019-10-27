@@ -8,7 +8,8 @@ import PageComponent from './Page';
 
 type EnvironmentVariables = {
   NODE_ENV: string,
-  BASE_URL: string,
+  EXTENSION_URL: string,
+  WEBSITE_URL: string,
   CHROME_EXTENSION_URL: string | undefined,
   REPOSITORY_URL: string | undefined,
 };

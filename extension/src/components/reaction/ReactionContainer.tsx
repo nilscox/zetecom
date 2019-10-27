@@ -47,7 +47,7 @@ export const useReactionReplies = (parent: Reaction) => {
 };
 
 const useReport = (reaction: Reaction) => {
-  const reportUrl = `${env.BASE_URL}/integration/reaction/${reaction.id}/report`;
+  const reportUrl = `${env.EXTENSION_URL}/integration/reaction/${reaction.id}/report`;
 
   const report = () => {
     window.open(reportUrl, '_blank', 'width=600,height=800,resizable=no');
@@ -57,7 +57,7 @@ const useReport = (reaction: Reaction) => {
 };
 
 const useViewHistory = (reaction: Reaction) => {
-  const historyUrl = `${env.BASE_URL}/integration/reaction/${reaction.id}/history`;
+  const historyUrl = `${env.EXTENSION_URL}/integration/reaction/${reaction.id}/history`;
 
   const viewHistory = () => {
     window.open(historyUrl, '_blank', 'width=600,height=800,resizable=no');

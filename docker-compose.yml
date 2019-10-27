@@ -25,7 +25,8 @@ services:
       NODE_ENV: production
       LISTEN_IP: 0.0.0.0
       LISTEN_PORT: 3000
-      BASE_URL: http://localhost:8000
+      EXTENSION_URL: http://localhost:8000
+      WEBSITE_URL: http://localhost:8080
       DB_HOST: ri-postgres
       DB_PORT: 5432
       DB_USER: root
@@ -41,7 +42,6 @@ services:
       EMAIL_ACCOUNT_VERIFICATION: 'false'
       SESSION_SECRET: sekret
       EMAIL_TEMPLATE_DIR: /app/email-templates
-      DATA_DIR: /app/data
       USER_AVATAR_DESTINATION: /app/avatars
 
 

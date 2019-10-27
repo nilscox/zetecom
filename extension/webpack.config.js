@@ -77,8 +77,8 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
       API_URL: 'http://localhost:3000',
-      BASE_URL: 'http://localhost:8000',
-      WEBSITE_URL: 'http://localhost:8000',
+      EXTENSION_URL: 'http://localhost:8000',
+      WEBSITE_URL: 'http://localhost:8080',
       CHROME_EXTENSION_URL: null,
       REPOSITORY_URL: null,
     }),

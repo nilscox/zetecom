@@ -1,4 +1,4 @@
-const BASE_URL = process.env.BASE_URL;
+const EXTENSION_URL = process.env.EXTENSION_URL;
 const YOUTUBE_REGEX = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
 
 window.addEventListener('message', (evt) => {
@@ -82,7 +82,7 @@ function render(youtubeId, youtubeComments, setButtons, setIntegration) {
   };
 
   iframe.id = 'ri-iframe';
-  iframe.src = `${BASE_URL}/integration/youtube?youtubeId=${youtubeId}`;
+  iframe.src = `${EXTENSION_URL}/integration/youtube?youtubeId=${youtubeId}`;
   iframe.scrolling = 'no';
   iframe.style.width = '1px';
   iframe.style.minWidth = '100%';

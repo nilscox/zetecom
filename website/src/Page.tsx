@@ -48,16 +48,6 @@ const Page: React.FC<PageType> = (props) => (
 
       <PageLayout {...props} />
 
-      <script
-        type="text/javascript"
-        dangerouslySetInnerHTML={{
-          __html: 'window.env = ' + JSON.stringify({
-            BASE_URL: useEnvironment('BASE_URL'),
-            NODE_ENV: useEnvironment('NODE_ENV'),
-          }),
-        }}
-      />
-
       <script type="text/javascript" src="/assets/js/client.js" />
 
       { useEnvironment('NODE_ENV') === 'production' && usePage().id === 'faq' && (
@@ -65,7 +55,7 @@ const Page: React.FC<PageType> = (props) => (
       ) }
 
       { useEnvironment('NODE_ENV') === 'development' && (
-        <script src={useEnvironment('BASE_URL') + '/webpack-dev-server.js'} />
+        <script src={useEnvironment('WEBSITE_URL') + '/webpack-dev-server.js'} />
       ) }
 
       <script async src="https://www.googletagmanager.com/gtag/js?id=UA-143537578-1" />

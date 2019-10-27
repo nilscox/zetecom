@@ -85,7 +85,8 @@ module.exports = {
       paths: '/',
       locals: {
         NODE_ENV: process.env.NODE_ENV || 'development',
-        BASE_URL: process.env.BASE_URL || 'http://localhost:8000',
+        EXTENSION_URL: process.env.EXTENSION_URL || 'http://localhost:8000',
+        WEBSITE_URL: process.env.WEBSITE_URL || 'http://localhost:8080',
         CHROME_EXTENSION_URL: process.env.CHROME_EXTENSION_URL,
         REPOSITORY_URL: process.env.REPOSITORY_URL,
       },

@@ -21,7 +21,7 @@ module.exports = {
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
-      BASE_URL: 'http://localhost:8000',
+      EXTENSION_URL: 'http://localhost:8000',
     }),
   ],
 

@@ -1,7 +1,9 @@
-const DATA_DIR = process.env.DATA_DIR || '../data';
-const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+/// <reference types="node" />
+// tslint:disable no-console
 
-const axios = require('axios');
+const API_URL = process.env.API_URL || 'http://localhost:3000';
+
+import axios from 'axios';
 
 type QuickReactionType = 'APPROVE' | 'REFUTE' | 'SKEPTIC';
 
@@ -188,7 +190,7 @@ async function createSubject(informationId: number, subject: any, user: IUser) {
 }
 
 async function main(data: any) {
-  axios.defaults.baseURL = BASE_URL;
+  axios.defaults.baseURL = API_URL;
 
   if (!data)
     return 1;

@@ -1,4 +1,4 @@
-const BASE_URL = process.env.BASE_URL;
+const EXTENSION_URL = process.env.EXTENSION_URL;
 
 window.addEventListener('message', (evt) => {
   const { data } = evt;
@@ -81,7 +81,7 @@ function render(skeptikonComments, setButtons, setIntegration) {
   };
 
   iframe.id = 'ri-iframe';
-  iframe.src = `${BASE_URL}/integration?url=${window.location.href}`;
+  iframe.src = `${EXTENSION_URL}/integration?url=${window.location.href}`;
   iframe.scrolling = 'no';
   iframe.style.width = '1px';
   iframe.style.minWidth = '100%';
