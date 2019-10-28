@@ -23,7 +23,7 @@
     "db:migrate": "yarn typeorm migration:run --migration-dir=migrations",
     "db:populate": "ts-node data.ts",
     "db:reset": "yarn db:drop && yarn db:sync && yarn db:populate",
-    "start:front-e2e": "ep2cmd /reset \"yarn db:drop && yarn db:sync\" /populate \"yarn db:populate\""
+    "start:restoredb": "ep2cmd /reset \"yarn db:drop && yarn db:sync\" /populate \"yarn db:populate\""
   },
   "dependencies": {
     "@nest-middlewares/cors": "^6.0.0",

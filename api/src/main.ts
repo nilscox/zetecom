@@ -23,7 +23,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalInterceptors(new ErrorsInterceptor());
 
-  if (process.env.NODE_ENV === 'development')
+  if (process.env.REFLECT_ORIGIN === 'true')
     app.enableCors({ origin: true, credentials: true });
 
   await app.listen(LISTEN_PORT, LISTEN_IP);
