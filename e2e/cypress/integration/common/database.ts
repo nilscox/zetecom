@@ -2,9 +2,11 @@ import { Given } from 'cypress-cucumber-preprocessor/steps';
 
 const {
   API_URL = 'http://localhost:3000',
-  RESETDB_URL = 'http://localhost:4242/reset',
-  POPULATEDB_URL = 'http://localhost:4242/populate',
+  RESTOREDB_URL = 'http://localhost:4242',
 } = process.env || {};
+
+const RESETDB_URL = RESTOREDB_URL + '/reset';
+const POPULATEDB_URL = RESTOREDB_URL + '/populate';
 
 Given('the database is empty', () => {
   cy.request({ method: 'POST', url: RESETDB_URL });

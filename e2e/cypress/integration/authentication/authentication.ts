@@ -1,9 +1,5 @@
 import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
 
-Given('I open the popup', () => {
-  cy.visit('/popup');
-});
-
 Then('I see the popup header', () => {
   cy.dataE2e('popup-header').should('exist');
   cy.dataE2e('popup-header').contains('Connexion');

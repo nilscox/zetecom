@@ -1,6 +1,7 @@
 import { Given, Then, When } from 'cypress-cucumber-preprocessor/steps';
 
 Given('I open the integration on url {string}', (url: string) => {
+  Cypress.config('baseUrl', Cypress.env('EXTENSION_URL'));
   cy.visit('/integration?url=' + url);
 });
 

@@ -1,5 +1,15 @@
 import { When, Then } from 'cypress-cucumber-preprocessor/steps';
 
+When('I open the popup', () => {
+  Cypress.config('baseUrl', Cypress.env('EXTENSION_URL'));
+  cy.visit('/popup');
+});
+
+When('I open the website', () => {
+  Cypress.config('baseUrl', Cypress.env('WEBSITE_URL'));
+  cy.visit('/');
+});
+
 When('I navigate to {word}', (url: string) => {
   cy.visit(url);
 });

@@ -1,90 +1,6 @@
 version: '3'
 services:
 
-  postgresql:
-    image: postgres:11.5
-    container_name: ri-postgres-ci
-    hostname: ri-postgres-ci
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: db
-
-
-  api:
-    image: nilscox/reagir-information-api:$GIT_BRANCH
-    container_name: ri-api-ci
-    hostname: ri-api-ci
-    ports:
-      - 3000:3000
-    volumes:
-      - ./avatars:/avatars
-      - ./email-templates:/app/email-templates
-    command: bash -c "sleep 4 && yarn db:drop && yarn start:prod"
-    environment:
-      NODE_ENV: development
-      CI: 'true'
-      LISTEN_IP: 0.0.0.0
-      LISTEN_PORT: 3000
-      BASE_URL: http://ri-frontend-ci
-      DB_HOST: ri-postgres-ci
-      DB_PORT: 5432
-      DB_USER: root
-      DB_PASS: root
-      DB_NAME: db
-      DB_SYNC: 'true'
-      DB_ENTITIES: ./dist/src/**/*.entity.js
-      DB_DEBUG: 'false'
-      EMAIL_HOST: domain.tld
-      EMAIL_USER: username
-      EMAIL_PASSWORD: password
-      EMAIL_BYPASS: 'true'
-      EMAIL_ACCOUNT_VERIFICATION: 'false'
-      SESSION_SECRET: sekret
-      EMAIL_TEMPLATE_DIR: /app/email-templates
-      DATA_DIR: /app/data
-      USER_AVATAR_DESTINATION: /avatars
-
-
-  restoredb:
-    image: nilscox/reagir-information-api:$GIT_BRANCH
-    container_name: ri-restoredb-ci
-    hostname: ri-restoredb-ci
-    ports:
-      - 4242:4242
-    command: bash -c "yarn start:front-e2e"
-    environment:
-      NODE_ENV: production
-      DB_HOST: ri-postgres-ci
-      DB_PORT: 5432
-      DB_USER: root
-      DB_PASS: root
-      DB_NAME: db
-      DB_SYNC: 'true'
-      DB_ENTITIES: ./dist/src/**/*.entity.js
-      DB_DEBUG: 'false'
-
-
-  frontend:
-    image: nilscox/reagir-information-frontend:$GIT_BRANCH
-    container_name: ri-frontend-ci
-    hostname: ri-frontend-ci
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./certs:/certs
-    environment:
-      NODE_ENV: production
-      API_UPSTREAM: http://ri-api-ci:3000
-      API_URL: http://ri-frontend-ci
-      BASE_URL: http://ri-frontend-ci
-      CHROME_EXTENSION_URL: https://chrome-extension-url
-      GITHUB_REPO_URL: https://github-repo-url
-
-
   cypress:
     image: cypress/included:3.4.0
     container_name: ri-cypress-ci
@@ -93,8 +9,8 @@ services:
     working_dir: /e2e
     volumes:
       - .:/e2e
-    environment:
-      CYPRESS_VIDEO: 'false'
-      CYPRESS_BASE_URL: 'http://ri-frontend-ci'
-      API_URL: http://ri-frontend-ci
+    env:
+      API_URL: http://ri-api-ci:3000
       RESTOREDB_URL: http://ri-restoredb-ci:4242
+      EXTENSION_URL: http://ri-extension-ci
+      WEBSITE_URL: http://ri-website-ci

@@ -1,10 +1,16 @@
 {
-  "baseUrl": "http://localhost:8000",
   "testFiles": "**/*.feature",
   "viewportWidth": 1920,
   "viewportHeight": 1080,
   "blacklistHosts": [
     "https://www.google-analytics.com/*",
+    "https://www.googletagmanager.com/*",
     "https://sentry.io/*"
-  ]
+  ],
+  "env": {
+    "API_URL": "http://localhost:3000",
+    "RESTOREDB_URL": "http://localhost:4242",
+    "EXTENSION_URL": "http://localhost:8000",
+    "WEBSITE_URL": "http://localhost:8080"
+  }
 }

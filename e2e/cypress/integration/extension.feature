@@ -54,7 +54,6 @@ Feature: Integration
     And the subject quote is "Lorem ipsum"
     And the subject description is "Dolor sit amet"
 
-  @focus
   Scenario: Reaction creation
     Given I am logged in
     And I open the integration on url "https://news.fake/article/1"
@@ -72,7 +71,6 @@ Feature: Integration
     When I click on "Envoyer"
     Then the reaction form is empty
 
-  @focus
   Scenario: Reaction edition
     Given I am logged in
     And I open the integration on url "https://news.fake/article/1"
