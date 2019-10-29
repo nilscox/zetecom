@@ -22,8 +22,8 @@
     "db:sync": "yarn typeorm schema:sync",
     "db:migrate": "yarn typeorm migration:run --migration-dir=migrations",
     "db:populate": "ts-node data.ts",
-    "db:reset": "yarn db:drop && yarn db:sync && yarn db:populate",
-    "start:restoredb": "ep2cmd /reset \"yarn db:drop && yarn db:sync\" /populate \"yarn db:populate\""
+    "db:reset": "yarn db:drop && yarn db:migrate && yarn db:populate",
+    "start:restoredb": "ep2cmd /reset \"yarn db:drop && yarn db:migrate\" /populate \"yarn db:populate\""
   },
   "dependencies": {
     "@nest-middlewares/cors": "^6.0.0",
