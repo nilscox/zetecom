@@ -4,9 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "cypress open",
-    "docker-compose": "docker-compose -f ../docker-compose.yml",
-    "start:ci": "yarn docker-compose -f ./docker-compose-ci.yml up --abort-on-container-exit"
+    "start": "cypress open"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^4.1.0",

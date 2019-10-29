@@ -1,6 +1,6 @@
 import { Given } from 'cypress-cucumber-preprocessor/steps';
 
-const { API_URL = 'http://localhost:3000' } = process.env;
+const API_URL = Cypress.env('API_URL');
 
 export const loginOrSignup = ({ email = 'email@domain.tld', password = 'secure p4ssword', nick = 'someone' } = {}) => {
   let user: any = null;

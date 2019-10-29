@@ -1,9 +1,7 @@
 import { Given } from 'cypress-cucumber-preprocessor/steps';
 
-const {
-  API_URL = 'http://localhost:3000',
-  RESTOREDB_URL = 'http://localhost:4242',
-} = process.env || {};
+const API_URL = Cypress.env('API_URL');
+const RESTOREDB_URL = Cypress.env('RESTOREDB_URL');
 
 const RESETDB_URL = RESTOREDB_URL + '/reset';
 const POPULATEDB_URL = RESTOREDB_URL + '/populate';

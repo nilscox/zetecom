@@ -4,6 +4,7 @@ Feature: Authentication
     Given I open the popup
 
   Scenario: Popup navigation
+    Given I am logged out
     Then I see the popup header
     When I click on the link with label "Inscription"
     Then the browser navigates to /popup/signup
@@ -11,6 +12,7 @@ Feature: Authentication
     Then the browser navigates to /popup/login
 
   Scenario: Redirection to the login page
+    Given I am logged out
     Then the browser navigates to /popup/login
     When I navigate to /popup/logout
     Then the browser navigates to /popup/login
@@ -45,6 +47,7 @@ Feature: Authentication
     And I read "un email vous a été envoyé à email@domain.tld"
 
   Scenario: Login
+    Given I am logged out
     When I navigate to /popup/login
     And I type "email@domain.tld" in the "Email" field
     Then the button with label "Connexion" is disabled
@@ -55,6 +58,7 @@ Feature: Authentication
     And I read "Vous êtes connecté(e) sur Réagir à l'information en tant que someone."
 
   Scenario: Login - invalid credentials
+    Given I am logged out
     When I navigate to /popup/login
     And I submit the login form with values "email@domain.tld" and "p4ssword secure"
     Then I read "Combinaison email / mot de passe non valide"

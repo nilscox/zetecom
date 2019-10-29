@@ -1,16 +1,105 @@
 version: '3'
 services:
 
+  postgresql:
+    image: postgres:11.5
+    container_name: ri-postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: db
+
+
+  api:
+    image: nilscox/reagir-information-api:${GIT_SHA}
+    container_name: ri-api
+    ports:
+      - 3000:3000
+    volumes:
+      - ./avatars:/app/avatars
+      - ./email-templates:/app/email-templates
+    command: bash -c "sleep 4 && yarn start:prod"
+    environment:
+      NODE_ENV: production
+      LISTEN_IP: 0.0.0.0
+      LISTEN_PORT: 3000
+      REFLECT_ORIGIN: 'true'
+      EXTENSION_URL: http://ri-extension
+      WEBSITE_URL: http://ri-website
+      DB_HOST: ri-postgres
+      DB_PORT: 5432
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: db
+      DB_SYNC: 'true'
+      DB_ENTITIES: ./dist/src/**/*.entity.js
+      DB_DEBUG: 'false'
+      EMAIL_HOST: domain.tld
+      EMAIL_USER: username
+      EMAIL_PASSWORD: password
+      EMAIL_BYPASS: 'true'
+      EMAIL_ACCOUNT_VERIFICATION: 'false'
+      SESSION_SECRET: sekret
+      EMAIL_TEMPLATE_DIR: /app/email-templates
+      USER_AVATAR_DESTINATION: /app/avatars
+
+
+  restoredb:
+    image: nilscox/reagir-information-api:${GIT_SHA}
+    container_name: ri-restoredb
+    hostname: ri-restoredb
+    ports:
+      - 4242:4242
+    volumes:
+      - ../api/data.ts:/app/data.ts
+    command: bash -c "yarn start:restoredb"
+    environment:
+      NODE_ENV: production
+      API_URL: http://ri-api:3000
+      DB_HOST: ri-postgres
+      DB_PORT: 5432
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: db
+      DB_SYNC: 'true'
+      DB_ENTITIES: ./dist/src/**/*.entity.js
+      DB_DEBUG: 'false'
+
+
+  extension:
+    image: nilscox/reagir-information-extension:${GIT_SHA}
+    container_name: ri-extension
+    hostname: ri-extension
+    ports:
+      - 8000:80
+    environment:
+      NODE_ENV: production
+      API_URL: http://ri-api:3000
+      EXTENSION_URL: http://ri-extension
+      WEBSITE_URL: http://ri-website
+      CHROME_EXTENSION_URL:
+      GITHUB_REPO_URL:
+
+
+  website:
+    build: ../website
+    container_name: ri-website
+    hostname: ri-website
+    ports:
+      - 8080:80
+
+
   cypress:
     image: cypress/included:3.4.0
-    container_name: ri-cypress-ci
-    hostname: ri-cypress-ci
+    container_name: ri-cypress
     entrypoint: bash -c "sleep 6 && cypress run --browser chrome"
     working_dir: /e2e
     volumes:
       - .:/e2e
-    env:
-      API_URL: http://ri-api-ci:3000
-      RESTOREDB_URL: http://ri-restoredb-ci:4242
-      EXTENSION_URL: http://ri-extension-ci
-      WEBSITE_URL: http://ri-website-ci
+    environment:
+      CYPRESS_API_URL: http://ri-api:3000
+      CYPRESS_RESTOREDB_URL: http://ri-restoredb:4242
+      CYPRESS_EXTENSION_URL: http://ri-extension
+      CYPRESS_WEBSITE_URL: http://ri-website
