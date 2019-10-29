@@ -28,8 +28,6 @@ RUN yarn lint
 
 FROM nginx
 
-RUN apt update
-
 #RUN apt-get update
 #RUN apt-get install curl procps lsof
 
