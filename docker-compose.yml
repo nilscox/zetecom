@@ -4,6 +4,7 @@ services:
   postgresql:
     image: postgres:11.5
     container_name: ri-postgres
+    hostname: ri-postgres
     ports:
       - 5432:5432
     environment:
@@ -15,6 +16,7 @@ services:
   api:
     build: ./api
     container_name: ri-api
+    hostname: ri-api
     ports:
       - 3000:3000
     volumes:
@@ -35,6 +37,7 @@ services:
       DB_NAME: db
       DB_SYNC: 'true'
       DB_ENTITIES: ./dist/src/**/*.entity.js
+      DB_MIGRATIONS_DIR: ./dist/migrations/*.js
       DB_DEBUG: 'false'
       EMAIL_HOST: domain.tld
       EMAIL_USER: username
@@ -65,12 +68,14 @@ services:
       DB_NAME: db
       DB_SYNC: 'true'
       DB_ENTITIES: ./dist/src/**/*.entity.js
+      DB_MIGRATIONS_DIR: ./dist/migrations/*.js
       DB_DEBUG: 'false'
 
 
   extension:
     build: ./extension
     container_name: ri-extension
+    hostname: ri-extension
     ports:
       - 8000:80
     environment:
@@ -85,5 +90,6 @@ services:
   website:
     build: ./website
     container_name: ri-website
+    hostname: ri-website
     ports:
       - 8080:80

@@ -10,7 +10,7 @@
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "NODE_ENV=development nodemon",
     "start:debug": "NODE_ENV=development nodemon --config nodemon-debug.json",
-    "start:prod": "yarn typeorm migration:run && node dist/src/main.js",
+    "start:prod": "yarn db:migrate && node dist/src/main.js",
     "lint": "tslint -p tsconfig.json -c tslint.json -e 'migrations/*'",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -19,8 +19,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "db:drop": "yarn typeorm schema:drop",
-    "db:sync": "yarn typeorm schema:sync",
-    "db:migrate": "yarn typeorm migration:run --migration-dir=migrations",
+    "db:migrate": "yarn typeorm migration:run",
     "db:populate": "ts-node data.ts",
     "db:reset": "yarn db:drop && yarn db:migrate && yarn db:populate",
     "start:restoredb": "ep2cmd /reset \"yarn db:drop && yarn db:migrate\" /populate \"yarn db:populate\""
