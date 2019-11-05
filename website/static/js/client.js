@@ -36,16 +36,3 @@ if (window.location.search.match(/email-validated=true/)) {
     emailValidated.classList.remove('show');
   });
 }
-
-// new name banner
-
-var newNameBanner = document.querySelector('#new-name-banner');
-var newNameBannerClose = newNameBanner.querySelector('.close');
-
-newNameBannerClose.addEventListener('click', function() {
-  localStorage.setItem('nn', 1);
-  newNameBanner.classList.add('hide');
-});
-
-if (!localStorage.getItem('nn'))
-  newNameBanner.classList.remove('hide');

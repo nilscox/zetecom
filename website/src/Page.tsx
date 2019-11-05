@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useEnvironment, usePage } from 'src/index';
-import NewNameBanner from 'src/components/NewNameBanner';
 import EmailValidatedAlert from 'src/components/EmailValidatedAlert';
 import PageHeader from 'src/components/PageHeader';
 import Navigation from 'src/components/Navigation';
@@ -12,7 +11,6 @@ import './style.scss';
 const PageLayout: React.FC<PageType> = ({ id, Component }) => (
   <div className="page" id={`page-${id}`}>
 
-    <NewNameBanner />
     <EmailValidatedAlert />
     <PageHeader />
 
