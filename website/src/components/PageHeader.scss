@@ -73,5 +73,18 @@
         line-height: 26px;
       }
     }
+
+  }
+
+  .beta {
+    align-self: flex-start;
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 12px;
+    line-height: 32px;
+    text-align: center;
+    opacity: 0.8;
   }
 }

@@ -14,6 +14,8 @@ const PageHeader: React.FC = () => (
       <div className="subtitle">Décryptons les médias !</div>
     </div>
 
+    <div className="beta" title="Le projet est en phase de test, lancement officiel bientôt !">BETA</div>
+
   </div>
 );
 
