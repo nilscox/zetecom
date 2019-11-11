@@ -21,7 +21,7 @@ export class Reaction {
   @JoinColumn({ name: 'author_id' })
   author: User;
 
-  @ManyToOne(type => Subject, subject => subject.reactions, { nullable: false })
+  @ManyToOne(type => Subject, subject => subject.reactions, { nullable: true })
   @JoinColumn({ name: 'subject_id' })
   subject: Subject;
 

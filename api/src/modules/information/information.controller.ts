@@ -26,6 +26,9 @@ import { InformationService } from './information.service';
 import { Information } from './information.entity';
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
 import { InformationOutDto } from './dtos/information-out.dto';
+import { Reaction } from '../reaction/reaction.entity';
+import { ReactionService } from '../reaction/reaction.service';
+import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
 
 @Controller('information')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -34,6 +37,7 @@ export class InformationController {
   constructor(
     private readonly informationService: InformationService,
     private readonly subjectService: SubjectService,
+    private readonly reactionService: ReactionService,
   ) {}
 
   @Get()
@@ -79,6 +83,25 @@ export class InformationController {
       throw new NotFoundException();
 
     return info;
+  }
+
+  @Get(':id/reactions')
+  @Output(ReactionOutDto)
+  async findReactions(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Query('sort', new SortTypePipe()) sort: SortType,
+    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+    @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
+    @ReqUser() user: User,
+  ): Promise<Reaction[]> {
+    const information = await this.informationService.findOne({ id });
+
+    if (!information)
+      return null;
+
+    const reactions = await this.reactionService.findStandaloneReactions(information, sort, page);
+
+    return reactions;
   }
 
   @Get(':id/subjects')
