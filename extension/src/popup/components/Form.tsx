@@ -78,7 +78,7 @@ const Form: React.FC<FormProps> = ({
     Object.keys(fields).reduce((o: { [name: string]: string }, k: string) => {
       o[k] = '';
       return o;
-    }, {})
+    }, {}),
   );
 
   const valid = isValid(values);
@@ -118,7 +118,7 @@ const Form: React.FC<FormProps> = ({
             {...fields[key] as FormField}
             onTextChange={(text) => handleTextChange(key, text)}
           />
-        )
+        ),
       )}
 
       { globalError && <FormError>{ globalError }</FormError> }
