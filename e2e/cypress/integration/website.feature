@@ -1,8 +1,10 @@
 Feature: Website pages
 
   Background:
-    Given I open the website
+    # Given I open the website
 
+  # Skip this file in CI
+  @ignore
   Scenario Outline: The pages loads correctly
     When I navigate to <path>
     Then I see the header
@@ -19,10 +21,12 @@ Feature: Website pages
   | motivations | /motivations.html | Motivations |
   | faq         | /faq.html         | FAQ         |
 
+  @ignore
   Scenario: Main elements
     Then I see the logo
     And I see extension download button
 
+  @ignore
   Scenario: The navigation works
     When I click on the "Utilisation" navigation link
     Then the browser navigates to /utilisation.html
@@ -34,10 +38,3 @@ Feature: Website pages
     Then the browser navigates to /faq.html
     When I click on the "Accueil" navigation link
     Then the browser navigates to /
-
-  Scenario: New name banner
-    Then I see the banner
-    When I close the banner
-    Then I don't see the banner
-    When I navigate to /
-    Then I don't see the banner

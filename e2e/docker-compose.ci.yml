@@ -1,0 +1,11 @@
+version: '3'
+services:
+
+  api:
+    image: nilscox/reagir-information-api:${GIT_SHA}
+
+  restoredb:
+    image: nilscox/reagir-information-api:${GIT_SHA}
+
+  extension:
+    image: nilscox/reagir-information-extension:${GIT_SHA}

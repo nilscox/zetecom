@@ -34,7 +34,7 @@ jobs:
     needs: [api, extension]
     steps:
     - uses: actions/checkout@v1
-    - run: docker-compose up --abort-on-container-exit
+    - run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up --abort-on-container-exit
       working-directory: ./e2e
       env:
         GIT_SHA: ${{ github.sha }}

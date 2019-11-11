@@ -67,7 +67,3 @@ Given('the email {string} is authorized', (email: string) => {
 Given('I am logged in', () => {
   loginOrSignup();
 });
-
-Given('I am logged out', () => {
-  cy.clearCookie('connect.sid');
-});
