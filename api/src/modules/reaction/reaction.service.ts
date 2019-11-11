@@ -1,19 +1,19 @@
-import { NotFoundException, BadRequestException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { Repository, FindConditions, FindManyOptions } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { SortType } from 'Common/sort-type';
 
-import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
+import { User } from '../user/user.entity';
 import { Information } from '../information/information.entity';
 import { Subject } from '../subject/subject.entity';
 import { Message } from './message.entity';
 import { Reaction } from './reaction.entity';
 import { Report, ReportType } from './report.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
+import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
-import { User } from '../user/user.entity';
 
 @Injectable()
 export class ReactionService {
@@ -43,6 +43,30 @@ export class ReactionService {
     return result;
   }
 
+  private static sortByRelevance(reactions: Reaction[]) {
+    const sumQuickReacitonsCount = ({ quickReactionsCount: r }: Reaction) => {
+      return r.APPROVE + r.REFUTE + r.SKEPTIC;
+    };
+
+    const scores = reactions
+      .map(r => r.repliesCount + sumQuickReacitonsCount(r))
+      .reduce((acc, score, idx) => ({ ...acc, [reactions[idx].id]: score }), {});
+
+    reactions.sort((a, b) => scores[b.id] - scores[a.id]);
+  }
+
+  async findStandaloneReactions(information: Information, sort: SortType, page: number = 1): Promise<Reaction[]> {
+    const reactions = await this.reactionRepository.find({ where: { information, subject: null } });
+
+    await this.addQuickReactionsCounts(reactions);
+    await this.addRepliesCounts(reactions);
+
+    if (sort === SortType.RELEVANCE)
+      ReactionService.sortByRelevance(reactions);
+
+    return reactions;
+  }
+
   async findRootReactions(subject: Subject, sort: SortType, page: number = 1): Promise<Reaction[]> {
     const reactions = await this.reactionRepository.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
@@ -56,17 +80,8 @@ export class ReactionService {
     await this.addQuickReactionsCounts(reactions);
     await this.addRepliesCounts(reactions);
 
-    if (sort === SortType.RELEVANCE) {
-      const sumQuickReacitonsCount = ({ quickReactionsCount: r }: Reaction) => {
-        return r.APPROVE + r.REFUTE + r.SKEPTIC;
-      };
-
-      const scores = reactions
-        .map(r => r.repliesCount + sumQuickReacitonsCount(r))
-        .reduce((acc, score, idx) => ({ ...acc, [reactions[idx].id]: score }), {});
-
-      reactions.sort((a, b) => scores[b.id] - scores[a.id]);
-    }
+    if (sort === SortType.RELEVANCE)
+      ReactionService.sortByRelevance(reactions);
 
     return reactions;
   }
@@ -81,7 +96,7 @@ export class ReactionService {
       .getMany();
   }
 
-  async create(dto: CreateReactionInDto, user: User, subject: Subject): Promise<Reaction> {
+  async create(dto: CreateReactionInDto, user: User, subject: Subject = null): Promise<Reaction> {
     let parent: Reaction | null = null;
 
     if (dto.parentId) {
@@ -90,8 +105,12 @@ export class ReactionService {
         subject,
       });
 
-      if (!parent)
-        throw new BadRequestException(`reaction with id ${dto.parentId} and subject ${subject.id} not found`);
+      if (!parent) {
+        if (subject)
+          throw new BadRequestException(`reaction with id ${dto.parentId} and subject ${subject} not found`);
+        else
+          throw new BadRequestException(`standalone reaction with id ${dto.parentId} not found`);
+      }
     }
 
     const reaction = new Reaction();

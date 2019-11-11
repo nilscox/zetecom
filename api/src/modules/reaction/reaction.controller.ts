@@ -36,6 +36,7 @@ import { ReactionOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
 import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
 import { ReportInDto } from './dtos/report-in.dto';
+import { Subject } from '../subject/subject.entity';
 
 @Controller('/reaction')
 export class ReactionController {
@@ -79,10 +80,14 @@ export class ReactionController {
     @Body() dto: CreateReactionInDto,
     @ReqUser() user: User,
   ): Promise<Reaction> {
-    const subject = await this.subjectService.findById(dto.subjectId);
+    let subject: Subject = null;
 
-    if (!subject)
-      throw new NotFoundException(`subject with id ${dto.subjectId} not found`);
+    if (dto.subjectId !== undefined) {
+      subject = await this.subjectService.findById(dto.subjectId);
+
+      if (!subject)
+        throw new NotFoundException(`subject with id ${dto.subjectId} not found`);
+    }
 
     return this.reactionService.create(dto, user, subject);
   }

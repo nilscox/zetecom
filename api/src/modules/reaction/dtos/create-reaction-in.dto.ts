@@ -3,7 +3,8 @@ import { IsEnum, IsOptional, IsString, IsInt, IsIn, MaxLength } from 'class-vali
 export class CreateReactionInDto {
 
   @IsInt()
-  readonly subjectId: number;
+  @IsOptional()
+  readonly subjectId?: number;
 
   @IsOptional()
   @IsInt()
