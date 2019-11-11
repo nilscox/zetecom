@@ -60,9 +60,9 @@ const useRootReactions = (subjectId: string, sort: SortType) => {
   ] as const;
 };
 
-type SubjectViewProps = RouteComponentProps<{ id: string }>;
+type SubjectPageProps = RouteComponentProps<{ id: string }>;
 
-const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
+const SubjectPage: React.FC<SubjectPageProps> = ({ match }) => {
   const user = useCurrentUser();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
@@ -145,4 +145,4 @@ const SubjectView: React.FC<SubjectViewProps> = ({ match }) => {
   );
 };
 
-export default SubjectView;
+export default SubjectPage;

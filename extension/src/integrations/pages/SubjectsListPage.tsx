@@ -43,11 +43,11 @@ const useSubjects = (informationId: number, sort: SortType, search?: string) => 
   return useAxios(url, parse);
 };
 
-type SubjectsListViewProps = RouteComponentProps & {
+type SubjectsListPageProps = RouteComponentProps & {
   information?: Information;
 };
 
-const SubjectsListView: React.FC<SubjectsListViewProps> = ({ history, information }) => {
+const SubjectsListPage: React.FC<SubjectsListPageProps> = ({ history, information }) => {
   const user = useCurrentUser();
   const { sizes: { big } } = useTheme();
   const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
@@ -108,4 +108,4 @@ const SubjectsListView: React.FC<SubjectsListViewProps> = ({ history, informatio
   );
 };
 
-export default SubjectsListView;
+export default SubjectsListPage;
