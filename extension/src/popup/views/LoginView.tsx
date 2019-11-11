@@ -1,6 +1,6 @@
-import { AxiosError } from 'axios';
 import React, { useEffect } from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
+import { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { useTheme } from 'src/utils/Theme';
 import Box from 'src/components/common/Box';
@@ -49,7 +49,7 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
   const [currentUser, setUser] = useUser();
   const { sizes: { big } } = useTheme();
 
-  const opts = { method: 'POST', url: '/api/auth/login', withCredentials: true };
+  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/login', withCredentials: true };
   const [{ data: user, loading, error, status }, login] = useAxios(opts, parseUser, { manual: true });
 
   const [globalError, errors = {}, resetErrors] = useFormErrors(error, getGlobalError, getFieldErrors);

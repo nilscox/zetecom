@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
+import { AxiosRequestConfig } from 'axios';
 
 import { useTheme } from 'src/utils/Theme';
 
@@ -78,7 +79,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
 
   const [{ data: reaction, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseReaction);
 
-  const opts = { method: 'POST', withCredentials: true };
+  const opts: AxiosRequestConfig = { method: 'POST', withCredentials: true };
   const [{
     loading: reportLoading,
     error: reportError,

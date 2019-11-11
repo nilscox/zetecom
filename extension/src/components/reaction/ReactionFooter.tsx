@@ -1,6 +1,8 @@
 /* eslint-disable max-lines */
 
 import React, { useState, useEffect } from 'react';
+import { AxiosRequestConfig } from 'axios';
+
 import { Reaction, QuickReactionType, QuickReactionsCount, parseReaction } from 'src/types/Reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
@@ -61,7 +63,12 @@ const useQuickReactions = (
   const [updatedQuickReaction, setUpdatedQuickReaction] = useState<QuickReactionType | null>(null);
   const userQuickReaction = updatedQuickReaction || originalUserQuickReaction;
 
-  const opts = { method: 'POST', url: `/api/reaction/${reactionId}/quick-reaction`, withCredentials: true };
+  const opts: AxiosRequestConfig = {
+    method: 'POST',
+    url: `/api/reaction/${reactionId}/quick-reaction`,
+    withCredentials: true,
+  };
+
   const [{ data: updated, error, status }, post] = useAxios(opts, parseReaction, { manual: true });
 
   if (error)
