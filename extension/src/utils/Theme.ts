@@ -22,6 +22,7 @@ export type Theme = {
     small: number;
     medium: number;
     big: number;
+    title: number;
   };
   borderRadius: number;
   borderRadiusInput: number;
@@ -49,6 +50,7 @@ const defaultTheme: Theme = {
     small: 14,
     medium: 16,
     big: 18,
+    title: 22,
   },
   borderRadius: 2,
   borderRadiusInput: 2,
