@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+/* eslint-disable max-lines */
 
+import React, { useCallback, useEffect, useState } from 'react';
 import { Subject } from 'src/types/Subject';
 import { Reaction, parseReaction } from 'src/types/Reaction';
 import env from 'src/utils/env';
@@ -80,7 +81,7 @@ const Indented: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 };
 
 type ReactionContainerProps = {
-  subject: Subject;
+  subject?: Subject;
   reaction: Reaction;
   onEdited: (reaction: Reaction) => void;
 };
@@ -137,6 +138,8 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
     onEdited(reaction);
     closeEditionForm();
   };
+
+  useEffect(() => void setReaction(originalReaction), [originalReaction]);
 
   useEffect(() => {
     if (displayReplyForm && !displayReplies) {

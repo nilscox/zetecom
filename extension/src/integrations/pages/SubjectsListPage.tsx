@@ -7,20 +7,17 @@ import { useCurrentUser } from 'src/utils/UserContext';
 import { Information } from 'src/types/Information';
 import { parseSubject } from 'src/types/Subject';
 import { SortType } from 'src/types/SortType';
-import { useTheme } from 'src/utils/Theme';
 
 import Break from 'src/components/common/Break';
 import Button from 'src/components/common/Button';
-import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
-import Input from 'src/components/common/Input';
 import Loader from 'src/components/common/Loader';
 import Text from 'src/components/common/Text';
-import SortSelect from 'src/components/common/SortSelect';
 import SubjectsList, { SubjectsListProps } from 'src/components/subject/SubjectsList';
 import SubjectForm from 'src/components/subject/SubjectForm';
 
 import useAxios, { ResponseData } from 'src/hooks/use-axios';
+import FilterBar from 'src/components/common/FilterBar';
 
 const SubjectsListOrNotFound: React.FC<SubjectsListProps> = (props) => {
   if (!props.subjects.length) {
@@ -49,8 +46,7 @@ type SubjectsListPageProps = RouteComponentProps & {
 
 const SubjectsListPage: React.FC<SubjectsListPageProps> = ({ history, information }) => {
   const user = useCurrentUser();
-  const { sizes: { big } } = useTheme();
-  const [sort, setSort] = useState(localStorage.getItem('sort') as SortType);
+  const [sort, setSort] = useState(SortType.DATE_ASC);
   const [search, setSearch] = useState('');
 
   const [displaySubjectForm, setDisplaySubjectForm] = useState(false);
@@ -58,35 +54,15 @@ const SubjectsListPage: React.FC<SubjectsListPageProps> = ({ history, informatio
 
   const [{ data: subjects, loading }] = useSubjects(information.id, sort, search);
 
-  const onSort = (newSort: SortType) => {
-    if (newSort === sort)
-      return;
-
-    localStorage.setItem('sort', newSort);
-    setSort(newSort);
-
-    // TODO: do sort
-  };
-
   return (
     <>
 
-      <Flex my={big} flexDirection="row" alignItems="center">
-
-        <Input
-          type="text"
-          placeholder="Rechercher..."
-          style={{ flex: 1, marginRight: big }}
-          onChange={e => setSearch(e.currentTarget.value)}
-        />
-
-        <Box mr={big}>
-          <SortSelect disabled={!subjects || true} onChange={onSort} />
-        </Box>
-
-        { user && <Button onClick={showSubjectForm}>Nouveau sujet</Button> }
-
-      </Flex>
+      <FilterBar
+        disabled={loading || true}
+        onSearch={setSearch}
+        onSort={setSort}
+        after={user && <Button onClick={showSubjectForm}>Nouveau sujet</Button>}
+      />
 
       { displaySubjectForm && (
         <SubjectForm
