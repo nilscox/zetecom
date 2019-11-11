@@ -55,8 +55,8 @@ export class ReactionService {
     reactions.sort((a, b) => scores[b.id] - scores[a.id]);
   }
 
-  async findStandaloneReactions(information: Information, sort: SortType, page: number = 1): Promise<Reaction[]> {
-    const reactions = await this.reactionRepository.find({ where: { information, subject: null } });
+  async findStandaloneRootReactions(information: Information, sort: SortType, page: number = 1): Promise<Reaction[]> {
+    const reactions = await this.reactionRepository.find({ where: { information, subject: null, parent: null } });
 
     await this.addQuickReactionsCounts(reactions);
     await this.addRepliesCounts(reactions);

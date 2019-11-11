@@ -99,7 +99,7 @@ export class InformationController {
     if (!information)
       return null;
 
-    const reactions = await this.reactionService.findStandaloneReactions(information, sort, page);
+    const reactions = await this.reactionService.findStandaloneRootReactions(information, sort, page);
 
     return reactions;
   }
