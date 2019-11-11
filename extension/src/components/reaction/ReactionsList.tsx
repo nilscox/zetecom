@@ -8,7 +8,7 @@ import Break from 'src/components/common/Break';
 import ReactionContainer from './ReactionContainer';
 
 type ReactionsListProps = {
-  subject: Subject;
+  subject?: Subject;
   reactions: Reaction[];
   onEdited: (reaction: Reaction) => void;
 };

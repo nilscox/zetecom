@@ -1,11 +1,12 @@
 import React from 'react';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route, Redirect, useLocation, NavLink } from 'react-router-dom';
 
 import { Information } from 'src/types/Information';
 import { useTheme } from 'src/utils/Theme';
 
 import SubjectsListPage from './pages/SubjectsListPage';
 import SubjectPage from './pages/SubjectPage';
+import StandaloneReactionsPage from './pages/StandaloneReactionsPage';
 
 const Header: React.FC = () => {
   const { fontSizes, colors, sizes } = useTheme();
@@ -30,8 +31,15 @@ const Header: React.FC = () => {
   );
 };
 
+const useActiveRoute = () => {
+  const location = useLocation();
+
+  return (path: string) => location.pathname.startsWith(path);
+};
+
 const Navigation: React.FC = () => {
   const { colors, fontSizes, sizes } = useTheme();
+  const active = useActiveRoute();
 
   const tabStyle: React.CSSProperties = {
     width: 120,
@@ -50,6 +58,11 @@ const Navigation: React.FC = () => {
     cursor: 'initial',
   };
 
+  const pages = {
+    '/reaction': 'Réactions',
+    '/subject': 'Sujets',
+  };
+
   return (
     <div
       style={{
@@ -59,8 +72,11 @@ const Navigation: React.FC = () => {
         `1px solid ${colors.borderLight}`,
       }}
     >
-      <div style={{ ...tabStyle }}>Réactions</div>
-      <div style={{ ...tabStyle, ...activeStyle }}>Sujets</div>
+      { Object.keys(pages).map((path: keyof typeof pages) => (
+        <NavLink to={path} key={path} style={{ ...tabStyle, ...(active(path) && activeStyle) }}>
+          { pages[path] }
+        </NavLink>
+      )) }
     </div>
   );
 };
@@ -75,10 +91,20 @@ const Integration: React.FC<IntegrationProps> = ({ information }) => {
   return (
     <div style={{ minHeight: 480, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
       <Router>
+
         <Header />
         <Navigation />
-        <Route path="/" exact render={(props) => <SubjectsListPage information={information} {...props} />} />
+
+        <Route path="/" exact render={() => <Redirect to="/reactions" />} />
+        <Route
+          path="/reaction"
+          exact
+          render={props => <StandaloneReactionsPage {...props} information={information} />}
+        />
+
+        <Route path="/subject" exact render={props => <SubjectsListPage {...props} information={information} />} />
         <Route path="/subject/:id" exact component={SubjectPage} />
+
       </Router>
     </div>
   );
