@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect } from 'react';
+import { AxiosRequestConfig } from 'axios';
 
 import { UserLight, parseUser } from 'src/types/User';
 import UserContext from 'src/utils/UserContext';
@@ -54,12 +55,13 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ editable = false, user }) => {
   const { user: currentUser, setUser } = useContext(UserContext);
   const { colors: { borderImage } } = useTheme();
 
-  const opts = {
+  const opts: AxiosRequestConfig = {
     method: 'PUT',
     url: '/api/user/avatar',
     headers: { 'Content-Type': 'multipart/form-data' },
     withCredentials: true,
   };
+
   const [{
     data: updatedUser,
     loading,

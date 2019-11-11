@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { AxiosRequestConfig } from 'axios';
 import moment from 'moment';
 
 import { useTheme } from 'src/utils/Theme';
@@ -17,7 +18,7 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const { sizes: { medium, big } } = useTheme();
   const [user, setUser] = useUser();
 
-  const opts = { method: 'POST', url: '/api/auth/logout', withCredentials: true };
+  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/logout', withCredentials: true };
   const [{ error, loading, status }, logout] = useAxios(opts, () => undefined, { manual: true });
 
   if (error)

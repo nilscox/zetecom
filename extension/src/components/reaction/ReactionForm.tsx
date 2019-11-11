@@ -1,4 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useCallback, useState, useEffect } from 'react';
+import { AxiosRequestConfig } from 'axios';
 
 import { Subject } from 'src/types/Subject';
 import { Reaction, parseReaction } from 'src/types/Reaction';
@@ -97,7 +98,7 @@ const ReactionForm: React.FC<ReactionFormProps> = (
 const ReactionFormRef = forwardRef(ReactionForm);
 
 type ReactionCreationFormProps = {
-  subject: Subject;
+  subject?: Subject;
   parent?: Reaction;
   closeForm?: () => void;
   onCreated: (reaction: Reaction) => void;
@@ -111,7 +112,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
 }) => {
   const formRef = React.useRef(null);
 
-  const opts = { method: 'POST', url: '/api/reaction', withCredentials: true };
+  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/reaction', withCredentials: true } as const;
   const [{ data, loading, error }, postReaction] = useAxios(opts, parseReaction, { manual: true });
 
   if (error)
@@ -119,7 +120,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
 
   const onSubmit = (text: string) => postReaction({
     data: {
-      subjectId: subject.id,
+      subjectId: subject ? subject.id : undefined,
       parentId: parent ? parent.id : undefined,
       text,
     },
@@ -160,7 +161,7 @@ type ReactionEditionFormProps = {
 export const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reaction, onEdited, closeForm }) => {
   const formRef = React.useRef(null);
 
-  const opts = { method: 'PUT', url: '/api/reaction/' + reaction.id, withCredentials: true };
+  const opts: AxiosRequestConfig = { method: 'PUT', url: '/api/reaction/' + reaction.id, withCredentials: true };
   const [{ data, loading, error }, postReaction] = useAxios(opts, parseReaction, { manual: true });
 
   if (error)

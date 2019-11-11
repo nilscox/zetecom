@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosRequestConfig } from 'axios';
 
 import { parseUser } from 'src/types/User';
 import UserContext, { useCurrentUser } from 'src/utils/UserContext';
@@ -115,7 +115,7 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
   const [didAcceptRules, setDidAcceptRules] = useState(false);
   const { setUser } = useContext(UserContext);
 
-  const opts = { method: 'POST', url: '/api/auth/signup', withCredentials: true };
+  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/signup', withCredentials: true };
   const [{ data: user, loading, error, status }, signup] = useAxios(opts, parseUser, { manual: true });
 
   const [globalError, errors = {}, resetErrors] = useFormErrors(error, getGlobalError, getFieldErrors);
