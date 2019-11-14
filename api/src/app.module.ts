@@ -1,6 +1,5 @@
 import { Module, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CorsMiddleware } from '@nest-middlewares/cors';
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
 import * as expressSession from 'express-session';
@@ -9,6 +8,7 @@ import * as memorystore from 'memorystore';
 import { UserMiddleware } from 'Common/user.middleware';
 import { LagMiddleware } from 'Common/lag.middleware';
 
+import { HealthcheckModule } from './modules/healthcheck/healthcheck.module';
 import { User } from './modules/user/user.entity';
 import { EmailModule } from './modules/email/email.module';
 import { UserModule } from './modules/user/user.module';
@@ -30,6 +30,7 @@ const MemoryStore = memorystore(expressSession);
   imports: [
     TypeOrmModule.forRoot(),
     TypeOrmModule.forFeature([User]),
+    HealthcheckModule,
     EmailModule,
     UserModule,
     AuthenticationModule,
