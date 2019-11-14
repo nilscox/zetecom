@@ -1,0 +1,13 @@
+name: healthcheck
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+
+jobs:
+  check:
+    name: run healthcheck
+    runs-on: ubuntu-latest
+    steps:
+      - run: apt install curl jq
+      - run: curl ${{ secrets.HEALTHCHECK_URL }} | jq .
