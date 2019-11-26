@@ -26,7 +26,7 @@ export const UserConsumer = UserContext.Consumer;
 export { useCurrentUser } from 'src/hooks/use-user';
 
 export const useUserContext = () => {
-  const opts = { url: '/api/auth/me', validateStatus: (s: number) => [200, 403].includes(s), withCredentials: true };
+  const opts = { url: '/api/auth/me', validateStatus: (s: number) => [200, 403].includes(s) };
   const [{ response, data, error, status }] = useAxios(opts, parseUser);
   const [user, setUser] = useState<User | undefined | null>();
 

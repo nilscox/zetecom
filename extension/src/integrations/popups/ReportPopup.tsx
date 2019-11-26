@@ -79,12 +79,11 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
 
   const [{ data: reaction, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseReaction);
 
-  const opts: AxiosRequestConfig = { method: 'POST', withCredentials: true };
   const [{
     loading: reportLoading,
     error: reportError,
     status,
-  }, report] = useAxios(opts, () => undefined, { manual: true });
+  }, report] = useAxios({ method: 'POST' }, () => undefined, { manual: true });
 
   if (error)
     throw error;

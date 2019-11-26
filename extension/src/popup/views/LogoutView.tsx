@@ -18,7 +18,7 @@ const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const { sizes: { medium, big } } = useTheme();
   const [user, setUser] = useUser();
 
-  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/logout', withCredentials: true };
+  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/logout' };
   const [{ error, loading, status }, logout] = useAxios(opts, () => undefined, { manual: true });
 
   if (error)

@@ -24,10 +24,9 @@ import { parseSubject } from 'src/types/Subject';
 
 const useRootReactions = (subjectId: string, sort: SortType) => {
   const url = `/api/subject/${subjectId}/reactions` + (sort ? `?sort=${sort}` : '');
-  const opts = { url, withCredentials: true };
   const parse = useCallback((data: ResponseData) => data.map(parseReaction), []);
 
-  const [{ data, loading, error, status }] = useAxios(opts, parse);
+  const [{ data, loading, error, status }] = useAxios({ url }, parse);
   const [reactions, setReactions] = useState<Reaction[]>([]);
 
   useEffect(() => {

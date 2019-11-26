@@ -49,7 +49,7 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
   const [currentUser, setUser] = useUser();
   const { sizes: { big } } = useTheme();
 
-  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/login', withCredentials: true };
+  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/login' };
   const [{ data: user, loading, error, status }, login] = useAxios(opts, parseUser, { manual: true });
 
   const [globalError, errors = {}, resetErrors] = useFormErrors(error, getGlobalError, getFieldErrors);

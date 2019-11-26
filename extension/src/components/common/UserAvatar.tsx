@@ -59,7 +59,6 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ editable = false, user }) => {
     method: 'PUT',
     url: '/api/user/avatar',
     headers: { 'Content-Type': 'multipart/form-data' },
-    withCredentials: true,
   };
 
   const [{

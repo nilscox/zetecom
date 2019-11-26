@@ -24,7 +24,9 @@ const getApiRootUrl = () => {
 
 const setup = () => {
   moment.locale('fr');
+
   axios.defaults.baseURL = getApiRootUrl();
+  axios.defaults.withCredentials = true;
 
   ReactModal.setAppElement(root);
 

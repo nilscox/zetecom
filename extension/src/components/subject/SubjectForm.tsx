@@ -103,7 +103,7 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onC
   const [quote, setQuote] = useState('');
   const [message, setMessage] = useState('');
 
-  const opts: AxiosRequestConfig = { method: 'post', url: '/api/subject', withCredentials: true };
+  const opts: AxiosRequestConfig = { method: 'post', url: '/api/subject' };
   const [{ data: created, loading, error }, postSubject] = useAxios(opts, parseSubject, { manual: true });
 
   const onSubmit = (e: React.FormEvent) => {

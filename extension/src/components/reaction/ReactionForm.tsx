@@ -112,7 +112,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
 }) => {
   const formRef = React.useRef(null);
 
-  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/reaction', withCredentials: true } as const;
+  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/reaction' };
   const [{ data, loading, error }, postReaction] = useAxios(opts, parseReaction, { manual: true });
 
   if (error)
@@ -161,7 +161,7 @@ type ReactionEditionFormProps = {
 export const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reaction, onEdited, closeForm }) => {
   const formRef = React.useRef(null);
 
-  const opts: AxiosRequestConfig = { method: 'PUT', url: '/api/reaction/' + reaction.id, withCredentials: true };
+  const opts: AxiosRequestConfig = { method: 'PUT', url: '/api/reaction/' + reaction.id };
   const [{ data, loading, error }, postReaction] = useAxios(opts, parseReaction, { manual: true });
 
   if (error)

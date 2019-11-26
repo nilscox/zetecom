@@ -115,7 +115,7 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
   const [didAcceptRules, setDidAcceptRules] = useState(false);
   const { setUser } = useContext(UserContext);
 
-  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/signup', withCredentials: true };
+  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/signup' };
   const [{ data: user, loading, error, status }, signup] = useAxios(opts, parseUser, { manual: true });
 
   const [globalError, errors = {}, resetErrors] = useFormErrors(error, getGlobalError, getFieldErrors);

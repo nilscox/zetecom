@@ -66,7 +66,6 @@ const useQuickReactions = (
   const opts: AxiosRequestConfig = {
     method: 'POST',
     url: `/api/reaction/${reactionId}/quick-reaction`,
-    withCredentials: true,
   };
 
   const [{ data: updated, error, status }, post] = useAxios(opts, parseReaction, { manual: true });
