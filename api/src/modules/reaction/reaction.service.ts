@@ -20,6 +20,9 @@ export class ReactionService {
 
   constructor(
 
+    @InjectRepository(Information)
+    private readonly informationRepository: Repository<Information>,
+
     @InjectRepository(Reaction)
     private readonly reactionRepository: Repository<Reaction>,
 
@@ -56,7 +59,15 @@ export class ReactionService {
   }
 
   async findStandaloneRootReactions(information: Information, sort: SortType, page: number = 1): Promise<Reaction[]> {
-    const reactions = await this.reactionRepository.find({ where: { information, subject: null, parent: null } });
+    const reactions = await this.reactionRepository.createQueryBuilder('reaction')
+      .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
+      .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
+      .where('reaction.information_id = :informationId', { informationId: information.id })
+      .andWhere('reaction.subject_id IS NULL')
+      .andWhere('reaction.parent_id IS NULL')
+      .orderBy('reaction.created', sort === SortType.DATE_DESC ? 'DESC' : 'ASC')
+      .addOrderBy('message.created', 'ASC')
+      .getMany();
 
     await this.addQuickReactionsCounts(reactions);
     await this.addRepliesCounts(reactions);
@@ -97,6 +108,14 @@ export class ReactionService {
   }
 
   async create(dto: CreateReactionInDto, user: User, subject: Subject = null): Promise<Reaction> {
+    const information = await this.informationRepository.findOne(dto.informationId);
+
+    if (!information)
+      throw new BadRequestException(`information with id ${information.id} does not exist`);
+
+    if (subject && subject.information.id !== information.id)
+      throw new BadRequestException(`subject with id ${subject.id} does not belong to the information with id ${information.id}`);
+
     let parent: Reaction | null = null;
 
     if (dto.parentId) {
@@ -118,6 +137,7 @@ export class ReactionService {
 
     reaction.subject = subject;
     reaction.author = user;
+    reaction.information = information;
 
     message.text = dto.text;
     reaction.messages = [message];

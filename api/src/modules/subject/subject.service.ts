@@ -7,9 +7,7 @@ import { SortType } from 'Common/sort-type';
 
 import { Information } from '../information/information.entity';
 import { User } from '../user/user.entity';
-import { Reaction } from '../reaction/reaction.entity';
 import { Message } from '../reaction/message.entity';
-import { ReactionService } from '../reaction/reaction.service';
 
 import { Subject } from './subject.entity';
 import { CreateSubjectInDto } from './dtos/create-subject-in.dto';
@@ -24,8 +22,6 @@ export class SubjectService {
 
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
-
-    private readonly reactionService: ReactionService,
 
   ) {}
 

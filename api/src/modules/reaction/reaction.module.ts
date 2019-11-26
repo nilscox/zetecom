@@ -2,6 +2,7 @@ import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { InformationModule } from '../information/information.module';
+import { Information } from '../information/information.entity';
 import { SubjectModule } from '../subject/subject.module';
 
 import { ReactionController } from './reaction.controller';
@@ -13,7 +14,7 @@ import { Report } from './report.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Reaction, Message, QuickReaction, Report]),
+    TypeOrmModule.forFeature([Information, Reaction, Message, QuickReaction, Report]),
     forwardRef(() => InformationModule),
     forwardRef(() => SubjectModule),
   ],

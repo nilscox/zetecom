@@ -3,6 +3,9 @@ import { IsEnum, IsOptional, IsString, IsInt, IsIn, MaxLength } from 'class-vali
 export class CreateReactionInDto {
 
   @IsInt()
+  readonly informationId: number;
+
+  @IsInt()
   @IsOptional()
   readonly subjectId?: number;
 

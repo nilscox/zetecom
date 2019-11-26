@@ -125,11 +125,12 @@ async function findOrCreateInformation(information: any, creator: IUser): Promis
   }
 }
 
-async function createReaction(subjectId: number | null, reaction: any, user: IUser, parentId?: number): Promise<IReaction> {
+async function createReaction(informationId: number, subjectId: number | null, reaction: any, user: IUser, parentId?: number): Promise<IReaction> {
   const hasHistory = reaction.history && reaction.history.length;
   const text = hasHistory ? reaction.history[0] : reaction.text;
 
   const payload = {
+    informationId,
     subjectId: subjectId || undefined,
     parentId,
     label: reaction.label,
@@ -198,8 +199,8 @@ async function main(data: any) {
   const users: IUser[] = await Promise.all<IUser>(data.users.map(loginOrSignup));
   const infos = await Promise.all<IInformation>(data.informations.map(i => findOrCreateInformation(i, findUser(users, i.creator))));
 
-  const createReactionRec = async (subjectId: number | null, reaction: any, parentId?: number) => {
-    const created = await createReaction(subjectId, reaction, findUser(users, reaction.author), parentId);
+  const createReactionRec = async (informationId: number, subjectId: number | null, reaction: any, parentId?: number) => {
+    const created = await createReaction(informationId, subjectId, reaction, findUser(users, reaction.author), parentId);
 
     if (reaction.quickReactions) {
       const { approve, refute, skeptic } = reaction.quickReactions;
@@ -213,7 +214,7 @@ async function main(data: any) {
 
     if (reaction.replies) {
       for (const reply of reaction.replies)
-        await createReactionRec(subjectId, reply, created.id);
+        await createReactionRec(informationId, subjectId, reply, created.id);
     }
   };
 
@@ -221,13 +222,13 @@ async function main(data: any) {
     const info = findInformation(infos, infoData.url);
 
     for (const reaction of infoData.reactions)
-      await createReactionRec(null, reaction);
+      await createReactionRec(info.id, null, reaction);
 
     for (const subjectData of infoData.subjects) {
       const subject = await createSubject(info.id, subjectData, findUser(users, subjectData.author));
 
       for (const reaction of subjectData.reactions)
-        await createReactionRec(subject.id, reaction);
+        await createReactionRec(info.id, subject.id, reaction);
     }
   }
 

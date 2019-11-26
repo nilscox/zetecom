@@ -4,6 +4,7 @@ import { User } from '../user/user.entity';
 import { Subject } from '../subject/subject.entity';
 import { Message } from './message.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
+import { Information } from '../information/information.entity';
 
 @Entity({ name: 'reaction', orderBy: { created: 'DESC' } })
 export class Reaction {
@@ -20,6 +21,10 @@ export class Reaction {
   @ManyToOne(type => User, { nullable: false, eager: true })
   @JoinColumn({ name: 'author_id' })
   author: User;
+
+  @ManyToOne(type => Information, { nullable: false, eager: true })
+  @JoinColumn({ name: 'information_id' })
+  information: Information;
 
   @ManyToOne(type => Subject, subject => subject.reactions, { nullable: true })
   @JoinColumn({ name: 'subject_id' })
