@@ -11,7 +11,7 @@ export class CreateReactionInDto {
   readonly parentId: number;
 
   @IsString()
-  @MaxLength(4000)
+  @MaxLength(40000)
   readonly text: string;
 
 }

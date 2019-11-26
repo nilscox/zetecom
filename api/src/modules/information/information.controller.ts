@@ -6,7 +6,6 @@ import {
   UseInterceptors, UseGuards,
   ClassSerializerInterceptor,
   NotFoundException,
-  BadRequestException,
 } from '@nestjs/common';
 
 import { SortTypePipe } from 'Common/sort-type.pipe';
@@ -87,17 +86,17 @@ export class InformationController {
 
   @Get(':id/reactions')
   @Output(ReactionOutDto)
+  @UseInterceptors(PopulateReaction)
   async findReactions(
     @Param('id', new ParseIntPipe()) id: number,
     @Query('sort', new SortTypePipe()) sort: SortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
-    @ReqUser() user: User,
   ): Promise<Reaction[]> {
     const information = await this.informationService.findOne({ id });
 
     if (!information)
-      return null;
+      throw new NotFoundException();
 
     const reactions = await this.reactionService.findStandaloneRootReactions(information, sort, page);
 
@@ -111,12 +110,11 @@ export class InformationController {
     @Query('sort', new SortTypePipe()) sort: SortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
-    @ReqUser() user: User,
   ): Promise<Subject[]> {
     const information = await this.informationService.findOne({ id });
 
     if (!information)
-      return null;
+      throw new NotFoundException();
 
     const subjects = await this.informationService.findSubjects(information, sort, page, search);
 
