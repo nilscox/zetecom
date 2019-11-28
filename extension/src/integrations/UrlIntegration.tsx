@@ -46,14 +46,6 @@ const UrlIntegration: React.FC<RouteComponentProps> = () => {
   if (loading)
     return <Loader size="big" />;
 
-  if (status(404)) {
-    return (
-      <div style={{ height: '100%' }}>
-        L'espace de commentaire n'est pas activé sur cette page.
-      </div>
-    );
-  }
-
   return (
     <div style={{
       width: 'auto',

@@ -118,9 +118,6 @@ const SubjectPage: React.FC<SubjectPageProps> = ({ match }) => {
         <Box ml={big}>
           <SortSelect disabled={!reactions || true} onChange={(sort) => setSort(sort)} />
         </Box>
-        <Flex flex={1} flexDirection="row" justifyContent="flex-end" alignItems="center">
-          <Link to="/">Retour</Link>
-        </Flex>
       </Flex>
 
       <Box border={`1px solid ${border}`} borderRadius={borderRadius}>
