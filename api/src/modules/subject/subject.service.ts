@@ -41,7 +41,7 @@ export class SubjectService {
   }
 
   async findById(id: number): Promise<Subject> {
-    return this.subjectRepository.findOne(id);
+    return this.subjectRepository.findOne(id, { relations: ['information'] });
   }
 
   async create(dto: CreateSubjectInDto, user: User, information: Information): Promise<Subject> {

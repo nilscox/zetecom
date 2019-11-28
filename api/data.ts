@@ -101,7 +101,7 @@ async function loginOrSignup(user: any): Promise<IUser> {
 
 async function findOrCreateInformation(information: any, creator: IUser): Promise<IInformation> {
   try {
-    const { data: found } = await axios.get(`/api/information/by-url/${information.url}`);
+    const { data: found } = await axios.get(`/api/information/by-url/${encodeURIComponent(information.url)}`);
 
     return found;
   } catch (e) {
