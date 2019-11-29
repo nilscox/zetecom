@@ -56,8 +56,7 @@ const Home: React.FC = () => (
 
     <div className="heading">
       <Link href="/"><em>Réagir à l'information</em></Link>, c'est une plateforme qui donne accès à un <strong>espace
-      d'échange collaboratif</strong>, pour discuter de l'information diffusée par les médias, tout en gardant un œil
-      critique.
+      d'échange collaboratif</strong>, pour discuter de l'information diffusée par les médias sur internet.
     </div>
 
     <Title id="Les objectifs">Les objectifs ?</Title>

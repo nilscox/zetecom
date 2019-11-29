@@ -77,15 +77,15 @@ const FAQ: React.FC = () => {
 
       <Question question="Qui développe Réagir à l'information ?">
         Le projet est développé par une <Link openInNewTab href="https://nils.cx">petite</Link>{' '}
-        <Link openInNewTab href="https://bopzor.me">équipe</Link> de développeurs passionnés d'esprit critique et de{' '}
-        <Link openInNewTab href="https://fr.wikipedia.org/wiki/Zététique">zététique</Link>.
+        <Link openInNewTab href="https://bopzor.me">équipe</Link> de développeurs passionnés par l'esprit critique et la
+        {' '}<Link openInNewTab href="https://fr.wikipedia.org/wiki/Zététique">zététique</Link>.
       </Question>
 
       <Question question="Peut-on participer au projet">
         Si vous souhaitez participer au projet, pour donner des feedbacks ou proposer des axes d'amélioration, vous êtes
-        invité(e) à <Link href="#contact">contacter</Link> l'équipe qui développe le projet pour en discuter. Et si vous
-        êtes développeurs et que le projet vous intéresse techniquement, les source sont disponibles sur{' '}
-        <Link href={useEnvironment('REPOSITORY_URL')}>github</Link>.
+        chaleureusement invité(e) à <Link href="#contact">contacter</Link> l'équipe qui développe le projet pour en
+        discuter. Et si vous êtes développeurs et que le projet vous intéresse techniquement, les source sont
+        disponibles sur <Link href={useEnvironment('REPOSITORY_URL')}>github</Link>.
       </Question>
 
       <Question question="Votre question ne figure pas dans cette liste... ?">

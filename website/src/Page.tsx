@@ -3,6 +3,7 @@ import React from 'react';
 import { useEnvironment, usePage } from 'src/index';
 import EmailValidatedAlert from 'src/components/EmailValidatedAlert';
 import PageHeader from 'src/components/PageHeader';
+import PageFooter from './components/PageFooter';
 import Navigation from 'src/components/Navigation';
 import { Page as PageType } from 'src/pages';
 
@@ -23,6 +24,8 @@ const PageLayout: React.FC<PageType> = ({ id, Component }) => (
       </main>
 
     </div>
+
+    <PageFooter />
 
   </div>
 );

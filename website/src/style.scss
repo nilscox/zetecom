@@ -149,6 +149,10 @@ body {
       display: flex;
       flex-direction: column;
 
+      main {
+        margin-bottom: 40px;
+      }
+
       @media screen and (min-width: $break-desktop) {
         flex-direction: row;
         border-top: 1px solid #CCC;
