@@ -91,7 +91,17 @@ const Integration: React.FC<IntegrationProps> = ({ information }) => {
     return (
       <div style={{ minHeight: 300, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
         <Header />
-        <div style={{ minHeight: 200, display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 22, textAlign: 'center', margin: '0 10%' }}>
+        <div
+          style={{
+            minHeight: 200,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontSize: 22,
+            textAlign: 'center',
+            margin: '0 10%',
+          }}
+        >
           L'espace de commentaire n'est pas activé sur cette page.
         </div>
       </div>

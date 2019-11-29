@@ -19,7 +19,7 @@ const UrlIntegration: React.FC<RouteComponentProps> = () => {
     url: `/api/information/by-url/${encodeURIComponent(url as string)}`,
     validateStatus: (s: number) => [200, 404].includes(s),
   };
-  const [{ data: information, loading, error, status }] = useAxios(opts, parseInformation);
+  const [{ data: information, loading, error }] = useAxios(opts, parseInformation);
 
   useEffect(() => {
     if (information) {

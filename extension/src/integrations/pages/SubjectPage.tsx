@@ -11,7 +11,6 @@ import Flex from 'src/components/common/Flex';
 import Hr from 'src/components/common/Hr';
 import Break from 'src/components/common/Break';
 import Loader from 'src/components/common/Loader';
-import Link from 'src/components/common/Link';
 import Text from 'src/components/common/Text';
 import SortSelect from 'src/components/common/SortSelect';
 

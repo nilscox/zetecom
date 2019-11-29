@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
-import { AxiosRequestConfig } from 'axios';
 
 import { useTheme } from 'src/utils/Theme';
 
