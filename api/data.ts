@@ -64,7 +64,9 @@ async function loginOrSignup(user: any): Promise<IUser> {
       avatar: user.avatar,
     };
 
-    await axios.post('/api/email/authorize', { email: user.email });
+    try {
+      await axios.post('/api/email/authorize', { email: user.email });
+    } catch (e) {}
 
     return axios.post('/api/auth/signup', payload);
   };
