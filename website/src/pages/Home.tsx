@@ -11,7 +11,9 @@ import DownloadExtension from 'src/components/DownloadExtensionButton';
 import imageCommunity from 'src/images/community.png';
 import imageFakeNews from 'src/images/fake-news.png';
 import imageTrust from 'src/images/trust.png';
-import imageYoutubRi from 'src/images/youtube-ri.gif';
+import imageExtension from 'src/images/extension.png';
+import gifReplies from 'src/images/replies.gif';
+import gifQuickReactions from 'src/images/quick-reactions.gif';
 
 import './Home.scss';
 
@@ -51,23 +53,16 @@ const Home: React.FC = () => (
   <>
 
     <div className="heading">
-      <Link href="/"><em>Réagir à l'information</em></Link>,
-      c'est une plateforme qui donne accès à un <strong>espace d'échange collaboratif</strong>, pour discuter ensemble
-      de l'information diffusée par les médias.
-
-      <p className="hide">
-        Une <Link href="/utilisation.html">extension chrome</Link> permet d'ajouter sur certains sites internet, une
-        zone de commentaire où les membres de la communauté partagent leurs opinions, apportent des sources, relèvent
-        des biais, ou encore posent des questions...
-      </p>
-
+      <Link href="/"><em>Réagir à l'information</em></Link>, c'est une plateforme qui donne accès à un <strong>espace
+      d'échange collaboratif</strong>, pour discuter de l'information diffusée par les médias, tout en gardant un œil
+      critique.
     </div>
 
     <Title id="Les objectifs">Les objectifs ?</Title>
 
-    <div className="why">
+    <div className="objectives">
 
-      <Card text="Rassembler une communauté de personnes pour réfléchir ensemble" image={imageCommunity}>
+      <Card text="Réunir une communauté de personnes pour réfléchir ensemble" image={imageCommunity}>
         Parce que les informations telles qu'elles sont présentées dans les médias méritent souvent d'être discutées
         pour être correctement interprétées
       </Card>
@@ -85,76 +80,82 @@ const Home: React.FC = () => (
 
     <Title id="Pourquoi">Pourquoi ?</Title>
 
-    <p>
-      Depuis quelques dizaines d'années, les évolutions technologiques ont enclenché une vraie{' '}
-      <Link openInNewTab href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</Link>, qui a
-      radicalement bouleversé notre façon de communiquer <em>et de nous informer</em>. En contrepartie, un nombre
-      croissant de problématiques liées à l'information émergent, notamment dans la diffusion de celle-ci par les
-      médias. Les articles relatant des faits hors du commun étant plus attrayants, les contenus sont parfois plus
-      sensationnalistes que vrais.
-    </p>
+    <div className="why">
 
-    <p>
-      Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensemble, intelligemment, face à cette abondance
-      d'information ? Réagir à l'information a pour ambition d'apporter des solutions à ces problèmes, en proposant une
-      plateforme qui <em>vous</em> permet de réagir librement aux médias sur internet, comme des articles de presse ou
-      des vidéos sur YouTube.
-    </p>
+      <p>
+        Depuis quelques dizaines d'années, les évolutions technologiques ont enclenché une vraie{' '}
+        <Link openInNewTab href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</Link>, qui a
+        radicalement bouleversé notre façon de communiquer <em>et de nous informer</em>.<br />
+        En contrepartie, un nombre
+        croissant de problématiques liées à l'information émergent, notamment dans la diffusion de celle-ci par les
+        médias. Les articles relatant des faits hors du commun étant plus attrayants, les contenus sont parfois plus
+        sensationnalistes que vrais.
+      </p>
 
-    <DownloadExtension>Installer l'extension chrome</DownloadExtension>
+      <div className="separator" />
+
+      <p>
+        Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensemble, intelligemment, face à cette abondance
+        d'information ?<br />
+        Réagir à l'information a pour ambition d'apporter des solutions à ces problèmes, en proposant une plateforme qui
+        <em>vous</em> permet de réagir aux médias sur internet, comme des articles de presse ou des vidéos sur YouTube.
+      </p>
+
+    </div>
 
     <Title id="Comment">Comment ?</Title>
 
-    <div className="what">
+    <div className="what-integration">
 
-      <Image src={imageYoutubRi} alt="screenshot youtube / Réagir à l'information" />
-
-      <div className="what-items">
-
-        <div className="what-item">
-          <h3>
-            Des zones de commentaires intégrées directement sur les sites d'information, via une extension chrome
-          </h3>
-          <p>
-            Pour savoir ce qu'en pense la communauté, tout de suite après avoir lu un article sur le site d'un journal,
-            ou une vidéo sur YouTube !
-          </p>
-        </div>
-
-        <div className="what-item">
-          <h3>Des messages mis en avant, jugés les plus pertinents par la communauté</h3>
-          <p>
-            Pour voir les réactions les mieux construites, qui apportent des éléments clés, ou bien les plus
-            controversées.
-          </p>
-        </div>
-
-        <div className="what-item">
-          <h3>Un cadre sain, propice aux échanges</h3>
-          <p>
-            Pour participer aux échanges, il faut accepter une charte posant les bases nécessaires à un débat
-            constructif.
-          </p>
-        </div>
-
-        <div className="what-item">
-          <h3>Des messages mis en page de façon structurée</h3>
-          <p>
-            Pour permettre une plus grande clarté, les réactions peuvent comporter des liens, des listes, des tableaux,
-            des titres, etc.
-          </p>
-        </div>
-
-        <div className="what-item">
-          <h3>Une modération des débats assurée par des membres de la communauté</h3>
-          <p>
-            Pour garder des échanges clairs et éviter les dérives, il faut parfois faire la police. On aimerait bien
-            éviter, mais est-ce possible ?
-          </p>
-        </div>
-
+      <div className="integration-text">
+        <h3>
+          Une exension chrome va <strong>intégrer</strong> des zones de commentaires sur les sites d'information que
+          vous visitez.
+        </h3>
+        <h3>
+          Ces commentaires doivent respecter <Link href="/charte.html">une charte</Link>, construite dans le but de
+          favoriser des échanges argumentatifs et respectueux.
+        </h3>
       </div>
+
+      <div className="integration-image">
+        <img src={imageExtension} alt="extension réagir à l'information" />
+      </div>
+
     </div>
+
+    <div className="what-advantages">
+      <div className="what-item">
+        <div className="what-image"></div>
+        <h4 className="what-text">Réactions regroupées par thématiques</h4>
+      </div>
+      <div className="what-item">
+        <div className="what-image">
+          <img src={gifReplies} />
+        </div>
+        <h4 className="what-text">Réponses imbriquées</h4>
+      </div>
+      <div className="what-item">
+        <div className="what-image">
+          <img src={gifQuickReactions} />
+        </div>
+        <h4 className="what-text">Messages pertinents mis en avant</h4>
+      </div>
+      <div className="what-item">
+        <div className="what-image"></div>
+        <h4 className="what-text">Fils de discussions en favoris</h4>
+      </div>
+      <div className="what-item">
+        <div className="what-image"></div>
+        <h4 className="what-text">Messages structurés</h4>
+      </div>
+      {/* <div className="what-item">
+        <div className="what-image"></div>
+        <h4 className="what-text">Modération assurée par des personnes volontaires</h4>
+      </div> */}
+    </div>
+
+    <DownloadExtension>Installer l'extension chrome</DownloadExtension>
 
     <p>
       Nous tentons de rassembler sur cette plateforme, des personnes bienveillantes, attentives aux biais, qui savent
@@ -162,19 +163,6 @@ const Home: React.FC = () => (
       Si vous voulez mieux comprendre l'information et participer à des échanges constructifs sur internet, prenez une
       seconde pour ajouter un marque page, et pourquoi pas{' '}
       <Link href="/utilisation.html#Inscription">vous inscrire</Link> !
-    </p>
-
-    <p className="wording">
-      Mais il est certes difficile de constituer une telle communauté. Un point central du projet repose sur{' '}
-      <Link href="/charte.html">la charte</Link>, qui tente d'apporter un cadre propice aux débats. Consacrez une
-      dizaine de minutes à sa lecture, avant de vous inscrire. Et si vous souhaitez apporter une évolution des règles,
-      n'hésitez pas à <Link href="/faq.html#contact">envoyer un message</Link> à l'équipe qui développe le projet.
-    </p>
-
-    <p>
-      Vous voulez en savoir plus ? La page <Link href="/motivations.html">motivations</Link> explique plus en détail les
-      raisons pour lesquelles le projet a vu le jour, et son état d'esprit. Et pour commencer à utiliser l'extension dès
-      maintenant, rendez-vous sur la page <Link href="/utilisation.html">utilisation</Link>. A bientôt sur internet !
     </p>
 
   </>
