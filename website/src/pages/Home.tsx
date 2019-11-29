@@ -12,8 +12,10 @@ import imageCommunity from 'src/images/community.png';
 import imageFakeNews from 'src/images/fake-news.png';
 import imageTrust from 'src/images/trust.png';
 import imageExtension from 'src/images/extension.png';
+import gifSubjects from 'src/images/subjects.gif';
 import gifReplies from 'src/images/replies.gif';
 import gifQuickReactions from 'src/images/quick-reactions.gif';
+import gifMarkdown from 'src/images/markdown.gif';
 
 import './Home.scss';
 
@@ -126,7 +128,9 @@ const Home: React.FC = () => (
 
     <div className="what-advantages">
       <div className="what-item">
-        <div className="what-image"></div>
+        <div className="what-image">
+          <img src={gifSubjects} />
+        </div>
         <h4 className="what-text">Réactions regroupées par thématiques</h4>
       </div>
       <div className="what-item">
@@ -146,7 +150,9 @@ const Home: React.FC = () => (
         <h4 className="what-text">Fils de discussions en favoris</h4>
       </div>
       <div className="what-item">
-        <div className="what-image"></div>
+        <div className="what-image">
+          <img src={gifMarkdown} />
+        </div>
         <h4 className="what-text">Messages structurés</h4>
       </div>
       {/* <div className="what-item">
