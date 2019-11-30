@@ -84,7 +84,7 @@ const StandaloneReactionsPage: React.FC<StandaloneReactionsPageProps> = ({ infor
   return (
     <>
       <FilterBar
-        disabled={loading}
+        disabled={false}
         onSearch={setSearch}
         onSort={setSort}
       />

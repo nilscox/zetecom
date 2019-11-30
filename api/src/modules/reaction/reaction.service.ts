@@ -58,16 +58,23 @@ export class ReactionService {
     reactions.sort((a, b) => scores[b.id] - scores[a.id]);
   }
 
-  async findStandaloneRootReactions(information: Information, sort: SortType, page: number = 1): Promise<Reaction[]> {
-    const reactions = await this.reactionRepository.createQueryBuilder('reaction')
+  async findStandaloneRootReactions(information: Information, search: string, sort: SortType, page: number = 1): Promise<Reaction[]> {
+    let query = this.reactionRepository.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
       .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
       .where('reaction.information_id = :informationId', { informationId: information.id })
-      .andWhere('reaction.subject_id IS NULL')
-      .andWhere('reaction.parent_id IS NULL')
+      .andWhere('reaction.subject_id IS NULL');
+
+    if (!search)
+      query = query.andWhere('reaction.parent_id IS NULL');
+    else
+      query = query.andWhere('message.text ILIKE :search', { search: `%${search}%` });
+
+    query = query
       .orderBy('reaction.created', sort === SortType.DATE_DESC ? 'DESC' : 'ASC')
-      .addOrderBy('message.created', 'ASC')
-      .getMany();
+      .addOrderBy('message.created', 'ASC');
+
+    const reactions = await query.getMany();
 
     await this.addQuickReactionsCounts(reactions);
     await this.addRepliesCounts(reactions);

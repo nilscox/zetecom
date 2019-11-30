@@ -98,9 +98,7 @@ export class InformationController {
     if (!information)
       throw new NotFoundException();
 
-    const reactions = await this.reactionService.findStandaloneRootReactions(information, sort, page);
-
-    return reactions;
+    return this.reactionService.findStandaloneRootReactions(information, search, sort, page);
   }
 
   @Get(':id/subjects')
