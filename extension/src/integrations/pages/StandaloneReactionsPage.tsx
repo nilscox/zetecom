@@ -19,7 +19,14 @@ const useStandaloneReactions = (informationId: number, sort: SortType, search?: 
   const url = `/api/information/${informationId}/reactions` + (qs ? '?' + qs : '');
   const parse = useCallback((data: ResponseData) => data.map(parseReaction), []);
 
-  return useAxios<Reaction[]>(url, parse);
+  const [result, refetch] = useAxios<Reaction[]>('', parse, { manual: true });
+
+  useEffect(() => void refetch({ url }), [url]);
+
+  if (result.loading === undefined)
+    return [{ ...result, loading: true }];
+
+  return [result];
 };
 
 const findById = <T extends { id: number }>(dataset: T[]) => (data: T) => {
@@ -77,7 +84,7 @@ const StandaloneReactionsPage: React.FC<StandaloneReactionsPageProps> = ({ infor
   return (
     <>
       <FilterBar
-        disabled={loading || true}
+        disabled={loading}
         onSearch={setSearch}
         onSort={setSort}
       />
