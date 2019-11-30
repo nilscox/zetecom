@@ -10,12 +10,13 @@ import SortSelect from './SortSelect';
 
 type FilterBarProps = {
   disabled: boolean;
+  searchable?: boolean;
   after?: React.ReactNode;
   onSearch: (search: string) => void;
   onSort: (sort: SortType) => void;
 };
 
-const FilterBar: React.FC<FilterBarProps> = ({ disabled, after, onSearch, onSort }) => {
+const FilterBar: React.FC<FilterBarProps> = ({ disabled, searchable = true, after, onSearch, onSort }) => {
   const { sizes } = useTheme();
 
   return (
@@ -29,9 +30,11 @@ const FilterBar: React.FC<FilterBarProps> = ({ disabled, after, onSearch, onSort
         onChange={e => onSearch(e.currentTarget.value)}
       />
 
-      <Box mr={sizes.big}>
-        <SortSelect disabled={disabled} onChange={onSort} />
-      </Box>
+      { searchable && (
+        <Box mr={sizes.big}>
+          <SortSelect disabled={disabled} onChange={onSort} />
+        </Box>
+      ) }
 
       { after }
 

@@ -58,7 +58,8 @@ const SubjectsListPage: React.FC<SubjectsListPageProps> = ({ history, informatio
     <>
 
       <FilterBar
-        disabled={loading || true}
+        disabled={false}
+        searchable={false}
         onSearch={setSearch}
         onSort={setSort}
         after={user && <Button onClick={showSubjectForm}>Nouveau sujet</Button>}
