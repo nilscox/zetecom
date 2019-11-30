@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { useTheme } from 'src/utils/Theme';
 import Button from 'src/components/common/Button';
@@ -46,9 +46,16 @@ type MarkdownMessageFieldProps = {
 
 const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, placeholder, setMessage }) => {
   const { sizes: { big } } = useTheme();
+  const ref = useRef<HTMLTextAreaElement>();
+
+  useEffect(() => {
+    if (ref.current)
+      ref.current.rows = ref.current.scrollHeight / 16;
+  }, [ref.current]);
 
   return (
     <textarea
+      ref={ref}
       style={{ border: 'none', padding: big, outline: 'none', resize: 'vertical' }}
       placeholder={placeholder}
       rows={4}
