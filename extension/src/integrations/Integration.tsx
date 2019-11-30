@@ -115,7 +115,7 @@ const Integration: React.FC<IntegrationProps> = ({ information }) => {
         <Header />
         <Navigation />
 
-        <Route path="/" exact render={() => <Redirect to="/reactions" />} />
+        <Route path="/" exact render={() => <Redirect to="/reaction" />} />
         <Route
           path="/reaction"
           exact
