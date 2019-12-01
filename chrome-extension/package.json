@@ -1,7 +1,7 @@
 {
   "name": "reagir-information-chrome-extension",
   "description": "Réagir à l'information - Chrome extension",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "scripts": {
     "start": "concurrently \"yarn build:popup:watch\" \"yarn build:integrations:watch\" \"yarn build:bg-script:watch\"",
     "clean": "rm -rf extension/integrations extension/popup/popup.js extension/background_script.js reagir-information-chrome-extension.zip",
