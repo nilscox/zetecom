@@ -20,9 +20,9 @@ const loadEntries = () => {
 
 module.exports = {
 
-  mode: 'development',
+  mode: process.env.NODE_ENV,
   entry: loadEntries,
-  devtool: 'inline-source-map',
+  devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : false,
 
   output: {
     filename: '[name]',
@@ -31,7 +31,7 @@ module.exports = {
 
   plugins: [
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'production',
+      NODE_ENV: 'development',
       EXTENSION_URL: 'http://localhost:8000',
     }),
   ],
