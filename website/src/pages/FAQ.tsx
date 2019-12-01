@@ -104,9 +104,9 @@ const FAQ: React.FC = () => {
         <li>Par chat, via <Link openInNewTab href="https://tlk.io/reagir-information" >tlk.io</Link></li>
       </ul>
 
-      <SubTitle id="chat">Chat en direct</SubTitle>
+      {/* <SubTitle id="chat">Chat en direct</SubTitle> */}
 
-      <Tlkio />
+      {/* <Tlkio /> */}
 
     </>
   );
