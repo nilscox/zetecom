@@ -3,7 +3,10 @@ const activeTabs = [];
 chrome.browserAction.setBadgeBackgroundColor({ color: '#4BB543' });
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-  chrome.browserAction.setBadgeText({ text: '' });
+  if (activeTabs.some(id => id === tabId))
+    chrome.browserAction.setBadgeText({ text: ' ' });
+  else
+    chrome.browserAction.setBadgeText({ text: '' });
 });
 
 chrome.tabs.onActivated.addListener(function({ tabId }) {

@@ -1,124 +1,27 @@
-const EXTENSION_URL = process.env.EXTENSION_URL;
-const YOUTUBE_REGEX = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
+var setupIntegration = require('../integration');
 
-window.addEventListener('message', (evt) => {
-  const { data } = evt;
-
-  if (data.type === 'INTEGRATION_LOADED')
-    chrome.runtime.sendMessage({ type: 'SET_EXTENSION_ACTIVE', url: window.location.url });
+setupIntegration({
+  getElementToSwitchWith: () => document.getElementById('comments') || document.getElementById('comment-section-renderer'),
+  pageUrl: window.location.href,
+  otherText: 'Commentaires YouTube',
+  riText: 'Commentaires Réagir à l\'information',
+  buttonsStyles: {
+    common: {
+      'font-size': '16px',
+      'border': '1px solid #CCC',
+    },
+    ri: {
+      'border-left': 'none',
+    },
+    selected: {
+      'background-color': '#eee',
+      'cursor': 'initial',
+      'font-weight': 'bold',
+    },
+    unselected: {
+      'background-color': '#fff',
+      'cursor': 'pointer',
+      'font-weight': 'initial',
+    },
+  },
 });
-
-function selectComments(selected, other) {
-  selected.style['background'] = '#eee';
-  selected.style['font-weight'] = 'bold';
-  selected.style['cursor'] = 'initial';
-
-  other.style['background'] = 'white';
-  other.style['font-weight'] = 'initial';
-  other.style['cursor'] = 'pointer';
-}
-
-function createButtons() {
-  const commonButtonsStyle = {};
-
-  commonButtonsStyle['border'] = '1px solid #ccc';
-  commonButtonsStyle['background'] = 'white';
-  commonButtonsStyle['color'] = '#222';
-  commonButtonsStyle['padding'] = '10px 20px';
-  commonButtonsStyle['margin'] = '0';
-  commonButtonsStyle['outline'] = 'none';
-
-  const buttonYT = document.createElement('button');
-  const buttonRI = document.createElement('button');
-
-  Object.assign(buttonYT.style, commonButtonsStyle);
-  Object.assign(buttonRI.style, commonButtonsStyle);
-
-  buttonYT.style['border-bottom-left-radius'] = '4px';
-  buttonYT.style['border-top-left-radius'] = '4px';
-  buttonRI.style['border-bottom-right-radius'] = '4px';
-  buttonRI.style['border-top-right-radius'] = '4px';
-
-  buttonRI.style['border-left'] = 'none';
-
-  selectComments(buttonRI, buttonYT);
-
-  buttonYT.innerText = 'Commentaires YouTube';
-  buttonRI.innerText = 'Commentaires Réagir à l\'information';
-
-  const buttonsGroup = document.createElement('div');
-
-  buttonsGroup.style['text-align'] = 'center';
-  buttonsGroup.style['margin-top'] = '10px';
-  buttonsGroup.style['margin-bottom'] = '10px';
-
-  buttonsGroup.appendChild(buttonYT);
-  buttonsGroup.appendChild(buttonRI);
-
-  return {
-    buttons: buttonsGroup,
-    buttonYT,
-    buttonRI,
-  };
-}
-
-function render(youtubeId, youtubeComments, setButtons, setIntegration) {
-  const integration = document.createElement('div');
-  const iframe = document.createElement('iframe');
-  const { buttons, buttonYT, buttonRI } = createButtons();
-
-  buttonYT.onclick = () => {
-    selectComments(buttonYT, buttonRI);
-
-    integration.style.display = 'none';
-    youtubeComments.style.display = 'block';
-  };
-
-  buttonRI.onclick = () => {
-    selectComments(buttonRI, buttonYT);
-
-    youtubeComments.style.display = 'none';
-    integration.style.display = 'block';
-  };
-
-  iframe.id = 'ri-iframe';
-  iframe.src = `${EXTENSION_URL}/integration/youtube?youtubeId=${youtubeId}`;
-  iframe.scrolling = 'no';
-  iframe.style.width = '1px';
-  iframe.style.minWidth = '100%';
-  iframe.style.display = 'block';
-
-  integration.appendChild(iframe);
-
-  setButtons(buttons);
-  setIntegration(integration);
-
-  iFrameResize({ log: false, checkOrigin: false }, iframe);
-}
-
-function main() {
-  const comments = document.getElementById('comments') || document.getElementById('comment-section-renderer');
-  const youtubeId = YOUTUBE_REGEX.exec(window.location.href);
-
-  if (!youtubeId) {
-    console.error('youtubeId not found x(');
-    return;
-  }
-
-  if (!comments)
-    return setTimeout(main, 500);
-
-  const buttons = document.createElement('div');
-  const integration = document.createElement('div');
-
-  comments.style.display = 'none';
-
-  render(
-    youtubeId[1],
-    comments,
-    buttons => comments.insertAdjacentElement('beforebegin', buttons),
-    integration => comments.insertAdjacentElement('afterend', integration),
-  );
-};
-
-main();
