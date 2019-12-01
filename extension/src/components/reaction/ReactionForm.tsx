@@ -4,14 +4,16 @@ import { AxiosRequestConfig } from 'axios';
 import { Subject } from 'src/types/Subject';
 import { Reaction, parseReaction } from 'src/types/Reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
+import { useInformation } from 'src/utils/InformationContext';
 import { useTheme } from 'src/utils/Theme';
+import useAxios from 'src/hooks/use-axios';
+
 import Button from 'src/components/common/Button';
 import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
 import Text from 'src/components/common/Text';
 import UserAvatarNick from 'src/components/common/UserAvatarNick';
 import MarkdownMessageEdition from 'src/components/common/MarkdownMessageEdition';
-import useAxios from 'src/hooks/use-axios';
 
 type FormHeaderProps = {
   closeForm?: () => void;
@@ -110,6 +112,8 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
   closeForm,
   onCreated,
 }) => {
+  const information = useInformation();
+
   const formRef = React.useRef(null);
 
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/reaction' };
@@ -120,6 +124,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
 
   const onSubmit = (text: string) => postReaction({
     data: {
+      informationId: information.id,
       subjectId: subject ? subject.id : undefined,
       parentId: parent ? parent.id : undefined,
       text,

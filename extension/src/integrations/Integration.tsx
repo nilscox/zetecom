@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter as Router, Route, Redirect, useLocation, NavLink } from 'react-router-dom';
 
 import { Information } from 'src/types/Information';
+import { InformationProvider } from 'src/utils/InformationContext';
 import { useTheme } from 'src/utils/Theme';
 
 import SubjectsListPage from './pages/SubjectsListPage';
@@ -80,6 +81,21 @@ const Navigation: React.FC = () => {
   );
 };
 
+const IntegrationRouter = () => (
+  <Router>
+
+    <Header />
+    <Navigation />
+
+    <Route path="/" exact render={() => <Redirect to="/reaction" />} />
+    <Route path="/reaction" exact component={StandaloneReactionsPage} />
+
+    <Route path="/subject" exact component={SubjectsListPage} />
+    <Route path="/subject/:id" exact component={SubjectPage} />
+
+  </Router>
+);
+
 type IntegrationProps = {
   information: Information;
 };
@@ -90,7 +106,9 @@ const Integration: React.FC<IntegrationProps> = ({ information }) => {
   if (!information) {
     return (
       <div style={{ minHeight: 300, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
+
         <Header />
+
         <div
           style={{
             minHeight: 200,
@@ -100,33 +118,22 @@ const Integration: React.FC<IntegrationProps> = ({ information }) => {
             fontSize: 22,
             textAlign: 'center',
             margin: '0 10%',
+            color: '#666',
           }}
         >
-          L'espace de commentaire n'est pas activé sur cette page.
+          L'espace de commentaires n'est pas activé sur cette page.
         </div>
+
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: 480, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
-      <Router>
-
-        <Header />
-        <Navigation />
-
-        <Route path="/" exact render={() => <Redirect to="/reaction" />} />
-        <Route
-          path="/reaction"
-          exact
-          render={props => <StandaloneReactionsPage {...props} information={information} />}
-        />
-
-        <Route path="/subject" exact render={props => <SubjectsListPage {...props} information={information} />} />
-        <Route path="/subject/:id" exact component={SubjectPage} />
-
-      </Router>
-    </div>
+    <InformationProvider value={information}>
+      <div style={{ minHeight: 480, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
+        <IntegrationRouter />
+      </div>
+    </InformationProvider>
   );
 };
 

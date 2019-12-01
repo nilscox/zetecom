@@ -2,10 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 import queryString from 'query-string';
 
-import { Information } from 'src/types/Information';
 import { parseReaction, Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
+import { useInformation } from 'src/utils/InformationContext';
 import useAxios, { ResponseData } from 'src/hooks/use-axios';
+
 import Loader from 'src/components/common/Loader';
 import ReactionsList from 'src/components/reaction/ReactionsList';
 import { useCurrentUser } from 'src/hooks/use-user';
@@ -68,12 +69,9 @@ const useEditableDataset = <T extends { id: number }>(dataset: T[] | null, find 
   ] as const;
 };
 
-type StandaloneReactionsPageProps = {
-  information: Information;
-};
-
-const StandaloneReactionsPage: React.FC<StandaloneReactionsPageProps> = ({ information }) => {
+const StandaloneReactionsPage: React.FC = () => {
   const user = useCurrentUser();
+  const information = useInformation();
 
   const [sort, setSort] = useState(SortType.DATE_ASC);
   const [search, setSearch] = useState('');

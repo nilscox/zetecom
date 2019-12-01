@@ -3,10 +3,11 @@ import { RouteComponentProps } from 'react-router-dom';
 import queryString from 'query-string';
 import { useDebounce } from 'use-debounce';
 
-import { useCurrentUser } from 'src/utils/UserContext';
-import { Information } from 'src/types/Information';
 import { parseSubject } from 'src/types/Subject';
 import { SortType } from 'src/types/SortType';
+import { useCurrentUser } from 'src/utils/UserContext';
+import { useInformation } from 'src/utils/InformationContext';
+import useAxios, { ResponseData } from 'src/hooks/use-axios';
 
 import Break from 'src/components/common/Break';
 import Button from 'src/components/common/Button';
@@ -15,8 +16,6 @@ import Loader from 'src/components/common/Loader';
 import Text from 'src/components/common/Text';
 import SubjectsList, { SubjectsListProps } from 'src/components/subject/SubjectsList';
 import SubjectForm from 'src/components/subject/SubjectForm';
-
-import useAxios, { ResponseData } from 'src/hooks/use-axios';
 import FilterBar from 'src/components/common/FilterBar';
 
 const SubjectsListOrNotFound: React.FC<SubjectsListProps> = (props) => {
@@ -40,12 +39,10 @@ const useSubjects = (informationId: number, sort: SortType, search?: string) => 
   return useAxios(url, parse);
 };
 
-type SubjectsListPageProps = RouteComponentProps & {
-  information?: Information;
-};
-
-const SubjectsListPage: React.FC<SubjectsListPageProps> = ({ history, information }) => {
+const SubjectsListPage: React.FC<RouteComponentProps> = ({ history }) => {
   const user = useCurrentUser();
+  const information = useInformation();
+
   const [sort, setSort] = useState(SortType.DATE_ASC);
   const [search, setSearch] = useState('');
 
@@ -67,7 +64,6 @@ const SubjectsListPage: React.FC<SubjectsListPageProps> = ({ history, informatio
 
       { displaySubjectForm && (
         <SubjectForm
-          informationId={information.id}
           onCreated={(subject) => history.push(`/subject/${subject.id}`)}
           onClose={hideSubjectForm}
         />

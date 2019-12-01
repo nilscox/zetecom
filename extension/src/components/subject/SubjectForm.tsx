@@ -4,6 +4,9 @@ import { AxiosRequestConfig } from 'axios';
 import { Subject, parseSubject } from 'src/types/Subject';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
+import { useInformation } from 'src/utils/InformationContext';
+import useAxios from 'src/hooks/use-axios';
+
 import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
 import Button, { ButtonProps } from 'src/components/common/Button';
@@ -11,7 +14,6 @@ import Input from 'src/components/common/Input';
 import Text from 'src/components/common/Text';
 import UserAvatarNick from 'src/components/common/UserAvatarNick';
 import MarkdownMessageEdition from 'src/components/common/MarkdownMessageEdition';
-import useAxios from 'src/hooks/use-axios';
 
 type FormHeaderProps = {
   onClose: () => void;
@@ -92,12 +94,13 @@ const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
 };
 
 type SubjectFormProps = {
-  informationId: number;
   onCreated: (subject: Subject) => void;
   onClose: () => void;
 };
 
-const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onClose }) => {
+const SubjectForm: React.FC<SubjectFormProps> = ({ onCreated, onClose }) => {
+  const information = useInformation();
+
   const { colors: { border }, borderRadius } = useTheme();
   const [subject, setSubject] = useState('');
   const [quote, setQuote] = useState('');
@@ -108,7 +111,7 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ informationId, onCreated, onC
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    postSubject({ data: { informationId, subject, quote, text: message } });
+    postSubject({ data: { informationId: information.id, subject, quote, text: message } });
   };
 
   useEffect(() => {
