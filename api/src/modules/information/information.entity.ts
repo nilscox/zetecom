@@ -9,7 +9,7 @@ export class Information {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   url: string;
 
   @Column()

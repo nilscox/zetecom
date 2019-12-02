@@ -6,6 +6,7 @@ import {
   UseInterceptors, UseGuards,
   ClassSerializerInterceptor,
   NotFoundException,
+  ConflictException,
 } from '@nestjs/common';
 
 import { SortTypePipe } from 'Common/sort-type.pipe';
@@ -128,6 +129,9 @@ export class InformationController {
     @Body() dto: CreateInformationInDto,
     @ReqUser() user: User,
   ): Promise<Information> {
+    if (await this.informationService.findOne({ url: dto.url }))
+      throw new ConflictException(`An information with url ${dto.url} already exists`);
+
     return this.informationService.create(dto, user);
   }
 
