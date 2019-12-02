@@ -74,21 +74,33 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
   const [message, setMessage] = useState('');
   const [displayMessage, setDisplayMessage] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [alreadyReported, setArleadyReported] = useState(false);
   const { colors: { border }, sizes: { big }, borderRadius } = useTheme();
 
   const [{ data: reaction, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseReaction);
 
+  const requestConfig = { method: 'POST', validateStatus: (status: number) => [201, 400].includes(status) } as const;
   const [{
     loading: reportLoading,
     error: reportError,
+    raw: rawReportData,
     status,
-  }, report] = useAxios({ method: 'POST' }, () => undefined, { manual: true });
+  }, report] = useAxios(requestConfig, () => undefined, { manual: true });
 
   if (error)
     throw error;
 
   if (reportError)
     throw reportError;
+
+  useEffect(() => {
+    if (status(400)) {
+      if (rawReportData && rawReportData.message === 'REACTION_ALREADY_REPORTED')
+        setArleadyReported(true);
+      else
+        throw error;
+    }
+  }, [status, setArleadyReported]);
 
   useEffect(() => {
     if (status(201)) {
@@ -177,6 +189,12 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
         />
 
       </Collapse>
+
+      { alreadyReported && (
+        <Box mt={30} style={{ textAlign: 'center' }}>
+          <Text bold color="textWarning" >Vous avez déjà signalé cette réaction</Text>
+        </Box>
+      ) }
 
       <Flex mt={4 * big} flexDirection="row" justifyContent="center">
         <ReportButton loading={reportLoading} onClick={onSubmit} />
