@@ -8,6 +8,8 @@ import { useTheme } from 'src/utils/Theme';
 import SubjectsListPage from './pages/SubjectsListPage';
 import SubjectPage from './pages/SubjectPage';
 import StandaloneReactionsPage from './pages/StandaloneReactionsPage';
+import Flex from 'src/components/common/Flex';
+import Text from 'src/components/common/Text';
 
 const Header: React.FC = () => {
   const { fontSizes, colors, sizes } = useTheme();
@@ -109,20 +111,11 @@ const Integration: React.FC<IntegrationProps> = ({ information }) => {
 
         <Header />
 
-        <div
-          style={{
-            minHeight: 200,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontSize: 22,
-            textAlign: 'center',
-            margin: '0 10%',
-            color: '#666',
-          }}
-        >
-          L'espace de commentaires n'est pas activé sur cette page.
-        </div>
+        <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight: 200 }}>
+          <Text uppercase color="textLight">
+            L'espace de commentaires n'est pas activé sur cette page.
+          </Text>
+        </Flex>
 
       </div>
     );
@@ -130,7 +123,7 @@ const Integration: React.FC<IntegrationProps> = ({ information }) => {
 
   return (
     <InformationProvider value={information}>
-      <div style={{ minHeight: 480, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
+      <div style={{ minHeight: 400, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
         <IntegrationRouter />
       </div>
     </InformationProvider>

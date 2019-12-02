@@ -21,8 +21,8 @@ import FilterBar from 'src/components/common/FilterBar';
 const SubjectsListOrNotFound: React.FC<SubjectsListProps> = (props) => {
   if (!props.subjects.length) {
     return (
-      <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight: 60 }}>
-        <Text uppercase color="textLight">Pas de sujet trouvé.</Text>
+      <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight: 200 }}>
+        <Text uppercase color="textLight">Aucun sujet n'a été publié pour le moment.</Text>
       </Flex>
     );
   }
