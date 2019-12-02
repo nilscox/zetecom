@@ -99,8 +99,8 @@ function createSwitcher(opts, integration, originalElement) {
   iFrameResize({ log: false, checkOrigin: false }, iframe);
 }
 
-function createAppendIntegration(integration) {
-  const iframe = createIframe();
+function createAppendIntegration(opts, integration) {
+  const iframe = createIframe(opts.pageUrl);
 
   integration.appendChild(iframe);
   iFrameResize({ log: false, checkOrigin: false }, iframe);
@@ -127,7 +127,7 @@ function setupIntegration(opts) {
       return setTimeout(() => setupIntegration(opts), 1000);
 
     element.insertAdjacentElement('afterend', integration);
-    createAppendIntegration(integration);
+    createAppendIntegration(opts, integration);
     setupExtensionActiveHandler();
   }
 }
