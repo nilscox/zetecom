@@ -24,7 +24,7 @@ const useStandaloneReactions = (informationId: number, sort: SortType, search?: 
 
   const [result, refetch] = useAxios<Reaction[]>('', parse, { manual: true });
 
-  useEffect(() => void refetch({ url }), [url]);
+  useEffect(() => void refetch({ url }), [url, refetch]);
 
   if ((search && !searchDebounced) || result.loading === undefined)
     return [{ ...result, loading: true }];

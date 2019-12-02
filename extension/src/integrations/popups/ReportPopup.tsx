@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router';
 
@@ -100,7 +102,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
       else
         throw error;
     }
-  }, [status, setArleadyReported]);
+  }, [status, setArleadyReported, error, rawReportData]);
 
   useEffect(() => {
     if (status(201)) {

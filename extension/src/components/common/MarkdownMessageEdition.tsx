@@ -49,9 +49,8 @@ const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, pl
   const ref = useRef<HTMLTextAreaElement>();
 
   useEffect(() => {
-    if (ref.current)
-      ref.current.rows = ref.current.scrollHeight / 16;
-  }, [ref.current]);
+    ref.current.rows = ref.current.scrollHeight / 16;
+  }, []);
 
   return (
     <textarea
