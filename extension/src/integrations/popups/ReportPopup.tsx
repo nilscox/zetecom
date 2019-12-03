@@ -72,7 +72,7 @@ const ReportSuccess: React.FC = () => {
 type ReportPopupProps = RouteComponentProps<{ id: string }>;
 
 const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
-  const [reportType, setReportType] = useState('MISINFORMATION');
+  const [reportType, setReportType] = useState('RULES_VIOLATION');
   const [message, setMessage] = useState('');
   const [displayMessage, setDisplayMessage] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -169,7 +169,6 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
         <Text bold>Motif du signalement :&nbsp;</Text>
         <Select
           values={{
-            MISINFORMATION: 'Désinformation',
             RULES_VIOLATION: 'Non respect des règles',
             OTHER: 'Autre motif...',
           }}

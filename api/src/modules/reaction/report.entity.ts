@@ -5,7 +5,6 @@ import { User } from '../user/user.entity';
 import { Reaction } from './reaction.entity';
 
 export enum ReportType {
-  MISINFORMATION = 'MISINFORMATION',
   RULES_VIOLATION = 'RULES_VIOLATION',
   OTHER = 'OTHER',
 }

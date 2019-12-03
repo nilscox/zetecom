@@ -24,12 +24,10 @@ import { Output } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
-import { Information } from '../information/information.entity';
 import { SubjectService } from '../subject/subject.service';
 
 import { Reaction } from './reaction.entity';
 import { ReactionService } from './reaction.service';
-import { QuickReactionType } from './quick-reaction.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { ReactionOutDto } from './dtos/reaction-out.dto';
