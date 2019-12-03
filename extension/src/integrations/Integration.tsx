@@ -62,7 +62,7 @@ const Navigation: React.FC = () => {
 
   const pages = {
     '/reaction': 'Réactions',
-    '/subject': 'Sujets',
+    '/subject': 'Thématiques',
   };
 
   return (

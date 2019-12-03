@@ -91,7 +91,7 @@ const SubjectPage: React.FC<SubjectPageProps> = ({ match }) => {
       return (
         <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight: 60 }}>
           <Text uppercase color="textLight">
-            Il n'y a pas encore de réaction à ce sujet. Connectez-vous pour réagir !
+            Il n'y a pas encore de réaction dans cette thématique. Connectez-vous pour réagir !
           </Text>
         </Flex>
       );

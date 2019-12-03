@@ -22,7 +22,7 @@ const SubjectsListOrNotFound: React.FC<SubjectsListProps> = (props) => {
   if (!props.subjects.length) {
     return (
       <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight: 200 }}>
-        <Text uppercase color="textLight">Aucun sujet n'a été publié pour le moment.</Text>
+        <Text uppercase color="textLight">Aucune thématique n'a été publié pour le moment.</Text>
       </Flex>
     );
   }
@@ -59,7 +59,7 @@ const SubjectsListPage: React.FC<RouteComponentProps> = ({ history }) => {
         searchable={false}
         onSearch={setSearch}
         onSort={setSort}
-        after={user && <Button onClick={showSubjectForm}>Nouveau sujet</Button>}
+        after={user && <Button onClick={showSubjectForm}>Nouvelle thématique</Button>}
       />
 
       { displaySubjectForm && (

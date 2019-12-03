@@ -57,7 +57,7 @@ const FormSubject: React.FC<FormSubjectProps> = ({ subject, setSubject }) => {
     <Input
       style={{ margin: medium }}
       value={subject}
-      placeholder="Sujet"
+      placeholder="Thématique"
       onChange={e => setSubject(e.currentTarget.value)}
     />
   );
@@ -130,7 +130,11 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ onCreated, onClose }) => {
         <FormHeader onClose={onClose} />
         <FormSubject subject={subject} setSubject={setSubject} />
         <FormQuote quote={quote} setQuote={setQuote} />
-        <MarkdownMessageEdition placeholder="Description du sujet..." message={message} setMessage={setMessage} />
+        <MarkdownMessageEdition
+          placeholder="Description de la thématique..."
+          message={message}
+          setMessage={setMessage}
+        />
         <SubmitButton loading={loading} disabled={subject.length === 0 || message.length === 0} />
       </Flex>
     </form>
