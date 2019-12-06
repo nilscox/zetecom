@@ -7,7 +7,6 @@ figure.image-container {
     display: block;
 
     img {
-      border: 1px solid #CCC;
       box-sizing: border-box;
       width: 100%;
     }
@@ -19,4 +18,8 @@ figure.image-container {
     line-height: 5px;
     text-align: center;
   }
+}
+
+img.image-border {
+  border: 1px solid #CCC;
 }

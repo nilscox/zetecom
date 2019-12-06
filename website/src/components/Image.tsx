@@ -7,20 +7,31 @@ import './Image.scss';
 type ImageProps = {
   src: string;
   alt: string;
+  title?: string;
+  width?: number;
+  border?: boolean;
+  openOnClick?: boolean;
+  style?: React.CSSProperties;
 };
 
-const Image: React.FC<ImageProps> = ({ src, alt }) => (
-  <figure className="image-container">
+const Image: React.FC<ImageProps> = ({ width, border, openOnClick, style, ...props }) => {
+  if (!openOnClick) {
+    return <img className={'image' + (border ? ' image-border' : '')} {...props} style={{ width, ...style }} />;
+  }
 
-    <Link openInNewTab href={src}>
-      <img alt={alt} src={src} />
-    </Link>
+  return (
+    <figure className="image image-container">
 
-    <figcaption>
-      Cliquez sur l'image pour l'agrandir.
-    </figcaption>
+      <Link openInNewTab href={props.src}>
+        <img className={border ? 'image-border' : ''} {...props} style={{ width, ...style }} />
+      </Link>
 
-  </figure>
-);
+      <figcaption>
+        Cliquez sur l'image pour l'agrandir.
+      </figcaption>
+
+    </figure>
+  );
+};
 
 export default Image;

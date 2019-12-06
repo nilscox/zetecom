@@ -6,6 +6,7 @@ import Title from 'src/components/Title';
 import SubTitle from 'src/components/SubTitle';
 
 import './Rules.scss';
+import Link from 'src/components/Link';
 
 /*
 
@@ -54,12 +55,22 @@ const Rules: React.FC = () => {
         possible, l'état d'esprit induit par la charte, en faisant preuve de bon sens.
       </p>
 
-      <p>
+      <p className="hide">
         Dans un but d'amélioration continue, ces règles évoluent ! De temps en temps, il est possible que certaines
         règles de la charte soient mises à jour, dans le but de mieux correspondre avec les valeurs de la communauté.
         Lorsque cela arrive, un e-mail vous informant des dernières modifications vous est envoyé. De plus, chacun peut
         proposer des possibilités d'évolution (formulation, exemples, points manquants...).
       </p>
+
+      <div style={{ display: 'flex', padding: '40px 100px', alignItems: 'center' }}>
+        <img src="http://wiki.fablab-lannion.org/images/7/72/Work-in-progress-hi.png" width="140" height="140" />
+        <p style={{ marginLeft: 40, fontSize: 22, lineHeight: '30px' }}>
+          L'élaboration la charte est en cours, la version actuelle est un peu longue et manque de clarté. Nous
+          cherchons d'ailleurs des personnes dotées d'un sens critique affûté pour nous épauler dans la conception de
+          ces règles, car c'est un point clé du projet. Si cette réflexion vous intéresse, n'hésitez pas à{' '}
+          <Link href="/faq.html#contact">nous contacter</Link>.
+        </p>
+      </div>
 
       <SubTitle id="1 En tant que lecteur">1. En tant que lecteur</SubTitle>
 

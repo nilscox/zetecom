@@ -1,20 +1,37 @@
 @import "../variables.scss";
 
 .page#page-usage {
+  line-height: 1.5;
 
-  .image-container {
-    margin-bottom: 10px;
+  .separator {
+    border-top: 1px solid #CCC;
+    margin: 0 15%;
+  }
 
-    @media screen and (min-width: $break-medium) {
-      float: right;
-      margin-left: 30px;
-      max-width: 340px;
+  .item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 80px 50px;
+
+    .item-text {
+      padding: 0 50px;
     }
 
-    @media screen and (min-width: $break-desktop) {
-      float: right;
-      margin-left: 30px;
-      max-width: 440px;
+    .quick-reaction {
+      display: flex;
+      flex-direction: row;
+      font-size: 20px;
+      margin: 10px 0;
+
+      .quick-reaction-text {
+        padding-left: 15px;
+
+        strong {
+          color: #666;
+        }
+      }
     }
   }
+
 }
