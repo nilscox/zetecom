@@ -1,5 +1,8 @@
 @import "../variables.scss";
 
+$break-xlarge: 1320px;
+$break-xxlarge: 1590px;
+
 .page#page-usage {
   line-height: 1.5;
 
@@ -8,30 +11,78 @@
     margin: 0 15%;
   }
 
-  .item {
+  .step {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    margin: 80px 50px;
+    margin: 30px 0;
 
-    .item-text {
-      padding: 0 50px;
+    @media screen and (min-width: $break-medium) {
+      margin: 50px 0;
     }
 
-    .quick-reaction {
-      display: flex;
-      flex-direction: row;
-      font-size: 20px;
-      margin: 10px 0;
+    .image {
+      max-width: 100%;
+    }
 
-      .quick-reaction-text {
-        padding-left: 15px;
+    .step-text {
+    }
 
-        strong {
-          color: #666;
+    .step-secondary {
+      margin-top: 30px;
+
+      @media screen and (min-width: $break-medium) {
+        margin-top: 50px;
+      }
+    }
+
+    &.step-quick-reactions {
+      .step-secondary {
+        border: 1px solid #CCC;
+        padding: 10px;
+      }
+
+      .quick-reaction {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 18px;
+        margin: 10px 0;
+
+        .quick-reaction-text {
+          padding-left: 15px;
+
+          strong {
+            color: #666;
+          }
         }
       }
     }
-  }
 
+    @media screen and (min-width: $break-xlarge) {
+      flex-direction: row;
+      margin: 50px;
+
+      .step-secondary {
+        margin-top: 0;
+        min-width: 320px;
+      }
+
+      .step-text {
+        padding: 0 20px;
+      }
+
+      &.step-read-reactions, &.step-write-reaction, &.step-report {
+        .step-text {
+          order: 2;
+        }
+      }
+    }
+
+    @media screen and (min-width: $break-xxlarge) {
+      .step-secondary {
+        min-width: 460px;
+      }
+    }
+  }
 }
