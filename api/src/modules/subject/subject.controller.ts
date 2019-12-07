@@ -47,11 +47,7 @@ export class SubjectController {
   @Get(':id')
   @Output(SubjectOutDto)
   async findOneById(@Param('id', new ParseIntPipe()) id: number): Promise<Subject> {
-    const subject = await this.subjectService.findById(id);
-
-    await this.subjectService.addTotalReactionsCount([subject]);
-
-    return subject;
+    return this.subjectService.findById(id);
   }
 
   @Get(':id/reactions')
@@ -87,11 +83,7 @@ export class SubjectController {
     if (!information)
       throw new NotFoundException(`information with id ${dto.informationId} not found`);
 
-    const subject = await this.subjectService.create(dto, user, information);
-
-    await this.subjectService.addTotalReactionsCount([subject]);
-
-    return subject;
+    return this.subjectService.create(dto, user, information);
   }
 
 }

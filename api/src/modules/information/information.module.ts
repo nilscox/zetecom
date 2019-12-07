@@ -7,6 +7,8 @@ import { ReactionModule } from '../reaction/reaction.module';
 import { InformationController } from './information.controller';
 import { InformationService } from './information.service';
 import { Information } from './information.entity';
+import { InformationRepositoryProvider } from './information.repository';
+import { SubjectRepositoryProvider } from '../subject/subject.repository';
 
 import { YoutubeService } from './youtube.service';
 
@@ -22,6 +24,8 @@ import { YoutubeService } from './youtube.service';
   providers: [
     YoutubeService,
     InformationService,
+    InformationRepositoryProvider,
+    SubjectRepositoryProvider,
   ],
   exports: [
     InformationService,

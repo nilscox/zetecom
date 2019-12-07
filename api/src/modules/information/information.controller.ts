@@ -42,8 +42,10 @@ export class InformationController {
 
   @Get()
   @Output(InformationOutDto)
-  async findAll(): Promise<Information[]> {
-    return this.informationService.findAll();
+  async findAll(
+    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+  ): Promise<Information[]> {
+    return this.informationService.findAll(page);
   }
 
   @Get(':id')
@@ -51,7 +53,7 @@ export class InformationController {
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Information> {
-    const info = await this.informationService.findOne({ id });
+    const info = await this.informationService.findById(id);
 
     if (!info)
       throw new NotFoundException();
@@ -64,7 +66,7 @@ export class InformationController {
   async findOneByUrl(
     @Param('url') url: string,
   ): Promise<Information> {
-    const info = await this.informationService.findOne({ url: decodeURIComponent(url) });
+    const info = await this.informationService.findByUrl(decodeURIComponent(url));
 
     if (!info)
       throw new NotFoundException();
@@ -77,7 +79,7 @@ export class InformationController {
   async findOneByYoutubeId(
     @Param('youtubeId') youtubeId: string,
   ): Promise<Information> {
-    const info = await this.informationService.findOne({ youtubeId });
+    const info = await this.informationService.findByYoutubeId(youtubeId);
 
     if (!info)
       throw new NotFoundException();
@@ -94,32 +96,25 @@ export class InformationController {
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
   ): Promise<Reaction[]> {
-    const information = await this.informationService.findOne({ id });
-
-    if (!information)
+    if (!(await this.informationService.exists(id)))
       throw new NotFoundException();
 
-    return this.reactionService.findStandaloneRootReactions(information, search, sort, page);
+    return this.reactionService.findStandaloneRootReactions(id, search, sort, page);
   }
 
   @Get(':id/subjects')
   @Output(SubjectOutDto)
   async findSubjects(
     @Param('id', new ParseIntPipe()) id: number,
-    @Query('sort', new SortTypePipe()) sort: SortType,
-    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
+    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Subject[]> {
-    const information = await this.informationService.findOne({ id });
-
-    if (!information)
+    if (!(await this.informationService.exists(id)))
       throw new NotFoundException();
 
-    const subjects = await this.informationService.findSubjects(information, sort, page, search);
-
-    await this.subjectService.addTotalReactionsCount(subjects);
-
-    return subjects;
+    return search
+      ? await this.informationService.searchSubjects(id, search, page)
+      : await this.informationService.findSubjects(id, page);
   }
 
   @Post()
@@ -129,7 +124,7 @@ export class InformationController {
     @Body() dto: CreateInformationInDto,
     @ReqUser() user: User,
   ): Promise<Information> {
-    if (await this.informationService.findOne({ url: dto.url }))
+    if (await this.informationService.findByUrl(dto.url))
       throw new ConflictException(`An information with url ${dto.url} already exists`);
 
     return this.informationService.create(dto, user);

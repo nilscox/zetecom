@@ -14,6 +14,7 @@ import { Report, ReportType } from './report.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
+import { ReactionRepository } from './reaction.repository';
 
 @Injectable()
 export class ReactionService {
@@ -23,8 +24,7 @@ export class ReactionService {
     @InjectRepository(Information)
     private readonly informationRepository: Repository<Information>,
 
-    @InjectRepository(Reaction)
-    private readonly reactionRepository: Repository<Reaction>,
+    private readonly reactionRepository: ReactionRepository,
 
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
@@ -58,11 +58,11 @@ export class ReactionService {
     reactions.sort((a, b) => scores[b.id] - scores[a.id]);
   }
 
-  async findStandaloneRootReactions(information: Information, search: string, sort: SortType, page: number = 1): Promise<Reaction[]> {
+  async findStandaloneRootReactions(informationId: number, search: string, sort: SortType, page: number = 1): Promise<Reaction[]> {
     let query = this.reactionRepository.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
       .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
-      .where('reaction.information_id = :informationId', { informationId: information.id })
+      .where('reaction.information_id = :informationId', { informationId })
       .andWhere('reaction.subject_id IS NULL');
 
     if (!search)
