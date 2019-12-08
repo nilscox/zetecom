@@ -16,7 +16,6 @@ import {
 
 import { SortType } from 'Common/sort-type';
 import { IsAuthenticated } from 'Common/auth.guard';
-import { IsAuthor } from 'Common/is-author.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { SortTypePipe } from 'Common/sort-type.pipe';
@@ -24,16 +23,15 @@ import { Output } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
-import { Information } from '../information/information.entity';
 import { InformationService } from '../information/information.service';
 import { Reaction } from '../reaction/reaction.entity';
-import { ReactionService } from '../reaction/reaction.service';
 import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
 
 import { Subject } from './subject.entity';
 import { SubjectService } from './subject.service';
 import { CreateSubjectInDto } from './dtos/create-subject-in.dto';
 import { SubjectOutDto } from './dtos/subject-out.dto';
+import { ReactionRepository } from '../reaction/reaction.repository';
 
 @Controller('/subject')
 export class SubjectController {
@@ -41,7 +39,7 @@ export class SubjectController {
   constructor(
     private readonly informationService: InformationService,
     private readonly subjectService: SubjectService,
-    private readonly reactionService: ReactionService,
+    private readonly reactionRepository: ReactionRepository,
   ) {}
 
   @Get(':id')
@@ -63,7 +61,7 @@ export class SubjectController {
     if (!subject)
       throw new NotFoundException(`subject with id ${id} not found`);
 
-    const reactions = await this.reactionService.findRootReactions(subject.id, sort, page);
+    const reactions = await this.reactionRepository.findRootReactions(subject.id, sort, page);
 
     if (!reactions)
       throw new NotFoundException();

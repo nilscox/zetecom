@@ -1,9 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 
 import { User } from '../user/user.entity';
-import { Subject } from '../subject/subject.entity';
 import { InformationRepository } from './information.repository';
-import { SubjectRepository } from '../subject/subject.repository';
 
 import { Information } from './information.entity';
 import { YoutubeService } from './youtube.service';
@@ -18,7 +16,6 @@ export class InformationService {
   constructor(
     private readonly youtubeService: YoutubeService,
     private readonly informationRepository: InformationRepository,
-    private readonly subjectRepository: SubjectRepository,
   ) {}
 
   async exists(informationId: number): Promise<boolean> {
@@ -28,7 +25,7 @@ export class InformationService {
   }
 
   async findAll(page = 1): Promise<Information[]> {
-    return this.informationRepository.listInformations(page, this.pageSize);
+    return this.informationRepository.findAll(page, this.pageSize);
   }
 
   async findById(id: number): Promise<Information> {
@@ -41,14 +38,6 @@ export class InformationService {
 
   async findByYoutubeId(youtubeId: string): Promise<Information> {
     return this.informationRepository.findOne({ youtubeId });
-  }
-
-  async findSubjects(informationId: number, page = 1): Promise<Subject[]> {
-    return this.subjectRepository.listSubjects(informationId, page);
-  }
-
-  async searchSubjects(informationId: number, search: string, page = 1): Promise<Subject[]> {
-    return this.subjectRepository.searchSubjects(informationId, search, page);
   }
 
   async create(dto: CreateInformationInDto, creator: User): Promise<Information> {

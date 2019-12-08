@@ -30,6 +30,9 @@
         "interface-name": [
             false
         ],
+        "interface-over-type-literal": [
+            false
+        ],
         "array-type": [
             false
         ],

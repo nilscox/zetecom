@@ -7,11 +7,11 @@ const PAGE_SIZE = 5;
 @EntityRepository(Subject)
 export class SubjectRepository extends Repository<Subject> {
 
-  async listSubjects(informationId: number, page = 1): Promise<Subject[]> {
+  async findAll(informationId: number, page = 1): Promise<Subject[]> {
     return this.find({ where: { informationId }, skip: (page - 1) * PAGE_SIZE, take: PAGE_SIZE });
   }
 
-  async searchSubjects(informationId: number, search: string, page = 1): Promise<Subject[]> {
+  async search(informationId: number, search: string, page = 1): Promise<Subject[]> {
     return this.createQueryBuilder('subject')
       .leftJoinAndSelect('subject.author', 'author')
       .leftJoinAndSelect('subject.messages', 'messages')

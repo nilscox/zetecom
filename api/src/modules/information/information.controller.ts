@@ -23,6 +23,7 @@ import { Subject } from '../subject/subject.entity';
 import { Reaction } from '../reaction/reaction.entity';
 
 import { InformationService } from './information.service';
+import { SubjectRepository } from '../subject/subject.repository';
 import { ReactionRepository } from '../reaction/reaction.repository';
 
 import { SubjectOutDto } from '../subject/dtos/subject-out.dto';
@@ -36,6 +37,7 @@ export class InformationController {
 
   constructor(
     private readonly informationService: InformationService,
+    private readonly subjectRepository: SubjectRepository,
     private readonly reactionRepository: ReactionRepository,
   ) {}
 
@@ -99,8 +101,8 @@ export class InformationController {
       throw new NotFoundException();
 
     return search
-      ? this.reactionRepository.searchStandaloneReactions(id, search, sort, page)
-      : this.reactionRepository.listStandaloneRootReactions(id, sort, page);
+      ? this.reactionRepository.searchReactions(id, search, sort, page)
+      : this.reactionRepository.findRootReactions(id, sort, page);
   }
 
   @Get(':id/subjects')
@@ -114,8 +116,8 @@ export class InformationController {
       throw new NotFoundException();
 
     return search
-      ? await this.informationService.searchSubjects(id, search, page)
-      : await this.informationService.findSubjects(id, page);
+      ? await this.subjectRepository.search(id, search, page)
+      : await this.subjectRepository.findAll(id, page);
   }
 
   @Post()

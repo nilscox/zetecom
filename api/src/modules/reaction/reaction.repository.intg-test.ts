@@ -52,7 +52,7 @@ describe('reaction repository', () => {
 
   describe('listStandaloneRootReactions', () => {
     it('should find the standalone root reactions', async () => {
-      const result = await reactionRepository.listStandaloneRootReactions(information.id, SortType.DATE_ASC);
+      const result = await reactionRepository.findRootReactions(information.id, SortType.DATE_ASC);
 
       expect(result).toMatchObject([{ id: standaloneRootReaction.id }]);
     });

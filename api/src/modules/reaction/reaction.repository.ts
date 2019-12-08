@@ -1,5 +1,4 @@
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, EntityRepository, Connection, getCustomRepository, getRepository } from 'typeorm';
+import { Repository, EntityRepository, getRepository } from 'typeorm';
 
 import { SortType } from 'Common/sort-type';
 
@@ -48,7 +47,7 @@ export class ReactionRepository extends Repository<Reaction> {
     reactions.sort((a, b) => scores[b.id] - scores[a.id]);
   }
 
-  async listStandaloneRootReactions(informationId: number, sort: SortType, page = 1): Promise<Reaction[]> {
+  async findRootReactions(informationId: number, sort: SortType, page = 1): Promise<Reaction[]> {
     const reactions = await this.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author')
       .leftJoinAndSelect('reaction.messages', 'message')
@@ -67,7 +66,7 @@ export class ReactionRepository extends Repository<Reaction> {
     return reactions;
   }
 
-  async searchStandaloneReactions(informationId: number, search: string, sort: SortType, page = 1): Promise<Reaction[]> {
+  async searchReactions(informationId: number, search: string, sort: SortType, page = 1): Promise<Reaction[]> {
     const reactions = await this.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author')
       .leftJoinAndSelect('reaction.messages', 'message')
@@ -86,7 +85,7 @@ export class ReactionRepository extends Repository<Reaction> {
     return reactions;
   }
 
-  async listRootReactions(subjectId: number, sort: SortType, page = 1) {
+  async findRootReactionsForSubject(subjectId: number, sort: SortType, page = 1) {
     const reactions = await this.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author')
       .leftJoinAndSelect('reaction.messages', 'message')
@@ -114,7 +113,7 @@ export class ReactionRepository extends Repository<Reaction> {
       .getMany();
   }
 
-  async findRepliesCount(reactionIds: number[]): Promise<RepliesCount[]> {
+  async getRepliesCounts(reactionIds: number[]): Promise<RepliesCount[]> {
     // TODO: map
     const result = await this.createQueryBuilder('reaction')
       .select('reaction.id')

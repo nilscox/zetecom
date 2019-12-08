@@ -39,14 +39,6 @@ export class ReactionService {
     return this.reactionRepository.findOne(id);
   }
 
-  async findRootReactions(subjectId: number, sort: SortType, page = 1): Promise<Reaction[]> {
-    return this.reactionRepository.listRootReactions(subjectId, sort, page);
-  }
-
-  async findReplies(parentId: number): Promise<Reaction[]> {
-    return this.reactionRepository.findReplies(parentId);
-  }
-
   async create(dto: CreateReactionInDto, user: User, subject: Subject = null): Promise<Reaction> {
     const information = await this.informationRepository.findOne(dto.informationId);
 
@@ -124,7 +116,7 @@ export class ReactionService {
     if (!reactions.length)
       return [];
 
-    const repliesCounts = await this.reactionRepository.findRepliesCount(reactions.map(r => r.id));
+    const repliesCounts = await this.reactionRepository.getRepliesCounts(reactions.map(r => r.id));
 
     reactions.forEach(reaction => {
       const reply = repliesCounts.find(r => r.reactionId === reaction.id);

@@ -1,15 +1,11 @@
 import {
-  Injectable,
   Controller,
   Get, Post, Put,
   Query, Param, Body,
   ParseIntPipe,
   UseInterceptors, UseGuards,
-  ClassSerializerInterceptor,
   NotFoundException,
   UnauthorizedException,
-  PipeTransform,
-  ArgumentMetadata,
   BadRequestException,
   SetMetadata,
 } from '@nestjs/common';
@@ -24,17 +20,19 @@ import { Output } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
+import { Reaction } from './reaction.entity';
+import { Subject } from '../subject/subject.entity';
+
+import { ReactionService } from './reaction.service';
+import { ReactionRepository } from './reaction.repository';
 import { SubjectService } from '../subject/subject.service';
 
-import { Reaction } from './reaction.entity';
-import { ReactionService } from './reaction.service';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { ReactionOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
 import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
 import { ReportInDto } from './dtos/report-in.dto';
-import { Subject } from '../subject/subject.entity';
 
 @Controller('/reaction')
 export class ReactionController {
@@ -42,6 +40,7 @@ export class ReactionController {
   constructor(
     private readonly subjectService: SubjectService,
     private readonly reactionService: ReactionService,
+    private readonly reactionRepository: ReactionRepository,
   ) {}
 
   @Get(':id')
@@ -62,7 +61,7 @@ export class ReactionController {
     @Query('sort', new SortTypePipe()) sort: SortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Reaction[]> {
-    const replies = await this.reactionService.findReplies(id);
+    const replies = await this.reactionRepository.findReplies(id);
 
     if (!replies)
       throw new NotFoundException();

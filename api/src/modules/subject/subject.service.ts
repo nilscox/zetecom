@@ -21,7 +21,7 @@ export class SubjectService {
   ) {}
 
   async findAll(information: Information, page = 1): Promise<Subject[]> {
-    const subjects = await this.subjectRepository.listSubjects(information.id, page);
+    const subjects = await this.subjectRepository.findAll(information.id, page);
 
     await this.subjectRepository.addTotalReactionsCount(subjects);
 
@@ -29,7 +29,7 @@ export class SubjectService {
   }
 
   async search(information: Information, search: string, page = 1): Promise<Subject[]> {
-    const subjects = await this.subjectRepository.searchSubjects(information.id, search, page);
+    const subjects = await this.subjectRepository.search(information.id, search, page);
 
     await this.subjectRepository.addTotalReactionsCount(subjects);
 
