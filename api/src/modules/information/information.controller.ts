@@ -94,7 +94,7 @@ export class InformationController {
   @UseInterceptors(PopulateReaction)
   async findReactions(
     @Param('id', new ParseIntPipe()) id: number,
-    @Query('sort', new SortTypePipe()) sort: SortType,
+    @OptionalQuery({ key: 'sort', defaultValue: 'date-desc' }, new SortTypePipe()) sort: SortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
   ): Promise<Reaction[]> {
