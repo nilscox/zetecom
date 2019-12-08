@@ -35,7 +35,15 @@ export class ReactionRepository extends Repository<Reaction> {
     this.quickReactionRepository = getRepository(QuickReaction);
   }
 
-  private sortByRelevance(reactions: Reaction[]) {
+  private async sortByRelevance(reactions: Reaction[]) {
+    const repliesCounts = await this.getRepliesCounts(reactions.map(r => r.id));
+    const quickReactionsCounts = await this.getQuickReactionsCounts(reactions.map(r => r.id));
+
+    reactions.forEach(r => {
+      r.repliesCount = repliesCounts.find(({ reactionId }) => reactionId === r.id).repliesCount;
+      r.quickReactionsCount = quickReactionsCounts.find(({ reactionId }) => reactionId === r.id).quickReactions;
+    });
+
     const sumQuickReacitonsCount = ({ quickReactionsCount: r }: Reaction) => {
       return r.APPROVE + r.REFUTE + r.SKEPTIC;
     };
@@ -117,7 +125,7 @@ export class ReactionRepository extends Repository<Reaction> {
 
   async getRepliesCounts(reactionIds: number[]): Promise<RepliesCount[]> {
     // TODO: map
-    const result = await this.createQueryBuilder('reaction')
+    const repliesCounts = await this.createQueryBuilder('reaction')
       .select('reaction.id')
       .addSelect('count(replies.id)', 'reaction_repliesCount')
       .leftJoin('reaction.replies', 'replies')
@@ -125,10 +133,15 @@ export class ReactionRepository extends Repository<Reaction> {
       .groupBy('reaction.id')
       .getRawMany();
 
-    return result.map(r => ({
-      reactionId: r.reaction_id,
-      repliesCount: parseInt(r.reaction_repliesCount, 10),
-    }));
+    const results = reactionIds.map((id) => ({ reactionId: id, repliesCount: 0 }));
+
+    repliesCounts.forEach(({ reaction_id: id, reaction_repliesCount }) => {
+      const result = results.find(({ reactionId }) => reactionId === id);
+
+      result.repliesCount = Number(reaction_repliesCount);
+    });
+
+    return results;
   }
 
   async getQuickReactionsCounts(reactionIds): Promise<QuickReactionsCount[]> {
