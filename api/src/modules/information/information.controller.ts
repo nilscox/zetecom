@@ -29,6 +29,7 @@ import { InformationOutDto } from './dtos/information-out.dto';
 import { Reaction } from '../reaction/reaction.entity';
 import { ReactionService } from '../reaction/reaction.service';
 import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
+import { ReactionRepository } from '../reaction/reaction.repository';
 
 @Controller('information')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -36,8 +37,7 @@ export class InformationController {
 
   constructor(
     private readonly informationService: InformationService,
-    private readonly subjectService: SubjectService,
-    private readonly reactionService: ReactionService,
+    private readonly reactionRepository: ReactionRepository,
   ) {}
 
   @Get()
@@ -99,7 +99,9 @@ export class InformationController {
     if (!(await this.informationService.exists(id)))
       throw new NotFoundException();
 
-    return this.reactionService.findStandaloneRootReactions(id, search, sort, page);
+    return search
+      ? this.reactionRepository.searchStandaloneReactions(id, search, sort, page)
+      : this.reactionRepository.listStandaloneRootReactions(id, sort, page);
   }
 
   @Get(':id/subjects')

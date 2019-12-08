@@ -13,7 +13,7 @@ export class IsAuthor implements CanActivate {
   ): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const reactionId = request.param('id');
-    const reaction = await this.reactionService.findOne(reactionId);
+    const reaction = await this.reactionService.findById(reactionId);
 
     if (!reaction)
       return true;

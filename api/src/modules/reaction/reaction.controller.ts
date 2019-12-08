@@ -51,7 +51,7 @@ export class ReactionController {
     @Param('id', new ParseIntPipe()) id: number,
     @ReqUser() user?: User,
   ): Promise<Reaction> {
-    return this.reactionService.findOne({ id });
+    return this.reactionService.findById(id);
   }
 
   @Get(':id/replies')
@@ -101,7 +101,7 @@ export class ReactionController {
     @Body() dto: UpdateReactionInDto,
     @ReqUser() user: User,
   ): Promise<Reaction> {
-    const reaction = await this.reactionService.findOne(id);
+    const reaction = await this.reactionService.findById(id);
 
     if (!reaction)
       throw new NotFoundException();
@@ -118,7 +118,7 @@ export class ReactionController {
     @Body() dto: QuickReactionInDto,
     @ReqUser() user: User,
   ): Promise<Reaction> {
-    const reaction = await this.reactionService.findOne(id);
+    const reaction = await this.reactionService.findById(id);
 
     if (!reaction)
       throw new NotFoundException();
@@ -128,7 +128,7 @@ export class ReactionController {
 
     await this.reactionService.setQuickReaction(reaction, user, dto.type);
 
-    return this.reactionService.findOne({ id: reaction.id });
+    return this.reactionService.findById(reaction.id);
   }
 
   @Post(':id/report')
@@ -140,7 +140,7 @@ export class ReactionController {
     @Body() dto: ReportInDto,
     @ReqUser() user: User,
   ): Promise<Reaction> {
-    const reaction = await this.reactionService.findOne(id);
+    const reaction = await this.reactionService.findById(id);
 
     if (!reaction)
       throw new NotFoundException();

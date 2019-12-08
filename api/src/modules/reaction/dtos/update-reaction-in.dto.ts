@@ -4,7 +4,7 @@ export class UpdateReactionInDto {
 
   @IsString()
   @IsOptional()
-  @MaxLength(4000)
+  @MaxLength(40000)
   readonly text: string;
 
 }

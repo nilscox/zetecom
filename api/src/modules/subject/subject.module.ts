@@ -3,16 +3,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { InformationModule } from '../information/information.module';
 import { ReactionModule } from '../reaction/reaction.module';
-import { Message } from '../reaction/message.entity';
 
 import { SubjectController } from './subject.controller';
 import { SubjectService } from './subject.service';
-import { Subject } from './subject.entity';
+import { SubjectRepository } from './subject.repository';
 
 @Module({
   imports: [
-    // code smell. create a message module maybe?
-    TypeOrmModule.forFeature([Subject, Message]),
+    TypeOrmModule.forFeature([SubjectRepository]),
     forwardRef(() => InformationModule),
     forwardRef(() => ReactionModule),
   ],
@@ -23,6 +21,7 @@ import { Subject } from './subject.entity';
     SubjectService,
   ],
   exports: [
+    TypeOrmModule,
     SubjectService,
   ],
 })

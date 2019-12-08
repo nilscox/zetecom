@@ -1,11 +1,9 @@
-import { Repository, EntityRepository, Connection, Brackets } from 'typeorm';
+import { Repository, EntityRepository, Brackets } from 'typeorm';
 
 import { Subject } from './subject.entity';
-import { Injectable } from '@nestjs/common';
 
 const PAGE_SIZE = 5;
 
-@Injectable()
 @EntityRepository(Subject)
 export class SubjectRepository extends Repository<Subject> {
 
@@ -54,9 +52,3 @@ export class SubjectRepository extends Repository<Subject> {
   }
 
 }
-
-export const SubjectRepositoryProvider = {
-  provide: 'SubjectRepository',
-  useFactory: (connection: Connection) => connection.getCustomRepository(SubjectRepository),
-  inject: [Connection],
-};

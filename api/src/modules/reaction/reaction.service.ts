@@ -3,26 +3,24 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
-import { SortType } from 'Common/sort-type';
-
 import { User } from '../user/user.entity';
-import { Information } from '../information/information.entity';
 import { Subject } from '../subject/subject.entity';
+import { ReactionRepository } from './reaction.repository';
 import { Message } from './message.entity';
 import { Reaction } from './reaction.entity';
 import { Report, ReportType } from './report.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
-import { ReactionRepository } from './reaction.repository';
+import { InformationRepository } from '../information/information.repository';
+import { SortType } from 'Common/sort-type';
 
 @Injectable()
 export class ReactionService {
 
   constructor(
 
-    @InjectRepository(Information)
-    private readonly informationRepository: Repository<Information>,
+    private readonly informationRepository: InformationRepository,
 
     private readonly reactionRepository: ReactionRepository,
 
@@ -37,81 +35,16 @@ export class ReactionService {
 
   ) {}
 
-  async findOne(where): Promise<Reaction> {
-    const result = await this.reactionRepository.findOne(where);
-
-    if (!result)
-      return null;
-
-    return result;
+  async findById(id: number): Promise<Reaction> {
+    return this.reactionRepository.findOne(id);
   }
 
-  private static sortByRelevance(reactions: Reaction[]) {
-    const sumQuickReacitonsCount = ({ quickReactionsCount: r }: Reaction) => {
-      return r.APPROVE + r.REFUTE + r.SKEPTIC;
-    };
-
-    const scores = reactions
-      .map(r => r.repliesCount + sumQuickReacitonsCount(r))
-      .reduce((acc, score, idx) => ({ ...acc, [reactions[idx].id]: score }), {});
-
-    reactions.sort((a, b) => scores[b.id] - scores[a.id]);
-  }
-
-  async findStandaloneRootReactions(informationId: number, search: string, sort: SortType, page: number = 1): Promise<Reaction[]> {
-    let query = this.reactionRepository.createQueryBuilder('reaction')
-      .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
-      .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
-      .where('reaction.information_id = :informationId', { informationId })
-      .andWhere('reaction.subject_id IS NULL');
-
-    if (!search)
-      query = query.andWhere('reaction.parent_id IS NULL');
-    else
-      query = query.andWhere('message.text ILIKE :search', { search: `%${search}%` });
-
-    query = query
-      .orderBy('reaction.created', sort === SortType.DATE_DESC ? 'DESC' : 'ASC')
-      .addOrderBy('message.created', 'ASC');
-
-    const reactions = await query.getMany();
-
-    await this.addQuickReactionsCounts(reactions);
-    await this.addRepliesCounts(reactions);
-
-    if (sort === SortType.RELEVANCE)
-      ReactionService.sortByRelevance(reactions);
-
-    return reactions;
-  }
-
-  async findRootReactions(subject: Subject, sort: SortType, page: number = 1): Promise<Reaction[]> {
-    const reactions = await this.reactionRepository.createQueryBuilder('reaction')
-      .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
-      .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
-      .where('reaction.subject_id = ' + subject.id)
-      .andWhere('reaction.parent_id IS NULL')
-      .orderBy('reaction.created', sort === SortType.DATE_DESC ? 'DESC' : 'ASC')
-      .addOrderBy('message.created', 'ASC')
-      .getMany();
-
-    await this.addQuickReactionsCounts(reactions);
-    await this.addRepliesCounts(reactions);
-
-    if (sort === SortType.RELEVANCE)
-      ReactionService.sortByRelevance(reactions);
-
-    return reactions;
+  async findRootReactions(subjectId: number, sort: SortType, page = 1): Promise<Reaction[]> {
+    return this.reactionRepository.listRootReactions(subjectId, sort, page);
   }
 
   async findReplies(parentId: number): Promise<Reaction[]> {
-    return this.reactionRepository.createQueryBuilder('reaction')
-      .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
-      .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
-      .where('reaction.parent_id = ' + parentId)
-      .orderBy('reaction.created')
-      .addOrderBy('message.created', 'ASC')
-      .getMany();
+    return this.reactionRepository.findReplies(parentId);
   }
 
   async create(dto: CreateReactionInDto, user: User, subject: Subject = null): Promise<Reaction> {
@@ -126,7 +59,7 @@ export class ReactionService {
     let parent: Reaction | null = null;
 
     if (dto.parentId) {
-      parent = await this.findOne({
+      parent = await this.reactionRepository.findOne({
         id: dto.parentId,
         subject,
       });
@@ -181,27 +114,23 @@ export class ReactionService {
     return await this.reactionRepository.save(reaction);
   }
 
-  async findReport(reaction: Reaction, user: User): Promise<Report> {
-    return this.reportRepository.findOne({ reaction, user });
+  async userHasReportedReaction(reaction: Reaction, user: User): Promise<boolean> {
+    const count = await this.reportRepository.count({ reaction, user });
+
+    return count > 0;
   }
 
   async addRepliesCounts(reactions: Reaction[]): Promise<Reaction[]> {
     if (!reactions.length)
       return [];
 
-    const repliesCounts = await this.reactionRepository.createQueryBuilder('reaction')
-      .select('reaction.id')
-      .addSelect('count(replies.id)', 'reaction_repliesCount')
-      .leftJoin('reaction.replies', 'replies')
-      .where('replies.parent_id IN (' + reactions.map(r => r.id) + ')')
-      .groupBy('reaction.id')
-      .getRawMany();
+    const repliesCounts = await this.reactionRepository.findRepliesCount(reactions.map(r => r.id));
 
     reactions.forEach(reaction => {
-      const reply = repliesCounts.find(r => r.reaction_id === reaction.id);
+      const reply = repliesCounts.find(r => r.reactionId === reaction.id);
 
       if (reply)
-        reaction.repliesCount = parseInt(reply.reaction_repliesCount, 10);
+        reaction.repliesCount = reply.repliesCount;
       else
         reaction.repliesCount = 0;
     });
@@ -213,22 +142,10 @@ export class ReactionService {
     if (!reactions.length)
       return [];
 
-    const quickReactionsCounts = await this.quickReactionRepository.createQueryBuilder('quick_reaction')
-      .select('reaction_id')
-      .addSelect('type')
-      .addSelect('count(id)')
-      .where('quick_reaction.reaction_id IN (' + reactions.map(r => r.id) + ')')
-      .groupBy('type')
-      .addGroupBy('reaction_id')
-      .getRawMany();
+    const quickReactionsCounts = await this.reactionRepository.getQuickReactionsCounts(reactions.map(r => r.id));
 
     const getQuickReactionsCount = (reactionId: number, type: QuickReactionType): number => {
-      const value = quickReactionsCounts.filter(qrc => qrc.reaction_id === reactionId && qrc.type === type);
-
-      if (!value.length)
-        return 0;
-
-      return parseInt(value[0].count, 10);
+      return quickReactionsCounts.find(qrc => qrc.reactionId === reactionId).quickReactions[type];
     };
 
     reactions.forEach(reaction => {
@@ -243,17 +160,10 @@ export class ReactionService {
   }
 
   async addUserQuickReaction(reactions: Reaction[], user: User): Promise<Reaction[]> {
-    const quickReactions = await this.quickReactionRepository.createQueryBuilder('quick_reaction')
-      .select('reaction_id')
-      .addSelect('type')
-      .where('quick_reaction.reaction_id IN (' + reactions.map(r => r.id) + ')')
-      .andWhere('quick_reaction.user_id = ' + user.id)
-      .groupBy('type')
-      .addGroupBy('reaction_id')
-      .getRawMany();
+    const quickReactions = await this.reactionRepository.getQuickReactionForUser(reactions.map(r => r.id), user.id);
 
-    reactions.forEach((reaction, i) => {
-      const quickReaction = quickReactions.find(sr => sr.reaction_id === reaction.id);
+    reactions.forEach((reaction) => {
+      const quickReaction = quickReactions.find(qr => qr.reactionId === reaction.id);
 
       reaction.userQuickReaction = quickReaction ? quickReaction.type : null;
     });
@@ -295,6 +205,10 @@ export class ReactionService {
     report.message = message;
 
     await this.reportRepository.save(report);
+  }
+
+  async findReport(reaction: Reaction, user: User): Promise<Report> {
+    return this.reportRepository.findOne({ reaction, user });
   }
 
 }

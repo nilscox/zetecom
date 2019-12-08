@@ -1,11 +1,9 @@
-import { Repository, EntityRepository, Connection } from 'typeorm';
+import { Repository, EntityRepository } from 'typeorm';
 
 import { Information } from './information.entity';
-import { Injectable } from '@nestjs/common';
 
 const PAGE_SIZE = 5;
 
-@Injectable()
 @EntityRepository(Information)
 export class InformationRepository extends Repository<Information> {
 
@@ -14,9 +12,3 @@ export class InformationRepository extends Repository<Information> {
   }
 
 }
-
-export const InformationRepositoryProvider = {
-  provide: 'InformationRepository',
-  useFactory: (connection: Connection) => connection.getCustomRepository(InformationRepository),
-  inject: [Connection],
-};
