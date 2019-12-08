@@ -102,7 +102,7 @@ export class InformationController {
       throw new NotFoundException();
 
     return search
-      ? this.reactionRepository.searchReactions(id, search, sort, page)
+      ? this.reactionRepository.search(id, search, sort, page)
       : this.reactionRepository.findRootReactions(id, sort, page);
   }
 

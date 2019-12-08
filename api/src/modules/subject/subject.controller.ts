@@ -63,7 +63,7 @@ export class SubjectController {
     if (!subject)
       throw new NotFoundException(`subject with id ${id} not found`);
 
-    const reactions = await this.reactionRepository.findRootReactions(subject.id, sort, page);
+    const reactions = await this.reactionRepository.findRootReactionsForSubject(subject.id, sort, page);
 
     if (!reactions)
       throw new NotFoundException();

@@ -1,7 +1,7 @@
 import {
   Controller,
   Get, Post, Put,
-  Query, Param, Body,
+  Param, Body,
   ParseIntPipe,
   UseInterceptors, UseGuards,
   NotFoundException,
@@ -10,12 +10,10 @@ import {
   SetMetadata,
 } from '@nestjs/common';
 
-import { SortType } from 'Common/sort-type';
 import { IsAuthenticated } from 'Common/auth.guard';
 import { IsAuthor } from 'Common/is-author.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
-import { SortTypePipe } from 'Common/sort-type.pipe';
 import { Output } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
@@ -50,7 +48,6 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
-    @ReqUser() user?: User,
   ): Promise<Reaction> {
     return this.reactionService.findById(id);
   }
@@ -60,10 +57,9 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   async findReplies(
     @Param('id', new ParseIntPipe()) id: number,
-    @Query('sort', new SortTypePipe()) sort: SortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Reaction[]> {
-    const replies = await this.reactionRepository.findReplies(id);
+    const replies = await this.reactionRepository.findReplies(id, page);
 
     if (!replies)
       throw new NotFoundException();
@@ -100,7 +96,6 @@ export class ReactionController {
   async update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateReactionInDto,
-    @ReqUser() user: User,
   ): Promise<Reaction> {
     const reaction = await this.reactionService.findById(id);
 

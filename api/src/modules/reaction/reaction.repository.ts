@@ -66,25 +66,6 @@ export class ReactionRepository extends Repository<Reaction> {
     return reactions;
   }
 
-  async searchReactions(informationId: number, search: string, sort: SortType, page = 1): Promise<Reaction[]> {
-    const reactions = await this.createQueryBuilder('reaction')
-      .leftJoinAndSelect('reaction.author', 'author')
-      .leftJoinAndSelect('reaction.messages', 'message')
-      .where('reaction.information_id = :informationId', { informationId })
-      .andWhere('reaction.subject_id IS NULL')
-      .andWhere('message.text ILIKE :search', { search: `%${search}%` })
-      .orderBy('reaction.created', sort === SortType.DATE_DESC ? 'DESC' : 'ASC')
-      .addOrderBy('message.created', 'ASC')
-      .skip((page - 1) * PAGE_SIZE)
-      .take(PAGE_SIZE)
-      .getMany();
-
-    if (sort === SortType.RELEVANCE)
-      this.sortByRelevance(reactions);
-
-    return reactions;
-  }
-
   async findRootReactionsForSubject(subjectId: number, sort: SortType, page = 1) {
     const reactions = await this.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author')
@@ -103,13 +84,34 @@ export class ReactionRepository extends Repository<Reaction> {
     return reactions;
   }
 
-  async findReplies(parentId: number): Promise<Reaction[]> {
+  async search(informationId: number, search: string, sort: SortType, page = 1): Promise<Reaction[]> {
+    const reactions = await this.createQueryBuilder('reaction')
+      .leftJoinAndSelect('reaction.author', 'author')
+      .leftJoinAndSelect('reaction.messages', 'message')
+      .where('reaction.information_id = :informationId', { informationId })
+      .andWhere('reaction.subject_id IS NULL')
+      .andWhere('message.text ILIKE :search', { search: `%${search}%` })
+      .orderBy('reaction.created', sort === SortType.DATE_DESC ? 'DESC' : 'ASC')
+      .addOrderBy('message.created', 'ASC')
+      .skip((page - 1) * PAGE_SIZE)
+      .take(PAGE_SIZE)
+      .getMany();
+
+    if (sort === SortType.RELEVANCE)
+      this.sortByRelevance(reactions);
+
+    return reactions;
+  }
+
+  async findReplies(parentId: number, page = 1): Promise<Reaction[]> {
     return this.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
       .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
       .where('reaction.parent_id = :parentId', { parentId })
       .orderBy('reaction.created')
       .addOrderBy('message.created', 'ASC')
+      .skip((page - 1) * PAGE_SIZE)
+      .take(PAGE_SIZE)
       .getMany();
   }
 
