@@ -4,6 +4,11 @@ import { Subject } from './subject.entity';
 
 const PAGE_SIZE = 5;
 
+type SubjectReactionsCount = {
+  subjectId: number;
+  reactionsCount: number;
+};
+
 @EntityRepository(Subject)
 export class SubjectRepository extends Repository<Subject> {
 
@@ -26,29 +31,20 @@ export class SubjectRepository extends Repository<Subject> {
       .getMany();
   }
 
-  async addTotalReactionsCount(subjects: Subject[]): Promise<Subject[]> {
-    if (!subjects.length)
-      return [];
-
+  async getTotalReactionsCount(subjectIds: number[]): Promise<SubjectReactionsCount[]> {
     // TODO: subjects.map
     const reactionsCounts = await this.createQueryBuilder('subject')
       .select('subject.id')
       .addSelect('COUNT(r.id)')
       .innerJoin('subject.reactions', 'r')
-      .where('subject.id IN (' + subjects.map(s => s.id) + ')')
+      .where('subject.id IN (' + subjectIds + ')')
       .groupBy('subject.id')
       .getRawMany();
 
-    subjects.forEach(subject => {
-      const reactionsCount = reactionsCounts.find(rc => rc.subject_id === subject.id);
-
-      if (!reactionsCount)
-        subject.reactionsCount = 0;
-      else
-        subject.reactionsCount = parseInt(reactionsCount.count, 10);
-    });
-
-    return subjects;
+    return reactionsCounts.map(({ subject_id, count }) => ({
+      subjectId: subject_id,
+      reactionsCount: Number(count),
+    }));
   }
 
 }

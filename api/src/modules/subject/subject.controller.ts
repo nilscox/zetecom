@@ -32,6 +32,7 @@ import { SubjectService } from './subject.service';
 import { CreateSubjectInDto } from './dtos/create-subject-in.dto';
 import { SubjectOutDto } from './dtos/subject-out.dto';
 import { ReactionRepository } from '../reaction/reaction.repository';
+import { PopulateSubject } from 'Common/populate-subject.interceptor';
 
 @Controller('/subject')
 export class SubjectController {
@@ -44,6 +45,7 @@ export class SubjectController {
 
   @Get(':id')
   @Output(SubjectOutDto)
+  @UseInterceptors(PopulateSubject)
   async findOneById(@Param('id', new ParseIntPipe()) id: number): Promise<Subject> {
     return this.subjectService.findById(id);
   }
@@ -72,6 +74,7 @@ export class SubjectController {
   @Post()
   @Output(SubjectOutDto)
   @UseGuards(IsAuthenticated)
+  @UseInterceptors(PopulateSubject)
   async create(
     @Body() dto: CreateSubjectInDto,
     @ReqUser() user: User,

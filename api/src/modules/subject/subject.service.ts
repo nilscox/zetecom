@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { Repository, FindConditions, FindManyOptions, Like } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { Information } from '../information/information.entity';
 import { User } from '../user/user.entity';
@@ -20,28 +20,8 @@ export class SubjectService {
     private readonly messageRepository: Repository<Message>,
   ) {}
 
-  async findAll(information: Information, page = 1): Promise<Subject[]> {
-    const subjects = await this.subjectRepository.findAll(information.id, page);
-
-    await this.subjectRepository.addTotalReactionsCount(subjects);
-
-    return subjects;
-  }
-
-  async search(information: Information, search: string, page = 1): Promise<Subject[]> {
-    const subjects = await this.subjectRepository.search(information.id, search, page);
-
-    await this.subjectRepository.addTotalReactionsCount(subjects);
-
-    return subjects;
-  }
-
   async findById(id: number): Promise<Subject> {
-    const subject = await this.subjectRepository.findOne(id, { relations: ['information'] });
-
-    await this.subjectRepository.addTotalReactionsCount([subject]);
-
-    return subject;
+    return this.subjectRepository.findOne(id, { relations: ['information'] });
   }
 
   async create(dto: CreateSubjectInDto, user: User, information: Information): Promise<Subject> {
@@ -59,9 +39,25 @@ export class SubjectService {
     await this.messageRepository.save(message);
     await this.subjectRepository.save(subject);
 
-    await this.subjectRepository.addTotalReactionsCount([subject]);
-
     return subject;
+  }
+
+  async addTotalReactionsCount(subjects: Subject[]): Promise<Subject[]> {
+    if (!subjects.length)
+      return [];
+
+    const reactionsCounts = await this.subjectRepository.getTotalReactionsCount(subjects.map(s => s.id));
+
+    subjects.forEach(subject => {
+      const reactionsCount = reactionsCounts.find(rc => rc.subjectId === subject.id);
+
+      if (!reactionsCount)
+        subject.reactionsCount = 0;
+      else
+        subject.reactionsCount = reactionsCount.reactionsCount;
+    });
+
+    return subjects;
   }
 
 }

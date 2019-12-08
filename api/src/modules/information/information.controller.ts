@@ -30,6 +30,7 @@ import { SubjectOutDto } from '../subject/dtos/subject-out.dto';
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
 import { InformationOutDto } from './dtos/information-out.dto';
 import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
+import { PopulateSubject } from 'Common/populate-subject.interceptor';
 
 @Controller('information')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -107,6 +108,7 @@ export class InformationController {
 
   @Get(':id/subjects')
   @Output(SubjectOutDto)
+  @UseInterceptors(PopulateSubject)
   async findSubjects(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
