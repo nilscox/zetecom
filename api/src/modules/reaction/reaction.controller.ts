@@ -26,13 +26,14 @@ import { Subject } from '../subject/subject.entity';
 import { ReactionService } from './reaction.service';
 import { ReactionRepository } from './reaction.repository';
 import { SubjectService } from '../subject/subject.service';
+import { ReportService } from '../report/report.service';
 
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { ReactionOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
 import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
-import { ReportInDto } from './dtos/report-in.dto';
+import { ReportInDto } from '../report/dtos/report-in.dto';
 
 @Controller('/reaction')
 export class ReactionController {
@@ -40,6 +41,7 @@ export class ReactionController {
   constructor(
     private readonly subjectService: SubjectService,
     private readonly reactionService: ReactionService,
+    private readonly reportService: ReportService,
     private readonly reactionRepository: ReactionRepository,
   ) {}
 
@@ -144,12 +146,12 @@ export class ReactionController {
     if (!reaction)
       throw new NotFoundException();
 
-    const report = await this.reactionService.findReport(reaction, user);
+    const report = await this.reportService.didUserReportReaction(reaction, user);
 
     if (report)
       throw new BadRequestException('REACTION_ALREADY_REPORTED');
 
-    await this.reactionService.report(reaction, user, dto.type, dto.message);
+    await this.reportService.report(reaction, user, dto.type, dto.message);
 
     return reaction;
   }

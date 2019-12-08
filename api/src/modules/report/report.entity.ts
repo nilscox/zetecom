@@ -1,8 +1,7 @@
 import { Column, JoinColumn, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { User } from '../user/user.entity';
-
-import { Reaction } from './reaction.entity';
+import { Reaction } from '../reaction/reaction.entity';
 
 export enum ReportType {
   RULES_VIOLATION = 'RULES_VIOLATION',

@@ -1,4 +1,4 @@
-import { IsDefined, IsEnum, IsOptional, MaxLength, ValidateIf } from 'class-validator';
+import { IsDefined, IsEnum, MaxLength, ValidateIf } from 'class-validator';
 
 import { ReportType } from '../report.entity';
 

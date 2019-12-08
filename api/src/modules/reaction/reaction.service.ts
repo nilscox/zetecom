@@ -8,12 +8,10 @@ import { Subject } from '../subject/subject.entity';
 import { ReactionRepository } from './reaction.repository';
 import { Message } from './message.entity';
 import { Reaction } from './reaction.entity';
-import { Report, ReportType } from './report.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { InformationRepository } from '../information/information.repository';
-import { SortType } from 'Common/sort-type';
 
 @Injectable()
 export class ReactionService {
@@ -29,9 +27,6 @@ export class ReactionService {
 
     @InjectRepository(QuickReaction)
     private readonly quickReactionRepository: Repository<QuickReaction>,
-
-    @InjectRepository(Report)
-    private readonly reportRepository: Repository<Report>,
 
   ) {}
 
@@ -104,12 +99,6 @@ export class ReactionService {
     }
 
     return await this.reactionRepository.save(reaction);
-  }
-
-  async userHasReportedReaction(reaction: Reaction, user: User): Promise<boolean> {
-    const count = await this.reportRepository.count({ reaction, user });
-
-    return count > 0;
   }
 
   async addRepliesCounts(reactions: Reaction[]): Promise<Reaction[]> {
@@ -186,21 +175,6 @@ export class ReactionService {
 
       await this.quickReactionRepository.save(quickReaction);
     }
-  }
-
-  async report(reaction: Reaction, user: User, type: ReportType, message: string) {
-    const report = new Report();
-
-    report.reaction = reaction;
-    report.user = user;
-    report.type = type;
-    report.message = message;
-
-    await this.reportRepository.save(report);
-  }
-
-  async findReport(reaction: Reaction, user: User): Promise<Report> {
-    return this.reportRepository.findOne({ reaction, user });
   }
 
 }
