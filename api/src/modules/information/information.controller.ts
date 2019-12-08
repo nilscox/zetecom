@@ -18,18 +18,17 @@ import { Output } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
+import { Information } from './information.entity';
 import { Subject } from '../subject/subject.entity';
-import { SubjectService } from '../subject/subject.service';
-import { SubjectOutDto } from '../subject/dtos/subject-out.dto';
+import { Reaction } from '../reaction/reaction.entity';
 
 import { InformationService } from './information.service';
-import { Information } from './information.entity';
+import { ReactionRepository } from '../reaction/reaction.repository';
+
+import { SubjectOutDto } from '../subject/dtos/subject-out.dto';
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
 import { InformationOutDto } from './dtos/information-out.dto';
-import { Reaction } from '../reaction/reaction.entity';
-import { ReactionService } from '../reaction/reaction.service';
 import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
-import { ReactionRepository } from '../reaction/reaction.repository';
 
 @Controller('information')
 @UseInterceptors(ClassSerializerInterceptor)

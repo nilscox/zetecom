@@ -1,12 +1,12 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": "..",
+  "rootDir": "../src",
   "testEnvironment": "node",
-  "testRegex": ".intg-test.ts$",
+  "testRegex": "\\.intg-test\\.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
-    "Common/(.*)": "<rootDir>/src/common/$1"
+    "Common/(.*)": "<rootDir>/common/$1"
   }
 }

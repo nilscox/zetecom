@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 
 import { User } from '../user/user.entity';
 import { Subject } from '../subject/subject.entity';
@@ -11,6 +11,9 @@ import { CreateInformationInDto } from './dtos/create-information-in.dto';
 
 @Injectable()
 export class InformationService {
+
+  @Inject('INFORMATION_PAGE_SIZE')
+  private pageSize: number;
 
   constructor(
     private readonly youtubeService: YoutubeService,
@@ -25,7 +28,7 @@ export class InformationService {
   }
 
   async findAll(page = 1): Promise<Information[]> {
-    return this.informationRepository.listInformations(page);
+    return this.informationRepository.listInformations(page, this.pageSize);
   }
 
   async findById(id: number): Promise<Information> {

@@ -1,112 +1,26 @@
-import { ReactionRepository } from './reaction.repository';
-import { getManager, createConnection, Connection, getConnection, getCustomRepository, DeepPartial, getRepository, Repository } from 'typeorm';
-import { Information } from '../information/information.entity';
-import { User } from '../user/user.entity';
-import { Reaction } from './reaction.entity';
-import { Message } from './message.entity';
+import { getCustomRepository } from 'typeorm';
+
 import { SortType } from 'Common/sort-type';
+
+import { User } from '../user/user.entity';
+import { Information } from '../information/information.entity';
 import { Subject } from '../subject/subject.entity';
+import { Reaction } from './reaction.entity';
 import { QuickReactionType, QuickReaction } from './quick-reaction.entity';
+import { ReactionRepository } from './reaction.repository';
 
-const createDatabaseConnection = async () => {
-  return createConnection({
-    database: 'test',
-    dropSchema: true,
-    entities: ['src/**/*.entity.ts'],
-    host: 'localhost',
-    // logging: ['query', 'error'],
-    password: 'root',
-    port: 5432,
-    synchronize: true,
-    type: 'postgres',
-    username: 'root',
-  });
-};
-
-const createUser = async (data?: DeepPartial<User>) => {
-  const manager = await getManager();
-
-  const rnd = Math.random().toString(32).slice(6);
-
-  const user = manager.create(User, {
-    nick: `user_${rnd}`,
-    email: `${rnd}@domain.tld`,
-    password: 'password',
-    emailValidationToken: 'token',
-    ...data,
-  });
-
-  return manager.save(user);
-};
-
-const createInformation = async (data?: DeepPartial<Information>) => {
-  const manager = await getManager();
-
-  const information = manager.create(Information, {
-    url: 'https://news.fake/article/1',
-    title: 'Fake News!',
-    ...data,
-  });
-
-  return manager.save(information);
-};
-
-const createSubject = async (data?: DeepPartial<Subject>) => {
-  const manager = await getManager();
-
-  const subject = manager.create(Subject, {
-    subject: 'Subject',
-    quote: 'Quote',
-    ...data,
-  });
-
-  return manager.save(subject);
-};
-
-const createReaction = async (data?: DeepPartial<Reaction>) => {
-  const manager = await getManager();
-
-  const message = manager.create(Message, {
-    text: 'Text',
-  });
-
-  await manager.save(message);
-
-  const reaction = manager.create(Reaction, {
-    messages: [message],
-    ...data,
-  });
-
-  return manager.save(reaction);
-};
-
-const createQuickReaction = async (data?: DeepPartial<QuickReaction>) => {
-  const manager = await getManager();
-
-  if (!data.user)
-    data.user = await createUser();
-
-  const quickReaction = manager.create(QuickReaction, {
-    type: QuickReactionType.APPROVE,
-    ...data,
-  });
-
-  return manager.save(quickReaction);
-}
+import { createUser } from '../../testing/factories/user.factory';
+import { createInformation } from '../../testing/factories/information.factory';
+import { createReaction } from '../../testing/factories/reaction.factory';
+import { createSubject } from '../../testing/factories/subject.factory';
+import { createQuickReaction } from '../../testing/factories/quick-reaction.factory';
+import { setupIntgTest } from '../../testing/typeorm/setup-intg-test';
 
 describe('reaction repository', () => {
 
-  let connection: Connection;
+  setupIntgTest();
+
   let reactionRepository: ReactionRepository;
-
-  beforeAll(async () => {
-    connection = await createDatabaseConnection();
-    reactionRepository = getCustomRepository(ReactionRepository);
-  });
-
-  afterAll(async () => {
-    await connection.close();
-  });
 
   let user: User;
   let information: Information;
@@ -121,6 +35,8 @@ describe('reaction repository', () => {
   let qr3: QuickReaction;
 
   beforeAll(async () => {
+    reactionRepository = getCustomRepository(ReactionRepository);
+
     user = await createUser();
     information = await createInformation({ creator: user });
     standaloneRootReaction = await createReaction({ information, author: user });
