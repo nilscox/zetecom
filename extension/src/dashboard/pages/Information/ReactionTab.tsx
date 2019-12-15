@@ -16,7 +16,7 @@ import SortMenu from '../../components/SortMenu';
 import SearchField from 'src/dashboard/components/SearchField';
 import Loader from 'src/dashboard/components/Loader';
 
-const useReactions = (informationId: number, search: string, sort: SortType | '', page: number) => {
+const useReactions = (informationId: number, search: string, sort: SortType, page: number) => {
   const [result, refetch] = useAxios<Paginated<Reaction>>(
     `/api/information/${informationId}/reactions`,
     paginatedResults(parseReaction),
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
 
 const ReactionsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const [search, setSearch] = useState('');
-  const [sort, setSort] = useState<SortType | ''>('');
+  const [sort, setSort] = useState<SortType | undefined>();
   const [page, setPage] = useState(1);
   const { loading, data } = useReactions(Number(match.params.id), search, sort, page);
   const classes = useStyles({});

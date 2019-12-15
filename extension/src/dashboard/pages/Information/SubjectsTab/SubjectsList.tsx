@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
 import { RouteComponentProps } from 'react-router-dom';
-
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -19,10 +18,10 @@ import Loader from 'src/dashboard/components/Loader';
 import Flex from 'src/components/common/Flex';
 import Link from 'src/components/common/Link';
 
-import { Subject, parseSubject } from 'src/types/Subject';
+import useUpdateEffect from 'src/hooks/use-update-effect';
 import useAxios from 'src/hooks/use-axios';
 import { Paginated, paginatedResults } from 'src/utils/parse-paginated';
-import useUpdateEffect from 'src/hooks/use-update-effect';
+import { Subject, parseSubject } from 'src/types/Subject';
 
 const useSubjects = (informationId: number, search: string, page: number) => {
   const [result, refetch] = useAxios<Paginated<Subject>>(
@@ -55,6 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   icon: {
     paddingLeft: 5,
+    fill: '#999',
   },
   bottomLink: {
     alignSelf: 'center',
@@ -90,7 +90,7 @@ const SubjectsList: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) 
         <Link to={`/information/${informationId}/thematiques/${subject.id}`}>
           <Flex flexDirection="row" alignItems="center">
             <Typography variant="caption" color="textSecondary">{ subject.reactionsCount }</Typography>
-            <MessageIcon color="disabled" fontSize="small" className={classes.icon} />
+            <MessageIcon fontSize="small" className={classes.icon} />
           </Flex>
         </Link>
       </ExpansionPanelSummary>

@@ -1,10 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 
+import { makeStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
 import { Subject } from 'src/types/Subject';
-import { makeStyles } from '@material-ui/core';
 
 type SubjectProps = {
   subject: Subject;
@@ -37,11 +37,11 @@ export const SubjectBody: React.FC<SubjectProps> = ({ subject }) => {
 
   return (
     <>
-      { subject.quote &&
+      { subject.quote && (
         <Typography className={classes.quote} color="textSecondary">
           { subject.quote }
         </Typography>
-      }
+      ) }
 
       <Typography>
         { subject.text }
