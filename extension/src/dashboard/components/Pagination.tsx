@@ -28,7 +28,9 @@ type PaginationProps = {
 
 const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageChange }) => {
   const classes = usePaginationStyles({});
-  const lastPage = total ? Math.ceil(total / pageSize) : '-';
+
+  // eslint-disable-next-line no-nested-ternary
+  const lastPage = total === 0 ? 1 : (total ? Math.ceil(total / pageSize) : '-');
 
   const goToPage = (page: number) => () => onPageChange(page);
 
@@ -57,8 +59,8 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
         className={classes.icon}
         disabled={page >= lastPage}
         onClick={goToPage(page + 1)}>
-          <NextIcon />
-        </IconButton>
+        <NextIcon />
+      </IconButton>
 
       <IconButton
         className={classes.icon}

@@ -9,22 +9,23 @@ import Flex from 'src/components/common/Flex';
 import Loader from 'src/components/common/Loader';
 import Collapse from 'src/components/common/Collapse';
 
-import useAxios, { ResponseData } from 'src/hooks/use-axios';
+import useAxios from 'src/hooks/use-axios';
 
 import ReactionComponent from './Reaction';
 import ReactionsList from './ReactionsList';
 import ReactionForm, { ReactionEditionForm } from './ReactionForm';
+import { paginatedResults, Paginated } from 'src/utils/parse-paginated';
 
 export const useReactionReplies = (parent: Reaction) => {
   const [replies, setReplies] = useState<Reaction[] | undefined>();
 
   const url = `/api/reaction/${parent.id}/replies`;
-  const parse = useCallback((data: ResponseData) => data.map(parseReaction), []);
-  const [{ data, loading, error }, fetch] = useAxios(url, parse, { manual: true });
+  const parse = useCallback(paginatedResults(parseReaction), []);
+  const [{ data, loading, error }, fetch] = useAxios<Paginated<Reaction>>(url, parse, { manual: true });
 
   useEffect(() => {
     if (data)
-      setReplies(data);
+      setReplies(data.items);
   }, [data]);
 
   const fetchReplies = () => {

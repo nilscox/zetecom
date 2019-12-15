@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect } from 'react';
 
 const useUpdateEffect = (effect: Function, dependencies: any[] = []) => {
   const isInitialMount = useRef(true);

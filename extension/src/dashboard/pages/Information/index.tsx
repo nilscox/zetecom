@@ -11,7 +11,7 @@ import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
 
 import ReactionsTab from './ReactionTab';
-import SubjectsTab from './SubjectsTab';
+import SubjectsTab from './SubjectsTab/index';
 import Loader from 'src/dashboard/components/Loader';
 import { Link } from 'src/components/common/Link';
 
@@ -45,7 +45,7 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match,
   const [{ loading, data: information }] = useInformation(informationId);
   const classes = useStyles({});
 
-  const matchCurrentTab = location.pathname.match(/^\/information\/\d+\/([^\/]*)/);
+  const matchCurrentTab = location.pathname.match(/^\/information\/\d+\/([^/]*)/);
   const currentTab = matchCurrentTab && matchCurrentTab[1];
 
   if (loading || !information)
@@ -62,7 +62,10 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match,
       </Flex>
 
       <Box my={12} style={{ borderBottom: '1px solid #CCC' }}>
-        <Tabs value={currentTab || 'reactions'} onChange={(_, value) => history.push(`/information/${informationId}/${value}`)}>
+        <Tabs
+          value={currentTab || 'reactions'}
+          onChange={(_, value) => history.push(`/information/${informationId}/${value}`)}
+        >
           <Tab value="reactions" label="Réactions" />
           <Tab value="thematiques" label="Thématiques" />
         </Tabs>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 
 import { Paginated, paginatedResults } from 'src/utils/parse-paginated';
@@ -33,7 +33,7 @@ const useInformations = (search: string, page: number) => {
   return result;
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles({
   image: {
     width: 240,
     height: 160,
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   publicationDate: {
     color: '#666',
   },
-}));
+});
 
 const InformationList: React.FC = () => {
   const [search, setSearch] = useState('');
