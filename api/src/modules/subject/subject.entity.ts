@@ -6,7 +6,7 @@ import { Reaction } from '../reaction/reaction.entity';
 import { Message } from '../reaction/message.entity';
 import { QuickReactionType } from '../reaction/quick-reaction.entity';
 
-@Entity({ name: 'subject', orderBy: { created: 'DESC' } })
+@Entity({ name: 'subject', orderBy: { created: 'ASC' } })
 export class Subject {
 
   @PrimaryGeneratedColumn()
