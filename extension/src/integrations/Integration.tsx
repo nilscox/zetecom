@@ -26,7 +26,7 @@ const Header: React.FC = () => {
       <div>
         <h1 style={{ fontFamily: 'Domine', fontSize: fontSizes.title }}>Réagir à l'information</h1>
         <div style={{ color: colors.textLight, fontSize: fontSizes.small, letterSpacing: 4 }}>
-          Décryptons les médias !
+          Avec esprit critique !
         </div>
       </div>
 

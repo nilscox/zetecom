@@ -30,7 +30,7 @@ export type Theme = {
 
 const defaultTheme: Theme = {
   colors: {
-    backgroundLight: '#f9f9f9',
+    backgroundLight: '#f3f3f3',
     backgroundHeavy: '#eeeeee',
     border: '#cccccc',
     borderLight: '#eeeeee',

@@ -6,6 +6,7 @@ import ErrorBoundary from 'src/components/common/ErrorBoundary';
 
 import Popup from './popup';
 import Integrations from './integrations';
+import Dashboard from './dashboard';
 
 import './App.css';
 
@@ -17,7 +18,7 @@ const App: React.FC = () => (
 
         <Route path="/popup" component={Popup} />
         <Route path="/integration" component={Integrations} />
-        <Route render={() => <></>} />
+        <Route component={Dashboard} />
 
       </Switch>
     </Router>
