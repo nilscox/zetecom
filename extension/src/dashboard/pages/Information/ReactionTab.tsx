@@ -16,7 +16,7 @@ import SortMenu from '../../components/SortMenu';
 import SearchField from 'src/dashboard/components/SearchField';
 import Loader from 'src/dashboard/components/Loader';
 
-const useReactions = (informationId: number, search: string, sort: SortType, page: number) => {
+const useReactions = (informationId: number, search: string, sort: SortType | undefined, page: number) => {
   const [result, refetch] = useAxios<Paginated<Reaction>>(
     `/api/information/${informationId}/reactions`,
     paginatedResults(parseReaction),

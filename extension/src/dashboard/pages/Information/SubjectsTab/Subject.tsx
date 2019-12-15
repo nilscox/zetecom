@@ -53,7 +53,7 @@ const useSubject = (subjectId: number) => {
   );
 };
 
-const useSubjectReactions = (subjectId: number, search: string, page: number, sort: SortType) => {
+const useSubjectReactions = (subjectId: number, search: string, sort: SortType | undefined, page: number) => {
   const [result, refetch] = useAxios<Paginated<Reaction>>(
     `/api/subject/${subjectId}/reactions`,
     paginatedResults(parseReaction),
@@ -89,12 +89,12 @@ const useStyles = makeStyles(theme => ({
 const Subject: React.FC<RouteComponentProps<{ subjectId: string }>> = ({ match }) => {
   const subjectId = Number(match.params.subjectId);
   const [search, setSearch] = useState('');
-  const [sort, setSort] = useState<SortType | undefined>();
+  const [sort, setSort] = useState<SortType | undefined>(undefined);
   const [page, setPage] = useState(1);
   const classes = useStyles({});
 
   const [{ data: subject, loading }] = useSubject(subjectId);
-  const { data: reactions, loading: loadingReaction } = useSubjectReactions(subjectId, search, page, sort);
+  const { data: reactions, loading: loadingReaction } = useSubjectReactions(subjectId, search, sort, page);
 
   return (
     <>
