@@ -5,15 +5,15 @@ import Tab from '@material-ui/core/Tab';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { RouteComponentProps, Redirect, Switch as RouterSwitch, Route } from 'react-router-dom';
 
-import { Information, parseInformation } from 'src/types/Information';
-import useAxios from 'src/hooks/use-axios';
-import Box from 'src/components/common/Box';
-import Flex from 'src/components/common/Flex';
-
 import ReactionsTab from './ReactionTab';
 import SubjectsTab from './SubjectsTab/index';
 import Loader from 'src/dashboard/components/Loader';
+import Box from 'src/components/common/Box';
+import Flex from 'src/components/common/Flex';
 import { Link } from 'src/components/common/Link';
+
+import { Information, parseInformation } from 'src/types/Information';
+import useAxios from 'src/hooks/use-axios';
 
 const Switch: React.FC<{ informationId: number }> = ({ informationId }) => (
   <RouterSwitch>
