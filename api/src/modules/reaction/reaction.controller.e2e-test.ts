@@ -4,7 +4,7 @@ import { ReactionModule } from './reaction.module';
 import { Reaction } from '../reaction/reaction.entity';
 import { Message } from '../reaction/message.entity';
 
-import { setupE2eTest } from '../../testing/typeorm/setup-e2e-test';
+import { setupE2eTest } from '../../testing/setup-e2e-test';
 import { createInformation } from '../../testing/factories/information.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
 import { createMessage } from '../../testing/factories/message.factory';

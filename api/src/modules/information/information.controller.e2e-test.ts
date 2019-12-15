@@ -10,7 +10,7 @@ import { Reaction } from '../reaction/reaction.entity';
 import { Message } from '../reaction/message.entity';
 import { Subject } from '../subject/subject.entity';
 
-import { setupE2eTest } from '../../testing/typeorm/setup-e2e-test';
+import { setupE2eTest } from '../../testing/setup-e2e-test';
 import { createInformation } from '../../testing/factories/information.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
 import { createMessage } from '../../testing/factories/message.factory';
@@ -19,7 +19,7 @@ import { createSubject } from '../../testing/factories/subject.factory';
 describe('information controller', () => {
 
   const server = setupE2eTest({
-    imports: [AppModule, InformationModule, AuthenticationModule],
+    imports: [InformationModule, AuthenticationModule],
   }, moduleBuilder => {
     moduleBuilder
       .overrideProvider('INFORMATION_PAGE_SIZE')
@@ -46,6 +46,8 @@ describe('information controller', () => {
   let informationRepository: InformationRepository;
 
   beforeAll(async () => {
+    informationRepository = getCustomRepository(InformationRepository);
+
     information1 = await createInformation();
     information2 = await createInformation();
     information3 = await createInformation();
@@ -62,32 +64,22 @@ describe('information controller', () => {
     reaction4 = await createReaction({ information: information2, messages: [message4] });
 
     subject = await createSubject({ information: information1 });
-
-    informationRepository = getCustomRepository(InformationRepository);
   });
 
   describe('list informations', () => {
 
-    it('should list all informations on page 1', () => {
+    it('should list all informations', async () => {
       return request(server)
         .get('/api/information')
         .expect(200)
         .then(({ body }) => {
-          expect(body).toMatchObject([
-            { id: information1.id },
-            { id: information2.id },
-          ]);
-        });
-    });
-
-    it('should list all informations on page 2', () => {
-      return request(server)
-        .get('/api/information?page=2')
-        .expect(200)
-        .then(({ body }) => {
-          expect(body).toMatchObject([
-            { id: information3.id },
-          ]);
+          expect(body).toMatchObject({
+            items: [
+              { id: information1.id },
+              { id: information2.id },
+            ],
+            total: 3,
+          });
         });
     });
 
@@ -144,10 +136,13 @@ describe('information controller', () => {
         .get(`/api/information/${information1.id}/reactions`)
         .expect(200)
         .then(({ body }) => {
-          expect(body).toMatchObject([
-            { id: reaction2.id },
-            { id: reaction1.id },
-          ]);
+          expect(body).toMatchObject({
+            items: [
+              { id: reaction2.id },
+              { id: reaction1.id },
+            ],
+            total: 2,
+          });
         });
     });
 
@@ -156,10 +151,13 @@ describe('information controller', () => {
         .get(`/api/information/${information1.id}/reactions?sort=date-asc`)
         .expect(200)
         .then(({ body }) => {
-          expect(body).toMatchObject([
-            { id: reaction1.id },
-            { id: reaction2.id },
-          ]);
+          expect(body).toMatchObject({
+            items: [
+              { id: reaction1.id },
+              { id: reaction2.id },
+            ],
+            total: 2,
+          });
         });
     });
 
@@ -168,10 +166,13 @@ describe('information controller', () => {
         .get(`/api/information/${information1.id}/reactions?search=search`)
         .expect(200)
         .then(({ body }) => {
-          expect(body).toMatchObject([
-            { id: reaction3.id },
-            { id: reaction1.id },
-          ]);
+          expect(body).toMatchObject({
+            items: [
+              { id: reaction3.id },
+              { id: reaction1.id },
+            ],
+            total: 2,
+          });
         });
     });
 
@@ -190,9 +191,12 @@ describe('information controller', () => {
         .get(`/api/information/${information1.id}/subjects`)
         .expect(200)
         .then(({ body }) => {
-          expect(body).toMatchObject([
-            { id: subject.id },
-          ]);
+          expect(body).toMatchObject({
+            items: [
+              { id: subject.id },
+            ],
+            total: 1,
+          });
         });
     });
 
@@ -219,7 +223,6 @@ describe('information controller', () => {
         })
         .expect(201);
 
-      console.log(body);
       user = body;
     });
 
@@ -254,10 +257,11 @@ describe('information controller', () => {
       const { body } = await authRequest
         .post('/api/information')
         .send(info)
-        .expect(400);
+        .expect(201);
 
       expect(body).toMatchObject(info);
-      expect(body).toHaveProperty('creator').toMatchObject({ id: user.id });
+      expect(body).toHaveProperty('creator');
+      expect(body.creator).toMatchObject({ id: user.id });
 
       const infoDb = await informationRepository.find(body.id);
 

@@ -12,7 +12,7 @@ type SubjectReactionsCount = {
 export class SubjectRepository extends Repository<Subject> {
 
   async findAllPaginated(informationId: number, page: number, pageSize: number): Promise<Paginated<Subject>> {
-    const [items, total] = await this.findAndCount({ where: { informationId }, skip: (page - 1) * pageSize, take: pageSize });
+    const [items, total] = await this.findAndCount({ where: { information: { id: informationId } }, skip: (page - 1) * pageSize, take: pageSize });
 
     return { items, total };
   }

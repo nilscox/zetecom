@@ -10,7 +10,7 @@ import { createInformation } from '../../testing/factories/information.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
 import { createSubject } from '../../testing/factories/subject.factory';
 import { createQuickReaction } from '../../testing/factories/quick-reaction.factory';
-import { setupIntgTest } from '../../testing/typeorm/setup-intg-test';
+import { setupIntgTest } from '../../testing/setup-intg-test';
 import { createMessage } from '../../testing/factories/message.factory';
 
 describe('reaction repository', () => {
