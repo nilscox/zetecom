@@ -64,8 +64,8 @@ const InformationList: React.FC = () => {
             { information.title }
           </div>
           <Box my={6} className={classes.publicationDate}>{ moment().format('[Publiée le] DD.MM.YYYY') }</Box>
-          <div>2 sujets</div>
-          <div>13 réactions</div>
+          <div>{ information.subjectsCount } sujets</div>
+          <div>{ information.reactionsCount } réactions</div>
         </Flex>
 
       </Flex>

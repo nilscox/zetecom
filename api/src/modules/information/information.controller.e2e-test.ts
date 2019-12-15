@@ -1,7 +1,6 @@
 import * as request from 'supertest';
 import { getCustomRepository } from 'typeorm';
 
-import { AppModule } from '../../app.module';
 import { InformationModule } from './information.module';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { InformationRepository } from './information.repository';
@@ -119,8 +118,23 @@ describe('information controller', () => {
         .then(({ body }) => {
           expect(body).toMatchObject({
             items: [
-              { id: information1.id },
-              { id: information2.id },
+              { id: information1.id, subjectsCount: 3, reactionsCount: 6 },
+              { id: information2.id, subjectsCount: 1, reactionsCount: 1 },
+            ],
+            total: 3,
+          });
+        });
+    });
+
+    it('should list all informations on page 2', async () => {
+      return request(server)
+        .get('/api/information')
+        .query({ page: 2 })
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toMatchObject({
+            items: [
+              { id: information3.id, subjectsCount: 0, reactionsCount: 0 },
             ],
             total: 3,
           });
@@ -144,6 +158,8 @@ describe('information controller', () => {
         .then(({ body }) => {
           expect(body).toMatchObject({
             id: information1.id,
+            subjectsCount: 3,
+            reactionsCount: 6,
           });
         });
     });

@@ -34,6 +34,7 @@ import { CreateInformationInDto } from './dtos/create-information-in.dto';
 import { InformationOutDto } from './dtos/information-out.dto';
 import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
 import { PopulateSubject } from 'Common/populate-subject.interceptor';
+import { PopulateInformation } from 'Common/populate-information.interceptor';
 
 @Controller('information')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -57,6 +58,7 @@ export class InformationController {
 
   @Get()
   @PaginatedOutput(InformationOutDto)
+  @UseInterceptors(PopulateInformation)
   async findAll(
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Paginated<Information>> {
@@ -65,6 +67,7 @@ export class InformationController {
 
   @Get(':id')
   @Output(InformationOutDto)
+  @UseInterceptors(PopulateInformation)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Information> {
@@ -78,6 +81,7 @@ export class InformationController {
 
   @Get('by-url/:url')
   @Output(InformationOutDto)
+  @UseInterceptors(PopulateInformation)
   async findOneByUrl(
     @Param('url') url: string,
   ): Promise<Information> {
@@ -91,6 +95,7 @@ export class InformationController {
 
   @Get('by-youtubeId/:youtubeId')
   @Output(InformationOutDto)
+  @UseInterceptors(PopulateInformation)
   async findOneByYoutubeId(
     @Param('youtubeId') youtubeId: string,
   ): Promise<Information> {
@@ -138,6 +143,7 @@ export class InformationController {
   @Post()
   @Output(InformationOutDto)
   @UseGuards(IsAuthenticated)
+  @UseInterceptors(PopulateInformation)
   async create(
     @Body() dto: CreateInformationInDto,
     @ReqUser() user: User,

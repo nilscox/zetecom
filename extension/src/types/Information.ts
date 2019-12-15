@@ -6,6 +6,8 @@ export type Information = {
   url: string;
   image: string | null;
   creator: Partial<User>;
+  reactionsCount: number;
+  subjectsCount: number;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

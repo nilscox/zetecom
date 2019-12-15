@@ -185,7 +185,7 @@ export class ReactionRepository extends Repository<Reaction> {
     return results;
   }
 
-  async getQuickReactionsCounts(reactionIds): Promise<QuickReactionsCount[]> {
+  async getQuickReactionsCounts(reactionIds: number[]): Promise<QuickReactionsCount[]> {
     const counts = await this.quickReactionRepository.createQueryBuilder('quick_reaction')
       .select('reaction_id')
       .addSelect('type')

@@ -119,10 +119,7 @@ export class ReactionService {
     return reactions;
   }
 
-  async addQuickReactionsCounts(reactions: Reaction[]): Promise<Reaction[]> {
-    if (!reactions.length)
-      return [];
-
+  async addQuickReactionsCounts(reactions: Reaction[]): Promise<void> {
     const quickReactionsCounts = await this.reactionRepository.getQuickReactionsCounts(reactions.map(r => r.id));
 
     const getQuickReactionsCount = (reactionId: number, type: QuickReactionType): number => {
@@ -136,11 +133,9 @@ export class ReactionService {
         SKEPTIC: getQuickReactionsCount(reaction.id, QuickReactionType.SKEPTIC),
       };
     });
-
-    return reactions;
   }
 
-  async addUserQuickReaction(reactions: Reaction[], user: User): Promise<Reaction[]> {
+  async addUserQuickReaction(reactions: Reaction[], user: User): Promise<void> {
     const quickReactions = await this.reactionRepository.getQuickReactionForUser(reactions.map(r => r.id), user.id);
 
     reactions.forEach((reaction) => {
@@ -148,8 +143,6 @@ export class ReactionService {
 
       reaction.userQuickReaction = quickReaction ? quickReaction.type : null;
     });
-
-    return reactions;
   }
 
   async setQuickReaction(reaction: Reaction, user: User, type: QuickReactionType | null) {

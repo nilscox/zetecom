@@ -31,4 +31,7 @@ export class Information {
   @OneToMany(type => Subject, subject => subject.information)
   subjects: Subject[];
 
+  reactionsCount: number;
+  subjectsCount: number;
+
 }
