@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { RouteComponentProps } from 'react-router-dom';
@@ -13,15 +12,17 @@ import Divider from '@material-ui/core/Divider';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MessageIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
 
-import { Subject, parseSubject } from 'src/types/Subject';
+import { SubjectBody, SubjectHeader } from './SubjectComponent';
 import SearchField from 'src/dashboard/components/SearchField';
-import useAxios from 'src/hooks/use-axios';
-import { Paginated, paginatedResults } from 'src/utils/parse-paginated';
-import useUpdateEffect from 'src/hooks/use-update-effect';
 import Pagination from 'src/dashboard/components/Pagination';
 import Loader from 'src/dashboard/components/Loader';
 import Flex from 'src/components/common/Flex';
 import Link from 'src/components/common/Link';
+
+import { Subject, parseSubject } from 'src/types/Subject';
+import useAxios from 'src/hooks/use-axios';
+import { Paginated, paginatedResults } from 'src/utils/parse-paginated';
+import useUpdateEffect from 'src/hooks/use-update-effect';
 
 const useSubjects = (informationId: number, search: string, page: number) => {
   const [result, refetch] = useAxios<Paginated<Subject>>(
@@ -55,16 +56,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   icon: {
     paddingLeft: 5,
   },
-  quote: {
-    margin: '0 15px 15px',
-    backgroundImage: 'url(/assets/images/quotation-mark.png)',
-    backgroundPosition: 'left 30px top 0px',
-    backgroundRepeat: 'no-repeat',
-    minHeight: 50,
-    fontSize: '1.1em',
-    textIndent: 30,
-    fontWeight: 'bold',
-  },
   bottomLink: {
     alignSelf: 'center',
     paddingTop: 24,
@@ -74,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const SubjectsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
+const SubjectsList: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const informationId = Number(match.params.id);
 
   const [search, setSearch] = useState('');
@@ -93,13 +84,10 @@ const SubjectsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) =
 
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} classes={{ content: classes.panelSummary }}>
         <div>
-          <Typography variant="h6">{ subject.subject }</Typography>
-          <Typography variant="caption" color="textSecondary">
-            Par { subject.author.nick }, le { moment(subject.date).format('DD.MM.YYYY') }
-          </Typography>
+          <SubjectHeader subject={subject} />
         </div>
 
-        <Link to="">
+        <Link to={`/information/${informationId}/thematiques/${subject.id}`}>
           <Flex flexDirection="row" alignItems="center">
             <Typography variant="caption" color="textSecondary">{ subject.reactionsCount }</Typography>
             <MessageIcon color="disabled" fontSize="small" className={classes.icon} />
@@ -108,17 +96,11 @@ const SubjectsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) =
       </ExpansionPanelSummary>
 
       <ExpansionPanelDetails className={classes.panelDetail}>
-        <Typography className={classes.quote} color="textSecondary">
-          { subject.quote }
-        </Typography>
-
-        <Typography>
-          { subject.text }
-        </Typography>
+        <SubjectBody subject={subject} />
 
         <Divider />
 
-        <Link to="" className={classes.bottomLink}>
+        <Link to={`/information/${informationId}/thematiques/${subject.id}`} className={classes.bottomLink}>
           <MaterialLink className={classes.bottomLinkColor} component="span">Voir les réactions</MaterialLink>
         </Link>
       </ExpansionPanelDetails>
@@ -128,7 +110,6 @@ const SubjectsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) =
 
   return (
     <>
-
       <Flex flexDirection="row">
         <SearchField onSearch={setSearch} />
         <Pagination page={page} pageSize={10} total={data ? data.total : undefined} onPageChange={setPage} />
@@ -138,9 +119,8 @@ const SubjectsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) =
         ? <Loader />
         : data.items.map(renderSubject)
       }
-
     </>
   );
 };
 
-export default SubjectsTab;
+export default SubjectsList;

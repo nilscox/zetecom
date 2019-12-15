@@ -36,6 +36,7 @@ const ListItemLink: React.FC<ListItemLink> = ({ icon, primary, to }) => {
 
   const renderLink = React.useMemo(
     () =>
+      // eslint-disable-next-line react/display-name
       React.forwardRef<HTMLAnchorElement>((linkProps, ref) => (
         // With react-router-dom@^6.0.0 use `ref` instead of `innerRef`
         // See https://github.com/ReactTraining/react-router/issues/6056
@@ -116,7 +117,8 @@ const Drawer: React.FC<DrawerProps> = ({ mobileOpen, handleDrawerToggle }) => {
             paper: classes.drawerPaper,
           }}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            // Better open performance on mobile.
+            keepMounted: true,
           }}
         >
           {drawer}
@@ -135,6 +137,6 @@ const Drawer: React.FC<DrawerProps> = ({ mobileOpen, handleDrawerToggle }) => {
       </Hidden>
     </nav>
   );
-}
+};
 
 export default Drawer;

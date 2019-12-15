@@ -84,7 +84,7 @@ const AppBar: React.FC<AppBarProps> = ({ handleDrawerToggle }) => {
 
       </Toolbar>
     </MaterialAppBar>
-  )
+  );
 };
 
 export default AppBar;
