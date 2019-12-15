@@ -97,6 +97,25 @@ export class ReactionRepository extends Repository<Reaction> {
     return { items, total };
   }
 
+  async search(
+    informationId: number,
+    search: string,
+    sort: SortType,
+    page: number,
+    pageSize: number,
+  ): Promise<Paginated<Reaction>> {
+    const qb = this.createDefaultQueryBuilder(page, pageSize)
+      .where('reaction.information_id = :informationId', { informationId })
+      .andWhere('reaction.subject_id IS NULL')
+      .andWhere('message.text ILIKE :search', { search: `%${search}%` });
+
+    this.orderBy(qb, sort);
+
+    const [items, total] = await qb.getManyAndCount();
+
+    return { items, total };
+  }
+
   async findRootReactionsForSubject(
     subjectId: number,
     sort: SortType,
@@ -114,16 +133,15 @@ export class ReactionRepository extends Repository<Reaction> {
     return { items, total };
   }
 
-  async search(
-    informationId: number,
+  async searchInSubject(
+    subjectId: number,
     search: string,
     sort: SortType,
     page: number,
     pageSize: number,
   ): Promise<Paginated<Reaction>> {
     const qb = this.createDefaultQueryBuilder(page, pageSize)
-      .where('reaction.information_id = :informationId', { informationId })
-      .andWhere('reaction.subject_id IS NULL')
+      .where('reaction.subject_id = :subjectId', { subjectId })
       .andWhere('message.text ILIKE :search', { search: `%${search}%` });
 
     this.orderBy(qb, sort);

@@ -61,6 +61,7 @@ export class SubjectController {
   async findReactions(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'sort', defaultValue: 'date-desc' }, new SortTypePipe()) sort: SortType,
+    @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Paginated<Reaction>> {
     const subject = await this.subjectService.findById(id);
@@ -68,7 +69,9 @@ export class SubjectController {
     if (!subject)
       throw new NotFoundException(`subject with id ${id} not found`);
 
-    return this.reactionRepository.findRootReactionsForSubject(subject.id, sort, page, this.reactionPageSize);
+    return search
+      ? this.reactionRepository.searchInSubject(subject.id, search, sort, page, this.reactionPageSize)
+      : this.reactionRepository.findRootReactionsForSubject(subject.id, sort, page, this.reactionPageSize);
   }
 
   @Post()
