@@ -8,13 +8,14 @@ import {
   UnauthorizedException,
   BadRequestException,
   SetMetadata,
+  Inject,
 } from '@nestjs/common';
 
 import { IsAuthenticated } from 'Common/auth.guard';
-import { IsAuthor } from 'Common/is-author.guard';
+import { IsAuthor, IsNotAuthor } from 'Common/is-author.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
-import { Output } from 'Common/output.interceptor';
+import { Output, PaginatedOutput } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
@@ -32,9 +33,13 @@ import { ReactionOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
 import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
 import { ReportInDto } from '../report/dtos/report-in.dto';
+import { Paginated } from 'Common/paginated';
 
 @Controller('/reaction')
 export class ReactionController {
+
+  @Inject('REACTION_PAGE_SIZE')
+  private readonly reactionPageSize: number;
 
   constructor(
     private readonly subjectService: SubjectService,
@@ -53,18 +58,13 @@ export class ReactionController {
   }
 
   @Get(':id/replies')
-  @Output(ReactionOutDto)
+  @PaginatedOutput(ReactionOutDto)
   @UseInterceptors(PopulateReaction)
   async findReplies(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
-  ): Promise<Reaction[]> {
-    const replies = await this.reactionRepository.findReplies(id, page);
-
-    if (!replies)
-      throw new NotFoundException();
-
-    return replies;
+  ): Promise<Paginated<Reaction>> {
+    return this.reactionRepository.findReplies(id, page, this.reactionPageSize);
   }
 
   @Post()
@@ -90,9 +90,7 @@ export class ReactionController {
   @Put(':id')
   @Output(ReactionWithHistoryOutDto)
   @UseInterceptors(PopulateReaction)
-  @UseGuards(IsAuthenticated)
-  @UseGuards(IsAuthor)
-  @SetMetadata('reactionIdParam', 'id')
+  @UseGuards(IsAuthenticated, IsAuthor)
   async update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateReactionInDto,
@@ -108,7 +106,7 @@ export class ReactionController {
   @Post(':id/quick-reaction')
   @Output(ReactionOutDto)
   @UseInterceptors(PopulateReaction)
-  @UseGuards(IsAuthenticated)
+  @UseGuards(IsAuthenticated, IsNotAuthor)
   async quickReaction(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: QuickReactionInDto,
@@ -119,9 +117,6 @@ export class ReactionController {
     if (!reaction)
       throw new NotFoundException();
 
-    if (user.id === reaction.author.id)
-      throw new UnauthorizedException();
-
     await this.reactionService.setQuickReaction(reaction, user, dto.type);
 
     return this.reactionService.findById(reaction.id);
@@ -130,7 +125,7 @@ export class ReactionController {
   @Post(':id/report')
   @Output(ReactionOutDto)
   @UseInterceptors(PopulateReaction)
-  @UseGuards(IsAuthenticated)
+  @UseGuards(IsAuthenticated, IsNotAuthor)
   async report(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: ReportInDto,

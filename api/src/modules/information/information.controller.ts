@@ -2,11 +2,12 @@ import {
   Controller,
   Get, Post,
   ParseIntPipe,
-  Param, Body, Query,
+  Param, Body,
   UseInterceptors, UseGuards,
   ClassSerializerInterceptor,
   NotFoundException,
   ConflictException,
+  Inject,
 } from '@nestjs/common';
 
 import { SortTypePipe } from 'Common/sort-type.pipe';
@@ -14,8 +15,9 @@ import { SortType } from 'Common/sort-type';
 import { IsAuthenticated } from 'Common/auth.guard';
 import { User as ReqUser } from 'Common/user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
-import { Output } from 'Common/output.interceptor';
+import { Output, PaginatedOutput } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
+import { Paginated } from 'Common/paginated';
 
 import { User } from '../user/user.entity';
 import { Information } from './information.entity';
@@ -23,6 +25,7 @@ import { Subject } from '../subject/subject.entity';
 import { Reaction } from '../reaction/reaction.entity';
 
 import { InformationService } from './information.service';
+import { InformationRepository } from './information.repository';
 import { SubjectRepository } from '../subject/subject.repository';
 import { ReactionRepository } from '../reaction/reaction.repository';
 
@@ -36,18 +39,28 @@ import { PopulateSubject } from 'Common/populate-subject.interceptor';
 @UseInterceptors(ClassSerializerInterceptor)
 export class InformationController {
 
+  @Inject('INFORMATION_PAGE_SIZE')
+  private readonly informationPageSize: number;
+
+  @Inject('SUBJECT_PAGE_SIZE')
+  private readonly subjectPageSize: number;
+
+  @Inject('REACTION_PAGE_SIZE')
+  private readonly reactionPageSize: number;
+
   constructor(
     private readonly informationService: InformationService,
+    private readonly informationRepository: InformationRepository,
     private readonly subjectRepository: SubjectRepository,
     private readonly reactionRepository: ReactionRepository,
   ) {}
 
   @Get()
-  @Output(InformationOutDto)
+  @PaginatedOutput(InformationOutDto)
   async findAll(
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
-  ): Promise<Information[]> {
-    return this.informationService.findAll(page);
+  ): Promise<Paginated<Information>> {
+    return this.informationRepository.findAllPaginated(page, this.informationPageSize);
   }
 
   @Get(':id')
@@ -90,36 +103,36 @@ export class InformationController {
   }
 
   @Get(':id/reactions')
-  @Output(ReactionOutDto)
+  @PaginatedOutput(ReactionOutDto)
   @UseInterceptors(PopulateReaction)
   async findReactions(
     @Param('id', new ParseIntPipe()) id: number,
-    @OptionalQuery({ key: 'sort', defaultValue: 'date-desc' }, new SortTypePipe()) sort: SortType,
+    @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
-  ): Promise<Reaction[]> {
+  ): Promise<Paginated<Reaction>> {
     if (!(await this.informationService.exists(id)))
       throw new NotFoundException();
 
     return search
-      ? this.reactionRepository.search(id, search, sort, page)
-      : this.reactionRepository.findRootReactions(id, sort, page);
+      ? this.reactionRepository.search(id, search, sort, page, this.reactionPageSize)
+      : this.reactionRepository.findRootReactions(id, sort, page, this.reactionPageSize);
   }
 
   @Get(':id/subjects')
-  @Output(SubjectOutDto)
+  @PaginatedOutput(SubjectOutDto)
   @UseInterceptors(PopulateSubject)
   async findSubjects(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
-  ): Promise<Subject[]> {
+  ): Promise<{ items: Subject[], total: number }> {
     if (!(await this.informationService.exists(id)))
       throw new NotFoundException();
 
     return search
-      ? await this.subjectRepository.search(id, search, page)
-      : await this.subjectRepository.findAll(id, page);
+      ? await this.subjectRepository.search(id, search, page, this.subjectPageSize)
+      : await this.subjectRepository.findAllPaginated(id, page, this.subjectPageSize);
   }
 
   @Post()

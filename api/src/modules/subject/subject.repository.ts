@@ -1,8 +1,7 @@
 import { Repository, EntityRepository, Brackets } from 'typeorm';
 
 import { Subject } from './subject.entity';
-
-const PAGE_SIZE = 5;
+import { Paginated } from 'Common/paginated';
 
 type SubjectReactionsCount = {
   subjectId: number;
@@ -12,12 +11,14 @@ type SubjectReactionsCount = {
 @EntityRepository(Subject)
 export class SubjectRepository extends Repository<Subject> {
 
-  async findAll(informationId: number, page = 1): Promise<Subject[]> {
-    return this.find({ where: { informationId }, skip: (page - 1) * PAGE_SIZE, take: PAGE_SIZE });
+  async findAllPaginated(informationId: number, page: number, pageSize: number): Promise<Paginated<Subject>> {
+    const [items, total] = await this.findAndCount({ where: { informationId }, skip: (page - 1) * pageSize, take: pageSize });
+
+    return { items, total };
   }
 
-  async search(informationId: number, search: string, page = 1): Promise<Subject[]> {
-    return this.createQueryBuilder('subject')
+  async search(informationId: number, search: string, page: number, pageSize: number): Promise<Paginated<Subject>> {
+    const [items, total] = await this.createQueryBuilder('subject')
       .leftJoinAndSelect('subject.author', 'author')
       .leftJoinAndSelect('subject.messages', 'messages')
       .where('subject.information_id = :informationId', { informationId })
@@ -26,13 +27,14 @@ export class SubjectRepository extends Repository<Subject> {
           .orWhere('subject.quote ILIKE :search', { search: `%${search}%` })
           .orWhere('messages.text ILIKE :search', { search: `%${search}%` });
       }))
-      .skip((page - 1) * PAGE_SIZE)
-      .take(PAGE_SIZE)
-      .getMany();
+      .skip((page - 1) * pageSize)
+      .take(pageSize)
+      .getManyAndCount();
+
+    return { items, total };
   }
 
   async getTotalReactionsCount(subjectIds: number[]): Promise<SubjectReactionsCount[]> {
-    // TODO: subjects.map
     const reactionsCounts = await this.createQueryBuilder('subject')
       .select('subject.id')
       .addSelect('COUNT(r.id)')

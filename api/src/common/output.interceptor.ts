@@ -1,20 +1,36 @@
-import { ClassSerializerInterceptor, mixin, PlainLiteralObject, Type, UseInterceptors } from '@nestjs/common';
-import { ClassTransformOptions } from 'class-transformer';
+import {
+  ClassSerializerInterceptor,
+  PlainLiteralObject,
+  Type,
+  UseInterceptors,
+  mixin,
+} from '@nestjs/common';
 
-export function OutputClassSerializer<T>(serializedClass: Type<T>): Type<ClassSerializerInterceptor> {
-  class CustomSerializer extends ClassSerializerInterceptor {
-    transformToPlain(initialValue: any, transformOptions: ClassTransformOptions = {}): PlainLiteralObject {
-      if (!transformOptions.strategy) {
-        transformOptions.strategy = 'excludeAll';
-      }
+import { Paginated } from './paginated';
 
-      return super.transformToPlain(Object.assign(new serializedClass(), initialValue), transformOptions);
+function OutputClassSerializer<T>(Dto: Type<T>): Type<ClassSerializerInterceptor> {
+  return mixin(class extends ClassSerializerInterceptor {
+    transformToPlain(value: any): PlainLiteralObject {
+      return super.transformToPlain(Object.assign(new Dto(), value), { strategy: 'excludeAll' });
     }
-  }
-
-  return mixin(CustomSerializer);
+  });
 }
 
-export function Output<T>(dto: Type<T>) {
-  return UseInterceptors(OutputClassSerializer(dto));
+export function Output<T>(Dto?: Type<T>) {
+  return UseInterceptors(OutputClassSerializer(Dto));
+}
+
+function PaginatedOutputClassSerializer<T>(Dto: Type<T>): Type<ClassSerializerInterceptor> {
+  return mixin(class extends ClassSerializerInterceptor {
+    transformToPlain(value: Paginated<any>): PlainLiteralObject {
+      return {
+        items: value.items.map(i => super.transformToPlain(Object.assign(new Dto(), i), { strategy: 'excludeAll' })),
+        total: value.total,
+      };
+    }
+  });
+}
+
+export function PaginatedOutput<T>(Dto?: Type<T>) {
+  return UseInterceptors(PaginatedOutputClassSerializer(Dto));
 }

@@ -10,9 +10,6 @@ import { CreateInformationInDto } from './dtos/create-information-in.dto';
 @Injectable()
 export class InformationService {
 
-  @Inject('INFORMATION_PAGE_SIZE')
-  private pageSize: number;
-
   constructor(
     private readonly youtubeService: YoutubeService,
     private readonly informationRepository: InformationRepository,
@@ -22,10 +19,6 @@ export class InformationService {
     const count = await this.informationRepository.count({ id: informationId });
 
     return count > 0;
-  }
-
-  async findAll(page = 1): Promise<Information[]> {
-    return this.informationRepository.findAll(page, this.pageSize);
   }
 
   async findById(id: number): Promise<Information> {

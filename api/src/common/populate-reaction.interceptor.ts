@@ -1,23 +1,21 @@
-import {
-  Injectable,
-  NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-} from '@nestjs/common';
-import { Observable, from } from 'rxjs';
+import { Injectable } from '@nestjs/common';
 
+import { TransformInterceptor } from './transform.interceptor';
 import { ReactionService } from '../modules/reaction/reaction.service';
 import { Reaction } from '../modules/reaction/reaction.entity';
-import { User } from '../modules/user/user.entity';
 
 @Injectable()
-export class PopulateReaction implements NestInterceptor {
+export class PopulateReaction extends TransformInterceptor<Reaction> {
 
   constructor(
     private readonly reactionService: ReactionService,
-  ) {}
+  ) {
+    super();
+  }
 
-  private async populateReactions(reactions: Reaction[], user?: User) {
+  async transform(reactions: Reaction[], request: any) {
+    const { user } = request;
+
     if (reactions.length === 0)
       return [];
 
@@ -27,18 +25,4 @@ export class PopulateReaction implements NestInterceptor {
     if (user)
       await this.reactionService.addUserQuickReaction(reactions, user);
   }
-
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const request = context.switchToHttp().getRequest();
-    const user = request.user;
-
-    return from(next.handle()
-      .toPromise()
-      .then(async (res: Reaction | Reaction[]) => {
-        await this.populateReactions(Array.isArray(res) ? res : [res], user);
-
-        return res;
-      }));
-  }
-
 }

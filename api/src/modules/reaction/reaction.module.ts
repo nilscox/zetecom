@@ -1,4 +1,4 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module, forwardRef, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { InformationModule } from '../information/information.module';
@@ -11,6 +11,12 @@ import { QuickReaction } from './quick-reaction.entity';
 import { ReactionRepository } from './reaction.repository';
 import { ReportModule } from '../report/report.module';
 
+const REACTION_PAGE_SIZE = 'REACTION_PAGE_SIZE';
+const ReactionPageSize: Provider = {
+  provide: REACTION_PAGE_SIZE,
+  useValue: 10,
+};
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([ReactionRepository, Message, QuickReaction]),
@@ -22,10 +28,12 @@ import { ReportModule } from '../report/report.module';
     ReactionController,
   ],
   providers: [
+    ReactionPageSize,
     ReactionService,
   ],
   exports: [
     TypeOrmModule,
+    ReactionPageSize,
     ReactionService,
   ],
 })

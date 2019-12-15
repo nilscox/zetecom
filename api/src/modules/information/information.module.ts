@@ -10,8 +10,9 @@ import { InformationService } from './information.service';
 import { YoutubeService } from './youtube.service';
 import { InformationRepository } from './information.repository';
 
-export const pageSizeProvider: Provider = {
-  provide: 'INFORMATION_PAGE_SIZE',
+const INFORMATION_PAGE_SIZE = 'INFORMATION_PAGE_SIZE';
+const InformationPageSize: Provider = {
+  provide: INFORMATION_PAGE_SIZE,
   useValue: 10,
 };
 
@@ -26,8 +27,8 @@ export const pageSizeProvider: Provider = {
   ],
   providers: [
     YoutubeService,
+    InformationPageSize,
     InformationService,
-    pageSizeProvider,
   ],
   exports: [
     TypeOrmModule,

@@ -18,8 +18,10 @@ const ALLOWED_FORMATS = [
 
 const { USER_AVATAR_DESTINATION } = process.env;
 
-if (!fs.existsSync(USER_AVATAR_DESTINATION))
-  fs.mkdirSync(USER_AVATAR_DESTINATION);
+if (process.env.NODE_ENV !== 'test') {
+  if (!fs.existsSync(USER_AVATAR_DESTINATION))
+    fs.mkdirSync(USER_AVATAR_DESTINATION);
+}
 
 export const multerStorage = multer.diskStorage({
   destination(req, file, cb) {

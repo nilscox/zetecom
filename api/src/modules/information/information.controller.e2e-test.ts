@@ -1,19 +1,25 @@
 import * as request from 'supertest';
+import { getCustomRepository } from 'typeorm';
 
+import { AppModule } from '../../app.module';
 import { InformationModule } from './information.module';
+import { AuthenticationModule } from '../authentication/authentication.module';
+import { InformationRepository } from './information.repository';
 import { Information } from './information.entity';
 import { Reaction } from '../reaction/reaction.entity';
 import { Message } from '../reaction/message.entity';
+import { Subject } from '../subject/subject.entity';
 
 import { setupE2eTest } from '../../testing/typeorm/setup-e2e-test';
 import { createInformation } from '../../testing/factories/information.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
 import { createMessage } from '../../testing/factories/message.factory';
+import { createSubject } from '../../testing/factories/subject.factory';
 
 describe('information controller', () => {
 
   const server = setupE2eTest({
-    imports: [InformationModule],
+    imports: [AppModule, InformationModule, AuthenticationModule],
   }, moduleBuilder => {
     moduleBuilder
       .overrideProvider('INFORMATION_PAGE_SIZE')
@@ -35,6 +41,10 @@ describe('information controller', () => {
   let message4: Message;
   let reaction4: Reaction;
 
+  let subject: Subject;
+
+  let informationRepository: InformationRepository;
+
   beforeAll(async () => {
     information1 = await createInformation();
     information2 = await createInformation();
@@ -50,6 +60,10 @@ describe('information controller', () => {
 
     message4 = await createMessage({ text: 'message4 search' });
     reaction4 = await createReaction({ information: information2, messages: [message4] });
+
+    subject = await createSubject({ information: information1 });
+
+    informationRepository = getCustomRepository(InformationRepository);
   });
 
   describe('list informations', () => {
@@ -161,6 +175,94 @@ describe('information controller', () => {
         });
     });
 
+  });
+
+  describe('get subjects', () => {
+
+    it('should not find subjects for an information that does not exist', () => {
+      return request(server)
+        .get(`/api/information/4/subjects`)
+        .expect(404);
+    });
+
+    it('should fetch the subjects', () => {
+      return request(server)
+        .get(`/api/information/${information1.id}/subjects`)
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toMatchObject([
+            { id: subject.id },
+          ]);
+        });
+    });
+
+  });
+
+  describe('create information', () => {
+    let authRequest: any; // request.SuperTest<request.Test>;
+    let user: any;
+
+    const info = {
+      title: 'title',
+      url: 'https://some.url',
+    };
+
+    beforeAll(async () => {
+      authRequest = request.agent(server);
+
+      const { body } = await authRequest
+        .post('/api/auth/signup')
+        .send({
+          nick: 'nick',
+          email: 'user@domain.tld',
+          password: 'password',
+        })
+        .expect(201);
+
+      console.log(body);
+      user = body;
+    });
+
+    it('should not create an information when unauthenticated', () => {
+      return request(server)
+        .post('/api/information')
+        .send(info)
+        .expect(403);
+    });
+
+    it('should not create an information with missing title', () => {
+      const data = { ...info };
+      delete data.title;
+
+      return authRequest
+        .post('/api/information')
+        .send(data)
+        .expect(400);
+    });
+
+    it('should not create an information with missing url', () => {
+      const data = { ...info };
+      delete data.url;
+
+      return authRequest
+        .post('/api/information')
+        .send(data)
+        .expect(400);
+    });
+
+    it('should create an information', async () => {
+      const { body } = await authRequest
+        .post('/api/information')
+        .send(info)
+        .expect(400);
+
+      expect(body).toMatchObject(info);
+      expect(body).toHaveProperty('creator').toMatchObject({ id: user.id });
+
+      const infoDb = await informationRepository.find(body.id);
+
+      expect(infoDb).toBeDefined();
+    });
   });
 
 });

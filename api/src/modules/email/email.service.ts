@@ -9,6 +9,7 @@ import { User } from '../user/user.entity';
 import { AuthorizedEmail } from './authorized-email.entity';
 
 const {
+  NODE_ENV,
   EMAIL_HOST,
   EMAIL_USER,
   EMAIL_PASSWORD,
@@ -17,18 +18,22 @@ const {
   EXTENSION_URL,
 } = process.env;
 
-const templateFiles = readdirSync(EMAIL_TEMPLATE_DIR);
 const templates = {};
 
-for (const templateFile of templateFiles) {
-  const template = readFileSync(path.join(EMAIL_TEMPLATE_DIR, templateFile));
-  const ext = path.extname(templateFile);
-  const basename = path.basename(templateFile, ext);
+// TODO: put all that in module init
+if (NODE_ENV !== 'test') {
+  const templateFiles = readdirSync(EMAIL_TEMPLATE_DIR);
 
-  if (!templates[basename])
-    templates[basename] = {};
+  for (const templateFile of templateFiles) {
+    const template = readFileSync(path.join(EMAIL_TEMPLATE_DIR, templateFile));
+    const ext = path.extname(templateFile);
+    const basename = path.basename(templateFile, ext);
 
-  templates[basename][ext.slice(1)] = template.toString();
+    if (!templates[basename])
+      templates[basename] = {};
+
+    templates[basename][ext.slice(1)] = template.toString();
+  }
 }
 
 @Injectable()

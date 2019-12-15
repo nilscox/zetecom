@@ -1,36 +1,19 @@
-import {
-  Injectable,
-  NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-} from '@nestjs/common';
-import { Observable, from } from 'rxjs';
+import { Injectable } from '@nestjs/common';
 
+import { TransformInterceptor } from './transform.interceptor';
 import { SubjectService } from '../modules/subject/subject.service';
 import { Subject } from '../modules/subject/subject.entity';
 
 @Injectable()
-export class PopulateSubject implements NestInterceptor {
+export class PopulateSubject extends TransformInterceptor<Subject> {
 
   constructor(
     private readonly subjectService: SubjectService,
-  ) {}
+  ) {
+    super();
+  }
 
-  private async populateSubjects(subjects: Subject[]) {
-    if (subjects.length === 0)
-      return [];
-
+  async transform(subjects: Subject[]) {
     await this.subjectService.addTotalReactionsCount(subjects);
   }
-
-  intercept(_context: ExecutionContext, next: CallHandler): Observable<any> {
-    return from(next.handle()
-      .toPromise()
-      .then(async (res: Subject | Subject[]) => {
-        await this.populateSubjects(Array.isArray(res) ? res : [res]);
-
-        return res;
-      }));
-  }
-
 }

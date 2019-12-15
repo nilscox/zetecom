@@ -1,11 +1,10 @@
-import { Repository, EntityRepository, getRepository } from 'typeorm';
+import { Repository, EntityRepository, getRepository, SelectQueryBuilder } from 'typeorm';
 
 import { SortType } from 'Common/sort-type';
 
 import { Reaction } from './reaction.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
-
-const PAGE_SIZE = 5;
+import { Paginated } from 'Common/paginated';
 
 type RepliesCount = {
   reactionId: number;
@@ -55,76 +54,100 @@ export class ReactionRepository extends Repository<Reaction> {
     reactions.sort((a, b) => scores[b.id] - scores[a.id]);
   }
 
-  async findRootReactions(informationId: number, sort: SortType, page = 1): Promise<Reaction[]> {
-    const reactions = await this.createQueryBuilder('reaction')
-      .leftJoinAndSelect('reaction.author', 'author')
-      .leftJoinAndSelect('reaction.messages', 'message')
-      .where('reaction.information_id = :informationId', { informationId })
-      .andWhere('reaction.subject_id IS NULL')
-      .andWhere('reaction.parent_id IS NULL')
-      .orderBy('reaction.created', sort === SortType.DATE_DESC ? 'DESC' : 'ASC')
-      .addOrderBy('message.created', 'ASC')
-      .skip((page - 1) * PAGE_SIZE)
-      .take(PAGE_SIZE)
-      .getMany();
-
-    if (sort === SortType.RELEVANCE)
-      this.sortByRelevance(reactions);
-
-    return reactions;
-  }
-
-  async findRootReactionsForSubject(subjectId: number, sort: SortType, page = 1) {
-    const reactions = await this.createQueryBuilder('reaction')
-      .leftJoinAndSelect('reaction.author', 'author')
-      .leftJoinAndSelect('reaction.messages', 'message')
-      .where('reaction.subject_id = :subjectId', { subjectId })
-      .andWhere('reaction.parent_id IS NULL')
-      .orderBy('reaction.created', sort === SortType.DATE_DESC ? 'DESC' : 'ASC')
-      .addOrderBy('message.created', 'ASC')
-      .skip((page - 1) * PAGE_SIZE)
-      .take(PAGE_SIZE)
-      .getMany();
-
-    if (sort === SortType.RELEVANCE)
-      this.sortByRelevance(reactions);
-
-    return reactions;
-  }
-
-  async search(informationId: number, search: string, sort: SortType, page = 1): Promise<Reaction[]> {
-    const reactions = await this.createQueryBuilder('reaction')
-      .leftJoinAndSelect('reaction.author', 'author')
-      .leftJoinAndSelect('reaction.messages', 'message')
-      .where('reaction.information_id = :informationId', { informationId })
-      .andWhere('reaction.subject_id IS NULL')
-      .andWhere('message.text ILIKE :search', { search: `%${search}%` })
-      .orderBy('reaction.created', sort === SortType.DATE_DESC ? 'DESC' : 'ASC')
-      .addOrderBy('message.created', 'ASC')
-      .skip((page - 1) * PAGE_SIZE)
-      .take(PAGE_SIZE)
-      .getMany();
-
-    if (sort === SortType.RELEVANCE)
-      this.sortByRelevance(reactions);
-
-    return reactions;
-  }
-
-  async findReplies(parentId: number, page = 1): Promise<Reaction[]> {
+  private createDefaultQueryBuilder(page: number, pageSize: number) {
     return this.createQueryBuilder('reaction')
+      .leftJoinAndSelect('reaction.author', 'author')
+      .leftJoinAndSelect('reaction.messages', 'message')
+      .skip((page - 1) * pageSize)
+      .take(pageSize);
+  }
+
+  private orderBy(qb: SelectQueryBuilder<Reaction>, sort: SortType) {
+    if (sort === SortType.DATE_ASC)
+      qb.orderBy('reaction.created', 'ASC');
+    else if (sort === SortType.DATE_DESC)
+      qb.orderBy('reaction.created', 'DESC');
+    else if (sort === SortType.RELEVANCE) {
+      // TODO
+      /*
+      with qrcount as (select r.id rid, count(qr.id) cnt from reaction r join quick_reaction qr on qr.reaction_id = r.id group by r.id),
+      repcount as (select r.id rid, count(c.id) cnt from reaction r join reaction c on c.parent_id = r.id where r.subject_id is null group by r.id)
+      select qrcount.rid, coalesce(qrcount.cnt, 0) + coalesce(repcount.cnt, 0) from qrcount full join repcount on qrcount.rid = repcount.rid;
+      */
+    }
+
+    qb.addOrderBy('message.created', 'ASC');
+  }
+
+  async findRootReactions(
+    informationId: number,
+    sort: SortType,
+    page: number,
+    pageSize: number,
+  ): Promise<Paginated<Reaction>> {
+    const qb = this.createDefaultQueryBuilder(page, pageSize)
+      .where('reaction.information_id = :informationId', { informationId })
+      .andWhere('reaction.subject_id IS NULL')
+      .andWhere('reaction.parent_id IS NULL');
+
+    this.orderBy(qb, sort);
+
+    const [items, total] = await qb.getManyAndCount();
+
+    return { items, total };
+  }
+
+  async findRootReactionsForSubject(
+    subjectId: number,
+    sort: SortType,
+    page: number,
+    pageSize: number,
+  ): Promise<Paginated<Reaction>> {
+    const qb = this.createDefaultQueryBuilder(page, pageSize)
+      .where('reaction.subject_id = :subjectId', { subjectId })
+      .andWhere('reaction.parent_id IS NULL');
+
+    this.orderBy(qb, sort);
+
+    const [items, total] = await qb.getManyAndCount();
+
+    return { items, total };
+  }
+
+  async search(
+    informationId: number,
+    search: string,
+    sort: SortType,
+    page: number,
+    pageSize: number,
+  ): Promise<Paginated<Reaction>> {
+    const qb = this.createDefaultQueryBuilder(page, pageSize)
+      .where('reaction.information_id = :informationId', { informationId })
+      .andWhere('reaction.subject_id IS NULL')
+      .andWhere('message.text ILIKE :search', { search: `%${search}%` });
+
+    this.orderBy(qb, sort);
+
+    const [items, total] = await qb.getManyAndCount();
+
+    return { items, total };
+  }
+
+  async findReplies(parentId: number, page: number, pageSize: number): Promise<Paginated<Reaction>> {
+    const [items, total] = await this.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
       .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
       .where('reaction.parent_id = :parentId', { parentId })
       .orderBy('reaction.created')
       .addOrderBy('message.created', 'ASC')
-      .skip((page - 1) * PAGE_SIZE)
-      .take(PAGE_SIZE)
-      .getMany();
+      .skip((page - 1) * pageSize)
+      .take(pageSize)
+      .getManyAndCount();
+
+    return { items, total };
   }
 
   async getRepliesCounts(reactionIds: number[]): Promise<RepliesCount[]> {
-    // TODO: map
     const repliesCounts = await this.createQueryBuilder('reaction')
       .select('reaction.id')
       .addSelect('count(replies.id)', 'reaction_repliesCount')
