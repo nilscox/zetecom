@@ -16,6 +16,7 @@
     "@sentry/browser": "^5.9.1",
     "axios": "^0.19.0",
     "axios-hooks": "^1.7.2",
+    "clsx": "^1.0.4",
     "iframe-resizer": "^4.2.8",
     "moment": "^2.24.0",
     "query-string": "^6.9.0",

@@ -1,21 +1,48 @@
 import React from 'react';
+
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
 
-import { useTheme } from 'src/utils/Theme';
+const useStyles = makeStyles(theme => ({
+  link: {
+    textDecoration: 'none',
+    color: theme.palette.secondary.dark,
+    '&:hover': {
+      color: theme.palette.secondary.main,
+    },
+  },
+}));
 
-type LinkProps = ReactRouterLinkProps;
+const RouterLink: React.FC<ReactRouterLinkProps> = ({ className, ...props }) => {
+  const classes = useStyles({});
 
-const Link: React.FC<LinkProps> = ({ style, ...props }) => {
-  const { colors: { text } } = useTheme();
   return (
     <ReactRouterLink
-      style={{
-        color: text,
-        ...style,
-      }}
       {...props}
+      className={clsx(classes.link, className)}
     />
   );
 };
 
-export default Link;
+export default RouterLink;
+
+type LinkProps = React.HTMLProps<HTMLAnchorElement> & {
+  openInNewTab?: boolean;
+};
+
+export const Link: React.FC<LinkProps> = ({ openInNewTab, className, ...props }) => {
+  const classes = useStyles({});
+  const other: any = {};
+
+  if (openInNewTab)
+    other.target = '_blank';
+
+  return (
+    <a
+      {...props}
+      {...other}
+      className={clsx(classes.link, className)}
+    />
+  );
+};

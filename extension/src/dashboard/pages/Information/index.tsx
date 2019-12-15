@@ -13,6 +13,7 @@ import Flex from 'src/components/common/Flex';
 import ReactionsTab from './ReactionTab';
 import SubjectsTab from './SubjectsTab';
 import Loader from 'src/dashboard/components/Loader';
+import { Link } from 'src/components/common/Link';
 
 const Switch: React.FC<{ informationId: number }> = ({ informationId }) => (
   <RouterSwitch>
@@ -55,7 +56,9 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match,
 
       <Flex flexDirection="row">
         <img className={classes.image} src={information.image || ''} />
-        <Box m={12} className={classes.title}>{ information.title }</Box>
+        <Box m={12} className={classes.title}>
+          <Link openInNewTab href={information.url}>{ information.title }</Link>
+        </Box>
       </Flex>
 
       <Box my={12} style={{ borderBottom: '1px solid #CCC' }}>

@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
 
 import { Paginated, paginatedResults } from 'src/utils/parse-paginated';
 import useAxios from 'src/hooks/use-axios';
 import useUpdateEffect from 'src/hooks/use-update-effect';
 import { parseInformation, Information } from 'src/types/Information';
+import RouterLink from 'src/components/common/Link';
 import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
 
@@ -34,15 +34,11 @@ const useInformations = (search: string, page: number) => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  link: {
-    color: 'inherit',
-  },
   image: {
     width: 240,
     height: 160,
   },
   informationTitle: {
-    color: theme.palette.secondary.dark,
     fontSize: 24,
     fontWeight: 'bold',
   },
@@ -58,7 +54,7 @@ const InformationList: React.FC = () => {
   const classes = useStyles({});
 
   const renderInformation = (information: Information) => (
-    <Link key={information.id} className={classes.link} to={`/information/${information.id}`}>
+    <RouterLink key={information.id} to={`/information/${information.id}`}>
       <Flex flexDirection="row" my={12}>
 
         <img src={information.image || ''} className={classes.image} />
@@ -73,7 +69,7 @@ const InformationList: React.FC = () => {
         </Flex>
 
       </Flex>
-    </Link>
+    </RouterLink>
   );
 
   if (loading)
