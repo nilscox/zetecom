@@ -81,9 +81,7 @@ describe('reaction repository', () => {
       await createQuickReaction({ reaction: reaction3 });
       await createReaction({ information, parent: reaction3 });
 
-      (reactionRepository as any).pageSize = 3;
-      const result = await reactionRepository.findRootReactions(information.id, SortType.RELEVANCE, 1, 2);
-      (reactionRepository as any).pageSize = 2;
+      const result = await reactionRepository.findRootReactions(information.id, SortType.RELEVANCE, 1, 3);
 
       expect(result).toMatchObject({
         items: [
@@ -155,9 +153,7 @@ describe('reaction repository', () => {
       await createQuickReaction({ reaction: reaction3 });
       await createReaction({ information, subject, parent: reaction3 });
 
-      (reactionRepository as any).pageSize = 3;
-      const result = await reactionRepository.findRootReactionsForSubject(subject.id, SortType.RELEVANCE, 1, 2);
-      (reactionRepository as any).pageSize = 2;
+      const result = await reactionRepository.findRootReactionsForSubject(subject.id, SortType.RELEVANCE, 1, 3);
 
       expect(result).toMatchObject({
         items: [
@@ -234,6 +230,78 @@ describe('reaction repository', () => {
       expect(result).toMatchObject({
         items: [
           { id: child3.id },
+        ],
+      });
+    });
+  });
+
+  describe('findForUser', () => {
+    it('should find the reactions for a user on the first page', async () => {
+      const author = await createUser();
+      const information = await createInformation();
+      const reaction1 = await createReaction({ information, author });
+      const reaction2 = await createReaction({ information, author });
+      await createReaction({ information, author });
+
+      const result = await reactionRepository.findForUser(author.id, SortType.DATE_ASC, 1, 2);
+
+      expect(result).toMatchObject({
+        items: [
+          { id: reaction1.id },
+          { id: reaction2.id },
+        ],
+      });
+    });
+
+    it('should find the reactions for a user on page 2', async () => {
+      const information = await createInformation();
+      const author = await createUser();
+      await createReaction({ information, author });
+      await createReaction({ information, author });
+      const reaction3 = await createReaction({ information, author });
+
+      const result = await reactionRepository.findForUser(author.id, SortType.DATE_ASC, 2, 2);
+
+      expect(result).toMatchObject({
+        items: [
+          { id: reaction3.id },
+        ],
+      });
+    });
+
+    it('should find the reactions for a user sorted by date-desc', async () => {
+      const information = await createInformation();
+      const author = await createUser();
+      const reaction1 = await createReaction({ information, author });
+      const reaction2 = await createReaction({ information, author });
+
+      const result = await reactionRepository.findForUser(author.id, SortType.DATE_DESC, 1, 2);
+
+      expect(result).toMatchObject({
+        items: [
+          { id: reaction2.id },
+          { id: reaction1.id },
+        ],
+      });
+    });
+
+    it.skip('should find the reactions for a user sorted by relevance', async () => {
+      const information = await createInformation();
+      const author = await createUser();
+      const reaction1 = await createReaction({ information, author });
+      const reaction2 = await createReaction({ information, author });
+      const reaction3 = await createReaction({ information, author });
+      await createQuickReaction({ reaction: reaction2 });
+      await createQuickReaction({ reaction: reaction3 });
+      await createReaction({ information, author, parent: reaction3 });
+
+      const result = await reactionRepository.findForUser(author.id, SortType.RELEVANCE, 1, 3);
+
+      expect(result).toMatchObject({
+        items: [
+          { id: reaction3.id },
+          { id: reaction2.id },
+          { id: reaction1.id },
         ],
       });
     });

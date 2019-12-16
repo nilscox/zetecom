@@ -34,6 +34,7 @@ import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto'
 import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
 import { ReportInDto } from '../report/dtos/report-in.dto';
 import { Paginated } from 'Common/paginated';
+import { SortType } from 'Common/sort-type';
 
 @Controller('/reaction')
 export class ReactionController {
@@ -47,6 +48,17 @@ export class ReactionController {
     private readonly reportService: ReportService,
     private readonly reactionRepository: ReactionRepository,
   ) {}
+
+  @Get('me')
+  @PaginatedOutput(ReactionOutDto)
+  @UseInterceptors(PopulateReaction)
+  @UseGuards(IsAuthenticated)
+  async findForUser(
+    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+    @ReqUser() user: User,
+  ): Promise<Paginated<Reaction>> {
+    return this.reactionRepository.findForUser(user.id, SortType.DATE_DESC, page, this.reactionPageSize);
+  }
 
   @Get(':id')
   @Output(ReactionWithHistoryOutDto)

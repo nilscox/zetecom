@@ -165,6 +165,22 @@ export class ReactionRepository extends Repository<Reaction> {
     return { items, total };
   }
 
+  async findForUser(
+    userId: number,
+    sort: SortType,
+    page: number,
+    pageSize: number,
+  ): Promise<Paginated<Reaction>> {
+    const qb = this.createDefaultQueryBuilder(page, pageSize)
+      .where('reaction.author_id = :userId', { userId });
+
+    this.orderBy(qb, sort);
+
+    const [items, total] = await qb.getManyAndCount();
+
+    return { items, total };
+  }
+
   async getRepliesCounts(reactionIds: number[]): Promise<RepliesCount[]> {
     const repliesCounts = await this.createQueryBuilder('reaction')
       .select('reaction.id')
