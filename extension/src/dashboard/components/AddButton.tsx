@@ -15,12 +15,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type AddReactionButtonProps = {
+type AddButtonProps = {
   show: boolean;
   onClick: () => void;
 };
 
-const AddReactionButton: React.FC<AddReactionButtonProps> = ({ show, onClick }) => {
+const AddButton: React.FC<AddButtonProps> = ({ show, onClick }) => {
   const classes = useStyles({});
 
   return (
@@ -35,4 +35,4 @@ const AddReactionButton: React.FC<AddReactionButtonProps> = ({ show, onClick }) 
   );
 };
 
-export default AddReactionButton;
+export default AddButton;

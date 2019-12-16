@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AxiosRequestConfig } from 'axios';
+import clsx from 'clsx';
 
 import { Subject, parseSubject } from 'src/types/Subject';
 import { useCurrentUser } from 'src/utils/UserContext';
@@ -94,11 +95,12 @@ const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
 };
 
 type SubjectFormProps = {
+  className?: string;
   onCreated: (subject: Subject) => void;
   onClose: () => void;
 };
 
-const SubjectForm: React.FC<SubjectFormProps> = ({ onCreated, onClose }) => {
+const SubjectForm: React.FC<SubjectFormProps> = ({ className, onCreated, onClose }) => {
   const information = useInformation();
 
   const { colors: { border }, borderRadius } = useTheme();
@@ -125,7 +127,7 @@ const SubjectForm: React.FC<SubjectFormProps> = ({ onCreated, onClose }) => {
     throw error;
 
   return (
-    <form className="subject-form" onSubmit={onSubmit}>
+    <form className={clsx('subject-form', className)} onSubmit={onSubmit}>
       <Flex flexDirection="column" border={`1px solid ${border}`} borderRadius={borderRadius}>
         <FormHeader onClose={onClose} />
         <FormSubject subject={subject} setSubject={setSubject} />

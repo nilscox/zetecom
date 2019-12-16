@@ -16,7 +16,7 @@ import ReactionCreationForm from 'src/components/reaction/ReactionForm';
 
 import Pagination from '../../../components/Pagination';
 import SortMenu from '../../../components/SortMenu';
-import AddReactionButton from './AddReactionButton';
+import AddButton from '../../../components/AddButton';
 import Collapse from '@material-ui/core/Collapse';
 import { useCurrentUser } from 'src/hooks/use-user';
 import useEditableDataset from 'src/hooks/use-editable-dataset';
@@ -60,11 +60,12 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 const ReactionsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
+  const user = useCurrentUser();
+
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortType | undefined>();
   const [page, setPage] = useState(1);
   const { loading, data } = useReactions(Number(match.params.id), search, sort, page);
-  const user = useCurrentUser();
 
   const [showReactionForm, setShowReactionForm] = useState(false);
   const [reactions, { prepend, replace }] = useEditableDataset(data && data.items);
@@ -72,7 +73,7 @@ const ReactionsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) 
 
   const classes = useStyles({});
 
-  const onShowReactionForm = () => {
+  const handleShowReactionForm = () => {
     if (containerRef.current)
       containerRef.current.scrollIntoView();
 
@@ -81,7 +82,7 @@ const ReactionsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) 
 
   return (
     <div ref={containerRef}>
-      <AddReactionButton show={user && !showReactionForm} onClick={() => onShowReactionForm()} />
+      <AddButton show={user && !showReactionForm} onClick={() => handleShowReactionForm()} />
       <Flex className={classes.container}>
         <Flex flexDirection="row" flex={1}>
           <SearchField onSearch={setSearch} />
