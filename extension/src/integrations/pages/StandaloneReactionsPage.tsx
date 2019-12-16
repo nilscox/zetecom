@@ -6,6 +6,7 @@ import { parseReaction, Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
 import { useInformation } from 'src/utils/InformationContext';
 import useAxios, { ResponseData } from 'src/hooks/use-axios';
+import useEditableDataset from 'src/hooks/use-editable-dataset';
 
 import Loader from 'src/components/common/Loader';
 import ReactionsList from 'src/components/reaction/ReactionsList';
@@ -30,45 +31,6 @@ const useStandaloneReactions = (informationId: number, sort: SortType, search?: 
     return [{ ...result, loading: true }];
 
   return [result];
-};
-
-const findById = <T extends { id: number }>(dataset: T[]) => (data: T) => {
-  return dataset.find((element: T) => element.id === data.id);
-};
-
-const useEditableDataset = <T extends { id: number }>(dataset: T[] | null, find = findById) => {
-  const [copy, setCopy] = useState(dataset);
-  const findElement = useCallback(find(copy), [find, copy]);
-
-  useEffect(() => void setCopy(dataset), [dataset]);
-
-  const prepend = useCallback((newData: T) => {
-    setCopy([newData, ...copy]);
-  }, [copy]);
-
-  const append = useCallback((newData: T) => {
-    setCopy([...copy, newData]);
-  }, [copy]);
-
-  const replace = useCallback((newData: T) => {
-    const oldData = findElement(newData);
-    const idx = copy.indexOf(oldData);
-
-    setCopy([
-      ...copy.slice(0, idx),
-      newData,
-      ...copy.slice(idx + 1),
-    ]);
-  }, [copy, findElement]);
-
-  return [
-    copy !== null ? copy : dataset,
-    {
-      prepend,
-      append,
-      replace,
-    },
-  ] as const;
 };
 
 const StandaloneReactionsPage: React.FC = () => {

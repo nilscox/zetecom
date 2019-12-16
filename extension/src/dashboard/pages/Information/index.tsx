@@ -5,15 +5,16 @@ import Tab from '@material-ui/core/Tab';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { RouteComponentProps, Redirect, Switch as RouterSwitch, Route } from 'react-router-dom';
 
-import ReactionsTab from './ReactionTab';
-import SubjectsTab from './SubjectsTab/index';
+import { Information, parseInformation } from 'src/types/Information';
 import Loader from 'src/dashboard/components/Loader';
 import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
 import { Link } from 'src/components/common/Link';
-
-import { Information, parseInformation } from 'src/types/Information';
 import useAxios from 'src/hooks/use-axios';
+
+import ReactionsTab from './ReactionTab';
+import SubjectsTab from './SubjectsTab';
+import { InformationProvider } from 'src/utils/InformationContext';
 
 const Switch: React.FC<{ informationId: number }> = ({ informationId }) => (
   <RouterSwitch>
@@ -52,7 +53,7 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match,
     return <Loader />;
 
   return (
-    <>
+    <InformationProvider value={information}>
 
       <Flex flexDirection="row">
         <img className={classes.image} src={information.image || ''} />
@@ -73,7 +74,7 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match,
 
       <Switch informationId={informationId} />
 
-    </>
+    </InformationProvider>
   );
 };
 

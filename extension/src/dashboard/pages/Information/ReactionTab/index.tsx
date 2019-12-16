@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { Reaction, parseReaction } from 'src/types/Reaction';
@@ -10,11 +10,16 @@ import useUpdateEffect from 'src/hooks/use-update-effect';
 import Flex from 'src/components/common/Flex';
 import ReactionsList from 'src/components/reaction/ReactionsList';
 import { Paginated, paginatedResults } from 'src/utils/parse-paginated';
-
-import Pagination from '../../components/Pagination';
-import SortMenu from '../../components/SortMenu';
 import SearchField from 'src/dashboard/components/SearchField';
 import Loader from 'src/dashboard/components/Loader';
+import ReactionCreationForm from 'src/components/reaction/ReactionForm';
+
+import Pagination from '../../../components/Pagination';
+import SortMenu from '../../../components/SortMenu';
+import AddReactionButton from './AddReactionButton';
+import Collapse from '@material-ui/core/Collapse';
+import { useCurrentUser } from 'src/hooks/use-user';
+import useEditableDataset from 'src/hooks/use-editable-dataset';
 
 const useReactions = (informationId: number, search: string, sort: SortType | undefined, page: number) => {
   const [result, refetch] = useAxios<Paginated<Reaction>>(
@@ -40,24 +45,43 @@ const useReactions = (informationId: number, search: string, sort: SortType | un
   return result;
 };
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    flexDirection: 'row',
-    [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
+const useStyles = makeStyles((theme: Theme) => {
+  return ({
+    container: {
+      flexDirection: 'row',
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: 'column',
+      },
     },
-  },
-}));
+    reactionForm: {
+      margin: theme.spacing(2, 0, 3),
+    },
+  });
+});
 
 const ReactionsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortType | undefined>();
   const [page, setPage] = useState(1);
   const { loading, data } = useReactions(Number(match.params.id), search, sort, page);
+  const user = useCurrentUser();
+
+  const [showReactionForm, setShowReactionForm] = useState(false);
+  const [reactions, { prepend, replace }] = useEditableDataset(data && data.items);
+  const containerRef = useRef<HTMLDivElement>();
+
   const classes = useStyles({});
 
+  const onShowReactionForm = () => {
+    if (containerRef.current)
+      containerRef.current.scrollIntoView();
+
+    setShowReactionForm(true);
+  };
+
   return (
-    <>
+    <div ref={containerRef}>
+      <AddReactionButton show={user && !showReactionForm} onClick={() => onShowReactionForm()} />
       <Flex className={classes.container}>
         <Flex flexDirection="row" flex={1}>
           <SearchField onSearch={setSearch} />
@@ -65,11 +89,18 @@ const ReactionsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) 
         </Flex>
         <Pagination page={page} total={data ? data.total : undefined} pageSize={10} onPageChange={setPage} />
       </Flex>
+      <Collapse in={showReactionForm}>
+        <ReactionCreationForm
+          onCreated={prepend}
+          closeForm={() => setShowReactionForm(false)}
+          className={classes.reactionForm}
+        />
+      </Collapse>
       { loading
         ? <Loader />
-        : <ReactionsList reactions={data.items} onEdited={() => {}} />
+        : <ReactionsList reactions={reactions} onEdited={replace} />
       }
-    </>
+    </div>
   );
 };
 

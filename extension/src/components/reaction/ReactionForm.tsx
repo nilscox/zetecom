@@ -1,7 +1,9 @@
 /* eslint-disable max-lines */
 
 import React, { forwardRef, useImperativeHandle, useCallback, useState, useEffect } from 'react';
+
 import { AxiosRequestConfig } from 'axios';
+import clsx from 'clsx';
 
 import { Subject } from 'src/types/Subject';
 import { Reaction, parseReaction } from 'src/types/Reaction';
@@ -65,6 +67,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ loading, disabled }) => {
 };
 
 type ReactionFormProps = {
+  className?: string;
   placeholder: string;
   preloadedMessage?: string;
   loading: boolean;
@@ -73,7 +76,7 @@ type ReactionFormProps = {
 };
 
 const ReactionForm: React.FC<ReactionFormProps> = (
-  { placeholder, preloadedMessage = '', loading, closeForm, onSubmit },
+  { className, placeholder, preloadedMessage = '', loading, closeForm, onSubmit },
   ref: React.Ref<{}>,
 ) => {
   const { colors: { border }, borderRadius } = useTheme();
@@ -89,7 +92,7 @@ const ReactionForm: React.FC<ReactionFormProps> = (
   }, [onSubmit, message]);
 
   return (
-    <form className="reaction-form" onSubmit={onSubmitForm}>
+    <form className={clsx('reaction-form', className)} onSubmit={onSubmitForm}>
       <Flex flexDirection="column" border={`1px solid ${border}`} borderRadius={borderRadius}>
         <FormHeader closeForm={closeForm} />
         <MarkdownMessageEdition placeholder={placeholder} message={message} setMessage={setMessage} />
@@ -102,6 +105,7 @@ const ReactionForm: React.FC<ReactionFormProps> = (
 const ReactionFormRef = forwardRef(ReactionForm);
 
 type ReactionCreationFormProps = {
+  className?: string;
   subject?: Subject;
   parent?: Reaction;
   closeForm?: () => void;
@@ -109,6 +113,7 @@ type ReactionCreationFormProps = {
 };
 
 const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
+  className,
   subject,
   parent,
   closeForm,
@@ -147,6 +152,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
   return (
     <ReactionFormRef
       ref={formRef}
+      className={className}
       placeholder={
         parent
           ? `Répondez à ${parent.author.nick}`

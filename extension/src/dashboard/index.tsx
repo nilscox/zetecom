@@ -1,7 +1,7 @@
 import React from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider, Theme } from '@material-ui/core/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import primary from '@material-ui/core/colors/amber';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -36,7 +36,11 @@ const Switch: React.FC = () => (
   </RouterSwitch>
 );
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    minHeight: '100vh',
+    position: 'relative',
+  },
   content: {
     display: 'flex',
     flexDirection: 'column',
@@ -59,7 +63,7 @@ const Dashboard: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <UserProvider value={{ user, setUser }}>
-        <div style={{ height: '100vh' }}>
+        <div className={classes.container}>
 
           <CssBaseline />
 
