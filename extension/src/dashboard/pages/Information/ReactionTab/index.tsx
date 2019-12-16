@@ -80,9 +80,14 @@ const ReactionsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) 
     setShowReactionForm(true);
   };
 
+  const handleonReactionCreated = (reaction: Reaction) => {
+    prepend(reaction);
+    setShowReactionForm(false);
+  };
+
   return (
     <div ref={containerRef}>
-      <AddButton show={user && !showReactionForm} onClick={() => handleShowReactionForm()} />
+      <AddButton show={user && !showReactionForm} onClick={handleShowReactionForm} />
       <Flex className={classes.container}>
         <Flex flexDirection="row" flex={1}>
           <SearchField onSearch={setSearch} />
@@ -92,9 +97,9 @@ const ReactionsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) 
       </Flex>
       <Collapse in={showReactionForm}>
         <ReactionCreationForm
-          onCreated={prepend}
-          closeForm={() => setShowReactionForm(false)}
           className={classes.reactionForm}
+          onCreated={handleonReactionCreated}
+          closeForm={() => setShowReactionForm(false)}
         />
       </Collapse>
       { loading

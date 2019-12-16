@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { RouteComponentProps } from 'react-router-dom';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
 
-import { SubjectBody, SubjectHeader } from './SubjectComponent';
 import Loader from 'src/dashboard/components/Loader';
 import Flex from 'src/components/common/Flex';
 import SearchField from 'src/dashboard/components/SearchField';
@@ -20,31 +17,11 @@ import { parseSubject, Subject as SubjectType } from 'src/types/Subject';
 import { parseReaction, Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
 
-type SubjectComponentProps = {
-  subject: SubjectType;
-}
-
-const useSubjectStyles = makeStyles((theme: Theme) => ({
-  container: {
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  divider: {
-    marginBottom: theme.spacing(2),
-  },
-}));
-
-const SubjectComponent: React.FC<SubjectComponentProps> = ({ subject }) => {
-  const classes = useSubjectStyles({});
-
-  return (
-    <Paper className={classes.container}>
-      <SubjectHeader subject={subject} />
-      <Divider className={classes.divider} />
-      <SubjectBody subject={subject} />
-    </Paper>
-  );
-};
+import SubjectComponent from './SubjectComponent';
+import AddButton from 'src/dashboard/components/AddButton';
+import Collapse from '@material-ui/core/Collapse';
+import ReactionCreationForm from 'src/components/reaction/ReactionForm';
+import useEditableDataset from 'src/hooks/use-editable-dataset';
 
 const useSubject = (subjectId: number) => {
   return useAxios<SubjectType>(
@@ -77,12 +54,15 @@ const useSubjectReactions = (subjectId: number, search: string, sort: SortType |
   return result;
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: Theme) => ({
   container: {
     flexDirection: 'row',
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
     },
+  },
+  reactionForm: {
+    margin: theme.spacing(2, 0, 3),
   },
 }));
 
@@ -94,28 +74,52 @@ const Subject: React.FC<RouteComponentProps<{ subjectId: string }>> = ({ match }
   const classes = useStyles({});
 
   const [{ data: subject, loading }] = useSubject(subjectId);
-  const { data: reactions, loading: loadingReaction } = useSubjectReactions(subjectId, search, sort, page);
+  const { data, loading: loadingReaction } = useSubjectReactions(subjectId, search, sort, page);
+
+  const [showReactionForm, setShowReactionForm] = useState(false);
+  const [reactions, { prepend, replace }] = useEditableDataset(data && data.items);
+  const containerRef = useRef<HTMLDivElement>();
+
+  const handleShowReactionForm = () => {
+    if (containerRef.current)
+      containerRef.current.scrollIntoView();
+
+    setShowReactionForm(true);
+  };
+
+  const handleonReactionCreated = (reaction: Reaction) => {
+    prepend(reaction);
+    setShowReactionForm(false);
+  };
 
   return (
-    <>
+    <div ref={containerRef}>
+      <AddButton show={!showReactionForm} onClick={handleShowReactionForm} />
       <Flex flexDirection="row" className={classes.container}>
         <Flex flexDirection="row" flex={1}>
           <SearchField onSearch={setSearch} />
           <SortMenu sort={sort || SortType.DATE_DESC} onSortChange={setSort} />
         </Flex>
-        <Pagination page={page} total={reactions ? reactions.total : undefined} pageSize={10} onPageChange={setPage} />
+        <Pagination page={page} total={data ? data.total : undefined} pageSize={10} onPageChange={setPage} />
       </Flex>
-
-      { loading || loadingReaction || !subject || !reactions
+      { loading || !subject || loadingReaction || !reactions
         ? <Loader />
         : (
           <>
             <SubjectComponent subject={subject} />
-            <ReactionsList reactions={reactions.items} onEdited={() => {}} />
+            <Collapse in={showReactionForm}>
+              <ReactionCreationForm
+                className={classes.reactionForm}
+                subject={subject}
+                onCreated={handleonReactionCreated}
+                closeForm={() => setShowReactionForm(false)}
+              />
+            </Collapse>
+            <ReactionsList reactions={reactions} onEdited={replace} />
           </>
         )
       }
-    </>
+    </div>
   );
 };
 export default Subject;

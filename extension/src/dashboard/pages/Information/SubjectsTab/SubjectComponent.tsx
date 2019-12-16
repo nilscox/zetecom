@@ -1,8 +1,10 @@
 import React from 'react';
-import moment from 'moment';
 
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
+import moment from 'moment';
 
 import { Subject } from 'src/types/Subject';
 
@@ -19,7 +21,7 @@ export const SubjectHeader: React.FC<SubjectProps> = ({ subject }) => (
   </>
 );
 
-const useStyles = makeStyles({
+const useBodyStyles = makeStyles({
   quote: {
     margin: '0 15px 15px',
     backgroundImage: 'url(/assets/images/quotation-mark.png)',
@@ -33,7 +35,7 @@ const useStyles = makeStyles({
 });
 
 export const SubjectBody: React.FC<SubjectProps> = ({ subject }) => {
-  const classes = useStyles({});
+  const classes = useBodyStyles({});
 
   return (
     <>
@@ -49,3 +51,31 @@ export const SubjectBody: React.FC<SubjectProps> = ({ subject }) => {
     </>
   );
 };
+
+type SubjectComponentProps = {
+  subject: Subject;
+}
+
+const useStyles = makeStyles((theme: Theme) => ({
+  container: {
+    padding: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+  divider: {
+    marginBottom: theme.spacing(2),
+  },
+}));
+
+const SubjectComponent: React.FC<SubjectComponentProps> = ({ subject }) => {
+  const classes = useStyles({});
+
+  return (
+    <Paper className={classes.container}>
+      <SubjectHeader subject={subject} />
+      <Divider className={classes.divider} />
+      <SubjectBody subject={subject} />
+    </Paper>
+  );
+};
+
+export default SubjectComponent;
