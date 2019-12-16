@@ -14,6 +14,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Link, useRouteMatch, useLocation } from 'react-router-dom';
 import Flex from 'src/components/common/Flex';
+import { useCurrentUser } from 'src/hooks/use-user';
 
 export const drawerWidth = 340;
 
@@ -24,12 +25,15 @@ const useListItemLinkStyles = makeStyles<Theme, { isActive: boolean }>(theme => 
 }));
 
 type ListItemLink = {
+  auth?: boolean;
   icon: React.ReactElement;
   primary: React.ReactNode;
   to: string;
 };
 
-const ListItemLink: React.FC<ListItemLink> = ({ icon, primary, to }) => {
+const ListItemLink: React.FC<ListItemLink> = ({ auth, icon, primary, to }) => {
+  const user = useCurrentUser();
+
   const { pathname } = useLocation();
   const isActive = !!useRouteMatch({ path: to === '/' ? '/information' : to }) || to === '/' && pathname === '/';
   const classes = useListItemLinkStyles({ isActive });
@@ -47,7 +51,7 @@ const ListItemLink: React.FC<ListItemLink> = ({ icon, primary, to }) => {
 
   return (
     <li>
-      <ListItem button component={renderLink as any}>
+      <ListItem disabled={auth && !user} button component={renderLink as any}>
         <ListItemIcon>{ icon }</ListItemIcon>
         <ListItemText color="primary" primary={primary} className={classes.text} />
       </ListItem>
@@ -91,14 +95,14 @@ const Drawer: React.FC<DrawerProps> = ({ mobileOpen, handleDrawerToggle }) => {
 
       <List>
         <ListItemLink icon={<InformationIcon />} primary="Informations" to="/" />
-        <ListItemLink icon={<CommentIcon />} primary="Mes réactions" to="/reactions" />
-        <ListItemLink icon={<BookmarkIcon />} primary="Mes favoris" to="/bookmarks" />
+        <ListItemLink auth icon={<CommentIcon />} primary="Mes réactions" to="/reactions" />
+        <ListItemLink auth icon={<BookmarkIcon />} primary="Mes favoris" to="/bookmarks" />
       </List>
 
       <Divider />
 
       <List>
-        <ListItemLink icon={<SettingsIcon />} primary="Paramètres" to="/settings" />
+        <ListItemLink auth icon={<SettingsIcon />} primary="Paramètres" to="/settings" />
       </List>
 
     </div>
