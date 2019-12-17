@@ -4,11 +4,25 @@ const findById = <T extends { id: number }>(dataset: T[]) => (data: T) => {
   return dataset.find((element: T) => element.id === data.id);
 };
 
-const useEditableDataset = <T extends { id: number }>(dataset: T[] | null, find = findById) => {
+const useEditableDataset = <T extends { id: number }>(
+  dataset: T[] | null,
+  {
+    find = findById,
+    appendOnUpdate = false,
+  } = {},
+) => {
   const [copy, setCopy] = useState(dataset);
   const findElement = useCallback(find(copy), [find, copy]);
 
-  useEffect(() => void setCopy(dataset), [dataset]);
+  useEffect(() => {
+    if (dataset === null)
+      return;
+
+    if (appendOnUpdate && copy)
+      setCopy([...copy, ...dataset]);
+    else
+      setCopy(dataset);
+  }, [dataset]);
 
   const prepend = useCallback((newData: T) => {
     setCopy([newData, ...copy]);

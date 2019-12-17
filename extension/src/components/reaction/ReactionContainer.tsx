@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { Subject } from 'src/types/Subject';
 import { Reaction, parseReaction } from 'src/types/Reaction';
 import env from 'src/utils/env';
@@ -15,36 +15,44 @@ import ReactionComponent from './Reaction';
 import ReactionsList from './ReactionsList';
 import ReactionForm, { ReactionEditionForm } from './ReactionForm';
 import { paginatedResults, Paginated } from 'src/utils/parse-paginated';
+import useEditableDataset from 'src/hooks/use-editable-dataset';
+import useUpdateEffect from 'src/hooks/use-update-effect';
 
 export const useReactionReplies = (parent: Reaction) => {
-  const [replies, setReplies] = useState<Reaction[] | undefined>();
+  const [page, setPage] = useState(0);
 
   const url = `/api/reaction/${parent.id}/replies`;
   const parse = useCallback(paginatedResults(parseReaction), []);
-  const [{ data, loading, error }, fetch] = useAxios<Paginated<Reaction>>(url, parse, { manual: true });
+  const [{ data, loading, error }, fetch] = useAxios<Paginated<Reaction>>(
+    url,
+    parse,
+    { manual: true },
+  );
 
-  useEffect(() => {
-    if (data)
-      setReplies(data.items);
-  }, [data]);
+  const [replies, { prepend, replace }] = useEditableDataset(data ? data.items : null, { appendOnUpdate: true });
 
-  const fetchReplies = () => {
+  useUpdateEffect(() => {
+    const opts: any = { params: {} };
+
+    if (page !== 1)
+      opts.params.page = page;
+
     if (parent)
-      fetch();
-  };
-
-  const addReply = (reply: Reaction) => setReplies([reply, ...replies]);
-
-  const replaceReplyAt = (index: number, reply: Reaction) => {
-    setReplies([
-      ...replies.slice(0, index),
-      reply,
-      ...replies.slice(index + 1)]);
-  };
+      fetch(opts);
+  }, [page]);
 
   return [
-    { replies, loading, error },
-    { fetchReplies, replies, addReply, replaceReplyAt },
+    {
+      replies,
+      total: data ? data.total : undefined,
+      loading,
+      error,
+    },
+    {
+      fetchMoreReplies: () => setPage(page + 1),
+      addReply: prepend,
+      replaceReply: replace,
+    },
   ] as const;
 };
 
@@ -81,6 +89,25 @@ const Indented: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   );
 };
 
+type FetchMoreRepliesProps = {
+  remainingReplies: number;
+  fetchMoreReplies: () => void;
+};
+
+const FetchMoreReplies: React.FC<FetchMoreRepliesProps> = ({ remainingReplies, fetchMoreReplies }) => {
+  const s = remainingReplies > 1 ? 's' : '';
+
+  return (
+    <Flex
+      justifyContent="center"
+      onClick={fetchMoreReplies}
+      style={{ color: '#666', marginTop: 4, cursor: 'pointer' }}
+    >
+      ▾ &nbsp; { remainingReplies } réaction{s} restante{s} &nbsp; ▾
+    </Flex>
+);
+};
+
 type ReactionContainerProps = {
   subject?: Subject;
   reaction: Reaction;
@@ -94,12 +121,19 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
   const [reaction, setReaction] = useState(originalReaction);
 
   const [
-    { replies, loading, error },
-    { fetchReplies, addReply, replaceReplyAt },
+    { replies, total: totalReplies, loading, error },
+    { fetchMoreReplies, addReply, replaceReply },
   ] = useReactionReplies(reaction);
 
   if (error)
     throw error;
+
+  const remainingReplies = useMemo(() => {
+    if (!replies || typeof replies.length !== 'number')
+      return;
+
+    return totalReplies - replies.length;
+  }, [replies, totalReplies]);
 
   const report = useReport(reaction);
   const viewHistory = useViewHistory(reaction);
@@ -109,10 +143,10 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
 
   const toggleReplies = useCallback(() => {
     if (!replies && !error)
-      fetchReplies();
+      fetchMoreReplies();
 
     setDisplayReplies(!displayReplies);
-  }, [replies, error, fetchReplies, setDisplayReplies, displayReplies]);
+  }, [replies, error, fetchMoreReplies, setDisplayReplies, displayReplies]);
 
   const onCreated = (created: Reaction) => {
     addReply(created);
@@ -127,12 +161,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
     if (!replies)
       return;
 
-    const idx = replies.findIndex(r => r.id === reply.id);
-
-    if (idx < 0)
-      return;
-
-    replaceReplyAt(idx, reply);
+    replaceReply(reply);
   };
 
   const onReactionEdited = (reaction: Reaction) => {
@@ -184,15 +213,18 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
 
       <Collapse open={displayReplies}>
         <Indented>
-          { loading ? (
-            <Loader />
-          ) : (
-            <ReactionsList
-              subject={subject}
-              reactions={replies || []}
-              onEdited={onReplyEdited}
+          <ReactionsList
+            subject={subject}
+            reactions={replies || []}
+            onEdited={onReplyEdited}
+          />
+          { remainingReplies > 0 && !loading && (
+            <FetchMoreReplies
+              remainingReplies={remainingReplies}
+              fetchMoreReplies={fetchMoreReplies}
             />
           ) }
+          { loading && <Loader /> }
         </Indented>
       </Collapse>
 
