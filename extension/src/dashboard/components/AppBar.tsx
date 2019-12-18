@@ -9,9 +9,11 @@ import NotificationIcon from '@material-ui/icons/Notifications';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
 
+import RouterLink, { Link } from 'src/components/common/Link';
 import { drawerWidth } from './Drawer';
+
+const { WEBSITE_URL } = process.env;
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -31,6 +33,9 @@ const useStyles = makeStyles(theme => ({
   },
   titleLink: {
     color: 'inherit',
+  },
+  helpLink: {
+    display: 'contents',
   },
 }));
 
@@ -55,16 +60,17 @@ const AppBar: React.FC<AppBarProps> = ({ handleDrawerToggle }) => {
         </IconButton>
 
         <Typography className={classes.title} variant="h5" noWrap color="textSecondary">
-          <Link to="/" className={classes.titleLink}>
+          <RouterLink to="/" className={classes.titleLink}>
             Réagir à l'information
-          </Link>
+          </RouterLink>
         </Typography>
 
         <IconButton
-          onClick={() => {}}
           color="secondary"
         >
-          <HelpIcon />
+          <Link openInNewTab href={`${WEBSITE_URL}/faq.html`} className={classes.helpLink}>
+            <HelpIcon />
+          </Link>
         </IconButton>
 
         <IconButton
