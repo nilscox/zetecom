@@ -34,8 +34,9 @@ const useStyles = makeStyles(theme => ({
   titleLink: {
     color: 'inherit',
   },
-  helpLink: {
+  appBarLink: {
     display: 'contents',
+    color: theme.palette.secondary.main,
   },
 }));
 
@@ -68,7 +69,7 @@ const AppBar: React.FC<AppBarProps> = ({ handleDrawerToggle }) => {
         <IconButton
           color="secondary"
         >
-          <Link openInNewTab href={`${WEBSITE_URL}/faq.html`} className={classes.helpLink}>
+          <Link openInNewTab href={`${WEBSITE_URL}/faq.html`} className={classes.appBarLink}>
             <HelpIcon />
           </Link>
         </IconButton>
@@ -85,7 +86,9 @@ const AppBar: React.FC<AppBarProps> = ({ handleDrawerToggle }) => {
           onClick={() => {}}
           color="secondary"
         >
-          <AccountIcon />
+          <RouterLink to="/auth/login" className={classes.appBarLink}>
+            <AccountIcon />
+          </RouterLink>
         </IconButton>
 
       </Toolbar>

@@ -14,6 +14,7 @@ import Bookmarks from './pages/Bookmarks';
 import Settings from './pages/Settings';
 import Informations from './pages/InformationsList';
 import Information from './pages/Information';
+import Authentication from './pages/Authentication/index';
 
 import AppBar from './components/AppBar';
 import Drawer, { drawerWidth } from './components/Drawer';
@@ -33,6 +34,7 @@ const Switch: React.FC = () => (
     <Route path="/reactions" component={MyReactions} />
     <Route path="/bookmarks" component={Bookmarks} />
     <Route path="/settings" component={Settings} />
+    <Route path="/auth/:sign" component={Authentication} />
   </RouterSwitch>
 );
 
@@ -44,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100%',
+    minHeight: '100vh',
     padding: theme.spacing(3),
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
