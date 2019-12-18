@@ -6,7 +6,7 @@ import { getCustomRepository, Repository, getRepository } from 'typeorm';
 import { ReactionModule } from './reaction.module';
 import { Reaction } from '../reaction/reaction.entity';
 
-import { setupE2eTest } from '../../testing/setup-e2e-test';
+import { setupE2eTest, createAuthenticatedUser } from '../../testing/setup-e2e-test';
 import { createReaction } from '../../testing/factories/reaction.factory';
 import { createMessage } from '../../testing/factories/message.factory';
 import { createUser } from '../../testing/factories/user.factory';
@@ -128,27 +128,11 @@ describe('reaction controller', () => {
   });
 
   describe('create reaction', () => {
-    let authRequest: request.SuperTest<request.Test>;
-    let user: any;
+    const { authRequest, user } = createAuthenticatedUser(server);
 
     const makeReaction = (informationId: number): any => ({
       informationId,
       text: 'new reaction',
-    });
-
-    beforeAll(async () => {
-      authRequest = request.agent(server);
-
-      const { body } = await authRequest
-        .post('/api/auth/signup')
-        .send({
-          nick: 'nick1',
-          email: 'user1@domain.tld',
-          password: 'password',
-        })
-        .expect(201);
-
-      user = body;
     });
 
     it('should not create a reaction when not authenticated', () => {
@@ -248,23 +232,7 @@ describe('reaction controller', () => {
   });
 
   describe('update reaction', () => {
-    let authRequest: request.SuperTest<request.Test>;
-    let user: any;
-
-    beforeAll(async () => {
-      authRequest = request.agent(server);
-
-      const { body } = await authRequest
-        .post('/api/auth/signup')
-        .send({
-          nick: 'nick2',
-          email: 'user2@domain.tld',
-          password: 'password',
-        })
-        .expect(201);
-
-      user = body;
-    });
+    const { authRequest, user } = createAuthenticatedUser(server);
 
     it('should not update a reaction when not authenticated', () => {
       return request(server)
@@ -300,23 +268,7 @@ describe('reaction controller', () => {
   });
 
   describe('quick reaction', () => {
-    let authRequest: request.SuperTest<request.Test>;
-    let user: any;
-
-    beforeAll(async () => {
-      authRequest = request.agent(server);
-
-      const { body } = await authRequest
-        .post('/api/auth/signup')
-        .send({
-          nick: 'nick3',
-          email: 'user3@domain.tld',
-          password: 'password',
-        })
-        .expect(201);
-
-      user = body;
-    });
+    const { authRequest, user } = createAuthenticatedUser(server);
 
     it('should not create a quick reaction when not authenticated', () => {
       return request(server)
@@ -403,36 +355,8 @@ describe('reaction controller', () => {
   });
 
   describe('score', () => {
-    let authRequest = request.agent(server);
-    let authRequest2 = request.agent(server);
-    let user: any;
-    let user2: any;
-    let information: Information;
-    let reaction: Reaction;
-
-    beforeAll(async () => {
-      const { body } = await authRequest
-        .post('/api/auth/signup')
-        .send({
-          nick: 'nick4',
-          email: 'user4@domain.tld',
-          password: 'password',
-        })
-        .expect(201);
-
-      user = body;
-
-      const { body: body2 } = await authRequest2
-        .post('/api/auth/signup')
-        .send({
-          nick: 'nick5',
-          email: 'user5@domain.tld',
-          password: 'password',
-        })
-        .expect(201);
-
-      user2 = body2;
-    });
+    const { authRequest: authRequest } = createAuthenticatedUser(server);
+    const { authRequest: authRequest2 } = createAuthenticatedUser(server);
 
     beforeAll(async () => {
       information = await createInformation();
