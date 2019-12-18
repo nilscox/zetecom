@@ -393,4 +393,88 @@ describe('reaction controller', () => {
 
   });
 
+  describe('score', () => {
+    let authRequest: request.SuperTest<request.Test>;
+    let user: any;
+    let information: Information;
+    let reaction: Reaction;
+
+    beforeAll(async () => {
+      authRequest = request.agent(server);
+
+      const { body } = await authRequest
+        .post('/api/auth/signup')
+        .send({
+          nick: 'nick4',
+          email: 'user4@domain.tld',
+          password: 'password',
+        })
+        .expect(201);
+
+      user = body;
+    });
+
+    beforeAll(async () => {
+      information = await createInformation();
+      reaction = await createReaction({ information });
+    });
+
+    it('should increment a reaction score by 2 when a reply is created', async () => {
+      await authRequest
+        .post(`/api/reaction`)
+        .send({
+          informationId: information.id,
+          parentId: reaction.id,
+          text: 'text',
+        })
+        .expect(201);
+
+      const reactionDb = await reactionRepository.findOne(reaction.id);
+
+      expect(reactionDb).toMatchObject({
+        score: 2,
+      });
+    });
+
+    it('should increment a reaction score when a quick reaction is created', async () => {
+      await authRequest
+        .post(`/api/reaction/${reaction.id}/quick-reaction`)
+        .send({ type: QuickReactionType.APPROVE })
+        .expect(201);
+
+      const reactionDb = await reactionRepository.findOne(reaction.id);
+
+      expect(reactionDb).toMatchObject({
+        score: 3,
+      });
+    });
+
+    it('should not change a reaction score when a quick reaction is updated', async () => {
+      await authRequest
+        .post(`/api/reaction/${reaction.id}/quick-reaction`)
+        .send({ type: QuickReactionType.SKEPTIC })
+        .expect(201);
+
+      const reactionDb = await reactionRepository.findOne(reaction.id);
+
+      expect(reactionDb).toMatchObject({
+        score: 3,
+      });
+    });
+
+    it('should decrement a reaction score when a quick reaction is removed', async () => {
+      await authRequest
+        .post(`/api/reaction/${reaction.id}/quick-reaction`)
+        .send({ type: null })
+        .expect(201);
+
+      const reactionDb = await reactionRepository.findOne(reaction.id);
+
+      expect(reactionDb).toMatchObject({
+        score: 2,
+      });
+    });
+
+  });
+
 });

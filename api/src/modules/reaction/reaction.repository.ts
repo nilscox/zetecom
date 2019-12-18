@@ -185,6 +185,14 @@ export class ReactionRepository extends Repository<Reaction> {
     return { items, total };
   }
 
+  async incrementScore(id: number, by = 1) {
+    return this.increment({ id }, 'score', by);
+  }
+
+  async decrementScore(id: number, by = 1) {
+    return this.decrement({ id }, 'score', by);
+  }
+
   async getRepliesCounts(reactionIds: number[]): Promise<RepliesCount[]> {
     const repliesCounts = await this.createQueryBuilder('reaction')
       .select('reaction.id')
