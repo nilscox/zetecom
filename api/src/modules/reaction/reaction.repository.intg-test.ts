@@ -72,14 +72,11 @@ describe('reaction repository', () => {
       });
     });
 
-    it.skip('should find the root reactions sorted by relevance', async () => {
+    it('should find the root reactions sorted by relevance', async () => {
       const information = await createInformation();
-      const reaction1 = await createReaction({ information });
-      const reaction2 = await createReaction({ information });
-      const reaction3 = await createReaction({ information });
-      await createQuickReaction({ reaction: reaction2 });
-      await createQuickReaction({ reaction: reaction3 });
-      await createReaction({ information, parent: reaction3 });
+      const reaction1 = await createReaction({ information, score: 1 });
+      const reaction2 = await createReaction({ information, score: 2 });
+      const reaction3 = await createReaction({ information, score: 3 });
 
       const result = await reactionRepository.findRootReactions(information.id, SortType.RELEVANCE, 1, 3);
 
@@ -285,15 +282,11 @@ describe('reaction repository', () => {
       });
     });
 
-    it.skip('should find the reactions for a user sorted by relevance', async () => {
-      const information = await createInformation();
+    it('should find the reactions for a user sorted by relevance', async () => {
       const author = await createUser();
-      const reaction1 = await createReaction({ information, author });
-      const reaction2 = await createReaction({ information, author });
-      const reaction3 = await createReaction({ information, author });
-      await createQuickReaction({ reaction: reaction2 });
-      await createQuickReaction({ reaction: reaction3 });
-      await createReaction({ information, author, parent: reaction3 });
+      const reaction1 = await createReaction({ author, score: 1 });
+      const reaction2 = await createReaction({ author, score: 2 });
+      const reaction3 = await createReaction({ author, score: 3 });
 
       const result = await reactionRepository.findForUser(author.id, SortType.RELEVANCE, 1, 3);
 

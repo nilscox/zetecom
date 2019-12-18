@@ -68,12 +68,8 @@ export class ReactionRepository extends Repository<Reaction> {
     else if (sort === SortType.DATE_DESC)
       qb.orderBy('reaction.created', 'DESC');
     else if (sort === SortType.RELEVANCE) {
-      // TODO
-      /*
-      with qrcount as (select r.id rid, count(qr.id) cnt from reaction r join quick_reaction qr on qr.reaction_id = r.id group by r.id),
-      repcount as (select r.id rid, count(c.id) cnt from reaction r join reaction c on c.parent_id = r.id where r.subject_id is null group by r.id)
-      select qrcount.rid, coalesce(qrcount.cnt, 0) + coalesce(repcount.cnt, 0) from qrcount full join repcount on qrcount.rid = repcount.rid;
-      */
+      qb.addOrderBy('reaction.score', 'DESC')
+        .addOrderBy('reaction.created', 'DESC');
     }
 
     qb.addOrderBy('message.created', 'ASC');
