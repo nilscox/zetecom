@@ -11,7 +11,7 @@ export class CreateReactionInDto {
 
   @IsOptional()
   @IsInt()
-  readonly parentId: number;
+  readonly parentId?: number;
 
   @IsString()
   @MaxLength(40000)

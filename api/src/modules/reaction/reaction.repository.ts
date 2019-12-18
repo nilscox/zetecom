@@ -79,6 +79,10 @@ export class ReactionRepository extends Repository<Reaction> {
     qb.addOrderBy('message.created', 'ASC');
   }
 
+  async exists(id: number): Promise<boolean> {
+    return (await this.count({ id })) === 1;
+  }
+
   async findRootReactions(
     informationId: number,
     sort: SortType,

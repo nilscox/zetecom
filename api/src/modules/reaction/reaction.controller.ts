@@ -35,6 +35,7 @@ import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
 import { ReportInDto } from '../report/dtos/report-in.dto';
 import { Paginated } from 'Common/paginated';
 import { SortType } from 'Common/sort-type';
+import { InformationService } from '../information/information.service';
 
 @Controller('/reaction')
 export class ReactionController {
@@ -43,6 +44,7 @@ export class ReactionController {
   private readonly reactionPageSize: number;
 
   constructor(
+    private readonly informationService: InformationService,
     private readonly subjectService: SubjectService,
     private readonly reactionService: ReactionService,
     private readonly reportService: ReportService,
@@ -76,6 +78,9 @@ export class ReactionController {
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Paginated<Reaction>> {
+    if (!(await this.reactionRepository.exists(id)))
+      throw new NotFoundException();
+
     return this.reactionRepository.findReplies(id, page, this.reactionPageSize);
   }
 
@@ -87,16 +92,24 @@ export class ReactionController {
     @Body() dto: CreateReactionInDto,
     @ReqUser() user: User,
   ): Promise<Reaction> {
+    const information = await this.informationService.findById(dto.informationId);
+
+    if (!information)
+      throw new BadRequestException(`information with id ${dto.informationId} does not exists`);
+
     let subject: Subject = null;
 
     if (dto.subjectId !== undefined) {
       subject = await this.subjectService.findById(dto.subjectId);
 
       if (!subject)
-        throw new NotFoundException(`subject with id ${dto.subjectId} not found`);
+        throw new BadRequestException(`subject with id ${dto.subjectId} does not exist`);
+
+      if (subject.information.id !== information.id)
+        throw new BadRequestException(`subject with id ${dto.subjectId} does not belong to the information with id ${dto.informationId}`);
     }
 
-    return this.reactionService.create(dto, user, subject);
+    return this.reactionService.create(dto, user, information, subject);
   }
 
   @Put(':id')

@@ -12,6 +12,7 @@ import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { InformationRepository } from '../information/information.repository';
+import { Information } from '../information/information.entity';
 
 @Injectable()
 export class ReactionService {
@@ -34,15 +35,7 @@ export class ReactionService {
     return this.reactionRepository.findOne(id);
   }
 
-  async create(dto: CreateReactionInDto, user: User, subject: Subject = null): Promise<Reaction> {
-    const information = await this.informationRepository.findOne(dto.informationId);
-
-    if (!information)
-      throw new BadRequestException(`information with id ${information.id} does not exist`);
-
-    if (subject && subject.information.id !== information.id)
-      throw new BadRequestException(`subject with id ${subject.id} does not belong to the information with id ${information.id}`);
-
+  async create(dto: CreateReactionInDto, user: User, information: Information, subject: Subject = null): Promise<Reaction> {
     let parent: Reaction | null = null;
 
     if (dto.parentId) {
@@ -101,6 +94,31 @@ export class ReactionService {
     return await this.reactionRepository.save(reaction);
   }
 
+  async setQuickReaction(reaction: Reaction, user: User, type: QuickReactionType | null) {
+    const existingQuickReaction = await this.quickReactionRepository.findOne({
+      where: {
+        reaction,
+        user,
+      },
+      relations: ['reaction', 'user'],
+    });
+
+    if (existingQuickReaction) {
+      if (existingQuickReaction.type === type)
+        return;
+
+      await this.quickReactionRepository.update(existingQuickReaction.id, { type });
+    } else {
+      const quickReaction = new QuickReaction();
+
+      quickReaction.reaction = reaction;
+      quickReaction.user = user;
+      quickReaction.type = type;
+
+      await this.quickReactionRepository.save(quickReaction);
+    }
+  }
+
   async addRepliesCounts(reactions: Reaction[]): Promise<Reaction[]> {
     if (!reactions.length)
       return [];
@@ -143,31 +161,6 @@ export class ReactionService {
 
       reaction.userQuickReaction = quickReaction ? quickReaction.type : null;
     });
-  }
-
-  async setQuickReaction(reaction: Reaction, user: User, type: QuickReactionType | null) {
-    const existingQuickReaction = await this.quickReactionRepository.findOne({
-      where: {
-        reaction,
-        user,
-      },
-      relations: ['reaction', 'user'],
-    });
-
-    if (existingQuickReaction) {
-      if (existingQuickReaction.type === type)
-        return;
-
-      await this.quickReactionRepository.update(existingQuickReaction.id, { type });
-    } else {
-      const quickReaction = new QuickReaction();
-
-      quickReaction.reaction = reaction;
-      quickReaction.user = user;
-      quickReaction.type = type;
-
-      await this.quickReactionRepository.save(quickReaction);
-    }
   }
 
 }
