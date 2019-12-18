@@ -22,6 +22,9 @@ export class Reaction {
   @JoinColumn({ name: 'author_id' })
   author: User;
 
+  @Column({ default: 0 })
+  score: number;
+
   @ManyToOne(type => Information, { nullable: false, eager: true })
   @JoinColumn({ name: 'information_id' })
   information: Information;

@@ -11,15 +11,12 @@ import { Reaction } from './reaction.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
-import { InformationRepository } from '../information/information.repository';
 import { Information } from '../information/information.entity';
 
 @Injectable()
 export class ReactionService {
 
   constructor(
-
-    private readonly informationRepository: InformationRepository,
 
     private readonly reactionRepository: ReactionRepository,
 
@@ -77,6 +74,9 @@ export class ReactionService {
     };
     reaction.userQuickReaction = null;
 
+    if (dto.parentId)
+      await this.reactionRepository.incrementScore(dto.parentId, 2);
+
     return reaction;
   }
 
@@ -108,6 +108,9 @@ export class ReactionService {
         return;
 
       await this.quickReactionRepository.update(existingQuickReaction.id, { type });
+
+      if (!type)
+        await this.reactionRepository.decrementScore(reaction.id);
     } else {
       const quickReaction = new QuickReaction();
 
@@ -116,6 +119,8 @@ export class ReactionService {
       quickReaction.type = type;
 
       await this.quickReactionRepository.save(quickReaction);
+
+      await this.reactionRepository.incrementScore(reaction.id);
     }
   }
 
