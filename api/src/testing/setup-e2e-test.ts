@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as request from 'supertest';
 import { ModuleMetadata, MiddlewareConsumer } from '@nestjs/common/interfaces';
 import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
 import { ExpressAdapter } from '@nestjs/platform-express';
@@ -10,6 +11,7 @@ import * as memorystore from 'memorystore';
 
 import { ErrorsInterceptor } from 'Common/errors.interceptor';
 import { UserMiddleware } from 'Common/user.middleware';
+import { UserOutDto } from 'src/modules/user/dtos/user-out.dto';
 import { User } from '../modules/user/user.entity';
 
 const MemoryStore = memorystore(expressSession);
@@ -86,4 +88,27 @@ export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module
   });
 
   return server;
+};
+
+let createUsersCount = 0;
+
+export const createAuthenticatedUser = (server) => {
+  const authRequest = request.agent(server);
+  const user: UserOutDto = {} as any;
+
+  beforeAll(async () => {
+    const { body } = await authRequest
+      .post('/api/auth/signup')
+      .send({
+        nick: `nick${createUsersCount}`,
+        email: `user${createUsersCount}@domain.tld`,
+        password: 'password',
+      })
+      .expect(201);
+
+    Object.assign(user, body);
+    createUsersCount++;
+  });
+
+  return { authRequest, user };
 };

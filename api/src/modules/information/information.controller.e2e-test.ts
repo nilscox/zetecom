@@ -9,7 +9,7 @@ import { Reaction } from '../reaction/reaction.entity';
 import { Message } from '../reaction/message.entity';
 import { Subject } from '../subject/subject.entity';
 
-import { setupE2eTest } from '../../testing/setup-e2e-test';
+import { setupE2eTest, createAuthenticatedUser } from '../../testing/setup-e2e-test';
 import { createInformation } from '../../testing/factories/information.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
 import { createMessage } from '../../testing/factories/message.factory';
@@ -310,28 +310,12 @@ describe('information controller', () => {
   });
 
   describe('create information', () => {
-    let authRequest: any; // request.SuperTest<request.Test>;
-    let user: any;
+    const { authRequest, user } = createAuthenticatedUser(server);
 
     const info = {
       title: 'title',
       url: 'https://some.url',
     };
-
-    beforeAll(async () => {
-      authRequest = request.agent(server);
-
-      const { body } = await authRequest
-        .post('/api/auth/signup')
-        .send({
-          nick: 'nick',
-          email: 'user@domain.tld',
-          password: 'password',
-        })
-        .expect(201);
-
-      user = body;
-    });
 
     it('should not create an information when unauthenticated', () => {
       return request(server)
