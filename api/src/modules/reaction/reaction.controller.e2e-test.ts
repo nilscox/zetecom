@@ -331,6 +331,15 @@ describe('reaction controller', () => {
         .expect(400);
     });
 
+    it('should not create a quick reaction on own reaction', async () => {
+      const reaction = await createReaction({ author: user });
+
+      return authRequest
+        .post(`/api/reaction/${reaction.id}/quick-reaction`)
+        .send({ type: QuickReactionType.APPROVE })
+        .expect(403);
+    });
+
     it('should create a quick reaction', async () => {
       const { body } = await authRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
@@ -394,14 +403,14 @@ describe('reaction controller', () => {
   });
 
   describe('score', () => {
-    let authRequest: request.SuperTest<request.Test>;
+    let authRequest = request.agent(server);
+    let authRequest2 = request.agent(server);
     let user: any;
+    let user2: any;
     let information: Information;
     let reaction: Reaction;
 
     beforeAll(async () => {
-      authRequest = request.agent(server);
-
       const { body } = await authRequest
         .post('/api/auth/signup')
         .send({
@@ -412,6 +421,17 @@ describe('reaction controller', () => {
         .expect(201);
 
       user = body;
+
+      const { body: body2 } = await authRequest2
+        .post('/api/auth/signup')
+        .send({
+          nick: 'nick5',
+          email: 'user5@domain.tld',
+          password: 'password',
+        })
+        .expect(201);
+
+      user2 = body2;
     });
 
     beforeAll(async () => {
@@ -472,6 +492,21 @@ describe('reaction controller', () => {
 
       expect(reactionDb).toMatchObject({
         score: 2,
+      });
+    });
+
+    it('should increment a parent reaction score when a quick reaction is created', async () => {
+      const child = await reactionRepository.findOne({ parent: reaction });
+
+      await authRequest2
+        .post(`/api/reaction/${child.id}/quick-reaction`)
+        .send({ type: QuickReactionType.APPROVE })
+        .expect(201);
+
+      const reactionDb = await reactionRepository.findOne(reaction.id);
+
+      expect(reactionDb).toMatchObject({
+        score: 3,
       });
     });
 

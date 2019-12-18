@@ -1,4 +1,4 @@
-import { Repository, EntityRepository, getRepository, SelectQueryBuilder } from 'typeorm';
+import { Repository, EntityRepository, getRepository, SelectQueryBuilder, In } from 'typeorm';
 
 import { SortType } from 'Common/sort-type';
 
@@ -181,12 +181,27 @@ export class ReactionRepository extends Repository<Reaction> {
     return { items, total };
   }
 
+  private async findAncestors(id: number) {
+    const [{ ancestors }] = await this.query(`
+      WITH RECURSIVE tree AS (
+        SELECT id, ARRAY[]::INTEGER[] AS ancestors
+        FROM reaction WHERE parent_id IS NULL
+        UNION ALL
+        SELECT reaction.id, tree.ancestors || reaction.parent_id
+        FROM reaction, tree
+        WHERE reaction.parent_id = tree.id
+      ) SELECT ancestors FROM tree WHERE id = $1
+    `.replace(/\n */g, ' '), [id]);
+
+    return ancestors;
+  }
+
   async incrementScore(id: number, by = 1) {
-    return this.increment({ id }, 'score', by);
+    return this.increment({ id: In([id, ...await this.findAncestors(id)]) }, 'score', by);
   }
 
   async decrementScore(id: number, by = 1) {
-    return this.decrement({ id }, 'score', by);
+    return this.decrement({ id: In([id, ...await this.findAncestors(id)]) }, 'score', by);
   }
 
   async getRepliesCounts(reactionIds: number[]): Promise<RepliesCount[]> {
