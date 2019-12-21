@@ -33,7 +33,7 @@ type LinkProps = React.HTMLProps<HTMLAnchorElement> & {
 
 export const Link: React.FC<LinkProps> = ({ openInNewTab, className, ...props }) => {
   const classes = useStyles({});
-  const other: any = {};
+  const other: React.HTMLProps<HTMLAnchorElement> = {};
 
   if (openInNewTab)
     other.target = '_blank';

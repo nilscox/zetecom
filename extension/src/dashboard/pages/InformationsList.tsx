@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { AxiosRequestConfig } from 'axios';
 import moment from 'moment';
 
-import { Paginated, paginatedResults } from 'src/utils/parse-paginated';
+import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
 import useAxios from 'src/hooks/use-axios';
 import useUpdateEffect from 'src/hooks/use-update-effect';
 import { parseInformation, Information } from 'src/types/Information';
@@ -16,10 +17,10 @@ import SearchField from '../components/SearchField';
 import Loader from '../components/Loader';
 
 const useInformations = (search: string, page: number) => {
-  const [result, refetch] = useAxios<Paginated<Information>>('/api/information', paginatedResults(parseInformation));
+  const [result, refetch] = useAxios<Paginated<Information>>('/api/information', usePaginatedResults(parseInformation));
 
   useUpdateEffect(() => {
-    const opts: any = { params: {} };
+    const opts: AxiosRequestConfig = { params: {} };
 
     if (search)
       opts.params.search = search;

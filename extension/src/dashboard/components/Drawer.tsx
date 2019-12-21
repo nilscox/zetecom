@@ -51,6 +51,7 @@ const ListItemLink: React.FC<ListItemLink> = ({ auth, icon, primary, to }) => {
 
   return (
     <li>
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       <ListItem disabled={auth && !user} button component={renderLink as any}>
         <ListItemIcon>{ icon }</ListItemIcon>
         <ListItemText color="primary" primary={primary} className={classes.text} />

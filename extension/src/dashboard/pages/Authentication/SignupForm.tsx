@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AxiosRequestConfig, AxiosError } from 'axios';

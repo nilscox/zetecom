@@ -1,6 +1,8 @@
 /* eslint-disable max-lines */
 
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import { AxiosRequestConfig } from 'axios';
+
 import { Subject } from 'src/types/Subject';
 import { Reaction, parseReaction } from 'src/types/Reaction';
 import env from 'src/utils/env';
@@ -8,21 +10,20 @@ import { useTheme } from 'src/utils/Theme';
 import Flex from 'src/components/common/Flex';
 import Loader from 'src/components/common/Loader';
 import Collapse from 'src/components/common/Collapse';
-
 import useAxios from 'src/hooks/use-axios';
+import { usePaginatedResults, Paginated } from 'src/utils/parse-paginated';
+import useEditableDataset from 'src/hooks/use-editable-dataset';
+import useUpdateEffect from 'src/hooks/use-update-effect';
 
 import ReactionComponent from './Reaction';
 import ReactionsList from './ReactionsList';
 import ReactionForm, { ReactionEditionForm } from './ReactionForm';
-import { paginatedResults, Paginated } from 'src/utils/parse-paginated';
-import useEditableDataset from 'src/hooks/use-editable-dataset';
-import useUpdateEffect from 'src/hooks/use-update-effect';
 
 export const useReactionReplies = (parent: Reaction) => {
   const [page, setPage] = useState(0);
 
   const url = `/api/reaction/${parent.id}/replies`;
-  const parse = useCallback(paginatedResults(parseReaction), []);
+  const parse = useCallback(usePaginatedResults(parseReaction), []);
   const [{ data, loading, error }, fetch] = useAxios<Paginated<Reaction>>(
     url,
     parse,
@@ -32,7 +33,7 @@ export const useReactionReplies = (parent: Reaction) => {
   const [replies, { prepend, replace }] = useEditableDataset(data ? data.items : null, { appendOnUpdate: true });
 
   useUpdateEffect(() => {
-    const opts: any = { params: {} };
+    const opts: AxiosRequestConfig = { params: {} };
 
     if (page !== 1)
       opts.params.page = page;
@@ -105,7 +106,7 @@ const FetchMoreReplies: React.FC<FetchMoreRepliesProps> = ({ remainingReplies, f
     >
       ▾ &nbsp; { remainingReplies } réaction{s} restante{s} &nbsp; ▾
     </Flex>
-);
+  );
 };
 
 type ReactionContainerProps = {

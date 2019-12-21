@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from 'react';
 
 const findById = <T extends { id: number }>(dataset: T[]) => (data: T) => {
   return dataset.find((element: T) => element.id === data.id);
@@ -22,6 +22,7 @@ const useEditableDataset = <T extends { id: number }>(
       setCopy([...copy, ...dataset]);
     else
       setCopy(dataset);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataset]);
 
   const prepend = useCallback((newData: T) => {

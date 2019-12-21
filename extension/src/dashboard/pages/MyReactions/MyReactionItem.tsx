@@ -10,7 +10,7 @@ type MyReactionItemProps = {
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     margin: theme.spacing(1, 0),
-  }
+  },
 }));
 
 const MyReactionItem: React.FC<MyReactionItemProps> = ({ reaction }) => {
