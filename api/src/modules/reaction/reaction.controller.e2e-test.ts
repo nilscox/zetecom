@@ -1,3 +1,5 @@
+// tslint:disable no-shadowed-variable
+
 import * as request from 'supertest';
 
 import { ReactionModule } from './reaction.module';

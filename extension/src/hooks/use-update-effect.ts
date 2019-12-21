@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 
-const useUpdateEffect = (effect: Function, dependencies: any[] = []) => {
+const useUpdateEffect = (effect: Function, deps: React.DependencyList = []) => {
   const isInitialMount = useRef(true);
 
   useEffect(() => {
@@ -8,7 +8,8 @@ const useUpdateEffect = (effect: Function, dependencies: any[] = []) => {
       isInitialMount.current = false;
     else
       effect();
-  }, dependencies);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 };
 
 export default useUpdateEffect;

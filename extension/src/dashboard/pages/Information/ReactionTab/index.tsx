@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { AxiosRequestConfig } from 'axios';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { Reaction, parseReaction } from 'src/types/Reaction';
@@ -9,7 +10,7 @@ import useAxios from 'src/hooks/use-axios';
 import useUpdateEffect from 'src/hooks/use-update-effect';
 import Flex from 'src/components/common/Flex';
 import ReactionsList from 'src/components/reaction/ReactionsList';
-import { Paginated, paginatedResults } from 'src/utils/parse-paginated';
+import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
 import SearchField from 'src/dashboard/components/SearchField';
 import Loader from 'src/dashboard/components/Loader';
 import ReactionCreationForm from 'src/components/reaction/ReactionForm';
@@ -24,11 +25,11 @@ import useEditableDataset from 'src/hooks/use-editable-dataset';
 const useReactions = (informationId: number, search: string, sort: SortType | undefined, page: number) => {
   const [result, refetch] = useAxios<Paginated<Reaction>>(
     `/api/information/${informationId}/reactions`,
-    paginatedResults(parseReaction),
+    usePaginatedResults(parseReaction),
   );
 
   useUpdateEffect(() => {
-    const opts: any = { params: {} };
+    const opts: AxiosRequestConfig = { params: {} };
 
     if (search)
       opts.params.search = search;

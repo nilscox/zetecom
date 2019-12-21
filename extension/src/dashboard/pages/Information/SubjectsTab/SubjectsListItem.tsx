@@ -75,6 +75,6 @@ const SubjectsListItem: React.FC<SubjectsListItemProps> = ({ subject, expanded, 
 
     </ExpansionPanel>
   );
-}
+};
 
 export default SubjectsListItem;

@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 
-import { RouteComponentProps } from 'react-router-dom';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { AxiosRequestConfig } from 'axios';
+import { RouteComponentProps } from 'react-router-dom';
 
 import Loader from 'src/dashboard/components/Loader';
 import Flex from 'src/components/common/Flex';
@@ -12,7 +13,7 @@ import ReactionsList from 'src/components/reaction/ReactionsList';
 
 import useAxios from 'src/hooks/use-axios';
 import useUpdateEffect from 'src/hooks/use-update-effect';
-import { paginatedResults, Paginated } from 'src/utils/parse-paginated';
+import { usePaginatedResults, Paginated } from 'src/utils/parse-paginated';
 import { parseSubject, Subject as SubjectType } from 'src/types/Subject';
 import { parseReaction, Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
@@ -33,11 +34,11 @@ const useSubject = (subjectId: number) => {
 const useSubjectReactions = (subjectId: number, search: string, sort: SortType | undefined, page: number) => {
   const [result, refetch] = useAxios<Paginated<Reaction>>(
     `/api/subject/${subjectId}/reactions`,
-    paginatedResults(parseReaction),
+    usePaginatedResults(parseReaction),
   );
 
   useUpdateEffect(() => {
-    const opts: any = { params: {} };
+    const opts: AxiosRequestConfig = { params: {} };
 
     if (sort)
       opts.params.sort = sort;
