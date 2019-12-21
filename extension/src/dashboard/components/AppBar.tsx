@@ -86,7 +86,7 @@ const AppBar: React.FC<AppBarProps> = ({ handleDrawerToggle }) => {
           onClick={() => {}}
           color="secondary"
         >
-          <RouterLink to="/auth/login" className={classes.appBarLink}>
+          <RouterLink to="/connexion" className={classes.appBarLink}>
             <AccountIcon />
           </RouterLink>
         </IconButton>

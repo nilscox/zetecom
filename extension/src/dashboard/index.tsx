@@ -34,7 +34,7 @@ const Switch: React.FC = () => (
     <Route path="/reactions" component={MyReactions} />
     <Route path="/bookmarks" component={Bookmarks} />
     <Route path="/settings" component={Settings} />
-    <Route path="/auth/:sign" component={Authentication} />
+    <Route path="/:sign(connexion|inscription)" component={Authentication} />
   </RouterSwitch>
 );
 
