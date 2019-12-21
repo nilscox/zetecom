@@ -13,7 +13,7 @@ type TabsProps = {
   currentTab: string;
 };
 
-const useTabStyle = makeStyles((theme: Theme) => ({
+const useTabStyles = makeStyles((theme: Theme) => ({
   tabContainer: {
     marginBottom: theme.spacing(2),
   },
@@ -21,17 +21,17 @@ const useTabStyle = makeStyles((theme: Theme) => ({
 
 const Tabs: React.FC<TabsProps> = ({ currentTab }) => {
   const history = useHistory();
-  const classes = useTabStyle({});
+  const classes = useTabStyles({});
 
   return (
     <MaterialTabs
       centered
       className={classes.tabContainer}
       value={currentTab}
-      onChange={(_, value) => history.push(`/auth/${value}`)}
+      onChange={(_, value) => history.replace(`/${value}`)}
     >
-      <Tab value="login" label="Connexion" />
-      <Tab value="signup" label="Inscription" />
+      <Tab value="connexion" label="Connexion" />
+      <Tab value="inscription" label="Inscription" />
     </MaterialTabs>
   );
 };
@@ -41,36 +41,37 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
   },
-  dividerTop: {
+  spacerTop: {
     flex: 1,
   },
   paper: {
-    width: 600,
     margin: 'auto',
     padding: theme.spacing(4),
+    width: '60%',
+    maxWidth: 600,
+    minWidth: 400,
   },
-  dividerBottom: {
+  spacerBottom: {
     flex: 2,
   },
 }));
 
 const Authentication: React.FC = () => {
-  const { sign: currentTab } = useParams();
+  const { sign: currentTab } = useParams<{ sign: string }>();
 
   const classes = useStyles({});
 
   return (
     <>
-      <div className={classes.dividerTop} />
+      <div className={classes.spacerTop} />
       <Paper elevation={2} className={classes.paper}>
         <Tabs currentTab={currentTab} />
-
         <Switch>
-          <Route path="/auth/login" component={LoginForm} />
-          <Route path="/auth/signup" component={SignupForm} />
+          <Route path="/connexion" component={LoginForm} />
+          <Route path="/inscription" component={SignupForm} />
         </Switch>
       </Paper>
-      <div className={classes.dividerBottom} />
+      <div className={classes.spacerBottom} />
     </>
   );
 };

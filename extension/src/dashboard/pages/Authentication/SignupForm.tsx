@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { Link } from 'src/components/common/Link';
+import Flex from 'src/components/common/Flex';
 
 import useAxios from 'src/hooks/use-axios';
 import { parseUser } from 'src/types/User';
@@ -101,12 +102,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: 'center',
   },
   buttonWrapper: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(1, 0),
     position: 'relative',
     alignSelf: 'center',
   },
-  buttonProgress: {
-    position: 'absolute',
+  loader: {
     top: '50%',
     left: '50%',
     marginTop: -12,
@@ -164,7 +164,7 @@ const Signup: React.FC = () => {
   return (
     <form onSubmit={onSubmit}>
 
-      <FormGroup className={classes.container}>
+      <Flex flexDirection="column" className={classes.container}>
         <TextField
           type="email"
           value={email}
@@ -213,7 +213,8 @@ const Signup: React.FC = () => {
           <Checkbox
             checked={checked}
             required
-            onChange={(e) => setChecked(e.target.checked)} value={checked}
+            onChange={(e) => setChecked(e.target.checked)}
+            value={checked}
           />
           <FormLabel>J'accepte la charte</FormLabel>
         </FormGroup>
@@ -223,12 +224,12 @@ const Signup: React.FC = () => {
         </FormHelperText>
 
         <div className={classes.buttonWrapper}>
-          <Button type="submit" variant="text" color="secondary" className={classes.button} disabled={!valid}>
-            { loading ? <CircularProgress size={24} className={classes.buttonProgress} /> : 'S\'enregistrer' }
+          <Button type="submit" variant="contained" color="secondary" className={classes.button} disabled={!valid}>
+            { loading ? <CircularProgress size={24} className={classes.loader} /> : 'Inscription' }
           </Button>
         </div>
 
-      </FormGroup>
+      </Flex>
 
     </form>
   );
