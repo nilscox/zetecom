@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { TransformInterceptor } from './transform.interceptor';
 import { ReactionService } from '../modules/reaction/reaction.service';
 import { Reaction } from '../modules/reaction/reaction.entity';
+import { BookmarkService } from 'src/modules/bookmark/bookmark.service';
 
 @Injectable()
 export class PopulateReaction extends TransformInterceptor<Reaction> {
@@ -22,7 +23,10 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
     await this.reactionService.addRepliesCounts(reactions);
     await this.reactionService.addQuickReactionsCounts(reactions);
 
-    if (user)
+    if (user) {
       await this.reactionService.addUserQuickReaction(reactions, user);
+      await this.reactionService.addUserBookmarks(reactions, user);
+    }
   }
+
 }

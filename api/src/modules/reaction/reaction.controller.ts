@@ -63,8 +63,8 @@ export class ReactionController {
   }
 
   @Get(':id')
-  @Output(ReactionWithHistoryOutDto)
   @UseInterceptors(PopulateReaction)
+  @Output(ReactionWithHistoryOutDto)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Reaction> {

@@ -16,6 +16,7 @@ import { createSubject } from '../../testing/factories/subject.factory';
 import { ReactionRepository } from './reaction.repository';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { QuickReactionType, QuickReaction } from './quick-reaction.entity';
+import { createBookmark } from '../../testing/factories/bookmark.factory';
 
 describe('reaction controller', () => {
 
@@ -350,6 +351,21 @@ describe('reaction controller', () => {
       const quickReactionDb = await quickReactionRepository.findOne(body.id);
 
       expect(quickReactionDb).toMatchObject({ type: null });
+    });
+
+  });
+
+  describe('bookmarks', () => {
+    const { authRequest, user } = createAuthenticatedUser(server);
+
+    it('should set the bookmarked field to true when bookmarked', async () => {
+      await createBookmark({ user, reaction });
+
+      const { body } = await authRequest
+        .get(`/api/reaction/${reaction.id}`)
+        .expect(200);
+
+      expect(body).toMatchObject({ bookmarked: true });
     });
 
   });

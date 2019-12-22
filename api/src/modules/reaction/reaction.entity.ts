@@ -52,4 +52,6 @@ export class Reaction {
   quickReactionsCount?: { [key in QuickReactionType]: number };
 
   userQuickReaction?: QuickReactionType;
+
+  bookmarked?: boolean;
 }

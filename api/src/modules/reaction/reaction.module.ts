@@ -10,6 +10,7 @@ import { Message } from './message.entity';
 import { QuickReaction } from './quick-reaction.entity';
 import { ReactionRepository } from './reaction.repository';
 import { ReportModule } from '../report/report.module';
+import { BookmarkModule } from '../bookmark/bookmark.module';
 
 const REACTION_PAGE_SIZE = 'REACTION_PAGE_SIZE';
 const ReactionPageSize: Provider = {
@@ -22,6 +23,7 @@ const ReactionPageSize: Provider = {
     TypeOrmModule.forFeature([ReactionRepository, Message, QuickReaction]),
     forwardRef(() => InformationModule),
     forwardRef(() => SubjectModule),
+    forwardRef(() => BookmarkModule),
     ReportModule,
   ],
   controllers: [

@@ -66,6 +66,9 @@ export class ReactionOutDto {
   userQuickReaction: string;
 
   @Expose()
+  bookmarked: boolean;
+
+  @Expose()
   @Type(() => UserLightOutDto)
   author: UserLightOutDto;
 
