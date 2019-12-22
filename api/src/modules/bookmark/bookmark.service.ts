@@ -9,19 +9,19 @@ import { Bookmark } from './bookmark.entity';
 @Injectable()
 export class BookmarkService {
 
-  @Inject('BOOKMARK_PAGE_SIZE')
-  private readonly pageSize: number;
+  @Inject('REACTION_PAGE_SIZE')
+  private readonly reactionPageSize: number;
 
   constructor(
     private readonly bookmarkRepository: BookmarkRepository,
   ) {}
 
   async find(user: User, page: number): Promise<Paginated<Reaction>> {
-    return this.bookmarkRepository.findBookmarks(user.id, page, this.pageSize);
+    return this.bookmarkRepository.findBookmarks(user.id, page, this.reactionPageSize);
   }
 
-  async add(user: User, reactionId: number): Promise<void> {
-    return this.bookmarkRepository.addBookmark(user, reactionId);
+  async add(user: User, reaction: Reaction): Promise<void> {
+    return this.bookmarkRepository.addBookmark(user, reaction);
   }
 
   async remove(bookmark: Bookmark): Promise<void> {

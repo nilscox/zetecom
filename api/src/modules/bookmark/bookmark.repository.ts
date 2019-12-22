@@ -30,10 +30,10 @@ export class BookmarkRepository extends Repository<Bookmark> {
     });
   }
 
-  async addBookmark(user: User, reactionId: number): Promise<void> {
+  async addBookmark(user: User, reaction: Reaction): Promise<void> {
     const bookmark = this.create({
       user,
-      reaction: { id: reactionId },
+      reaction,
     });
 
     await this.save(bookmark);
