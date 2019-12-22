@@ -238,6 +238,16 @@ const useBookmark = (reactionId: number, bookmarked: boolean) => {
   if (error)
     throw error;
 
+  const handleToggleBookmark = () => {
+    if (loading)
+      return;
+
+    toggleBookmark({ method: updatedBookmark ? 'DELETE' : 'POST' });
+
+    // optimist update
+    setUpdatedBookmark(!updatedBookmark);
+  };
+
   useEffect(() => {
     if (status(201))
       setUpdatedBookmark(true);
@@ -248,7 +258,7 @@ const useBookmark = (reactionId: number, bookmarked: boolean) => {
   return {
     bookmarked: updatedBookmark,
     loading,
-    toggleBookmark: () => toggleBookmark({ method: updatedBookmark ? 'DELETE' : 'POST' }),
+    toggleBookmark: handleToggleBookmark,
   };
 };
 
@@ -258,17 +268,13 @@ type BookmarkButtonProps = {
 
 const BookmarkButton: React.FC<BookmarkButtonProps> = ({ reaction }) => {
   const user = useCurrentUser();
-  const { bookmarked, loading, toggleBookmark } = useBookmark(reaction.id, reaction.bookmarked);
+  const { bookmarked, toggleBookmark } = useBookmark(reaction.id, reaction.bookmarked);
 
   if (!user)
     return null;
 
   return (
-    <IconButton
-      size="small"
-      disabled={!!loading}
-      onClick={toggleBookmark}
-    >
+    <IconButton size="small" onClick={toggleBookmark}>
       { bookmarked
         ? <StarIcon fontSize="small" color="primary" />
         : <StarIcon fontSize="small" color="disabled" />
