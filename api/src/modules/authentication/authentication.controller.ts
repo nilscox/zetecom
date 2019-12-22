@@ -36,8 +36,8 @@ export class AuthenticationController {
   ) {}
 
   @Post('/signup')
-  @Output(UserOutDto)
   @UseGuards(IsNotAuthenticated)
+  @Output(UserOutDto)
   async signup(@Body() signupUserDto: SignupUserInDto, @Session() session): Promise<User> {
     const user = await this.authService.signup(signupUserDto);
 
@@ -57,9 +57,9 @@ export class AuthenticationController {
   }
 
   @Post('/login')
-  @Output(UserOutDto)
   @UseGuards(IsNotAuthenticated)
   @HttpCode(200)
+  @Output(UserOutDto)
   async login(@Body() loginUserDto: LoginUserInDto, @Session() session): Promise<User> {
     const { email, password } = loginUserDto;
     const user = await this.authService.login(email, password);
@@ -77,8 +77,8 @@ export class AuthenticationController {
   }
 
   @Get('/me')
-  @Output(UserOutDto)
   @UseGuards(IsAuthenticated)
+  @Output(UserOutDto)
   me(@ReqUser() user): User {
     return user;
   }

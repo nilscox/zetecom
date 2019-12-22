@@ -1,17 +1,10 @@
 import {
-  Injectable,
   Controller,
-  Get, Post, Put,
-  Query, Param, Body,
+  Get, Post,
+  Param, Body,
   ParseIntPipe,
   UseInterceptors, UseGuards,
-  ClassSerializerInterceptor,
   NotFoundException,
-  UnauthorizedException,
-  PipeTransform,
-  ArgumentMetadata,
-  BadRequestException,
-  SetMetadata,
   Inject,
 } from '@nestjs/common';
 
@@ -49,15 +42,15 @@ export class SubjectController {
   ) {}
 
   @Get(':id')
-  @Output(SubjectOutDto)
   @UseInterceptors(PopulateSubject)
+  @Output(SubjectOutDto)
   async findOne(@Param('id', new ParseIntPipe()) id: number): Promise<Subject> {
     return this.subjectService.findById(id);
   }
 
   @Get(':id/reactions')
-  @PaginatedOutput(ReactionOutDto)
   @UseInterceptors(PopulateReaction)
+  @PaginatedOutput(ReactionOutDto)
   async findReactions(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'sort', defaultValue: 'date-desc' }, new SortTypePipe()) sort: SortType,
@@ -75,9 +68,9 @@ export class SubjectController {
   }
 
   @Post()
-  @Output(SubjectOutDto)
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateSubject)
+  @Output(SubjectOutDto)
   async create(
     @Body() dto: CreateSubjectInDto,
     @ReqUser() user: User,
