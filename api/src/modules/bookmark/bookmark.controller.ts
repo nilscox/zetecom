@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, ParseIntPipe, Post, Param, Delete, ConflictException, NotFoundException } from '@nestjs/common';
+import { Controller, Get, UseGuards, ParseIntPipe, Post, Param, Delete, ConflictException, NotFoundException, HttpStatus, HttpCode } from '@nestjs/common';
 
 import { IsAuthenticated } from 'Common/auth.guard';
 import { PaginatedOutput, Output } from 'Common/output.interceptor';
@@ -11,6 +11,7 @@ import { Paginated } from 'Common/paginated';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { BookmarkService } from './bookmark.service';
 import { BookmarkRepository } from './bookmark.repository';
+import { ReactionRepository } from '../reaction/reaction.repository';
 
 @Controller('bookmark')
 export class BookmarkController {
@@ -18,6 +19,7 @@ export class BookmarkController {
   constructor(
     private readonly bookmarkService: BookmarkService,
     private readonly bookmarkRepository: BookmarkRepository,
+    private readonly reactionRepository: ReactionRepository,
   ) {}
 
   @Get('me')
@@ -41,10 +43,16 @@ export class BookmarkController {
     if (existing)
       throw new ConflictException(`bookmark for reaction ${reactionId} already exists`);
 
-    return this.bookmarkService.add(user, reactionId);
+    const reaction = await this.reactionRepository.findOne(reactionId);
+
+    if (!reaction)
+      throw new NotFoundException(`reaction with id ${reactionId} does not exist`);
+
+    return this.bookmarkService.add(user, reaction);
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Output(ReactionOutDto)
   @UseGuards(IsAuthenticated)
   async removeBookmark(
