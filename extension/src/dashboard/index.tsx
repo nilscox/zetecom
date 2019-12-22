@@ -14,7 +14,7 @@ import Bookmarks from './pages/Bookmarks';
 import Settings from './pages/Settings';
 import Informations from './pages/InformationsList';
 import Information from './pages/Information';
-import Authentication from './pages/Authentication/index';
+import Authentication from './pages/Authentication';
 
 import AppBar from './components/AppBar';
 import Drawer, { drawerWidth } from './components/Drawer';
