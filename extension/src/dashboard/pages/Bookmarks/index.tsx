@@ -9,7 +9,7 @@ import useAxios from 'src/hooks/use-axios';
 import Loader from 'src/dashboard/components/Loader';
 import { Reaction, parseReaction } from 'src/types/Reaction';
 
-import MyBookmarkedItem from './MyBookmarkedItem';
+import BookmarkItem from './BookmarkItem';
 import Authenticated from 'src/dashboard/components/Authenticated';
 
 const useUserBookmarks = (page: number) => {
@@ -37,7 +37,7 @@ const Bookmarks: React.FC = () => {
       <Typography variant="h4">Mes favoris</Typography>
       { loading
         ? <Loader />
-        : reactions.items.map(r => <MyBookmarkedItem key={r.id} reaction={r} />)
+        : reactions.items.map(r => <BookmarkItem key={r.id} reaction={r} />)
       }
     </Authenticated>
   );
