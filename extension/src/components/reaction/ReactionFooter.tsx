@@ -226,39 +226,38 @@ const ReplyButton: React.FC<ReplyButtonProps> = ({ disabled, onReply }) => {
   );
 };
 
-const useBookmark = (reactionId: number, bookmarked: boolean) => {
-  const [updatedBookmark, setUpdatedBookmark] = useState(bookmarked);
+const useBookmark = (reaction: Reaction) => {
+  const [bookmarked, setBookmarked] = useState(reaction.bookmarked);
 
   const opts: AxiosRequestConfig = {
-    url: `/api/bookmark/${reactionId}`,
+    url: `/api/bookmark/${reaction.id}`,
   };
 
-  const [{ loading, error, status }, toggleBookmark] = useAxios(opts, undefined, { manual: true });
+  const [{ loading, error, status }, execute] = useAxios(opts, undefined, { manual: true });
 
   if (error)
     throw error;
 
-  const handleToggleBookmark = () => {
+  const toggleBookmark = () => {
     if (loading)
       return;
 
-    toggleBookmark({ method: updatedBookmark ? 'DELETE' : 'POST' });
+    execute({ method: bookmarked ? 'DELETE' : 'POST' });
 
     // optimist update
-    setUpdatedBookmark(!updatedBookmark);
+    setBookmarked(!bookmarked);
   };
 
   useEffect(() => {
     if (status(201))
-      setUpdatedBookmark(true);
+      setBookmarked(true);
     else if (status(204))
-      setUpdatedBookmark(false);
+      setBookmarked(false);
   }, [status]);
 
   return {
-    bookmarked: updatedBookmark,
-    loading,
-    toggleBookmark: handleToggleBookmark,
+    bookmarked,
+    toggleBookmark,
   };
 };
 
@@ -268,17 +267,14 @@ type BookmarkButtonProps = {
 
 const BookmarkButton: React.FC<BookmarkButtonProps> = ({ reaction }) => {
   const user = useCurrentUser();
-  const { bookmarked, toggleBookmark } = useBookmark(reaction.id, reaction.bookmarked);
+  const { bookmarked, toggleBookmark } = useBookmark(reaction);
 
   if (!user)
     return null;
 
   return (
     <IconButton size="small" onClick={toggleBookmark}>
-      { bookmarked
-        ? <StarIcon fontSize="small" color="primary" />
-        : <StarIcon fontSize="small" color="disabled" />
-      }
+      <StarIcon fontSize="small" color={bookmarked ? 'primary' : 'disabled'} />
     </IconButton>
   );
 };
