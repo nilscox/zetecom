@@ -43,4 +43,17 @@ export class BookmarkRepository extends Repository<Bookmark> {
     await this.remove(bookmark);
   }
 
+  async getBookmarks(reactionIds: number[], userId: number) {
+    const bookmarks = await this.createQueryBuilder()
+      .select('reaction_id', 'reactionId')
+      .where('user_id = :userId', { userId })
+      .andWhere('reaction_id IN (' + reactionIds + ')')
+      .getRawMany();
+
+    return reactionIds.reduce((obj, id) => ({
+      ...obj,
+      [id]: !!bookmarks.find(b => b.reactionId === id),
+    }), {});
+  }
+
 }

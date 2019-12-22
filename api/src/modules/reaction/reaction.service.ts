@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 
 import { User } from '../user/user.entity';
 import { Subject } from '../subject/subject.entity';
@@ -12,6 +12,7 @@ import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { Information } from '../information/information.entity';
+import { BookmarkRepository } from '../bookmark/bookmark.repository';
 
 @Injectable()
 export class ReactionService {
@@ -19,6 +20,7 @@ export class ReactionService {
   constructor(
 
     private readonly reactionRepository: ReactionRepository,
+    private readonly bookmarkRepository: BookmarkRepository,
 
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
@@ -165,6 +167,14 @@ export class ReactionService {
       const quickReaction = quickReactions.find(qr => qr.reactionId === reaction.id);
 
       reaction.userQuickReaction = quickReaction ? quickReaction.type : null;
+    });
+  }
+
+  async addUserBookmarks(reactions: Reaction[], user: User): Promise<void> {
+    const bookmarks = await this.bookmarkRepository.getBookmarks(reactions.map(r => r.id), user.id);
+
+    reactions.forEach((reaction) => {
+      reaction.bookmarked = bookmarks[reaction.id];
     });
   }
 
