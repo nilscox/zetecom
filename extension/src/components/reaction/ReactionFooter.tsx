@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { AxiosRequestConfig } from 'axios';
 
+import IconButton from '@material-ui/core/IconButton';
+import StarIcon from '@material-ui/icons/Star';
+
 import { Reaction, QuickReactionType, QuickReactionsCount, parseReaction } from 'src/types/Reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useTheme } from 'src/utils/Theme';
@@ -223,6 +226,57 @@ const ReplyButton: React.FC<ReplyButtonProps> = ({ disabled, onReply }) => {
   );
 };
 
+const useBookmark = (reactionId: number, bookmarked: boolean) => {
+  const [updatedBookmark, setUpdatedBookmark] = useState(bookmarked);
+
+  const opts: AxiosRequestConfig = {
+    url: `/api/bookmark/${reactionId}`,
+  };
+
+  const [{ loading, error, status }, toggleBookmark] = useAxios(opts, undefined, { manual: true });
+
+  if (error)
+    throw error;
+
+  useEffect(() => {
+    if (status(201))
+      setUpdatedBookmark(true);
+    else if (status(204))
+      setUpdatedBookmark(false);
+  }, [status]);
+
+  return {
+    bookmarked: updatedBookmark,
+    loading,
+    toggleBookmark: () => toggleBookmark({ method: updatedBookmark ? 'DELETE' : 'POST' }),
+  };
+};
+
+type BookmarkButtonProps = {
+  reaction: Reaction;
+};
+
+const BookmarkButton: React.FC<BookmarkButtonProps> = ({ reaction }) => {
+  const user = useCurrentUser();
+  const { bookmarked, loading, toggleBookmark } = useBookmark(reaction.id, reaction.bookmarked);
+
+  if (!user)
+    return null;
+
+  return (
+    <IconButton
+      size="small"
+      disabled={!!loading}
+      onClick={toggleBookmark}
+    >
+      { bookmarked
+        ? <StarIcon fontSize="small" color="primary" />
+        : <StarIcon fontSize="small" color="disabled" />
+      }
+    </IconButton>
+  );
+};
+
 type ReactionFooterProps = {
   reaction: Reaction;
   displayReplies: boolean;
@@ -250,6 +304,7 @@ const ReactionFooter: React.FC<ReactionFooterProps> = ({
       <RepliesButton repliesCount={reaction.repliesCount} displayReplies={displayReplies} onClick={toggleReplies} />
 
       <Flex flex={1} />
+      <BookmarkButton reaction={reaction} />
       <ReplyButton disabled={displayReplyForm} onReply={onReply} />
 
     </Flex>
