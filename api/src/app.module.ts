@@ -15,6 +15,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { InformationModule } from './modules/information/information.module';
 import { ReactionModule } from './modules/reaction/reaction.module';
+import { BookmarkModule } from './modules/bookmark/bookmark.module';
 
 import { AppController } from './app.controller';
 
@@ -36,6 +37,7 @@ const MemoryStore = memorystore(expressSession);
     AuthenticationModule,
     InformationModule,
     ReactionModule,
+    BookmarkModule,
   ],
   controllers: [AppController],
 })
