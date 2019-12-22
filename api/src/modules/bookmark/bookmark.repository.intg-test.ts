@@ -73,7 +73,7 @@ describe('bookmark repository', () => {
       const user = await createUser();
       const reaction = await createReaction();
 
-      await bookmarkRepository.addBookmark(user, reaction.id);
+      await bookmarkRepository.addBookmark(user, reaction);
 
       const bookmarkDb = await bookmarkRepository.findOne({
         where: { user, reaction },

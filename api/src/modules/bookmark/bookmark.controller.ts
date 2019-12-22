@@ -1,4 +1,17 @@
-import { Controller, Get, UseGuards, ParseIntPipe, Post, Param, Delete, ConflictException, NotFoundException, HttpStatus, HttpCode, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  UseGuards,
+  ParseIntPipe,
+  Post,
+  Param,
+  Delete,
+  ConflictException,
+  NotFoundException,
+  HttpStatus,
+  HttpCode,
+  UseInterceptors,
+} from '@nestjs/common';
 
 import { IsAuthenticated } from 'Common/auth.guard';
 import { PaginatedOutput, Output } from 'Common/output.interceptor';
