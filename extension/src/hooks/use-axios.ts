@@ -7,12 +7,15 @@ export type ResponseData = any;
 
 export default function useAxios<T>(
   config: AxiosRequestConfig | string,
-  parse: (data: ResponseData) => T,
+  parse?: (data: ResponseData) => T,
   options?: AxiosHooksOptions,
 ) {
   const [{ data, loading, error, response }, refetch] = useAxiosHook(config, options);
 
   const parsed = useMemo(() => {
+    if (!parse)
+      return undefined;
+
     if (response) {
       if (data && !error && [200, 201].includes(response.status))
         return parse(data);
