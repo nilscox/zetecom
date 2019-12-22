@@ -17,4 +17,10 @@ export class InformationOutDto {
   @Type(() => UserLightOutDto)
   creator: UserLightOutDto;
 
+  @Expose()
+  reactionsCount: number;
+
+  @Expose()
+  subjectsCount: number;
+
 }

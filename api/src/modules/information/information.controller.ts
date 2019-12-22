@@ -57,8 +57,8 @@ export class InformationController {
   ) {}
 
   @Get()
-  @PaginatedOutput(InformationOutDto)
   @UseInterceptors(PopulateInformation)
+  @PaginatedOutput(InformationOutDto)
   async findAll(
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
   ): Promise<Paginated<Information>> {
@@ -66,8 +66,8 @@ export class InformationController {
   }
 
   @Get(':id')
-  @Output(InformationOutDto)
   @UseInterceptors(PopulateInformation)
+  @Output(InformationOutDto)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Information> {
@@ -80,8 +80,8 @@ export class InformationController {
   }
 
   @Get('by-url/:url')
-  @Output(InformationOutDto)
   @UseInterceptors(PopulateInformation)
+  @Output(InformationOutDto)
   async findOneByUrl(
     @Param('url') url: string,
   ): Promise<Information> {
@@ -94,8 +94,8 @@ export class InformationController {
   }
 
   @Get('by-youtubeId/:youtubeId')
-  @Output(InformationOutDto)
   @UseInterceptors(PopulateInformation)
+  @Output(InformationOutDto)
   async findOneByYoutubeId(
     @Param('youtubeId') youtubeId: string,
   ): Promise<Information> {
@@ -108,8 +108,8 @@ export class InformationController {
   }
 
   @Get(':id/reactions')
-  @PaginatedOutput(ReactionOutDto)
   @UseInterceptors(PopulateReaction)
+  @PaginatedOutput(ReactionOutDto)
   async findReactions(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
@@ -125,8 +125,8 @@ export class InformationController {
   }
 
   @Get(':id/subjects')
-  @PaginatedOutput(SubjectOutDto)
   @UseInterceptors(PopulateSubject)
+  @PaginatedOutput(SubjectOutDto)
   async findSubjects(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
@@ -141,9 +141,9 @@ export class InformationController {
   }
 
   @Post()
-  @Output(InformationOutDto)
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateInformation)
+  @Output(InformationOutDto)
   async create(
     @Body() dto: CreateInformationInDto,
     @ReqUser() user: User,

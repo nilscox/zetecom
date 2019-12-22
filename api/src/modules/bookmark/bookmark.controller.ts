@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, ParseIntPipe, Post, Param, Delete, ConflictException, NotFoundException, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, UseGuards, ParseIntPipe, Post, Param, Delete, ConflictException, NotFoundException, HttpStatus, HttpCode, UseInterceptors } from '@nestjs/common';
 
 import { IsAuthenticated } from 'Common/auth.guard';
 import { PaginatedOutput, Output } from 'Common/output.interceptor';
@@ -12,6 +12,7 @@ import { OptionalQuery } from 'Common/optional-query.decorator';
 import { BookmarkService } from './bookmark.service';
 import { BookmarkRepository } from './bookmark.repository';
 import { ReactionRepository } from '../reaction/reaction.repository';
+import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 
 @Controller('bookmark')
 export class BookmarkController {
@@ -23,8 +24,9 @@ export class BookmarkController {
   ) {}
 
   @Get('me')
-  @PaginatedOutput(ReactionOutDto)
   @UseGuards(IsAuthenticated)
+  @UseInterceptors(PopulateReaction)
+  @PaginatedOutput(ReactionOutDto)
   async findForUser(
     @ReqUser() user: User,
     @OptionalQuery({ key: 'page', defaultValue: 1 }, new ParseIntPipe()) page: number,
@@ -52,9 +54,8 @@ export class BookmarkController {
   }
 
   @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @Output(ReactionOutDto)
   @UseGuards(IsAuthenticated)
+  @HttpCode(HttpStatus.NO_CONTENT)
   async removeBookmark(
     @ReqUser() user: User,
     @Param('id', new ParseIntPipe()) reactionId: number,

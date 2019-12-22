@@ -52,9 +52,9 @@ export class UserController {
 
   // FIXME: any
   @Put('avatar')
-  @Output(UserOutDto)
   @UseGuards(IsAuthenticated)
   @UseInterceptors(FileInterceptor('image', { storage: multerStorage }))
+  @Output(UserOutDto)
   async updateUserAvatar(@UploadedFile() file: any, @ReqUser() user): Promise<User> {
     await this.avatarService.setUserAvatar(user, file);
 

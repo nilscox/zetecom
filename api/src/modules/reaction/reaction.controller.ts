@@ -52,9 +52,9 @@ export class ReactionController {
   ) {}
 
   @Get('me')
-  @PaginatedOutput(ReactionOutDto)
-  @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated)
+  @UseInterceptors(PopulateReaction)
+  @PaginatedOutput(ReactionOutDto)
   async findForUser(
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @ReqUser() user: User,
@@ -72,8 +72,8 @@ export class ReactionController {
   }
 
   @Get(':id/replies')
-  @PaginatedOutput(ReactionOutDto)
   @UseInterceptors(PopulateReaction)
+  @PaginatedOutput(ReactionOutDto)
   async findReplies(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
@@ -85,9 +85,9 @@ export class ReactionController {
   }
 
   @Post()
-  @Output(ReactionOutDto)
-  @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated)
+  @UseInterceptors(PopulateReaction)
+  @Output(ReactionOutDto)
   async create(
     @Body() dto: CreateReactionInDto,
     @ReqUser() user: User,
@@ -113,9 +113,9 @@ export class ReactionController {
   }
 
   @Put(':id')
-  @Output(ReactionWithHistoryOutDto)
-  @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated, IsAuthor)
+  @UseInterceptors(PopulateReaction)
+  @Output(ReactionWithHistoryOutDto)
   async update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateReactionInDto,
@@ -129,9 +129,9 @@ export class ReactionController {
   }
 
   @Post(':id/quick-reaction')
-  @Output(ReactionOutDto)
-  @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated, IsNotAuthor)
+  @UseInterceptors(PopulateReaction)
+  @Output(ReactionOutDto)
   async quickReaction(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: QuickReactionInDto,
@@ -148,9 +148,9 @@ export class ReactionController {
   }
 
   @Post(':id/report')
-  @Output(ReactionOutDto)
-  @UseInterceptors(PopulateReaction)
   @UseGuards(IsAuthenticated, IsNotAuthor)
+  @UseInterceptors(PopulateReaction)
+  @Output(ReactionOutDto)
   async report(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: ReportInDto,

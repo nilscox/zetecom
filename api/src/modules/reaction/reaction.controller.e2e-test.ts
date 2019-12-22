@@ -301,11 +301,11 @@ describe('reaction controller', () => {
 
       expect(body).toMatchObject({
         quickReactionsCount: {
-          [QuickReactionType.APPROVE]: 1,
-          [QuickReactionType.REFUTE]: 0,
-          [QuickReactionType.SKEPTIC]: 0,
+          approve: 1,
+          refute: 0,
+          skeptic: 0,
         },
-        userQuickReaction: QuickReactionType.APPROVE,
+        userQuickReaction: 'approve',
       });
 
       const quickReactionDb = await quickReactionRepository.findOne(body.id);
@@ -321,11 +321,11 @@ describe('reaction controller', () => {
 
       expect(body).toMatchObject({
         quickReactionsCount: {
-          [QuickReactionType.APPROVE]: 0,
-          [QuickReactionType.REFUTE]: 0,
-          [QuickReactionType.SKEPTIC]: 1,
+          approve: 0,
+          refute: 0,
+          skeptic: 1,
         },
-        userQuickReaction: QuickReactionType.SKEPTIC,
+        userQuickReaction: 'skeptic',
       });
 
       const quickReactionDb = await quickReactionRepository.findOne(body.id);
@@ -341,9 +341,9 @@ describe('reaction controller', () => {
 
       expect(body).toMatchObject({
         quickReactionsCount: {
-          [QuickReactionType.APPROVE]: 0,
-          [QuickReactionType.REFUTE]: 0,
-          [QuickReactionType.SKEPTIC]: 0,
+          approve: 0,
+          refute: 0,
+          skeptic: 0,
         },
         userQuickReaction: null,
       });
