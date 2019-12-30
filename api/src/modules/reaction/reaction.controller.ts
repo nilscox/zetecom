@@ -9,6 +9,9 @@ import {
   BadRequestException,
   SetMetadata,
   Inject,
+  Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 
 import { IsAuthenticated } from 'Common/auth.guard';
@@ -36,6 +39,7 @@ import { ReportInDto } from '../report/dtos/report-in.dto';
 import { Paginated } from 'Common/paginated';
 import { SortType } from 'Common/sort-type';
 import { InformationService } from '../information/information.service';
+import { SubscriptionService } from '../subscription/subscription.service';
 
 @Controller('/reaction')
 export class ReactionController {
@@ -47,6 +51,7 @@ export class ReactionController {
     private readonly informationService: InformationService,
     private readonly subjectService: SubjectService,
     private readonly reactionService: ReactionService,
+    private readonly subscriptionService: SubscriptionService,
     private readonly reportService: ReportService,
     private readonly reactionRepository: ReactionRepository,
   ) {}
@@ -82,6 +87,40 @@ export class ReactionController {
       throw new NotFoundException();
 
     return this.reactionRepository.findReplies(id, page, this.reactionPageSize);
+  }
+
+  @Post(':id/subscribe')
+  @UseGuards(IsAuthenticated)
+  async subscribe(
+    @Param('id', new ParseIntPipe()) id: number,
+    @ReqUser() user: User,
+  ): Promise<void> {
+    const reaction = await this.reactionService.findById(id);
+
+    if (!reaction)
+      throw new NotFoundException();
+
+    await this.subscriptionService.subscribe(user, reaction);
+  }
+
+  @Post(':id/unsubscribe')
+  @UseGuards(IsAuthenticated)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async unsubscribe(
+    @Param('id', new ParseIntPipe()) id: number,
+    @ReqUser() user: User,
+  ): Promise<void> {
+    const reaction = await this.reactionService.findById(id);
+
+    if (!reaction)
+      throw new NotFoundException();
+
+    const subscription = await this.subscriptionService.getSubscription(user, reaction);
+
+    if (!subscription)
+      throw new NotFoundException();
+
+    await this.subscriptionService.unsubscribe(subscription);
   }
 
   @Post()

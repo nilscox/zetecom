@@ -13,6 +13,7 @@ import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { Information } from '../information/information.entity';
 import { BookmarkRepository } from '../bookmark/bookmark.repository';
+import { SubscriptionService } from '../subscription/subscription.service';
 
 @Injectable()
 export class ReactionService {
@@ -27,6 +28,8 @@ export class ReactionService {
 
     @InjectRepository(QuickReaction)
     private readonly quickReactionRepository: Repository<QuickReaction>,
+
+    private readonly subscriptionService: SubscriptionService,
 
   ) {}
 
@@ -76,8 +79,12 @@ export class ReactionService {
     };
     reaction.userQuickReaction = null;
 
-    if (dto.parentId)
+    if (dto.parentId) {
       await this.reactionRepository.incrementScore(dto.parentId, 2);
+
+      // perform notification logic asynchronously (no await)
+      this.subscriptionService.notifyReply(reaction);
+    }
 
     return reaction;
   }

@@ -11,6 +11,7 @@ import { QuickReaction } from './quick-reaction.entity';
 import { ReactionRepository } from './reaction.repository';
 import { ReportModule } from '../report/report.module';
 import { BookmarkModule } from '../bookmark/bookmark.module';
+import { SubscriptionModule } from '../subscription/subscription.module';
 
 const REACTION_PAGE_SIZE = 'REACTION_PAGE_SIZE';
 const ReactionPageSize: Provider = {
@@ -25,6 +26,7 @@ const ReactionPageSize: Provider = {
     forwardRef(() => SubjectModule),
     forwardRef(() => BookmarkModule),
     ReportModule,
+    SubscriptionModule,
   ],
   controllers: [
     ReactionController,

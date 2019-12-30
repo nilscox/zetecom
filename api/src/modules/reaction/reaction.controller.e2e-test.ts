@@ -17,6 +17,8 @@ import { ReactionRepository } from './reaction.repository';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { QuickReactionType, QuickReaction } from './quick-reaction.entity';
 import { createBookmark } from '../../testing/factories/bookmark.factory';
+import { createSubscription } from '../../testing/factories/subscription.factory';
+import { Subscription } from '../subscription/subscription.entity';
 
 describe('reaction controller', () => {
 
@@ -30,6 +32,7 @@ describe('reaction controller', () => {
 
   let reactionRepository: ReactionRepository;
   let quickReactionRepository: Repository<QuickReaction>;
+  let subscriptionRepository: Repository<Subscription>;
 
   let information: Information;
 
@@ -42,6 +45,7 @@ describe('reaction controller', () => {
   beforeAll(async () => {
     reactionRepository = getCustomRepository(ReactionRepository);
     quickReactionRepository = getRepository(QuickReaction);
+    subscriptionRepository = getRepository(Subscription);
 
     const user = await createUser();
 
@@ -126,6 +130,63 @@ describe('reaction controller', () => {
         });
     });
 
+  });
+
+  describe('subscribe to a reaction', () => {
+    const { authRequest, user } = createAuthenticatedUser(server);
+
+    it('should not subscribe when unauthenticated', () => {
+      return request(server)
+        .post(`/api/reaction/${reaction.id}/subscribe`)
+        .expect(403);
+    });
+
+    it('should not subscribe to an unexisting reaction', () => {
+      return authRequest
+        .post(`/api/reaction/404/subscribe`)
+        .expect(404);
+    });
+
+    it('subscribe to a reaction', async () => {
+      const reaction = await createReaction();
+
+      await authRequest
+        .post(`/api/reaction/${reaction.id}/subscribe`)
+        .expect(201);
+
+      const subscriptionDb = await subscriptionRepository.findOne({ user, reaction });
+
+      expect(subscriptionDb).toBeDefined();
+    });
+  });
+
+  describe('unsubscribe from a reaction', () => {
+    const { authRequest, user } = createAuthenticatedUser(server);
+
+    it('should not subscribe when unauthenticated', () => {
+      return request(server)
+        .post(`/api/reaction/${reaction.id}/unsubscribe`)
+        .expect(403);
+    });
+
+    it('should not subscribe to an unexisting reaction', () => {
+      return authRequest
+        .post(`/api/reaction/404/unsubscribe`)
+        .expect(404);
+    });
+
+    it('unsubscribe to a reaction', async () => {
+      const reaction = await createReaction();
+      await createSubscription({ user, reaction });
+
+      await authRequest
+        .post(`/api/reaction/${reaction.id}/unsubscribe`)
+        .expect(204);
+
+      const subscriptionDb = await subscriptionRepository.findOne({ user, reaction });
+
+      expect(subscriptionDb).not.toBeDefined();
+    });
   });
 
   describe('create reaction', () => {
