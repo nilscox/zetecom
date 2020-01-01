@@ -9,7 +9,7 @@ import { Switch as RouterSwitch, Route } from 'react-router';
 
 import { useUserContext, UserProvider } from 'src/utils/UserContext';
 
-import MyReactions from './pages/MyReactions';
+import UserReactions from './pages/UserReactions';
 import Bookmarks from './pages/Bookmarks';
 import Settings from './pages/Settings';
 import Informations from './pages/InformationsList';
@@ -31,7 +31,7 @@ const Switch: React.FC = () => (
   <RouterSwitch>
     <Route path="/" exact component={Informations} />
     <Route path="/information/:id" component={Information} />
-    <Route path="/reactions" component={MyReactions} />
+    <Route path="/reactions" component={UserReactions} />
     <Route path="/bookmarks" component={Bookmarks} />
     <Route path="/settings" component={Settings} />
     <Route path="/:sign(connexion|inscription)" component={Authentication} />

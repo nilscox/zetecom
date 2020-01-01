@@ -5,22 +5,22 @@ import { Typography } from '@material-ui/core';
 import Loader from 'src/dashboard/components/Loader';
 import { parseReaction } from 'src/types/Reaction';
 
-import BookmarkItem from './BookmarkItem';
+import UserReactionItem from './UserReactionItem';
 import Authenticated from 'src/dashboard/components/Authenticated';
-import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import PaginatedList from 'src/dashboard/components/PaginatedList';
+import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 
-const Bookmarks: React.FC = () => {
+const UserReactions: React.FC = () => {
   const [
     { loading, data: reactions, totalPages },
     { setSearch },,
     { page, setPage },
-  ] = useAxiosPaginated('/api/bookmark/me', parseReaction);
+  ] = useAxiosPaginated('/api/reaction/me', parseReaction);
 
   return (
     <Authenticated>
 
-      <Typography variant="h4">Mes favoris</Typography>
+      <Typography variant="h4">Mes réactions</Typography>
 
       <PaginatedList
         onSearch={setSearch}
@@ -32,7 +32,7 @@ const Bookmarks: React.FC = () => {
 
         { loading
           ? <Loader />
-          : reactions.map(r => <BookmarkItem key={r.id} reaction={r} />)
+          : reactions.map(r => <UserReactionItem key={r.id} reaction={r} />)
         }
 
       </PaginatedList>
@@ -41,4 +41,4 @@ const Bookmarks: React.FC = () => {
   );
 };
 
-export default Bookmarks;
+export default UserReactions;

@@ -3,7 +3,7 @@ import { Reaction } from 'src/types/Reaction';
 import ReactionContainer from 'src/components/reaction/ReactionContainer';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-type MyReactionItemProps = {
+type UserReactionItemProps = {
   reaction: Reaction;
 };
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const MyReactionItem: React.FC<MyReactionItemProps> = ({ reaction }) => {
+const UserReactionItem: React.FC<UserReactionItemProps> = ({ reaction }) => {
   const classes = useStyles({});
 
   return (
@@ -23,4 +23,4 @@ const MyReactionItem: React.FC<MyReactionItemProps> = ({ reaction }) => {
   );
 };
 
-export default MyReactionItem;
+export default UserReactionItem;

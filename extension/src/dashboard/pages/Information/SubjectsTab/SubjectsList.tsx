@@ -1,45 +1,19 @@
 import React, { useState, useRef } from 'react';
 
 import { RouteComponentProps } from 'react-router-dom';
-import { AxiosRequestConfig } from 'axios';
 
-import SearchField from 'src/dashboard/components/SearchField';
-import Pagination from 'src/dashboard/components/Pagination';
 import Loader from 'src/dashboard/components/Loader';
-import Flex from 'src/components/common/Flex';
+import AddButton from 'src/dashboard/components/AddButton';
 
-import useUpdateEffect from 'src/hooks/use-update-effect';
-import useAxios from 'src/hooks/use-axios';
-import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
 import { Subject, parseSubject } from 'src/types/Subject';
 import SubjectForm from 'src/components/subject/SubjectForm';
 
-import AddButton from '../../../components/AddButton';
 import SubjectsListItem from './SubjectsListItem';
 import { useCurrentUser } from 'src/hooks/use-user';
 import Collapse from '@material-ui/core/Collapse';
 import { makeStyles, Theme } from '@material-ui/core';
-
-const useSubjects = (informationId: number, search: string, page: number) => {
-  const [result, refetch] = useAxios<Paginated<Subject>>(
-    `/api/information/${informationId}/subjects`,
-    usePaginatedResults(parseSubject),
-  );
-
-  useUpdateEffect(() => {
-    const opts: AxiosRequestConfig = { params: {} };
-
-    if (search)
-      opts.params.search = search;
-
-    if (page !== 1)
-      opts.params.page = page;
-
-    refetch(opts);
-  }, [page, search]);
-
-  return result;
-};
+import PaginatedList from 'src/dashboard/components/PaginatedList';
+import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 
 const useStyles = makeStyles((theme: Theme) => ({
   subjectForm: {
@@ -51,9 +25,11 @@ const SubjectsList: React.FC<RouteComponentProps<{ id: string }>> = ({ match, hi
   const informationId = Number(match.params.id);
   const user = useCurrentUser();
 
-  const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
-  const { loading, data } = useSubjects(informationId, search, page);
+  const [
+    { loading, data: subjects, totalPages },
+    { setSearch },,
+    { page, setPage },
+  ] = useAxiosPaginated(`/api/information/${match.params.id}/subjects`, parseSubject);
 
   const [expanded, setExpanded] = useState<number | false>(false);
 
@@ -85,22 +61,32 @@ const SubjectsList: React.FC<RouteComponentProps<{ id: string }>> = ({ match, hi
 
   return (
     <div ref={containerRef}>
+
       <AddButton show={user && !showSubjectForm} onClick={handleShowSubjectForm} />
-      <Flex flexDirection="row">
-        <SearchField onSearch={setSearch} />
-        <Pagination page={page} pageSize={10} total={data ? data.total : undefined} onPageChange={setPage} />
-      </Flex>
-      <Collapse in={showSubjectForm}>
-        <SubjectForm
-          onCreated={(subject) => history.push(`/information/${informationId}/thematiques/${subject.id}`)}
-          onClose={() => setShowSubjectForm(false)}
-          className={classes.subjectForm}
-        />
-      </Collapse>
-      { loading
-        ? <Loader />
-        : data.items.map(renderSubject)
-      }
+
+      <PaginatedList
+        onSearch={setSearch}
+        page={page}
+        pageSize={10}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      >
+
+        <Collapse in={showSubjectForm}>
+          <SubjectForm
+            onCreated={(subject) => history.push(`/information/${informationId}/thematiques/${subject.id}`)}
+            onClose={() => setShowSubjectForm(false)}
+            className={classes.subjectForm}
+          />
+        </Collapse>
+
+        { loading
+          ? <Loader />
+          : subjects.map(renderSubject)
+        }
+
+      </PaginatedList>
+
     </div>
   );
 };
