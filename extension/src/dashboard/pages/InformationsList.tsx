@@ -10,7 +10,6 @@ import Box from 'src/components/common/Box';
 
 import PaginatedList from '../components/PaginatedList';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
-import { SortType } from 'src/types/SortType';
 
 const useStyles = makeStyles({
   image: {

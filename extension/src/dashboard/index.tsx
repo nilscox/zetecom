@@ -32,7 +32,7 @@ const Switch: React.FC = () => (
     <Route path="/" exact component={Informations} />
     <Route path="/information/:id" component={Information} />
     <Route path="/reactions" component={UserReactions} />
-    <Route path="/bookmarks" component={Bookmarks} />
+    <Route path="/favoris" component={Bookmarks} />
     <Route path="/settings" component={Settings} />
     <Route path="/:sign(connexion|inscription)" component={Authentication} />
   </RouterSwitch>
