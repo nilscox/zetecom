@@ -54,4 +54,6 @@ export class Reaction {
   userQuickReaction?: QuickReactionType;
 
   bookmarked?: boolean;
+
+  subscribed?: boolean;
 }

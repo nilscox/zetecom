@@ -26,6 +26,7 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
     if (user) {
       await this.reactionService.addUserQuickReaction(reactions, user);
       await this.reactionService.addUserBookmarks(reactions, user);
+      await this.reactionService.addUserSubscriptions(reactions, user);
     }
   }
 

@@ -66,7 +66,10 @@ export class ReactionOutDto {
   userQuickReaction: string;
 
   @Expose()
-  bookmarked: boolean;
+  bookmarked?: boolean;
+
+  @Expose()
+  subscribed?: boolean;
 
   @Expose()
   @Type(() => UserLightOutDto)

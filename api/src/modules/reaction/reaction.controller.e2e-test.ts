@@ -189,6 +189,42 @@ describe('reaction controller', () => {
     });
   });
 
+  describe('set the subscribed field when subscribed to a reaction', () => {
+    const { authRequest, user } = createAuthenticatedUser(server);
+
+    it('should not set the subscribed field when unauthenticated', async () => {
+      const reaction = await createReaction();
+
+      const { body } = await request(server)
+        .get(`/api/reaction/${reaction.id}`)
+        .expect(200);
+
+      expect(body.subscribed).not.toBeDefined();
+    });
+
+    it('should set the subscribed field to false when not subscribed to a reaction', async () => {
+      const reaction = await createReaction();
+
+      const { body } = await authRequest
+        .get(`/api/reaction/${reaction.id}`)
+        .expect(200);
+
+      expect(body).toMatchObject({ subscribed: false });
+    });
+
+    it('should set the subscribed field to true when subscribed to a reaction', async () => {
+      const reaction = await createReaction();
+      await createSubscription({ user, reaction });
+
+      const { body } = await authRequest
+        .get(`/api/reaction/${reaction.id}`)
+        .expect(200);
+
+      expect(body).toMatchObject({ subscribed: true });
+    });
+
+  });
+
   describe('create reaction', () => {
     const { authRequest, user } = createAuthenticatedUser(server);
 

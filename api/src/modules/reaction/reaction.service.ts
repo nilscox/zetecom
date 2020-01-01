@@ -185,4 +185,12 @@ export class ReactionService {
     });
   }
 
+  async addUserSubscriptions(reactions: Reaction[], user: User): Promise<void> {
+    const subscriptions = await this.subscriptionService.getSubscriptionsForUser(reactions.map(r => r.id), user.id);
+
+    reactions.forEach((reaction) => {
+      reaction.subscribed = subscriptions[reaction.id];
+    });
+  }
+
 }

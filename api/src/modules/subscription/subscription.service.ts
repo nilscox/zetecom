@@ -69,6 +69,20 @@ export class SubscriptionService {
     return { items, total };
   }
 
+  public async getSubscriptionsForUser(reactionIds: number[], userId: number): Promise<{ [reactionId: number]: boolean }> {
+    const subscriptions = await this.subscriptionRepository.createQueryBuilder('subscription')
+      .select('reaction_id', 'reactionId')
+      .leftJoin('reaction', 'reaction', 'subscription.reaction_id = reaction.id')
+      .where('user_id = :userId', { userId })
+      .andWhere('reaction.id IN (' + reactionIds + ')')
+      .getRawMany();
+
+    return reactionIds.reduce((acc, reactionId) => ({
+      ...acc,
+      [reactionId]: !!subscriptions.find(s => s.reactionId === reactionId),
+    }), {});
+  }
+
   public async notifyReply(reply: Reaction): Promise<void> {
     const subscriptions = await this.subscriptionRepository.find({
       where: {
