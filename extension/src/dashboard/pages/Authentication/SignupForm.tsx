@@ -22,6 +22,7 @@ import { parseUser } from 'src/types/User';
 import UserContext from 'src/utils/UserContext';
 // TODO: make it common
 import { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from 'src/popup/components/Form';
+import { classList } from 'src/utils/classList';
 
 const { WEBSITE_URL } = process.env;
 
@@ -87,12 +88,11 @@ const getFieldErrors: FieldErrorsHandler = (error: AxiosError) => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    '& > div': {
-      marginTop: theme.spacing(2),
-    },
+  marginTop: {
+    marginTop: theme.spacing(2),
   },
   checkboxGroup: {
+    alignSelf: 'flex-start',
     alignItems: 'center',
   },
   button: {
@@ -100,17 +100,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   globalError: {
     textAlign: 'center',
-  },
-  buttonWrapper: {
-    margin: theme.spacing(1, 0),
-    position: 'relative',
-    alignSelf: 'center',
-  },
-  loader: {
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
   },
 }));
 
@@ -164,16 +153,19 @@ const Signup: React.FC = () => {
   return (
     <form onSubmit={onSubmit}>
 
-      <Flex flexDirection="column" className={classes.container}>
+      <Flex flexDirection="column" alignItems="center">
+
         <TextField
-          type="email"
-          value={email}
-          label="Email"
+          fullWidth
           required
+          type="email"
+          label="Email"
           variant="outlined"
           margin="dense"
+          value={email}
           error={!!errors.email}
           helperText={errors.email}
+          className={classes.marginTop}
           onChange={(e) => {
             resetErrors();
             setEmail(e.target.value);
@@ -181,13 +173,16 @@ const Signup: React.FC = () => {
         />
 
         <TextField
-          value={nick}
-          label="Pseudo"
+          fullWidth
           required
+          type="text"
+          label="Pseudo"
           variant="outlined"
           margin="dense"
+          value={nick}
           error={!!errors.nick}
           helperText={errors.nick}
+          className={classes.marginTop}
           onChange={(e) => {
             resetErrors();
             setNick(e.target.value);
@@ -195,21 +190,23 @@ const Signup: React.FC = () => {
         />
 
         <TextField
-          type="password"
-          value={password}
-          label="Mot de passe"
+          fullWidth
           required
+          type="password"
+          label="Mot de passe"
           variant="outlined"
           margin="dense"
+          value={password}
           error={!!errors.password}
           helperText={errors.password}
+          className={classes.marginTop}
           onChange={(e) => {
             resetErrors();
             setPassword(e.target.value);
           }}
         />
 
-        <FormGroup row className={classes.checkboxGroup}>
+        <FormGroup row className={classList(classes.checkboxGroup, classes.marginTop)}>
           <Checkbox
             checked={checked}
             required
@@ -219,15 +216,26 @@ const Signup: React.FC = () => {
           <FormLabel>J'accepte la charte</FormLabel>
         </FormGroup>
 
-        <FormHelperText error className={classes.globalError}>
-          { globalError }
-        </FormHelperText>
+        { globalError && (
+          <FormHelperText error className={classList(classes.globalError, classes.marginTop)}>
+            { globalError }
+          </FormHelperText>
+        ) }
 
-        <div className={classes.buttonWrapper}>
-          <Button type="submit" variant="contained" color="secondary" className={classes.button} disabled={!valid}>
-            { loading ? <CircularProgress size={24} className={classes.loader} /> : 'Inscription' }
-          </Button>
-        </div>
+        { loading
+          ? <CircularProgress size={24} color="secondary" className={classes.marginTop} />
+          : (
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              className={classList(classes.button, classes.marginTop)}
+              disabled={!valid}
+            >
+              Inscription
+            </Button>
+          )
+        }
 
       </Flex>
 
