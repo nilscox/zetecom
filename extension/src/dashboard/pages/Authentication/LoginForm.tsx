@@ -17,6 +17,7 @@ import useUser from 'src/hooks/use-user';
 
 // TODO: make it common ?
 import { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from 'src/popup/components/Form';
+import { classList } from 'src/utils/classList';
 
 // TODO: make it common ?
 const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
@@ -54,27 +55,14 @@ const getFieldErrors: FieldErrorsHandler = (error: AxiosError) => {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  container: {
-    '& > div': {
-      marginTop: theme.spacing(2),
-    },
+  marginTop: {
+    marginTop: theme.spacing(2),
   },
   globalError: {
     textAlign: 'center',
   },
-  buttonWrapper: {
-    margin: theme.spacing(1, 0),
-    position: 'relative',
-    alignSelf: 'center',
-  },
   button: {
     fontWeight: 'bold',
-  },
-  loader: {
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
   },
 }));
 
@@ -117,9 +105,11 @@ const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <Flex flexDirection="column" className={classes.container}>
+      <Flex flexDirection="column" alignItems="center">
 
         <TextField
+          className={classes.marginTop}
+          fullWidth
           type="email"
           value={email}
           label="Email"
@@ -135,6 +125,8 @@ const LoginForm: React.FC = () => {
         />
 
         <TextField
+          className={classes.marginTop}
+          fullWidth
           type="password"
           value={password}
           label="Mot de passe"
@@ -149,15 +141,26 @@ const LoginForm: React.FC = () => {
           }}
         />
 
-        <FormHelperText error className={classes.globalError}>
-          { globalError }
-        </FormHelperText>
+        { globalError && (
+          <FormHelperText error className={classList(classes.globalError, classes.marginTop)}>
+            { globalError }
+          </FormHelperText>
+        ) }
 
-        <div className={classes.buttonWrapper}>
-          <Button type="submit" variant="contained" color="secondary" className={classes.button} disabled={!valid}>
-            { loading ? <CircularProgress size={24} className={classes.loader} /> : 'Connexion' }
-          </Button>
-        </div>
+        { loading
+          ? <CircularProgress color="secondary" size={24} className={classes.marginTop} />
+          : (
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              className={classList(classes.button, classes.marginTop)}
+              disabled={!valid}
+            >
+              Connexion
+            </Button>
+          )
+        }
 
       </Flex>
     </form>
