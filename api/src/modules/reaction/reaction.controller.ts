@@ -62,9 +62,10 @@ export class ReactionController {
   @PaginatedOutput(ReactionOutDto)
   async findForUser(
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+    @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
     @ReqUser() user: User,
   ): Promise<Paginated<Reaction>> {
-    return this.reactionRepository.findForUser(user.id, SortType.DATE_DESC, page, this.reactionPageSize);
+    return this.reactionRepository.findForUser(user.id, search, SortType.DATE_DESC, page, this.reactionPageSize);
   }
 
   @Get(':id')

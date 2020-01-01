@@ -42,9 +42,10 @@ export class BookmarkController {
   @PaginatedOutput(ReactionOutDto)
   async findForUser(
     @ReqUser() user: User,
-    @OptionalQuery({ key: 'page', defaultValue: 1 }, new ParseIntPipe()) page: number,
+    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+    @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
   ): Promise<Paginated<Reaction>> {
-    return this.bookmarkService.find(user, page);
+    return this.bookmarkService.find(user, search, page);
   }
 
   @Post(':id')

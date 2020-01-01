@@ -16,8 +16,8 @@ export class BookmarkService {
     private readonly bookmarkRepository: BookmarkRepository,
   ) {}
 
-  async find(user: User, page: number): Promise<Paginated<Reaction>> {
-    return this.bookmarkRepository.findBookmarks(user.id, page, this.reactionPageSize);
+  async find(user: User, search, page: number): Promise<Paginated<Reaction>> {
+    return this.bookmarkRepository.findBookmarks(user.id, search, page, this.reactionPageSize);
   }
 
   async add(user: User, reaction: Reaction): Promise<void> {

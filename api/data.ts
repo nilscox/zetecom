@@ -214,19 +214,17 @@ async function main(data: any) {
       ]);
     }
 
-    if (reaction.replies) {
-      for (const reply of reaction.replies)
-        await createReactionRec(informationId, subjectId, reply, created.id);
-    }
+    for (const reply of reaction.replies || [])
+      await createReactionRec(informationId, subjectId, reply, created.id);
   };
 
-  for (const infoData of data.informations) {
+  for (const infoData of data.informations || []) {
     const info = findInformation(infos, infoData.url);
 
-    for (const reaction of infoData.reactions)
+    for (const reaction of infoData.reactions || [])
       await createReactionRec(info.id, null, reaction);
 
-    for (const subjectData of infoData.subjects) {
+    for (const subjectData of infoData.subjects || []) {
       const subject = await createSubject(info.id, subjectData, findUser(users, subjectData.author));
 
       for (const reaction of subjectData.reactions)

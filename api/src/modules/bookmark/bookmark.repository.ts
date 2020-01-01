@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository, Raw, QueryBuilder } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
@@ -9,13 +9,20 @@ import { User } from '../user/user.entity';
 @EntityRepository(Bookmark)
 export class BookmarkRepository extends Repository<Bookmark> {
 
-  async findBookmarks(userId: number, page: number, pageSize: number): Promise<Paginated<Reaction>> {
-    const [bookmarks, total] = await this.findAndCount({
-      where: { user: { id: userId } },
-      relations: ['reaction', 'reaction.messages'],
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-    });
+  async findBookmarks(userId: number, search: string, page: number, pageSize: number): Promise<Paginated<Reaction>> {
+    const qb = this.createQueryBuilder('bookmark')
+      .where('user.id = :userId', { userId })
+      .leftJoinAndSelect('bookmark.user', 'user')
+      .leftJoinAndSelect('bookmark.reaction', 'reaction')
+      .leftJoinAndSelect('reaction.messages', 'messages')
+      .leftJoinAndSelect('reaction.author', 'author')
+      .skip((page - 1) * pageSize)
+      .take(pageSize);
+
+    if (search)
+      qb.andWhere('messages.text ILIKE :search', { search: `%${search}%`})
+
+    const [bookmarks, total] = await qb.getManyAndCount();
 
     return {
       items: bookmarks.map(b => b.reaction),
