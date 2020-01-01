@@ -10,6 +10,7 @@ import { OptionalQuery } from 'Common/optional-query.decorator';
 import { PaginatedOutput } from 'Common/output.interceptor';
 import { SubscriptionOutDto } from './dtos/subscription-out.dto';
 import { StripNullRelations } from './strip-null-relations.interceptor';
+import { PopulateSubscription } from 'Common/populate-subscription.interceptor';
 
 @Controller('subscription')
 @UseInterceptors(StripNullRelations)
@@ -21,6 +22,7 @@ export class SubscriptionController {
 
   @Get('me')
   @UseGuards(IsAuthenticated)
+  @UseInterceptors(PopulateSubscription)
   @PaginatedOutput(SubscriptionOutDto)
   findForUser(
     @ReqUser() user: User,
