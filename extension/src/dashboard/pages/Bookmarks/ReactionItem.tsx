@@ -3,7 +3,7 @@ import { Reaction } from 'src/types/Reaction';
 import ReactionContainer from 'src/components/reaction/ReactionContainer';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-type BookmarkItemProps = {
+type ReactionItemProps = {
   reaction: Reaction;
 };
 
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const BookmarkItem: React.FC<BookmarkItemProps> = ({ reaction }) => {
+const ReactionItem: React.FC<ReactionItemProps> = ({ reaction }) => {
   const classes = useStyles({});
 
   return (
@@ -23,4 +23,4 @@ const BookmarkItem: React.FC<BookmarkItemProps> = ({ reaction }) => {
   );
 };
 
-export default BookmarkItem;
+export default ReactionItem;

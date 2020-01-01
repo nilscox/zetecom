@@ -5,6 +5,8 @@ import { AxiosRequestConfig } from 'axios';
 
 import IconButton from '@material-ui/core/IconButton';
 import StarIcon from '@material-ui/icons/Star';
+import SubscribeIcon from '@material-ui/icons/Notifications';
+import SubscribeActiveIcon from '@material-ui/icons/NotificationsActive';
 
 import { Reaction, QuickReactionType, QuickReactionsCount, parseReaction } from 'src/types/Reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
@@ -279,6 +281,62 @@ const BookmarkButton: React.FC<BookmarkButtonProps> = ({ reaction }) => {
   );
 };
 
+const useSubscription = (reaction: Reaction) => {
+  const [subscribed, setSubscribed] = useState(reaction.subscribed);
+
+  const opts: AxiosRequestConfig = {
+    method: 'POST',
+  };
+
+  const [{ loading, error, status }, execute] = useAxios(opts, undefined, { manual: true });
+
+  if (error)
+    throw error;
+
+  const toggleSubscription = () => {
+    if (loading)
+      return;
+
+    execute({ url: `/api/reaction/${reaction.id}/${subscribed ? 'unsubscribe' : 'subscribe' }` });
+
+    // optimist update
+    setSubscribed(!subscribed);
+  };
+
+  useEffect(() => {
+    if (status(201))
+      setSubscribed(true);
+    else if (status(204))
+      setSubscribed(false);
+  }, [status]);
+
+  return {
+    subscribed,
+    toggleSubscription,
+  };
+};
+
+type SubscribeButtonProps = {
+  reaction: Reaction;
+};
+
+const SubscribeButton: React.FC<SubscribeButtonProps> = ({ reaction }) => {
+  const user = useCurrentUser();
+  const { subscribed, toggleSubscription } = useSubscription(reaction);
+
+  if (!user)
+    return null;
+
+  return (
+    <IconButton size="small" onClick={toggleSubscription}>
+      { subscribed
+        ? <SubscribeActiveIcon fontSize="small" color="secondary" />
+        : <SubscribeIcon fontSize="small" color="disabled" />
+      }
+    </IconButton>
+  );
+};
+
 type ReactionFooterProps = {
   reaction: Reaction;
   displayReplies: boolean;
@@ -306,6 +364,7 @@ const ReactionFooter: React.FC<ReactionFooterProps> = ({
       <RepliesButton repliesCount={reaction.repliesCount} displayReplies={displayReplies} onClick={toggleReplies} />
 
       <Flex flex={1} />
+      <SubscribeButton reaction={reaction} />
       <BookmarkButton reaction={reaction} />
       <ReplyButton disabled={displayReplyForm} onReply={onReply} />
 

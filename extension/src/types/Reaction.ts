@@ -29,6 +29,7 @@ export type Reaction = {
   quickReactionsCount: QuickReactionsCount;
   userQuickReaction: QuickReactionType;
   bookmarked?: boolean;
+  subscribed?: boolean;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

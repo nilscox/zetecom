@@ -97,7 +97,7 @@ const Drawer: React.FC<DrawerProps> = ({ mobileOpen, handleDrawerToggle }) => {
       <List>
         <ListItemLink icon={<InformationIcon />} primary="Informations" to="/" />
         <ListItemLink auth icon={<CommentIcon />} primary="Mes réactions" to="/reactions" />
-        <ListItemLink auth icon={<BookmarkIcon />} primary="Mes favoris" to="/bookmarks" />
+        <ListItemLink auth icon={<BookmarkIcon />} primary="Mes favoris" to="/favoris" />
       </List>
 
       <Divider />

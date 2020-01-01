@@ -1,43 +1,39 @@
 import React from 'react';
+import { useHistory, useLocation, Switch, Route } from 'react-router-dom';
 
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
-import Loader from 'src/dashboard/components/Loader';
-import { parseReaction } from 'src/types/Reaction';
+import BookmarksTab from './BookmarkTab';
+import SubscriptionsTab from './SubscriptionTab';
+import Box from 'src/components/common/Box';
 
-import BookmarkItem from './BookmarkItem';
-import Authenticated from 'src/dashboard/components/Authenticated';
-import useAxiosPaginated from 'src/hooks/use-axios-paginated';
-import PaginatedList from 'src/dashboard/components/PaginatedList';
+const Bookmarks = () => {
+  const history = useHistory();
+  const location = useLocation();
 
-const Bookmarks: React.FC = () => {
-  const [
-    { loading, data: reactions, totalPages },
-    { setSearch },,
-    { page, setPage },
-  ] = useAxiosPaginated('/api/bookmark/me', parseReaction);
+  const currentTab = location.pathname.includes('souscriptions') ? 'souscriptions' : '';
 
   return (
-    <Authenticated>
-
+    <>
       <Typography variant="h4">Mes favoris</Typography>
 
-      <PaginatedList
-        onSearch={setSearch}
-        page={page}
-        pageSize={10}
-        totalPages={totalPages}
-        onPageChange={setPage}
-      >
+      <Box my={12} style={{ borderBottom: '1px solid #CCC' }}>
+        <Tabs
+          value={currentTab || ''}
+          onChange={(_, value) => history.push(`/favoris/${value}`)}
+        >
+          <Tab value="" label="Favoris" />
+          <Tab value="souscriptions" label="Souscriptions" />
+        </Tabs>
+      </Box>
 
-        { loading
-          ? <Loader />
-          : reactions.map(r => <BookmarkItem key={r.id} reaction={r} />)
-        }
-
-      </PaginatedList>
-
-    </Authenticated>
+      <Switch>
+        <Route path="/favoris/souscriptions" component={SubscriptionsTab} />
+        <Route exact path="/favoris" component={BookmarksTab} />
+      </Switch>
+    </>
   );
 };
 
