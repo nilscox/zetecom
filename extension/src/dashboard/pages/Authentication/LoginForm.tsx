@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
+
 import { Redirect, useHistory } from 'react-router-dom';
 import { AxiosRequestConfig, AxiosError } from 'axios';
-
+import clsx from 'clsx';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-
 import TextField from '@material-ui/core/TextField';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
@@ -17,7 +17,6 @@ import useUser from 'src/hooks/use-user';
 
 // TODO: make it common ?
 import { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from 'src/popup/components/Form';
-import { classList } from 'src/utils/classList';
 
 // TODO: make it common ?
 const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
@@ -142,7 +141,7 @@ const LoginForm: React.FC = () => {
         />
 
         { globalError && (
-          <FormHelperText error className={classList(classes.globalError, classes.marginTop)}>
+          <FormHelperText error className={clsx(classes.globalError, classes.marginTop)}>
             { globalError }
           </FormHelperText>
         ) }
@@ -154,7 +153,7 @@ const LoginForm: React.FC = () => {
               type="submit"
               variant="contained"
               color="secondary"
-              className={classList(classes.button, classes.marginTop)}
+              className={clsx(classes.button, classes.marginTop)}
               disabled={!valid}
             >
               Connexion

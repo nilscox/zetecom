@@ -1,11 +1,10 @@
 /* eslint-disable max-lines */
 
 import React, { useState, useContext, useEffect } from 'react';
+
 import { useHistory } from 'react-router-dom';
 import { AxiosRequestConfig, AxiosError } from 'axios';
-
 import { makeStyles, Theme } from '@material-ui/core/styles';
-
 import TextField from '@material-ui/core/TextField';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -13,6 +12,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import clsx from 'clsx';
 
 import { Link } from 'src/components/common/Link';
 import Flex from 'src/components/common/Flex';
@@ -22,7 +22,6 @@ import { parseUser } from 'src/types/User';
 import UserContext from 'src/utils/UserContext';
 // TODO: make it common
 import { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from 'src/popup/components/Form';
-import { classList } from 'src/utils/classList';
 
 const { WEBSITE_URL } = process.env;
 
@@ -206,7 +205,7 @@ const Signup: React.FC = () => {
           }}
         />
 
-        <FormGroup row className={classList(classes.checkboxGroup, classes.marginTop)}>
+        <FormGroup row className={clsx(classes.checkboxGroup, classes.marginTop)}>
           <Checkbox
             checked={checked}
             required
@@ -217,7 +216,7 @@ const Signup: React.FC = () => {
         </FormGroup>
 
         { globalError && (
-          <FormHelperText error className={classList(classes.globalError, classes.marginTop)}>
+          <FormHelperText error className={clsx(classes.globalError, classes.marginTop)}>
             { globalError }
           </FormHelperText>
         ) }
@@ -229,7 +228,7 @@ const Signup: React.FC = () => {
               type="submit"
               variant="contained"
               color="secondary"
-              className={classList(classes.button, classes.marginTop)}
+              className={clsx(classes.button, classes.marginTop)}
               disabled={!valid}
             >
               Inscription
