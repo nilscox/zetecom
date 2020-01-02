@@ -8,10 +8,17 @@ import {
 
 import { Paginated } from './paginated';
 
+function instanciateDto<T>(Dto: Type<T>, value: any) {
+  if (Dto.constructor.length === 1)
+    return new Dto(value);
+
+  return Object.assign(new Dto(), value);
+}
+
 function OutputClassSerializer<T>(Dto: Type<T>): Type<ClassSerializerInterceptor> {
   return mixin(class extends ClassSerializerInterceptor {
     transformToPlain(value: any): PlainLiteralObject {
-      return super.transformToPlain(Object.assign(new Dto(), value), { strategy: 'excludeAll' });
+      return super.transformToPlain(instanciateDto(Dto, value), { strategy: 'excludeAll' });
     }
   });
 }
@@ -24,7 +31,7 @@ function PaginatedOutputClassSerializer<T>(Dto: Type<T>): Type<ClassSerializerIn
   return mixin(class extends ClassSerializerInterceptor {
     transformToPlain(value: Paginated<any>): PlainLiteralObject {
       return {
-        items: value.items.map(i => super.transformToPlain(Object.assign(new Dto(), i), { strategy: 'excludeAll' })),
+        items: value.items.map(i => super.transformToPlain(instanciateDto(Dto, i), { strategy: 'excludeAll' })),
         total: value.total,
       };
     }
