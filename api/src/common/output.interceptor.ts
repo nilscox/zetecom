@@ -9,7 +9,7 @@ import {
 import { Paginated } from './paginated';
 
 function instanciateDto<T>(Dto: Type<T>, value: any) {
-  if (Dto.constructor.length === 1)
+  if (Dto.length === 1)
     return new Dto(value);
 
   return Object.assign(new Dto(), value);
