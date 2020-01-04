@@ -20,7 +20,7 @@ export class BookmarkRepository extends Repository<Bookmark> {
       .take(pageSize);
 
     if (search)
-      qb.andWhere('messages.text ILIKE :search', { search: `%${search}%`})
+      qb.andWhere('messages.text ILIKE :search', { search: `%${search}%`});
 
     const [bookmarks, total] = await qb.getManyAndCount();
 

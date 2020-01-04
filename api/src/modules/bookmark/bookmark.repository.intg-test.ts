@@ -25,7 +25,7 @@ describe('bookmark repository', () => {
       const bookmark2 = await createBookmark({ user });
       await createBookmark({ user });
 
-      const result = await bookmarkRepository.findBookmarks(user.id, 1, 2);
+      const result = await bookmarkRepository.findBookmarks(user.id, '', 1, 2);
 
       expect(result).toMatchObject({
         items: [
@@ -42,7 +42,7 @@ describe('bookmark repository', () => {
       await createBookmark({ user });
       const bookmark3 = await createBookmark({ user });
 
-      const result = await bookmarkRepository.findBookmarks(user.id, 2, 2);
+      const result = await bookmarkRepository.findBookmarks(user.id, '', 2, 2);
 
       expect(result).toMatchObject({
         items: [

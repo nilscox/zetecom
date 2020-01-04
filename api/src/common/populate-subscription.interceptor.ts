@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import { TransformInterceptor } from './transform.interceptor';
-import { Subscription } from 'src/modules/subscription/subscription.entity';
 import { PopulateReaction } from './populate-reaction.interceptor';
-import { Reaction } from 'src/modules/reaction/reaction.entity';
-import { ReactionService } from 'src/modules/reaction/reaction.service';
+import { Subscription } from '../modules/subscription/subscription.entity';
+import { Reaction } from '../modules/reaction/reaction.entity';
+import { ReactionService } from '../modules/reaction/reaction.service';
 
 @Injectable()
 export class PopulateSubscription extends TransformInterceptor<Subscription> {
