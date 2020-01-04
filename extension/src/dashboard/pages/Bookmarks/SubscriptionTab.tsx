@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import Loader from 'src/dashboard/components/Loader';
 
@@ -8,25 +8,13 @@ import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import PaginatedList from 'src/dashboard/components/PaginatedList';
 
 import { parseSubscription } from 'src/types/Subscription';
-import { parseReaction, Reaction } from 'src/types/Reaction';
 
 const SubscriptionsTab: React.FC = () => {
-  const [reactions, setReactions] = useState([]);
   const [
     { loading, data: subscriptions, totalPages },
     { setSearch },,
     { page, setPage },
   ] = useAxiosPaginated('/api/subscription/me', parseSubscription);
-
-  useEffect(() => {
-    if (!loading && subscriptions) {
-      const subscribedReactions: Reaction[] = [];
-
-      subscriptions.forEach(s => subscribedReactions.push(parseReaction(s.reaction)));
-
-      setReactions(subscribedReactions);
-    }
-  }, [subscriptions, loading]);
 
   return (
     <Authenticated>
@@ -41,7 +29,7 @@ const SubscriptionsTab: React.FC = () => {
 
         { loading
           ? <Loader />
-          : reactions.map(r => <ReactionItem key={r.id} reaction={r} />)
+          : subscriptions.map(s => <ReactionItem key={s.id} reaction={s.reaction} />)
         }
 
       </PaginatedList>
