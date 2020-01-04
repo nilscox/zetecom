@@ -13,7 +13,7 @@ const Bookmarks = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const currentTab = location.pathname.includes('souscriptions') ? 'souscriptions' : '';
+  const currentTab = location.pathname.includes('souscriptions') ? 'subscriptions' : 'bookmarks';
 
   return (
     <>
@@ -22,10 +22,13 @@ const Bookmarks = () => {
       <Box my={12} style={{ borderBottom: '1px solid #CCC' }}>
         <Tabs
           value={currentTab || ''}
-          onChange={(_, value) => history.push(`/favoris/${value}`)}
+          onChange={(_, value) => {
+            const path = value === 'subscriptions' ? 'souscriptions' : '';
+            history.replace(`/favoris/${path}`);
+          }}
         >
-          <Tab value="" label="Favoris" />
-          <Tab value="souscriptions" label="Souscriptions" />
+          <Tab value="bookmarks" label="Favoris" />
+          <Tab value="subscriptions" label="Souscriptions" />
         </Tabs>
       </Box>
 
