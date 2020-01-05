@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindConditions, Not } from 'typeorm';
+import { Repository, FindConditions, Not, FindManyOptions } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 import { User } from '../user/user.entity';
@@ -58,12 +58,17 @@ export class SubscriptionService {
     return this.subscriptionRepository.findOne(where);
   }
 
-  public async findAllForUser(user: User, page: number): Promise<Paginated<Subscription>> {
+  public async findAllForUser(user: User, information: number | undefined, page: number): Promise<Paginated<Subscription>> {
+    const where: FindManyOptions<Subscription>['where'] = { user };
+
+    if (information)
+      where.information = information;
+
     const [items, total] = await this.subscriptionRepository.findAndCount({
-      where: { user },
+      where,
       skip: (page - 1) * this.pageSize,
       take: this.pageSize,
-      relations: ['information', 'subject', 'reaction'],
+      relations: ['information', 'subject', 'reaction', 'reaction.information'],
     });
 
     return { items, total };
