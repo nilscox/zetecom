@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import BookmarksTab from './BookmarkTab';
-import SubscriptionsTab from './SubscriptionTab';
+import BookmarksTab from './BookmarksTab';
+import SubscriptionsTab from './SubscriptionsTab';
 import Box from 'src/components/common/Box';
 
 const Bookmarks = () => {
@@ -34,7 +34,7 @@ const Bookmarks = () => {
 
       <Switch>
         <Route path="/favoris/souscriptions" component={SubscriptionsTab} />
-        <Route exact path="/favoris" component={BookmarksTab} />
+        <Route path="/favoris" component={BookmarksTab} />
       </Switch>
     </>
   );

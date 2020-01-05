@@ -5,7 +5,7 @@ export type Information = {
   title: string;
   url: string;
   image: string | null;
-  creator: Partial<User>;
+  creator?: Partial<User>;
   reactionsCount: number;
   subjectsCount: number;
 };
@@ -14,6 +14,6 @@ export type Information = {
 export const parseInformation = (data: any): Information => {
   return {
     ...data,
-    creator: parseUser(data.creator),
+    creator: data.creator ? parseUser(data.creator) : undefined,
   };
 };
