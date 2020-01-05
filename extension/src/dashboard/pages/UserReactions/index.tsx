@@ -1,44 +1,23 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
 import { Typography } from '@material-ui/core';
 
-import Loader from 'src/dashboard/components/Loader';
-import { parseReaction } from 'src/types/Reaction';
-
-import UserReactionItem from './UserReactionItem';
+import UserReactionsList from './UserReactionsList';
+import UserReactionsByInformationList from './UserReactionsByInformationList';
 import Authenticated from 'src/dashboard/components/Authenticated';
-import PaginatedList from 'src/dashboard/components/PaginatedList';
-import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 
-const UserReactions: React.FC = () => {
-  const [
-    { loading, data: reactions, totalPages },
-    { setSearch },,
-    { page, setPage },
-  ] = useAxiosPaginated('/api/reaction/me', parseReaction);
+const UserReactions: React.FC = () => (
+  <Authenticated>
 
-  return (
-    <Authenticated>
+    <Typography variant="h4">Mes réactions</Typography>
 
-      <Typography variant="h4">Mes réactions</Typography>
+    <Switch>
+      <Route path="/reactions/:id" component={UserReactionsByInformationList} />
+      <Route path="/reactions" component={UserReactionsList} />
+    </Switch>
 
-      <PaginatedList
-        onSearch={setSearch}
-        page={page}
-        pageSize={10}
-        totalPages={totalPages}
-        onPageChange={setPage}
-      >
-
-        { loading
-          ? <Loader />
-          : reactions.map(r => <UserReactionItem key={r.id} reaction={r} />)
-        }
-
-      </PaginatedList>
-
-    </Authenticated>
-  );
-};
+  </Authenticated>
+);
 
 export default UserReactions;

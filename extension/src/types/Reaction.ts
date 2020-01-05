@@ -1,4 +1,5 @@
 import { UserLight, parseUser } from './User';
+import { Information, parseInformation } from './Information';
 
 export enum QuickReactionType {
   APPROVE = 'approve',
@@ -30,6 +31,7 @@ export type Reaction = {
   userQuickReaction: QuickReactionType;
   bookmarked?: boolean;
   subscribed?: boolean;
+  information?: Information;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -61,5 +63,6 @@ export const parseReaction = (data: any): Reaction => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }, {} as any),
     userQuickReaction: mapQuickReaction[data.userQuickReaction],
+    information: data.information ? parseInformation(data.information) : undefined,
   };
 };
