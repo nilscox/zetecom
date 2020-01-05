@@ -5,11 +5,8 @@ import {
   ParseIntPipe,
   UseInterceptors, UseGuards,
   NotFoundException,
-  UnauthorizedException,
   BadRequestException,
-  SetMetadata,
   Inject,
-  Delete,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
@@ -41,6 +38,7 @@ import { SortType } from 'Common/sort-type';
 import { InformationService } from '../information/information.service';
 import { SubscriptionService } from '../subscription/subscription.service';
 import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
+import { PageQuery } from 'Common/page-query.decorator';
 
 @Controller('/reaction')
 export class ReactionController {
@@ -62,9 +60,9 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @PaginatedOutput(ReactionWithInformationOutDto)
   async findForUser(
-    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
     @OptionalQuery({ key: 'informationId' }, OptionalParseIntPipe) informationId: number | undefined,
+    @PageQuery() page: number,
     @ReqUser() user: User,
   ): Promise<Paginated<Reaction>> {
     return this.reactionRepository.findForUser(user.id, informationId, search, SortType.DATE_DESC, page, this.reactionPageSize);
@@ -84,7 +82,7 @@ export class ReactionController {
   @PaginatedOutput(ReactionOutDto)
   async findReplies(
     @Param('id', new ParseIntPipe()) id: number,
-    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+    @PageQuery() page: number,
   ): Promise<Paginated<Reaction>> {
     if (!(await this.reactionRepository.exists(id)))
       throw new NotFoundException();

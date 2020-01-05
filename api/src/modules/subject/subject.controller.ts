@@ -28,6 +28,7 @@ import { SubjectOutDto } from './dtos/subject-out.dto';
 import { ReactionRepository } from '../reaction/reaction.repository';
 import { PopulateSubject } from 'Common/populate-subject.interceptor';
 import { Paginated } from 'Common/paginated';
+import { PageQuery } from 'Common/page-query.decorator';
 
 @Controller('/subject')
 export class SubjectController {
@@ -55,7 +56,7 @@ export class SubjectController {
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'sort', defaultValue: 'date-desc' }, new SortTypePipe()) sort: SortType,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
-    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+    @PageQuery() page: number,
   ): Promise<Paginated<Reaction>> {
     const subject = await this.subjectService.findById(id);
 

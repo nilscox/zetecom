@@ -35,6 +35,7 @@ import { InformationOutDto } from './dtos/information-out.dto';
 import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
 import { PopulateSubject } from 'Common/populate-subject.interceptor';
 import { PopulateInformation } from 'Common/populate-information.interceptor';
+import { PageQuery } from 'Common/page-query.decorator';
 
 @Controller('information')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -60,7 +61,7 @@ export class InformationController {
   @UseInterceptors(PopulateInformation)
   @PaginatedOutput(InformationOutDto)
   async findAll(
-    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+    @PageQuery() page: number,
   ): Promise<Paginated<Information>> {
     return this.informationRepository.findAllPaginated(page, this.informationPageSize);
   }
@@ -113,8 +114,8 @@ export class InformationController {
   async findReactions(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
-    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
+    @PageQuery() page: number,
   ): Promise<Paginated<Reaction>> {
     if (!(await this.informationService.exists(id)))
       throw new NotFoundException();
@@ -130,7 +131,7 @@ export class InformationController {
   async findSubjects(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
-    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
+    @PageQuery() page: number,
   ): Promise<{ items: Subject[], total: number }> {
     if (!(await this.informationService.exists(id)))
       throw new NotFoundException();

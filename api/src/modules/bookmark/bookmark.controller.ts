@@ -14,10 +14,10 @@ import {
 } from '@nestjs/common';
 
 import { IsAuthenticated } from 'Common/auth.guard';
-import { PaginatedOutput, Output } from 'Common/output.interceptor';
+import { PaginatedOutput } from 'Common/output.interceptor';
 import { User as ReqUser } from 'Common/user.decorator';
 
-import { ReactionOutDto, ReactionWithInformationOutDto } from '../reaction/dtos/reaction-out.dto';
+import { ReactionWithInformationOutDto } from '../reaction/dtos/reaction-out.dto';
 import { User } from '../user/user.entity';
 import { Reaction } from '../reaction/reaction.entity';
 import { Paginated } from 'Common/paginated';
@@ -27,6 +27,7 @@ import { BookmarkRepository } from './bookmark.repository';
 import { ReactionRepository } from '../reaction/reaction.repository';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
+import { PageQuery } from 'Common/page-query.decorator';
 
 @Controller('bookmark')
 export class BookmarkController {
@@ -43,9 +44,9 @@ export class BookmarkController {
   @PaginatedOutput(ReactionWithInformationOutDto)
   async findForUser(
     @ReqUser() user: User,
-    @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
     @OptionalQuery({ key: 'informationId' }, new OptionalParseIntPipe()) informationId: number | undefined,
+    @PageQuery() page: number,
   ): Promise<Paginated<Reaction>> {
     return this.bookmarkService.find(user, informationId, search, page);
   }
