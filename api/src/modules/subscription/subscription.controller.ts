@@ -2,7 +2,7 @@ import { Controller, Get, UseGuards, UseInterceptors } from '@nestjs/common';
 import { IsAuthenticated } from 'Common/auth.guard';
 
 import { Paginated } from 'Common/paginated';
-import { User as ReqUser } from 'Common/user.decorator';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { User } from '../user/user.entity';
 import { Subscription } from './subscription.entity';
 import { SubscriptionService } from './subscription.service';
@@ -25,7 +25,7 @@ export class SubscriptionController {
   @UseInterceptors(PopulateSubscription)
   @PaginatedOutput(SubscriptionOutDto)
   findForUser(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @PageQuery() page: number,
   ): Promise<Paginated<Subscription>> {
     return this.subscriptionService.findAllForUser(user, page);

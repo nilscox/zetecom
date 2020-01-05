@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-import { User as ReqUser } from 'Common/user.decorator';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { Output } from 'Common/output.interceptor';
 import { IsAuthenticated } from 'Common/auth.guard';
 
@@ -55,7 +55,7 @@ export class UserController {
   @UseGuards(IsAuthenticated)
   @UseInterceptors(FileInterceptor('image', { storage: multerStorage }))
   @Output(UserOutDto)
-  async updateUserAvatar(@UploadedFile() file: any, @ReqUser() user): Promise<User> {
+  async updateUserAvatar(@UploadedFile() file: any, @AuthUser() user): Promise<User> {
     await this.avatarService.setUserAvatar(user, file);
 
     return user;

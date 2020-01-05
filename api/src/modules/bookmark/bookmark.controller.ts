@@ -15,7 +15,7 @@ import {
 
 import { IsAuthenticated } from 'Common/auth.guard';
 import { PaginatedOutput } from 'Common/output.interceptor';
-import { User as ReqUser } from 'Common/user.decorator';
+import { AuthUser } from 'Common/auth-user.decorator';
 
 import { ReactionWithInformationOutDto } from '../reaction/dtos/reaction-out.dto';
 import { User } from '../user/user.entity';
@@ -44,7 +44,7 @@ export class BookmarkController {
   @UseInterceptors(PopulateReaction)
   @PaginatedOutput(ReactionWithInformationOutDto)
   async findForUser(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @OptionalQuery({ key: 'informationId' }, new OptionalParseIntPipe()) informationId: number | undefined,
     @SearchQuery() search: string,
     @PageQuery() page: number,
@@ -55,7 +55,7 @@ export class BookmarkController {
   @Post(':id')
   @UseGuards(IsAuthenticated)
   async addBookmark(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @Param('id', new ParseIntPipe()) reactionId: number,
   ): Promise<void> {
     const existing = await this.bookmarkRepository.findBookmark(user.id, reactionId);
@@ -75,7 +75,7 @@ export class BookmarkController {
   @UseGuards(IsAuthenticated)
   @HttpCode(HttpStatus.NO_CONTENT)
   async removeBookmark(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @Param('id', new ParseIntPipe()) reactionId: number,
   ): Promise<void> {
     const existing = await this.bookmarkRepository.findBookmark(user.id, reactionId);

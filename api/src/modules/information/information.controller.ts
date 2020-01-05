@@ -13,7 +13,7 @@ import {
 import { SortTypePipe } from 'Common/sort-type.pipe';
 import { SortType } from 'Common/sort-type';
 import { IsAuthenticated } from 'Common/auth.guard';
-import { User as ReqUser } from 'Common/user.decorator';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { Output, PaginatedOutput } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
@@ -148,7 +148,7 @@ export class InformationController {
   @Output(InformationOutDto)
   async create(
     @Body() dto: CreateInformationInDto,
-    @ReqUser() user: User,
+    @AuthUser() user: User,
   ): Promise<Information> {
     if (await this.informationService.findByUrl(dto.url))
       throw new ConflictException(`An information with url ${dto.url} already exists`);

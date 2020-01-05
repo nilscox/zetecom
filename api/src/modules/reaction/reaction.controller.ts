@@ -13,7 +13,7 @@ import {
 
 import { IsAuthenticated } from 'Common/auth.guard';
 import { IsAuthor, IsNotAuthor } from 'Common/is-author.guard';
-import { User as ReqUser } from 'Common/user.decorator';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { Output, PaginatedOutput } from 'Common/output.interceptor';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
@@ -61,7 +61,7 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @PaginatedOutput(ReactionWithInformationOutDto)
   async findForUser(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @OptionalQuery({ key: 'informationId' }, OptionalParseIntPipe) informationId: number | undefined,
     @SearchQuery() search: string,
     @PageQuery() page: number,
@@ -94,7 +94,7 @@ export class ReactionController {
   @Post(':id/subscribe')
   @UseGuards(IsAuthenticated)
   async subscribe(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<void> {
     const reaction = await this.reactionService.findById(id);
@@ -109,7 +109,7 @@ export class ReactionController {
   @UseGuards(IsAuthenticated)
   @HttpCode(HttpStatus.NO_CONTENT)
   async unsubscribe(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<void> {
     const reaction = await this.reactionService.findById(id);
@@ -130,7 +130,7 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @Output(ReactionOutDto)
   async create(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @Body() dto: CreateReactionInDto,
   ): Promise<Reaction> {
     const information = await this.informationService.findById(dto.informationId);
@@ -174,7 +174,7 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @Output(ReactionOutDto)
   async quickReaction(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: QuickReactionInDto,
   ): Promise<Reaction> {
@@ -193,7 +193,7 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @Output(ReactionOutDto)
   async report(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: ReportInDto,
   ): Promise<Reaction> {

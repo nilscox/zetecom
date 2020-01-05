@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 
 import { IsAuthenticated } from 'Common/auth.guard';
-import { User as ReqUser } from 'Common/user.decorator';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { Paginated } from 'Common/paginated';
 
 import { User } from '../user/user.entity';
@@ -34,7 +34,7 @@ export class NotificationController {
   @Get('me')
   @UseGuards(IsAuthenticated)
   findUnseenForUser(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @PageQuery() page: number,
   ): Promise<Paginated<Notification>> {
     return this.notificationService.findForUser(user, false, page);
@@ -43,7 +43,7 @@ export class NotificationController {
   @Get('me/seen')
   @UseGuards(IsAuthenticated)
   findSseenForUser(
-    @ReqUser() user: User,
+    @AuthUser() user: User,
     @PageQuery() page: number,
   ): Promise<Paginated<Notification>> {
     return this.notificationService.findForUser(user, true, page);
@@ -54,7 +54,7 @@ export class NotificationController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async markAsSeen(
     @Param('id', new ParseIntPipe()) id: number,
-    @ReqUser() user: User,
+    @AuthUser() user: User,
   ): Promise<void> {
     const notification = await this.notificationRepository.findOne(id, { relations: ['subscription', 'subscription.user'] });
 

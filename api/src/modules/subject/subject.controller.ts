@@ -10,7 +10,7 @@ import {
 
 import { SortType } from 'Common/sort-type';
 import { IsAuthenticated } from 'Common/auth.guard';
-import { User as ReqUser } from 'Common/user.decorator';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { SortTypePipe } from 'Common/sort-type.pipe';
 import { Output, PaginatedOutput } from 'Common/output.interceptor';
@@ -75,7 +75,7 @@ export class SubjectController {
   @Output(SubjectOutDto)
   async create(
     @Body() dto: CreateSubjectInDto,
-    @ReqUser() user: User,
+    @AuthUser() user: User,
   ): Promise<Subject> {
     const information = await this.informationService.findById(dto.informationId);
 

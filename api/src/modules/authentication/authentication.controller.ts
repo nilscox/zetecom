@@ -6,10 +6,9 @@ import {
   Session, Body,
   UseInterceptors, UseGuards,
   ClassSerializerInterceptor,
-  NotFoundException,
 } from '@nestjs/common';
 
-import { User as ReqUser } from 'Common/user.decorator';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
 import { Output } from 'Common/output.interceptor';
 
@@ -79,7 +78,7 @@ export class AuthenticationController {
   @Get('/me')
   @UseGuards(IsAuthenticated)
   @Output(UserOutDto)
-  me(@ReqUser() user): User {
+  me(@AuthUser() user): User {
     return user;
   }
 
