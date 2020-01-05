@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { TransformInterceptor } from './transform.interceptor';
-import { InformationService } from '../modules/information/information.service';
-import { Information } from 'src/modules/information/information.entity';
+import { TransformInterceptor } from '../../common/transform.interceptor';
+import { InformationService } from './information.service';
+import { Information } from './information.entity';
 
 @Injectable()
 export class PopulateInformation extends TransformInterceptor<Information> {

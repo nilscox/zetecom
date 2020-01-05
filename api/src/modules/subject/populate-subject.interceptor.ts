@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { TransformInterceptor } from './transform.interceptor';
-import { SubjectService } from '../modules/subject/subject.service';
-import { Subject } from '../modules/subject/subject.entity';
+import { TransformInterceptor } from '../../common/transform.interceptor';
+import { SubjectService } from './subject.service';
+import { Subject } from './subject.entity';
 
 @Injectable()
 export class PopulateSubject extends TransformInterceptor<Subject> {

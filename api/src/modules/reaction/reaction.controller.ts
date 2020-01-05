@@ -16,7 +16,7 @@ import { IsAuthor, IsNotAuthor } from 'Common/is-author.guard';
 import { AuthUser } from 'Common/auth-user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { Output, PaginatedOutput } from 'Common/output.interceptor';
-import { PopulateReaction } from 'Common/populate-reaction.interceptor';
+import { PopulateReaction } from './populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
 import { Reaction } from './reaction.entity';

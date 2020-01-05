@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { TransformInterceptor } from './transform.interceptor';
-import { ReactionService } from '../modules/reaction/reaction.service';
-import { Reaction } from '../modules/reaction/reaction.entity';
+import { TransformInterceptor } from '../../common/transform.interceptor';
+import { ReactionService } from './reaction.service';
+import { Reaction } from './reaction.entity';
 
 @Injectable()
 export class PopulateReaction extends TransformInterceptor<Reaction> {

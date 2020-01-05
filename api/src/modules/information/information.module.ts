@@ -9,6 +9,7 @@ import { InformationService } from './information.service';
 
 import { YoutubeService } from './youtube.service';
 import { InformationRepository } from './information.repository';
+import { PopulateInformation } from './populate-information.interceptor';
 
 const INFORMATION_PAGE_SIZE = 'INFORMATION_PAGE_SIZE';
 const InformationPageSize: Provider = {
@@ -29,10 +30,12 @@ const InformationPageSize: Provider = {
     YoutubeService,
     InformationPageSize,
     InformationService,
+    PopulateInformation,
   ],
   exports: [
     TypeOrmModule,
     InformationService,
+    PopulateInformation,
   ],
 })
 export class InformationModule {}

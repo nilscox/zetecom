@@ -14,7 +14,7 @@ import { AuthUser } from 'Common/auth-user.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { SortTypePipe } from 'Common/sort-type.pipe';
 import { Output, PaginatedOutput } from 'Common/output.interceptor';
-import { PopulateReaction } from 'Common/populate-reaction.interceptor';
+import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
 
 import { User } from '../user/user.entity';
 import { InformationService } from '../information/information.service';
@@ -26,7 +26,7 @@ import { SubjectService } from './subject.service';
 import { CreateSubjectInDto } from './dtos/create-subject-in.dto';
 import { SubjectOutDto } from './dtos/subject-out.dto';
 import { ReactionRepository } from '../reaction/reaction.repository';
-import { PopulateSubject } from 'Common/populate-subject.interceptor';
+import { PopulateSubject } from './populate-subject.interceptor';
 import { Paginated } from 'Common/paginated';
 import { PageQuery } from 'Common/page-query.decorator';
 import { SearchQuery } from 'Common/search-query.decorator';

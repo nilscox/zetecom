@@ -12,6 +12,7 @@ import { ReactionRepository } from './reaction.repository';
 import { ReportModule } from '../report/report.module';
 import { BookmarkModule } from '../bookmark/bookmark.module';
 import { SubscriptionModule } from '../subscription/subscription.module';
+import { PopulateReaction } from './populate-reaction.interceptor';
 
 const REACTION_PAGE_SIZE = 'REACTION_PAGE_SIZE';
 const ReactionPageSize: Provider = {
@@ -34,11 +35,13 @@ const ReactionPageSize: Provider = {
   providers: [
     ReactionPageSize,
     ReactionService,
+    PopulateReaction,
   ],
   exports: [
     TypeOrmModule,
     ReactionPageSize,
     ReactionService,
+    PopulateReaction,
   ],
 })
 export class ReactionModule {}

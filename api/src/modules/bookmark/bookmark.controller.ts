@@ -25,7 +25,7 @@ import { OptionalQuery } from 'Common/optional-query.decorator';
 import { BookmarkService } from './bookmark.service';
 import { BookmarkRepository } from './bookmark.repository';
 import { ReactionRepository } from '../reaction/reaction.repository';
-import { PopulateReaction } from 'Common/populate-reaction.interceptor';
+import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
 import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
 import { PageQuery } from 'Common/page-query.decorator';
 import { SearchQuery } from 'Common/search-query.decorator';

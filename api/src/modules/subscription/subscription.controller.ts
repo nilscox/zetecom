@@ -9,7 +9,7 @@ import { SubscriptionService } from './subscription.service';
 import { PaginatedOutput } from 'Common/output.interceptor';
 import { SubscriptionOutDto } from './dtos/subscription-out.dto';
 import { StripNullRelations } from './strip-null-relations.interceptor';
-import { PopulateSubscription } from 'Common/populate-subscription.interceptor';
+import { PopulateSubscription } from './populate-subscription.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
