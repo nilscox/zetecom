@@ -29,6 +29,7 @@ import { ReactionRepository } from '../reaction/reaction.repository';
 import { PopulateSubject } from 'Common/populate-subject.interceptor';
 import { Paginated } from 'Common/paginated';
 import { PageQuery } from 'Common/page-query.decorator';
+import { SearchQuery } from 'Common/search-query.decorator';
 
 @Controller('/subject')
 export class SubjectController {
@@ -55,7 +56,7 @@ export class SubjectController {
   async findReactions(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'sort', defaultValue: 'date-desc' }, new SortTypePipe()) sort: SortType,
-    @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
+    @SearchQuery() search: string,
     @PageQuery() page: number,
   ): Promise<Paginated<Reaction>> {
     const subject = await this.subjectService.findById(id);

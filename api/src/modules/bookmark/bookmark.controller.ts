@@ -28,6 +28,7 @@ import { ReactionRepository } from '../reaction/reaction.repository';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
 import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
 import { PageQuery } from 'Common/page-query.decorator';
+import { SearchQuery } from 'Common/search-query.decorator';
 
 @Controller('bookmark')
 export class BookmarkController {
@@ -44,8 +45,8 @@ export class BookmarkController {
   @PaginatedOutput(ReactionWithInformationOutDto)
   async findForUser(
     @ReqUser() user: User,
-    @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
     @OptionalQuery({ key: 'informationId' }, new OptionalParseIntPipe()) informationId: number | undefined,
+    @SearchQuery() search: string,
     @PageQuery() page: number,
   ): Promise<Paginated<Reaction>> {
     return this.bookmarkService.find(user, informationId, search, page);

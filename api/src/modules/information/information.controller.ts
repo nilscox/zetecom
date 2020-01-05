@@ -36,6 +36,7 @@ import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
 import { PopulateSubject } from 'Common/populate-subject.interceptor';
 import { PopulateInformation } from 'Common/populate-information.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
+import { SearchQuery } from 'Common/search-query.decorator';
 
 @Controller('information')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -114,7 +115,7 @@ export class InformationController {
   async findReactions(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
-    @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
+    @SearchQuery() search: string,
     @PageQuery() page: number,
   ): Promise<Paginated<Reaction>> {
     if (!(await this.informationService.exists(id)))
@@ -130,7 +131,7 @@ export class InformationController {
   @PaginatedOutput(SubjectOutDto)
   async findSubjects(
     @Param('id', new ParseIntPipe()) id: number,
-    @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
+    @SearchQuery() search: string,
     @PageQuery() page: number,
   ): Promise<{ items: Subject[], total: number }> {
     if (!(await this.informationService.exists(id)))

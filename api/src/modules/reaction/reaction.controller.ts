@@ -39,6 +39,7 @@ import { InformationService } from '../information/information.service';
 import { SubscriptionService } from '../subscription/subscription.service';
 import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
 import { PageQuery } from 'Common/page-query.decorator';
+import { SearchQuery } from 'Common/search-query.decorator';
 
 @Controller('/reaction')
 export class ReactionController {
@@ -60,10 +61,10 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @PaginatedOutput(ReactionWithInformationOutDto)
   async findForUser(
-    @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
-    @OptionalQuery({ key: 'informationId' }, OptionalParseIntPipe) informationId: number | undefined,
-    @PageQuery() page: number,
     @ReqUser() user: User,
+    @OptionalQuery({ key: 'informationId' }, OptionalParseIntPipe) informationId: number | undefined,
+    @SearchQuery() search: string,
+    @PageQuery() page: number,
   ): Promise<Paginated<Reaction>> {
     return this.reactionRepository.findForUser(user.id, informationId, search, SortType.DATE_DESC, page, this.reactionPageSize);
   }
@@ -93,8 +94,8 @@ export class ReactionController {
   @Post(':id/subscribe')
   @UseGuards(IsAuthenticated)
   async subscribe(
-    @Param('id', new ParseIntPipe()) id: number,
     @ReqUser() user: User,
+    @Param('id', new ParseIntPipe()) id: number,
   ): Promise<void> {
     const reaction = await this.reactionService.findById(id);
 
@@ -108,8 +109,8 @@ export class ReactionController {
   @UseGuards(IsAuthenticated)
   @HttpCode(HttpStatus.NO_CONTENT)
   async unsubscribe(
-    @Param('id', new ParseIntPipe()) id: number,
     @ReqUser() user: User,
+    @Param('id', new ParseIntPipe()) id: number,
   ): Promise<void> {
     const reaction = await this.reactionService.findById(id);
 
@@ -129,8 +130,8 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @Output(ReactionOutDto)
   async create(
-    @Body() dto: CreateReactionInDto,
     @ReqUser() user: User,
+    @Body() dto: CreateReactionInDto,
   ): Promise<Reaction> {
     const information = await this.informationService.findById(dto.informationId);
 
@@ -157,8 +158,8 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @Output(ReactionWithHistoryOutDto)
   async update(
-    @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateReactionInDto,
+    @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Reaction> {
     const reaction = await this.reactionService.findById(id);
 
@@ -173,9 +174,9 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @Output(ReactionOutDto)
   async quickReaction(
+    @ReqUser() user: User,
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: QuickReactionInDto,
-    @ReqUser() user: User,
   ): Promise<Reaction> {
     const reaction = await this.reactionService.findById(id);
 
@@ -192,9 +193,9 @@ export class ReactionController {
   @UseInterceptors(PopulateReaction)
   @Output(ReactionOutDto)
   async report(
+    @ReqUser() user: User,
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: ReportInDto,
-    @ReqUser() user: User,
   ): Promise<Reaction> {
     const reaction = await this.reactionService.findById(id);
 
