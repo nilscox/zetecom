@@ -58,34 +58,22 @@ export class SubscriptionService {
     return this.subscriptionRepository.findOne(where);
   }
 
-  public async findAllForUser(user: User, information: number | undefined, page: number): Promise<Paginated<Subscription>> {
-    const where: FindManyOptions<Subscription>['where'] = { user };
+  public async findAllForUser(user: User, informationId: number | undefined, page: number): Promise<Paginated<Subscription>> {
+    const qb = this.subscriptionRepository.createQueryBuilder('subscription')
+      .leftJoinAndSelect('subscription.reaction', 'reaction')
+      .leftJoinAndSelect('reaction.information', 'information')
+      .leftJoinAndSelect('reaction.author', 'author')
+      .leftJoinAndSelect('reaction.messages', 'messages')
+      .where('user_id = :userId', { userId: user.id })
+      .skip((page - 1) * this.pageSize)
+      .take(this.pageSize);
 
-    if (information)
-      where.information = information;
+    if (informationId)
+      qb.andWhere('information.id = :informationId', { informationId });
 
-    const [items, total] = await this.subscriptionRepository.findAndCount({
-      where,
-      skip: (page - 1) * this.pageSize,
-      take: this.pageSize,
-      relations: ['information', 'subject', 'reaction', 'reaction.information'],
-    });
+    const [items, total] = await qb.getManyAndCount();
 
     return { items, total };
-  }
-
-  public async getSubscriptionsForUser(reactionIds: number[], userId: number): Promise<{ [reactionId: number]: boolean }> {
-    const subscriptions = await this.subscriptionRepository.createQueryBuilder('subscription')
-      .select('reaction_id', 'reactionId')
-      .leftJoin('reaction', 'reaction', 'subscription.reaction_id = reaction.id')
-      .where('user_id = :userId', { userId })
-      .andWhere('reaction.id IN (' + reactionIds + ')')
-      .getRawMany();
-
-    return reactionIds.reduce((acc, reactionId) => ({
-      ...acc,
-      [reactionId]: !!subscriptions.find(s => s.reactionId === reactionId),
-    }), {});
   }
 
   public async notifyReply(reply: Reaction): Promise<void> {
