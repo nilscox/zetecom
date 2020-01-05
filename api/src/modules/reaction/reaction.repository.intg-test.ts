@@ -240,7 +240,7 @@ describe('reaction repository', () => {
       const reaction2 = await createReaction({ information, author });
       await createReaction({ information, author });
 
-      const result = await reactionRepository.findForUser(author.id, '', SortType.DATE_ASC, 1, 2);
+      const result = await reactionRepository.findForUser(author.id, undefined, '', SortType.DATE_ASC, 1, 2);
 
       expect(result).toMatchObject({
         items: [
@@ -257,7 +257,7 @@ describe('reaction repository', () => {
       await createReaction({ information, author });
       const reaction3 = await createReaction({ information, author });
 
-      const result = await reactionRepository.findForUser(author.id, '', SortType.DATE_ASC, 2, 2);
+      const result = await reactionRepository.findForUser(author.id, undefined, '', SortType.DATE_ASC, 2, 2);
 
       expect(result).toMatchObject({
         items: [
@@ -272,7 +272,7 @@ describe('reaction repository', () => {
       const reaction1 = await createReaction({ information, author });
       const reaction2 = await createReaction({ information, author });
 
-      const result = await reactionRepository.findForUser(author.id, '', SortType.DATE_DESC, 1, 2);
+      const result = await reactionRepository.findForUser(author.id, undefined, '', SortType.DATE_DESC, 1, 2);
 
       expect(result).toMatchObject({
         items: [
@@ -288,7 +288,7 @@ describe('reaction repository', () => {
       const reaction2 = await createReaction({ author, score: 2 });
       const reaction3 = await createReaction({ author, score: 3 });
 
-      const result = await reactionRepository.findForUser(author.id, '', SortType.RELEVANCE, 1, 3);
+      const result = await reactionRepository.findForUser(author.id, undefined, '', SortType.RELEVANCE, 1, 3);
 
       expect(result).toMatchObject({
         items: [
