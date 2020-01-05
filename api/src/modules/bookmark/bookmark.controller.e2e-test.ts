@@ -1,14 +1,16 @@
 import * as request from 'supertest';
+import { getCustomRepository } from 'typeorm';
 
 import { BookmarkModule } from './bookmark.module';
 import { AuthenticationModule } from '../authentication/authentication.module';
 
 import { setupE2eTest, createAuthenticatedUser } from '../../testing/setup-e2e-test';
 import { BookmarkRepository } from './bookmark.repository';
-import { getCustomRepository } from 'typeorm';
 import { createReaction } from '../../testing/factories/reaction.factory';
 import { createBookmark } from '../../testing/factories/bookmark.factory';
 import { Reaction } from '../reaction/reaction.entity';
+import { createInformation } from '../../testing/factories/information.factory';
+import { Information } from '../information/information.entity';
 
 describe('information controller', () => {
 
@@ -29,18 +31,23 @@ describe('information controller', () => {
   describe('get bookmarks', () => {
     const { user, authRequest } = createAuthenticatedUser(server);
 
+    let information: Information;
     let reaction1: Reaction;
     let reaction2: Reaction;
     let reaction3: Reaction;
+    let reaction4: Reaction;
 
     beforeAll(async () => {
+      information = await createInformation();
       reaction1 = await createReaction();
-      reaction2 = await createReaction();
-      reaction3 = await createReaction();
+      reaction2 = await createReaction({ information });
+      reaction3 = await createReaction({ information });
+      reaction4 = await createReaction({ information });
 
       await createBookmark({ user, reaction: reaction1 });
       await createBookmark({ user, reaction: reaction2 });
       await createBookmark({ user, reaction: reaction3 });
+      await createBookmark({ user, reaction: reaction4 });
     });
 
     it('should not fetch bookmarks when not authenticated', () => {
@@ -56,10 +63,10 @@ describe('information controller', () => {
 
       expect(body).toMatchObject({
         items: [
-          { id: reaction1.id },
-          { id: reaction2.id },
+          { id: reaction4.id, information: { id: information.id } },
+          { id: reaction3.id, information: { id: information.id } },
         ],
-        total: 3,
+        total: 4,
       });
     });
 
@@ -71,7 +78,37 @@ describe('information controller', () => {
 
       expect(body).toMatchObject({
         items: [
-          { id: reaction3.id },
+          { id: reaction2.id, information: { id: information.id } },
+          { id: reaction1.id, information: { id: expect.anything() } },
+        ],
+        total: 4,
+      });
+    });
+
+    it('should fetch the bookmarks for a user for an information on the first page', async () => {
+      const { body } = await authRequest
+        .get('/api/bookmark/me')
+        .query({ informationId: information.id })
+        .expect(200);
+
+      expect(body).toMatchObject({
+        items: [
+          { id: reaction4.id, information: { id: information.id } },
+          { id: reaction3.id, information: { id: information.id } },
+        ],
+        total: 3,
+      });
+    });
+
+    it('should fetch the bookmarks for a user for an information on page 2', async () => {
+      const { body } = await authRequest
+        .get('/api/bookmark/me/')
+        .query({ informationId: information.id, page: 2 })
+        .expect(200);
+
+      expect(body).toMatchObject({
+        items: [
+          { id: reaction2.id, information: { id: information.id } }
         ],
         total: 3,
       });

@@ -32,7 +32,7 @@ import { ReportService } from '../report/report.service';
 
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
-import { ReactionOutDto } from './dtos/reaction-out.dto';
+import { ReactionOutDto, ReactionWithInformationOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
 import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
 import { ReportInDto } from '../report/dtos/report-in.dto';
@@ -40,6 +40,7 @@ import { Paginated } from 'Common/paginated';
 import { SortType } from 'Common/sort-type';
 import { InformationService } from '../information/information.service';
 import { SubscriptionService } from '../subscription/subscription.service';
+import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
 
 @Controller('/reaction')
 export class ReactionController {
@@ -59,13 +60,14 @@ export class ReactionController {
   @Get('me')
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateReaction)
-  @PaginatedOutput(ReactionOutDto)
+  @PaginatedOutput(ReactionWithInformationOutDto)
   async findForUser(
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
+    @OptionalQuery({ key: 'informationId' }, OptionalParseIntPipe) informationId: number | undefined,
     @ReqUser() user: User,
   ): Promise<Paginated<Reaction>> {
-    return this.reactionRepository.findForUser(user.id, search, SortType.DATE_DESC, page, this.reactionPageSize);
+    return this.reactionRepository.findForUser(user.id, informationId, search, SortType.DATE_DESC, page, this.reactionPageSize);
   }
 
   @Get(':id')

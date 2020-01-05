@@ -167,13 +167,18 @@ export class ReactionRepository extends Repository<Reaction> {
 
   async findForUser(
     userId: number,
+    informationId: number | undefined,
     search: string,
     sort: SortType,
     page: number,
     pageSize: number,
   ): Promise<Paginated<Reaction>> {
     const qb = this.createDefaultQueryBuilder(page, pageSize)
+      .leftJoinAndSelect('reaction.information', 'information')
       .where('reaction.author_id = :userId', { userId });
+
+    if (informationId)
+      qb.andWhere('information.id = :informationId', { informationId });
 
     if (search)
       qb.andWhere('message.text ILIKE :search', { search: `%${search}%` });

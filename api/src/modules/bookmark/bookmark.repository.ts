@@ -9,18 +9,29 @@ import { User } from '../user/user.entity';
 @EntityRepository(Bookmark)
 export class BookmarkRepository extends Repository<Bookmark> {
 
-  async findBookmarks(userId: number, search: string, page: number, pageSize: number): Promise<Paginated<Reaction>> {
+  async findBookmarks(
+    userId: number,
+    informationId: number | undefined,
+    search: string,
+    page: number,
+    pageSize: number,
+  ): Promise<Paginated<Reaction>> {
     const qb = this.createQueryBuilder('bookmark')
       .where('user.id = :userId', { userId })
       .leftJoinAndSelect('bookmark.user', 'user')
       .leftJoinAndSelect('bookmark.reaction', 'reaction')
-      .leftJoinAndSelect('reaction.messages', 'messages')
+      .leftJoinAndSelect('reaction.information', 'information')
       .leftJoinAndSelect('reaction.author', 'author')
+      .leftJoinAndSelect('reaction.messages', 'messages')
+      .orderBy('bookmark.created', 'DESC')
       .skip((page - 1) * pageSize)
       .take(pageSize);
 
+    if (informationId)
+      qb.andWhere('information.id = :informationId', { informationId });
+
     if (search)
-      qb.andWhere('messages.text ILIKE :search', { search: `%${search}%`});
+      qb.andWhere('messages.text ILIKE :search', { search: `%${search}%` });
 
     const [bookmarks, total] = await qb.getManyAndCount();
 

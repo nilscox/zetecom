@@ -2,7 +2,7 @@ import { Expose, Exclude, Transform, Type } from 'class-transformer';
 
 import { UserLightOutDto } from '../../user/dtos/user-light-out.dto';
 import { Message } from '../message.entity';
-import { QuickReactionType } from '../quick-reaction.entity';
+import { InformationOutDto } from '../../../modules/information/dtos/information-out.dto';
 
 type ReactionLabel =
   | 'SOURCE'
@@ -76,5 +76,13 @@ export class ReactionOutDto {
   author: UserLightOutDto;
 
   messages: Message[];
+
+}
+
+export class ReactionWithInformationOutDto extends ReactionOutDto {
+
+  @Expose()
+  @Type(() => InformationOutDto)
+  information: InformationOutDto;
 
 }

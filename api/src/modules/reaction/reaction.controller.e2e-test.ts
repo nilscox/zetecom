@@ -65,6 +65,90 @@ describe('reaction controller', () => {
     reply3 = await createReaction({ information, parent: reaction });
   });
 
+  describe('get for user', () => {
+
+    const { user, authRequest } = createAuthenticatedUser(server);
+
+    let information: Information;
+    let reaction1: Reaction;
+    let reaction2: Reaction;
+    let reaction3: Reaction;
+    let reaction4: Reaction;
+
+    beforeAll(async () => {
+      information = await createInformation();
+      reaction1 = await createReaction({ author: user });
+      reaction2 = await createReaction({ information, author: user });
+      reaction3 = await createReaction({ information, author: user });
+      reaction4 = await createReaction({ information, author: user });
+    });
+
+    it('should not get reactions created by a specific user when unauthenticated', () => {
+      return request(server)
+        .get('/api/reaction/me')
+        .expect(403);
+    });
+
+    it('should get reactions created by a specific user', async () => {
+      const { body } = await authRequest
+        .get('/api/reaction/me')
+        .expect(200);
+
+      expect(body).toMatchObject({
+        items: [
+          { id: reaction4.id, information: { id: information.id } },
+          { id: reaction3.id, information: { id: information.id } },
+        ],
+        total: 4,
+      });
+    });
+
+    it('should get reactions created by a specific user on page 2', async () => {
+      const { body } = await authRequest
+        .get('/api/reaction/me')
+        .query({ page: 2 })
+        .expect(200);
+
+      expect(body).toMatchObject({
+        items: [
+          { id: reaction2.id, information: { id: information.id } },
+          { id: reaction1.id, information: { id: expect.anything() } },
+        ],
+        total: 4,
+      });
+    });
+
+    it('should get reactions created by a specific user for an information', async () => {
+      const { body } = await authRequest
+        .get('/api/reaction/me')
+        .query({ informationId: information.id })
+        .expect(200);
+
+      expect(body).toMatchObject({
+        items: [
+          { id: reaction4.id, information: { id: information.id } },
+          { id: reaction3.id, information: { id: information.id } },
+        ],
+        total: 3,
+      });
+    });
+
+    it('should get reactions created by a specific user for an information on page 2', async () => {
+      const { body } = await authRequest
+        .get('/api/reaction/me')
+        .query({ informationId: information.id, page: 2 })
+        .expect(200);
+
+      expect(body).toMatchObject({
+        items: [
+          { id: reaction2.id, information: { id: information.id } },
+        ],
+        total: 3,
+      });
+    });
+
+  });
+
   describe('get reaction by id', () => {
 
     it('should get one reaction', () => {

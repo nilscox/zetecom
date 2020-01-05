@@ -17,7 +17,7 @@ import { IsAuthenticated } from 'Common/auth.guard';
 import { PaginatedOutput, Output } from 'Common/output.interceptor';
 import { User as ReqUser } from 'Common/user.decorator';
 
-import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
+import { ReactionOutDto, ReactionWithInformationOutDto } from '../reaction/dtos/reaction-out.dto';
 import { User } from '../user/user.entity';
 import { Reaction } from '../reaction/reaction.entity';
 import { Paginated } from 'Common/paginated';
@@ -26,6 +26,7 @@ import { BookmarkService } from './bookmark.service';
 import { BookmarkRepository } from './bookmark.repository';
 import { ReactionRepository } from '../reaction/reaction.repository';
 import { PopulateReaction } from 'Common/populate-reaction.interceptor';
+import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
 
 @Controller('bookmark')
 export class BookmarkController {
@@ -39,13 +40,14 @@ export class BookmarkController {
   @Get('me')
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateReaction)
-  @PaginatedOutput(ReactionOutDto)
+  @PaginatedOutput(ReactionWithInformationOutDto)
   async findForUser(
     @ReqUser() user: User,
     @OptionalQuery({ key: 'page', defaultValue: '1' }, new ParseIntPipe()) page: number,
     @OptionalQuery({ key: 'search', defaultValue: '' }) search: string,
+    @OptionalQuery({ key: 'informationId' }, new OptionalParseIntPipe()) informationId: number | undefined,
   ): Promise<Paginated<Reaction>> {
-    return this.bookmarkService.find(user, search, page);
+    return this.bookmarkService.find(user, informationId, search, page);
   }
 
   @Post(':id')
