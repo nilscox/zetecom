@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { Repository, In } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { User } from '../user/user.entity';
 import { Subject } from '../subject/subject.entity';
@@ -12,7 +12,6 @@ import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { Information } from '../information/information.entity';
-import { BookmarkRepository } from '../bookmark/bookmark.repository';
 import { SubscriptionService } from '../subscription/subscription.service';
 
 @Injectable()
@@ -21,7 +20,6 @@ export class ReactionService {
   constructor(
 
     private readonly reactionRepository: ReactionRepository,
-    private readonly bookmarkRepository: BookmarkRepository,
 
     @InjectRepository(Message)
     private readonly messageRepository: Repository<Message>,
@@ -131,66 +129,6 @@ export class ReactionService {
 
       await this.reactionRepository.incrementScore(reaction.id);
     }
-  }
-
-  async addRepliesCounts(reactions: Reaction[]): Promise<Reaction[]> {
-    if (!reactions.length)
-      return [];
-
-    const repliesCounts = await this.reactionRepository.getRepliesCounts(reactions.map(r => r.id));
-
-    reactions.forEach(reaction => {
-      const reply = repliesCounts.find(r => r.reactionId === reaction.id);
-
-      if (reply)
-        reaction.repliesCount = reply.repliesCount;
-      else
-        reaction.repliesCount = 0;
-    });
-
-    return reactions;
-  }
-
-  async addQuickReactionsCounts(reactions: Reaction[]): Promise<void> {
-    const quickReactionsCounts = await this.reactionRepository.getQuickReactionsCounts(reactions.map(r => r.id));
-
-    const getQuickReactionsCount = (reactionId: number, type: QuickReactionType): number => {
-      return quickReactionsCounts.find(qrc => qrc.reactionId === reactionId).quickReactions[type];
-    };
-
-    reactions.forEach(reaction => {
-      reaction.quickReactionsCount = {
-        APPROVE: getQuickReactionsCount(reaction.id, QuickReactionType.APPROVE),
-        REFUTE: getQuickReactionsCount(reaction.id, QuickReactionType.REFUTE),
-        SKEPTIC: getQuickReactionsCount(reaction.id, QuickReactionType.SKEPTIC),
-      };
-    });
-  }
-
-  async addUserQuickReaction(reactions: Reaction[], user: User): Promise<void> {
-    const quickReactions = await this.reactionRepository.getQuickReactionForUser(reactions.map(r => r.id), user.id);
-
-    reactions.forEach((reaction) => {
-      const quickReaction = quickReactions.find(qr => qr.reactionId === reaction.id);
-
-      reaction.userQuickReaction = quickReaction ? quickReaction.type : null;
-    });
-  }
-
-  async addUserBookmarks(reactions: Reaction[], user: User): Promise<void> {
-    const bookmarks = await this.bookmarkRepository.getBookmarks(reactions.map(r => r.id), user.id);
-
-    reactions.forEach((reaction) => {
-      reaction.bookmarked = bookmarks[reaction.id];
-    });
-  }
-
-  async addUserSubscriptions(reactions: Reaction[], user: User): Promise<void> {
-    const subscriptions = await this.subscriptionService.getSubscriptionsForUser(reactions.map(r => r.id), user.id);
-
-    reactions.forEach((reaction) => {
-      reaction.subscribed = subscriptions[reaction.id];
-    });
   }
 
 }

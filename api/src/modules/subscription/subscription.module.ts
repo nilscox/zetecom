@@ -17,8 +17,6 @@ const SubscriptionPageSize: Provider = {
 @Module({
   imports: [
     TypeOrmModule.forFeature([Subscription]),
-    forwardRef(() => ReactionModule),
-    forwardRef(() => InformationModule),
     NotificationModule,
   ],
   controllers: [SubscriptionController],

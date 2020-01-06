@@ -58,7 +58,7 @@ export class TestModule {
 
 }
 
-export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module: TestingModuleBuilder) => any) => {
+export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module: TestingModuleBuilder) => any): express.Express => {
 
   const server = express();
   let module: TestingModule;

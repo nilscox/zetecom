@@ -18,6 +18,8 @@ import { OptionalQuery } from 'Common/optional-query.decorator';
 import { Output, PaginatedOutput } from 'Common/output.interceptor';
 import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
 import { Paginated } from 'Common/paginated';
+import { PageQuery } from 'Common/page-query.decorator';
+import { SearchQuery } from 'Common/search-query.decorator';
 
 import { User } from '../user/user.entity';
 import { Information } from './information.entity';
@@ -33,10 +35,8 @@ import { SubjectOutDto } from '../subject/dtos/subject-out.dto';
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
 import { InformationOutDto } from './dtos/information-out.dto';
 import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
-import { PopulateSubject } from 'src/modules/subject/populate-subject.interceptor';
-import { PopulateInformation } from 'src/modules/information/populate-information.interceptor';
-import { PageQuery } from 'Common/page-query.decorator';
-import { SearchQuery } from 'Common/search-query.decorator';
+import { PopulateSubject } from '../../modules/subject/populate-subject.interceptor';
+import { PopulateInformation } from '../../modules/information/populate-information.interceptor';
 
 @Controller('information')
 @UseInterceptors(ClassSerializerInterceptor)

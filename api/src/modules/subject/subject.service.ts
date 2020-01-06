@@ -42,22 +42,4 @@ export class SubjectService {
     return subject;
   }
 
-  async addTotalReactionsCount(subjects: Subject[]): Promise<Subject[]> {
-    if (!subjects.length)
-      return [];
-
-    const reactionsCounts = await this.subjectRepository.getTotalReactionsCount(subjects.map(s => s.id));
-
-    subjects.forEach(subject => {
-      const reactionsCount = reactionsCounts.find(rc => rc.subjectId === subject.id);
-
-      if (!reactionsCount)
-        subject.reactionsCount = 0;
-      else
-        subject.reactionsCount = reactionsCount.reactionsCount;
-    });
-
-    return subjects;
-  }
-
 }

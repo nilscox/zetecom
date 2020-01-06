@@ -108,7 +108,7 @@ describe('information controller', () => {
 
       expect(body).toMatchObject({
         items: [
-          { id: reaction2.id, information: { id: information.id } }
+          { id: reaction2.id, information: { id: information.id } },
         ],
         total: 3,
       });

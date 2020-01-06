@@ -45,16 +45,4 @@ export class InformationService {
     return this.informationRepository.save(information);
   }
 
-  async addReactionsCounts(informations: Information[]): Promise<void> {
-    const counts = await this.informationRepository.getReactionsCounts(informations.map(i => i.id));
-
-    informations.forEach(i => i.reactionsCount = counts[i.id]);
-  }
-
-  async addSubjectsCounts(informations: Information[]): Promise<void> {
-    const counts = await this.informationRepository.getSubjectsCounts(informations.map(i => i.id));
-
-    informations.forEach(i => i.subjectsCount = counts[i.id]);
-  }
-
 }
