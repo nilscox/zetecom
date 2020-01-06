@@ -63,6 +63,7 @@
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/prefer-interface": "off",
     "@typescript-eslint/indent": ["error", 2, { "SwitchCase": 0 }],
+    "@typescript-eslint/no-empty-function": "off",
     "react/prop-types": "off",
     "react/no-unescaped-entities": "off",
     "react-hooks/rules-of-hooks": "error",

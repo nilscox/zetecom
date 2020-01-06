@@ -1,6 +1,11 @@
 import { useMemo, useCallback } from 'react';
 import { AxiosRequestConfig } from 'axios';
-import useAxiosHook, { Options as AxiosHooksOptions } from 'axios-hooks';
+import useAxiosHook from 'axios-hooks';
+
+type AxiosHooksOptions = {
+  manual?: boolean;
+  useCache?: boolean;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ResponseData = any;
@@ -8,8 +13,11 @@ export type ResponseData = any;
 export default function useAxios<T>(
   config: AxiosRequestConfig | string,
   parse?: (data: ResponseData) => T,
-  options?: AxiosHooksOptions,
+  options: AxiosHooksOptions = {},
 ) {
+  if (typeof options.useCache === 'undefined')
+    options.useCache = false;
+
   const [{ data, loading, error, response }, refetch] = useAxiosHook(config, options);
 
   const parsed = useMemo(() => {
