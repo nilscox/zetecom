@@ -7,6 +7,7 @@ import ReactionContainer from 'src/components/reaction/ReactionContainer';
 import RouterLink from 'src/components/common/Link';
 import Flex from 'src/components/common/Flex';
 
+import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { Reaction } from 'src/types/Reaction';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -24,60 +25,63 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type ReactionsListWithIformationProps = {
+  axiosResponse: ReturnType<typeof useAxiosPaginated>;
   reactions: Reaction[];
-  page: number;
-  totalPages: number;
-  loading: boolean;
-  setPage: (page: number) => void;
-  setSearch: (search: string) => void;
 };
 
-const ReactionsListWithInformation: React.FC<ReactionsListWithIformationProps> = ({
-  reactions,
-  page, setPage,
-  setSearch,
-  totalPages,
-  loading,
-}) => {
+const ReactionsListWithInformation: React.FC<ReactionsListWithIformationProps> = ({ axiosResponse, reactions }) => {
   const classes = useStyles({});
+  const [
+    { loading, totalPages },
+    { setSearch },,
+    { page, setPage },
+  ] = axiosResponse;
+  const information = reactions && reactions[0].information;
 
-  if (reactions.length === 0)
+  if (reactions && reactions.length === 0)
     return null;
 
   return (
     <>
-      <RouterLink to={`/information/${reactions[0].information.id}`}>
-        <Flex flexDirection="row" my={12}>
+      { loading && !reactions
+        ? <Loader />
+        : (
+          <>
+            <RouterLink to={`/information/${information.id}`}>
+              <Flex flexDirection="row" my={12}>
 
-          <img src={reactions[0].information.image || ''} className={classes.image} />
+                <img src={information.image || ''} className={classes.image} />
 
-          <Flex flexDirection="column" p={12} >
-            <div className={classes.informationTitle}>
-              { reactions[0].information.title }
-            </div>
-          </Flex>
+                <Flex flexDirection="column" p={12} >
+                  <div className={classes.informationTitle}>
+                    { information.title }
+                  </div>
+                </Flex>
 
-        </Flex>
-      </RouterLink>
+              </Flex>
+            </RouterLink>
 
-      <PaginatedList
-        onSearch={setSearch}
-        page={page}
-        pageSize={10}
-        totalPages={totalPages}
-        onPageChange={setPage}
-      >
+            <PaginatedList
+              onSearch={setSearch}
+              page={page}
+              pageSize={10}
+              totalPages={totalPages}
+              onPageChange={setPage}
+            >
 
-        { loading
-          ? <Loader />
-          : reactions.map(r => (
-            <div key={r.id} className={classes.container}>
-              <ReactionContainer reaction={r} />
-            </div>
-          ))
-        }
+              { loading
+                ? <Loader />
+                : reactions && reactions.map(reaction => (
+                  <div key={reaction.id} className={classes.container}>
+                    <ReactionContainer reaction={reaction} />
+                  </div>
+                ))
+              }
 
-      </PaginatedList>
+            </PaginatedList>
+          </>
+        )
+      }
     </>
   );
 };
