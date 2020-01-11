@@ -2,88 +2,107 @@ import React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import PaginatedList from './PaginatedList';
-import Loader from './Loader';
 import ReactionContainer from 'src/components/reaction/ReactionContainer';
 import RouterLink from 'src/components/common/Link';
-import Flex from 'src/components/common/Flex';
+import Text from 'src/components/common/Text';
+import Loader from 'src/components/common/Loader';
 
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { Reaction } from 'src/types/Reaction';
+import { Information } from 'src/types/Information';
 
-const useStyles = makeStyles((theme: Theme) => ({
+type ReactionWithInformationProps = {
+  reaction: Reaction;
+  informationLink: string;
+};
+
+const useStylesReaction = makeStyles((theme: Theme) => ({
   container: {
-    margin: theme.spacing(1, 0),
+    display: 'flex',
   },
-  image: {
-    width: 240,
-    height: 160,
+  informationContainer: {
+    flex: 1,
+    marginRight: theme.spacing(2),
   },
-  informationTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  informationImage: {
+    width: 120,
+    height: 80,
+    marginRight: theme.spacing(1),
+  },
+  reactionContainer: {
+    flex: 3,
   },
 }));
 
-type ReactionsListWithIformationProps = {
-  axiosResponse: ReturnType<typeof useAxiosPaginated>;
-  reactions: Reaction[];
+const ReactionWithInformation: React.FC<ReactionWithInformationProps> = ({ reaction, informationLink }) => {
+  const classes = useStylesReaction({});
+
+  return (
+    <div className={classes.container}>
+
+      <RouterLink to={informationLink} className={classes.informationContainer}>
+        <Text bold size={20}>
+          { reaction.information.title }
+        </Text>
+        <img src={reaction.information.image || ''} className={classes.informationImage} />
+      </RouterLink>
+
+      <div className={classes.reactionContainer}>
+        <ReactionContainer reaction={reaction} />
+      </div>
+
+    </div>
+  );
 };
 
-const ReactionsListWithInformation: React.FC<ReactionsListWithIformationProps> = ({ axiosResponse, reactions }) => {
-  const classes = useStyles({});
+const useStylesList = makeStyles((theme: Theme) => ({
+  reactionContainer: {
+    margin: theme.spacing(1, 0),
+  },
+}));
+
+type ReactionsListWithInformationProps = {
+  axiosResponse: ReturnType<typeof useAxiosPaginated>;
+  reactions: Reaction[];
+  getInformationLink: (information: Information) => string;
+};
+
+const ReactionsListWithInformation: React.FC<ReactionsListWithInformationProps> = ({
+  axiosResponse,
+  reactions,
+  getInformationLink,
+}) => {
+  const classes = useStylesList({});
   const [
     { loading, totalPages },
     { setSearch },,
     { page, setPage },
   ] = axiosResponse;
-  const information = reactions && reactions[0].information;
-
-  if (reactions && reactions.length === 0)
-    return null;
 
   return (
-    <>
-      { loading && !reactions
+    <PaginatedList
+      onSearch={setSearch}
+      page={page}
+      pageSize={10}
+      totalPages={totalPages}
+      onPageChange={setPage}
+    >
+
+      { loading
         ? <Loader />
-        : (
-          <>
-            <RouterLink to={`/information/${information.id}`}>
-              <Flex flexDirection="row" my={12}>
-
-                <img src={information.image || ''} className={classes.image} />
-
-                <Flex flexDirection="column" p={12} >
-                  <div className={classes.informationTitle}>
-                    { information.title }
-                  </div>
-                </Flex>
-
-              </Flex>
-            </RouterLink>
-
-            <PaginatedList
-              onSearch={setSearch}
-              page={page}
-              pageSize={10}
-              totalPages={totalPages}
-              onPageChange={setPage}
-            >
-
-              { loading
-                ? <Loader />
-                : reactions && reactions.map(reaction => (
-                  <div key={reaction.id} className={classes.container}>
-                    <ReactionContainer reaction={reaction} />
-                  </div>
-                ))
-              }
-
-            </PaginatedList>
-          </>
-        )
+        : reactions.map(r => (
+          <div key={r.id} className={classes.reactionContainer}>
+            <ReactionWithInformation
+              reaction={r}
+              informationLink={getInformationLink(r.information)}
+            />
+          </div>
+        ))
       }
-    </>
+
+    </PaginatedList>
   );
+
 };
 
 export default ReactionsListWithInformation;
