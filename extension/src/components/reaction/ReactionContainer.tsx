@@ -112,7 +112,7 @@ const FetchMoreReplies: React.FC<FetchMoreRepliesProps> = ({ remainingReplies, f
 type ReactionContainerProps = {
   subject?: Subject;
   reaction: Reaction;
-  onEdited: (reaction: Reaction) => void;
+  onEdited?: (reaction: Reaction) => void;
 };
 
 const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction: originalReaction, onEdited }) => {

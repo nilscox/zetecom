@@ -4,52 +4,48 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Reaction } from 'src/types/Reaction';
 import ReactionContainer from 'src/components/reaction/ReactionContainer';
 import RouterLink from 'src/components/common/Link';
+import Text from 'src/components/common/Text';
 
 type ReactionWithInformationProps = {
   reaction: Reaction;
-  link: string;
+  informationLink: string;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     display: 'flex',
-    width: '100%',
-    margin: theme.spacing(1, 0),
   },
   informationContainer: {
     flex: 1,
     marginRight: theme.spacing(2),
   },
-  image: {
+  informationImage: {
     width: 120,
     height: 80,
     marginRight: theme.spacing(1),
-  },
-  informationTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
   },
   reactionContainer: {
     flex: 3,
   },
 }));
 
-const ReactionWithInformation: React.FC<ReactionWithInformationProps> = ({ reaction, link }) => {
+const ReactionWithInformation: React.FC<ReactionWithInformationProps> = ({ reaction, informationLink }) => {
   const classes = useStyles({});
 
   return (
     <div className={classes.container}>
 
-      <RouterLink to={link} className={classes.informationContainer}>
-        <div className={classes.informationTitle}>
+      <RouterLink to={informationLink} className={classes.informationContainer}>
+        <Text bold size={20}>
           { reaction.information.title }
-        </div>
-
-        <img src={reaction.information.image || ''} className={classes.image} />
+        </Text>
+        <img src={reaction.information.image || ''} className={classes.informationImage} />
       </RouterLink>
+
       <div className={classes.reactionContainer}>
-        <ReactionContainer reaction={reaction} onEdited={() => {}} />
+        <ReactionContainer reaction={reaction} />
       </div>
+
     </div>
   );
 };
