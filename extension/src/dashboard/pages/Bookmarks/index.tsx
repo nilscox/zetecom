@@ -7,6 +7,8 @@ import Tab from '@material-ui/core/Tab';
 
 import BookmarksTab from './BookmarksTab';
 import SubscriptionsTab from './SubscriptionsTab';
+import Authenticated from 'src/dashboard/components/Authenticated';
+
 import Box from 'src/components/common/Box';
 
 const Bookmarks = () => {
@@ -16,7 +18,7 @@ const Bookmarks = () => {
   const currentTab = location.pathname.includes('souscriptions') ? 'subscriptions' : 'bookmarks';
 
   return (
-    <>
+    <Authenticated>
       <Typography variant="h4">Mes favoris</Typography>
 
       <Box my={12} style={{ borderBottom: '1px solid #CCC' }}>
@@ -36,7 +38,7 @@ const Bookmarks = () => {
         <Route path="/favoris/souscriptions" component={SubscriptionsTab} />
         <Route path="/favoris" component={BookmarksTab} />
       </Switch>
-    </>
+    </Authenticated>
   );
 };
 

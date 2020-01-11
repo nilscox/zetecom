@@ -1,4 +1,5 @@
 import React from 'react';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import Loader from 'src/dashboard/components/Loader';
 
@@ -9,9 +10,16 @@ import PaginatedList from 'src/dashboard/components/PaginatedList';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { parseSubscription } from 'src/types/Subscription';
 
+const useStyles = makeStyles((theme: Theme) => ({
+  reactionContainer: {
+    margin: theme.spacing(1, 0),
+  },
+}));
+
 const SubscriptionsList: React.FC = () => {
+  const classes = useStyles({});
   const [
-    { loading, data: souscriptions, totalPages },
+    { loading, data: subscriptions, totalPages },
     { setSearch },,
     { page, setPage },
   ] = useAxiosPaginated('/api/subscription/me', parseSubscription);
@@ -29,12 +37,12 @@ const SubscriptionsList: React.FC = () => {
 
         { loading
           ? <Loader />
-          : souscriptions.map(s => (
-            <ReactionWithInformation
-              key={s.id}
-              reaction={s.reaction}
-              link={`/favoris/souscriptions/${s.reaction.information.id}`}
-            />
+          : subscriptions.map(s => (
+            <div key={s.id} className={classes.reactionContainer}>
+              <ReactionWithInformation
+                reaction={s.reaction}
+                informationLink={`/favoris/souscriptions/${s.reaction.information.id}`} />
+            </div>
           ))
         }
 

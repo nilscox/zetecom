@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type ReactionsByInformationListProps = {
+type ReactionsListWithIformationProps = {
   reactions: Reaction[];
   page: number;
   totalPages: number;
@@ -32,7 +32,7 @@ type ReactionsByInformationListProps = {
   setSearch: (search: string) => void;
 };
 
-const ReactionsByInformationList: React.FC<ReactionsByInformationListProps> = ({
+const ReactionsListWithInformation: React.FC<ReactionsListWithIformationProps> = ({
   reactions,
   page, setPage,
   setSearch,
@@ -41,7 +41,7 @@ const ReactionsByInformationList: React.FC<ReactionsByInformationListProps> = ({
 }) => {
   const classes = useStyles({});
 
-  if (reactions.length <= 0)
+  if (reactions.length === 0)
     return null;
 
   return (
@@ -72,7 +72,7 @@ const ReactionsByInformationList: React.FC<ReactionsByInformationListProps> = ({
           ? <Loader />
           : reactions.map(r => (
             <div key={r.id} className={classes.container}>
-              <ReactionContainer reaction={r} onEdited={() => {}} />
+              <ReactionContainer reaction={r} />
             </div>
           ))
         }
@@ -82,4 +82,4 @@ const ReactionsByInformationList: React.FC<ReactionsByInformationListProps> = ({
   );
 };
 
-export default ReactionsByInformationList;
+export default ReactionsListWithInformation;
