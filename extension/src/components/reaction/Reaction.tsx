@@ -13,7 +13,7 @@ type ReactionProps = {
   toggleReplies: () => void | null;
   displayReplyForm: boolean;
   onReply: () => void;
-  onEdit: () => void;
+  onEdit?: () => void;
   onViewHistory: () => void;
   onReport: () => void;
 };

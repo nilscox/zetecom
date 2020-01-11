@@ -57,7 +57,7 @@ type ReactionHeaderProps = {
   author: Reaction['author'];
   date: Reaction['date'];
   edited: Reaction['edited'];
-  onEdit: () => void;
+  onEdit?: () => void;
   onViewHistory: () => void;
   onReport: () => void;
 };
@@ -108,9 +108,11 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
 
       </Flex>
 
-      <Box pt={small} pr={medium} style={{ position: 'absolute', bottom: 0, right: 0 }}>
-        { user && user.id === author.id && <EditButton onClick={onEdit} /> }
-      </Box>
+      { onEdit && (
+        <Box pt={small} pr={medium} style={{ position: 'absolute', bottom: 0, right: 0 }}>
+          { user && user.id === author.id && <EditButton onClick={onEdit} /> }
+        </Box>
+      ) }
 
     </div>
   );
