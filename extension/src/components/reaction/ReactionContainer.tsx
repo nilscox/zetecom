@@ -195,7 +195,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
           toggleReplies={!displayReplyForm ? toggleReplies : null}
           displayReplyForm={displayReplyForm}
           onReply={showReplyForm}
-          onEdit={edit}
+          onEdit={onEdited ? edit : undefined}
           onViewHistory={viewHistory}
           onReport={report}
         />
