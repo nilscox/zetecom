@@ -15,7 +15,7 @@ const Bookmarks = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const currentTab = location.pathname.includes('souscriptions') ? 'subscriptions' : 'bookmarks';
+  const currentTab = location.pathname;
 
   return (
     <Authenticated>
@@ -24,13 +24,10 @@ const Bookmarks = () => {
       <Box my={12} style={{ borderBottom: '1px solid #CCC' }}>
         <Tabs
           value={currentTab || ''}
-          onChange={(_, value) => {
-            const path = value === 'subscriptions' ? 'souscriptions' : '';
-            history.replace(`/favoris/${path}`);
-          }}
+          onChange={(_, value) => history.replace(value)}
         >
-          <Tab value="bookmarks" label="Favoris" />
-          <Tab value="subscriptions" label="Souscriptions" />
+          <Tab value="/favoris" label="Favoris" />
+          <Tab value="/favoris/souscriptions" label="Souscriptions" />
         </Tabs>
       </Box>
 
