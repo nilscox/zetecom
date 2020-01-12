@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, useParams } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { Typography } from '@material-ui/core';
 
@@ -8,12 +8,15 @@ import ReactionsListForInformation from 'src/dashboard/components/ReactionsListF
 import ReactionsListWithInformation from 'src/dashboard/components/ReactionsListWithInformation';
 
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
+import useQueryString from 'src/hooks/use-query-string';
 import { parseReaction } from 'src/types/Reaction';
 
-const UserReactionsListForInformation: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+type UserReactionsListForInformationProps = {
+  informationId: string;
+};
 
-  const axiosResponse = useAxiosPaginated(`/api/reaction/me?informationId=${id}`, parseReaction);
+const UserReactionsListForInformation: React.FC<UserReactionsListForInformationProps> = ({ informationId }) => {
+  const axiosResponse = useAxiosPaginated(`/api/reaction/me?informationId=${informationId}`, parseReaction);
 
   return <ReactionsListForInformation axiosResponse={axiosResponse} reactions={axiosResponse[0].data} />;
 };
@@ -25,22 +28,26 @@ const UserReactionsList: React.FC = () => {
     <ReactionsListWithInformation
       axiosResponse={axiosResponse}
       reactions={axiosResponse[0].data}
-      getInformationLink={(information) => `/reactions/${information.id}`}
+      getInformationLink={(information) => `/reactions?informationId=${information.id}`}
     />
   );
 };
 
-const UserReactions: React.FC = () => (
-  <Authenticated>
+const UserReactions: React.FC<RouteComponentProps> = ({ location }) => {
+  const { informationId } = useQueryString(location.search);
 
-    <Typography variant="h4">Mes réactions</Typography>
+  return (
+    <Authenticated>
 
-    <Switch>
-      <Route path="/reactions/:id" component={UserReactionsListForInformation} />
-      <Route path="/reactions" component={UserReactionsList} />
-    </Switch>
+      <Typography variant="h4">Mes réactions</Typography>
 
-  </Authenticated>
-);
+      { informationId
+        ? <UserReactionsListForInformation informationId={informationId as string} />
+        : <UserReactionsList />
+      }
+
+    </Authenticated>
+  );
+};
 
 export default UserReactions;

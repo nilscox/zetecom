@@ -1,15 +1,19 @@
 import React from 'react';
-import { Switch, Route, useParams } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 import ReactionsListForInformation from 'src/dashboard/components/ReactionsListForInformation';
 import ReactionsListWithInformation from 'src/dashboard/components/ReactionsListWithInformation';
 
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
+import useQueryString from 'src/hooks/use-query-string';
 import { parseReaction } from 'src/types/Reaction';
 
-const BookmarksListForInformation: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const axiosResponse = useAxiosPaginated(`/api/bookmark/me?informationId=${id}`, parseReaction);
+type BookmarksListForInformationProps = {
+  informationId: string;
+};
+
+const BookmarksListForInformation: React.FC<BookmarksListForInformationProps> = ({ informationId }) => {
+  const axiosResponse = useAxiosPaginated(`/api/bookmark/me?informationId=${informationId}`, parseReaction);
 
   return <ReactionsListForInformation axiosResponse={axiosResponse} reactions={axiosResponse[0].data} />;
 };
@@ -21,16 +25,18 @@ const BookmarksList: React.FC = () => {
     <ReactionsListWithInformation
       axiosResponse={axiosResponse}
       reactions={axiosResponse[0].data}
-      getInformationLink={(information) => `/favoris/${information.id}`}
+      getInformationLink={(information) => `/favoris?informationId=${information.id}`}
     />
   );
 };
 
-const BookmarksTab: React.FC = () => (
-  <Switch>
-    <Route path="/favoris/:id" component={BookmarksListForInformation} />
-    <Route exact path="/favoris" component={BookmarksList} />
-  </Switch>
-);
+const BookmarksTab: React.FC<RouteComponentProps> = ({ location }) => {
+  const { informationId } = useQueryString(location.search);
+
+  if (informationId)
+    return <BookmarksListForInformation informationId={informationId as string} />;
+
+  return <BookmarksList />;
+};
 
 export default BookmarksTab;
