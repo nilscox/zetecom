@@ -29,7 +29,7 @@ const AddButton: React.FC<AddButtonProps> = ({ show, onClick }) => {
       style={{ transitionDelay: show ? '500ms' : '0ms' }}
     >
       <Fab color="primary" className={classes.button} onClick={onClick}>
-        <AddIcon />
+        <AddIcon data-testid="add-icon" />
       </Fab>
     </Zoom>
   );
