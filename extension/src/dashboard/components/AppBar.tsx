@@ -77,7 +77,9 @@ const AppBar: React.FC<AppBarProps> = ({ handleDrawerToggle }) => {
         <IconButton
           color="secondary"
         >
-          <NotificationIcon />
+          <RouterLink to="/notifications" className={classes.appBarLink}>
+            <NotificationIcon />
+          </RouterLink>
         </IconButton>
 
         <IconButton
