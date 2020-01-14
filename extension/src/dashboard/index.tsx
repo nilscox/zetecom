@@ -15,6 +15,7 @@ import Settings from './pages/Settings';
 import Informations from './pages/InformationsList';
 import Information from './pages/Information';
 import Authentication from './pages/Authentication';
+import Notifications from './pages/Notifications';
 
 import AppBar from './components/AppBar';
 import Drawer, { drawerWidth } from './components/Drawer';
@@ -35,6 +36,7 @@ const Switch: React.FC = () => (
     <Route path="/favoris" component={Bookmarks} />
     <Route path="/settings" component={Settings} />
     <Route path="/:sign(connexion|inscription)" component={Authentication} />
+    <Route path="/notifications" component={Notifications} />
   </RouterSwitch>
 );
 
