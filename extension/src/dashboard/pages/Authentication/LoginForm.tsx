@@ -103,10 +103,11 @@ const LoginForm: React.FC = () => {
     return <Redirect to="/" />;
 
   return (
-    <form onSubmit={onSubmit}>
+    <form data-testid="login-form" onSubmit={onSubmit}>
       <Flex flexDirection="column" alignItems="center">
 
         <TextField
+          id="email"
           className={classes.marginTop}
           fullWidth
           type="email"
@@ -124,6 +125,7 @@ const LoginForm: React.FC = () => {
         />
 
         <TextField
+          id="password"
           className={classes.marginTop}
           fullWidth
           type="password"
