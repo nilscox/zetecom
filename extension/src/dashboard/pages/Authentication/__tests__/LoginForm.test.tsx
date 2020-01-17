@@ -3,10 +3,11 @@ import React from 'react';
 import { act, render, wait, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
-import mockAxios from 'jest-mock-axios';
+
+import mockAxios, { mockAxiosResponseFor, mockAxiosError } from 'src/testing/jest-mock-axios';
+import { UserProvider } from 'src/utils/UserContext';
 
 import LoginForm from '../LoginForm';
-import { UserProvider } from 'src/utils/UserContext';
 
 const mockUser: any = {
   id: 1,
@@ -42,13 +43,10 @@ describe('LoginForm', () => {
       fireEvent.submit(getByTestId('login-form'));
     });
 
-    await act(async () => {
-      mockAxios.mockResponseFor(
-        { method: 'POST', url: '/api/auth/login' },
-        { data: mockUser },
-      );
-      await wait();
-    });
+    await mockAxiosResponseFor(
+      { method: 'POST', url: '/api/auth/login' },
+      { data: mockUser },
+    );
 
     expect(mockAxios).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -81,14 +79,11 @@ describe('LoginForm', () => {
       fireEvent.submit(getByTestId('login-form'));
     });
 
-    await act(async () => {
-      mockAxios.mockError({
-        response: {
-          status: 401,
-          data: { message: 'INVALID_CREDENTIALS' },
-        },
-      });
-      await wait();
+    await mockAxiosError({
+      response: {
+        status: 401,
+        data: { message: 'INVALID_CREDENTIALS' },
+      },
     });
 
     expect(getByText('Combinaison email / mot de passe non valide')).toBeInTheDocument();
