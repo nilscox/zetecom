@@ -55,7 +55,7 @@ export class UserController {
   @UseGuards(IsAuthenticated)
   @UseInterceptors(FileInterceptor('image', { storage: multerStorage }))
   @Output(UserOutDto)
-  async updateUserAvatar(@UploadedFile() file: any, @AuthUser() user): Promise<User> {
+  async updateUserAvatar(@UploadedFile() file: any, @AuthUser() user: User): Promise<User> {
     await this.avatarService.setUserAvatar(user, file);
 
     return user;

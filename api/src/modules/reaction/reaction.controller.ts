@@ -6,6 +6,7 @@ import {
   UseInterceptors, UseGuards,
   NotFoundException,
   BadRequestException,
+  ConflictException,
   Inject,
   HttpCode,
   HttpStatus,
@@ -101,6 +102,11 @@ export class ReactionController {
 
     if (!reaction)
       throw new NotFoundException();
+
+    const subscription = await this.subscriptionService.getSubscription(user, reaction);
+
+    if (subscription)
+      throw new ConflictException('already subscribed to reaction ' + reaction.id);
 
     await this.subscriptionService.subscribe(user, reaction);
   }

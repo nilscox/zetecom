@@ -231,6 +231,15 @@ describe('reaction controller', () => {
         .expect(404);
     });
 
+    it('should not subscribe to a reaction twice', async () => {
+      const reaction = await createReaction();
+      await createSubscription({ reaction, user });
+
+      return authRequest
+        .post(`/api/reaction/${reaction.id}/subscribe`)
+        .expect(409);
+    });
+
     it('subscribe to a reaction', async () => {
       const reaction = await createReaction();
 

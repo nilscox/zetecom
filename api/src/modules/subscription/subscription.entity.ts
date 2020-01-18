@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn, Column, Unique } from 'typeorm';
 
 import { User } from '../user/user.entity';
 import { Information } from '../information/information.entity';
@@ -6,6 +6,7 @@ import { Subject } from '../subject/subject.entity';
 import { Reaction } from '../reaction/reaction.entity';
 
 @Entity({ name: 'subscription' })
+@Unique(['user', 'reaction'])
 export class Subscription {
 
   @PrimaryGeneratedColumn()
