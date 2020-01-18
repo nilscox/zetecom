@@ -1,6 +1,6 @@
 import { Expose, Type } from 'class-transformer';
 
-import { SubscriptionOutDto } from 'src/modules/subscription/dtos/subscription-out.dto';
+import { SubscriptionOutDto } from '../../subscription/dtos/subscription-out.dto';
 
 export class NotificationOutDto {
 

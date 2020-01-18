@@ -21,8 +21,9 @@ import { Notification } from './notification.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PageQuery } from 'Common/page-query.decorator';
-import { PaginatedOutput } from 'Common/output.interceptor';
+import { PaginatedOutput, Output } from 'Common/output.interceptor';
 import { NotificationOutDto } from './dtos/notification-out.dto';
+import { NotificationsCountOutDto } from './dtos/notifications-count-out.dto';
 
 @Controller('notification')
 export class NotificationController {
@@ -43,6 +44,17 @@ export class NotificationController {
     return this.notificationService.findForUser(user, false, page);
   }
 
+  @Get('me/count')
+  @UseGuards(IsAuthenticated)
+  @Output(NotificationsCountOutDto)
+  async countUnseenForUser(
+    @AuthUser() user: User,
+  ): Promise<{ count: number }> {
+    return {
+      count: await this.notificationService.countForUser(user, false),
+    };
+  }
+
   @Get('me/seen')
   @UseGuards(IsAuthenticated)
   @PaginatedOutput(NotificationOutDto)
@@ -51,6 +63,17 @@ export class NotificationController {
     @PageQuery() page: number,
   ): Promise<Paginated<Notification>> {
     return this.notificationService.findForUser(user, true, page);
+  }
+
+  @Get('me/seen/count')
+  @UseGuards(IsAuthenticated)
+  @Output(NotificationsCountOutDto)
+  async countSeenForUser(
+    @AuthUser() user: User,
+  ): Promise<{ count: number }> {
+    return {
+      count: await this.notificationService.countForUser(user, true),
+    };
   }
 
   @Post(':id/seen')

@@ -34,4 +34,12 @@ export class NotificationService {
     return { items, total };
   }
 
+  async countForUser(user: User, seen: boolean): Promise<number> {
+    return this.notificationRepository.createQueryBuilder('notification')
+      .innerJoin('notification.subscription', 'subscription')
+      .where('subscription.user.id = :userId', { userId: user.id })
+      .andWhere('seen IS ' + (seen ? 'NOT NULL' : 'NULL'))
+      .getCount();
+  }
+
 }
