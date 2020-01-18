@@ -1,0 +1,45 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "subscription": {
+        "created": "2020-01-14T18:32:21.502Z",
+        "id": 1,
+        "reaction": {
+          "author": {
+            "avatar": null,
+            "id": 1,
+            "nick": "bopzor"
+          },
+          "bookmarked": false,
+          "date": "2020-01-14T18:32:13.836Z",
+          "edited": false,
+          "id": 1,
+          "information": {
+            "id": 1,
+            "reactionsCount": 2,
+            "subjectsCount": 0,
+            "title": "FAKE new",
+            "url": "https://fake.news"
+          },
+          "quickReactionsCount": {
+            "approve": 0,
+            "refute": 0,
+            "skeptic": 0
+          },
+          "repliesCount": 1,
+          "subscribed": true,
+          "text": "Hello world!",
+          "userQuickReaction": null
+        }
+      },
+      "created": "2020-01-14T18:32:21.502Z",
+      "actor": {
+        "avatar": null,
+        "id": 1,
+        "nick": "bopzor"
+      }
+    }
+  ],
+  "total": 1
+}
