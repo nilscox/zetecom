@@ -106,7 +106,8 @@ export class SubscriptionService {
       });
     });
 
-    await this.notificationRepository.insert(notifications);
+    if (notifications.length > 0)
+      await this.notificationRepository.insert(notifications);
   }
 
 }

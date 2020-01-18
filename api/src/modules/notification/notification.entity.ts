@@ -9,11 +9,11 @@ export class Notification {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type => Subscription)
+  @ManyToOne(type => Subscription, { nullable: false })
   @JoinColumn({ name: 'subscription_id' })
   subscription: Subscription;
 
-  @ManyToOne(type => User)
+  @ManyToOne(type => User, { nullable: false })
   @JoinColumn({ name: 'actor_id' })
   actor: User;
 

@@ -19,11 +19,17 @@ export class NotificationService {
   ) {}
 
   async findForUser(user: User, seen: boolean, page: number): Promise<Paginated<Notification>> {
-    const [items, total] = await this.notificationRepository.findAndCount({
-      where: { user, seen: seen ? Not(IsNull()) : IsNull() },
-      skip: (page - 1) * this.pageSize,
-      take: this.pageSize,
-    });
+    const [items, total] = await this.notificationRepository.createQueryBuilder('notification')
+      .innerJoinAndSelect('notification.subscription', 'subscription')
+      .innerJoinAndSelect('subscription.reaction', 'reaction')
+      .innerJoinAndSelect('reaction.information', 'information')
+      .innerJoinAndSelect('reaction.author', 'author')
+      .innerJoinAndSelect('reaction.messages', 'messages')
+      .where('subscription.user.id = :userId', { userId: user.id })
+      .andWhere('seen IS ' + (seen ? 'NOT NULL' : 'NULL'))
+      .skip((page - 1) * this.pageSize)
+      .take(this.pageSize)
+      .getManyAndCount();
 
     return { items, total };
   }

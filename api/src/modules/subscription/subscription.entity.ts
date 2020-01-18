@@ -12,7 +12,7 @@ export class Subscription {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type => User)
+  @ManyToOne(type => User, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: User;
 

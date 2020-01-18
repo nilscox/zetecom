@@ -21,6 +21,8 @@ import { Notification } from './notification.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PageQuery } from 'Common/page-query.decorator';
+import { PaginatedOutput } from 'Common/output.interceptor';
+import { NotificationOutDto } from './dtos/notification-out.dto';
 
 @Controller('notification')
 export class NotificationController {
@@ -33,6 +35,7 @@ export class NotificationController {
 
   @Get('me')
   @UseGuards(IsAuthenticated)
+  @PaginatedOutput(NotificationOutDto)
   findUnseenForUser(
     @AuthUser() user: User,
     @PageQuery() page: number,
@@ -42,6 +45,7 @@ export class NotificationController {
 
   @Get('me/seen')
   @UseGuards(IsAuthenticated)
+  @PaginatedOutput(NotificationOutDto)
   findSseenForUser(
     @AuthUser() user: User,
     @PageQuery() page: number,
