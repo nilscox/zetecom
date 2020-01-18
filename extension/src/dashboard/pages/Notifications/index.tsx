@@ -8,10 +8,11 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import RouterLink from 'src/components/common/Link';
+import Loader from 'src/components/common/Loader';
 import { Notification, parseNotification } from 'src/types/Notifications';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 
-import Authenticated from '../components/Authenticated';
+import Authenticated from '../../components/Authenticated';
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
@@ -46,7 +47,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification }) => 
 };
 
 const Notifications: React.FC = () => {
-  const [{ data: notifications, error, loading }] = useAxiosPaginated('/api/notfication/me', parseNotification);
+  const [{ data: notifications, error, loading }] = useAxiosPaginated('/api/notification/me', parseNotification);
 
   const classes = useStyles({});
 
@@ -55,13 +56,18 @@ const Notifications: React.FC = () => {
 
       <Typography variant="h4">Notifications</Typography>
 
-      <Paper className={classes.paper}>
-        <List dense>
-          { notifications.map((notification) => (
-            <NotificationItem key={notification.id} notification={notification} />
-          )) }
-        </List>
-      </Paper>
+      { loading
+        ? <Loader />
+        : (
+          <Paper className={classes.paper}>
+            <List dense>
+              { notifications.map((notification) => (
+                <NotificationItem key={notification.id} notification={notification} />
+              )) }
+            </List>
+          </Paper>
+        )
+      }
 
     </Authenticated>
   );
