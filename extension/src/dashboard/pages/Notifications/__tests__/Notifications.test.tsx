@@ -74,6 +74,6 @@ describe('Notifications', () => {
       { data: { items: [], total: 0 } },
     );
 
-    expect(getByText('Vous n\'avez pas de notification'));
+    expect(getByText('Vous n\'avez pas de nouvelles notifications'));
   });
 });
