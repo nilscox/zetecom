@@ -27,8 +27,8 @@ export type Reaction = {
   history: ReactionHistory[] | null;
   repliesCount: number;
   author: UserLight;
-  quickReactionsCount: QuickReactionsCount;
-  userQuickReaction: QuickReactionType;
+  quickReactionsCount?: QuickReactionsCount;
+  userQuickReaction?: QuickReactionType;
   bookmarked?: boolean;
   subscribed?: boolean;
   information?: Information;
@@ -57,12 +57,14 @@ export const parseReaction = (data: any): Reaction => {
     edited: !data.edited ? false : new Date(data.edited),
     author: parseUser(data.author),
     history: data.history ? data.history.map(parseReactionHistory) : null,
-    quickReactionsCount: Object.keys(data.quickReactionsCount).reduce((obj, key) => {
-      obj[mapQuickReaction[key]] = data.quickReactionsCount[key];
-      return obj;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }, {} as any),
-    userQuickReaction: mapQuickReaction[data.userQuickReaction],
+    quickReactionsCount: data.quickReactionsCount
+      ? Object.keys(data.quickReactionsCount).reduce((obj, key) => {
+        obj[mapQuickReaction[key]] = data.quickReactionsCount[key];
+        return obj;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      }, {} as any)
+      : null,
+    userQuickReaction: data.userQuickReaction ? mapQuickReaction[data.userQuickReaction] : null,
     information: data.information ? parseInformation(data.information) : undefined,
   };
 };

@@ -11,4 +11,7 @@ export class UserLightOutDto {
   @Expose()
   avatar: string | null;
 
+  constructor(data: any) {
+    Object.assign(this, data);
+  }
 }

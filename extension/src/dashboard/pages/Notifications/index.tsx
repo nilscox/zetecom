@@ -15,6 +15,12 @@ import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import Authenticated from '../../components/Authenticated';
 
 const useStyles = makeStyles((theme: Theme) => ({
+  fallbackMessage: {
+    marginTop: theme.spacing(2),
+    fontWeight: 'bold',
+    color: theme.palette.secondary.light,
+    fontSize: '1.4em',
+  },
   paper: {
     marginTop: theme.spacing(2),
   },
@@ -25,6 +31,30 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
 }));
+
+type NotificationsListProps = {
+  notifications: Notification[];
+};
+
+const NotificationsList: React.FC<NotificationsListProps> = ({ notifications }) => {
+  const classes = useStyles({});
+
+  if (notifications.length === 0) {
+    return (
+      <div className={classes.fallbackMessage}>Vous n'avez pas de nouvelles notifications</div>
+    );
+  }
+
+  return (
+    <Paper className={classes.paper}>
+      <List dense>
+        { notifications.map((notification) => (
+          <NotificationItem key={notification.id} notification={notification} />
+        )) }
+      </List>
+    </Paper>
+  );
+};
 
 type NotificationItemProps = {
   notification: Notification;
@@ -49,8 +79,6 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification }) => 
 const Notifications: React.FC = () => {
   const [{ data: notifications, error, loading }] = useAxiosPaginated('/api/notification/me', parseNotification);
 
-  const classes = useStyles({});
-
   return (
     <Authenticated>
 
@@ -59,13 +87,7 @@ const Notifications: React.FC = () => {
       { loading
         ? <Loader />
         : (
-          <Paper className={classes.paper}>
-            <List dense>
-              { notifications.map((notification) => (
-                <NotificationItem key={notification.id} notification={notification} />
-              )) }
-            </List>
-          </Paper>
+          <NotificationsList notifications={notifications} />
         )
       }
 

@@ -21,6 +21,7 @@ export class NotificationService {
   async findForUser(user: User, seen: boolean, page: number): Promise<Paginated<Notification>> {
     const [items, total] = await this.notificationRepository.createQueryBuilder('notification')
       .innerJoinAndSelect('notification.subscription', 'subscription')
+      .innerJoinAndSelect('notification.actor', 'actor')
       .innerJoinAndSelect('subscription.reaction', 'reaction')
       .innerJoinAndSelect('reaction.information', 'information')
       .innerJoinAndSelect('reaction.author', 'author')

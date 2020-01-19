@@ -1,6 +1,7 @@
 import { Expose, Type } from 'class-transformer';
 
 import { SubscriptionOutDto } from '../../subscription/dtos/subscription-out.dto';
+import { UserLightOutDto } from 'src/modules/user/dtos/user-light-out.dto';
 
 export class NotificationOutDto {
 
@@ -11,6 +12,10 @@ export class NotificationOutDto {
   created: Date;
 
   @Expose()
+  @Type(() => UserLightOutDto)
+  actor: UserLightOutDto;
+
+  @Expose()
   @Type(() => SubscriptionOutDto)
   subscription: SubscriptionOutDto;
 
@@ -19,6 +24,9 @@ export class NotificationOutDto {
 
     if (values.subscription)
       this.subscription = new SubscriptionOutDto(values.subscription);
+
+    if (values.actor)
+      this.actor = new UserLightOutDto(values.actor);
   }
 
 }
