@@ -1,19 +1,40 @@
 import React from 'react';
 
+import { makeStyles } from '@material-ui/core/styles';
 import MaterialAppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import HelpIcon from '@material-ui/icons/HelpOutline';
-import { makeStyles } from '@material-ui/core/styles';
 
 import RouterLink, { Link } from 'src/components/common/Link';
-import { drawerWidth } from './Drawer';
+import { drawerWidth } from '../Drawer';
+import useAxios from 'src/hooks/use-axios';
+import { parseNotificationsCount } from 'src/types/Notifications';
 
 const { WEBSITE_URL } = process.env;
+
+const NotificationsIcon: React.FC = () => {
+  const [{ data: count }] = useAxios('/api/notification/me/count', parseNotificationsCount);
+
+  return (
+    <Badge
+      badgeContent={count}
+      color="secondary"
+      showZero={false}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+    >
+      <NotificationIcon />
+    </Badge>
+  );
+};
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -78,7 +99,7 @@ const AppBar: React.FC<AppBarProps> = ({ handleDrawerToggle }) => {
           color="secondary"
         >
           <RouterLink to="/notifications" className={classes.appBarLink}>
-            <NotificationIcon />
+            <NotificationsIcon />
           </RouterLink>
         </IconButton>
 

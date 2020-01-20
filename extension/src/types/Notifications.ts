@@ -16,3 +16,7 @@ export const parseNotification = (data: any) => {
     actor: parseUser(data.actor),
   };
 };
+
+export const parseNotificationsCount = (data: any) => {
+  return data.count;
+};
