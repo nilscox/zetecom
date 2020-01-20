@@ -17,7 +17,7 @@ import Information from './pages/Information';
 import Authentication from './pages/Authentication';
 import Notifications from './pages/Notifications';
 
-import AppBar from './components/AppBar';
+import AppBar from './components/AppBar/AppBar';
 import Drawer, { drawerWidth } from './components/Drawer';
 import Loader from './components/Loader';
 
