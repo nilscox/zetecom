@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
+import DoneIcon from '@material-ui/icons/Done';
 
 import RouterLink from 'src/components/common/Link';
 import Loader from 'src/components/common/Loader';
 
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { Notification, parseNotification } from 'src/types/Notifications';
+import useAxios from 'src/hooks/use-axios';
+import useEditableDataset from 'src/hooks/use-editable-dataset';
 
 type NotificationItemProps = {
   notification: Notification;
+  removeFromList: () => void;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -34,18 +40,35 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const NotificationItem: React.FC<NotificationItemProps> = ({ notification }) => {
+const NotificationItem: React.FC<NotificationItemProps> = ({ notification, removeFromList }) => {
+  const [{ loading, status }, setSeen] = useAxios({
+    method: 'POST',
+    url: `/api/notification/${notification.id}/seen`,
+  }, undefined, { manual: true });
   const classes = useStyles({});
+
+  useEffect(() => {
+    if (status && status(204))
+      removeFromList();
+  }, [status]);
 
   return (
     <ListItem className={classes.item}>
-      <ListItemText>
+
+      <ListItemText onClick={() => setSeen()}>
         <RouterLink to={`/information/${notification.subscription.reaction.information.id}`}>
           <strong>{notification.actor.nick}</strong>{' '}
           a répondu à une réaction sur l'information{' '}
           <strong>{notification.subscription.reaction.information.title}</strong>
         </RouterLink>
       </ListItemText>
+
+      <ListItemSecondaryAction>
+        <IconButton edge="end" onClick={() => setSeen()} data-testid="set-seen-icon">
+          <DoneIcon />
+        </IconButton>
+      </ListItemSecondaryAction>
+
     </ListItem>
   );
 };
@@ -72,13 +95,14 @@ type NotificationsListProps = {
 };
 
 const NotificationsList: React.FC<NotificationsListProps> = ({ seen = false }) => {
-  const [{ data: notifications, loading }] = useAxiosPaginated(
+  const [{ data, loading }] = useAxiosPaginated(
     `/api/notification/me${seen ? '/seen' : ''}`,
     parseNotification,
   );
+  const [notifications, { remove }] = useEditableDataset(data);
   const classes = useStyles({});
 
-  if (loading)
+  if (loading || !notifications)
     return <Loader />;
 
   if (notifications.length === 0)
@@ -88,7 +112,11 @@ const NotificationsList: React.FC<NotificationsListProps> = ({ seen = false }) =
     <Paper className={classes.paper}>
       <List dense>
         { notifications.map((notification) => (
-          <NotificationItem key={notification.id} notification={notification} />
+          <NotificationItem
+            key={notification.id}
+            notification={notification}
+            removeFromList={() => remove(notification)}
+          />
         )) }
       </List>
     </Paper>

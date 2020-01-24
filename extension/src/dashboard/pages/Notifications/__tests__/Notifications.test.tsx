@@ -1,17 +1,19 @@
 import React from 'react';
 
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
 
-import mockAxios, { mockAxiosResponse } from 'src/testing/jest-mock-axios';
+import mockAxios, { mockAxiosResponse, mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 
 import { UserProvider } from 'src/utils/UserContext';
 
 import Notifications from '../index';
 
 import mockedNotifications from './mock.json';
+import { act } from 'react-dom/test-utils';
 
 jest.mock('src/dashboard/components/Authenticated', () => ({
   __esModule: true,
@@ -137,5 +139,60 @@ describe('Notifications', () => {
     );
 
     expect(getByText('Non lues').parentElement).toHaveAttribute('aria-selected', 'true');
+  });
+
+  it('should set notification as seen on notification item click', async () => {
+    const { getByText } = render(
+      <Router history={history}>
+        <UserProvider value={{ user: mockUser, setUser: () => {} }}>
+          <Notifications />
+        </UserProvider>
+      </Router>,
+    );
+
+    await mockAxiosResponse(
+      { data: mockedNotifications },
+    );
+
+    act(() => {
+      userEvent.click(getByText('a répondu à une réaction sur l\'information'));
+    });
+
+    expect(mockAxios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: '/api/notification/1/seen',
+      }),
+    );
+  });
+
+  it('should set notification as seen and remove it from the list on seen icon click', async () => {
+    const { getByTestId, queryByText } = render(
+      <Router history={history}>
+        <UserProvider value={{ user: mockUser, setUser: () => {} }}>
+          <Notifications />
+        </UserProvider>
+      </Router>,
+    );
+
+    await mockAxiosResponse(
+      { data: mockedNotifications },
+    );
+
+    act(() => {
+      userEvent.click(getByTestId('set-seen-icon'));
+    });
+
+    expect(mockAxios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: '/api/notification/1/seen',
+      }),
+    );
+
+    await mockAxiosResponseFor(
+      { method: 'POST', url: '/api/notification/1/seen' },
+      { data: undefined, status: 204 },
+    );
+
+    expect(queryByText('a répondu à une réaction sur l\'information')).toBeNull();
   });
 });

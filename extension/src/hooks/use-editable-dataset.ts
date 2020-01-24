@@ -44,6 +44,15 @@ const useEditableDataset = <T extends { id: number }>(
     ]);
   }, [copy, findElement]);
 
+  const remove = useCallback((item: T) => {
+    const idx = copy.indexOf(item);
+
+    setCopy([
+      ...copy.slice(0, idx),
+      ...copy.slice(idx + 1),
+    ]);
+  }, [copy]);
+
   return [
     // TODO: is this necessary?
     copy !== null ? copy : dataset,
@@ -51,6 +60,7 @@ const useEditableDataset = <T extends { id: number }>(
       prepend,
       append,
       replace,
+      remove,
     },
   ] as const;
 };
