@@ -2,8 +2,6 @@ import React from 'react';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, ThemeProvider, Theme } from '@material-ui/core/styles';
-import { createMuiTheme } from '@material-ui/core/styles';
-import primary from '@material-ui/core/colors/amber';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Switch as RouterSwitch, Route } from 'react-router';
 
@@ -17,16 +15,13 @@ import Information from './pages/Information';
 import Authentication from './pages/Authentication';
 import Notifications from './pages/Notifications';
 
-import AppBar from './components/AppBar/AppBar';
+import AppBar from './components/AppBar';
 import Drawer, { drawerWidth } from './components/Drawer';
 import Loader from './components/Loader';
 
-const theme = createMuiTheme({
-  palette: {
-    primary,
-    secondary: { main: '#446' },
-  },
-});
+import { createTheme } from 'src/utils/createTheme';
+
+const theme = createTheme();
 
 const Switch: React.FC = () => (
   <RouterSwitch>

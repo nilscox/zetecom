@@ -1,19 +1,19 @@
 import React from 'react';
 
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
+
+import { createMemoryHistory } from 'history';
+
+import { Router, Switch, Route } from 'react-router-dom';
+
+import { UserProvider } from 'src/utils/UserContext';
+import Notifications from '../index';
 
 import mockAxios, { mockAxiosResponse, mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 
-import { UserProvider } from 'src/utils/UserContext';
-
-import Notifications from '../index';
-
 import mockedNotifications from './mock.json';
-import { act } from 'react-dom/test-utils';
 
 jest.mock('src/dashboard/components/Authenticated', () => ({
   __esModule: true,
@@ -145,7 +145,10 @@ describe('Notifications', () => {
     const { getByText } = render(
       <Router history={history}>
         <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <Notifications />
+          <Switch>
+            <Route path="/notifications" component={Notifications} />
+            <Route path="/information" render={() => <>information</>} />
+          </Switch>
         </UserProvider>
       </Router>,
     );
@@ -160,9 +163,12 @@ describe('Notifications', () => {
 
     expect(mockAxios).toHaveBeenCalledWith(
       expect.objectContaining({
+        method: 'POST',
         url: '/api/notification/1/seen',
       }),
     );
+
+    expect(getByText('information')).toBeVisible();
   });
 
   it('should set notification as seen and remove it from the list on seen icon click', async () => {
@@ -181,12 +187,6 @@ describe('Notifications', () => {
     act(() => {
       userEvent.click(getByTestId('set-seen-icon'));
     });
-
-    expect(mockAxios).toHaveBeenCalledWith(
-      expect.objectContaining({
-        url: '/api/notification/1/seen',
-      }),
-    );
 
     await mockAxiosResponseFor(
       { method: 'POST', url: '/api/notification/1/seen' },

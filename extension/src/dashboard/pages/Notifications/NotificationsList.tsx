@@ -19,7 +19,7 @@ import useEditableDataset from 'src/hooks/use-editable-dataset';
 
 type NotificationItemProps = {
   notification: Notification;
-  removeFromList: () => void;
+  removeFromList?: () => void;
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const NotificationItem: React.FC<NotificationItemProps> = ({ notification, removeFromList }) => {
-  const [{ loading, status }, setSeen] = useAxios({
+  const [{ status }, setSeen] = useAxios({
     method: 'POST',
     url: `/api/notification/${notification.id}/seen`,
   }, undefined, { manual: true });
@@ -50,6 +50,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, remov
   useEffect(() => {
     if (status && status(204))
       removeFromList();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   return (
@@ -63,11 +64,13 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, remov
         </RouterLink>
       </ListItemText>
 
-      <ListItemSecondaryAction>
-        <IconButton edge="end" onClick={() => setSeen()} data-testid="set-seen-icon">
-          <DoneIcon />
-        </IconButton>
-      </ListItemSecondaryAction>
+      { removeFromList && (
+        <ListItemSecondaryAction>
+          <IconButton edge="end" onClick={() => setSeen()} data-testid="set-seen-icon">
+            <DoneIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      ) }
 
     </ListItem>
   );
@@ -115,7 +118,7 @@ const NotificationsList: React.FC<NotificationsListProps> = ({ seen = false }) =
           <NotificationItem
             key={notification.id}
             notification={notification}
-            removeFromList={() => remove(notification)}
+            removeFromList={seen ? undefined : () => remove(notification)}
           />
         )) }
       </List>
