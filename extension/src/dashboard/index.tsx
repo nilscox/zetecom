@@ -20,6 +20,7 @@ import Drawer, { drawerWidth } from './components/Drawer';
 import Loader from './components/Loader';
 
 import { createTheme } from 'src/utils/createTheme';
+import { NotificationsCountProvider } from './contexts/NotificationsCountContext';
 
 const theme = createTheme();
 
@@ -62,26 +63,28 @@ const Dashboard: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <UserProvider value={{ user, setUser }}>
-        <div className={classes.container}>
+        <NotificationsCountProvider>
+          <div className={classes.container}>
 
-          <CssBaseline />
+            <CssBaseline />
 
-          <AppBar handleDrawerToggle={handleDrawerToggle} />
+            <AppBar handleDrawerToggle={handleDrawerToggle} />
 
-          <Drawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            <Drawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
 
-          <main className={classes.content}>
+            <main className={classes.content}>
 
-            <Toolbar />
+              <Toolbar />
 
-            { user === undefined
-              ? <Loader />
-              : <Switch />
-            }
+              { user === undefined
+                ? <Loader />
+                : <Switch />
+              }
 
-          </main>
+            </main>
 
-        </div>
+          </div>
+        </NotificationsCountProvider>
       </UserProvider>
     </ThemeProvider>
   );

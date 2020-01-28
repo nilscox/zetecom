@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useContext } from 'react';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import Badge from '@material-ui/core/Badge';
 import NotificationIcon from '@material-ui/icons/Notifications';
 
-import useAxios from 'src/hooks/use-axios';
-import { useCurrentUser } from 'src/hooks/use-user';
-import { parseNotificationsCount } from 'src/types/Notifications';
+import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
 
 const useStyles = makeStyles((theme: Theme) => ({
   colorPrimary: {
@@ -18,16 +16,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const NotificationsIcon: React.FC = () => {
-  const [{ data: count }, getNotificationsCount] = useAxios('/api/notification/me/count', parseNotificationsCount);
-  const user = useCurrentUser();
+  const { count } = useContext(NotificationsCountContext);
 
   const classes = useStyles({});
-
-  useEffect(() => {
-    if (user)
-      getNotificationsCount();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
 
   return (
     <Badge

@@ -11,6 +11,7 @@ import { Router, Switch, Route } from 'react-router-dom';
 import { UserProvider } from 'src/utils/UserContext';
 import Notifications from '../index';
 
+import { NotificationsCountProvider } from 'src/dashboard/contexts/NotificationsCountContext';
 import mockAxios, { mockAxiosResponse, mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 
 import mockedNotifications from './mock.json';
@@ -45,7 +46,9 @@ describe('Notifications', () => {
     const { getByText } = render(
       <Router history={history}>
         <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <Notifications />
+          <NotificationsCountProvider>
+            <Notifications />
+          </NotificationsCountProvider>
         </UserProvider>
       </Router>,
     );
@@ -57,7 +60,9 @@ describe('Notifications', () => {
     const { getByText } = render(
       <Router history={history}>
         <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <Notifications />
+          <NotificationsCountProvider>
+            <Notifications />
+          </NotificationsCountProvider>
         </UserProvider>
       </Router>,
     );
@@ -77,7 +82,9 @@ describe('Notifications', () => {
     const { getByText } = render(
       <Router history={history}>
         <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <Notifications />
+          <NotificationsCountProvider>
+            <Notifications />
+          </NotificationsCountProvider>
         </UserProvider>
       </Router>,
     );
@@ -95,7 +102,9 @@ describe('Notifications', () => {
     const { getByText } = render(
       <Router history={history}>
         <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <Notifications />
+          <NotificationsCountProvider>
+            <Notifications />
+          </NotificationsCountProvider>
         </UserProvider>
       </Router>,
     );
@@ -113,7 +122,9 @@ describe('Notifications', () => {
     const { getByText } = render(
       <Router history={history}>
         <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <Notifications />
+          <NotificationsCountProvider>
+            <Notifications />
+          </NotificationsCountProvider>
         </UserProvider>
       </Router>,
     );
@@ -129,7 +140,9 @@ describe('Notifications', () => {
     const { getByText } = render(
       <Router history={history}>
         <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <Notifications />
+          <NotificationsCountProvider>
+            <Notifications />
+          </NotificationsCountProvider>
         </UserProvider>
       </Router>,
     );
@@ -145,10 +158,12 @@ describe('Notifications', () => {
     const { getByText } = render(
       <Router history={history}>
         <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <Switch>
-            <Route path="/notifications" component={Notifications} />
-            <Route path="/information" render={() => <>information</>} />
-          </Switch>
+          <NotificationsCountProvider>
+            <Switch>
+              <Route path="/notifications" component={Notifications} />
+              <Route path="/information" render={({ location }) => <>{ location.search }</>} />
+            </Switch>
+          </NotificationsCountProvider>
         </UserProvider>
       </Router>,
     );
@@ -161,23 +176,23 @@ describe('Notifications', () => {
       userEvent.click(getByText('a répondu à une réaction sur l\'information'));
     });
 
-    expect(mockAxios).toHaveBeenCalledWith(
-      expect.objectContaining({
-        method: 'POST',
-        url: '/api/notification/1/seen',
-      }),
-    );
-
-    expect(getByText('information')).toBeVisible();
+    expect(getByText('?notificationId=1')).toBeVisible();
   });
 
   it('should set notification as seen and remove it from the list on seen icon click', async () => {
     const { getByTestId, queryByText } = render(
       <Router history={history}>
         <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <Notifications />
+          <NotificationsCountProvider>
+            <Notifications />
+          </NotificationsCountProvider>
         </UserProvider>
       </Router>,
+    );
+
+    await mockAxiosResponseFor(
+      { url: '/api/notification/me/count' },
+      { data: { count: 1 } },
     );
 
     await mockAxiosResponse(

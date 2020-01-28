@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -11,10 +11,12 @@ import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
 import { Link } from 'src/components/common/Link';
 import useAxios from 'src/hooks/use-axios';
+import useQueryString from 'src/hooks/use-query-string';
 
 import ReactionsTab from './ReactionTab';
 import SubjectsTab from './SubjectsTab';
 import { InformationProvider } from 'src/utils/InformationContext';
+import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
 
 const Switch: React.FC<{ informationId: number }> = ({ informationId }) => (
   <RouterSwitch>
@@ -40,14 +42,40 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const useNotification = () => {
+  const { refetch } = useContext(NotificationsCountContext);
+
+  const [{ status }, setSeen] = useAxios({
+    method: 'POST',
+  }, undefined, { manual: true });
+
+  useEffect(() => {
+    if (status && status(204))
+      refetch();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
+
+  return {
+    markNotificationAsSeen: (id: number) => setSeen({ url: `/api/notification/${id}/seen` }),
+  };
+};
+
 const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match, history, location }) => {
   const informationId = Number(match.params.id);
+  const { notificationId } = useQueryString(location.search);
+  const { markNotificationAsSeen } = useNotification();
 
   const [{ loading, data: information }] = useInformation(informationId);
   const classes = useStyles({});
 
   const matchCurrentTab = location.pathname.match(/^\/information\/\d+\/([^/]*)/);
   const currentTab = matchCurrentTab && matchCurrentTab[1];
+
+  useEffect(() => {
+    if (notificationId)
+      markNotificationAsSeen(parseInt(notificationId as string));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (loading || !information)
     return <Loader />;
