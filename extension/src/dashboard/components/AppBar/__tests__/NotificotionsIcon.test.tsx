@@ -6,6 +6,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
 
+import { NotificationsCountProvider } from 'src/dashboard/contexts/NotificationsCountContext';
 import { UserProvider } from 'src/utils/UserContext';
 import { createTheme } from 'src/utils/createTheme';
 
@@ -30,53 +31,54 @@ const mockUser: any = {
 const Test: React.FC<{ user: typeof mockUser }> = ({ user }) => (
   <BrowserRouter>
     <UserProvider value={{ user, setUser: () => {} }}>
-      <ThemeProvider theme={createTheme()}>
-        <AppBar handleDrawerToggle={() => {}} />
-      </ThemeProvider>
+      <NotificationsCountProvider>
+        <ThemeProvider theme={createTheme()}>
+          <AppBar handleDrawerToggle={() => {}} />
+        </ThemeProvider>
+      </NotificationsCountProvider>
     </UserProvider>
   </BrowserRouter>
 );
 
-describe('AppBar', () => {
+describe('NotificationsIcon', () => {
   afterEach(() => {
     mockAxios.reset();
   });
 
-  describe('Notifications', () => {
-    it('should refetch notification count after user authenticated', async () => {
-      const { getByText, rerender } = render(<Test user={null} />);
+  it('should refetch notification count after user authenticated', async () => {
+    const { getByText, rerender } = render(<Test user={null} />);
 
-      rerender(<Test user={mockUser} />);
+    rerender(<Test user={mockUser} />);
 
-      await mockAxiosResponseFor(
-        { url: '/api/notification/me/count' },
-        { data: { count: 1 } },
-      );
+    await mockAxiosResponseFor(
+      { url: '/api/notification/me/count' },
+      { data: { count: 1 } },
+    );
 
-      expect(getByText('1')).toBeVisible();
-    });
-
-    it('should not display badge if no notifications', async () => {
-      const { getByText } = render(<Test user={mockUser} />);
-
-      await mockAxiosResponseFor(
-        { url: '/api/notification/me/count' },
-        { data: { count: 0 } },
-      );
-
-      // Material-ui uses 'MuiBadge-invisible' class to hide badge with scale: 0
-      expect(getByText('0')).toHaveClass('MuiBadge-invisible');
-    });
-
-    it('should display 1 in the badge if 1 notification', async () => {
-      const { getByText } = render(<Test user={mockUser} />);
-
-      await mockAxiosResponseFor(
-        { url: '/api/notification/me/count' },
-        { data: { count: 1 } },
-      );
-
-      expect(getByText('1')).toBeVisible();
-    });
+    expect(getByText('1')).toBeVisible();
   });
+
+  it('should not display badge if no notifications', async () => {
+    const { getByText } = render(<Test user={mockUser} />);
+
+    await mockAxiosResponseFor(
+      { url: '/api/notification/me/count' },
+      { data: { count: 0 } },
+    );
+
+    // Material-ui uses 'MuiBadge-invisible' class to hide badge with scale: 0
+    expect(getByText('0')).toHaveClass('MuiBadge-invisible');
+  });
+
+  it('should display 1 in the badge if 1 notification', async () => {
+    const { getByText } = render(<Test user={mockUser} />);
+
+    await mockAxiosResponseFor(
+      { url: '/api/notification/me/count' },
+      { data: { count: 1 } },
+    );
+
+    expect(getByText('1')).toBeVisible();
+  });
+
 });
