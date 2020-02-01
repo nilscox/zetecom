@@ -24,7 +24,7 @@ const NotificationsIcon: React.FC = () => {
     <Badge
       badgeContent={count}
       color="primary"
-      classes={{ colorPrimary: classes.colorPrimary }}
+      classes={classes}
       showZero={false}
       anchorOrigin={{
         vertical: 'top',

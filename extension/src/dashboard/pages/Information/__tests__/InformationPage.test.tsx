@@ -1,39 +1,28 @@
 import React from 'react';
 
-import { render, act } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { createMemoryHistory } from 'history';
 
-import { Router, Switch, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
 
 import { UserProvider } from 'src/utils/UserContext';
 
 import { NotificationsCountProvider } from 'src/dashboard/contexts/NotificationsCountContext';
 import mockAxios, { mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
+import { User } from 'src/types/User';
 
 import InformationPage from '../index';
 
-jest.mock('src/dashboard/components/Authenticated', () => ({
-  __esModule: true,
-  default: ({ children }: any) => children,
-}));
-
 jest.mock('src/dashboard/pages/Information/ReactionTab/index', () => ({
   __esModule: true,
-  // eslint-disable-next-line react/display-name
-  default: () => <></>,
+  default: (): null => null,
 }));
 
-const mockUser: any = {
-  id: 1,
-  nick: 'nick',
-  avatar: null,
-  email: 'email@domain.tld',
-  created: new Date().toString(),
-  updated: new Date().toString(),
-};
+const mockUser: User = { id: 1 } as User;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mockInformation: any = {
   id: 1,
   title: 'FAKE new',
@@ -50,16 +39,37 @@ const mockInformation: any = {
 
 describe('InformationPage', () => {
   describe('Notifications count', () => {
-    const history: any = createMemoryHistory();
+    const history = createMemoryHistory();
 
     afterEach(() => {
       mockAxios.reset();
     });
 
-    it('should set notification as seen and refetch notifications count', async () => {
-      history.push('/information/1/reactions?notificationId=1');
+    it('should display information title', async () => {
+      history.push('/information/1/reactions');
 
       const { getByText } = render(
+        <Router history={history}>
+          <UserProvider value={{ user: mockUser, setUser: () => {} }}>
+            <NotificationsCountProvider>
+              <Route path="/information/:id" component={InformationPage} />
+            </NotificationsCountProvider>
+          </UserProvider>
+        </Router>,
+      );
+
+      await mockAxiosResponseFor(
+        { url: '/api/information/1' },
+        { data: mockInformation },
+      );
+
+      expect(getByText('FAKE new')).toBeVisible();
+    });
+
+    it('should set notification as seen and refetch notifications count', async () => {
+      history.push('/information/1/reactions', { notificationId: 1 });
+
+      render(
         <Router history={history}>
           <UserProvider value={{ user: mockUser, setUser: () => {} }}>
             <NotificationsCountProvider>
@@ -86,8 +96,6 @@ describe('InformationPage', () => {
           url: '/api/notification/me/count',
         }),
       );
-
-      expect(getByText('FAKE new')).toBeVisible();
     });
   });
 });

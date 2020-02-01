@@ -11,6 +11,7 @@
     "allowSyntheticDefaultImports": true,
     // "strictNullChecks": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "lib": [
       "es5",
       "es6",
@@ -30,6 +31,6 @@
     ]
   },
   "include": [
-    "src"
+    "src", "../mocked-paginated.js"
   ]
 }

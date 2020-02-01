@@ -62,7 +62,6 @@ const useNotification = () => {
 
 const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match, history, location }) => {
   const informationId = Number(match.params.id);
-  const { notificationId } = useQueryString(location.search);
   const { markNotificationAsSeen } = useNotification();
 
   const [{ loading, data: information }] = useInformation(informationId);
@@ -72,8 +71,8 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match,
   const currentTab = matchCurrentTab && matchCurrentTab[1];
 
   useEffect(() => {
-    if (notificationId)
-      markNotificationAsSeen(parseInt(notificationId as string));
+    if (location.state && location.state.notificationId)
+      markNotificationAsSeen(parseInt(location.state.notificationId));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
