@@ -1,7 +1,7 @@
 import React, { createContext, useEffect } from 'react';
 
 import useAxios from 'src/hooks/use-axios';
-import { parseNotificationsCount } from 'src/types/Notifications';
+import { parseNotificationsCount } from 'src/types/Notification';
 import { useCurrentUser } from 'src/hooks/use-user';
 
 type NotificationsCountContextType = {
@@ -9,7 +9,7 @@ type NotificationsCountContextType = {
   refetch: () => void;
 };
 
-const NotificationsCountContext = createContext<NotificationsCountContextType>(null as any);
+const NotificationsCountContext = createContext<NotificationsCountContextType>(undefined);
 
 const useNotificationsCount = () => {
   const [{ data: count }, refetch] = useAxios('/api/notification/me/count', parseNotificationsCount, { manual: true });

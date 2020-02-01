@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import React from 'react';
 
 import { render, act } from '@testing-library/react';
@@ -5,32 +6,32 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 
 import { createMemoryHistory } from 'history';
-
 import { Router, Switch, Route } from 'react-router-dom';
 
 import { UserProvider } from 'src/utils/UserContext';
-import Notifications from '../index';
-
 import { NotificationsCountProvider } from 'src/dashboard/contexts/NotificationsCountContext';
-import mockAxios, { mockAxiosResponse, mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
+import mockAxios, { mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
+import { User } from 'src/types/User';
+
+import Notifications from '../index';
 
 import mockedNotifications from './mock.json';
 
-jest.mock('src/dashboard/components/Authenticated', () => ({
-  __esModule: true,
-  default: ({ children }: any) => children,
-}));
+const mockUser: User = { id: 1 } as User;
 
-const mockUser: any = {
-  id: 1,
-  nick: 'nick',
-  avatar: null,
-  email: 'email@domain.tld',
-  created: new Date().toString(),
-  updated: new Date().toString(),
-};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Test: React.FC<{ history: any }> = ({ history }) => (
+  <Router history={history}>
+    <UserProvider value={{ user: mockUser, setUser: () => {} }}>
+      <NotificationsCountProvider>
+        <Notifications />
+      </NotificationsCountProvider>
+    </UserProvider>
+  </Router>
+);
 
 describe('Notifications', () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let history: any;
 
   beforeEach(() => {
@@ -43,31 +44,16 @@ describe('Notifications', () => {
   });
 
   it('should display the title', () => {
-    const { getByText } = render(
-      <Router history={history}>
-        <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <NotificationsCountProvider>
-            <Notifications />
-          </NotificationsCountProvider>
-        </UserProvider>
-      </Router>,
-    );
+    const { getByText } = render(<Test history={history} />);
 
     expect(getByText('Notifications')).toBeVisible();
   });
 
   it('should render the list of unseen notifications', async () => {
-    const { getByText } = render(
-      <Router history={history}>
-        <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <NotificationsCountProvider>
-            <Notifications />
-          </NotificationsCountProvider>
-        </UserProvider>
-      </Router>,
-    );
+    const { getByText } = render(<Test history={history} />);
 
-    await mockAxiosResponse(
+    await mockAxiosResponseFor(
+      { url: '/api/notification/me' },
       { data: mockedNotifications },
     );
 
@@ -79,17 +65,10 @@ describe('Notifications', () => {
   it('should render the list of seen notifications', async () => {
     history.push('/notifications/lues');
 
-    const { getByText } = render(
-      <Router history={history}>
-        <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <NotificationsCountProvider>
-            <Notifications />
-          </NotificationsCountProvider>
-        </UserProvider>
-      </Router>,
-    );
+    const { getByText } = render(<Test history={history} />);
 
-    await mockAxiosResponse(
+    await mockAxiosResponseFor(
+      { url: '/api/notification/me/seen' },
       { data: mockedNotifications },
     );
 
@@ -99,17 +78,10 @@ describe('Notifications', () => {
   });
 
   it('should display fallback message if no unseen notification', async () => {
-    const { getByText } = render(
-      <Router history={history}>
-        <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <NotificationsCountProvider>
-            <Notifications />
-          </NotificationsCountProvider>
-        </UserProvider>
-      </Router>,
-    );
+    const { getByText } = render(<Test history={history} />);
 
-    await mockAxiosResponse(
+    await mockAxiosResponseFor(
+      { url: '/api/notification/me' },
       { data: { items: [], total: 0 } },
     );
 
@@ -119,17 +91,10 @@ describe('Notifications', () => {
   it('should display fallback message if no seen notification', async () => {
     history.push('/notifications/lues');
 
-    const { getByText } = render(
-      <Router history={history}>
-        <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <NotificationsCountProvider>
-            <Notifications />
-          </NotificationsCountProvider>
-        </UserProvider>
-      </Router>,
-    );
+    const { getByText } = render(<Test history={history} />);
 
-    await mockAxiosResponse(
+    await mockAxiosResponseFor(
+      { url: '/api/notification/me/seen' },
       { data: { items: [], total: 0 } },
     );
 
@@ -137,17 +102,10 @@ describe('Notifications', () => {
   });
 
   it('should be on unseen notifications tab', async () => {
-    const { getByText } = render(
-      <Router history={history}>
-        <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <NotificationsCountProvider>
-            <Notifications />
-          </NotificationsCountProvider>
-        </UserProvider>
-      </Router>,
-    );
+    const { getByText } = render(<Test history={history} />);
 
-    await mockAxiosResponse(
+    await mockAxiosResponseFor(
+      { url: '/api/notification/me' },
       { data: { items: [], total: 0 } },
     );
 
@@ -161,14 +119,15 @@ describe('Notifications', () => {
           <NotificationsCountProvider>
             <Switch>
               <Route path="/notifications" component={Notifications} />
-              <Route path="/information" render={({ location }) => <>{ location.search }</>} />
+              <Route path="/information" render={({ location }) => <>{ location.state.notificationId }</>} />
             </Switch>
           </NotificationsCountProvider>
         </UserProvider>
       </Router>,
     );
 
-    await mockAxiosResponse(
+    await mockAxiosResponseFor(
+      { url: '/api/notification/me' },
       { data: mockedNotifications },
     );
 
@@ -176,26 +135,19 @@ describe('Notifications', () => {
       userEvent.click(getByText('a répondu à une réaction sur l\'information'));
     });
 
-    expect(getByText('?notificationId=1')).toBeVisible();
+    expect(getByText('1')).toBeVisible();
   });
 
   it('should set notification as seen and remove it from the list on seen icon click', async () => {
-    const { getByTestId, queryByText } = render(
-      <Router history={history}>
-        <UserProvider value={{ user: mockUser, setUser: () => {} }}>
-          <NotificationsCountProvider>
-            <Notifications />
-          </NotificationsCountProvider>
-        </UserProvider>
-      </Router>,
-    );
+    const { getByTestId, queryByText } = render(<Test history={history} />);
 
     await mockAxiosResponseFor(
       { url: '/api/notification/me/count' },
       { data: { count: 1 } },
     );
 
-    await mockAxiosResponse(
+    await mockAxiosResponseFor(
+      { url: '/api/notification/me' },
       { data: mockedNotifications },
     );
 

@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 
+import { LocationDescriptorObject } from 'history';
+
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -13,7 +15,7 @@ import RouterLink from 'src/components/common/Link';
 import Loader from 'src/components/common/Loader';
 
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
-import { Notification, parseNotification } from 'src/types/Notifications';
+import { Notification, parseNotification } from 'src/types/Notification';
 import useAxios from 'src/hooks/use-axios';
 import useEditableDataset from 'src/hooks/use-editable-dataset';
 import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
@@ -39,13 +41,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const NotificationItem: React.FC<NotificationItemProps> = ({ notification, seen, markAsSeen }) => {
   const { information } = notification.subscription.reaction;
-  const query = !seen && `?notificationId=${notification.id}`;
+  const linkLocation: LocationDescriptorObject = { pathname: `/information/${information.id}/reactions` };
+
+  if (!seen)
+    linkLocation.state = { notificationId: notification.id };
 
   return (
     <ListItem>
 
       <ListItemText>
-        <RouterLink to={`/information/${information.id}/reactions${query || ''}`}>
+        <RouterLink to={linkLocation}>
           <strong>{ notification.actor.nick }</strong>{' '}
           a répondu à une réaction sur l'information{' '}
           <strong>{ information.title }</strong>
@@ -54,7 +59,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({ notification, seen,
 
       { !seen && (
         <ListItemSecondaryAction>
-          <IconButton edge="end" onClick={() => markAsSeen()} data-testid="set-seen-icon">
+          <IconButton edge="end" onClick={markAsSeen} data-testid="set-seen-icon">
             <DoneIcon />
           </IconButton>
         </ListItemSecondaryAction>
@@ -82,35 +87,35 @@ const FallbackMessage: React.FC<FallbackMessageProps> = ({ seen }) => {
 };
 
 const useNotifications = (seen: boolean) => {
-  const { refetch } = useContext(NotificationsCountContext);
+  const { refetch: refetchNotificationsCount } = useContext(NotificationsCountContext);
 
   const [{ data, loading }] = useAxiosPaginated(
     `/api/notification/me${seen ? '/seen' : ''}`,
     parseNotification,
   );
-  const [{ status }, setSeen] = useAxios({
+  const [{ status: setSeenStatus }, setSeen] = useAxios({
     method: 'POST',
   }, undefined, { manual: true });
 
   const [notifications, { remove }] = useEditableDataset(data);
-  const [notification, setNotification] = useState<Notification | null>(null);
+  const [seenNotification, setSeenNotification] = useState<Notification | null>(null);
 
   const markAsSeen = (notification: Notification) => {
     if (seen)
       return;
 
-    setNotification(notification);
+    setSeenNotification(notification);
     setSeen({ url: `/api/notification/${notification.id}/seen` });
   };
 
   useEffect(() => {
-    if (status && status(204)) {
-      remove(notification);
-      setNotification(null);
-      refetch();
+    if (setSeenStatus(204)) {
+      remove(seenNotification);
+      setSeenNotification(null);
+      refetchNotificationsCount();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+  }, [setSeenStatus]);
 
   return {
     notifications,

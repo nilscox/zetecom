@@ -20,7 +20,7 @@ const Notifications: React.FC = () => {
       <Typography variant="h4">Notifications</Typography>
 
       <Tabs
-        value={currentTab || ''}
+        value={currentTab}
         onChange={(_, value) => history.replace(value)}
       >
         <Tab value="/notifications" label="Non lues" />

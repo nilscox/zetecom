@@ -8,6 +8,7 @@ export type Notification = {
   actor: User;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseNotification = (data: any) => {
   return {
     ...data,
@@ -17,6 +18,7 @@ export const parseNotification = (data: any) => {
   };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseNotificationsCount = (data: any) => {
   return data.count;
 };

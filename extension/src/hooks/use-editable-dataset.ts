@@ -37,6 +37,9 @@ const useEditableDataset = <T extends { id: number }>(
     const oldData = findElement(newData);
     const idx = copy.indexOf(oldData);
 
+    if (idx === -1)
+      return;
+
     setCopy([
       ...copy.slice(0, idx),
       newData,
@@ -46,6 +49,9 @@ const useEditableDataset = <T extends { id: number }>(
 
   const remove = useCallback((item: T) => {
     const idx = copy.indexOf(item);
+
+    if (idx === -1)
+      return;
 
     setCopy([
       ...copy.slice(0, idx),

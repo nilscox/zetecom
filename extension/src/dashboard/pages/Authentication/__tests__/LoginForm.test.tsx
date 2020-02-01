@@ -1,24 +1,20 @@
 import React from 'react';
 
-import { act, render, wait, fireEvent } from '@testing-library/react';
+import { act, render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 import mockAxios, { mockAxiosResponseFor, mockAxiosError } from 'src/testing/jest-mock-axios';
 import { UserProvider } from 'src/utils/UserContext';
+import { User } from 'src/types/User';
 
 import LoginForm from '../LoginForm';
 
-const mockUser: any = {
-  id: 1,
-  nick: 'nick',
-  avatar: null,
-  email: 'email@domain.tld',
-  created: new Date().toString(),
-  updated: new Date().toString(),
-};
+const mockUser: User = { id: 1 } as User;
 
 describe('LoginForm', () => {
+  const history = createMemoryHistory();
 
   afterEach(() => {
     mockAxios.reset();
@@ -27,11 +23,11 @@ describe('LoginForm', () => {
   it('should login', async () => {
     const setUser = jest.fn();
     const { getByTestId, getByLabelText } = render(
-      <BrowserRouter>
+      <Router history={history}>
         <UserProvider value={{ user: null, setUser }}>
           <LoginForm />
         </UserProvider>
-      </BrowserRouter>,
+      </Router>,
     );
 
     await act(async () => {
@@ -57,17 +53,17 @@ describe('LoginForm', () => {
       }),
     );
 
-    expect(setUser).toHaveBeenCalled();
+    expect(setUser).toHaveBeenCalledWith(expect.objectContaining(mockUser));
   });
 
   it('should not login when sending invalid credentials', async () => {
     const setUser = jest.fn();
     const { getByTestId, getByLabelText, getByText } = render(
-      <BrowserRouter>
+      <Router history={history}>
         <UserProvider value={{ user: null, setUser }}>
           <LoginForm />
         </UserProvider>
-      </BrowserRouter>,
+      </Router>,
     );
 
     await act(async () => {
