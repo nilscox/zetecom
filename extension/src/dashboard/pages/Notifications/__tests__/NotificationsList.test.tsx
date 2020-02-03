@@ -5,7 +5,7 @@ import { render, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 
-import { createMemoryHistory } from 'history';
+import { createMemoryHistory, MemoryHistory } from 'history';
 import { Router, Switch, Route } from 'react-router-dom';
 
 import { UserProvider } from 'src/utils/UserContext';
@@ -19,8 +19,7 @@ import mockedNotifications from './mock.json';
 
 const mockUser: User = { id: 1 } as User;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Test: React.FC<{ history: any }> = ({ history }) => (
+const Test: React.FC<{ history: MemoryHistory }> = ({ history }) => (
   <Router history={history}>
     <UserProvider value={{ user: mockUser, setUser: () => {} }}>
       <NotificationsCountProvider>
@@ -31,8 +30,7 @@ const Test: React.FC<{ history: any }> = ({ history }) => (
 );
 
 describe('Notifications', () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let history: any;
+  let history: MemoryHistory;
 
   beforeEach(() => {
     history = createMemoryHistory();

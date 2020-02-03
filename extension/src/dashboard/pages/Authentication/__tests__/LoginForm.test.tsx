@@ -3,7 +3,7 @@ import React from 'react';
 import { act, render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { createMemoryHistory, MemoryHistory } from 'history';
 
 import mockAxios, { mockAxiosResponseFor, mockAxiosError } from 'src/testing/jest-mock-axios';
 import { UserProvider } from 'src/utils/UserContext';
@@ -14,7 +14,11 @@ import LoginForm from '../LoginForm';
 const mockUser: User = { id: 1 } as User;
 
 describe('LoginForm', () => {
-  const history = createMemoryHistory();
+  let history: MemoryHistory;
+
+  beforeEach(() => {
+    history = createMemoryHistory();
+  });
 
   afterEach(() => {
     mockAxios.reset();

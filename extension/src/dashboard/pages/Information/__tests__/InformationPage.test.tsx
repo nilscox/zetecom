@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { createMemoryHistory } from 'history';
+import { createMemoryHistory, MemoryHistory } from 'history';
 
 import { Router, Route } from 'react-router-dom';
 
@@ -38,9 +38,14 @@ const mockInformation: any = {
 };
 
 describe('InformationPage', () => {
-  describe('Notifications count', () => {
-    const history = createMemoryHistory();
+  let history: MemoryHistory;
 
+  beforeEach(() => {
+    history = createMemoryHistory();
+    history.push('/information');
+  });
+
+  describe('Notifications count', () => {
     afterEach(() => {
       mockAxios.reset();
     });
