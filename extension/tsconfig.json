@@ -29,8 +29,5 @@
       "es2015.symbol.wellknown",
       "esnext.asynciterable"
     ]
-  },
-  "include": [
-    "src", "../mocked-paginated.js"
-  ]
+  }
 }
