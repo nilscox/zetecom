@@ -1,6 +1,37 @@
+@import "../variables.scss";
+
 .page#page-rules {
   h4.rule-title {
     font-size: 20px;
     margin: 25px 0 0 15px;
   }
+
+  .examples {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: $break-medium) {
+      flex-direction: row;
+    }
+
+    .example {
+      flex: 1;
+      padding: 10px;
+
+      @media screen and (min-width: $break-medium) {
+        padding: 20px;
+      }
+
+      .example-text {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #444;
+
+        @media screen and (min-width: $break-medium) {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
 }
