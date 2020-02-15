@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { RouteComponentProps } from 'react-router-dom';
 
 import { Reaction, parseReaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
@@ -24,7 +23,11 @@ const useStyles = makeStyles((theme: Theme) => {
   });
 });
 
-const ReactionsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
+type RecationsTabProps = {
+  informationId: number;
+};
+
+const ReactionsTab: React.FC<RecationsTabProps> = ({ informationId }) => {
   const user = useCurrentUser();
 
   const [
@@ -32,7 +35,7 @@ const ReactionsTab: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) 
     { setSearch },
     { sort, setSort },
     { page, setPage },
-  ] = useAxiosPaginated(`/api/information/${match.params.id}/reactions`, parseReaction);
+  ] = useAxiosPaginated(`/api/information/${informationId}/reactions`, parseReaction);
 
   const [showReactionForm, setShowReactionForm] = useState(false);
   const [reactions, { prepend, replace }] = useEditableDataset(data);

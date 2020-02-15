@@ -1,7 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { RouteComponentProps, Redirect, Switch as RouterSwitch, Route } from 'react-router-dom';
 
@@ -11,20 +9,10 @@ import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
 import { Link } from 'src/components/common/Link';
 import useAxios from 'src/hooks/use-axios';
-import useQueryString from 'src/hooks/use-query-string';
 
 import ReactionsTab from './ReactionTab';
-import SubjectsTab from './SubjectsTab';
 import { InformationProvider } from 'src/utils/InformationContext';
 import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
-
-const Switch: React.FC<{ informationId: number }> = ({ informationId }) => (
-  <RouterSwitch>
-    <Route path="/information/:id/reactions" component={ReactionsTab} />
-    <Route path="/information/:id/thematiques" component={SubjectsTab} />
-    <Route render={() => <Redirect to={`/information/${informationId}/reactions`} />} />
-  </RouterSwitch>
-);
 
 const useInformation = (id: number) => {
   return useAxios<Information>(`/api/information/${id}`, parseInformation);
@@ -67,14 +55,11 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match,
   const [{ loading, data: information }] = useInformation(informationId);
   const classes = useStyles({});
 
-  const matchCurrentTab = location.pathname.match(/^\/information\/\d+\/([^/]*)/);
-  const currentTab = matchCurrentTab && matchCurrentTab[1];
-
   useEffect(() => {
-    if (location.state && location.state.notificationId)
+    if (location.state?.notificationId)
       markNotificationAsSeen(parseInt(location.state.notificationId));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location.state?.notificationId]);
 
   if (loading || !information)
     return <Loader />;
@@ -89,17 +74,7 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match,
         </Box>
       </Flex>
 
-      <Box my={12} style={{ borderBottom: '1px solid #CCC' }}>
-        <Tabs
-          value={currentTab || 'reactions'}
-          onChange={(_, value) => history.push(`/information/${informationId}/${value}`)}
-        >
-          <Tab value="reactions" label="Réactions" />
-          <Tab value="thematiques" label="Thématiques" />
-        </Tabs>
-      </Box>
-
-      <Switch informationId={informationId} />
+      <ReactionsTab informationId={informationId} />
 
     </InformationProvider>
   );

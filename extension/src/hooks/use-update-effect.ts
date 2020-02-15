@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 
-const useUpdateEffect = (effect: Function, deps: React.DependencyList = []) => {
+const useUpdateEffect = (effect: React.EffectCallback, deps: React.DependencyList = []) => {
   const isInitialMount = useRef(true);
 
   useEffect(() => {

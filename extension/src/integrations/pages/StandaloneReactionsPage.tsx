@@ -21,11 +21,11 @@ const useStandaloneReactions = (informationId: number, sort: SortType, search?: 
   const [searchDebounced] = useDebounce(search, 300);
   const qs = queryString.stringify({ sort, search: searchDebounced });
   const url = `/api/information/${informationId}/reactions` + (qs ? '?' + qs : '');
-  const parse = useCallback((data: ResponseData) => data.map(parseReaction), []);
+  const parse = useCallback((data: ResponseData) => data.items.map(parseReaction), []);
 
   const [result, refetch] = useAxios<Reaction[]>('', parse, { manual: true });
 
-  useEffect(() => void refetch({ url }), [url, refetch]);
+  useEffect(() => void refetch({ url }), [url]);
 
   if ((search && !searchDebounced) || result.loading === undefined)
     return [{ ...result, loading: true }];
