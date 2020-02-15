@@ -8,7 +8,7 @@ import gifReadReactions from 'src/images/read-reactions.gif';
 import imagePopupLogin from 'src/images/popup-login.png';
 import imageWriteReaction from 'src/images/write-reaction.png';
 import imageReport from 'src/images/report.png';
-import imageSadTroll from 'src/images/sad-troll.png';
+import imageModeration from 'src/images/moderation.png';
 
 import './Usage.scss';
 
@@ -113,7 +113,7 @@ const Usage: React.FC = () => (
         nous en discuterons directement.
       </div>
       <div className="step-secondary">
-        <Image src={imageSadTroll} style={{ opacity: 0.7 }} alt="troll triste" title={'Oui, c\'est bien un "troll triste"...'} />
+        <Image src={imageModeration} style={{ opacity: 0.7 }} alt="moderation" />
       </div>
     </div>
 

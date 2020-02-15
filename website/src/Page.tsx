@@ -41,7 +41,6 @@ const Page: React.FC<PageType> = (props) => (
       <title>Réagir à l'information</title>
 
       <link type="text/css" rel="stylesheet" href="/assets/css/reset.css" />
-      <link type="text/css" rel="stylesheet" href="/assets/css/reset.css" />
       <link type="text/css" rel="stylesheet" href="/assets/css/styles.css" />
 
     </head>
@@ -50,10 +49,6 @@ const Page: React.FC<PageType> = (props) => (
       <PageLayout {...props} />
 
       <script type="text/javascript" src="/assets/js/client.js" />
-
-      { useEnvironment('NODE_ENV') === 'production' && usePage().id === 'faq' && (
-        <script type="text/javascript" src="https://tlk.io/embed.js" />
-      ) }
 
       { useEnvironment('NODE_ENV') === 'development' && (
         <script src={useEnvironment('WEBSITE_URL') + '/webpack-dev-server.js'} />

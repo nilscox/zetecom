@@ -4,7 +4,6 @@ import React from 'react';
 
 import Title from 'src/components/Title';
 import Link from 'src/components/Link';
-import Image from 'src/components/Image';
 import Card from 'src/components/Card';
 import DownloadExtension from 'src/components/DownloadExtensionButton';
 
@@ -12,10 +11,11 @@ import imageCommunity from 'src/images/community.png';
 import imageFakeNews from 'src/images/fake-news.png';
 import imageTrust from 'src/images/trust.png';
 import imageExtension from 'src/images/extension.png';
-import gifSubjects from 'src/images/subjects.gif';
-import gifReplies from 'src/images/replies.gif';
-import gifQuickReactions from 'src/images/quick-reactions.gif';
-import gifMarkdown from 'src/images/markdown.gif';
+import imageSearch from 'src/images/search.png';
+import imageReplies from 'src/images/replies.png';
+import imageBookmark from 'src/images/bookmark.png';
+import imageQuickReactions from 'src/images/quick-reactions.png';
+import imageMarkdown from 'src/images/markdown.png';
 
 import './Home.scss';
 
@@ -55,8 +55,8 @@ const Home: React.FC = () => (
   <>
 
     <div className="heading">
-      <Link href="/"><em>Réagir à l'information</em></Link>, c'est une plateforme qui donne accès à un <strong>espace
-      d'échange collaboratif</strong>, pour discuter de l'information diffusée par les médias sur internet.
+      <Link href="/"><em>Réagir à l'information</em></Link>, c'est un <strong>espace d'échange collaboratif</strong>,
+      pour discuter de l'information diffusée par les médias sur internet.
     </div>
 
     <Title id="Les objectifs">Les objectifs ?</Title>
@@ -65,16 +65,14 @@ const Home: React.FC = () => (
 
       <Card text="Réunir une communauté de personnes pour réfléchir ensemble" image={imageCommunity}>
         Parce que les informations telles qu'elles sont présentées dans les médias méritent souvent d'être discutées
-        pour être correctement interprétées
       </Card>
 
       <Card text="Lutter contre les fausses informations" image={imageFakeNews}>
-        Parce qu'il ne sufft pas de vouloir être informé pour ne pas être induit en erreur, et croire pour de mauvaises
-        raisons
+        Parce que le seul point de vue d'un média n'est pas suffisant pour être correctement informé
       </Card>
 
       <Card text="Offrir une place aux débats dans un climat de confiance sur la toile" image={imageTrust}>
-        Parce qu'il est souvent difficile de communiquer dans un cadre collaboratif et respectueux à travers un écran
+        Parce qu'il n'est pas toujours facile de communiquer dans un cadre collaboratif à travers un écran
       </Card>
 
     </div>
@@ -128,29 +126,31 @@ const Home: React.FC = () => (
     <div className="what-advantages">
       <div className="what-item">
         <div className="what-image">
-          <img src={gifSubjects} />
+          <img src={imageSearch} />
         </div>
-        <h4 className="what-text">Réactions regroupées par thématiques</h4>
+        <h4 className="what-text">Recherche parmis les réactions</h4>
       </div>
       <div className="what-item">
         <div className="what-image">
-          <img src={gifReplies} />
+          <img src={imageReplies} />
         </div>
         <h4 className="what-text">Réponses imbriquées</h4>
       </div>
       <div className="what-item">
         <div className="what-image">
-          <img src={gifQuickReactions} />
+          <img src={imageQuickReactions} />
         </div>
         <h4 className="what-text">Messages pertinents mis en avant</h4>
       </div>
       <div className="what-item">
-        <div className="what-image"></div>
+        <div className="what-image">
+          <img src={imageBookmark} />
+        </div>
         <h4 className="what-text">Fils de discussions en favoris</h4>
       </div>
       <div className="what-item">
         <div className="what-image">
-          <img src={gifMarkdown} />
+          <img src={imageMarkdown} />
         </div>
         <h4 className="what-text">Messages structurés</h4>
       </div>
