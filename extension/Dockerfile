@@ -21,6 +21,7 @@ COPY src /app/src
 COPY .eslintignore /app
 COPY .eslintrc.json /app
 COPY tsconfig.json /app
+COPY babel.config.js /app
 COPY webpack.config.js /app
 
 RUN yarn build
