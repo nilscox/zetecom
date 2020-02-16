@@ -18,14 +18,11 @@ RUN yarn --production=false
 
 COPY public /app/public
 COPY src /app/src
-COPY .eslintignore /app
-COPY .eslintrc.json /app
-COPY tsconfig.json /app
-COPY babel.config.js /app
-COPY webpack.config.js /app
+COPY .eslintignore .eslintrc.json tsconfig.json babel.config.js webpack.config.js jest.config.js jest.setup.ts /app/
 
 RUN yarn build
 RUN yarn lint
+RUN yarn test
 
 FROM nginx
 

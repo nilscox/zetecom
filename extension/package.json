@@ -8,7 +8,7 @@
     "build": "webpack",
     "clean": "rimraf dist",
     "lint": "eslint 'src/**/*.ts{,x}'",
-    "test": "jest"
+    "test": "NODE_ENV=test jest"
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.9.0",
