@@ -25,6 +25,7 @@ const useStandaloneReactions = (informationId: number, sort: SortType, search?: 
 
   const [result, refetch] = useAxios<Reaction[]>('', parse, { manual: true });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => void refetch({ url }), [url]);
 
   if ((search && !searchDebounced) || result.loading === undefined)

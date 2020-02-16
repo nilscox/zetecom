@@ -1,3 +1,5 @@
+// tslint:disable: no-console
+
 import 'reflect-metadata';
 
 import { plainToClass } from 'class-transformer';

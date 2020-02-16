@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { RouteComponentProps, Redirect, Switch as RouterSwitch, Route } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { Information, parseInformation } from 'src/types/Information';
 import Loader from 'src/dashboard/components/Loader';
@@ -48,7 +48,7 @@ const useNotification = () => {
   };
 };
 
-const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match, history, location }) => {
+const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match, location }) => {
   const informationId = Number(match.params.id);
   const { markNotificationAsSeen } = useNotification();
 
