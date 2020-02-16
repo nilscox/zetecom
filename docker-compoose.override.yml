@@ -1,0 +1,18 @@
+version: '3.4'
+services:
+
+  api:
+    build:
+      context: ./api
+      network: host
+
+  restoredb:
+    build:
+      context: ./api
+      network: host
+
+  extension:
+    build: ./extension
+
+  website:
+    build: ./website
