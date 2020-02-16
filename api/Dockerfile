@@ -13,5 +13,7 @@ ADD . /app
 
 RUN yarn build
 RUN yarn lint
+RUN yarn test:intg
+RUN yarn test:e2e
 
 CMD yarn start:prod

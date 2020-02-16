@@ -1,7 +1,7 @@
 import { Expose, Type } from 'class-transformer';
 
 import { SubscriptionOutDto } from '../../subscription/dtos/subscription-out.dto';
-import { UserLightOutDto } from 'src/modules/user/dtos/user-light-out.dto';
+import { UserLightOutDto } from '../../user/dtos/user-light-out.dto';
 
 export class NotificationOutDto {
 
