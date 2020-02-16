@@ -1,11 +1,10 @@
 {
-  "testFiles": "**/*.feature",
   "viewportWidth": 1920,
   "viewportHeight": 1080,
   "blacklistHosts": [
-    "https://www.google-analytics.com/*",
-    "https://www.googletagmanager.com/*",
-    "https://sentry.io/*"
+    "*google-analytics.com",
+    "*googletagmanager.com",
+    "*sentry.io"
   ],
   "env": {
     "API_URL": "http://localhost:3000",

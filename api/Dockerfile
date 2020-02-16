@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json /app
 COPY yarn.lock /app
 
-RUN yarn --production=false
+RUN yarn --production=false --frozen-lockfile
 
 ADD . /app
 

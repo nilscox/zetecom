@@ -28,7 +28,7 @@ const MemoryStore = memorystore(expressSession);
       synchronize: true,
       dropSchema: true,
       entities: ['src/**/*.entity.ts'],
-      logging: ['query', 'error'],
+      // logging: ['query', 'error'],
     }),
     TypeOrmModule.forFeature([User]),
   ],

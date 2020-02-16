@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 services:
 
   postgresql:
@@ -14,7 +14,9 @@ services:
 
 
   api:
-    build: ./api
+    build:
+      context: ./api
+      network: host
     container_name: ri-api
     hostname: ri-api
     ports:
@@ -22,7 +24,7 @@ services:
     volumes:
       - ./avatars:/app/avatars
       - ./email-templates:/app/email-templates
-    command: bash -c "sleep 4 && yarn start:prod"
+    command: bash -c "yarn wait-on tcp:ri-postgres:5432 && yarn start:prod"
     environment:
       NODE_ENV: production
       LISTEN_IP: 0.0.0.0
@@ -49,15 +51,16 @@ services:
       EMAIL_TEMPLATE_DIR: /app/email-templates
       USER_AVATAR_DESTINATION: /app/avatars
 
-
   restoredb:
-    build: ./api
+    build:
+      context: ./api
+      network: host
     container_name: ri-restoredb
     hostname: ri-restoredb
     ports:
       - 4242:4242
     volumes:
-      - ./api/data.ts:/app/data.ts
+      - ./api/scripts:/app/scripts
     command: bash -c "yarn start:restoredb"
     environment:
       NODE_ENV: production
