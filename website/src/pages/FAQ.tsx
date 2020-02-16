@@ -5,7 +5,6 @@ import React from 'react';
 import Title from 'src/components/Title';
 import SubTitle from 'src/components/SubTitle';
 import Link from 'src/components/Link';
-import Tlkio from 'src/components/Tlkio';
 import { useEnvironment } from 'src/index';
 
 import './FAQ.scss';
