@@ -44,12 +44,6 @@ export const parseReactionHistory = (data: any): ReactionHistory => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseReaction = (data: any): Reaction => {
-  const mapQuickReaction: { [key: string]: string } = {
-    APPROVE: 'approve',
-    REFUTE: 'refute',
-    SKEPTIC: 'skeptic',
-  };
-
   // code smell (as any)
   return {
     ...data,
@@ -59,12 +53,12 @@ export const parseReaction = (data: any): Reaction => {
     history: data.history ? data.history.map(parseReactionHistory) : null,
     quickReactionsCount: data.quickReactionsCount
       ? Object.keys(data.quickReactionsCount).reduce((obj, key) => {
-        obj[mapQuickReaction[key]] = data.quickReactionsCount[key];
+        obj[key] = data.quickReactionsCount[key];
         return obj;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       }, {} as any)
       : null,
-    userQuickReaction: data.userQuickReaction ? mapQuickReaction[data.userQuickReaction] : null,
+    userQuickReaction: data.userQuickReaction ? data.userQuickReaction : null,
     information: data.information ? parseInformation(data.information) : undefined,
   };
 };
