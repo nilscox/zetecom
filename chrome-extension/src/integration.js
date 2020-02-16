@@ -1,8 +1,10 @@
+var pkg = require('../package.json');
+
 var EXTENSION_URL = process.env.EXTENSION_URL;
 
 function setupExtensionActiveHandler() {
   window.addEventListener('message', (evt) => {
-    const { data } = evt;
+    var data = evt.data;
 
     if (data.type === 'INTEGRATION_LOADED')
       chrome.runtime.sendMessage({ type: 'SET_EXTENSION_ACTIVE', url: window.location.url });
@@ -11,9 +13,13 @@ function setupExtensionActiveHandler() {
 
 function createIframe(url) {
   var iframe = document.createElement('iframe');
+  var query = [
+    ['url', encodeURIComponent(url)].join('='),
+    ['extensionVersion', pkg.version].join('='),
+  ].join('&');
 
   iframe.id = 'ri-iframe';
-  iframe.src = `${EXTENSION_URL}/integration?url=${encodeURIComponent(url)}`;
+  iframe.src = EXTENSION_URL + '/integration?' + query;
   iframe.scrolling = 'no';
   iframe.style.width = '1px';
   iframe.style.minWidth = '100%';
