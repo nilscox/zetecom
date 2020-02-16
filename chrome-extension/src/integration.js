@@ -13,7 +13,7 @@ function createIframe(url) {
   var iframe = document.createElement('iframe');
 
   iframe.id = 'ri-iframe';
-  iframe.src = `${EXTENSION_URL}/integration?url=${url}`;
+  iframe.src = `${EXTENSION_URL}/integration?url=${encodeURIComponent(url)}`;
   iframe.scrolling = 'no';
   iframe.style.width = '1px';
   iframe.style.minWidth = '100%';
