@@ -18,6 +18,9 @@ export class Information {
   @Column({ name: 'youtube_id', nullable: true })
   youtubeId: string;
 
+  @Column({ name: 'image_url', nullable: true })
+  imageUrl: string;
+
   @CreateDateColumn()
   created: Date;
 

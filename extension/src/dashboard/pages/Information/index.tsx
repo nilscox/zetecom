@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   image: {
     width: 240,
     height: 160,
+    objectFit: 'cover',
   },
 }));
 
@@ -68,7 +69,7 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match,
     <InformationProvider value={information}>
 
       <Flex flexDirection="row">
-        <img className={classes.image} src={information.image || ''} />
+        <img className={classes.image} src={information.imageUrl || ''} />
         <Box m={12} className={classes.title}>
           <Link openInNewTab href={information.url}>{ information.title }</Link>
         </Box>

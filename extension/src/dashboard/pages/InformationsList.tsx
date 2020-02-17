@@ -38,14 +38,13 @@ const InformationList: React.FC = () => {
     <RouterLink key={information.id} to={`/information/${information.id}`}>
       <Flex flexDirection="row" my={12}>
 
-        <img src={information.image || ''} className={classes.image} />
+        <img src={information.imageUrl || ''} className={classes.image} />
 
         <Flex flexDirection="column" p={12} >
           <div className={classes.informationTitle}>
             { information.title }
           </div>
           <Box my={6} className={classes.publicationDate}>{ moment().format('[Publiée le] DD.MM.YYYY') }</Box>
-          <div>{ information.subjectsCount } sujets</div>
           <div>{ information.reactionsCount } réactions</div>
         </Flex>
 

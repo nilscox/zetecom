@@ -28,6 +28,7 @@ const useStylesReaction = makeStyles((theme: Theme) => ({
     width: 120,
     height: 80,
     marginRight: theme.spacing(1),
+    objectFit: 'cover',
   },
   reactionContainer: {
     flex: 3,
@@ -44,7 +45,7 @@ const ReactionWithInformation: React.FC<ReactionWithInformationProps> = ({ react
         <Text bold size={20}>
           { reaction.information.title }
         </Text>
-        <img src={reaction.information.image || ''} className={classes.informationImage} />
+        <img src={reaction.information.imageUrl || ''} className={classes.informationImage} />
       </RouterLink>
 
       <div className={classes.reactionContainer}>

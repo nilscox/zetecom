@@ -8,6 +8,7 @@ import {
   NotFoundException,
   ConflictException,
   Inject,
+  Put,
 } from '@nestjs/common';
 
 import { SortTypePipe } from 'Common/sort-type.pipe';
@@ -37,6 +38,7 @@ import { InformationOutDto } from './dtos/information-out.dto';
 import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
 import { PopulateSubject } from '../../modules/subject/populate-subject.interceptor';
 import { PopulateInformation } from '../../modules/information/populate-information.interceptor';
+import { UpdateInformationInDto } from './dtos/update-information-in.dto';
 
 @Controller('information')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -154,6 +156,22 @@ export class InformationController {
       throw new ConflictException(`An information with url ${dto.url} already exists`);
 
     return this.informationService.create(dto, user);
+  }
+
+  @Put(':id')
+  @UseGuards(IsAuthenticated)
+  @UseInterceptors(PopulateInformation)
+  @Output(InformationOutDto)
+  async update(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() dto: UpdateInformationInDto,
+    @AuthUser() user: User,
+  ): Promise<Information> {
+    const information = await this.informationService.findById(id);
+    if (!information)
+      throw new NotFoundException();
+
+    return this.informationService.update(information, dto);
   }
 
 }

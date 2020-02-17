@@ -315,6 +315,7 @@ describe('information controller', () => {
     const info = {
       title: 'title',
       url: 'https://some.url',
+      imageUrl: 'https://image.url',
     };
 
     it('should not create an information when unauthenticated', () => {
@@ -354,9 +355,48 @@ describe('information controller', () => {
       expect(body).toHaveProperty('creator');
       expect(body.creator).toMatchObject({ id: user.id });
 
-      const infoDb = await informationRepository.find(body.id);
+      const infoDb = await informationRepository.findOne(body.id);
 
       expect(infoDb).toBeDefined();
+    });
+  });
+
+  describe('update information', () => {
+    const { authRequest, user } = createAuthenticatedUser(server);
+    let info: Information;
+
+    beforeAll(async () => {
+      info = await createInformation();
+    });
+
+    it('should not update an information when unauthenticated', () => {
+      return request(server)
+        .put(`/api/information/${info.id}`)
+        .send(info)
+        .expect(403);
+    });
+
+    it('should not update an information that does not exist', () => {
+      return authRequest
+        .put('/api/information/404')
+        .send({})
+        .expect(404);
+    });
+
+    it('should update an information', async () => {
+      const data = { url: 'https://updated.url', imageUrl: 'https://image.url' };
+
+      const { body } = await authRequest
+        .put(`/api/information/${info.id}`)
+        .send(data)
+        .expect(200);
+
+      expect(body).toMatchObject(data);
+
+      const infoDb = await informationRepository.findOne(body.id);
+
+      expect(infoDb).toHaveProperty('url', data.url);
+      expect(infoDb).toHaveProperty('imageUrl', data.imageUrl);
     });
   });
 

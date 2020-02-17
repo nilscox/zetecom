@@ -4,7 +4,7 @@ export type Information = {
   id: number;
   title: string;
   url: string;
-  image: string | null;
+  imageUrl: string | null;
   creator?: Partial<User>;
   reactionsCount: number;
   subjectsCount: number;

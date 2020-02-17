@@ -14,6 +14,9 @@ export class InformationOutDto {
   url: string;
 
   @Expose()
+  imageUrl: string;
+
+  @Expose()
   @Type(() => UserLightOutDto)
   creator: UserLightOutDto;
 

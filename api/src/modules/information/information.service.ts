@@ -6,6 +6,7 @@ import { InformationRepository } from './information.repository';
 import { Information } from './information.entity';
 import { YoutubeService } from './youtube.service';
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
+import { UpdateInformationInDto } from './dtos/update-information-in.dto';
 
 @Injectable()
 export class InformationService {
@@ -41,6 +42,12 @@ export class InformationService {
       youtubeId: this.youtubeService.getYoutubeId(dto.url),
       creator,
     });
+
+    return this.informationRepository.save(information);
+  }
+
+  async update(information: Information, dto: UpdateInformationInDto): Promise<Information> {
+    Object.assign(information, dto);
 
     return this.informationRepository.save(information);
   }

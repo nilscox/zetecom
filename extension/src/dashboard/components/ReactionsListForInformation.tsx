@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   image: {
     width: 240,
     height: 160,
+    objectFit: 'cover',
   },
   informationTitle: {
     fontSize: 24,
@@ -50,7 +51,7 @@ const ReactionsListForInformation: React.FC<ReactionsListForInformationProps> = 
             <RouterLink to={`/information/${information.id}`}>
               <Flex flexDirection="row" my={12}>
 
-                <img src={information.image || ''} className={classes.image} />
+                <img src={information.imageUrl || ''} className={classes.image} />
 
                 <Flex flexDirection="column" p={12} >
                   <div className={classes.informationTitle}>

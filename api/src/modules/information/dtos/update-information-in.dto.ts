@@ -1,12 +1,9 @@
 import { IsString, IsUrl, IsOptional } from 'class-validator';
 
-export class CreateInformationInDto {
+export class UpdateInformationInDto {
 
   @IsString()
-  @IsUrl()
-  readonly url: string;
-
-  @IsString()
+  @IsOptional()
   readonly title: string;
 
   @IsString()
