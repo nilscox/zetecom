@@ -9,8 +9,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 
-import NotificationsIcon from './NotificationsIcon';
 import RouterLink, { Link } from 'src/components/common/Link';
+import { useCurrentUser } from 'src/hooks/use-user';
+
+import NotificationsIcon from './NotificationsIcon';
 import { drawerWidth } from '../Drawer';
 
 const { WEBSITE_URL } = process.env;
@@ -45,6 +47,7 @@ type AppBarProps = {
 };
 
 const AppBar: React.FC<AppBarProps> = ({ handleDrawerToggle }) => {
+  const user = useCurrentUser();
   const classes = useStyles({});
 
   return (
@@ -66,26 +69,19 @@ const AppBar: React.FC<AppBarProps> = ({ handleDrawerToggle }) => {
           </RouterLink>
         </Typography>
 
-        <IconButton
-          color="secondary"
-        >
+        <IconButton color="secondary">
           <Link openInNewTab href={`${WEBSITE_URL}/faq.html`} className={classes.appBarLink}>
             <HelpIcon />
           </Link>
         </IconButton>
 
-        <IconButton
-          color="secondary"
-        >
+        <IconButton color="secondary" disabled={!user}>
           <RouterLink to="/notifications" className={classes.appBarLink}>
             <NotificationsIcon />
           </RouterLink>
         </IconButton>
 
-        <IconButton
-          edge="end"
-          color="secondary"
-        >
+        <IconButton edge="end" color="secondary" disabled={!!user}>
           <RouterLink to="/connexion" className={classes.appBarLink}>
             <AccountIcon />
           </RouterLink>

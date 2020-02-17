@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import MaterialDrawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
@@ -10,11 +10,12 @@ import Hidden from '@material-ui/core/Hidden';
 import InformationIcon from '@material-ui/icons/Subject';
 import CommentIcon from '@material-ui/icons/InsertComment';
 import BookmarkIcon from '@material-ui/icons/Star';
-import SettingsIcon from '@material-ui/icons/Settings';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { Link, useRouteMatch, useLocation } from 'react-router-dom';
+import { Link, useRouteMatch, useLocation, useHistory } from 'react-router-dom';
 import Flex from 'src/components/common/Flex';
-import { useCurrentUser } from 'src/hooks/use-user';
+import useUser, { useCurrentUser } from 'src/hooks/use-user';
+import useAxios from 'src/hooks/use-axios';
 
 export const drawerWidth = 340;
 
@@ -84,6 +85,17 @@ type DrawerProps = {
 
 const Drawer: React.FC<DrawerProps> = ({ mobileOpen, handleDrawerToggle }) => {
   const classes = useDrawerStyles({});
+  const [user, setUser] = useUser();
+  const history = useHistory();
+
+  const [{ status }, handleLogout] = useAxios({ method: 'POST', url: '/api/auth/logout' }, undefined, { manual: true });
+
+  useEffect(() => {
+    if (status(204)) {
+      setUser(null);
+      history.push('/');
+    }
+  }, [status, setUser, history]);
 
   const drawer = (
     <div>
@@ -103,7 +115,12 @@ const Drawer: React.FC<DrawerProps> = ({ mobileOpen, handleDrawerToggle }) => {
       <Divider />
 
       <List>
-        <ListItemLink auth icon={<SettingsIcon />} primary="Paramètres" to="/settings" />
+        <ListItem disabled={!user} button>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+          <ListItemText primary="Déconnexion" onClick={() => handleLogout()} />
+        </ListItem>
       </List>
 
     </div>
