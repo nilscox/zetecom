@@ -15,7 +15,7 @@ import './Usage.scss';
 const Usage: React.FC = () => (
   <>
 
-    <div className="step step-install">
+    <div className="step step-install" id="extension">
       <div className="step-text">
         Pour commencer, installez l'extension chrome en cliquant sur le bouton, puis sur "ajouter à chrome". Cela
         permettra à votre navigateur d'intégrer les zones de commentaires sur les sites d'information.
@@ -27,7 +27,7 @@ const Usage: React.FC = () => (
 
     <div className="separator" />
 
-    <div className="step step-read-reactions">
+    <div className="step step-read-reactions" id="lire-les-reactions">
       <div className="step-text">
         Lorsque l'icône de l'extension affiche un badge vert, cela signifie qu'une zone de commentaires a été ajoutée
         sur la page. Vous la trouverez généralement sous l'article (ou la vidéo). Ça y est, vous pouvez déjà lire les
@@ -40,7 +40,7 @@ const Usage: React.FC = () => (
 
     <div className="separator" />
 
-    <div className="step step-signup">
+    <div className="step step-signup" id="inscription">
       <div className="step-text">
         Pour participer aux échanges, il est nécessaire de disposer d'un compte sur l'extension. Dans un premier temps,
         consacrez <strong>une dizaine de minutes</strong> à la lecture de <Link href="/charte.html">la charte</Link>,
@@ -54,7 +54,7 @@ const Usage: React.FC = () => (
 
     <div className="separator" />
 
-    <div className="step step-write-reaction">
+    <div className="step step-write-reaction" id="regider-une-reaction">
       <div className="step-text">
         Vous avez votre mot à dire ? Publiez une nouvelle réaction ! Cela peut être directement sous l'information, en
         réponse à une autre, ou dans une thématique. Pensez à rechercher parmi les réactions existantes avant de
@@ -69,7 +69,7 @@ const Usage: React.FC = () => (
 
     <div className="separator" />
 
-    <div className="step step-quick-reactions">
+    <div className="step step-quick-reactions" id="votes">
       <div className="step-text">
         Si vous trouvez une réaction pertinente, il vous est possible de la mettre en avant en l'annotant d'un 👍, 👎
         ou 🧐. Un algorithme va comptabiliser le nombre total d'annotations et de réponses pour vous présenter les
@@ -93,7 +93,7 @@ const Usage: React.FC = () => (
 
     <div className="separator" />
 
-    <div className="step step-report">
+    <div className="step step-report" id="signalement">
       <div className="step-text">
         Si une réaction ne respecte pas la charte, il est important de notifier les modérateurs. Passez votre souris sur
         la date de publication de la réaction à signaler, cela fera apparaître un lien pour ouvrir une popup de
@@ -106,7 +106,7 @@ const Usage: React.FC = () => (
 
     <div className="separator" />
 
-    <div className="step step-join-moderators">
+    <div className="step step-join-moderators" id="moderation">
       <div className="step-text">
         La modération des échanges est assurée par des membres volontaires de la communauté. Si vous souhaitez en faire
         partie, <Link href="/faq.html#contact">contactez nous</Link> en expliquant les raisons qui motivent ce choix,
