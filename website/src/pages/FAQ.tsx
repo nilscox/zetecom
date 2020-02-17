@@ -97,7 +97,7 @@ const FAQ: React.FC = () => {
         au concept de Réagir à l'information et imaginer ce que l'on peut construire ensemble, vous êtes chaleureusement
         invité(e) à <Link href="#contact">nous envoyer un petit message</Link>. Et si vous êtes développeur et que le
         projet vous intéresse techniquement, les source sont disponibles sur{' '}
-        <Link href={useEnvironment('REPOSITORY_URL')}>github</Link>.
+        <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>github</Link>.
       </Question>
 
       <Question question="Votre question ne figure pas dans cette liste... ?">
@@ -113,7 +113,6 @@ const FAQ: React.FC = () => {
           Par e-mail, à l'adresse <Link href="mailto:reagir-information@nils.cx">reagir-information@nils.cx</Link>
         </li>
         <li>Sur twitter, via le compte de <Link openInNewTab href="https://twitter.com/NilsCox">@NilsCox</Link></li>
-        <li>Par chat, via <Link openInNewTab href="https://tlk.io/reagir-information" >tlk.io</Link></li>
       </ul>
 
     </>
