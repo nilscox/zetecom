@@ -64,15 +64,15 @@ const Home: React.FC = () => (
     <div className="objectives">
 
       <Card text="Réunir une communauté de personnes pour réfléchir ensemble" image={imageCommunity}>
-        Parce que les informations telles qu'elles sont présentées dans les médias méritent souvent d'être discutées
+        Parce que les informations telles que présentées par les médias méritent d'être creusées
       </Card>
 
       <Card text="Lutter contre les fausses informations" image={imageFakeNews}>
-        Parce que le seul point de vue d'un média n'est pas suffisant pour être correctement informé
+        Parce que le seul point de vue d'un média n'est souvent pas suffisant pour être correctement informé
       </Card>
 
       <Card text="Offrir une place aux débats dans un climat de confiance sur la toile" image={imageTrust}>
-        Parce qu'il n'est pas toujours facile de communiquer dans un cadre collaboratif à travers un écran
+        Parce qu'il n'est pas toujours facile de communiquer dans un contexte coopératif à travers un écran
       </Card>
 
     </div>
