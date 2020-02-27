@@ -1,7 +1,8 @@
 {
   "manifest_version": 2,
+  "version": "0.4.5",
   "name": "Réagir à l'information",
-  "version": "0.4.4",
+  "description": "Réagir à l'information sur internet, avec esprit critique !",
   "permissions": [
       "background",
       "tabs"
