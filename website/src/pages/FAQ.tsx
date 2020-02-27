@@ -104,6 +104,30 @@ const FAQ: React.FC = () => {
         <Link href="#contact">Posez-la nous directement</Link>, nous l'y ajouterons sans tarder :)
       </Question>
 
+      <Title id="donnees-personnelles">Utilisation des données personnelles</Title>
+
+      <p>
+        L'installation de l'extension et son utilisation sans créer de compte vous permet d'intégrer les zones de
+        commentaires sur les sites d'information, mais ne vous permet pas de répondre à ces commentaires. Dans ce cas,
+        aucune information personnelle n'est collectée.
+      </p>
+
+      <p>
+        Si vous souhaitez interagir avec la communauté, la création d'un compte utilisateur est nécessaire. Dans ce cas,
+        une adresse e-mail, un mot de passe et un pseudo vous seront demandés, dans le seul but de vous identifier sur
+        la plateforme. Aucune de ces informations n'est partagée avec un quelconque service tiers.
+      </p>
+
+      <p>
+        Tous les échanges de données sont effectués de manière sécurisée (HTTPS), et les mots de passes sont chiffrés
+        avec la fonction de hashage <code>bcrypt</code> (coût de 10).
+      </p>
+
+      <p>
+        Dans une optique de transparence, nous sommes entièrement disposés à répondre à vos éventuelles questions, voire
+        ajouter ici des précisions si nécessaire.
+      </p>
+
       <Title id="contact">Une idée à proposer ? Un bug à signaler ?</Title>
 
       <p>L'équipe à l'origine de Réagir à l'information est à l'écoute via ces différents canaux de communication :</p>
