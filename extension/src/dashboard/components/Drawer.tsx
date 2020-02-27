@@ -101,7 +101,7 @@ const Drawer: React.FC<DrawerProps> = ({ mobileOpen, handleDrawerToggle }) => {
     <div>
 
       <Flex flexDirection="column" alignItems="center">
-        <img src="https://reagir-information-extension.nils.cx/assets/images/logo.png" className={classes.logo} />
+        <img src="/assets/images/logo.png" className={classes.logo} />
       </Flex>
 
       <Divider />

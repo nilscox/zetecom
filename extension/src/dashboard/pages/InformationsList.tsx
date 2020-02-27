@@ -15,6 +15,7 @@ const useStyles = makeStyles({
   image: {
     width: 240,
     height: 160,
+    objectFit: 'cover',
   },
   informationTitle: {
     fontSize: 24,
@@ -45,7 +46,7 @@ const InformationList: React.FC = () => {
             { information.title }
           </div>
           <Box my={6} className={classes.publicationDate}>{ moment().format('[Publiée le] DD.MM.YYYY') }</Box>
-          <div>{ information.reactionsCount } réactions</div>
+          <div>{ information.reactionsCount } réaction{ information.reactionsCount !== 1 && 's' }</div>
         </Flex>
 
       </Flex>
