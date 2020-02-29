@@ -147,7 +147,7 @@ describe('information controller', () => {
 
     it('should not find an information with unexisting id', () => {
       return request(server)
-        .get(`/api/information/4`)
+        .get('/api/information/4')
         .expect(404);
     });
 
@@ -187,7 +187,7 @@ describe('information controller', () => {
 
     it('should not find reaction for an information that does not exist', () => {
       return request(server)
-        .get(`/api/information/4/reactions`)
+        .get('/api/information/4/reactions')
         .expect(404);
     });
 
@@ -257,7 +257,7 @@ describe('information controller', () => {
 
     it('should not find subjects for an information that does not exist', () => {
       return request(server)
-        .get(`/api/information/4/subjects`)
+        .get('/api/information/4/subjects')
         .expect(404);
     });
 

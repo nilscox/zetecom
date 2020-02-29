@@ -22,10 +22,12 @@ export class InformationRepository extends Repository<Information> {
       .groupBy('information.id')
       .getRawMany();
 
+    /* eslint-disable @typescript-eslint/camelcase */
     return counts.reduce((acc, { information_id, count }) => ({
       ...acc,
       [information_id]: Number(count),
     }), {});
+    /* eslint-enable @typescript-eslint/camelcase */
   }
 
   async getSubjectsCounts(informationIds: number[]): Promise<{ [informationId: number]: number }> {
@@ -37,10 +39,12 @@ export class InformationRepository extends Repository<Information> {
       .groupBy('information.id')
       .getRawMany();
 
+    /* eslint-disable @typescript-eslint/camelcase */
     return counts.reduce((acc, { information_id, count }) => ({
       ...acc,
       [information_id]: Number(count),
     }), {});
+    /* eslint-enable @typescript-eslint/camelcase */
   }
 
 }

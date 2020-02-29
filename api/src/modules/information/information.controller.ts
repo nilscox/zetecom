@@ -1,15 +1,15 @@
 import {
-Body,
+  Body,
   ClassSerializerInterceptor,
   ConflictException,
   Controller,
   Get,   Inject,
   NotFoundException,
   Param,   ParseIntPipe,
-Post,
+  Post,
   Put,
-UseGuards,
-  UseInterceptors, } from '@nestjs/common';
+  UseGuards,
+  UseInterceptors } from '@nestjs/common';
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
@@ -134,7 +134,7 @@ export class InformationController {
     @Param('id', new ParseIntPipe()) id: number,
     @SearchQuery() search: string,
     @PageQuery() page: number,
-  ): Promise<{ items: Subject[], total: number }> {
+  ): Promise<{ items: Subject[]; total: number }> {
     if (!(await this.informationService.exists(id)))
       throw new NotFoundException();
 

@@ -180,7 +180,7 @@ describe('reaction controller', () => {
 
     it('should not get replies for an unexisting reaction', () => {
       return request(server)
-        .get(`/api/reaction/404/replies`)
+        .get('/api/reaction/404/replies')
         .expect(404);
     });
 
@@ -227,7 +227,7 @@ describe('reaction controller', () => {
 
     it('should not subscribe to an unexisting reaction', () => {
       return authRequest
-        .post(`/api/reaction/404/subscribe`)
+        .post('/api/reaction/404/subscribe')
         .expect(404);
     });
 
@@ -264,7 +264,7 @@ describe('reaction controller', () => {
 
     it('should not subscribe to an unexisting reaction', () => {
       return authRequest
-        .post(`/api/reaction/404/unsubscribe`)
+        .post('/api/reaction/404/unsubscribe')
         .expect(404);
     });
 
@@ -360,7 +360,7 @@ describe('reaction controller', () => {
       delete reaction.text;
 
       return authRequest
-      .post('/api/reaction')
+        .post('/api/reaction')
         .send(reaction)
         .expect(400);
     });
@@ -388,7 +388,7 @@ describe('reaction controller', () => {
       reaction.subjectId = 404;
 
       return authRequest
-      .post('/api/reaction')
+        .post('/api/reaction')
         .send(reaction)
         .expect(400);
     });
@@ -433,7 +433,7 @@ describe('reaction controller', () => {
 
     it('should not update an unexisting reaction', () => {
       return authRequest
-        .put(`/api/reaction/404`)
+        .put('/api/reaction/404')
         .expect(404);
     });
 
@@ -571,7 +571,7 @@ describe('reaction controller', () => {
 
     it('should increment a reaction score by 2 when a reply is created', async () => {
       await authRequest
-        .post(`/api/reaction`)
+        .post('/api/reaction')
         .send({
           informationId: information.id,
           parentId: reaction.id,

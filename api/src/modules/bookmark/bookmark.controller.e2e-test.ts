@@ -129,7 +129,7 @@ describe('information controller', () => {
 
     it('should not create a bookmark for a reaction that does not exist', async () => {
       return authRequest
-        .post(`/api/bookmark/404`)
+        .post('/api/bookmark/404')
         .expect(404);
     });
 
@@ -176,7 +176,7 @@ describe('information controller', () => {
 
     it('should not remove a bookmark that does not exist', async () => {
       return authRequest
-        .delete(`/api/bookmark/404`)
+        .delete('/api/bookmark/404')
         .expect(404);
     });
 
