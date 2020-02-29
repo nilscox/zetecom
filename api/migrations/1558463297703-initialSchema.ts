@@ -1,9 +1,13 @@
-import {MigrationInterface, QueryRunner} from 'typeorm';
+/* eslint-disable indent */
+/* eslint-disable quotes */
+/* eslint-disable @typescript-eslint/class-name-casing */
+
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class initialSchema1558463297703 implements MigrationInterface {
     name = 'initialSchema1558463297703';
 
-    public async up(queryRunner: QueryRunner): Promise<any> {
+    public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "user" ("id" SERIAL NOT NULL, "email" character varying NOT NULL, "password" character varying NOT NULL, "nick" character varying NOT NULL, "avatar" character varying, "emailValidationToken" character varying NOT NULL, "emailValidated" boolean NOT NULL DEFAULT false, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "UQ_66dcc4532b5334c01ec92f8ceee" UNIQUE ("nick"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "message" ("id" SERIAL NOT NULL, "text" text NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "reaction_id" integer, "subject_id" integer, CONSTRAINT "PK_ba01f0a3e0123651915008bc578" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "quick_reaction_type_enum" AS ENUM('APPROVE', 'REFUTE', 'SKEPTIC')`);
@@ -27,7 +31,7 @@ export class initialSchema1558463297703 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "report" ADD CONSTRAINT "FK_6caf1d29e64dccdf522c60bf509" FOREIGN KEY ("reaction_id") REFERENCES "reaction"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
     }
 
-    public async down(queryRunner: QueryRunner): Promise<any> {
+    public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE "report" DROP CONSTRAINT "FK_6caf1d29e64dccdf522c60bf509"`);
         await queryRunner.query(`ALTER TABLE "report" DROP CONSTRAINT "FK_c6686efa4cd49fa9a429f01bac8"`);
         await queryRunner.query(`ALTER TABLE "information" DROP CONSTRAINT "FK_a60989a06dc6043c3aa4cb3443a"`);

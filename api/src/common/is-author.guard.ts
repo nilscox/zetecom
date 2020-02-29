@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { ReactionService } from '../modules/reaction/reaction.service';
 
 @Injectable()
