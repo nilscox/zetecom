@@ -1,9 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn, Column, Unique } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
-import { User } from '../user/user.entity';
 import { Information } from '../information/information.entity';
-import { Subject } from '../subject/subject.entity';
 import { Reaction } from '../reaction/reaction.entity';
+import { Subject } from '../subject/subject.entity';
+import { User } from '../user/user.entity';
 
 @Entity({ name: 'subscription' })
 @Unique(['user', 'reaction'])

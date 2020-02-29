@@ -1,10 +1,10 @@
-import { Entity, Column, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { User } from '../user/user.entity';
 import { Information } from '../information/information.entity';
-import { Reaction } from '../reaction/reaction.entity';
 import { Message } from '../reaction/message.entity';
 import { QuickReactionType } from '../reaction/quick-reaction.entity';
+import { Reaction } from '../reaction/reaction.entity';
+import { User } from '../user/user.entity';
 
 @Entity({ name: 'subject', orderBy: { created: 'ASC' } })
 export class Subject {

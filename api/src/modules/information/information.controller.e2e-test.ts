@@ -1,19 +1,19 @@
 import * as request from 'supertest';
 import { getCustomRepository } from 'typeorm';
 
-import { InformationModule } from './information.module';
+import { createInformation } from '../../testing/factories/information.factory';
+import { createMessage } from '../../testing/factories/message.factory';
+import { createReaction } from '../../testing/factories/reaction.factory';
+import { createSubject } from '../../testing/factories/subject.factory';
+import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
-import { InformationRepository } from './information.repository';
-import { Information } from './information.entity';
-import { Reaction } from '../reaction/reaction.entity';
 import { Message } from '../reaction/message.entity';
+import { Reaction } from '../reaction/reaction.entity';
 import { Subject } from '../subject/subject.entity';
 
-import { setupE2eTest, createAuthenticatedUser } from '../../testing/setup-e2e-test';
-import { createInformation } from '../../testing/factories/information.factory';
-import { createReaction } from '../../testing/factories/reaction.factory';
-import { createMessage } from '../../testing/factories/message.factory';
-import { createSubject } from '../../testing/factories/subject.factory';
+import { Information } from './information.entity';
+import { InformationModule } from './information.module';
+import { InformationRepository } from './information.repository';
 
 describe('information controller', () => {
 

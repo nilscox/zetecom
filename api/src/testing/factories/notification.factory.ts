@@ -2,11 +2,11 @@ import { DeepPartial, getManager } from 'typeorm';
 
 import { Notification } from '../../modules/notification/notification.entity';
 
-import { createUser } from './user.factory';
 import { createSubscription } from './subscription.factory';
+import { createUser } from './user.factory';
 
 export const createNotification = async (data: DeepPartial<Notification> = {}) => {
-  const manager = await getManager();
+  const manager = getManager();
 
   if (!data.actor)
     data.actor = await createUser();

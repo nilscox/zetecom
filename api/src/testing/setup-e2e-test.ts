@@ -1,17 +1,19 @@
-import * as express from 'express';
-import * as request from 'supertest';
-import { ModuleMetadata, MiddlewareConsumer } from '@nestjs/common/interfaces';
-import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
-import { ValidationPipe, Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
+import { MiddlewareConsumer, ModuleMetadata } from '@nestjs/common/interfaces';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import * as express from 'express';
 import * as expressSession from 'express-session';
 import * as memorystore from 'memorystore';
+import * as request from 'supertest';
 
 import { ErrorsInterceptor } from 'Common/errors.interceptor';
 import { UserMiddleware } from 'Common/user.middleware';
+
 import { UserOutDto } from 'src/modules/user/dtos/user-out.dto';
+
 import { User } from '../modules/user/user.entity';
 
 const MemoryStore = memorystore(expressSession);

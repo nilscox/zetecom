@@ -1,4 +1,4 @@
-import { PipeTransform, Injectable, ArgumentMetadata, ParseIntPipe } from '@nestjs/common';
+import { ArgumentMetadata, Injectable, ParseIntPipe, PipeTransform } from '@nestjs/common';
 
 @Injectable()
 export class OptionalParseIntPipe implements PipeTransform<string, Promise<number | undefined>> {

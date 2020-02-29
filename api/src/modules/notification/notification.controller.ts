@@ -1,29 +1,30 @@
 import {
   Controller,
   Get,
-  UseGuards,
-  ParseIntPipe,
   HttpCode,
   HttpStatus,
-  Post,
-  Param,
   NotFoundException,
+  Param,
+  ParseIntPipe,
+  Post,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import { IsAuthenticated } from 'Common/auth.guard';
 import { AuthUser } from 'Common/auth-user.decorator';
+import { IsAuthenticated } from 'Common/auth.guard';
+import { Output, PaginatedOutput } from 'Common/output.interceptor';
+import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
 
 import { User } from '../user/user.entity';
-import { NotificationService } from './notification.service';
-import { Notification } from './notification.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { PageQuery } from 'Common/page-query.decorator';
-import { PaginatedOutput, Output } from 'Common/output.interceptor';
+
 import { NotificationOutDto } from './dtos/notification-out.dto';
 import { NotificationsCountOutDto } from './dtos/notifications-count-out.dto';
+import { Notification } from './notification.entity';
+import { NotificationService } from './notification.service';
 
 @Controller('notification')
 export class NotificationController {

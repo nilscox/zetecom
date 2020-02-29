@@ -1,10 +1,11 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { BookmarkController } from './bookmark.controller';
-import { BookmarkService } from './bookmark.service';
-import { BookmarkRepository } from './bookmark.repository';
 import { ReactionModule } from '../reaction/reaction.module';
+
+import { BookmarkController } from './bookmark.controller';
+import { BookmarkRepository } from './bookmark.repository';
+import { BookmarkService } from './bookmark.service';
 
 @Module({
   imports: [

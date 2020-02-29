@@ -5,7 +5,7 @@ import { Subscription } from '../../modules/subscription/subscription.entity';
 import { createUser } from './user.factory';
 
 export const createSubscription = async (data: DeepPartial<Subscription> = {}) => {
-  const manager = await getManager();
+  const manager = getManager();
 
   if (!data.user)
     data.user = await createUser();

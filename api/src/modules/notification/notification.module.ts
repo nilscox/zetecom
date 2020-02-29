@@ -1,9 +1,9 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { NotificationService } from './notification.service';
 import { NotificationController } from './notification.controller';
 import { Notification } from './notification.entity';
+import { NotificationService } from './notification.service';
 
 const NOTIFICATION_PAGE_SIZE = 'NOTIFICATION_PAGE_SIZE';
 const NotificationPageSize: Provider = {

@@ -1,12 +1,12 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
 import { User } from '../user/user.entity';
-import { InformationRepository } from './information.repository';
 
-import { Information } from './information.entity';
-import { YoutubeService } from './youtube.service';
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
 import { UpdateInformationInDto } from './dtos/update-information-in.dto';
+import { Information } from './information.entity';
+import { InformationRepository } from './information.repository';
+import { YoutubeService } from './youtube.service';
 
 @Injectable()
 export class InformationService {

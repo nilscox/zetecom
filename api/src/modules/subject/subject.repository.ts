@@ -1,7 +1,8 @@
-import { Repository, EntityRepository, Brackets } from 'typeorm';
+import { Brackets, EntityRepository, Repository } from 'typeorm';
+
+import { Paginated } from 'Common/paginated';
 
 import { Subject } from './subject.entity';
-import { Paginated } from 'Common/paginated';
 
 type SubjectReactionsCount = {
   subjectId: number;

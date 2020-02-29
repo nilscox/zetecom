@@ -1,12 +1,13 @@
 import * as request from 'supertest';
-import { Repository, getRepository, In } from 'typeorm';
+import { getRepository, In, Repository } from 'typeorm';
 
-import { setupE2eTest, createAuthenticatedUser } from '../../testing/setup-e2e-test';
-import { AuthenticationModule } from '../authentication/authentication.module';
-import { NotificationModule } from './notification.module';
-import { Notification } from './notification.entity';
-import { createSubscription } from '../../testing/factories/subscription.factory';
 import { createNotification } from '../../testing/factories/notification.factory';
+import { createSubscription } from '../../testing/factories/subscription.factory';
+import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
+import { AuthenticationModule } from '../authentication/authentication.module';
+
+import { Notification } from './notification.entity';
+import { NotificationModule } from './notification.module';
 
 describe('notifications', () => {
 

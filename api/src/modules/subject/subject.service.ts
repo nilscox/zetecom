@@ -1,13 +1,13 @@
-import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Information } from '../information/information.entity';
-import { User } from '../user/user.entity';
 import { Message } from '../reaction/message.entity';
+import { User } from '../user/user.entity';
 
-import { Subject } from './subject.entity';
 import { CreateSubjectInDto } from './dtos/create-subject-in.dto';
+import { Subject } from './subject.entity';
 import { SubjectRepository } from './subject.repository';
 
 @Injectable()

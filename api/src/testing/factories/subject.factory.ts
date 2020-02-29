@@ -3,11 +3,11 @@ import { DeepPartial, getManager } from 'typeorm';
 import { Subject } from '../../modules/subject/subject.entity';
 
 import { createInformation } from './information.factory';
-import { createUser } from './user.factory';
 import { createMessage } from './message.factory';
+import { createUser } from './user.factory';
 
 export const createSubject = async (data: DeepPartial<Subject> = {}) => {
-  const manager = await getManager();
+  const manager = getManager();
 
   if (!data.information)
     data.information = await createInformation();

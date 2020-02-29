@@ -1,24 +1,24 @@
 // tslint:disable no-shadowed-variable
 
 import * as request from 'supertest';
-import { getCustomRepository, Repository, getRepository } from 'typeorm';
+import { getCustomRepository, getRepository, Repository } from 'typeorm';
 
-import { ReactionModule } from './reaction.module';
-import { Reaction } from '../reaction/reaction.entity';
-
-import { setupE2eTest, createAuthenticatedUser } from '../../testing/setup-e2e-test';
-import { createReaction } from '../../testing/factories/reaction.factory';
-import { createMessage } from '../../testing/factories/message.factory';
-import { createUser } from '../../testing/factories/user.factory';
-import { createInformation } from '../../testing/factories/information.factory';
-import { Information } from '../information/information.entity';
-import { createSubject } from '../../testing/factories/subject.factory';
-import { ReactionRepository } from './reaction.repository';
-import { AuthenticationModule } from '../authentication/authentication.module';
-import { QuickReactionType, QuickReaction } from './quick-reaction.entity';
 import { createBookmark } from '../../testing/factories/bookmark.factory';
+import { createInformation } from '../../testing/factories/information.factory';
+import { createMessage } from '../../testing/factories/message.factory';
+import { createReaction } from '../../testing/factories/reaction.factory';
+import { createSubject } from '../../testing/factories/subject.factory';
 import { createSubscription } from '../../testing/factories/subscription.factory';
+import { createUser } from '../../testing/factories/user.factory';
+import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
+import { AuthenticationModule } from '../authentication/authentication.module';
+import { Information } from '../information/information.entity';
+import { Reaction } from '../reaction/reaction.entity';
 import { Subscription } from '../subscription/subscription.entity';
+
+import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
+import { ReactionModule } from './reaction.module';
+import { ReactionRepository } from './reaction.repository';
 
 describe('reaction controller', () => {
 

@@ -1,23 +1,22 @@
-import { Module, MiddlewareConsumer } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import * as expressSession from 'express-session';
 import * as memorystore from 'memorystore';
 
-import { UserMiddleware } from 'Common/user.middleware';
 import { LagMiddleware } from 'Common/lag.middleware';
-
-import { HealthcheckModule } from './modules/healthcheck/healthcheck.module';
-import { User } from './modules/user/user.entity';
-import { EmailModule } from './modules/email/email.module';
-import { UserModule } from './modules/user/user.module';
-import { AuthenticationModule } from './modules/authentication/authentication.module';
-import { InformationModule } from './modules/information/information.module';
-import { ReactionModule } from './modules/reaction/reaction.module';
-import { BookmarkModule } from './modules/bookmark/bookmark.module';
+import { UserMiddleware } from 'Common/user.middleware';
 
 import { AppController } from './app.controller';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { BookmarkModule } from './modules/bookmark/bookmark.module';
+import { EmailModule } from './modules/email/email.module';
+import { HealthcheckModule } from './modules/healthcheck/healthcheck.module';
+import { InformationModule } from './modules/information/information.module';
+import { ReactionModule } from './modules/reaction/reaction.module';
+import { User } from './modules/user/user.entity';
+import { UserModule } from './modules/user/user.module';
 
 const fakeLagProvider = {
   provide: 'FAKE_LAG',

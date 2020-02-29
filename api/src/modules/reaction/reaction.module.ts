@@ -1,17 +1,17 @@
-import { Module, forwardRef, Provider } from '@nestjs/common';
+import { forwardRef, Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { InformationModule } from '../information/information.module';
-import { SubjectModule } from '../subject/subject.module';
-
-import { ReactionController } from './reaction.controller';
-import { ReactionService } from './reaction.service';
-import { Message } from './message.entity';
-import { QuickReaction } from './quick-reaction.entity';
-import { ReactionRepository } from './reaction.repository';
 import { ReportModule } from '../report/report.module';
+import { SubjectModule } from '../subject/subject.module';
 import { SubscriptionModule } from '../subscription/subscription.module';
+
+import { Message } from './message.entity';
 import { PopulateReaction } from './populate-reaction.interceptor';
+import { QuickReaction } from './quick-reaction.entity';
+import { ReactionController } from './reaction.controller';
+import { ReactionRepository } from './reaction.repository';
+import { ReactionService } from './reaction.service';
 
 const REACTION_PAGE_SIZE = 'REACTION_PAGE_SIZE';
 const ReactionPageSize: Provider = {

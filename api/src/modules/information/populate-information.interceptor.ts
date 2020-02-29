@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { getCustomRepository } from 'typeorm';
 
 import { TransformInterceptor } from '../../common/transform.interceptor';
-import { InformationService } from './information.service';
+
 import { Information } from './information.entity';
-import { getCustomRepository } from 'typeorm';
 import { InformationRepository } from './information.repository';
+import { InformationService } from './information.service';
 
 @Injectable()
 export class PopulateInformation extends TransformInterceptor<Information> {

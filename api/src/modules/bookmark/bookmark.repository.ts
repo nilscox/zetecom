@@ -1,10 +1,11 @@
-import { EntityRepository, Repository, Raw, QueryBuilder } from 'typeorm';
+import { EntityRepository, QueryBuilder, Raw, Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
 import { Reaction } from '../reaction/reaction.entity';
-import { Bookmark } from './bookmark.entity';
 import { User } from '../user/user.entity';
+
+import { Bookmark } from './bookmark.entity';
 
 @EntityRepository(Bookmark)
 export class BookmarkRepository extends Repository<Bookmark> {

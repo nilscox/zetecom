@@ -1,15 +1,15 @@
 import * as request from 'supertest';
-import { Repository, getRepository, In } from 'typeorm';
+import { getRepository, In, Repository } from 'typeorm';
 
-import { setupE2eTest, createAuthenticatedUser } from '../../testing/setup-e2e-test';
-import { AuthenticationModule } from '../authentication/authentication.module';
-import { ReactionModule } from '../reaction/reaction.module';
+import { createInformation } from '../../testing/factories/information.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
 import { createSubscription } from '../../testing/factories/subscription.factory';
 import { createUser } from '../../testing/factories/user.factory';
-import { createInformation } from '../../testing/factories/information.factory';
-import { NotificationModule } from '../notification/notification.module';
+import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
+import { AuthenticationModule } from '../authentication/authentication.module';
 import { Notification } from '../notification/notification.entity';
+import { NotificationModule } from '../notification/notification.module';
+import { ReactionModule } from '../reaction/reaction.module';
 
 describe('subscription', () => {
 

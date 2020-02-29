@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
@@ -6,6 +6,7 @@ import * as uuidv4 from 'uuid/v4';
 
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
+
 import { SignupUserInDto } from './dtos/signup-user-in.dto';
 
 @Injectable()

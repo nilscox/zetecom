@@ -1,10 +1,12 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
-import { BookmarkRepository } from './bookmark.repository';
 import { Paginated } from 'Common/paginated';
+
 import { Reaction } from '../reaction/reaction.entity';
 import { User } from '../user/user.entity';
+
 import { Bookmark } from './bookmark.entity';
+import { BookmarkRepository } from './bookmark.repository';
 
 @Injectable()
 export class BookmarkService {

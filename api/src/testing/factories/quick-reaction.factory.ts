@@ -2,11 +2,11 @@ import { DeepPartial, getManager } from 'typeorm';
 
 import { QuickReaction, QuickReactionType } from '../../modules/reaction/quick-reaction.entity';
 
-import { createUser } from './user.factory';
 import { createReaction } from './reaction.factory';
+import { createUser } from './user.factory';
 
 export const createQuickReaction = async (data: DeepPartial<QuickReaction> = {}) => {
-  const manager = await getManager();
+  const manager = getManager();
 
   if (!data.user)
     data.user = await createUser();

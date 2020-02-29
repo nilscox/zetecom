@@ -1,11 +1,11 @@
 import { getCustomRepository } from 'typeorm';
 
-import { BookmarkRepository } from './bookmark.repository';
-
-import { createUser } from '../../testing/factories/user.factory';
-import { setupIntgTest } from '../../testing/setup-intg-test';
 import { createBookmark } from '../../testing/factories/bookmark.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
+import { createUser } from '../../testing/factories/user.factory';
+import { setupIntgTest } from '../../testing/setup-intg-test';
+
+import { BookmarkRepository } from './bookmark.repository';
 
 describe('bookmark repository', () => {
 

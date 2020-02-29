@@ -1,10 +1,10 @@
-import { Repository, EntityRepository, getRepository, SelectQueryBuilder, In } from 'typeorm';
+import { EntityRepository, getRepository, In, Repository, SelectQueryBuilder } from 'typeorm';
 
+import { Paginated } from 'Common/paginated';
 import { SortType } from 'Common/sort-type';
 
-import { Reaction } from './reaction.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
-import { Paginated } from 'Common/paginated';
+import { Reaction } from './reaction.entity';
 
 type RepliesCount = {
   reactionId: number;

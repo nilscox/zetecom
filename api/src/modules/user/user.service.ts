@@ -1,13 +1,13 @@
-import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import * as uuidv4 from 'uuid/v4';
 
 import { SignupUserInDto } from '../authentication/dtos/signup-user-in.dto';
+import { EmailService } from '../email/email.service';
 
 import { User } from './user.entity';
-import { EmailService } from '../email/email.service';
 
 const {
   EMAIL_ACCOUNT_VERIFICATION,
