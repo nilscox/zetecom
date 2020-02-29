@@ -64,7 +64,7 @@ export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module
   let module: TestingModule;
 
   beforeAll(async () => {
-    const moduleBuilder = await Test.createTestingModule({
+    const moduleBuilder = Test.createTestingModule({
       ...testingModule,
       imports: [TestModule, ...testingModule.imports],
     });
