@@ -47,7 +47,7 @@ export class EmailService {
   ) {}
 
   private static renderTemplate(templateName, replacement: {[key: string]: string}) {
-    const template: { html: string, txt: string } = templates[templateName];
+    const template: { html: string; txt: string } = templates[templateName];
 
     if (!template)
       throw new Error('Unknown template: ' + template);
@@ -83,7 +83,7 @@ export class EmailService {
         opts.text = text;
 
       if (html)
-        opts.attachment = [{ data: html, alternative: true }],
+        opts.attachment = [{ data: html, alternative: true }];
 
       conn.send(opts, (err, message) => {
         if (err)
@@ -107,6 +107,7 @@ export class EmailService {
 
   sendEmailValidationEmail(user: User): Promise<any> {
     const template = EmailService.renderTemplate('welcome', {
+      // eslint-disable-next-line @typescript-eslint/camelcase
       email_validation_link: `${EXTENSION_URL}/api/auth/email-validation?token=${user.emailValidationToken}`,
     });
 

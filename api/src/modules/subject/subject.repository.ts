@@ -44,7 +44,9 @@ export class SubjectRepository extends Repository<Subject> {
       .groupBy('subject.id')
       .getRawMany();
 
+    // eslint-disable-next-line @typescript-eslint/camelcase
     return reactionsCounts.map(({ subject_id, count }) => ({
+      // eslint-disable-next-line @typescript-eslint/camelcase
       subjectId: subject_id,
       reactionsCount: Number(count),
     }));

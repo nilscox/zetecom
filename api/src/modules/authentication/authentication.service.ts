@@ -1,8 +1,7 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable,  UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
-import * as uuidv4 from 'uuid/v4';
 
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
@@ -27,6 +26,7 @@ export class AuthenticationService {
 
     const { email, nick, password } = dto;
 
+    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
     if (password.match(email) || email.match(password) || password.match(nick) || nick.match(password))
       throw new BadRequestException('PASSWORD_UNSECURE');
 

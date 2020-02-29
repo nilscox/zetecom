@@ -19,7 +19,7 @@ type QuickReactionsCount = {
 };
 
 type UserQuickReaction = {
-  reactionId: number,
+  reactionId: number;
   type: QuickReactionType | null;
 };
 
@@ -224,6 +224,7 @@ export class ReactionRepository extends Repository<Reaction> {
 
     const results = reactionIds.map((id) => ({ reactionId: id, repliesCount: 0 }));
 
+    // eslint-disable-next-line @typescript-eslint/camelcase
     repliesCounts.forEach(({ reaction_id: id, reaction_repliesCount }) => {
       const result = results.find(({ reactionId }) => reactionId === id);
 
