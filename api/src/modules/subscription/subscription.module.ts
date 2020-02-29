@@ -1,12 +1,13 @@
-import { Module, Provider, forwardRef } from '@nestjs/common';
+import { forwardRef, Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Subscription } from './subscription.entity';
-import { NotificationModule } from '../notification/notification.module';
-import { SubscriptionService } from './subscription.service';
-import { SubscriptionController } from './subscription.controller';
-import { ReactionModule } from '../reaction/reaction.module';
 import { InformationModule } from '../information/information.module';
+import { NotificationModule } from '../notification/notification.module';
+import { ReactionModule } from '../reaction/reaction.module';
+
+import { SubscriptionController } from './subscription.controller';
+import { Subscription } from './subscription.entity';
+import { SubscriptionService } from './subscription.service';
 
 const SUBSCRIPTION_PAGE_SIZE = 'SUBSCRIPTION_PAGE_SIZE';
 const SubscriptionPageSize: Provider = {

@@ -1,44 +1,43 @@
 import {
-  Controller,
-  Get, Post,
-  ParseIntPipe,
-  Param, Body,
-  UseInterceptors, UseGuards,
+Body,
   ClassSerializerInterceptor,
-  NotFoundException,
   ConflictException,
-  Inject,
+  Controller,
+  Get,   Inject,
+  NotFoundException,
+  Param,   ParseIntPipe,
+Post,
   Put,
-} from '@nestjs/common';
+UseGuards,
+  UseInterceptors, } from '@nestjs/common';
 
-import { SortTypePipe } from 'Common/sort-type.pipe';
-import { SortType } from 'Common/sort-type';
-import { IsAuthenticated } from 'Common/auth.guard';
 import { AuthUser } from 'Common/auth-user.decorator';
+import { IsAuthenticated } from 'Common/auth.guard';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { Output, PaginatedOutput } from 'Common/output.interceptor';
-import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
-import { Paginated } from 'Common/paginated';
 import { PageQuery } from 'Common/page-query.decorator';
+import { Paginated } from 'Common/paginated';
 import { SearchQuery } from 'Common/search-query.decorator';
+import { SortType } from 'Common/sort-type';
+import { SortTypePipe } from 'Common/sort-type.pipe';
 
-import { User } from '../user/user.entity';
-import { Information } from './information.entity';
-import { Subject } from '../subject/subject.entity';
+import { PopulateInformation } from '../../modules/information/populate-information.interceptor';
+import { PopulateSubject } from '../../modules/subject/populate-subject.interceptor';
+import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
+import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
 import { Reaction } from '../reaction/reaction.entity';
-
-import { InformationService } from './information.service';
-import { InformationRepository } from './information.repository';
-import { SubjectRepository } from '../subject/subject.repository';
 import { ReactionRepository } from '../reaction/reaction.repository';
-
 import { SubjectOutDto } from '../subject/dtos/subject-out.dto';
+import { Subject } from '../subject/subject.entity';
+import { SubjectRepository } from '../subject/subject.repository';
+import { User } from '../user/user.entity';
+
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
 import { InformationOutDto } from './dtos/information-out.dto';
-import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
-import { PopulateSubject } from '../../modules/subject/populate-subject.interceptor';
-import { PopulateInformation } from '../../modules/information/populate-information.interceptor';
 import { UpdateInformationInDto } from './dtos/update-information-in.dto';
+import { Information } from './information.entity';
+import { InformationRepository } from './information.repository';
+import { InformationService } from './information.service';
 
 @Controller('information')
 @UseInterceptors(ClassSerializerInterceptor)

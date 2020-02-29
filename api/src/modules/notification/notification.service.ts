@@ -1,10 +1,11 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Not, IsNull } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
 import { User } from '../user/user.entity';
+
 import { Notification } from './notification.entity';
 
 @Injectable()

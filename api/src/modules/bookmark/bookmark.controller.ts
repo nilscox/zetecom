@@ -1,34 +1,35 @@
 import {
+  ConflictException,
   Controller,
+  Delete,
   Get,
-  UseGuards,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  Param,
   ParseIntPipe,
   Post,
-  Param,
-  Delete,
-  ConflictException,
-  NotFoundException,
-  HttpStatus,
-  HttpCode,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 
-import { IsAuthenticated } from 'Common/auth.guard';
-import { PaginatedOutput } from 'Common/output.interceptor';
 import { AuthUser } from 'Common/auth-user.decorator';
+import { IsAuthenticated } from 'Common/auth.guard';
+import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
+import { OptionalQuery } from 'Common/optional-query.decorator';
+import { PaginatedOutput } from 'Common/output.interceptor';
+import { PageQuery } from 'Common/page-query.decorator';
+import { Paginated } from 'Common/paginated';
+import { SearchQuery } from 'Common/search-query.decorator';
 
 import { ReactionWithInformationOutDto } from '../reaction/dtos/reaction-out.dto';
-import { User } from '../user/user.entity';
-import { Reaction } from '../reaction/reaction.entity';
-import { Paginated } from 'Common/paginated';
-import { OptionalQuery } from 'Common/optional-query.decorator';
-import { BookmarkService } from './bookmark.service';
-import { BookmarkRepository } from './bookmark.repository';
-import { ReactionRepository } from '../reaction/reaction.repository';
 import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
-import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
-import { PageQuery } from 'Common/page-query.decorator';
-import { SearchQuery } from 'Common/search-query.decorator';
+import { Reaction } from '../reaction/reaction.entity';
+import { ReactionRepository } from '../reaction/reaction.repository';
+import { User } from '../user/user.entity';
+
+import { BookmarkRepository } from './bookmark.repository';
+import { BookmarkService } from './bookmark.service';
 
 @Controller('bookmark')
 export class BookmarkController {

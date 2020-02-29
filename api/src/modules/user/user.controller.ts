@@ -1,26 +1,26 @@
 import {
+  ClassSerializerInterceptor,
   Controller,
   Get,
-  Put,
+  NotFoundException,
   Param,
   ParseIntPipe,
-  UseInterceptors,
-  UseGuards,
-  ClassSerializerInterceptor,
-  NotFoundException,
+  Put,
   UploadedFile,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { AuthUser } from 'Common/auth-user.decorator';
-import { Output } from 'Common/output.interceptor';
 import { IsAuthenticated } from 'Common/auth.guard';
+import { Output } from 'Common/output.interceptor';
 
-import { multerStorage, AvatarService } from '../avatar/avatar.service';
+import { AvatarService, multerStorage } from '../avatar/avatar.service';
 
-import { UserService } from './user.service';
-import { User } from './user.entity';
 import { UserOutDto } from './dtos/user-out.dto';
+import { User } from './user.entity';
+import { UserService } from './user.service';
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)

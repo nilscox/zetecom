@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { getCustomRepository, getRepository } from 'typeorm';
 
 import { TransformInterceptor } from '../../common/transform.interceptor';
-import { Reaction } from './reaction.entity';
-import { getCustomRepository, getRepository } from 'typeorm';
-import { ReactionRepository } from './reaction.repository';
-import { QuickReactionType } from './quick-reaction.entity';
 import { BookmarkRepository } from '../bookmark/bookmark.repository';
 import { Subscription } from '../subscription/subscription.entity';
 import { User } from '../user/user.entity';
+
+import { QuickReactionType } from './quick-reaction.entity';
+import { Reaction } from './reaction.entity';
+import { ReactionRepository } from './reaction.repository';
 
 @Injectable()
 export class PopulateReaction extends TransformInterceptor<Reaction> {

@@ -3,7 +3,7 @@ import { DeepPartial, getManager } from 'typeorm';
 import { Message } from '../../modules/reaction/message.entity';
 
 export const createMessage = async (data: DeepPartial<Message> = {}) => {
-  const manager = await getManager();
+  const manager = getManager();
 
   const message = manager.create(Message, {
     text: 'Text',

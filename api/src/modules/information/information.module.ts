@@ -1,15 +1,14 @@
-import { Module, forwardRef, Provider } from '@nestjs/common';
+import { forwardRef, Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { SubjectModule } from '../subject/subject.module';
 import { ReactionModule } from '../reaction/reaction.module';
+import { SubjectModule } from '../subject/subject.module';
 
 import { InformationController } from './information.controller';
-import { InformationService } from './information.service';
-
-import { YoutubeService } from './youtube.service';
 import { InformationRepository } from './information.repository';
+import { InformationService } from './information.service';
 import { PopulateInformation } from './populate-information.interceptor';
+import { YoutubeService } from './youtube.service';
 
 const INFORMATION_PAGE_SIZE = 'INFORMATION_PAGE_SIZE';
 const InformationPageSize: Provider = {

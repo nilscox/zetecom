@@ -1,24 +1,24 @@
 import {
-  Controller,
-  Res,
-  Get, Post, Query,
-  HttpCode,
-  Session, Body,
-  UseInterceptors, UseGuards,
+Body,
   ClassSerializerInterceptor,
-} from '@nestjs/common';
+  Controller,
+  Get,   HttpCode,
+Post, Query,
+  Res,
+  Session, UseGuards,
+  UseInterceptors, } from '@nestjs/common';
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
 import { Output } from 'Common/output.interceptor';
 
-import { UserService } from '../user/user.service';
-import { User } from '../user/user.entity';
 import { UserOutDto } from '../user/dtos/user-out.dto';
+import { User } from '../user/user.entity';
+import { UserService } from '../user/user.service';
 
 import { AuthenticationService } from './authentication.service';
-import { SignupUserInDto } from './dtos/signup-user-in.dto';
 import { LoginUserInDto } from './dtos/login-user-in.dto';
+import { SignupUserInDto } from './dtos/signup-user-in.dto';
 import { TokenLoginInDto } from './dtos/token-login-in.dto';
 
 const {

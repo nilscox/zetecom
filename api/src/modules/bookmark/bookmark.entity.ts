@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, OneToMany, ManyToOne, CreateDateColumn, JoinColumn } from 'typeorm';
-import { User } from '../user/user.entity';
+import { CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
 import { Reaction } from '../reaction/reaction.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Bookmark {

@@ -2,12 +2,12 @@ import { DeepPartial, getManager } from 'typeorm';
 
 import { Reaction } from '../../modules/reaction/reaction.entity';
 
-import { createUser } from './user.factory';
 import { createInformation } from './information.factory';
 import { createMessage } from './message.factory';
+import { createUser } from './user.factory';
 
 export const createReaction = async (data: DeepPartial<Reaction> = {}) => {
-  const manager = await getManager();
+  const manager = getManager();
 
   if (!data.information)
     data.information = await createInformation();

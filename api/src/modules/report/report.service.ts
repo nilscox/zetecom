@@ -4,7 +4,8 @@ import { Repository } from 'typeorm';
 
 import { Reaction } from '../reaction/reaction.entity';
 import { User } from '../user/user.entity';
-import { ReportType, Report } from './report.entity';
+
+import { Report, ReportType } from './report.entity';
 
 @Injectable()
 export class ReportService {

@@ -5,7 +5,7 @@ import { Information } from '../../modules/information/information.entity';
 import { createUser } from './user.factory';
 
 export const createInformation = async (data: DeepPartial<Information> = {}) => {
-  const manager = await getManager();
+  const manager = getManager();
 
   if (!data.creator)
     data.creator = await createUser();

@@ -1,46 +1,45 @@
 import {
-  Controller,
-  Get, Post, Put,
-  Param, Body,
-  ParseIntPipe,
-  UseInterceptors, UseGuards,
-  NotFoundException,
   BadRequestException,
+Body,
   ConflictException,
-  Inject,
-  HttpCode,
+  Controller,
+  Get,   HttpCode,
   HttpStatus,
-} from '@nestjs/common';
+  Inject,
+  NotFoundException,
+  Param,   ParseIntPipe,
+Post, Put,
+UseGuards,
+  UseInterceptors, } from '@nestjs/common';
 
+import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
 import { IsAuthor, IsNotAuthor } from 'Common/is-author.guard';
-import { AuthUser } from 'Common/auth-user.decorator';
+import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { Output, PaginatedOutput } from 'Common/output.interceptor';
-import { PopulateReaction } from './populate-reaction.interceptor';
+import { PageQuery } from 'Common/page-query.decorator';
+import { Paginated } from 'Common/paginated';
+import { SearchQuery } from 'Common/search-query.decorator';
+import { SortType } from 'Common/sort-type';
 
-import { User } from '../user/user.entity';
-import { Reaction } from './reaction.entity';
-import { Subject } from '../subject/subject.entity';
-
-import { ReactionService } from './reaction.service';
-import { ReactionRepository } from './reaction.repository';
-import { SubjectService } from '../subject/subject.service';
+import { InformationService } from '../information/information.service';
+import { ReportInDto } from '../report/dtos/report-in.dto';
 import { ReportService } from '../report/report.service';
+import { Subject } from '../subject/subject.entity';
+import { SubjectService } from '../subject/subject.service';
+import { SubscriptionService } from '../subscription/subscription.service';
+import { User } from '../user/user.entity';
 
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
-import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
+import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
 import { ReactionOutDto, ReactionWithInformationOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
-import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
-import { ReportInDto } from '../report/dtos/report-in.dto';
-import { Paginated } from 'Common/paginated';
-import { SortType } from 'Common/sort-type';
-import { InformationService } from '../information/information.service';
-import { SubscriptionService } from '../subscription/subscription.service';
-import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
-import { PageQuery } from 'Common/page-query.decorator';
-import { SearchQuery } from 'Common/search-query.decorator';
+import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
+import { PopulateReaction } from './populate-reaction.interceptor';
+import { Reaction } from './reaction.entity';
+import { ReactionRepository } from './reaction.repository';
+import { ReactionService } from './reaction.service';
 
 @Controller('/reaction')
 export class ReactionController {

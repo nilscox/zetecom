@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { getConnection } from 'typeorm';
 import fetch from 'node-fetch';
+import { getConnection } from 'typeorm';
 
 const { EXTENSION_URL, WEBSITE_URL } = process.env;
 

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { EmailService } from './email.service';
 import { AuthorizedEmail } from './authorized-email.entity';
 import { UserController } from './email.controller';
+import { EmailService } from './email.service';
 
 @Module({
   imports: [

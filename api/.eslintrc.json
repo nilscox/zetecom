@@ -10,21 +10,52 @@
     "es6": true
   },
   "plugins": [
+    "autofix",
+    "import",
+    "simple-import-sort",
     "@typescript-eslint"
   ],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["src", "./src"],
+          ["Common", "./src/common"]
+        ],
+        "extensions": [".js", ".ts", ".json"]
+      }
+    }
+  },
   "extends": [
     "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   "rules": {
+    "comma-spacing": "error",
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
-    "object-curly-spacing": ["error", "always"],
+    "sort-imports": "off",
+    "space-infix-ops": "error",
+    "import/order": "off",
+    "simple-import-sort/sort": ["warn", {
+      "groups": [
+        ["^(path|fs)$"],
+        ["^@nest", "^[a-z]"],
+        ["^[A-Z]"],
+        ["^src/"],
+        ["^../"],
+        ["^./"]
+      ]
+    }],
     "@typescript-eslint/require-await": "off",
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "autofix/no-unused-vars": "error"
   }
 }

@@ -2,11 +2,11 @@ import { DeepPartial, getManager } from 'typeorm';
 
 import { Bookmark } from '../../modules/bookmark/bookmark.entity';
 
-import { createUser } from './user.factory';
 import { createReaction } from './reaction.factory';
+import { createUser } from './user.factory';
 
 export const createBookmark = async (data: DeepPartial<Bookmark> = {}) => {
-  const manager = await getManager();
+  const manager = getManager();
 
   if (!data.user)
     data.user = await createUser();

@@ -1,7 +1,7 @@
-import { Entity, Column, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { User } from '../user/user.entity';
 import { Subject } from '../subject/subject.entity';
+import { User } from '../user/user.entity';
 
 @Entity({ name: 'information', orderBy: { created: 'ASC' } })
 export class Information {

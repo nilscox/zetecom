@@ -1,16 +1,16 @@
 import * as request from 'supertest';
 import { getCustomRepository } from 'typeorm';
 
-import { BookmarkModule } from './bookmark.module';
-import { AuthenticationModule } from '../authentication/authentication.module';
-
-import { setupE2eTest, createAuthenticatedUser } from '../../testing/setup-e2e-test';
-import { BookmarkRepository } from './bookmark.repository';
-import { createReaction } from '../../testing/factories/reaction.factory';
 import { createBookmark } from '../../testing/factories/bookmark.factory';
-import { Reaction } from '../reaction/reaction.entity';
 import { createInformation } from '../../testing/factories/information.factory';
+import { createReaction } from '../../testing/factories/reaction.factory';
+import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
+import { AuthenticationModule } from '../authentication/authentication.module';
 import { Information } from '../information/information.entity';
+import { Reaction } from '../reaction/reaction.entity';
+
+import { BookmarkModule } from './bookmark.module';
+import { BookmarkRepository } from './bookmark.repository';
 
 describe('information controller', () => {
 

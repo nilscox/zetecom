@@ -2,16 +2,16 @@ import { getCustomRepository } from 'typeorm';
 
 import { SortType } from 'Common/sort-type';
 
-import { QuickReactionType } from './quick-reaction.entity';
-import { ReactionRepository } from './reaction.repository';
-
-import { createUser } from '../../testing/factories/user.factory';
 import { createInformation } from '../../testing/factories/information.factory';
+import { createMessage } from '../../testing/factories/message.factory';
+import { createQuickReaction } from '../../testing/factories/quick-reaction.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
 import { createSubject } from '../../testing/factories/subject.factory';
-import { createQuickReaction } from '../../testing/factories/quick-reaction.factory';
+import { createUser } from '../../testing/factories/user.factory';
 import { setupIntgTest } from '../../testing/setup-intg-test';
-import { createMessage } from '../../testing/factories/message.factory';
+
+import { QuickReactionType } from './quick-reaction.entity';
+import { ReactionRepository } from './reaction.repository';
 
 describe('reaction repository', () => {
 

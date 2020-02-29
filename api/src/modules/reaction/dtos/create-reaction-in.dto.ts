@@ -1,4 +1,4 @@
-import { IsEnum, IsOptional, IsString, IsInt, IsIn, MaxLength } from 'class-validator';
+import { IsEnum, IsIn, IsInt, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateReactionInDto {
 

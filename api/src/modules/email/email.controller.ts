@@ -1,19 +1,19 @@
 import {
+  BadRequestException,
+  Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   Post,
-  Body,
   UseInterceptors,
-  ClassSerializerInterceptor,
-  BadRequestException,
 } from '@nestjs/common';
 
 import { Output } from 'Common/output.interceptor';
 
 import { AuthorizedEmail } from './authorized-email.entity';
-import { EmailService } from './email.service';
 import { AuthorizedEmailOutDto } from './dtos/authorized-email-out.dto';
 import { CreateAuthorizedEmailInDto } from './dtos/create-authorized-email-in.dto';
+import { EmailService } from './email.service';
 
 @Controller('email')
 @UseInterceptors(ClassSerializerInterceptor)

@@ -1,11 +1,13 @@
+import { readdirSync, readFileSync } from 'fs';
 import * as path from 'path';
-import { readFileSync, readdirSync } from 'fs';
+
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as email from 'emailjs';
+import { Repository } from 'typeorm';
 
 import { User } from '../user/user.entity';
+
 import { AuthorizedEmail } from './authorized-email.entity';
 
 const {

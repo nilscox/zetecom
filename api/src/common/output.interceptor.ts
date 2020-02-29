@@ -1,9 +1,9 @@
 import {
   ClassSerializerInterceptor,
+  mixin,
   PlainLiteralObject,
   Type,
   UseInterceptors,
-  mixin,
 } from '@nestjs/common';
 
 import { Paginated } from './paginated';
