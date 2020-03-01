@@ -8,17 +8,18 @@ import { UserLight } from 'src/types/User';
 import { useTheme } from 'src/utils/Theme';
 
 type UserAvatarNickProps = {
+  small?: boolean;
   user: UserLight;
 };
 
-const UserAvatarNick: React.FC<UserAvatarNickProps> = ({ user }) => {
+const UserAvatarNick: React.FC<UserAvatarNickProps> = ({ small, user }) => {
   const { sizes: { big } } = useTheme();
 
   return (
     <Flex flexDirection="row" alignItems="center">
-      <UserAvatar editable user={user} />
+      <UserAvatar editable small={small} user={user} />
       <Box ml={big}>
-        <Text size="big" bold>{ user.nick }</Text>
+        <Text bold>{ user.nick }</Text>
       </Box>
     </Flex>
   );
