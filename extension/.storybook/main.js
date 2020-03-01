@@ -25,8 +25,6 @@ module.exports = {
     config.resolve.alias['react-dom'] = '@hot-loader/react-dom';
     config.resolve.alias.src = path.resolve(__dirname, '..', 'src');
 
-    console.dir(config, { depth: null });
-
     return config;
   },
 

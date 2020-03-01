@@ -1,12 +1,18 @@
 import React from 'react';
 
-import { Reaction } from 'src/types/Reaction';
+import axios, { AxiosRequestConfig } from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+
+import { Reaction, QuickReactionType } from 'src/types/Reaction';
 import { parseUser } from 'src/types/User';
 import { UserProvider } from 'src/utils/UserContext';
 
 import ReactionContainer from './ReactionContainer';
+import ReactionsList from './ReactionsList';
 
 export default { title: 'Reaction' };
+
+const mockAxios = new MockAdapter(axios);
 
 const reaction: Reaction = {
   id: 1,
@@ -37,7 +43,7 @@ const lorem = [
   'Id volutpat lacus laoreet non curabitur gravida arcu ac. Velit dignissim sodales ut eu sem integer vitae justo eget. Auctor urna nunc id cursus metus aliquam eleifend mi in. Purus in mollis nunc sed id semper. Et egestas quis ipsum suspendisse ultrices. Quis commodo odio aenean sed adipiscing diam donec adipiscing tristique. In nulla posuere sollicitudin aliquam ultrices sagittis. Maecenas volutpat blandit aliquam etiam erat velit. Arcu dictum varius duis at consectetur lorem donec. Diam vulputate ut pharetra sit amet aliquam id diam maecenas.',
   'Ultricies lacus sed turpis tincidunt id aliquet risus. Ultrices vitae auctor eu augue ut. Proin fermentum leo vel orci porta. Eget egestas purus viverra accumsan in nisl nisi. Amet purus gravida quis blandit turpis cursus in. Donec et odio pellentesque diam volutpat commodo sed egestas. Faucibus interdum posuere lorem ipsum dolor sit amet consectetur adipiscing. Imperdiet proin fermentum leo vel orci. Magnis dis parturient montes nascetur ridiculus. Mi in nulla posuere sollicitudin aliquam ultrices sagittis. Parturient montes nascetur ridiculus mus mauris. Volutpat blandit aliquam etiam erat velit. Eu sem intger vitae justo eget.',
   'Lobortis feugiat vivamus at augue. Blandit libero volutpat sed cras. Ultrices neque ornare aenean euismod elementum nisi quis eleifend. Et molestie ac feugiat sed lectus vestibulum. Lorem ipsum dolor sit amet. Venenatis tellus in metus vulputate eu scelerisque. Nascetur ridiculus mus mauris vitae ultricies leo integer malesuada. Vulputate mi sit amet mauris commodo. Ultricies lacus sed turpis tincidunt id. Mi ipsum faucibus vitae aliquet nec. Cras fermentum odio eu feugiat pretium nibh. Hendrerit gravida rutrum quisque non tellus orci ac auctor augue. Elit ullamcorper dignissim cras tincidunt lobortis feugia vivamus at. Lacus viverra vitae congue eu consequat. Quis ipsum suspendisse ultrices gravida dictum fusce ut placerat orci. Adipiscing commodo elit at imperdiet dui accumsan. Fermentum et sollicitudin ac orci phasellus egestas. Tellus molestie nunc non blandit massa enim. In tellus integer feugiat scelerisque.',
-].join('\n\n');
+];
 /* eslint-enable max-len */
 
 const loremMarkdown = [
@@ -91,7 +97,7 @@ const loremMarkdown = [
   'vana](http://dedit.com/)? [Legem decusque mittere](http://www.visaque.io/)',
   'tabellae, et percussere et auras et lacertos errare tibi? Flenda celeres quid',
   'Minyis; dixi perpetuos inrita decipis cervus. Munere de deus cavae fessum.',
-].join('\n');
+];
 
 export const simpleReaction = () => (
   <UserProvider value={{ user: null, setUser: () => {} }}>
@@ -101,12 +107,66 @@ export const simpleReaction = () => (
 
 export const reactionWithLongText = () => (
   <UserProvider value={{ user: null, setUser: () => {} }}>
-    <ReactionContainer reaction={{ ...reaction, text: lorem }} />
+    <ReactionContainer reaction={{ ...reaction, text: lorem.join('\n\n') }} />
   </UserProvider>
 );
 
 export const reactionWithMarkdown = () => (
   <UserProvider value={{ user: null, setUser: () => {} }}>
-    <ReactionContainer reaction={{ ...reaction, text: loremMarkdown }} />
+    <ReactionContainer reaction={{ ...reaction, text: loremMarkdown.join('\n') }} />
   </UserProvider>
 );
+
+const reactions = [
+  { id: 2, text: lorem[0], quickReactionsCount: { approve: 123, refute: 52, skeptic: 61 } },
+  { id: 3, text: lorem[1], quickReactionsCount: { approve: 14, refute: 8, skeptic: 17 } },
+  { id: 4, text: lorem[2], quickReactionsCount: { approve: 41, refute: 3, skeptic: 66 } },
+  { id: 5, text: lorem[3], quickReactionsCount: { approve: 9, refute: 0, skeptic: 0 } },
+  { id: 6, text: lorem[4], quickReactionsCount: { approve: 241, refute: 111, skeptic: 103 } },
+];
+
+export const reactionsList = () => (
+  <UserProvider value={{ user: null, setUser: () => {} }}>
+    <ReactionsList
+      reactions={reactions.map(extra => ({ ...reaction, ...extra }))}
+      onEdited={() => {}}
+    />
+  </UserProvider>
+);
+
+export const reactionWithReplies = () => {
+  mockAxios.onGet('/api/reaction/1/replies').reply(200, {
+    items: [
+      { ...reaction, ...reactions[0], repliesCount: 1 },
+      { ...reaction, ...reactions[1] },
+    ],
+    total: 2,
+  });
+
+  mockAxios.onGet('/api/reaction/2/replies').reply(200, {
+    items: [{ ...reaction, ...reactions[2] }],
+    total: 1,
+  });
+
+  return (
+    <UserProvider value={{ user: null, setUser: () => {} }}>
+      <ReactionContainer reaction={{ ...reaction, repliesCount: 2 }} />
+    </UserProvider>
+  );
+};
+
+export const reactionLoggedIn = () => {
+  mockAxios.onGet('/api/reaction/1/replies').reply(200, {
+    items: [],
+    total: 0,
+  });
+
+  mockAxios.onPost('/api/reaction').reply(500);
+  mockAxios.onPost('/api/reaction/1/quick-reaction').reply(500);
+
+  return (
+    <UserProvider value={{ user: parseUser({ id: 2, nick: 'Doug Forcett', avatar: null }), setUser: () => {} }}>
+      <ReactionContainer reaction={{ ...reaction, userQuickReaction: QuickReactionType.APPROVE }} />
+    </UserProvider>
+  );
+};

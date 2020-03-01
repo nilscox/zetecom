@@ -64,7 +64,7 @@ type ReactionHeaderProps = {
 };
 
 const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, onEdit, onViewHistory, onReport }) => {
-  const { sizes: { small, medium }, colors: { backgroundLight, borderLight }, borderRadius } = useTheme();
+  const { sizes: { small, medium }, colors: { borderLight }, borderRadius } = useTheme();
   const [displayReportButton, setDisplayReportButton] = useState(false);
   const [showReportButton, hideReportButton] = [true, false].map(v => () => setDisplayReportButton(v));
   const user = useCurrentUser();
@@ -72,7 +72,6 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
   return (
     <div
       style={{
-        background: backgroundLight,
         borderBottom: `1px solid ${borderLight}`,
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,
@@ -81,7 +80,7 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
       }}
     >
 
-      <UserAvatarNick user={author} />
+      <UserAvatarNick small user={author} />
 
       <Flex
         flexDirection="row"

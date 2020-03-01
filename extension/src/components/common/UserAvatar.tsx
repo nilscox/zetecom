@@ -48,11 +48,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ allowedTypes, onUpload, child
 };
 
 type UserAvatarProps = {
+  small?: boolean;
   editable?: boolean;
   user: UserLight;
 };
 
-const UserAvatar: React.FC<UserAvatarProps> = ({ editable = false, user }) => {
+const UserAvatar: React.FC<UserAvatarProps> = ({ small = false, editable = false, user }) => {
   const { user: currentUser, setUser } = useContext(UserContext);
   const { colors: { borderImage } } = useTheme();
 
@@ -85,11 +86,13 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ editable = false, user }) => {
     upload({ data: formData });
   }, [upload]);
 
+  const size = small ? 24 : 32;
+
   const avatarImg = (
     <img
       style={{
-        width: 32,
-        height: 32,
+        width: size,
+        height: size,
         borderRadius: 16,
         border: `1px solid ${borderImage}`,
         opacity: loading ? 0.7 : 1,
