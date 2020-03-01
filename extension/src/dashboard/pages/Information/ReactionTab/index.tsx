@@ -1,19 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
-
-import { Reaction, parseReaction } from 'src/types/Reaction';
-import { SortType } from 'src/types/SortType';
+import ReactionCreationForm from 'src/components/reaction/ReactionForm';
 import ReactionsList from 'src/components/reaction/ReactionsList';
 import Loader from 'src/dashboard/components/Loader';
-import ReactionCreationForm from 'src/components/reaction/ReactionForm';
-
-import AddButton from '../../../components/AddButton';
-import Collapse from '@material-ui/core/Collapse';
-import { useCurrentUser } from 'src/hooks/use-user';
-import useEditableDataset from 'src/hooks/use-editable-dataset';
 import PaginatedList from 'src/dashboard/components/PaginatedList';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
+import useEditableDataset from 'src/hooks/use-editable-dataset';
+import { useCurrentUser } from 'src/hooks/use-user';
+import { parseReaction, Reaction } from 'src/types/Reaction';
+import { SortType } from 'src/types/SortType';
+
+import AddButton from '../../../components/AddButton';
+
+import Collapse from '@material-ui/core/Collapse';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) => {
   return ({

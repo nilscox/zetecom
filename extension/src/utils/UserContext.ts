@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 
-import { User, parseUser } from 'src/types/User';
 import useAxios from 'src/hooks/use-axios';
+import { parseUser, User } from 'src/types/User';
 
 type UserContextValue = {
   user: User | null;

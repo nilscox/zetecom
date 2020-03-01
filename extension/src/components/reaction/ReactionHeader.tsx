@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
+
 import moment from 'moment';
 
-import { Reaction } from 'src/types/Reaction';
-import { useCurrentUser } from 'src/utils/UserContext';
-import { useTheme } from 'src/utils/Theme';
+import Box from 'src/components/common/Box';
 import Button from 'src/components/common/Button';
 import Flex from 'src/components/common/Flex';
-import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
 import UserAvatarNick from 'src/components/common/UserAvatarNick';
+import { Reaction } from 'src/types/Reaction';
+import { useTheme } from 'src/utils/Theme';
+import { useCurrentUser } from 'src/utils/UserContext';
 
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] hh:mm';
 

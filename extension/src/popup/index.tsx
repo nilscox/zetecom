@@ -1,14 +1,15 @@
 import React from 'react';
-import { Route, RouteComponentProps, Switch, Redirect, withRouter } from 'react-router-dom';
 
-import { UserProvider, useUserContext } from 'src/utils/UserContext';
+import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
+
 import Loader from 'src/components/common/Loader';
+import { UserProvider, useUserContext } from 'src/utils/UserContext';
 
 import LoginView from './views/LoginView';
 import LogoutView from './views/LogoutView';
-import SignupView from './views/SignupView';
-import PostSignupView from './views/PostSignupView';
 import PasswordResetView from './views/PasswordResetView';
+import PostSignupView from './views/PostSignupView';
+import SignupView from './views/SignupView';
 
 const Popup: React.FC<RouteComponentProps> = () => {
   const [user, setUser] = useUserContext();

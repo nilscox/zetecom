@@ -1,19 +1,18 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { RouteComponentProps, Redirect } from 'react-router-dom';
-import { AxiosError, AxiosRequestConfig } from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
 
-import { parseUser } from 'src/types/User';
-import UserContext, { useCurrentUser } from 'src/utils/UserContext';
-import { useTheme } from 'src/utils/Theme';
+import { AxiosError, AxiosRequestConfig } from 'axios';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
 
 import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
-
 import useAxios from 'src/hooks/use-axios';
+import { parseUser } from 'src/types/User';
+import { useTheme } from 'src/utils/Theme';
+import UserContext, { useCurrentUser } from 'src/utils/UserContext';
 
+import Form, { FieldErrorsHandler, GlobalErrorHandler, useFormErrors } from '../components/Form';
 import ViewHeader from '../components/ViewHeader';
 import WebsiteLink from '../components/WebsiteLink';
-import Form, { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from '../components/Form';
 
 type AcceptRulesCheckbox = {
   onChange: (value: boolean) => void;
@@ -120,7 +119,7 @@ const SignupView: React.FC<RouteComponentProps> = ({ history }) => {
 
   const [globalError, errors = {}, resetErrors] = useFormErrors(error, getGlobalError, getFieldErrors);
 
-  const submitSignup = async (values: { [field: string]: string }) => signup({
+  const submitSignup = (values: { [field: string]: string }) => signup({
     data: {
       email: values.email,
       password: values.password,

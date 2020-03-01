@@ -1,26 +1,25 @@
 import React from 'react';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles, ThemeProvider, Theme } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import { Switch as RouterSwitch, Route } from 'react-router';
+import { Route, Switch as RouterSwitch } from 'react-router';
 
-import { useUserContext, UserProvider } from 'src/utils/UserContext';
-
-import UserReactions from './pages/UserReactions';
-import Bookmarks from './pages/Bookmarks';
-import Settings from './pages/Settings';
-import Informations from './pages/InformationsList';
-import Information from './pages/Information';
-import Authentication from './pages/Authentication';
-import Notifications from './pages/Notifications';
+import { createTheme } from 'src/utils/createTheme';
+import { UserProvider, useUserContext } from 'src/utils/UserContext';
 
 import AppBar from './components/AppBar';
 import Drawer, { drawerWidth } from './components/Drawer';
 import Loader from './components/Loader';
-
-import { createTheme } from 'src/utils/createTheme';
 import { NotificationsCountProvider } from './contexts/NotificationsCountContext';
+import Authentication from './pages/Authentication';
+import Bookmarks from './pages/Bookmarks';
+import Information from './pages/Information';
+import Informations from './pages/InformationsList';
+import Notifications from './pages/Notifications';
+import Settings from './pages/Settings';
+import UserReactions from './pages/UserReactions';
+
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { makeStyles, Theme, ThemeProvider } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
 
 const theme = createTheme();
 

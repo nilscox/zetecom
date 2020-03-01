@@ -1,27 +1,27 @@
 /* eslint-disable max-lines */
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
-import { useHistory } from 'react-router-dom';
-import { AxiosRequestConfig, AxiosError } from 'axios';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormLabel from '@material-ui/core/FormLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { AxiosError, AxiosRequestConfig } from 'axios';
 import clsx from 'clsx';
+import { useHistory } from 'react-router-dom';
 
-import { Link } from 'src/components/common/Link';
 import Flex from 'src/components/common/Flex';
-
+import { Link } from 'src/components/common/Link';
 import useAxios from 'src/hooks/use-axios';
+// TODO: make it common
+import { FieldErrorsHandler, GlobalErrorHandler, useFormErrors } from 'src/popup/components/Form';
 import { parseUser } from 'src/types/User';
 import UserContext from 'src/utils/UserContext';
-// TODO: make it common
-import { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from 'src/popup/components/Form';
+
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormLabel from '@material-ui/core/FormLabel';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
 const { WEBSITE_URL } = process.env;
 

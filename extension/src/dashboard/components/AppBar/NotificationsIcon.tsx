@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
 
 import Badge from '@material-ui/core/Badge';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import NotificationIcon from '@material-ui/icons/Notifications';
-
-import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
 
 const useStyles = makeStyles((theme: Theme) => ({
   colorPrimary: {

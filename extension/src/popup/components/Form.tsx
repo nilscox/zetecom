@@ -1,11 +1,11 @@
-import React, { useEffect, useState, ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
-import { useTheme } from 'src/utils/Theme';
 import Box from 'src/components/common/Box';
 import Button from 'src/components/common/Button';
+import { useTheme } from 'src/utils/Theme';
 
-import FormInput, { FormInputProps } from './FormInput';
 import FormError from './FormError';
+import FormInput, { FormInputProps } from './FormInput';
 
 export type GlobalErrorHandler = (error: Error) => ReactNode | null;
 export type FieldErrorsHandler = (error: Error) => ({ [key: string]: ReactNode });

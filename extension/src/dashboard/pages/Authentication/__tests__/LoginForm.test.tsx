@@ -1,15 +1,16 @@
 import React from 'react';
 
-import { act, render, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { Router } from 'react-router-dom';
 import { createMemoryHistory, MemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
 
-import mockAxios, { mockAxiosResponseFor, mockAxiosError } from 'src/testing/jest-mock-axios';
-import { UserProvider } from 'src/utils/UserContext';
+import mockAxios, { mockAxiosError, mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 import { User } from 'src/types/User';
+import { UserProvider } from 'src/utils/UserContext';
 
 import LoginForm from '../LoginForm';
+
+import { act, fireEvent, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 const mockUser: User = { id: 1 } as User;
 

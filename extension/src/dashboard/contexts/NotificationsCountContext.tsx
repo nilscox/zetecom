@@ -1,8 +1,8 @@
 import React, { createContext, useEffect } from 'react';
 
 import useAxios from 'src/hooks/use-axios';
-import { parseNotificationsCount } from 'src/types/Notification';
 import { useCurrentUser } from 'src/hooks/use-user';
+import { parseNotificationsCount } from 'src/types/Notification';
 
 type NotificationsCountContextType = {
   count: number;

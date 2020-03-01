@@ -3,9 +3,9 @@ import React from 'react';
 import { Reaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
 
-import ReactionHeader from './ReactionHeader';
 import ReactionBody from './ReactionBody';
 import ReactionFooter from './ReactionFooter';
+import ReactionHeader from './ReactionHeader';
 
 type ReactionProps = {
   reaction: Reaction;

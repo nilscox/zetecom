@@ -1,15 +1,16 @@
 import React from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+
+import RouterLink from 'src/components/common/Link';
+import Loader from 'src/components/common/Loader';
+import Text from 'src/components/common/Text';
+import ReactionContainer from 'src/components/reaction/ReactionContainer';
+import useAxiosPaginated from 'src/hooks/use-axios-paginated';
+import { Information } from 'src/types/Information';
+import { Reaction } from 'src/types/Reaction';
 
 import PaginatedList from './PaginatedList';
-import ReactionContainer from 'src/components/reaction/ReactionContainer';
-import RouterLink from 'src/components/common/Link';
-import Text from 'src/components/common/Text';
-import Loader from 'src/components/common/Loader';
 
-import useAxiosPaginated from 'src/hooks/use-axios-paginated';
-import { Reaction } from 'src/types/Reaction';
-import { Information } from 'src/types/Information';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 type ReactionWithInformationProps = {
   reaction: Reaction;

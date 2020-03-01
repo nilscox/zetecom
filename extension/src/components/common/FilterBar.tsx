@@ -3,9 +3,9 @@ import React from 'react';
 import { SortType } from 'src/types/SortType';
 import { useTheme } from 'src/utils/Theme';
 
+import Box from './Box';
 import Flex from './Flex';
 import Input from './Input';
-import Box from './Box';
 import SortSelect from './SortSelect';
 
 type FilterBarProps = {

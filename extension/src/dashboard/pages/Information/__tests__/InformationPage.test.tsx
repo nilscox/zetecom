@@ -1,19 +1,17 @@
 import React from 'react';
 
-import { render } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-
 import { createMemoryHistory, MemoryHistory } from 'history';
-
-import { Router, Route } from 'react-router-dom';
-
-import { UserProvider } from 'src/utils/UserContext';
+import { Route, Router } from 'react-router-dom';
 
 import { NotificationsCountProvider } from 'src/dashboard/contexts/NotificationsCountContext';
 import mockAxios, { mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 import { User } from 'src/types/User';
+import { UserProvider } from 'src/utils/UserContext';
 
 import InformationPage from '../index';
+
+import '@testing-library/jest-dom/extend-expect';
+import { render } from '@testing-library/react';
 
 jest.mock('src/dashboard/pages/Information/ReactionTab/index', () => ({
   __esModule: true,

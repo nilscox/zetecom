@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { UserLight } from 'src/types/User';
-import { useTheme } from 'src/utils/Theme';
-import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
+import Flex from 'src/components/common/Flex';
 import Text from 'src/components/common/Text';
 import UserAvatar from 'src/components/common/UserAvatar';
+import { UserLight } from 'src/types/User';
+import { useTheme } from 'src/utils/Theme';
 
 type UserAvatarNickProps = {
   user: UserLight;

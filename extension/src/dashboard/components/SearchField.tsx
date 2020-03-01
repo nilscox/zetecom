@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { useDebounce } from 'use-debounce';
 
 import TextField from '@material-ui/core/TextField';
-import { useDebounce } from 'use-debounce';
 
 type SearchFieldProps = {
   onSearch: (text: string) => void;

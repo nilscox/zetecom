@@ -1,11 +1,12 @@
 import React, { ErrorInfo } from 'react';
-import * as Sentry from '@sentry/browser';
 
 import env from 'src/utils/env';
 
-import Text from './Text';
-import Flex from './Flex';
 import Box from './Box';
+import Flex from './Flex';
+import Text from './Text';
+
+import * as Sentry from '@sentry/browser';
 
 const { NODE_ENV } = env;
 

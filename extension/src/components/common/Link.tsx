@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
+
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   link: {

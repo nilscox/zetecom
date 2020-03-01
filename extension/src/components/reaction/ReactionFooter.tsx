@@ -1,21 +1,22 @@
 /* eslint-disable max-lines */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { AxiosRequestConfig } from 'axios';
 
-import IconButton from '@material-ui/core/IconButton';
-import StarIcon from '@material-ui/icons/Star';
-import SubscribeIcon from '@material-ui/icons/Notifications';
-import SubscribeActiveIcon from '@material-ui/icons/NotificationsActive';
-
-import { Reaction, QuickReactionType, QuickReactionsCount, parseReaction } from 'src/types/Reaction';
-import { useCurrentUser } from 'src/utils/UserContext';
-import { useTheme } from 'src/utils/Theme';
-import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
 import Button from 'src/components/common/Button';
+import Flex from 'src/components/common/Flex';
 import Text from 'src/components/common/Text';
 import useAxios from 'src/hooks/use-axios';
+import { parseReaction, QuickReactionsCount, QuickReactionType, Reaction } from 'src/types/Reaction';
+import { useTheme } from 'src/utils/Theme';
+import { useCurrentUser } from 'src/utils/UserContext';
+
+import IconButton from '@material-ui/core/IconButton';
+import SubscribeIcon from '@material-ui/icons/Notifications';
+import SubscribeActiveIcon from '@material-ui/icons/NotificationsActive';
+import StarIcon from '@material-ui/icons/Star';
 
 const VBreak: React.FC = () => {
   const { colors: { borderLight } } = useTheme();

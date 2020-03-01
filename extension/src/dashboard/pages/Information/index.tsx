@@ -1,18 +1,19 @@
 import React, { useContext, useEffect } from 'react';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { Information, parseInformation } from 'src/types/Information';
-import Loader from 'src/dashboard/components/Loader';
 import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
 import { Link } from 'src/components/common/Link';
+import Loader from 'src/dashboard/components/Loader';
+import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
 import useAxios from 'src/hooks/use-axios';
+import { Information, parseInformation } from 'src/types/Information';
+import { InformationProvider } from 'src/utils/InformationContext';
 
 import ReactionsTab from './ReactionTab';
-import { InformationProvider } from 'src/utils/InformationContext';
-import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
+
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useInformation = (id: number) => {
   return useAxios<Information>(`/api/information/${id}`, parseInformation);

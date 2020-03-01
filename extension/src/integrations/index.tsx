@@ -1,14 +1,14 @@
 import React from 'react';
-import { Switch, Route, RouteComponentProps } from 'react-router-dom';
 
-import { UserProvider, useUserContext } from 'src/utils/UserContext';
+import { Route, RouteComponentProps, Switch } from 'react-router-dom';
+
 import Loader from 'src/components/common/Loader';
-
-import UrlIntegration from './UrlIntegration';
-import Youtube from './Youtube';
+import { UserProvider, useUserContext } from 'src/utils/UserContext';
 
 import ReactionHistoryPopup from './popups/ReactionHistoryPopup';
 import ReportPopup from './popups/ReportPopup';
+import UrlIntegration from './UrlIntegration';
+import Youtube from './Youtube';
 
 const Integrations: React.FC<RouteComponentProps> = () => {
   const [user, setUser] = useUserContext();

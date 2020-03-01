@@ -1,21 +1,21 @@
 /* eslint-disable max-lines */
 import React from 'react';
 
-import { render, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom/extend-expect';
-
 import { createMemoryHistory, MemoryHistory } from 'history';
-import { Router, Switch, Route } from 'react-router-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 
-import { UserProvider } from 'src/utils/UserContext';
 import { NotificationsCountProvider } from 'src/dashboard/contexts/NotificationsCountContext';
 import mockAxios, { mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 import { User } from 'src/types/User';
+import { UserProvider } from 'src/utils/UserContext';
 
 import Notifications from '../index';
 
 import mockedNotifications from './mock.json';
+
+import '@testing-library/jest-dom/extend-expect';
+import { act, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 const mockUser: User = { id: 1 } as User;
 

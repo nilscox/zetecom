@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { useTheme } from 'src/utils/Theme';
 import Flex from 'src/components/common/Flex';
 import Input, { InputProps } from 'src/components/common/Input';
+import { useTheme } from 'src/utils/Theme';
 
 import FormError from './FormError';
 

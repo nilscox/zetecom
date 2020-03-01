@@ -1,4 +1,5 @@
-import { useMemo, useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+
 import { AxiosRequestConfig } from 'axios';
 import useAxiosHook from 'axios-hooks';
 

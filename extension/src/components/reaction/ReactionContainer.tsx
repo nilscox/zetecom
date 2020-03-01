@@ -1,22 +1,23 @@
 /* eslint-disable max-lines */
 
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { AxiosRequestConfig } from 'axios';
 
-import { Reaction, parseReaction } from 'src/types/Reaction';
-import env from 'src/utils/env';
-import { useTheme } from 'src/utils/Theme';
+import Collapse from 'src/components/common/Collapse';
 import Flex from 'src/components/common/Flex';
 import Loader from 'src/components/common/Loader';
-import Collapse from 'src/components/common/Collapse';
 import useAxios from 'src/hooks/use-axios';
-import { usePaginatedResults, Paginated } from 'src/utils/parse-paginated';
 import useEditableDataset from 'src/hooks/use-editable-dataset';
 import useUpdateEffect from 'src/hooks/use-update-effect';
+import { parseReaction, Reaction } from 'src/types/Reaction';
+import env from 'src/utils/env';
+import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
+import { useTheme } from 'src/utils/Theme';
 
 import ReactionComponent from './Reaction';
-import ReactionsList from './ReactionsList';
 import ReactionForm, { ReactionEditionForm } from './ReactionForm';
+import ReactionsList from './ReactionsList';
 
 export const useReactionReplies = (parent: Reaction) => {
   const [page, setPage] = useState(0);

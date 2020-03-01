@@ -1,5 +1,5 @@
-import { Subscription, parseSubscription } from './Subscription';
-import { User, parseUser } from './User';
+import { parseSubscription, Subscription } from './Subscription';
+import { parseUser, User } from './User';
 
 export type Notification = {
   id: number;

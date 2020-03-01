@@ -1,12 +1,13 @@
 import React from 'react';
+
 import { hot } from 'react-hot-loader/root';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import ErrorBoundary from 'src/components/common/ErrorBoundary';
 
-import Popup from './popup';
-import Integrations from './integrations';
 import Dashboard from './dashboard';
+import Integrations from './integrations';
+import Popup from './popup';
 
 import './App.css';
 

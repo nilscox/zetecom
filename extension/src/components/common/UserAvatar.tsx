@@ -1,10 +1,11 @@
 import React, { useCallback, useContext, useEffect } from 'react';
+
 import { AxiosRequestConfig } from 'axios';
 
-import { UserLight, parseUser } from 'src/types/User';
-import UserContext from 'src/utils/UserContext';
-import { useTheme } from 'src/utils/Theme';
 import useAxios from 'src/hooks/use-axios';
+import { parseUser, UserLight } from 'src/types/User';
+import { useTheme } from 'src/utils/Theme';
+import UserContext from 'src/utils/UserContext';
 
 type ImageUploadProps = {
   allowedTypes: string[];

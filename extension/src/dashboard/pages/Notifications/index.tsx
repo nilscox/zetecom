@@ -1,12 +1,14 @@
 import React from 'react';
-import { useHistory, useLocation, Switch, Route } from 'react-router-dom';
 
-import Typography from '@material-ui/core/Typography';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import Authenticated from '../../components/Authenticated';
+
 import NotificationsList from './NotificationsList';
+
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Typography from '@material-ui/core/Typography';
 
 const Notifications: React.FC = () => {
   const history = useHistory();

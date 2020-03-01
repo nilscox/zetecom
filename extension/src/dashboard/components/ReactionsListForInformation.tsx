@@ -1,14 +1,15 @@
 import React from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles';
 
-import PaginatedList from './PaginatedList';
-import Loader from './Loader';
-import ReactionContainer from 'src/components/reaction/ReactionContainer';
-import RouterLink from 'src/components/common/Link';
 import Flex from 'src/components/common/Flex';
-
+import RouterLink from 'src/components/common/Link';
+import ReactionContainer from 'src/components/reaction/ReactionContainer';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { Reaction } from 'src/types/Reaction';
+
+import Loader from './Loader';
+import PaginatedList from './PaginatedList';
+
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {

@@ -1,22 +1,21 @@
 /* eslint-disable max-lines */
 
-import React, { forwardRef, useImperativeHandle, useCallback, useState, useEffect } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 import clsx from 'clsx';
 
-import { Reaction, parseReaction } from 'src/types/Reaction';
-import { useCurrentUser } from 'src/utils/UserContext';
-import { useInformation } from 'src/utils/InformationContext';
-import { useTheme } from 'src/utils/Theme';
-import useAxios from 'src/hooks/use-axios';
-
-import Button from 'src/components/common/Button';
 import Box from 'src/components/common/Box';
+import Button from 'src/components/common/Button';
 import Flex from 'src/components/common/Flex';
+import MarkdownMessageEdition from 'src/components/common/MarkdownMessageEdition';
 import Text from 'src/components/common/Text';
 import UserAvatarNick from 'src/components/common/UserAvatarNick';
-import MarkdownMessageEdition from 'src/components/common/MarkdownMessageEdition';
+import useAxios from 'src/hooks/use-axios';
+import { parseReaction, Reaction } from 'src/types/Reaction';
+import { useInformation } from 'src/utils/InformationContext';
+import { useTheme } from 'src/utils/Theme';
+import { useCurrentUser } from 'src/utils/UserContext';
 
 type FormHeaderProps = {
   closeForm?: () => void;

@@ -1,9 +1,9 @@
 import React from 'react';
+
 import { RouteComponentProps } from 'react-router-dom';
 
 import ReactionsListForInformation from 'src/dashboard/components/ReactionsListForInformation';
 import ReactionsListWithInformation from 'src/dashboard/components/ReactionsListWithInformation';
-
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import useQueryString from 'src/hooks/use-query-string';
 import { parseReaction } from 'src/types/Reaction';

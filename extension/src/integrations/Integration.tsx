@@ -1,13 +1,14 @@
 import React from 'react';
-import { HashRouter as Router, Route, Redirect } from 'react-router-dom';
 
+import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
+
+import Flex from 'src/components/common/Flex';
+import Text from 'src/components/common/Text';
 import { Information } from 'src/types/Information';
 import { InformationProvider } from 'src/utils/InformationContext';
 import { useTheme } from 'src/utils/Theme';
 
 import StandaloneReactionsPage from './pages/StandaloneReactionsPage';
-import Flex from 'src/components/common/Flex';
-import Text from 'src/components/common/Text';
 
 const Header: React.FC = () => {
   const { fontSizes, colors, sizes } = useTheme();

@@ -1,9 +1,10 @@
 import React from 'react';
+
 import { RouteComponentProps } from 'react-router-dom';
 
-import { useTheme } from 'src/utils/Theme';
 import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
+import { useTheme } from 'src/utils/Theme';
 
 const PasswordResetView: React.FC<RouteComponentProps> = () => {
   const { sizes: { big } } = useTheme();

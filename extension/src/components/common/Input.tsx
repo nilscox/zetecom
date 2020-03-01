@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { useTheme } from 'src/utils/Theme';
 import FormError from 'src/components/common/FormError';
+import { useTheme } from 'src/utils/Theme';
 
 export type InputProps = React.HTMLProps<HTMLInputElement> & {
   fullWidth?: boolean;

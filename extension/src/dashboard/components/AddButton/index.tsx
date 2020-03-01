@@ -1,9 +1,9 @@
 import React from 'react';
 
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Zoom from '@material-ui/core/Zoom';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: {

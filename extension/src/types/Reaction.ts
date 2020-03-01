@@ -1,5 +1,5 @@
-import { UserLight, parseUser } from './User';
 import { Information, parseInformation } from './Information';
+import { parseUser, UserLight } from './User';
 
 export enum QuickReactionType {
   APPROVE = 'approve',

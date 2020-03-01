@@ -1,15 +1,16 @@
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 
-import { parseInformation, Information } from 'src/types/Information';
-import RouterLink from 'src/components/common/Link';
-import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
+import Flex from 'src/components/common/Flex';
+import RouterLink from 'src/components/common/Link';
+import useAxiosPaginated from 'src/hooks/use-axios-paginated';
+import { Information, parseInformation } from 'src/types/Information';
 
 import PaginatedList from '../components/PaginatedList';
-import useAxiosPaginated from 'src/hooks/use-axios-paginated';
+
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   image: {
