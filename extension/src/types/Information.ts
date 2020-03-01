@@ -7,7 +7,6 @@ export type Information = {
   imageUrl: string | null;
   creator?: Partial<User>;
   reactionsCount: number;
-  subjectsCount: number;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

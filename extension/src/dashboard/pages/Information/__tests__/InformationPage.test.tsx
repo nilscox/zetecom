@@ -34,7 +34,6 @@ const mockInformation: any = {
     avatar: null,
   },
   reactionsCount: 0,
-  subjectsCount: 0,
 };
 
 describe('InformationPage', () => {
