@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { InformationModule } from '../information/information.module';
 import { ReportModule } from '../report/report.module';
-import { SubjectModule } from '../subject/subject.module';
 import { SubscriptionModule } from '../subscription/subscription.module';
 
 import { Message } from './message.entity';
@@ -23,7 +22,6 @@ const ReactionPageSize: Provider = {
   imports: [
     TypeOrmModule.forFeature([ReactionRepository, Message, QuickReaction]),
     forwardRef(() => InformationModule),
-    forwardRef(() => SubjectModule),
     ReportModule,
     SubscriptionModule,
   ],

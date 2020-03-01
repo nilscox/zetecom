@@ -7,7 +7,6 @@ import { createBookmark } from '../../testing/factories/bookmark.factory';
 import { createInformation } from '../../testing/factories/information.factory';
 import { createMessage } from '../../testing/factories/message.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
-import { createSubject } from '../../testing/factories/subject.factory';
 import { createSubscription } from '../../testing/factories/subscription.factory';
 import { createUser } from '../../testing/factories/user.factory';
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
@@ -381,43 +380,6 @@ describe('reaction controller', () => {
       const reactionDb = await reactionRepository.findOne(body.id);
 
       expect(reactionDb).toBeDefined();
-    });
-
-    it('should not create with unexisting subject', () => {
-      const reaction = makeReaction(information.id);
-      reaction.subjectId = 404;
-
-      return authRequest
-        .post('/api/reaction')
-        .send(reaction)
-        .expect(400);
-    });
-
-    it('should not create with subjectId not matching informationId', async () => {
-      const subject = await createSubject();
-      const reaction = makeReaction(information.id);
-      reaction.subjectId = subject.id;
-
-      return authRequest
-        .post('/api/reaction')
-        .send(reaction)
-        .expect(400);
-    });
-
-    it('should create a reaction attached to a subject', async () => {
-      const subject = await createSubject({ information });
-      const reaction = makeReaction(information.id);
-      reaction.subjectId = subject.id;
-
-      const { body } = await authRequest
-        .post('/api/reaction')
-        .send(reaction)
-        .expect(201);
-
-      const reactionDb = await reactionRepository.findOne(body.id, { relations: ['subject'] });
-
-      expect(reactionDb).toBeDefined();
-      expect(reactionDb.subject).toMatchObject({ id: subject.id });
     });
 
   });

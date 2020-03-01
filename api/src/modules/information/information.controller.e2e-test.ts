@@ -4,12 +4,10 @@ import { getCustomRepository } from 'typeorm';
 import { createInformation } from '../../testing/factories/information.factory';
 import { createMessage } from '../../testing/factories/message.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
-import { createSubject } from '../../testing/factories/subject.factory';
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { Message } from '../reaction/message.entity';
 import { Reaction } from '../reaction/reaction.entity';
-import { Subject } from '../subject/subject.entity';
 
 import { Information } from './information.entity';
 import { InformationModule } from './information.module';
@@ -22,8 +20,6 @@ describe('information controller', () => {
   }, moduleBuilder => {
     moduleBuilder
       .overrideProvider('INFORMATION_PAGE_SIZE')
-      .useValue(2)
-      .overrideProvider('SUBJECT_PAGE_SIZE')
       .useValue(2)
       .overrideProvider('REACTION_PAGE_SIZE')
       .useValue(2);
@@ -46,11 +42,6 @@ describe('information controller', () => {
   let message5: Message;
   let reaction5: Reaction;
 
-  let subject1: Subject;
-  let subject2: Subject;
-  let subject3: Subject;
-  let subject4: Subject;
-
   let message6: Message;
   let reaction6: Reaction;
   let reaction7: Reaction;
@@ -64,15 +55,8 @@ describe('information controller', () => {
         - reaction3 (searching message3)
       - reaction4
 
-      - subject1 (subject1 much search)
-        - reaction6 (message6 search)
-      - subject2
-        - reaction7
-      - subject3 (;qjsearchcrl subject3)
-
     - information2
       - reaction5 (message5 search)
-      - subject4 (subject4 search)
 
     - information3
   */
@@ -97,16 +81,7 @@ describe('information controller', () => {
     message5 = await createMessage({ text: 'message5 search' });
     reaction5 = await createReaction({ information: information2, messages: [message5] });
 
-    subject1 = await createSubject({ information: information1, subject: 'subject1 much search' });
-    subject2 = await createSubject({ information: information1 });
-    subject3 = await createSubject({ information: information1, subject: ';qjsearchcrl subject3' });
-
-    subject4 = await createSubject({ information: information2, subject: 'subject4 search' });
-
     message6 = await createMessage({ text: 'message6 search' });
-    reaction6 = await createReaction({ information: information1, subject: subject1, messages: [message6] });
-
-    reaction7 = await createReaction({ information: information1, subject: subject2 });
   });
 
   describe('list informations', () => {
@@ -118,8 +93,8 @@ describe('information controller', () => {
         .then(({ body }) => {
           expect(body).toMatchObject({
             items: [
-              { id: information1.id, subjectsCount: 3, reactionsCount: 6 },
-              { id: information2.id, subjectsCount: 1, reactionsCount: 1 },
+              { id: information1.id, reactionsCount: 4 },
+              { id: information2.id, reactionsCount: 1 },
             ],
             total: 3,
           });
@@ -134,7 +109,7 @@ describe('information controller', () => {
         .then(({ body }) => {
           expect(body).toMatchObject({
             items: [
-              { id: information3.id, subjectsCount: 0, reactionsCount: 0 },
+              { id: information3.id, reactionsCount: 0 },
             ],
             total: 3,
           });
@@ -158,8 +133,7 @@ describe('information controller', () => {
         .then(({ body }) => {
           expect(body).toMatchObject({
             id: information1.id,
-            subjectsCount: 3,
-            reactionsCount: 6,
+            reactionsCount: 4,
           });
         });
     });
@@ -245,62 +219,6 @@ describe('information controller', () => {
             items: [
               { id: reaction3.id },
               { id: reaction1.id },
-            ],
-            total: 2,
-          });
-        });
-    });
-
-  });
-
-  describe('get subjects', () => {
-
-    it('should not find subjects for an information that does not exist', () => {
-      return request(server)
-        .get('/api/information/4/subjects')
-        .expect(404);
-    });
-
-    it('should fetch the subjects', () => {
-      return request(server)
-        .get(`/api/information/${information1.id}/subjects`)
-        .expect(200)
-        .then(({ body }) => {
-          expect(body).toMatchObject({
-            items: [
-              { id: subject1.id },
-              { id: subject2.id },
-            ],
-            total: 3,
-          });
-        });
-    });
-
-    it('should fetch the subjects on page 2', () => {
-      return request(server)
-        .get(`/api/information/${information1.id}/subjects`)
-        .query({ page: 2 })
-        .expect(200)
-        .then(({ body }) => {
-          expect(body).toMatchObject({
-            items: [
-              { id: subject3.id },
-            ],
-            total: 3,
-          });
-        });
-    });
-
-    it('should search in the subjects', () => {
-      return request(server)
-        .get(`/api/information/${information1.id}/subjects`)
-        .query({ search: 'search' })
-        .expect(200)
-        .then(({ body }) => {
-          expect(body).toMatchObject({
-            items: [
-              { id: subject1.id },
-              { id: subject3.id },
             ],
             total: 2,
           });

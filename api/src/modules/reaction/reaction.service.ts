@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Information } from '../information/information.entity';
-import { Subject } from '../subject/subject.entity';
 import { SubscriptionService } from '../subscription/subscription.service';
 import { User } from '../user/user.entity';
 
@@ -36,27 +35,20 @@ export class ReactionService {
     return this.reactionRepository.findOne(id);
   }
 
-  async create(dto: CreateReactionInDto, user: User, information: Information, subject: Subject = null): Promise<Reaction> {
+  async create(dto: CreateReactionInDto, user: User, information: Information): Promise<Reaction> {
     let parent: Reaction | null = null;
 
     if (dto.parentId) {
-      parent = await this.reactionRepository.findOne({
-        id: dto.parentId,
-        subject,
-      });
+      parent = await this.reactionRepository.findOne({ id: dto.parentId });
 
       if (!parent) {
-        if (subject)
-          throw new BadRequestException(`reaction with id ${dto.parentId} and subject ${subject} not found`);
-        else
-          throw new BadRequestException(`standalone reaction with id ${dto.parentId} not found`);
+        throw new BadRequestException(`standalone reaction with id ${dto.parentId} not found`);
       }
     }
 
     const reaction = new Reaction();
     const message = new Message();
 
-    reaction.subject = subject;
     reaction.author = user;
     reaction.information = information;
 

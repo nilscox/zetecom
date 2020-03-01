@@ -1,13 +1,9 @@
-import { IsEnum, IsIn, IsInt, IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsInt, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class CreateReactionInDto {
 
   @IsInt()
   readonly informationId: number;
-
-  @IsInt()
-  @IsOptional()
-  readonly subjectId?: number;
 
   @IsOptional()
   @IsInt()

@@ -87,7 +87,6 @@ export class ReactionRepository extends Repository<Reaction> {
   ): Promise<Paginated<Reaction>> {
     const qb = this.createDefaultQueryBuilder(page, pageSize)
       .where('reaction.information_id = :informationId', { informationId })
-      .andWhere('reaction.subject_id IS NULL')
       .andWhere('reaction.parent_id IS NULL');
 
     this.orderBy(qb, sort);
@@ -106,42 +105,6 @@ export class ReactionRepository extends Repository<Reaction> {
   ): Promise<Paginated<Reaction>> {
     const qb = this.createDefaultQueryBuilder(page, pageSize)
       .where('reaction.information_id = :informationId', { informationId })
-      .andWhere('reaction.subject_id IS NULL')
-      .andWhere('message.text ILIKE :search', { search: `%${search}%` });
-
-    this.orderBy(qb, sort);
-
-    const [items, total] = await qb.getManyAndCount();
-
-    return { items, total };
-  }
-
-  async findRootReactionsForSubject(
-    subjectId: number,
-    sort: SortType,
-    page: number,
-    pageSize: number,
-  ): Promise<Paginated<Reaction>> {
-    const qb = this.createDefaultQueryBuilder(page, pageSize)
-      .where('reaction.subject_id = :subjectId', { subjectId })
-      .andWhere('reaction.parent_id IS NULL');
-
-    this.orderBy(qb, sort);
-
-    const [items, total] = await qb.getManyAndCount();
-
-    return { items, total };
-  }
-
-  async searchInSubject(
-    subjectId: number,
-    search: string,
-    sort: SortType,
-    page: number,
-    pageSize: number,
-  ): Promise<Paginated<Reaction>> {
-    const qb = this.createDefaultQueryBuilder(page, pageSize)
-      .where('reaction.subject_id = :subjectId', { subjectId })
       .andWhere('message.text ILIKE :search', { search: `%${search}%` });
 
     this.orderBy(qb, sort);

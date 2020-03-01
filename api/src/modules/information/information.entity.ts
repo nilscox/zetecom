@@ -1,6 +1,5 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { Subject } from '../subject/subject.entity';
 import { User } from '../user/user.entity';
 
 @Entity({ name: 'information', orderBy: { created: 'ASC' } })
@@ -31,10 +30,6 @@ export class Information {
   @JoinColumn({ name: 'creator_id' })
   creator: User;
 
-  @OneToMany(type => Subject, subject => subject.information)
-  subjects: Subject[];
-
   reactionsCount: number;
-  subjectsCount: number;
 
 }
