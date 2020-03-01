@@ -9,12 +9,21 @@ type DownloadExtensionProps = {
   children: string;
 };
 
-const DownloadExtension: React.FC<DownloadExtensionProps> = ({ children }) => (
-  <div className="download-extension-container">
-    <Link openInNewTab className="download-extension" href={useEnvironment('CHROME_EXTENSION_URL')}>
-      { children }
-    </Link>
-  </div>
-);
+const DownloadExtension: React.FC<DownloadExtensionProps> = ({ children }) => {
+  const extensionUrl = useEnvironment('CHROME_EXTENSION_URL');
+
+  return (
+    <div className="download-extension-container">
+      <Link
+        openInNewTab
+        className="download-extension"
+        href={extensionUrl}
+        title={!extensionUrl ? 'L\'extension sera bientôt disponible !' : undefined}
+      >
+        { children }
+      </Link>
+    </div>
+  );
+};
 
 export default DownloadExtension;
