@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { useTheme } from 'src/utils/Theme';
-import Button from 'src/components/common/Button';
 import Box from 'src/components/common/Box';
+import Button from 'src/components/common/Button';
 import Flex from 'src/components/common/Flex';
 import MarkdownMessage from 'src/components/common/MarkdownMessage';
+import { useTheme } from 'src/utils/Theme';
 
 type TabProps = {
   active: boolean;

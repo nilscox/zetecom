@@ -1,13 +1,14 @@
 import React from 'react';
-import { Switch, Route, useHistory, useParams } from 'react-router-dom';
-import { makeStyles, Theme } from '@material-ui/core/styles';
 
-import Paper from '@material-ui/core/Paper';
-import MaterialTabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { Route, Switch, useHistory, useParams } from 'react-router-dom';
 
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
+
+import Paper from '@material-ui/core/Paper';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import Tab from '@material-ui/core/Tab';
+import MaterialTabs from '@material-ui/core/Tabs';
 
 type TabsProps = {
   currentTab: string;

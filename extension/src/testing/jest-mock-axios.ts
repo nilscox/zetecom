@@ -1,5 +1,6 @@
-import { act, wait } from '@testing-library/react';
 import mockAxios from 'jest-mock-axios';
+
+import { act, wait } from '@testing-library/react';
 
 export const mockAxiosResponse = async (...args: Parameters<typeof mockAxios.mockResponse>) => {
   await act(async () => {

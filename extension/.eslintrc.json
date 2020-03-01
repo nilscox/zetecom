@@ -1,14 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended"
-  ],
   "parserOptions": {
-    "ecmaVersion": 2018,
-    "sourceType": "module"
+    "project": ["./tsconfig.json"]
   },
   "env": {
     "browser": true
@@ -17,13 +10,33 @@
     "process": "readonly"
   },
   "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["src", "./src"]
+        ],
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
+      }
+    },
     "react": {
       "version": "detect"
     }
   },
   "plugins": [
+    "import",
+    "simple-import-sort",
     "@typescript-eslint",
     "react-hooks"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
   ],
   "rules": {
     "no-console": "off",
@@ -60,6 +73,17 @@
     "space-before-function-paren": ["error", { "anonymous": "never", "named": "never", "asyncArrow": "always" }],
     "space-in-parens": "error",
     "nonblock-statement-body-position": ["error", "below"],
+    "import/order": "off",
+    "simple-import-sort/sort": ["warn", {
+      "groups": [
+        ["^react$", "^react-dom$"],
+        ["^[a-z]"],
+        ["^src/"],
+        ["^../"],
+        ["^./"],
+        ["\\.css$", "\\.scss$"]
+      ]
+    }],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/prefer-interface": "off",
     "@typescript-eslint/indent": ["error", 2, { "SwitchCase": 0 }],

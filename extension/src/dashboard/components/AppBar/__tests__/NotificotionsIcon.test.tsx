@@ -1,18 +1,16 @@
 import React from 'react';
 
-import { render } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-
-import { ThemeProvider } from '@material-ui/core/styles';
-
 import { NotificationsCountProvider } from 'src/dashboard/contexts/NotificationsCountContext';
-import { UserProvider } from 'src/utils/UserContext';
-import { createTheme } from 'src/utils/createTheme';
-
 import mockAxios, { mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 import { User } from 'src/types/User';
+import { createTheme } from 'src/utils/createTheme';
+import { UserProvider } from 'src/utils/UserContext';
 
 import NotificationsIcon from '../NotificationsIcon';
+
+import '@testing-library/jest-dom/extend-expect';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { render } from '@testing-library/react';
 
 const mockUser: User = { id: 1 } as User;
 

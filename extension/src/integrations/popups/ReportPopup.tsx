@@ -1,23 +1,22 @@
 /* eslint-disable max-lines */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { RouteComponentProps } from 'react-router';
 
-import { useTheme } from 'src/utils/Theme';
-
-import Break from 'src/components/common/Break';
-import Collapse from 'src/components/common/Collapse';
-import Button, { ButtonProps } from 'src/components/common/Button';
-import Loader from 'src/components/common/Loader';
-import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
+import Break from 'src/components/common/Break';
+import Button, { ButtonProps } from 'src/components/common/Button';
+import Collapse from 'src/components/common/Collapse';
+import Flex from 'src/components/common/Flex';
+import Loader from 'src/components/common/Loader';
+import Select from 'src/components/common/Select';
 import Text from 'src/components/common/Text';
 import TextArea from 'src/components/common/TextArea';
-import Select from 'src/components/common/Select';
-
 import ReactionBody from 'src/components/reaction/ReactionBody';
 import useAxios from 'src/hooks/use-axios';
 import { parseReaction } from 'src/types/Reaction';
+import { useTheme } from 'src/utils/Theme';
 
 const POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT = 3000;
 
@@ -111,7 +110,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
     }
   }, [status, setSuccess]);
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     if (reaction) {
       report({
         url: `/api/reaction/${reaction.id}/report`,

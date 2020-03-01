@@ -1,8 +1,8 @@
 import React from 'react';
 
+import Break from 'src/components/common/Break';
 import { Reaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
-import Break from 'src/components/common/Break';
 
 import ReactionContainer from './ReactionContainer';
 

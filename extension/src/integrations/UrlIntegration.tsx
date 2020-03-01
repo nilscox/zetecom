@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
+
 import { RouteComponentProps } from 'react-router';
 
-import { parseInformation } from 'src/types/Information';
 import Loader from 'src/components/common/Loader';
-
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
+import { parseInformation } from 'src/types/Information';
 
 import Integration from './Integration';
 

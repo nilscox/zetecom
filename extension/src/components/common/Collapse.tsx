@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Collapse as ReactCollapse, CollapseProps as ReactCollapseProps } from 'react-collapse';
 
 type CollapseProps = Omit<ReactCollapseProps, 'isOpened' | 'springConfig'> & {

@@ -1,4 +1,4 @@
-import { User, parseUser } from './User';
+import { parseUser, User } from './User';
 
 export type Information = {
   id: number;

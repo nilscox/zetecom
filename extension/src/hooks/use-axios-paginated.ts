@@ -1,10 +1,11 @@
 import { useState } from 'react';
+
 import { AxiosRequestConfig } from 'axios';
 
 import useAxios, { ResponseData } from 'src/hooks/use-axios';
 import useUpdateEffect from 'src/hooks/use-update-effect';
-import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
 import { SortType } from 'src/types/SortType';
+import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
 
 export default function useAxiosPaginated<T>(url: string, parseItem: (data: ResponseData) => T) {
   const [search, setSearch] = useState('');

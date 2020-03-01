@@ -1,19 +1,17 @@
-import moment from 'moment';
 import React from 'react';
+
+import moment from 'moment';
 import { RouteComponentProps } from 'react-router';
 
+import Box from 'src/components/common/Box';
+import Break from 'src/components/common/Break';
+import Flex from 'src/components/common/Flex';
+import Loader from 'src/components/common/Loader';
+import Text from 'src/components/common/Text';
+import ReactionBody from 'src/components/reaction/ReactionBody';
+import useAxios from 'src/hooks/use-axios';
 import { parseReaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
-
-import Break from 'src/components/common/Break';
-import Loader from 'src/components/common/Loader';
-import Box from 'src/components/common/Box';
-import Flex from 'src/components/common/Flex';
-import Text from 'src/components/common/Text';
-
-import ReactionBody from 'src/components/reaction/ReactionBody';
-
-import useAxios from 'src/hooks/use-axios';
 
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] hh:mm';
 

@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
-import { RouteComponentProps, Redirect } from 'react-router';
-import { AxiosError, AxiosRequestConfig } from 'axios';
 
-import { useTheme } from 'src/utils/Theme';
+import { AxiosError, AxiosRequestConfig } from 'axios';
+import { Redirect, RouteComponentProps } from 'react-router';
+
 import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
+import useAxios from 'src/hooks/use-axios';
+import useUser from 'src/hooks/use-user';
+import { parseUser } from 'src/types/User';
+import { useTheme } from 'src/utils/Theme';
 
 import Form, { useFormErrors } from '../components/Form';
 import ViewHeader from '../components/ViewHeader';
-import useAxios from 'src/hooks/use-axios';
-import { parseUser } from 'src/types/User';
-import useUser from 'src/hooks/use-user';
 
 const getGlobalError = (error: AxiosError) => {
   if (!error || !error.response)

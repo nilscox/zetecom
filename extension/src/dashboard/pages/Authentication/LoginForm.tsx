@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Redirect, useHistory } from 'react-router-dom';
-import { AxiosRequestConfig, AxiosError } from 'axios';
+import { AxiosError, AxiosRequestConfig } from 'axios';
 import clsx from 'clsx';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { Redirect, useHistory } from 'react-router-dom';
 
 import Flex from 'src/components/common/Flex';
-
 import useAxios from 'src/hooks/use-axios';
-import { parseUser } from 'src/types/User';
 import useUser from 'src/hooks/use-user';
-
 // TODO: make it common ?
-import { useFormErrors, GlobalErrorHandler, FieldErrorsHandler } from 'src/popup/components/Form';
+import { FieldErrorsHandler, GlobalErrorHandler, useFormErrors } from 'src/popup/components/Form';
+import { parseUser } from 'src/types/User';
+
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
 // TODO: make it common ?
 const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {

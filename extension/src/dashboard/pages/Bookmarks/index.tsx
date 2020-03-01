@@ -1,15 +1,16 @@
 import React from 'react';
-import { useHistory, useLocation, Switch, Route } from 'react-router-dom';
 
-import Typography from '@material-ui/core/Typography';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
+
+import Box from 'src/components/common/Box';
+import Authenticated from 'src/dashboard/components/Authenticated';
 
 import BookmarksTab from './BookmarksTab';
 import SubscriptionsTab from './SubscriptionsTab';
-import Authenticated from 'src/dashboard/components/Authenticated';
 
-import Box from 'src/components/common/Box';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Typography from '@material-ui/core/Typography';
 
 const Bookmarks = () => {
   const history = useHistory();

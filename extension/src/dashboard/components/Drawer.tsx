@@ -1,21 +1,23 @@
 import React, { useEffect } from 'react';
 
-import MaterialDrawer from '@material-ui/core/Drawer';
+import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+
+import Flex from 'src/components/common/Flex';
+import useAxios from 'src/hooks/use-axios';
+import useUser, { useCurrentUser } from 'src/hooks/use-user';
+
 import Divider from '@material-ui/core/Divider';
+import MaterialDrawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Hidden from '@material-ui/core/Hidden';
-import InformationIcon from '@material-ui/icons/Subject';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
 import CommentIcon from '@material-ui/icons/InsertComment';
 import BookmarkIcon from '@material-ui/icons/Star';
-import LogoutIcon from '@material-ui/icons/ExitToApp';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import { Link, useRouteMatch, useLocation, useHistory } from 'react-router-dom';
-import Flex from 'src/components/common/Flex';
-import useUser, { useCurrentUser } from 'src/hooks/use-user';
-import useAxios from 'src/hooks/use-axios';
+import InformationIcon from '@material-ui/icons/Subject';
 
 export const drawerWidth = 340;
 

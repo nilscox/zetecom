@@ -1,25 +1,24 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { LocationDescriptorObject } from 'history';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import DoneIcon from '@material-ui/icons/Done';
-
 import RouterLink from 'src/components/common/Link';
 import Loader from 'src/components/common/Loader';
-
-import useAxiosPaginated from 'src/hooks/use-axios-paginated';
-import { Notification, parseNotification } from 'src/types/Notification';
-import useAxios from 'src/hooks/use-axios';
-import useEditableDataset from 'src/hooks/use-editable-dataset';
 import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
+import useAxios from 'src/hooks/use-axios';
+import useAxiosPaginated from 'src/hooks/use-axios-paginated';
+import useEditableDataset from 'src/hooks/use-editable-dataset';
+import { Notification, parseNotification } from 'src/types/Notification';
+
 import { Divider } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import DoneIcon from '@material-ui/icons/Done';
 
 type NotificationItemProps = {
   notification: Notification;

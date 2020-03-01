@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+
 import { AxiosRequestConfig } from 'axios';
 import moment from 'moment';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
 
-import { useTheme } from 'src/utils/Theme';
-import UserAvatar from 'src/components/common/UserAvatar';
-import Flex from 'src/components/common/Flex';
 import Box from 'src/components/common/Box';
+import Flex from 'src/components/common/Flex';
 import Text from 'src/components/common/Text';
+import UserAvatar from 'src/components/common/UserAvatar';
+import useAxios from 'src/hooks/use-axios';
+import useUser from 'src/hooks/use-user';
+import { useTheme } from 'src/utils/Theme';
 
 import Form from '../components/Form';
 import WebsiteLink from '../components/WebsiteLink';
-import useAxios from 'src/hooks/use-axios';
-import useUser from 'src/hooks/use-user';
 
 const LogoutView: React.FC<RouteComponentProps> = ({ history }) => {
   const { sizes: { medium, big } } = useTheme();

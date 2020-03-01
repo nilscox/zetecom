@@ -1,21 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDebounce } from 'use-debounce';
-import queryString from 'query-string';
 
+import queryString from 'query-string';
+import { useDebounce } from 'use-debounce';
+
+import Break from 'src/components/common/Break';
+import FilterBar from 'src/components/common/FilterBar';
+import Flex from 'src/components/common/Flex';
+import Loader from 'src/components/common/Loader';
+import Text from 'src/components/common/Text';
+import ReactionCreationForm from 'src/components/reaction/ReactionForm';
+import ReactionsList from 'src/components/reaction/ReactionsList';
+import useAxios, { ResponseData } from 'src/hooks/use-axios';
+import useEditableDataset from 'src/hooks/use-editable-dataset';
+import { useCurrentUser } from 'src/hooks/use-user';
 import { parseReaction, Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
 import { useInformation } from 'src/utils/InformationContext';
-import useAxios, { ResponseData } from 'src/hooks/use-axios';
-import useEditableDataset from 'src/hooks/use-editable-dataset';
-
-import Loader from 'src/components/common/Loader';
-import ReactionsList from 'src/components/reaction/ReactionsList';
-import { useCurrentUser } from 'src/hooks/use-user';
-import ReactionCreationForm from 'src/components/reaction/ReactionForm';
-import FilterBar from 'src/components/common/FilterBar';
-import Break from 'src/components/common/Break';
-import Flex from 'src/components/common/Flex';
-import Text from 'src/components/common/Text';
 
 const useStandaloneReactions = (informationId: number, sort: SortType, search?: string) => {
   const [searchDebounced] = useDebounce(search, 300);

@@ -1,13 +1,13 @@
 import React from 'react';
 
+import Flex from 'src/components/common/Flex';
+
 import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
 import FirstIcon from '@material-ui/icons/FirstPage';
 import LastIcon from '@material-ui/icons/LastPage';
-import NextIcon from '@material-ui/icons/NavigateNext';
 import PrevIcon from '@material-ui/icons/NavigateBefore';
-import { makeStyles } from '@material-ui/core/styles';
-
-import Flex from 'src/components/common/Flex';
+import NextIcon from '@material-ui/icons/NavigateNext';
 
 const usePaginationStyles = makeStyles(theme => ({
   icon: {

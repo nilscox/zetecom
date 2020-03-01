@@ -1,10 +1,13 @@
 import React from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+
 import Flex from 'src/components/common/Flex';
-import SearchField from './SearchField';
-import Pagination from './Pagination';
 import { SortType } from 'src/types/SortType';
+
+import Pagination from './Pagination';
+import SearchField from './SearchField';
 import SortMenu from './SortMenu';
+
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) => {
   return ({

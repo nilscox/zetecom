@@ -1,10 +1,11 @@
 import React from 'react';
-import { RouteComponentProps, Redirect } from 'react-router-dom';
 
-import { useTheme } from 'src/utils/Theme';
-import { useCurrentUser } from 'src/hooks/use-user';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
+
 import Box from 'src/components/common/Box';
 import Text from 'src/components/common/Text';
+import { useCurrentUser } from 'src/hooks/use-user';
+import { useTheme } from 'src/utils/Theme';
 
 const PostSignupView: React.FC<RouteComponentProps> = () => {
   const { sizes: { big } } = useTheme();

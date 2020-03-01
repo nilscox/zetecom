@@ -1,9 +1,10 @@
 import React from 'react';
+
 import { NavLink } from 'react-router-dom';
 
-import { useTheme } from 'src/utils/Theme';
-import Text from 'src/components/common/Text';
 import Flex from 'src/components/common/Flex';
+import Text from 'src/components/common/Text';
+import { useTheme } from 'src/utils/Theme';
 
 const ViewHeader: React.FC = () => {
   const { sizes: { medium, big } } = useTheme();

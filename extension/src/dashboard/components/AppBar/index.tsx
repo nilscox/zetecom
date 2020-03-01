@@ -1,19 +1,20 @@
 import React from 'react';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import MaterialAppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountIcon from '@material-ui/icons/AccountCircle';
-import HelpIcon from '@material-ui/icons/HelpOutline';
-
 import RouterLink, { Link } from 'src/components/common/Link';
 import { useCurrentUser } from 'src/hooks/use-user';
 
-import NotificationsIcon from './NotificationsIcon';
 import { drawerWidth } from '../Drawer';
+
+import NotificationsIcon from './NotificationsIcon';
+
+import MaterialAppBar from '@material-ui/core/AppBar';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles, Theme } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import AccountIcon from '@material-ui/icons/AccountCircle';
+import HelpIcon from '@material-ui/icons/HelpOutline';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const { WEBSITE_URL } = process.env;
 
