@@ -1,13 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindConditions, FindManyOptions, Not, Repository } from 'typeorm';
+import { FindConditions, Not, Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
 import { Information } from '../information/information.entity';
 import { Notification } from '../notification/notification.entity';
 import { Reaction } from '../reaction/reaction.entity';
-import { Subject } from '../subject/subject.entity';
 import { User } from '../user/user.entity';
 
 import { Subscription } from './subscription.entity';
@@ -26,13 +25,11 @@ export class SubscriptionService {
     private readonly notificationRepository: Repository<Notification>,
   ) {}
 
-  public async subscribe(user: User, entity: Information | Subject | Reaction): Promise<Subscription> {
+  public async subscribe(user: User, entity: Information | Reaction): Promise<Subscription> {
     const subscription = this.subscriptionRepository.create({ user });
 
     if (entity.constructor.name === Information.name)
       subscription.information = entity as Information;
-    else if (entity.constructor.name === Subject.name)
-      subscription.subject = entity as Subject;
     else if (entity.constructor.name === Reaction.name)
       subscription.reaction = entity as Reaction;
     else
@@ -45,13 +42,11 @@ export class SubscriptionService {
     await this.subscriptionRepository.remove(subscription);
   }
 
-  public async getSubscription(user: User, entity: Information | Subject | Reaction): Promise<Subscription | undefined> {
+  public async getSubscription(user: User, entity: Information | Reaction): Promise<Subscription | undefined> {
     const where: FindConditions<Subscription> = { user };
 
     if (entity.constructor.name === Information.name)
       where.information = entity as Information;
-    else if (entity.constructor.name === Subject.name)
-      where.subject = entity as Subject;
     else if (entity.constructor.name === Reaction.name)
       where.reaction = entity as Reaction;
     else

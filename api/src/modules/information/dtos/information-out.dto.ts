@@ -23,7 +23,4 @@ export class InformationOutDto {
   @Expose()
   reactionsCount: number;
 
-  @Expose()
-  subjectsCount: number;
-
 }

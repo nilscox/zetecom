@@ -6,7 +6,6 @@ import { createInformation } from '../../testing/factories/information.factory';
 import { createMessage } from '../../testing/factories/message.factory';
 import { createQuickReaction } from '../../testing/factories/quick-reaction.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
-import { createSubject } from '../../testing/factories/subject.factory';
 import { createUser } from '../../testing/factories/user.factory';
 import { setupIntgTest } from '../../testing/setup-intg-test';
 
@@ -79,78 +78,6 @@ describe('reaction repository', () => {
       const reaction3 = await createReaction({ information, score: 3 });
 
       const result = await reactionRepository.findRootReactions(information.id, SortType.RELEVANCE, 1, 3);
-
-      expect(result).toMatchObject({
-        items: [
-          { id: reaction3.id },
-          { id: reaction2.id },
-          { id: reaction1.id },
-        ],
-      });
-    });
-  });
-
-  describe('findRootReactionsForSubject', () => {
-    it('should find the root reactions on the first page', async () => {
-      const information = await createInformation();
-      const subject = await createSubject({ information });
-      const reaction1 = await createReaction({ information, subject });
-      const reaction2 = await createReaction({ information, subject });
-      await createReaction({ information, subject });
-
-      const result = await reactionRepository.findRootReactionsForSubject(subject.id, SortType.DATE_ASC, 1, 2);
-
-      expect(result).toMatchObject({
-        items: [
-          { id: reaction1.id },
-          { id: reaction2.id },
-        ],
-      });
-    });
-
-    it('should find the root reactions on page 2', async () => {
-      const information = await createInformation();
-      const subject = await createSubject({ information });
-      await createReaction({ information, subject });
-      await createReaction({ information, subject });
-      const reaction3 = await createReaction({ information, subject });
-
-      const result = await reactionRepository.findRootReactionsForSubject(subject.id, SortType.DATE_ASC, 2, 2);
-
-      expect(result).toMatchObject({
-        items: [
-          { id: reaction3.id },
-        ],
-      });
-    });
-
-    it('should find the root reactions sorted by date-desc', async () => {
-      const information = await createInformation();
-      const subject = await createSubject({ information });
-      const reaction1 = await createReaction({ information, subject });
-      const reaction2 = await createReaction({ information, subject });
-
-      const result = await reactionRepository.findRootReactionsForSubject(subject.id, SortType.DATE_DESC, 1, 2);
-
-      expect(result).toMatchObject({
-        items: [
-          { id: reaction2.id },
-          { id: reaction1.id },
-        ],
-      });
-    });
-
-    it.skip('should find the root reactions sorted by relevance', async () => {
-      const information = await createInformation();
-      const subject = await createSubject({ information });
-      const reaction1 = await createReaction({ information, subject });
-      const reaction2 = await createReaction({ information, subject });
-      const reaction3 = await createReaction({ information, subject });
-      await createQuickReaction({ reaction: reaction2 });
-      await createQuickReaction({ reaction: reaction3 });
-      await createReaction({ information, subject, parent: reaction3 });
-
-      const result = await reactionRepository.findRootReactionsForSubject(subject.id, SortType.RELEVANCE, 1, 3);
 
       expect(result).toMatchObject({
         items: [

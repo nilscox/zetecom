@@ -29,8 +29,6 @@ import { SortType } from 'Common/sort-type';
 import { InformationService } from '../information/information.service';
 import { ReportInDto } from '../report/dtos/report-in.dto';
 import { ReportService } from '../report/report.service';
-import { Subject } from '../subject/subject.entity';
-import { SubjectService } from '../subject/subject.service';
 import { SubscriptionService } from '../subscription/subscription.service';
 import { User } from '../user/user.entity';
 
@@ -52,7 +50,6 @@ export class ReactionController {
 
   constructor(
     private readonly informationService: InformationService,
-    private readonly subjectService: SubjectService,
     private readonly reactionService: ReactionService,
     private readonly subscriptionService: SubscriptionService,
     private readonly reportService: ReportService,
@@ -146,19 +143,7 @@ export class ReactionController {
     if (!information)
       throw new BadRequestException(`information with id ${dto.informationId} does not exists`);
 
-    let subject: Subject = null;
-
-    if (dto.subjectId !== undefined) {
-      subject = await this.subjectService.findById(dto.subjectId);
-
-      if (!subject)
-        throw new BadRequestException(`subject with id ${dto.subjectId} does not exist`);
-
-      if (subject.information.id !== information.id)
-        throw new BadRequestException(`subject with id ${dto.subjectId} does not belong to the information with id ${dto.informationId}`);
-    }
-
-    return this.reactionService.create(dto, user, information, subject);
+    return this.reactionService.create(dto, user, information);
   }
 
   @Put(':id')

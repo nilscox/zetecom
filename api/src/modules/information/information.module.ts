@@ -2,7 +2,6 @@ import { forwardRef, Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ReactionModule } from '../reaction/reaction.module';
-import { SubjectModule } from '../subject/subject.module';
 
 import { InformationController } from './information.controller';
 import { InformationRepository } from './information.repository';
@@ -19,7 +18,6 @@ const InformationPageSize: Provider = {
 @Module({
   imports: [
     TypeOrmModule.forFeature([InformationRepository]),
-    forwardRef(() => SubjectModule),
     forwardRef(() => ReactionModule),
   ],
   controllers: [

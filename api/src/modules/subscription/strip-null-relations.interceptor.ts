@@ -19,9 +19,6 @@ export class StripNullRelations implements NestInterceptor {
     if (subscription.information === null)
       delete subscription.information;
 
-    if (subscription.subject === null)
-      delete subscription.subject;
-
     if (subscription.reaction === null)
       delete subscription.reaction;
   }
