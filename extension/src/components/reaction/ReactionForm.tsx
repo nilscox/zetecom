@@ -5,7 +5,6 @@ import React, { forwardRef, useImperativeHandle, useCallback, useState, useEffec
 import { AxiosRequestConfig } from 'axios';
 import clsx from 'clsx';
 
-import { Subject } from 'src/types/Subject';
 import { Reaction, parseReaction } from 'src/types/Reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 import { useInformation } from 'src/utils/InformationContext';
@@ -106,7 +105,6 @@ const ReactionFormRef = forwardRef(ReactionForm);
 
 type ReactionCreationFormProps = {
   className?: string;
-  subject?: Subject;
   parent?: Reaction;
   closeForm?: () => void;
   onCreated: (reaction: Reaction) => void;
@@ -114,7 +112,6 @@ type ReactionCreationFormProps = {
 
 const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
   className,
-  subject,
   parent,
   closeForm,
   onCreated,
@@ -132,7 +129,6 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
   const onSubmit = (text: string) => postReaction({
     data: {
       informationId: information.id,
-      subjectId: subject ? subject.id : undefined,
       parentId: parent ? parent.id : undefined,
       text,
     },

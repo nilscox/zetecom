@@ -3,7 +3,6 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { AxiosRequestConfig } from 'axios';
 
-import { Subject } from 'src/types/Subject';
 import { Reaction, parseReaction } from 'src/types/Reaction';
 import env from 'src/utils/env';
 import { useTheme } from 'src/utils/Theme';
@@ -110,12 +109,11 @@ const FetchMoreReplies: React.FC<FetchMoreRepliesProps> = ({ remainingReplies, f
 };
 
 type ReactionContainerProps = {
-  subject?: Subject;
   reaction: Reaction;
   onEdited?: (reaction: Reaction) => void;
 };
 
-const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction: originalReaction, onEdited }) => {
+const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction: originalReaction, onEdited }) => {
   const [displayReplies, setDisplayReplies] = useState(false);
   const [displayReplyForm, setDisplayReplyForm] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -204,7 +202,6 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
       <Collapse open={displayReplyForm}>
         <Indented>
           <ReactionForm
-            subject={subject}
             parent={reaction}
             closeForm={hideReplyForm}
             onCreated={onCreated}
@@ -215,7 +212,6 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ subject, reaction
       <Collapse open={displayReplies}>
         <Indented>
           <ReactionsList
-            subject={subject}
             reactions={replies || []}
             onEdited={onReplyEdited}
           />
