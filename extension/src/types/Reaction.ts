@@ -29,7 +29,6 @@ export type Reaction = {
   author: UserLight;
   quickReactionsCount?: QuickReactionsCount;
   userQuickReaction?: QuickReactionType;
-  bookmarked?: boolean;
   subscribed?: boolean;
   information?: Information;
 };

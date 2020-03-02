@@ -16,7 +16,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import CommentIcon from '@material-ui/icons/InsertComment';
-import BookmarkIcon from '@material-ui/icons/Star';
 import InformationIcon from '@material-ui/icons/Subject';
 
 export const drawerWidth = 340;
@@ -111,7 +110,6 @@ const Drawer: React.FC<DrawerProps> = ({ mobileOpen, handleDrawerToggle }) => {
       <List>
         <ListItemLink icon={<InformationIcon />} primary="Informations" to="/" />
         <ListItemLink auth icon={<CommentIcon />} primary="Mes réactions" to="/reactions" />
-        <ListItemLink auth icon={<BookmarkIcon />} primary="Mes favoris" to="/favoris" />
       </List>
 
       <Divider />

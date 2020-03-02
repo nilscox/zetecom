@@ -229,59 +229,6 @@ const ReplyButton: React.FC<ReplyButtonProps> = ({ disabled, onReply }) => {
   );
 };
 
-const useBookmark = (reaction: Reaction) => {
-  const [bookmarked, setBookmarked] = useState(reaction.bookmarked);
-
-  const opts: AxiosRequestConfig = {
-    url: `/api/bookmark/${reaction.id}`,
-  };
-
-  const [{ loading, error, status }, execute] = useAxios(opts, undefined, { manual: true });
-
-  if (error)
-    throw error;
-
-  const toggleBookmark = () => {
-    if (loading)
-      return;
-
-    execute({ method: bookmarked ? 'DELETE' : 'POST' });
-
-    // optimist update
-    setBookmarked(!bookmarked);
-  };
-
-  useEffect(() => {
-    if (status(201))
-      setBookmarked(true);
-    else if (status(204))
-      setBookmarked(false);
-  }, [status]);
-
-  return {
-    bookmarked,
-    toggleBookmark,
-  };
-};
-
-type BookmarkButtonProps = {
-  reaction: Reaction;
-};
-
-const BookmarkButton: React.FC<BookmarkButtonProps> = ({ reaction }) => {
-  const user = useCurrentUser();
-  const { bookmarked, toggleBookmark } = useBookmark(reaction);
-
-  if (!user)
-    return null;
-
-  return (
-    <IconButton size="small" onClick={toggleBookmark}>
-      <StarIcon fontSize="small" color={bookmarked ? 'primary' : 'disabled'} />
-    </IconButton>
-  );
-};
-
 const useSubscription = (reaction: Reaction) => {
   const [subscribed, setSubscribed] = useState(reaction.subscribed);
 
@@ -366,7 +313,6 @@ const ReactionFooter: React.FC<ReactionFooterProps> = ({
 
       <Flex flex={1} />
       <SubscribeButton reaction={reaction} />
-      <BookmarkButton reaction={reaction} />
       <ReplyButton disabled={displayReplyForm} onReply={onReply} />
 
     </Flex>

@@ -1,12 +1,8 @@
-import { Exclude, Expose, Transform, Type } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 
 import { InformationOutDto } from '../../../modules/information/dtos/information-out.dto';
 import { UserLightOutDto } from '../../user/dtos/user-light-out.dto';
 import { Message } from '../message.entity';
-
-type ReactionLabel =
-  | 'SOURCE'
-  | 'METHOD';
 
 export class QuickReactionCountDto {
 
@@ -25,9 +21,6 @@ export class ReactionOutDto {
 
   @Expose()
   id: number;
-
-  @Expose()
-  label: ReactionLabel;
 
   @Expose()
   get edited(): Date | false {
@@ -64,9 +57,6 @@ export class ReactionOutDto {
     null: null,
   }[value]))
   userQuickReaction: string;
-
-  @Expose()
-  bookmarked?: boolean;
 
   @Expose()
   subscribed?: boolean;

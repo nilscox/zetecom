@@ -10,7 +10,6 @@ import { UserMiddleware } from 'Common/user.middleware';
 
 import { AppController } from './app.controller';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
-import { BookmarkModule } from './modules/bookmark/bookmark.module';
 import { EmailModule } from './modules/email/email.module';
 import { HealthcheckModule } from './modules/healthcheck/healthcheck.module';
 import { InformationModule } from './modules/information/information.module';
@@ -36,7 +35,6 @@ const MemoryStore = memorystore(expressSession);
     AuthenticationModule,
     InformationModule,
     ReactionModule,
-    BookmarkModule,
   ],
   controllers: [AppController],
 })
