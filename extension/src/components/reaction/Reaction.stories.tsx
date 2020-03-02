@@ -32,7 +32,6 @@ const reaction: Reaction = {
     refute: 23,
     skeptic: 97,
   },
-  bookmarked: false,
   subscribed: false,
 };
 

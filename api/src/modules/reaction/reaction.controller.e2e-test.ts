@@ -3,7 +3,6 @@
 import * as request from 'supertest';
 import { getCustomRepository, getRepository, Repository } from 'typeorm';
 
-import { createBookmark } from '../../testing/factories/bookmark.factory';
 import { createInformation } from '../../testing/factories/information.factory';
 import { createMessage } from '../../testing/factories/message.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
@@ -503,21 +502,6 @@ describe('reaction controller', () => {
       const quickReactionDb = await quickReactionRepository.findOne(body.id);
 
       expect(quickReactionDb).toMatchObject({ type: null });
-    });
-
-  });
-
-  describe('bookmarks', () => {
-    const { authRequest, user } = createAuthenticatedUser(server);
-
-    it('should set the bookmarked field to true when bookmarked', async () => {
-      await createBookmark({ user, reaction });
-
-      const { body } = await authRequest
-        .get(`/api/reaction/${reaction.id}`)
-        .expect(200);
-
-      expect(body).toMatchObject({ bookmarked: true });
     });
 
   });

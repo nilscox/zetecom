@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { getCustomRepository, getRepository } from 'typeorm';
 
 import { TransformInterceptor } from '../../common/transform.interceptor';
-import { BookmarkRepository } from '../bookmark/bookmark.repository';
 import { Subscription } from '../subscription/subscription.entity';
 import { User } from '../user/user.entity';
 
@@ -17,10 +16,6 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
     return getCustomRepository(ReactionRepository);
   }
 
-  get bookmarkRepository() {
-    return getCustomRepository(BookmarkRepository);
-  }
-
   get subscriptionRepository() {
     return getRepository(Subscription);
   }
@@ -33,7 +28,6 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
 
     if (user) {
       await this.addUserQuickReaction(reactions, user);
-      await this.addUserBookmarks(reactions, user);
       await this.addUserSubscriptions(reactions, user);
     }
   }
@@ -76,14 +70,6 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
       const quickReaction = quickReactions.find(qr => qr.reactionId === reaction.id);
 
       reaction.userQuickReaction = quickReaction ? quickReaction.type : null;
-    });
-  }
-
-  private async addUserBookmarks(reactions: Reaction[], user: User): Promise<void> {
-    const bookmarks = await this.bookmarkRepository.getBookmarks(reactions.map(r => r.id), user.id);
-
-    reactions.forEach((reaction) => {
-      reaction.bookmarked = bookmarks[reaction.id];
     });
   }
 
