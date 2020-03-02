@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Route, Switch as RouterSwitch } from 'react-router';
 
-import { createTheme } from 'src/utils/createTheme';
 import { UserProvider, useUserContext } from 'src/utils/UserContext';
 
 import AppBar from './components/AppBar';
@@ -18,10 +17,8 @@ import Settings from './pages/Settings';
 import UserReactions from './pages/UserReactions';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles, Theme, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-
-const theme = createTheme();
 
 const Switch: React.FC = () => (
   <RouterSwitch>
@@ -60,32 +57,30 @@ const Dashboard: React.FC = () => {
   const handleDrawerToggle = () => setMobileOpen(open => !open);
 
   return (
-    <ThemeProvider theme={theme}>
-      <UserProvider value={{ user, setUser }}>
-        <NotificationsCountProvider>
-          <div className={classes.container}>
+    <UserProvider value={{ user, setUser }}>
+      <NotificationsCountProvider>
+        <div className={classes.container}>
 
-            <CssBaseline />
+          <CssBaseline />
 
-            <AppBar handleDrawerToggle={handleDrawerToggle} />
+          <AppBar handleDrawerToggle={handleDrawerToggle} />
 
-            <Drawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+          <Drawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
 
-            <main className={classes.content}>
+          <main className={classes.content}>
 
-              <Toolbar />
+            <Toolbar />
 
-              { user === undefined
-                ? <Loader />
-                : <Switch />
-              }
+            { user === undefined
+              ? <Loader />
+              : <Switch />
+            }
 
-            </main>
+          </main>
 
-          </div>
-        </NotificationsCountProvider>
-      </UserProvider>
-    </ThemeProvider>
+        </div>
+      </NotificationsCountProvider>
+    </UserProvider>
   );
 };
 

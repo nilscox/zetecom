@@ -8,21 +8,27 @@ import ErrorBoundary from 'src/components/common/ErrorBoundary';
 import Dashboard from './dashboard';
 import Integrations from './integrations';
 import Popup from './popup';
+import { createTheme } from './utils/createTheme';
 
 import './App.css';
 
+import { ThemeProvider } from '@material-ui/core/styles';
+
 const App: React.FC = () => (
   <ErrorBoundary>
-    <Router>
+    <ThemeProvider theme={createTheme()}>
+      <Router>
 
-      <Switch>
+        <Switch>
 
-        <Route path="/popup" component={Popup} />
-        <Route path="/integration" component={Integrations} />
-        <Route component={Dashboard} />
+          <Route path="/popup" component={Popup} />
+          <Route path="/integration" component={Integrations} />
+          <Route component={Dashboard} />
 
-      </Switch>
-    </Router>
+        </Switch>
+
+      </Router>
+    </ThemeProvider>
   </ErrorBoundary>
 );
 

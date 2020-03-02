@@ -1,9 +1,9 @@
 import React from 'react';
 
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-import { Reaction, QuickReactionType } from 'src/types/Reaction';
+import { QuickReactionType,Reaction } from 'src/types/Reaction';
 import { parseUser } from 'src/types/User';
 import { UserProvider } from 'src/utils/UserContext';
 

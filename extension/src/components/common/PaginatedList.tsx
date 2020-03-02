@@ -3,9 +3,9 @@ import React from 'react';
 import Flex from 'src/components/common/Flex';
 import { SortType } from 'src/types/SortType';
 
-import Pagination from './Pagination';
-import SearchField from './SearchField';
-import SortMenu from './SortMenu';
+import Pagination from '../../dashboard/components/Pagination';
+import SearchField from '../../dashboard/components/SearchField';
+import SortMenu from '../../dashboard/components/SortMenu';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 

@@ -8,7 +8,7 @@ import { Information } from 'src/types/Information';
 import { InformationProvider } from 'src/utils/InformationContext';
 import { useTheme } from 'src/utils/Theme';
 
-import StandaloneReactionsPage from './pages/StandaloneReactionsPage';
+import ReactionsList from './ReactionsList';
 
 const Header: React.FC = () => {
   const { fontSizes, colors, sizes } = useTheme();
@@ -39,7 +39,7 @@ const IntegrationRouter = () => (
     <Header />
 
     <Route path="/" exact render={() => <Redirect to="/reaction" />} />
-    <Route path="/reaction" exact component={StandaloneReactionsPage} />
+    <Route path="/reaction" exact component={ReactionsList} />
 
   </Router>
 );
