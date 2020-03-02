@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 
+import PaginatedList from 'src/components/common/PaginatedList';
 import ReactionCreationForm from 'src/components/reaction/ReactionForm';
 import ReactionsList from 'src/components/reaction/ReactionsList';
 import Loader from 'src/dashboard/components/Loader';
-import PaginatedList from 'src/dashboard/components/PaginatedList';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import useEditableDataset from 'src/hooks/use-editable-dataset';
 import { useCurrentUser } from 'src/hooks/use-user';

@@ -5,10 +5,9 @@ import moment from 'moment';
 import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
 import RouterLink from 'src/components/common/Link';
+import PaginatedList from 'src/components/common/PaginatedList';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { Information, parseInformation } from 'src/types/Information';
-
-import PaginatedList from '../components/PaginatedList';
 
 import { makeStyles } from '@material-ui/core/styles';
 

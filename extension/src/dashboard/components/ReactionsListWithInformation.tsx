@@ -2,13 +2,12 @@ import React from 'react';
 
 import RouterLink from 'src/components/common/Link';
 import Loader from 'src/components/common/Loader';
+import PaginatedList from 'src/components/common/PaginatedList';
 import Text from 'src/components/common/Text';
 import ReactionContainer from 'src/components/reaction/ReactionContainer';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { Information } from 'src/types/Information';
 import { Reaction } from 'src/types/Reaction';
-
-import PaginatedList from './PaginatedList';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
