@@ -96,6 +96,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ small = false, editable = false
         borderRadius: 16,
         border: `1px solid ${borderImage}`,
         opacity: loading ? 0.7 : 1,
+        background: 'white',
       }}
       src={user.getAvatarUrl()}
     />
