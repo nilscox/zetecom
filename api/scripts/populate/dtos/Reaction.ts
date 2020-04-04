@@ -1,5 +1,5 @@
-import { IsString, IsOptional, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { IsOptional, IsString, ValidateNested } from 'class-validator';
 
 class QuickReactions {
   @IsString({ each: true })

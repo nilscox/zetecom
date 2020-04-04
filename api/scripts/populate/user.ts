@@ -1,9 +1,9 @@
 import axios from 'axios';
+import { plainToClass } from 'class-transformer';
 
 import { UserOutDto } from '../../src/modules/user/dtos/user-out.dto';
 
 import { User } from './dtos/User';
-import { plainToClass } from 'class-transformer';
 
 export type AuthenticatedUser = UserOutDto & {
   cookie: string;

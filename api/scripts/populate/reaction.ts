@@ -2,12 +2,11 @@ import axios from 'axios';
 import { plainToClass } from 'class-transformer';
 
 import { InformationOutDto } from '../../src/modules/information/dtos/information-out.dto';
-import { SubjectOutDto } from '../../src/modules/subject/dtos/subject-out.dto';
 import { ReactionOutDto } from '../../src/modules/reaction/dtos/reaction-out.dto';
 import { QuickReactionType } from '../../src/modules/reaction/quick-reaction.entity';
 
-import { FindUser } from './main';
 import { Reaction } from './dtos/Reaction';
+import { FindUser } from './main';
 import { AuthenticatedUser } from './user';
 
 const updateReaction = async (reaction: ReactionOutDto, updatedText: string, findUser: FindUser): Promise<ReactionOutDto> => {
@@ -36,14 +35,12 @@ const createQuickReaction = async (reaction: ReactionOutDto, type: QuickReaction
 export const createReaction = async (
   reaction: Reaction,
   information: InformationOutDto,
-  subject: SubjectOutDto | null,
   parent: ReactionOutDto | null,
   findUser: FindUser,
 ): Promise<ReactionOutDto> => {
   const author = findUser(reaction.author);
   const payload = {
     informationId: information.id,
-    subjectId: subject?.id,
     parentId: parent?.id,
     text: reaction.text,
   };
@@ -70,7 +67,7 @@ export const createReaction = async (
   }
 
   if (reaction.replies)
-    await Promise.all(reaction.replies.map(r => createReaction(r, information, subject, created, findUser)));
+    await Promise.all(reaction.replies.map(r => createReaction(r, information, created, findUser)));
 
   return created;
 };
