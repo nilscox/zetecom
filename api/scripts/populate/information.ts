@@ -1,11 +1,10 @@
 import axios from 'axios';
+import { plainToClass } from 'class-transformer';
 
 import { InformationOutDto } from '../../src/modules/information/dtos/information-out.dto';
 
-import { FindUser } from './main';
 import { Information } from './dtos/Information';
-import { plainToClass } from 'class-transformer';
-import { createSubject } from './subject';
+import { FindUser } from './main';
 import { createReaction } from './reaction';
 
 const findInformation = async (information: Information): Promise<InformationOutDto> => {
@@ -37,11 +36,8 @@ export const findOrCreateInformation = async (information: Information, findUser
 
     const created = await createInformation(information, findUser);
 
-    if (information.subjects)
-      await Promise.all(information.subjects.map(s => createSubject(s, created, findUser)));
-
     if (information.reactions)
-      await Promise.all(information.reactions.map(r => createReaction(r, created, null, null, findUser)));
+      await Promise.all(information.reactions.map(r => createReaction(r, created, null, findUser)));
 
     return created;
   }

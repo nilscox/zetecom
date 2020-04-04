@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 import { Dataset } from './dtos/Dataset';
-import { loginOrSignup, AuthenticatedUser } from './user';
 import { findOrCreateInformation } from './information';
+import { AuthenticatedUser, loginOrSignup } from './user';
 
 const API_URL = process.env.API_URL || 'http://localhost:3000';
 
@@ -10,8 +10,8 @@ export type FindUser = (nick: string) => AuthenticatedUser;
 
 const logRequest = (findUser: (cookie: string) => AuthenticatedUser | undefined) => (request: AxiosRequestConfig) => {
   const log = [
-    request.method!.toUpperCase(),
-    request.baseURL! + request.url!,
+    request.method.toUpperCase(),
+    request.baseURL + request.url,
   ];
 
   if (request.data)
