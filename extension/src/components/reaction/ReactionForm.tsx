@@ -24,7 +24,7 @@ type FormHeaderProps = {
 };
 
 const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
-  const { sizes: { medium }, colors: { borderLight } } = useTheme();
+  const { sizes: { small, medium }, colors: { borderLight } } = useTheme();
   const user = useCurrentUser();
 
   if (!user)
@@ -41,11 +41,11 @@ const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
       className="MuiPaper-rounded"
     >
       { closeForm && (
-        <Box mr={medium} style={{ position: 'absolute', top: 0, right: 0 }}>
+        <Box mr={small} style={{ position: 'absolute', top: 0, right: 0 }}>
           <Text color="textLight" style={{ cursor: 'pointer' }} onClick={closeForm}>×</Text>
         </Box>
       ) }
-      <UserAvatarNick user={user} />
+      <UserAvatarNick small user={user} />
     </div>
   );
 };
