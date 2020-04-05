@@ -68,6 +68,7 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
   const [displayReportButton, setDisplayReportButton] = useState(false);
   const [showReportButton, hideReportButton] = [true, false].map(v => () => setDisplayReportButton(v));
   const user = useCurrentUser();
+  const isCurrentUserAuthor = author.id === user?.id;
 
   return (
     <div
@@ -80,7 +81,7 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
       className="MuiPaper-rounded"
     >
 
-      <UserAvatarNick small user={author} />
+      <UserAvatarNick small user={isCurrentUserAuthor ? user : author} />
 
       <Flex
         flexDirection="row"
@@ -91,7 +92,7 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
         onMouseLeave={hideReportButton}
       >
 
-        { user && user.id !== author.id && <ReportButton show={displayReportButton} onClick={onReport} /> }
+        { !isCurrentUserAuthor && <ReportButton show={displayReportButton} onClick={onReport} /> }
 
         { !edited ? (
           <Text variant="note">{ moment(date).format(DATE_FORMAT) }</Text>
@@ -110,7 +111,7 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
 
       { onEdit && (
         <Box pt={small} pr={medium} style={{ position: 'absolute', bottom: 0, right: 0 }}>
-          { user && user.id === author.id && <EditButton onClick={onEdit} /> }
+          { isCurrentUserAuthor && <EditButton onClick={onEdit} /> }
         </Box>
       ) }
 
