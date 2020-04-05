@@ -2,7 +2,7 @@ import React from 'react';
 
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
-import Flex from 'src/components/common/Flex';
+import CenteredContent from 'src/components/common/CenteredContent';
 import Text from 'src/components/common/Text';
 import { Information } from 'src/types/Information';
 import { InformationProvider } from 'src/utils/InformationContext';
@@ -57,11 +57,11 @@ const Integration: React.FC<IntegrationProps> = ({ information }) => {
 
         <Header />
 
-        <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight: 200 }}>
+        <CenteredContent>
           <Text uppercase color="textLight">
             L'espace de commentaires n'est pas activé sur cette page.
           </Text>
-        </Flex>
+        </CenteredContent>
 
       </div>
     );

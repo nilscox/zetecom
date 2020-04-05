@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { RouteComponentProps } from 'react-router';
 
-import Loader from 'src/components/common/Loader';
+import AsyncContent from 'src/components/common/AsyncContent';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
 import { parseInformation } from 'src/types/Information';
@@ -43,17 +43,19 @@ const UrlIntegration: React.FC<RouteComponentProps> = () => {
   if (error)
     throw error;
 
-  if (loading)
-    return <Loader size="big" />;
-
   return (
-    <div style={{
-      width: 'auto',
-      margin: `0 ${margin}px`,
-      paddingBottom: 20,
-    }}>
-      <Integration information={information} />
-    </div>
+    <AsyncContent
+      loading={loading}
+      content={() => (
+        <div style={{
+          width: 'auto',
+          margin: `0 ${margin}px`,
+          paddingBottom: 20,
+        }}>
+          <Integration information={information} />
+        </div>
+      )}
+    />
   );
 };
 

@@ -216,13 +216,13 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction: origina
             reactions={replies || []}
             onEdited={onReplyEdited}
           />
+          { loading && <Loader /> }
           { remainingReplies > 0 && !loading && (
             <FetchMoreReplies
               remainingReplies={remainingReplies}
               fetchMoreReplies={fetchMoreReplies}
             />
           ) }
-          { loading && <Loader /> }
         </Indented>
       </Collapse>
 
