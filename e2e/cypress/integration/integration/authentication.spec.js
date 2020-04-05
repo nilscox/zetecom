@@ -21,7 +21,14 @@ describe('authentication', () => {
   });
 
   it('login', () => {
-    cy.populatedb();
+    const data = {
+      users: [
+        { nick: 'user1', email: 'user1@domain.tld', password: 'secure p4ssword' },
+      ],
+      informations: [],
+    };
+
+    cy.populatedb(data);
 
     cy.visitPopup();
 
@@ -46,7 +53,14 @@ describe('authentication', () => {
   });
 
   it('logout', () => {
-    cy.populatedb();
+    const data = {
+      users: [
+        { nick: 'user1', email: 'user1@domain.tld', password: 'secure p4ssword' },
+      ],
+      informations: [],
+    };
+
+    cy.populatedb(data);
     cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
 
     cy.visitPopup();

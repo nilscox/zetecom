@@ -1,18 +1,7 @@
 describe('navigation', () => {
 
-  it('view reactions and open replies', () => {
-    cy.populatedb();
-    cy.visitIntegration('https://news.fake/article/1');
-
-    cy.get('#reaction-1').contains('reaction 1 text');
-    cy.get('#reaction-1').contains('2 réponses').click();
-
-    cy.contains('reaction 1.1 text');
-    cy.contains('reaction 1.2 text');
-  });
-
   it('write reaction', () => {
-    cy.populatedb();
+    cy.populatedbFromFixture('data.json');
     cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
 
     cy.visitIntegration('https://news.fake/article/1');
