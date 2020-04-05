@@ -35,13 +35,15 @@ Cypress.Commands.add('resetdb', () => {
   cy.request({ method: 'POST', url: RESETDB_URL });
 });
 
-Cypress.Commands.add('populatedb', () => {
-  return cy.fixture('data.json')
-    .then(data => {
-      return Promise.resolve()
-        .then(() => cy.request({ method: 'POST', url: RESETDB_URL }))
-        .then(() => cy.request({ method: 'POST', url: POPULATEDB_URL, body: data }));
-    });
+Cypress.Commands.add('populatedb', (data) => {
+  console.log(data);
+  cy.request({ method: 'POST', url: RESETDB_URL });
+  cy.request({ method: 'POST', url: POPULATEDB_URL, body: data });
+});
+
+Cypress.Commands.add('populatedbFromFixture', (fixtureName) => {
+  return cy.fixture(fixtureName)
+    .then((data) => cy.populatedb(data));
 });
 
 Cypress.Commands.add('login', (body) => {
