@@ -28,11 +28,12 @@ const VBreak: React.FC = () => {
 type QuickReactionProps = {
   icon: string;
   count: number;
+  type: QuickReactionType;
   userQuickReaction?: boolean;
   onClick?: () => void;
 };
 
-const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, userQuickReaction, onClick }) => {
+const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, type, userQuickReaction, onClick }) => {
   const { sizes: { small, medium, big }, colors: { backgroundHeavy } } = useTheme();
 
   return (
@@ -46,6 +47,7 @@ const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, userQuickRea
         cursor: onClick ? 'pointer' : 'initial',
       }}
       onClick={() => onClick && onClick()}
+      data-e2e={`qr-${type}`}
     >
 
       <img src={icon} width={24} height={24} />
@@ -99,14 +101,17 @@ const useQuickReactions = (
     approve: {
       icon: '/assets/images/1f44d.png',
       count: qrc.approve,
+      type: QuickReactionType.APPROVE,
     },
     refute: {
       icon: '/assets/images/1f44e.png',
       count: qrc.refute,
+      type: QuickReactionType.REFUTE,
     },
     skeptic: {
       icon: '/assets/images/1f9d0.png',
       count: qrc.skeptic,
+      type: QuickReactionType.SKEPTIC,
     },
   };
 

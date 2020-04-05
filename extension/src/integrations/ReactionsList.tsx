@@ -31,7 +31,7 @@ const StandaloneReactionsPage: React.FC = () => {
       return (
         <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight: 200 }}>
           <Text uppercase color="textLight">
-            { !search && <>Aucne réaction n'a été publiée pour le moment.</> }
+            { !search && <>Aucune réaction n'a été publiée pour le moment.</> }
             { search && !loading && <>Aucun résultat ne correspond à cette recherche</> }
           </Text>
         </Flex>
