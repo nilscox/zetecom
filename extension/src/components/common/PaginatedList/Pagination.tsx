@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Flex from 'src/components/common/Flex';
-
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import FirstIcon from '@material-ui/icons/FirstPage';

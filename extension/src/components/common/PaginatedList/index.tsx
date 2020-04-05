@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import Flex from 'src/components/common/Flex';
 import { SortType } from 'src/types/SortType';
 import { useTheme } from 'src/utils/Theme';
 
-import Pagination from '../../dashboard/components/Pagination';
-import SearchField from '../../dashboard/components/SearchField';
-import SortMenu from '../../dashboard/components/SortMenu';
+import Pagination from './Pagination';
+import SearchField from './SearchField';
+import SortMenu from './SortMenu';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
@@ -45,13 +45,23 @@ const PaginatedList: React.FC<PaginatedListProps> = ({
   const classes = useStyles({});
   const { sizes: { medium } } = useTheme();
 
+  const handleSearch = useCallback((text: string) => {
+    onSearch(text);
+    onPageChange(1);
+  }, [onSearch, onPageChange]);
+
+  const handleSort = (sortParam: SortType) => {
+    sort.onChange(sortParam);
+    onPageChange(1);
+  };
+
   return (
     <>
       <Flex className={classes.container}>
 
         <Flex my={medium} flexDirection="row" alignItems="center" flex={1}>
-          <SearchField onSearch={onSearch} />
-          { sort && <SortMenu sort={sort.type} onSortChange={sort.onChange} /> }
+          <SearchField onSearch={handleSearch} />
+          { sort && <SortMenu sort={sort.type} onSortChange={handleSort} /> }
           <Pagination page={page} total={totalPages} pageSize={pageSize} onPageChange={onPageChange} />
         </Flex>
 
