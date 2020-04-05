@@ -9,7 +9,7 @@ import { parseInformation } from 'src/types/Information';
 
 import Integration from './Integration';
 
-const DOMAIN_NAME_REGEXP = /^(?:https?:\/\/)?(?:[^@/\n]+@)?(?:www\.)?([^:/?\n]+)/;
+const DOMAIN_NAME_REGEXP = /(https?:\/\/[-.a-z0-9]+(:\d+)?)\/?/;
 
 const UrlIntegration: React.FC<RouteComponentProps> = () => {
   const { url } = useQueryString();
@@ -33,7 +33,7 @@ const UrlIntegration: React.FC<RouteComponentProps> = () => {
         else {
           window.parent.postMessage(
             { type: 'INTEGRATION_LOADED' },
-            match[0],
+            match[1],
           );
         }
       }
