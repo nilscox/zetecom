@@ -28,10 +28,13 @@ const ReactionComponent: React.FC<ReactionProps> = ({
   onViewHistory,
   onReport,
 }) => {
-  const { colors: { border }, borderRadius } = useTheme();
+  const { borderRadius } = useTheme();
 
   return (
-    <div id={`reaction-${reaction.id}`} style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)', borderRadius }}>
+    <div
+      id={`reaction-${reaction.id}`}
+      style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)', borderRadius }}
+    >
       <ReactionHeader {...reaction} onEdit={onEdit} onViewHistory={onViewHistory} onReport={onReport} />
       <ReactionBody {...reaction} />
       <ReactionFooter
