@@ -14,7 +14,6 @@
       "creator": "user1",
       "reactions": [
 
-
         {
           "author": "user2",
           "quickReactions": {
@@ -33,7 +32,20 @@
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.1 text"
+              "text": "reaction 1.1 text",
+              "replies": [
+
+                {
+                  "author": "user1",
+                  "quickReactions": {
+                    "approve": [],
+                    "refute": [],
+                    "skeptic": []
+                  },
+                  "text": "reaction 1.2.1 text"
+                }
+
+              ]
             },
 
             {
@@ -47,11 +59,28 @@
             }
 
           ]
+        },
+
+        {
+          "author": "user3",
+          "quickReactions": {
+            "approve": ["user1"],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 2 text",
+          "history": ["previous reaction 2 text"],
+          "replies": []
         }
 
-      ],
-      "subjects": []
+      ]
 
+    },
+    {
+      "title": "Curious news...",
+      "url": "https://news.fake/article/2",
+      "creator": "user2",
+      "reactions": []
     }
 
   ]

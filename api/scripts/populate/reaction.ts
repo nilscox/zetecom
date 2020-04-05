@@ -15,7 +15,7 @@ const updateReaction = async (reaction: ReactionOutDto, updatedText: string, fin
     text: updatedText,
   };
 
-  const { data } = await axios.put('/reaction/' + reaction.id, payload, {
+  const { data } = await axios.put('/api/reaction/' + reaction.id, payload, {
     headers: { cookie: author.cookie },
   });
 
@@ -27,7 +27,7 @@ const createQuickReaction = async (reaction: ReactionOutDto, type: QuickReaction
     type,
   };
 
-  await axios.post('/reaction/' + reaction.id + '/quick-reaction', payload, {
+  await axios.post('/api/reaction/' + reaction.id + '/quick-reaction', payload, {
     headers: { cookie: user.cookie },
   });
 };
