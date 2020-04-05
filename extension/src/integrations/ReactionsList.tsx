@@ -12,10 +12,12 @@ import { useCurrentUser } from 'src/hooks/use-user';
 import { parseReaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
 import { useInformation } from 'src/utils/InformationContext';
+import { useTheme } from 'src/utils/Theme';
 
 const StandaloneReactionsPage: React.FC = () => {
   const user = useCurrentUser();
   const information = useInformation();
+  const { sizes: { big } } = useTheme();
 
   const [
     { loading, data, totalPages },
@@ -38,7 +40,7 @@ const StandaloneReactionsPage: React.FC = () => {
       );
     }
 
-    return <ReactionsList reactions={reactions} onEdited={replace} />;
+    return <ReactionsList style={{ paddingTop: big }} reactions={reactions} onEdited={replace} />;
   };
 
   return (

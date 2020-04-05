@@ -7,18 +7,19 @@ import { useTheme } from 'src/utils/Theme';
 import ReactionContainer from './ReactionContainer';
 
 type ReactionsListProps = {
+  style?: React.CSSProperties;
   reactions: Reaction[];
   onEdited: (reaction: Reaction) => void;
 };
 
-const ReactionsList: React.FC<ReactionsListProps> = ({ reactions, onEdited }) => {
+const ReactionsList: React.FC<ReactionsListProps> = ({ style, reactions, onEdited }) => {
   const { sizes: { big } } = useTheme();
 
   if (!reactions.length)
     return null;
 
   return (
-    <div className="reactions-list">
+    <div style={style} className="reactions-list">
       { reactions.map((r, n) => (
         <div key={r.id}>
           <ReactionContainer reaction={r} onEdited={onEdited} />

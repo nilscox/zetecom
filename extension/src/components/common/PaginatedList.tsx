@@ -2,6 +2,7 @@ import React from 'react';
 
 import Flex from 'src/components/common/Flex';
 import { SortType } from 'src/types/SortType';
+import { useTheme } from 'src/utils/Theme';
 
 import Pagination from '../../dashboard/components/Pagination';
 import SearchField from '../../dashboard/components/SearchField';
@@ -42,17 +43,17 @@ const PaginatedList: React.FC<PaginatedListProps> = ({
   children,
 }) => {
   const classes = useStyles({});
+  const { sizes: { medium } } = useTheme();
 
   return (
     <>
       <Flex className={classes.container}>
 
-        <Flex flexDirection="row" flex={1}>
+        <Flex my={medium} flexDirection="row" alignItems="center" flex={1}>
           <SearchField onSearch={onSearch} />
           { sort && <SortMenu sort={sort.type} onSortChange={sort.onChange} /> }
+          <Pagination page={page} total={totalPages} pageSize={pageSize} onPageChange={onPageChange} />
         </Flex>
-
-        <Pagination page={page} total={totalPages} pageSize={pageSize} onPageChange={onPageChange} />
 
       </Flex>
 

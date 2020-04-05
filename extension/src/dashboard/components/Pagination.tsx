@@ -35,7 +35,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
   const goToPage = (page: number) => () => onPageChange(page);
 
   return (
-    <Flex flexDirection="row" justifyContent="flex-end" alignItems="center" my={6} >
+    <>
 
       <IconButton
         className={classes.icon}
@@ -75,7 +75,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
         <LastIcon />
       </IconButton>
 
-    </Flex>
+    </>
   );
 };
 

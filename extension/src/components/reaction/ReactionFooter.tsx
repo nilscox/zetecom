@@ -43,7 +43,10 @@ const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, type, userQu
       flexDirection="row"
       alignItems="center"
       style={{
-        backgroundColor: userQuickReaction ? backgroundHeavy : 'transparent',
+        ...(userQuickReaction && {
+          backgroundColor: backgroundHeavy,
+          fontWeight: 'bold',
+        }),
         cursor: onClick ? 'pointer' : 'initial',
       }}
       onClick={() => onClick && onClick()}
