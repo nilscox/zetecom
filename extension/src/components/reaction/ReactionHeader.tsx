@@ -64,7 +64,7 @@ type ReactionHeaderProps = {
 };
 
 const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, onEdit, onViewHistory, onReport }) => {
-  const { sizes: { small, medium }, colors: { borderLight }, borderRadius } = useTheme();
+  const { sizes: { small, medium }, colors: { borderLight } } = useTheme();
   const [displayReportButton, setDisplayReportButton] = useState(false);
   const [showReportButton, hideReportButton] = [true, false].map(v => () => setDisplayReportButton(v));
   const user = useCurrentUser();
@@ -72,12 +72,12 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
   return (
     <div
       style={{
+        borderTop: `1px solid ${borderLight}`,
         borderBottom: `1px solid ${borderLight}`,
-        borderTopLeftRadius: borderRadius,
-        borderTopRightRadius: borderRadius,
         padding: medium,
         position: 'relative',
       }}
+      className="MuiPaper-rounded"
     >
 
       <UserAvatarNick small user={author} />

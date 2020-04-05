@@ -17,12 +17,14 @@ import { useInformation } from 'src/utils/InformationContext';
 import { useTheme } from 'src/utils/Theme';
 import { useCurrentUser } from 'src/utils/UserContext';
 
+import { Paper } from '@material-ui/core';
+
 type FormHeaderProps = {
   closeForm?: () => void;
 };
 
 const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
-  const { sizes: { medium }, colors: { backgroundLight, borderLight }, borderRadius } = useTheme();
+  const { sizes: { medium }, colors: { borderLight } } = useTheme();
   const user = useCurrentUser();
 
   if (!user)
@@ -31,13 +33,12 @@ const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
   return (
     <div
       style={{
-        borderTopLeftRadius: borderRadius,
-        borderTopRightRadius: borderRadius,
+        borderTop: `1px solid ${borderLight}`,
         borderBottom: `1px solid ${borderLight}`,
-        backgroundColor: backgroundLight,
         padding: medium,
         position: 'relative',
       }}
+      className="MuiPaper-rounded"
     >
       { closeForm && (
         <Box mr={medium} style={{ position: 'absolute', top: 0, right: 0 }}>
@@ -55,10 +56,16 @@ type SubmitButtonProps = {
 };
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({ loading, disabled }) => {
-  const { sizes: { medium, big } } = useTheme();
+  const { colors: { border }, sizes: { medium, big } } = useTheme();
 
   return (
-    <Flex flexDirection="row" justifyContent="flex-end" px={big} py={medium} style={{ borderTop: '1px solid #CCC' }}>
+    <Flex
+      flexDirection="row"
+      justifyContent="flex-end"
+      px={big}
+      py={medium}
+      style={{ borderTop: `1px solid ${border}` }}
+    >
       <Button type="submit" loading={loading} disabled={disabled}>Envoyer</Button>
     </Flex>
   );
@@ -77,7 +84,6 @@ const ReactionForm: React.FC<ReactionFormProps> = (
   { className, placeholder, preloadedMessage = '', loading, closeForm, onSubmit },
   ref: React.Ref<{}>,
 ) => {
-  const { colors: { border }, borderRadius } = useTheme();
   const [message, setMessage] = useState(preloadedMessage);
 
   useImperativeHandle(ref, () => ({
@@ -91,11 +97,13 @@ const ReactionForm: React.FC<ReactionFormProps> = (
 
   return (
     <form className={clsx('reaction-form', className)} onSubmit={onSubmitForm}>
-      <Flex flexDirection="column" border={`1px solid ${border}`} borderRadius={borderRadius}>
-        <FormHeader closeForm={closeForm} />
-        <MarkdownMessageEdition placeholder={placeholder} message={message} setMessage={setMessage} />
-        <SubmitButton loading={loading} disabled={message.length === 0} />
-      </Flex>
+      <Paper elevation={2}>
+        <Flex flexDirection="column">
+          <FormHeader closeForm={closeForm} />
+          <MarkdownMessageEdition placeholder={placeholder} message={message} setMessage={setMessage} />
+          <SubmitButton loading={loading} disabled={message.length === 0} />
+        </Flex>
+      </Paper>
     </form>
   );
 };

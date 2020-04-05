@@ -5,7 +5,6 @@ import { RouteComponentProps } from 'react-router';
 
 import Box from 'src/components/common/Box';
 import Break from 'src/components/common/Break';
-import Flex from 'src/components/common/Flex';
 import Loader from 'src/components/common/Loader';
 import Text from 'src/components/common/Text';
 import ReactionBody from 'src/components/reaction/ReactionBody';
@@ -13,12 +12,14 @@ import useAxios from 'src/hooks/use-axios';
 import { parseReaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
 
+import { Paper } from '@material-ui/core';
+
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] hh:mm';
 
 type ReactionHistoryPopupProps = RouteComponentProps<{ id: string }>;
 
 const ReactionHistoryPopup: React.FC<ReactionHistoryPopupProps> = ({ match }) => {
-  const { colors: { border }, sizes: { big } } = useTheme();
+  const { sizes: { big } } = useTheme();
   const [{ data: reaction, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseReaction);
 
   if (error)
@@ -43,15 +44,19 @@ const ReactionHistoryPopup: React.FC<ReactionHistoryPopupProps> = ({ match }) =>
 
           { n > 0 && <Break size={30} /> }
 
-          <Flex flexDirection="row" alignItems="center">
-            <Flex mr={big} flex={1} border={`3px solid ${border}`} />
-            <Text color="textLight">{ moment(date as Date).format(DATE_FORMAT) }</Text>
-            <Flex ml={big} flex={1} border={`3px solid ${border}`} />
-          </Flex>
+          <Text
+            style={{ display: 'block' }}
+            align="center"
+            color="textLight"
+          >
+            { moment(date as Date).format(DATE_FORMAT) }
+          </Text>
 
           <Break size={big} />
 
-          <ReactionBody text={text} />
+          <Paper elevation={3}>
+            <ReactionBody text={text} />
+          </Paper>
 
         </div>
       )) }
