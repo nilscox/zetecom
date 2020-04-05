@@ -26,7 +26,15 @@ describe('authentication', () => {
     cy.visitPopup();
 
     cy.get('input[placeholder="Email"]').type('user1@domain.tld');
+
+    cy.get('input[placeholder="Mot de passe"]').type('wrong p4ssword');
+    cy.get('button[type="submit"]').contains('Connexion').click();
+
+    cy.contains('Combinaison email / mot de passe non valide');
+
+    cy.get('input[placeholder="Mot de passe"]').clear();
     cy.get('input[placeholder="Mot de passe"]').type('secure p4ssword');
+
     cy.get('button[type="submit"]').contains('Connexion').click();
 
     cy.contains('user1');
