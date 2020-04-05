@@ -12,7 +12,10 @@ const SearchField: React.FC<SearchFieldProps> = ({ onSearch }) => {
   const [search, setSearch] = useState('');
   const [searchDebounced] = useDebounce(search, 200);
 
-  useEffect(() => void onSearch(searchDebounced), [onSearch, searchDebounced]);
+  useEffect(() => {
+    if (searchDebounced)
+      onSearch(searchDebounced);
+  }, [onSearch, searchDebounced]);
 
   return (
     <TextField
