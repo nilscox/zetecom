@@ -45,6 +45,7 @@ type MarkdownMessageFieldProps = {
 };
 
 const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, placeholder, setMessage }) => {
+  const rows = 4;
   const { sizes: { big } } = useTheme();
   const ref = useRef<HTMLTextAreaElement>();
 
@@ -52,12 +53,17 @@ const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, pl
     ref.current.rows = ref.current.scrollHeight / 16;
   }, []);
 
+  useEffect(() => {
+    if (message.length === 0)
+      ref.current.style.height = `${rows * 16}px`;
+  }, [message]);
+
   return (
     <textarea
       ref={ref}
       style={{ border: 'none', padding: big, outline: 'none', resize: 'vertical' }}
       placeholder={placeholder}
-      rows={4}
+      rows={rows}
       value={message}
       onChange={e => setMessage(e.target.value)}
     />
