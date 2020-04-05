@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Flex from 'src/components/common/Flex';
-import Loader from 'src/components/common/Loader';
+import AsyncContent from 'src/components/common/AsyncContent';
+import CenteredContent from 'src/components/common/CenteredContent';
 import PaginatedList from 'src/components/common/PaginatedList';
 import Text from 'src/components/common/Text';
 import ReactionCreationForm from 'src/components/reaction/ReactionForm';
@@ -31,12 +31,12 @@ const StandaloneReactionsPage: React.FC = () => {
   const getReactionsList = () => {
     if (!reactions.length) {
       return (
-        <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight: 200 }}>
+        <CenteredContent>
           <Text uppercase color="textLight">
             { !search && <>Aucune réaction n'a été publiée pour le moment.</> }
             { search && !loading && <>Aucun résultat ne correspond à cette recherche</> }
           </Text>
-        </Flex>
+        </CenteredContent>
       );
     }
 
@@ -58,7 +58,7 @@ const StandaloneReactionsPage: React.FC = () => {
 
       { user && <ReactionCreationForm onCreated={reaction => prepend(reaction)} /> }
 
-      { loading || !reactions ? <Loader /> : getReactionsList() }
+      <AsyncContent loading={loading || !reactions} content={getReactionsList} />
 
     </PaginatedList>
   );
