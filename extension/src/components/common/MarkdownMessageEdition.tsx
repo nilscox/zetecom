@@ -58,6 +58,20 @@ const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, pl
       ref.current.style.height = `${rows * 16}px`;
   }, [message]);
 
+  useEffect(() => {
+    if (!message)
+      return;
+
+    const listener = (e: any) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', listener);
+
+    return () => window.removeEventListener('beforeunload', listener);
+  }, [message]);
+
   return (
     <textarea
       ref={ref}
