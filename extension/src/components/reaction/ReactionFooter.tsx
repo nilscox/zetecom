@@ -16,7 +16,6 @@ import { useCurrentUser } from 'src/utils/UserContext';
 import IconButton from '@material-ui/core/IconButton';
 import SubscribeIcon from '@material-ui/icons/Notifications';
 import SubscribeActiveIcon from '@material-ui/icons/NotificationsActive';
-import StarIcon from '@material-ui/icons/Star';
 
 const VBreak: React.FC = () => {
   const { colors: { borderLight } } = useTheme();
