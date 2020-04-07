@@ -91,20 +91,6 @@ export class InformationController {
     return info;
   }
 
-  @Get('by-youtubeId/:youtubeId')
-  @UseInterceptors(PopulateInformation)
-  @Output(InformationOutDto)
-  async findOneByYoutubeId(
-    @Param('youtubeId') youtubeId: string,
-  ): Promise<Information> {
-    const info = await this.informationService.findByYoutubeId(youtubeId);
-
-    if (!info)
-      throw new NotFoundException();
-
-    return info;
-  }
-
   @Get(':id/reactions')
   @UseInterceptors(PopulateReaction)
   @PaginatedOutput(ReactionOutDto)

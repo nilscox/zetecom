@@ -14,9 +14,6 @@ export class Information {
   @Column()
   title: string;
 
-  @Column({ name: 'youtube_id', nullable: true })
-  youtubeId: string;
-
   @Column({ name: 'image_url', nullable: true })
   imageUrl: string;
 

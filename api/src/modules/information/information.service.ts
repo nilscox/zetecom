@@ -6,13 +6,11 @@ import { CreateInformationInDto } from './dtos/create-information-in.dto';
 import { UpdateInformationInDto } from './dtos/update-information-in.dto';
 import { Information } from './information.entity';
 import { InformationRepository } from './information.repository';
-import { YoutubeService } from './youtube.service';
 
 @Injectable()
 export class InformationService {
 
   constructor(
-    private readonly youtubeService: YoutubeService,
     private readonly informationRepository: InformationRepository,
   ) {}
 
@@ -30,16 +28,11 @@ export class InformationService {
     return this.informationRepository.findOne({ url });
   }
 
-  async findByYoutubeId(youtubeId: string): Promise<Information> {
-    return this.informationRepository.findOne({ youtubeId });
-  }
-
   async create(dto: CreateInformationInDto, creator: User): Promise<Information> {
     const information = new Information();
 
     Object.assign(information, {
       ...dto,
-      youtubeId: this.youtubeService.getYoutubeId(dto.url),
       creator,
     });
 
