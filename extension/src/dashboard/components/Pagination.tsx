@@ -41,6 +41,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
         className={classes.icon}
         disabled={page <= 1}
         onClick={goToPage(1)}
+        title="Première page"
       >
         <FirstIcon />
       </IconButton>
@@ -49,16 +50,19 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
         className={classes.icon}
         disabled={page <= 1}
         onClick={goToPage(page - 1)}
+        title="Page précédente"
       >
         <PrevIcon />
       </IconButton>
 
-      <div className={classes.page}>{ page } / { lastPage }</div>
+      <div className={classes.page} data-e2e="pagination">{ page } / { lastPage }</div>
 
       <IconButton
         className={classes.icon}
         disabled={page >= lastPage}
-        onClick={goToPage(page + 1)}>
+        onClick={goToPage(page + 1)}
+        title="Page suivante"
+      >
         <NextIcon />
       </IconButton>
 
@@ -66,6 +70,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
         className={classes.icon}
         disabled={typeof lastPage !== 'number' || page >= lastPage}
         onClick={goToPage(lastPage as number)}
+        title="Dernière page"
       >
         <LastIcon />
       </IconButton>

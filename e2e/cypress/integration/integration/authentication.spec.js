@@ -28,6 +28,7 @@ describe('authentication', () => {
       informations: [],
     };
 
+    cy.resetdb();
     cy.populatedb(data);
 
     cy.visitPopup();
@@ -60,6 +61,7 @@ describe('authentication', () => {
       informations: [],
     };
 
+    cy.resetdb();
     cy.populatedb(data);
     cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
 

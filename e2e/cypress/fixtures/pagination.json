@@ -1,0 +1,151 @@
+{
+  "users": [
+
+    { "nick": "user1", "email": "user1@domain.tld", "password": "secure p4ssword" }
+
+  ],
+  "informations": [
+
+    {
+      "title": "Interesting news!",
+      "url": "https://news.fake/article/1",
+      "creator": "user1",
+      "reactions": [
+
+        {
+          "author": "user1",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 1 text",
+          "history": [],
+          "replies": []
+        },
+
+        {
+          "author": "user1",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 2 text",
+          "history": [],
+          "replies": []
+        },
+
+        {
+          "author": "user1",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 3 text",
+          "history": [],
+          "replies": []
+        },
+
+        {
+          "author": "user1",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 4 text",
+          "history": [],
+          "replies": []
+        },
+
+        {
+          "author": "user1",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 5 text",
+          "history": [],
+          "replies": []
+        },
+
+        {
+          "author": "user1",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 6 text",
+          "history": [],
+          "replies": []
+        },
+
+        {
+          "author": "user1",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 7 text",
+          "history": [],
+          "replies": []
+        },
+
+        {
+          "author": "user1",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 8 text",
+          "history": [],
+          "replies": []
+        },
+
+        {
+          "author": "user1",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 9 text",
+          "history": [],
+          "replies": []
+        },
+
+        {
+          "author": "user1",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 10 text",
+          "history": [],
+          "replies": []
+        },
+
+        {
+          "author": "user1",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "reaction 11 text",
+          "history": [],
+          "replies": []
+        }
+
+      ]
+    }
+
+  ]
+}

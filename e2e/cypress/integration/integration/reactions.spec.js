@@ -35,8 +35,8 @@ describe('reactions', () => {
       informations: [information],
     };
 
-    cy.populatedb(data);
 
+    cy.resetdb();
     cy.populatedb(data);
     cy.visitIntegration('https://news.fake/article/1');
 
@@ -56,17 +56,19 @@ describe('reactions', () => {
                 ...reaction.quickReactions,
                 approve: ['user2'],
               },
-              history: ['previous 1 text'],
+              history: ['edited 1 text'],
             },
           ],
         },
       ],
     };
 
+
+    cy.resetdb();
     cy.populatedb(data);
     cy.visitIntegration('https://news.fake/article/1');
 
-    cy.get('#reaction-1').contains('previous 1 text');
+    cy.get('#reaction-1').contains('edited 1 text');
     cy.get('#reaction-1').contains('user1');
     cy.get('#reaction-1').find('img[src="/assets/images/default-avatar.png"]');
     cy.get('#reaction-1').find('[title="Édité"]');
@@ -104,6 +106,7 @@ describe('reactions', () => {
       ],
     };
 
+    cy.resetdb();
     cy.populatedb(data);
     cy.visitIntegration('https://news.fake/article/1');
 
@@ -115,7 +118,7 @@ describe('reactions', () => {
 
     cy.get('#reaction-3').contains('1 réponse').click();
 
-    cy.contains('reaction 1.2.1 text');
+    cy.get('#reaction-4').contains('reaction 1.2.1 text');
 
     cy.get('#reaction-1').contains('2 réponses').click();
 

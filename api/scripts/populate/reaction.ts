@@ -66,8 +66,11 @@ export const createReaction = async (
     ]);
   }
 
-  if (reaction.replies)
-    await Promise.all(reaction.replies.map(r => createReaction(r, information, created, findUser)));
+  if (reaction.replies) {
+    for (const reply of reaction.replies) {
+      await createReaction(reply, information, created, findUser);
+    }
+  }
 
   return created;
 };
