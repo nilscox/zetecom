@@ -7,7 +7,6 @@ import { InformationController } from './information.controller';
 import { InformationRepository } from './information.repository';
 import { InformationService } from './information.service';
 import { PopulateInformation } from './populate-information.interceptor';
-import { YoutubeService } from './youtube.service';
 
 const INFORMATION_PAGE_SIZE = 'INFORMATION_PAGE_SIZE';
 const InformationPageSize: Provider = {
@@ -24,7 +23,6 @@ const InformationPageSize: Provider = {
     InformationController,
   ],
   providers: [
-    YoutubeService,
     InformationPageSize,
     InformationService,
     PopulateInformation,
