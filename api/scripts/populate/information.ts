@@ -36,8 +36,11 @@ export const findOrCreateInformation = async (information: Information, findUser
 
     const created = await createInformation(information, findUser);
 
-    if (information.reactions)
-      await Promise.all(information.reactions.map(r => createReaction(r, created, null, findUser)));
+    if (information.reactions) {
+      for (const reaction of information.reactions) {
+        await createReaction(reaction, created, null, findUser);
+      }
+    }
 
     return created;
   }

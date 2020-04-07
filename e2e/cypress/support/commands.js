@@ -36,8 +36,6 @@ Cypress.Commands.add('resetdb', () => {
 });
 
 Cypress.Commands.add('populatedb', (data) => {
-  console.log(data);
-  cy.request({ method: 'POST', url: RESETDB_URL });
   cy.request({ method: 'POST', url: POPULATEDB_URL, body: data });
 });
 
