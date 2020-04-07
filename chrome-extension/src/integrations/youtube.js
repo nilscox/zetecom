@@ -8,18 +8,16 @@ setupIntegration({
   buttonsStyles: {
     common: {
       'font-size': '16px',
-      'border': '1px solid #CCC',
-    },
-    ri: {
-      'border-left': 'none',
+      'color': '#444',
+      'background-color': 'transparent',
+      'border-bottom': 'none',
     },
     selected: {
-      'background-color': '#eee',
+      'border-bottom': '2px solid #ccc',
       'cursor': 'initial',
       'font-weight': 'bold',
     },
     unselected: {
-      'background-color': '#fff',
       'cursor': 'pointer',
       'font-weight': 'initial',
     },
