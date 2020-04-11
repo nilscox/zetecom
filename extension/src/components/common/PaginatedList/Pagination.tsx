@@ -53,7 +53,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
         <PrevIcon />
       </IconButton>
 
-      <div className={classes.page} data-e2e="pagination">{ page } / { lastPage }</div>
+      <div className={classes.page} role="Numéro de page">{ page } / { lastPage }</div>
 
       <IconButton
         className={classes.icon}
