@@ -1,14 +1,8 @@
-import { IsDefined, IsEnum, MaxLength, ValidateIf } from 'class-validator';
-
-import { ReportType } from '../report.entity';
+import { IsOptional, MaxLength } from 'class-validator';
 
 export class ReportInDto {
 
-  @IsEnum(ReportType)
-  type: ReportType;
-
-  @ValidateIf(o => o.type === ReportType.OTHER)
-  @IsDefined()
+  @IsOptional()
   @MaxLength(4000)
   message: string;
 

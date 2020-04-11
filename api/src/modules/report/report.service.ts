@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { Reaction } from '../reaction/reaction.entity';
 import { User } from '../user/user.entity';
 
-import { Report, ReportType } from './report.entity';
+import { Report } from './report.entity';
 
 @Injectable()
 export class ReportService {
@@ -15,12 +15,11 @@ export class ReportService {
     private readonly reportRepository: Repository<Report>,
   ) {}
 
-  async report(reaction: Reaction, user: User, type: ReportType, message: string) {
+  async report(reaction: Reaction, user: User, message: string) {
     const report = new Report();
 
     report.reaction = reaction;
     report.user = user;
-    report.type = type;
     report.message = message;
 
     await this.reportRepository.save(report);
