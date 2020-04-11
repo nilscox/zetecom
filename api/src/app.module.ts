@@ -1,15 +1,18 @@
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, Provider } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as expressSession from 'express-session';
 import * as memorystore from 'memorystore';
 
 import { LagMiddleware } from 'Common/lag.middleware';
+import { RolesGuard } from 'Common/roles.guard';
 import { UserMiddleware } from 'Common/user.middleware';
 
 import { AppController } from './app.controller';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { AuthorizationModule } from './modules/authorization/authorization.module';
 import { EmailModule } from './modules/email/email.module';
 import { HealthcheckModule } from './modules/healthcheck/healthcheck.module';
 import { InformationModule } from './modules/information/information.module';
@@ -17,7 +20,12 @@ import { ReactionModule } from './modules/reaction/reaction.module';
 import { User } from './modules/user/user.entity';
 import { UserModule } from './modules/user/user.module';
 
-const fakeLagProvider = {
+const AppGuardProvider: Provider = {
+  provide: APP_GUARD,
+  useClass: RolesGuard,
+};
+
+const fakeLagProvider: Provider = {
   provide: 'FAKE_LAG',
   useValue: 230,
 };
@@ -25,7 +33,10 @@ const fakeLagProvider = {
 const MemoryStore = memorystore(expressSession);
 
 @Module({
-  providers: [fakeLagProvider],
+  providers: [
+    AppGuardProvider,
+    fakeLagProvider,
+  ],
   imports: [
     TypeOrmModule.forRoot(),
     TypeOrmModule.forFeature([User]),
@@ -33,6 +44,7 @@ const MemoryStore = memorystore(expressSession);
     EmailModule,
     UserModule,
     AuthenticationModule,
+    AuthorizationModule,
     InformationModule,
     ReactionModule,
   ],

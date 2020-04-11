@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import * as uuidv4 from 'uuid/v4';
 
 import { SignupUserInDto } from '../authentication/dtos/signup-user-in.dto';
+import { Role } from '../authorization/roles.enum';
 import { EmailService } from '../email/email.service';
 
 import { User } from './user.entity';
@@ -57,6 +58,7 @@ export class UserService {
     user.nick = nick;
     user.avatar = avatar;
     user.emailValidationToken = uuidv4();
+    user.roles = [Role.USER];
 
     if (EMAIL_ACCOUNT_VERIFICATION === 'true')
       await this.emailService.sendEmailValidationEmail(user);

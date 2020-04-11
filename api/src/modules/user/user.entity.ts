@@ -1,5 +1,7 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
+import { Role } from '../authorization/roles.enum';
+
 @Entity({ name: 'user', orderBy: { created: 'ASC' } })
 export class User {
 
@@ -23,6 +25,9 @@ export class User {
 
   @Column({ default: false })
   emailValidated: boolean;
+
+  @Column({ type: 'enum', enum: Role, array: true })
+  roles: Role[];
 
   @CreateDateColumn()
   created: Date;
