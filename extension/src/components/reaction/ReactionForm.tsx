@@ -80,8 +80,8 @@ type ReactionFormProps = {
   onSubmit: (message: string) => void;
 };
 
-const ReactionForm: React.FC<ReactionFormProps> = (
-  { className, placeholder, preloadedMessage = '', loading, closeForm, onSubmit },
+const ReactionForm = forwardRef((
+  { className, placeholder, preloadedMessage = '', loading, closeForm, onSubmit }: ReactionFormProps,
   ref: React.Ref<{}>,
 ) => {
   const [message, setMessage] = useState(preloadedMessage);
@@ -106,9 +106,9 @@ const ReactionForm: React.FC<ReactionFormProps> = (
       </Paper>
     </form>
   );
-};
+});
 
-const ReactionFormRef = forwardRef(ReactionForm);
+ReactionForm.displayName = 'ReactionForm';
 
 type ReactionCreationFormProps = {
   className?: string;
@@ -153,7 +153,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
   }, [data, formRef]);
 
   return (
-    <ReactionFormRef
+    <ReactionForm
       ref={formRef}
       className={className}
       placeholder={
@@ -197,7 +197,7 @@ export const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reacti
   }, [data, onEdited, formRef]);
 
   return (
-    <ReactionFormRef
+    <ReactionForm
       ref={formRef}
       placeholder="Éditez votre message..."
       preloadedMessage={reaction.text}
