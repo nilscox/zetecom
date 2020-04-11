@@ -62,7 +62,7 @@ const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, pl
     if (!message)
       return;
 
-    const listener = (e: any) => {
+    const listener = (e: BeforeUnloadEvent) => {
       e.preventDefault();
       e.returnValue = '';
     };
