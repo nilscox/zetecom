@@ -22,6 +22,7 @@ const SearchField: React.FC<SearchFieldProps> = ({ onSearch }) => {
       fullWidth
       variant="outlined"
       margin="dense"
+      name="search"
       label="Rechercher..."
       onChange={e => setSearch(e.currentTarget.value)}
     />
