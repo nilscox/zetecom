@@ -3,11 +3,6 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGenerat
 import { Reaction } from '../reaction/reaction.entity';
 import { User } from '../user/user.entity';
 
-export enum ReportType {
-  RULES_VIOLATION = 'RULES_VIOLATION',
-  OTHER = 'OTHER',
-}
-
 @Entity({ name: 'report' })
 @Unique(['user', 'reaction'])
 export class Report {
@@ -22,9 +17,6 @@ export class Report {
   @ManyToOne(type => Reaction, { nullable: false })
   @JoinColumn({ name: 'reaction_id' })
   reaction: Reaction;
-
-  @Column({ type: 'enum', enum: ReportType, nullable: false })
-  type: ReportType;
 
   @Column({ type: 'text', nullable: true })
   message: string;

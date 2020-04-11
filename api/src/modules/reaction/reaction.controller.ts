@@ -200,7 +200,7 @@ export class ReactionController {
     if (report)
       throw new BadRequestException('REACTION_ALREADY_REPORTED');
 
-    await this.reportService.report(reaction, user, dto.type, dto.message);
+    await this.reportService.report(reaction, user, dto.message);
 
     return reaction;
   }

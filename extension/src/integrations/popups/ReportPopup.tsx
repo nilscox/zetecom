@@ -7,14 +7,13 @@ import { RouteComponentProps } from 'react-router';
 import Box from 'src/components/common/Box';
 import Break from 'src/components/common/Break';
 import Button, { ButtonProps } from 'src/components/common/Button';
-import Collapse from 'src/components/common/Collapse';
 import Flex from 'src/components/common/Flex';
 import Loader from 'src/components/common/Loader';
-import Select from 'src/components/common/Select';
 import Text from 'src/components/common/Text';
 import TextArea from 'src/components/common/TextArea';
 import ReactionBody from 'src/components/reaction/ReactionBody';
 import useAxios from 'src/hooks/use-axios';
+import WebsiteLink from 'src/popup/components/WebsiteLink';
 import { parseReaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
 
@@ -71,9 +70,7 @@ const ReportSuccess: React.FC = () => {
 type ReportPopupProps = RouteComponentProps<{ id: string }>;
 
 const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
-  const [reportType, setReportType] = useState('RULES_VIOLATION');
   const [message, setMessage] = useState('');
-  const [displayMessage, setDisplayMessage] = useState(false);
   const [success, setSuccess] = useState(false);
   const [alreadyReported, setArleadyReported] = useState(false);
   const { colors: { border }, sizes: { big }, borderRadius } = useTheme();
@@ -116,16 +113,10 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
         url: `/api/reaction/${reaction.id}/report`,
         data: {
           reactionId: reaction.id,
-          type: reportType,
           message: message !== '' ? message : undefined,
         },
       });
     }
-  };
-
-  const onReportTypeChange = (type: string) => {
-    setReportType(type);
-    setDisplayMessage(type === 'OTHER');
   };
 
   if (loading)
@@ -144,11 +135,21 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
         Signaler la réaction de <Text bold>{reaction.author.nick}</Text>
       </Text>
 
-      <Break size={30} />
+      <Break size={10} />
 
       <Text bold color="textWarning">
-        Attention ! Vous êtes sur le point de signaler une réaction.<br />
-        TODO: *rappel des motifs de de signalement*
+        <p style={{ margin: `${big}px 0` }}>
+          Attention ! Vous êtes sur le point de signaler une réaction.
+        </p>
+        <p style={{ margin: `${big}px 0` }}>
+          Cette démarche doit être faite si la réaction déroge à une ou plusieurs règle(s) de{' '}
+          <WebsiteLink to="/charte.html">la charte</WebsiteLink>. Le fait que vous ne soyez pas d'accord avec les propos
+          tenus dans ce message n'est pas un motif valable pour la signaler.
+        </p>
+        <p style={{ margin: `${big}px 0` }}>
+          En revanche, abuser de la fonction de signalement de manière répété et sans raison valable peut entrainer une
+          suspension de votre compte.
+        </p>
       </Text>
 
       <Break size={30} />
@@ -164,31 +165,13 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
 
       <Break size={30} />
 
-      <Flex flexDirection="row" style={{ alignSelf: 'flex-start' }}>
-        <Text bold>Motif du signalement :&nbsp;</Text>
-        <Select
-          values={{
-            RULES_VIOLATION: 'Non respect des règles',
-            OTHER: 'Autre motif...',
-          }}
-          value={reportType}
-          onChange={(e) => onReportTypeChange(e.currentTarget.value)}
-        />
-      </Flex>
-
-      <Collapse open={displayMessage} style={{ width: '100%' }}>
-
-        <Break size={30} />
-
-        <TextArea
-          fullWidth
-          rows={4}
-          placeholder="Expliquez en quelques mots le motif du signalement..."
-          style={{ resize: 'vertical' }}
-          onChange={e => setMessage(e.currentTarget.value)}
-        />
-
-      </Collapse>
+      <TextArea
+        fullWidth
+        rows={4}
+        placeholder="Précisez en quelques mots le motif du signalement si nécessaire..."
+        style={{ resize: 'vertical' }}
+        onChange={e => setMessage(e.currentTarget.value)}
+      />
 
       { alreadyReported && (
         <Box mt={30} style={{ textAlign: 'center' }}>
