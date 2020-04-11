@@ -532,6 +532,20 @@ describe('reaction controller', () => {
       });
     });
 
+    // this is odd, but can still be achived by calling the api directly
+    it('should not update the score when a quick reaction is created with type null', async () => {
+      await authRequest
+        .post(`/api/reaction/${reaction.id}/quick-reaction`)
+        .send({ type: null })
+        .expect(201);
+
+      const reactionDb = await reactionRepository.findOne(reaction.id);
+
+      expect(reactionDb).toMatchObject({
+        score: 2,
+      });
+    });
+
     it('should increment a reaction score when a quick reaction is created', async () => {
       await authRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
@@ -571,6 +585,19 @@ describe('reaction controller', () => {
       });
     });
 
+    it('should reincrement a reaction score when a quick reaction is recreated', async () => {
+      await authRequest
+        .post(`/api/reaction/${reaction.id}/quick-reaction`)
+        .send({ type: QuickReactionType.APPROVE })
+        .expect(201);
+
+      const reactionDb = await reactionRepository.findOne(reaction.id);
+
+      expect(reactionDb).toMatchObject({
+        score: 3,
+      });
+    });
+
     it('should increment a parent reaction score when a quick reaction is created', async () => {
       const child = await reactionRepository.findOne({ parent: reaction });
 
@@ -582,7 +609,7 @@ describe('reaction controller', () => {
       const reactionDb = await reactionRepository.findOne(reaction.id);
 
       expect(reactionDb).toMatchObject({
-        score: 3,
+        score: 4,
       });
     });
 

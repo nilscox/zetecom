@@ -109,9 +109,15 @@ export class ReactionService {
 
       await this.quickReactionRepository.update(existingQuickReaction.id, { type });
 
-      if (!type)
+      if (existingQuickReaction.type === null && type !== null)
+        await this.reactionRepository.incrementScore(reaction.id);
+
+      if (existingQuickReaction.type !== null && type === null)
         await this.reactionRepository.decrementScore(reaction.id);
     } else {
+      if (type === null)
+        return;
+
       const quickReaction = new QuickReaction();
 
       quickReaction.reaction = reaction;
