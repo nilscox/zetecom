@@ -2,8 +2,10 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
-  Get,   HttpCode,
-  Post, Query,
+  Get,
+  HttpCode,
+  Post,
+  Query,
   Res,
   Session, UseGuards,
   UseInterceptors } from '@nestjs/common';
@@ -19,7 +21,6 @@ import { UserService } from '../user/user.service';
 import { AuthenticationService } from './authentication.service';
 import { LoginUserInDto } from './dtos/login-user-in.dto';
 import { SignupUserInDto } from './dtos/signup-user-in.dto';
-import { TokenLoginInDto } from './dtos/token-login-in.dto';
 
 const {
   WEBSITE_URL,
