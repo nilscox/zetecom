@@ -37,6 +37,7 @@ const ReactionHistoryPopup: React.FC<ReactionHistoryPopupProps> = ({ match }) =>
     <Box
       p={4 * big}
       style={{ height: '100%', boxSizing: 'border-box' }}
+      data-e2e="history-list"
     >
 
       { history.map(({ date, text }, n) => (
