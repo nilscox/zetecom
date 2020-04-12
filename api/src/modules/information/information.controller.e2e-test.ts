@@ -231,8 +231,8 @@ describe('information controller', () => {
   });
 
   describe('create information', () => {
-    const { authRequest: authRequestUser } = createAuthenticatedUser(server);
-    const { authRequest: authRequestAdmin, admin } = createAuthenticatedAdmin(server);
+    const [userRequest] = createAuthenticatedUser(server);
+    const [adminRequest, admin] = createAuthenticatedAdmin(server);
 
     const info = {
       title: 'title',
@@ -248,7 +248,7 @@ describe('information controller', () => {
     });
 
     it('should not create an information when not an admin', () => {
-      return authRequestUser
+      return userRequest
         .post('/api/information')
         .send(info)
         .expect(403);
@@ -258,7 +258,7 @@ describe('information controller', () => {
       const data = { ...info };
       delete data.title;
 
-      return authRequestAdmin
+      return adminRequest
         .post('/api/information')
         .send(data)
         .expect(400);
@@ -268,14 +268,14 @@ describe('information controller', () => {
       const data = { ...info };
       delete data.url;
 
-      return authRequestAdmin
+      return adminRequest
         .post('/api/information')
         .send(data)
         .expect(400);
     });
 
     it('should create an information', async () => {
-      const { body } = await authRequestAdmin
+      const { body } = await adminRequest
         .post('/api/information')
         .send(info)
         .expect(201);
@@ -291,8 +291,8 @@ describe('information controller', () => {
   });
 
   describe('update information', () => {
-    const { authRequest: authRequestUser } = createAuthenticatedUser(server);
-    const { authRequest: authRequestAdmin } = createAuthenticatedAdmin(server);
+    const [userRequest] = createAuthenticatedUser(server);
+    const [adminRequest] = createAuthenticatedAdmin(server);
 
     let info: Information;
 
@@ -308,14 +308,14 @@ describe('information controller', () => {
     });
 
     it('should not update an information when not an admin', () => {
-      return authRequestUser
+      return userRequest
         .put(`/api/information/${info.id}`)
         .send(info)
         .expect(403);
     });
 
     it('should not update an information that does not exist', () => {
-      return authRequestAdmin
+      return adminRequest
         .put('/api/information/404')
         .send({})
         .expect(404);
@@ -324,7 +324,7 @@ describe('information controller', () => {
     it('should update an information', async () => {
       const data = { url: 'https://updated.url', imageUrl: 'https://image.url' };
 
-      const { body } = await authRequestAdmin
+      const { body } = await adminRequest
         .put(`/api/information/${info.id}`)
         .send(data)
         .expect(200);
