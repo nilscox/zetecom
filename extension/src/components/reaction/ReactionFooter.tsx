@@ -33,6 +33,12 @@ type QuickReactionProps = {
   onClick?: () => void;
 };
 
+const quickReactionTraduction = {
+  [QuickReactionType.APPROVE]: 'Approuver',
+  [QuickReactionType.REFUTE]: 'Réfuter',
+  [QuickReactionType.SKEPTIC]: 'Sceptique',
+};
+
 const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, type, userQuickReaction, onClick }) => {
   const { sizes: { small, medium, big }, colors: { backgroundHeavy } } = useTheme();
 
@@ -49,8 +55,8 @@ const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, type, userQu
         }),
         cursor: onClick ? 'pointer' : 'initial',
       }}
+      title={quickReactionTraduction[type]}
       onClick={() => onClick && onClick()}
-      data-e2e={`qr-${type}`}
     >
 
       <img src={icon} width={24} height={24} />

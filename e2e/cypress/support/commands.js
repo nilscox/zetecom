@@ -55,3 +55,7 @@ Cypress.Commands.add('visitPopup', () => {
 Cypress.Commands.add('visitIntegration', (informationUrl) => {
   cy.visit(EXTENSION_URL + '/integration?url=' + encodeURIComponent(informationUrl));
 });
+
+Cypress.Commands.add('visitHistory', (reactionId) => {
+  cy.visit(EXTENSION_URL + '/integration/reaction/' + reactionId + '/history');
+});
