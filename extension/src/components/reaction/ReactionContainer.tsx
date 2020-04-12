@@ -214,6 +214,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction: origina
         <Indented>
           <ReactionsList
             reactions={replies || []}
+            id={`reactions-list-${reaction.id}`}
             onEdited={onReplyEdited}
           />
           { loading && <Loader /> }

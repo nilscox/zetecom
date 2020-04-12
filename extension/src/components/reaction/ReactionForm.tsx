@@ -73,6 +73,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ loading, disabled }) => {
 
 type ReactionFormProps = {
   className?: string;
+  id?: string;
   placeholder: string;
   preloadedMessage?: string;
   loading: boolean;
@@ -81,7 +82,7 @@ type ReactionFormProps = {
 };
 
 const ReactionForm = forwardRef((
-  { className, placeholder, preloadedMessage = '', loading, closeForm, onSubmit }: ReactionFormProps,
+  { className, id, placeholder, preloadedMessage = '', loading, closeForm, onSubmit }: ReactionFormProps,
   ref: React.Ref<{}>,
 ) => {
   const [message, setMessage] = useState(preloadedMessage);
@@ -96,7 +97,7 @@ const ReactionForm = forwardRef((
   }, [onSubmit, message]);
 
   return (
-    <form className={clsx('reaction-form', className)} onSubmit={onSubmitForm}>
+    <form className={clsx('reaction-form', className)} id={id} onSubmit={onSubmitForm}>
       <Paper elevation={2}>
         <Flex flexDirection="column">
           <FormHeader closeForm={closeForm} />
@@ -199,6 +200,7 @@ export const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reacti
   return (
     <ReactionForm
       ref={formRef}
+      id={`reaction-${reaction.id}-form`}
       placeholder="Éditez votre message..."
       preloadedMessage={reaction.text}
       loading={loading}
