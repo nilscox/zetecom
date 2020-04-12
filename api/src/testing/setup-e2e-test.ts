@@ -1,6 +1,7 @@
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { Module, ValidationPipe } from '@nestjs/common';
 import { MiddlewareConsumer, ModuleMetadata } from '@nestjs/common/interfaces';
+import { APP_GUARD } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,15 +11,22 @@ import * as memorystore from 'memorystore';
 import * as request from 'supertest';
 
 import { ErrorsInterceptor } from 'Common/errors.interceptor';
+import { RolesGuard } from 'Common/roles.guard';
 import { UserMiddleware } from 'Common/user.middleware';
 
-import { UserOutDto } from 'src/modules/user/dtos/user-out.dto';
-
+import { AuthorizationModule } from '../modules/authorization/authorization.module';
+import { UserOutDto } from '../modules/user/dtos/user-out.dto';
 import { User } from '../modules/user/user.entity';
 
 const MemoryStore = memorystore(expressSession);
 
 @Module({
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -33,6 +41,7 @@ const MemoryStore = memorystore(expressSession);
       // logging: ['query', 'error'],
     }),
     TypeOrmModule.forFeature([User]),
+    AuthorizationModule,
   ],
   exports: [
     TypeOrmModule,

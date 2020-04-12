@@ -1,13 +1,15 @@
 import * as request from 'supertest';
-import { getCustomRepository } from 'typeorm';
+import { getCustomRepository, getRepository, Repository } from 'typeorm';
 
 import { createInformation } from '../../testing/factories/information.factory';
 import { createMessage } from '../../testing/factories/message.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
+import { Role } from '../authorization/roles.enum';
 import { Message } from '../reaction/message.entity';
 import { Reaction } from '../reaction/reaction.entity';
+import { User } from '../user/user.entity';
 
 import { Information } from './information.entity';
 import { InformationModule } from './information.module';
@@ -46,6 +48,7 @@ describe('information controller', () => {
   let reaction6: Reaction;
   let reaction7: Reaction;
 
+  let userRepository: Repository<User>;
   let informationRepository: InformationRepository;
 
   /*
@@ -62,6 +65,7 @@ describe('information controller', () => {
   */
 
   beforeAll(async () => {
+    userRepository = getRepository(User);
     informationRepository = getCustomRepository(InformationRepository);
 
     information1 = await createInformation();
@@ -228,7 +232,8 @@ describe('information controller', () => {
   });
 
   describe('create information', () => {
-    const { authRequest, user } = createAuthenticatedUser(server);
+    const { authRequest: authRequestUser } = createAuthenticatedUser(server);
+    const { authRequest: authRequestAdmin, user: admin } = createAuthenticatedUser(server);
 
     const info = {
       title: 'title',
@@ -236,8 +241,19 @@ describe('information controller', () => {
       imageUrl: 'https://image.url',
     };
 
+    beforeAll(async () => {
+      await userRepository.update({ id: admin.id }, { roles: [Role.USER, Role.ADMIN] });
+    });
+
     it('should not create an information when unauthenticated', () => {
       return request(server)
+        .post('/api/information')
+        .send(info)
+        .expect(403);
+    });
+
+    it('should not create an information when not an admin', () => {
+      return authRequestUser
         .post('/api/information')
         .send(info)
         .expect(403);
@@ -247,7 +263,7 @@ describe('information controller', () => {
       const data = { ...info };
       delete data.title;
 
-      return authRequest
+      return authRequestAdmin
         .post('/api/information')
         .send(data)
         .expect(400);
@@ -257,21 +273,21 @@ describe('information controller', () => {
       const data = { ...info };
       delete data.url;
 
-      return authRequest
+      return authRequestAdmin
         .post('/api/information')
         .send(data)
         .expect(400);
     });
 
     it('should create an information', async () => {
-      const { body } = await authRequest
+      const { body } = await authRequestAdmin
         .post('/api/information')
         .send(info)
         .expect(201);
 
       expect(body).toMatchObject(info);
       expect(body).toHaveProperty('creator');
-      expect(body.creator).toMatchObject({ id: user.id });
+      expect(body.creator).toMatchObject({ id: admin.id });
 
       const infoDb = await informationRepository.findOne(body.id);
 
@@ -280,10 +296,13 @@ describe('information controller', () => {
   });
 
   describe('update information', () => {
-    const { authRequest, user } = createAuthenticatedUser(server);
+    const { authRequest: authRequestUser } = createAuthenticatedUser(server);
+    const { authRequest: authRequestAdmin, user: admin } = createAuthenticatedUser(server);
+
     let info: Information;
 
     beforeAll(async () => {
+      await userRepository.update({ id: admin.id }, { roles: [Role.USER, Role.ADMIN] });
       info = await createInformation();
     });
 
@@ -294,8 +313,15 @@ describe('information controller', () => {
         .expect(403);
     });
 
+    it('should not update an information when not an admin', () => {
+      return authRequestUser
+        .put(`/api/information/${info.id}`)
+        .send(info)
+        .expect(403);
+    });
+
     it('should not update an information that does not exist', () => {
-      return authRequest
+      return authRequestAdmin
         .put('/api/information/404')
         .send({})
         .expect(404);
@@ -304,7 +330,7 @@ describe('information controller', () => {
     it('should update an information', async () => {
       const data = { url: 'https://updated.url', imageUrl: 'https://image.url' };
 
-      const { body } = await authRequest
+      const { body } = await authRequestAdmin
         .put(`/api/information/${info.id}`)
         .send(data)
         .expect(200);
