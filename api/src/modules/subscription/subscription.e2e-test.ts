@@ -1,4 +1,3 @@
-import * as request from 'supertest';
 import { getRepository, In, Repository } from 'typeorm';
 
 import { createInformation } from '../../testing/factories/information.factory';
@@ -17,7 +16,7 @@ describe('subscription', () => {
     imports: [AuthenticationModule, ReactionModule, NotificationModule],
   });
 
-  const { user, authRequest } = createAuthenticatedUser(server);
+  const [userRequest, user] = createAuthenticatedUser(server);
 
   let notificationRepository: Repository<Notification>;
 
@@ -39,7 +38,7 @@ describe('subscription', () => {
       text: 'text',
     };
 
-    await authRequest
+    await userRequest
       .post('/api/reaction')
       .send(requestBody)
       .expect(201);

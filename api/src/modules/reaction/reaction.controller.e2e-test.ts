@@ -65,7 +65,7 @@ describe('reaction controller', () => {
 
   describe('get for user', () => {
 
-    const { user, authRequest } = createAuthenticatedUser(server);
+    const [userRequest, user] = createAuthenticatedUser(server);
 
     let information: Information;
     let reaction1: Reaction;
@@ -88,7 +88,7 @@ describe('reaction controller', () => {
     });
 
     it('should get reactions created by a specific user', async () => {
-      const { body } = await authRequest
+      const { body } = await userRequest
         .get('/api/reaction/me')
         .expect(200);
 
@@ -102,7 +102,7 @@ describe('reaction controller', () => {
     });
 
     it('should get reactions created by a specific user on page 2', async () => {
-      const { body } = await authRequest
+      const { body } = await userRequest
         .get('/api/reaction/me')
         .query({ page: 2 })
         .expect(200);
@@ -117,7 +117,7 @@ describe('reaction controller', () => {
     });
 
     it('should get reactions created by a specific user for an information', async () => {
-      const { body } = await authRequest
+      const { body } = await userRequest
         .get('/api/reaction/me')
         .query({ informationId: information.id })
         .expect(200);
@@ -132,7 +132,7 @@ describe('reaction controller', () => {
     });
 
     it('should get reactions created by a specific user for an information on page 2', async () => {
-      const { body } = await authRequest
+      const { body } = await userRequest
         .get('/api/reaction/me')
         .query({ informationId: information.id, page: 2 })
         .expect(200);
@@ -215,7 +215,7 @@ describe('reaction controller', () => {
   });
 
   describe('subscribe to a reaction', () => {
-    const { authRequest, user } = createAuthenticatedUser(server);
+    const [userRequest, user] = createAuthenticatedUser(server);
 
     it('should not subscribe when unauthenticated', () => {
       return request(server)
@@ -224,7 +224,7 @@ describe('reaction controller', () => {
     });
 
     it('should not subscribe to an unexisting reaction', () => {
-      return authRequest
+      return userRequest
         .post('/api/reaction/404/subscribe')
         .expect(404);
     });
@@ -233,7 +233,7 @@ describe('reaction controller', () => {
       const reaction = await createReaction();
       await createSubscription({ reaction, user });
 
-      return authRequest
+      return userRequest
         .post(`/api/reaction/${reaction.id}/subscribe`)
         .expect(409);
     });
@@ -241,7 +241,7 @@ describe('reaction controller', () => {
     it('subscribe to a reaction', async () => {
       const reaction = await createReaction();
 
-      await authRequest
+      await userRequest
         .post(`/api/reaction/${reaction.id}/subscribe`)
         .expect(201);
 
@@ -252,7 +252,7 @@ describe('reaction controller', () => {
   });
 
   describe('unsubscribe from a reaction', () => {
-    const { authRequest, user } = createAuthenticatedUser(server);
+    const [userRequest, user] = createAuthenticatedUser(server);
 
     it('should not subscribe when unauthenticated', () => {
       return request(server)
@@ -261,7 +261,7 @@ describe('reaction controller', () => {
     });
 
     it('should not subscribe to an unexisting reaction', () => {
-      return authRequest
+      return userRequest
         .post('/api/reaction/404/unsubscribe')
         .expect(404);
     });
@@ -270,7 +270,7 @@ describe('reaction controller', () => {
       const reaction = await createReaction();
       await createSubscription({ user, reaction });
 
-      await authRequest
+      await userRequest
         .post(`/api/reaction/${reaction.id}/unsubscribe`)
         .expect(204);
 
@@ -281,7 +281,7 @@ describe('reaction controller', () => {
   });
 
   describe('set the subscribed field when subscribed to a reaction', () => {
-    const { authRequest, user } = createAuthenticatedUser(server);
+    const [userRequest, user] = createAuthenticatedUser(server);
 
     it('should not set the subscribed field when unauthenticated', async () => {
       const reaction = await createReaction();
@@ -296,7 +296,7 @@ describe('reaction controller', () => {
     it('should set the subscribed field to false when not subscribed to a reaction', async () => {
       const reaction = await createReaction();
 
-      const { body } = await authRequest
+      const { body } = await userRequest
         .get(`/api/reaction/${reaction.id}`)
         .expect(200);
 
@@ -307,7 +307,7 @@ describe('reaction controller', () => {
       const reaction = await createReaction();
       await createSubscription({ user, reaction });
 
-      const { body } = await authRequest
+      const { body } = await userRequest
         .get(`/api/reaction/${reaction.id}`)
         .expect(200);
 
@@ -317,7 +317,7 @@ describe('reaction controller', () => {
   });
 
   describe('create reaction', () => {
-    const { authRequest, user } = createAuthenticatedUser(server);
+    const [userRequest, user] = createAuthenticatedUser(server);
 
     const makeReaction = (informationId: number): any => ({
       informationId,
@@ -337,7 +337,7 @@ describe('reaction controller', () => {
       const reaction = makeReaction(information.id);
       delete reaction.informationId;
 
-      return authRequest
+      return userRequest
         .post('/api/reaction')
         .send(reaction)
         .expect(400);
@@ -347,7 +347,7 @@ describe('reaction controller', () => {
       const reaction = makeReaction(information.id);
       reaction.informationId = 404;
 
-      return authRequest
+      return userRequest
         .post('/api/reaction')
         .send(reaction)
         .expect(400);
@@ -357,7 +357,7 @@ describe('reaction controller', () => {
       const reaction = makeReaction(information.id);
       delete reaction.text;
 
-      return authRequest
+      return userRequest
         .post('/api/reaction')
         .send(reaction)
         .expect(400);
@@ -366,7 +366,7 @@ describe('reaction controller', () => {
     it('should create a reaction', async () => {
       const reaction = makeReaction(information.id);
 
-      const { body } = await authRequest
+      const { body } = await userRequest
         .post('/api/reaction')
         .send(reaction)
         .expect(201);
@@ -384,7 +384,7 @@ describe('reaction controller', () => {
   });
 
   describe('update reaction', () => {
-    const { authRequest, user } = createAuthenticatedUser(server);
+    const [userRequest, user] = createAuthenticatedUser(server);
 
     it('should not update a reaction when not authenticated', () => {
       return request(server)
@@ -393,13 +393,13 @@ describe('reaction controller', () => {
     });
 
     it('should not update an unexisting reaction', () => {
-      return authRequest
+      return userRequest
         .put('/api/reaction/404')
         .expect(404);
     });
 
     it('should not update a reaction that does not belong to the authenticated user', () => {
-      return authRequest
+      return userRequest
         .put(`/api/reaction/${reaction.id}`)
         .expect(403);
     });
@@ -407,7 +407,7 @@ describe('reaction controller', () => {
     it('should update a reaction', async () => {
       const reaction = await createReaction({ author: user });
 
-      const { body } = await authRequest
+      const { body } = await userRequest
         .put(`/api/reaction/${reaction.id}`)
         .send({ text: 'edited' })
         .expect(200);
@@ -420,7 +420,7 @@ describe('reaction controller', () => {
   });
 
   describe('quick reaction', () => {
-    const { authRequest, user } = createAuthenticatedUser(server);
+    const [userRequest, user] = createAuthenticatedUser(server);
 
     it('should not create a quick reaction when not authenticated', () => {
       return request(server)
@@ -429,7 +429,7 @@ describe('reaction controller', () => {
     });
 
     it('should not create a quick reaction with invalid type', () => {
-      return authRequest
+      return userRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
         .send({ type: 'AGREE' })
         .expect(400);
@@ -438,14 +438,14 @@ describe('reaction controller', () => {
     it('should not create a quick reaction on own reaction', async () => {
       const reaction = await createReaction({ author: user });
 
-      return authRequest
+      return userRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
         .send({ type: QuickReactionType.APPROVE })
         .expect(403);
     });
 
     it('should create a quick reaction', async () => {
-      const { body } = await authRequest
+      const { body } = await userRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
         .send({ type: QuickReactionType.APPROVE })
         .expect(201);
@@ -465,7 +465,7 @@ describe('reaction controller', () => {
     });
 
     it('should update a quick reaction', async () => {
-      const { body } = await authRequest
+      const { body } = await userRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
         .send({ type: QuickReactionType.SKEPTIC })
         .expect(201);
@@ -485,7 +485,7 @@ describe('reaction controller', () => {
     });
 
     it('should remove a quick reaction', async () => {
-      const { body } = await authRequest
+      const { body } = await userRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
         .send({ type: null })
         .expect(201);
@@ -507,8 +507,8 @@ describe('reaction controller', () => {
   });
 
   describe('score', () => {
-    const { authRequest: authRequest } = createAuthenticatedUser(server);
-    const { authRequest: authRequest2 } = createAuthenticatedUser(server);
+    const [userRequest] = createAuthenticatedUser(server);
+    const [userRequest2] = createAuthenticatedUser(server);
 
     beforeAll(async () => {
       information = await createInformation();
@@ -516,7 +516,7 @@ describe('reaction controller', () => {
     });
 
     it('should increment a reaction score by 2 when a reply is created', async () => {
-      await authRequest
+      await userRequest
         .post('/api/reaction')
         .send({
           informationId: information.id,
@@ -534,7 +534,7 @@ describe('reaction controller', () => {
 
     // this is odd, but can still be achived by calling the api directly
     it('should not update the score when a quick reaction is created with type null', async () => {
-      await authRequest
+      await userRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
         .send({ type: null })
         .expect(201);
@@ -547,7 +547,7 @@ describe('reaction controller', () => {
     });
 
     it('should increment a reaction score when a quick reaction is created', async () => {
-      await authRequest
+      await userRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
         .send({ type: QuickReactionType.APPROVE })
         .expect(201);
@@ -560,7 +560,7 @@ describe('reaction controller', () => {
     });
 
     it('should not change a reaction score when a quick reaction is updated', async () => {
-      await authRequest
+      await userRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
         .send({ type: QuickReactionType.SKEPTIC })
         .expect(201);
@@ -573,7 +573,7 @@ describe('reaction controller', () => {
     });
 
     it('should decrement a reaction score when a quick reaction is removed', async () => {
-      await authRequest
+      await userRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
         .send({ type: null })
         .expect(201);
@@ -586,7 +586,7 @@ describe('reaction controller', () => {
     });
 
     it('should reincrement a reaction score when a quick reaction is recreated', async () => {
-      await authRequest
+      await userRequest
         .post(`/api/reaction/${reaction.id}/quick-reaction`)
         .send({ type: QuickReactionType.APPROVE })
         .expect(201);
@@ -601,7 +601,7 @@ describe('reaction controller', () => {
     it('should increment a parent reaction score when a quick reaction is created', async () => {
       const child = await reactionRepository.findOne({ parent: reaction });
 
-      await authRequest2
+      await userRequest2
         .post(`/api/reaction/${child.id}/quick-reaction`)
         .send({ type: QuickReactionType.APPROVE })
         .expect(201);

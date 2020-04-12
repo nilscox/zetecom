@@ -106,11 +106,11 @@ export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module
 let createUsersCount = 0;
 
 export const createAuthenticatedUser = (server) => {
-  const authRequest = request.agent(server);
+  const userRequest = request.agent(server);
   const user: UserOutDto = {} as any;
 
   beforeAll(async () => {
-    const { body } = await authRequest
+    const { body } = await userRequest
       .post('/api/auth/signup')
       .send({
         nick: `nick${createUsersCount}`,
@@ -123,15 +123,15 @@ export const createAuthenticatedUser = (server) => {
     createUsersCount++;
   });
 
-  return { authRequest, user };
+  return [userRequest, user] as const;
 };
 
 export const createAuthenticatedAdmin = (server) => {
-  const { authRequest, user: admin } = createAuthenticatedUser(server);
+  const [adminRequest, admin] = createAuthenticatedUser(server);
 
   beforeAll(async () => {
     await getRepository(User).update({ id: admin.id }, { roles: [Role.USER, Role.ADMIN] });
   });
 
-  return { authRequest, admin };
+  return [adminRequest, admin] as const;
 };

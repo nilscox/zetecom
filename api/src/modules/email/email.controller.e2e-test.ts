@@ -22,8 +22,8 @@ describe('email controller', () => {
 
   describe('authorized', () => {
 
-    const { authRequest: authRequestUser } = createAuthenticatedUser(server);
-    const { authRequest: authRequestAdmin } = createAuthenticatedAdmin(server);
+    const [userRequest] = createAuthenticatedUser(server);
+    const [adminRequest] = createAuthenticatedAdmin(server);
 
     it('should not have access to the authorized emails when unauthenticated', async () => {
       await request(server)
@@ -32,13 +32,13 @@ describe('email controller', () => {
     });
 
     it('should not have access to the authorized emails when not admin', async () => {
-      await authRequestUser
+      await userRequest
         .get('/api/email/authorized')
         .expect(403);
     });
 
     it('should access the authorized email', async () => {
-      const { body } = await authRequestAdmin
+      const { body } = await adminRequest
         .get('/api/email/authorized')
         .expect(200);
 
@@ -49,8 +49,8 @@ describe('email controller', () => {
 
   describe('authorize', () => {
 
-    const { authRequest: authRequestUser } = createAuthenticatedUser(server);
-    const { authRequest: authRequestAdmin } = createAuthenticatedAdmin(server);
+    const [userRequest] = createAuthenticatedUser(server);
+    const [adminRequest] = createAuthenticatedAdmin(server);
 
     it('should not create an authorized email when unauthenticated', async () => {
       await request(server)
@@ -59,13 +59,13 @@ describe('email controller', () => {
     });
 
     it('should not create an authorized email when not admin', async () => {
-      await authRequestUser
+      await userRequest
         .post('/api/email/authorize')
         .expect(403);
     });
 
     it('should create an authorized email', async () => {
-      const { body } = await authRequestAdmin
+      const { body } = await adminRequest
         .post('/api/email/authorize')
         .send({ email: 'authorized@domain.tld' })
         .expect(201);
