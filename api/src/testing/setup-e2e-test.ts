@@ -9,12 +9,14 @@ import * as express from 'express';
 import * as expressSession from 'express-session';
 import * as memorystore from 'memorystore';
 import * as request from 'supertest';
+import { getRepository } from 'typeorm';
 
 import { ErrorsInterceptor } from 'Common/errors.interceptor';
 import { RolesGuard } from 'Common/roles.guard';
 import { UserMiddleware } from 'Common/user.middleware';
 
 import { AuthorizationModule } from '../modules/authorization/authorization.module';
+import { Role } from '../modules/authorization/roles.enum';
 import { UserOutDto } from '../modules/user/dtos/user-out.dto';
 import { User } from '../modules/user/user.entity';
 
@@ -122,4 +124,14 @@ export const createAuthenticatedUser = (server) => {
   });
 
   return { authRequest, user };
+};
+
+export const createAuthenticatedAdmin = (server) => {
+  const { authRequest, user: admin } = createAuthenticatedUser(server);
+
+  beforeAll(async () => {
+    await getRepository(User).update({ id: admin.id }, { roles: [Role.USER, Role.ADMIN] });
+  });
+
+  return { authRequest, admin };
 };

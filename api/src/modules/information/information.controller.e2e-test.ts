@@ -4,9 +4,8 @@ import { getCustomRepository, getRepository, Repository } from 'typeorm';
 import { createInformation } from '../../testing/factories/information.factory';
 import { createMessage } from '../../testing/factories/message.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
-import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
+import { createAuthenticatedAdmin, createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
-import { Role } from '../authorization/roles.enum';
 import { Message } from '../reaction/message.entity';
 import { Reaction } from '../reaction/reaction.entity';
 import { User } from '../user/user.entity';
@@ -233,17 +232,13 @@ describe('information controller', () => {
 
   describe('create information', () => {
     const { authRequest: authRequestUser } = createAuthenticatedUser(server);
-    const { authRequest: authRequestAdmin, user: admin } = createAuthenticatedUser(server);
+    const { authRequest: authRequestAdmin, admin } = createAuthenticatedAdmin(server);
 
     const info = {
       title: 'title',
       url: 'https://some.url',
       imageUrl: 'https://image.url',
     };
-
-    beforeAll(async () => {
-      await userRepository.update({ id: admin.id }, { roles: [Role.USER, Role.ADMIN] });
-    });
 
     it('should not create an information when unauthenticated', () => {
       return request(server)
@@ -297,12 +292,11 @@ describe('information controller', () => {
 
   describe('update information', () => {
     const { authRequest: authRequestUser } = createAuthenticatedUser(server);
-    const { authRequest: authRequestAdmin, user: admin } = createAuthenticatedUser(server);
+    const { authRequest: authRequestAdmin } = createAuthenticatedAdmin(server);
 
     let info: Information;
 
     beforeAll(async () => {
-      await userRepository.update({ id: admin.id }, { roles: [Role.USER, Role.ADMIN] });
       info = await createInformation();
     });
 
