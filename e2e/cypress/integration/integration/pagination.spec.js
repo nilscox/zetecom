@@ -42,7 +42,7 @@ describe('pagination', () => {
     cy.visitIntegration('https://news.fake/article/1');
 
     cy.get('[title=Tri]').click();
-    cy.get('[data-e2e="date-asc"]').click();
+    cy.contains('Les plus anciennes en premier').click();
 
     cy.get('.reactions-list').children().should('have.length', 10);
     cy.get('.reactions-list').first().contains('reaction 1 text');
@@ -71,7 +71,7 @@ describe('pagination', () => {
     cy.visitIntegration('https://news.fake/article/1');
 
     cy.get('[title=Tri]').click();
-    cy.get('[data-e2e="relevance"]').click();
+    cy.contains('Les plus pertinentes en premier').click();
 
     cy.get('.reactions-list').first().contains('reaction 2 text');
     cy.get('.reactions-list').children().eq(1).contains('reaction 1 text');

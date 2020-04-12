@@ -50,7 +50,6 @@ const SortMenu: React.FC<SortMenuProps> = ({ sort: currentSort, onSortChange }) 
             key={sort}
             disabled={sort === currentSort}
             onClick={setSort(sort)}
-            data-e2e={sort}
           >
             { menuText[sort] }
           </MenuItem>
