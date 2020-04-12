@@ -20,11 +20,13 @@ import { OptionalQuery } from 'Common/optional-query.decorator';
 import { Output, PaginatedOutput } from 'Common/output.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
+import { Roles } from 'Common/roles.decorator';
 import { SearchQuery } from 'Common/search-query.decorator';
 import { SortType } from 'Common/sort-type';
 import { SortTypePipe } from 'Common/sort-type.pipe';
 
 import { PopulateInformation } from '../../modules/information/populate-information.interceptor';
+import { Role } from '../authorization/roles.enum';
 import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
 import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
 import { Reaction } from '../reaction/reaction.entity';
@@ -112,6 +114,7 @@ export class InformationController {
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateInformation)
   @Output(InformationOutDto)
+  @Roles(Role.ADMIN)
   async create(
     @Body() dto: CreateInformationInDto,
     @AuthUser() user: User,
@@ -126,6 +129,7 @@ export class InformationController {
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateInformation)
   @Output(InformationOutDto)
+  @Roles(Role.ADMIN)
   async update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateInformationInDto,
