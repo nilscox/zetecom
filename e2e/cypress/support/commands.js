@@ -59,3 +59,9 @@ Cypress.Commands.add('visitIntegration', (informationUrl) => {
 Cypress.Commands.add('visitHistory', (reactionId) => {
   cy.visit(EXTENSION_URL + '/integration/reaction/' + reactionId + '/history');
 });
+
+Cypress.Commands.add('visitReport', (reactionId) => {
+  cy.visit(EXTENSION_URL + '/integration/reaction/' + reactionId + '/report');
+});
+
+Cypress.Commands.add('getReaction', (id) => cy.get(`#reaction-${id}`));

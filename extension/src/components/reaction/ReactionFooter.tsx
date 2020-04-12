@@ -43,29 +43,41 @@ const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, type, userQu
   const { sizes: { small, medium, big }, colors: { backgroundHeavy } } = useTheme();
 
   return (
-    <Flex
-      px={big}
-      py={small}
-      flexDirection="row"
-      alignItems="center"
+    <button
+      type="button"
+      disabled={!onClick}
+      title={quickReactionTraduction[type]}
       style={{
-        ...(userQuickReaction && {
-          backgroundColor: backgroundHeavy,
-          fontWeight: 'bold',
-        }),
+        backgroundColor: 'transparent',
+        border: 'none',
+        outline: 'none',
+        padding: 0,
+        font: 'inherit',
         cursor: onClick ? 'pointer' : 'initial',
       }}
-      title={quickReactionTraduction[type]}
       onClick={() => onClick && onClick()}
     >
+      <Flex
+        px={big}
+        py={small}
+        flexDirection="row"
+        alignItems="center"
+        style={{
+          ...(userQuickReaction && {
+            backgroundColor: backgroundHeavy,
+            fontWeight: 'bold',
+          }),
+        }}
+      >
 
-      <img src={icon} width={24} height={24} />
+        <img src={icon} width={24} height={24} />
 
-      <Box ml={medium}>
-        <Text>{ count }</Text>
-      </Box>
+        <Box ml={medium}>
+          <Text>{ count }</Text>
+        </Box>
 
-    </Flex>
+      </Flex>
+    </button>
   );
 };
 
