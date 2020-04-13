@@ -9,15 +9,15 @@ const information = {
 };
 
 const reaction = {
-  "author": "user1",
-  "quickReactions": {
-    "approve": [],
-    "refute": [],
-    "skeptic": []
+  author: 'user1',
+  quickReactions: {
+    approve: [],
+    refute: [],
+    skeptic: []
   },
-  "text": "reaction 1 text",
-  "history": [],
-  "replies": [],
+  text: 'reaction 1 text',
+  history: [],
+  replies: [],
 };
 
 describe('reactions', () => {
@@ -64,16 +64,19 @@ describe('reactions', () => {
         ],
       };
 
-
       cy.resetdb();
       cy.populatedb(data);
       cy.visitIntegration('https://news.fake/article/1');
 
-      cy.getReaction(1).contains('edited 1 text');
-      cy.getReaction(1).contains('user1');
-      cy.getReaction(1).find('img[src="/assets/images/default-avatar.png"]');
-      cy.getReaction(1).find('[title="Édité"]');
-      cy.get('[title="Approuver"]').contains('1');
+      cy.getReaction(1).within(() => {
+        cy.contains('edited 1 text');
+        cy.contains('user1');
+        cy.get('img[src="/assets/images/default-avatar.png"]');
+        cy.get('[title="Édité"]');
+        cy.get('button[type="button"]').contains('Signaler').should('not.exist');
+        cy.contains('✎').should('not.exist');
+        cy.get('[title="Approuver"]').contains('1');
+      });
     });
 
     it('should view replies', () => {
@@ -113,17 +116,14 @@ describe('reactions', () => {
 
       cy.getReaction(1).contains('reaction 1 text');
       cy.getReaction(1).contains('2 réponses').click();
-
+      cy.get('#reactions-list-1').children().should('have.length', 2);
       cy.contains('reaction 1.1 text');
       cy.contains('reaction 1.2 text');
 
       cy.getReaction(3).contains('1 réponse').click();
-
-      cy.getReaction(4).contains('reaction 1.2.1 text');
+      cy.contains('reaction 1.2.1 text');
 
       cy.getReaction(1).contains('2 réponses').click();
-      cy.get('#reactions-list-1').children().should('have.length', 2);
-
       cy.getReaction(2).should('not.be.visible');
       cy.getReaction(3).should('not.be.visible');
       cy.getReaction(4).should('not.be.visible');
@@ -139,7 +139,6 @@ describe('reactions', () => {
           },
         ],
       };
-
 
       cy.resetdb();
       cy.populatedb(data);
@@ -221,17 +220,21 @@ describe('reactions', () => {
       cy.get('button[type="submit"]').should('be.disabled');
 
       cy.get('[placeholder="Composez votre message..."]').type('Réaction depuis le test \n\n * élément1 \n * élément2');
-      cy.get('.reaction-form').contains('Aperçu').click();
-      cy.get('.reaction-form').get('p').contains('Réaction depuis le test');
-      cy.get('.reaction-form').get('ul').first().contains('élément1');
-      cy.get('.reaction-form').get('ul').children().eq(1).contains('élément2');
-      cy.get('.reaction-form').contains('Editer').click();
-      cy.get('button[type="submit"]').contains('Envoyer').click();
+      cy.get('.reaction-form').within(() => {
+        cy.contains('Aperçu').click();
+        cy.get('p').contains('Réaction depuis le test');
+        cy.get('ul').first().contains('élément1');
+        cy.get('ul').children().eq(1).contains('élément2');
+        cy.contains('Editer').click();
+        cy.get('button[type="submit"]').contains('Envoyer').click();
+        cy.get('[placeholder="Composez votre message..."]').children().should('have.length', 0);
+      });
 
-      cy.get('[placeholder="Composez votre message..."]').children().should('have.length', 0);
-      cy.getReaction(1).get('p').contains('Réaction depuis le test');
-      cy.getReaction(1).get('ul').first().contains('élément1');
-      cy.getReaction(1).get('ul').children().eq(1).contains('élément2');
+      cy.getReaction(1).within(() => {
+        cy.get('p').contains('Réaction depuis le test');
+        cy.get('ul').first().contains('élément1');
+        cy.get('ul').children().eq(1).contains('élément2');
+      });
     });
 
     it('should add a replie', () => {
@@ -290,12 +293,16 @@ describe('reactions', () => {
 
       cy.getReaction(1).contains('✎').click();
       cy.getReaction(1).should('not.exist');
-      cy.get('#reaction-1-form').contains('reaction 1 text').clear().type('edited 1 text');
-      cy.get('#reaction-1-form').find('button[type="submit"]').contains('Envoyer').click();
+      cy.get('#reaction-1-form').within(() => {
+        cy.contains('reaction 1 text').clear().type('edited 1 text');
+        cy.get('button[type="submit"]').contains('Envoyer').click();
+      });
 
       cy.get('#reaction-1-form').should('not.exist');
-      cy.getReaction(1).contains('edited 1 text');
-      cy.getReaction(1).find('[title="Édité"]');
+      cy.getReaction(1).within(() => {
+        cy.contains('edited 1 text');
+        cy.get('[title="Édité"]');
+      });
     });
 
     it('should add a quick reaction', () => {
