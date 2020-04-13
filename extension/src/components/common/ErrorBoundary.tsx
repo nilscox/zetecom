@@ -40,7 +40,7 @@ const GenericErrorView: React.FC = () => (
   </>
 );
 
-export const DevErrorReporter: React.FC<{ error: Error, errorInfo: ErrorInfo }> = ({ error, errorInfo }) => (
+export const DevErrorReporter: React.FC<{ error: Error; errorInfo: ErrorInfo }> = ({ error, errorInfo }) => (
   <div style={{ margin: 30 }}>
     <pre style={{ fontFamily: 'monospace', fontSize: 14 }}>{ error.stack } </pre>
     <hr />
