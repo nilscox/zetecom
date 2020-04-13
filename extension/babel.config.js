@@ -13,5 +13,6 @@ module.exports = {
     ['@babel/plugin-proposal-class-properties', { loose: true }],
     'react-hot-loader/babel',
     '@babel/plugin-transform-runtime',
+    'istanbul',
   ],
 };
