@@ -259,6 +259,7 @@ describe('reactions', () => {
 
       cy.getReaction(1).contains('Répondre').click();
       cy.getReaction(1).siblings().find('[placeholder="Répondez à user1"]').type('Réponse depuis le test');
+
       cy.getReaction(1).siblings().find('button[type="submit"]').contains('Envoyer').click();
 
       cy.getReaction(1).siblings().find('form.reaction-form').should('not.be.visible');
@@ -434,6 +435,33 @@ describe('reactions', () => {
       cy.get('[placeholder="Précisez en quelques mots le motif du signalement si nécessaire..."]').type('Contenu non pertinent');
       cy.get('button[type="button"]').contains('Signaler').click();
       cy.contains('La réaction a été signalée, merci pour votre contribution ! 💪');
+    });
+
+    it('should subscribe and unsubscribe to a reaction', () => {
+      const data = {
+        users: [user1],
+        informations: [
+          {
+            ...information,
+            reactions: [reaction],
+          },
+        ],
+      };
+
+      cy.resetdb();
+      cy.populatedb(data);
+      cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
+      cy.visitIntegration('https://news.fake/article/1');
+
+      cy.get('button[title="S\'abonner"]').click();
+      cy.reload();
+
+      cy.get('button[title="Se désabonner"]').should('exist');
+
+      cy.get('button[title="Se désabonner"]').click();
+      cy.reload();
+
+      cy.get('button[title="S\'abonner"]').should('exist');
     });
 
   });

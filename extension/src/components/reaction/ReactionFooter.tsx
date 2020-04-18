@@ -303,7 +303,7 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({ reaction }) => {
     return null;
 
   return (
-    <IconButton size="small" onClick={toggleSubscription}>
+    <IconButton size="small" onClick={toggleSubscription} title={subscribed ? 'Se désabonner' : 'S\'abonner'}>
       { subscribed
         ? <SubscribeActiveIcon fontSize="small" color="secondary" />
         : <SubscribeIcon fontSize="small" color="disabled" />
