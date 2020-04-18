@@ -29,7 +29,7 @@ const Rules: React.FC = () => {
       <Title id="Charte">La charte de Réagir à l'information</Title>
 
       <p>
-        Cette présente charte propose un ensemble de règles dans le but d'apporter un cadre saint et propice à des
+        Cette présente charte propose un ensemble de règles dans le but d'apporter un cadre sain et propice à des
         échanges ouverts et respectueux. Tous les utilisateurs inscrits sur la plateforme se doivent de l'accepter et de
         la respecter.
       </p>
