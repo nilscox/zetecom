@@ -3,6 +3,8 @@ services:
 
   api:
     image: nilscox/reagir-information-api:${GIT_SHA}
+    environment:
+      NODE_ENV: cypress
 
   restoredb:
     image: nilscox/reagir-information-api:${GIT_SHA}
@@ -11,7 +13,6 @@ services:
     image: nilscox/reagir-information-extension:${GIT_SHA}
     environment:
       API_URL: http://ri-api:3000
-      REACTION_PAGE_SIZE: 2
 
   cypress:
     build: ./e2e
