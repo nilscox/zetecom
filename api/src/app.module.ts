@@ -13,6 +13,8 @@ import { UserMiddleware } from 'Common/user.middleware';
 import { AppController } from './app.controller';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { AuthorizationModule } from './modules/authorization/authorization.module';
+import { ConfigModule } from './modules/config/config.module';
+import { ConfigService } from './modules/config/config.service';
 import { EmailModule } from './modules/email/email.module';
 import { HealthcheckModule } from './modules/healthcheck/healthcheck.module';
 import { InformationModule } from './modules/information/information.module';
@@ -40,6 +42,7 @@ const MemoryStore = memorystore(expressSession);
   imports: [
     TypeOrmModule.forRoot(),
     TypeOrmModule.forFeature([User]),
+    ConfigModule,
     HealthcheckModule,
     EmailModule,
     UserModule,
@@ -52,7 +55,15 @@ const MemoryStore = memorystore(expressSession);
 })
 export class AppModule {
 
+  constructor(
+    private readonly configService: ConfigService,
+  ) {}
+
   configure(consumer: MiddlewareConsumer) {
+    const NODE_ENV = this.configService.get('NODE_ENV');
+    const CI = this.configService.get('CI');
+    const SESSION_SECRET = this.configService.get('SESSION_SECRET');
+
     const middlewares = [];
 
     ExpressSessionMiddleware.configure({
@@ -62,15 +73,15 @@ export class AppModule {
         // one day
         checkPeriod: 86400000,
       }),
-      secret: process.env.SESSION_SECRET,
+      secret: SESSION_SECRET,
       resave: true,
       saveUninitialized: true,
     });
 
     middlewares.push(ExpressSessionMiddleware);
 
-    if (process.env.CI !== 'true') {
-      MorganMiddleware.configure(process.env.NODE_ENV === 'production' ? 'combined' : 'dev');
+    if (CI !== 'true') {
+      MorganMiddleware.configure(NODE_ENV === 'production' ? 'combined' : 'dev');
       middlewares.push(MorganMiddleware);
     }
 
@@ -80,7 +91,7 @@ export class AppModule {
       .apply(...middlewares)
       .forRoutes('*');
 
-    if (process.env.NODE_ENV === 'development') {
+    if (NODE_ENV === 'development') {
       consumer
         .apply(LagMiddleware)
         .forRoutes('*');

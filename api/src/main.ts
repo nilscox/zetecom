@@ -15,7 +15,7 @@ import { ErrorsInterceptor } from 'Common/errors.interceptor';
 
 import { AppModule } from './app.module';
 
-const { LISTEN_PORT, LISTEN_IP } = process.env;
+const { LISTEN_PORT, LISTEN_IP, REFLECT_ORIGIN } = process.env;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -24,7 +24,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalInterceptors(new ErrorsInterceptor());
 
-  if (process.env.REFLECT_ORIGIN === 'true')
+  if (REFLECT_ORIGIN === 'true')
     app.enableCors({ origin: true, credentials: true });
 
   await app.listen(LISTEN_PORT, LISTEN_IP);

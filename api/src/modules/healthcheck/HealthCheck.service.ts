@@ -16,6 +16,7 @@ export class HealthCheckService {
     }
   }
 
+  // TODO: remove
   async checkExtension() {
     try {
       await fetch(EXTENSION_URL);
@@ -25,6 +26,7 @@ export class HealthCheckService {
     }
   }
 
+  // TODO: remove
   async checkWebsite() {
     try {
       await fetch(WEBSITE_URL);

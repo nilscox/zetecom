@@ -16,7 +16,7 @@ import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
 import { Output } from 'Common/output.interceptor';
 
-import { AvatarService, multerStorage } from '../avatar/avatar.service';
+import { AvatarService } from '../avatar/avatar.service';
 
 import { UserOutDto } from './dtos/user-out.dto';
 import { User } from './user.entity';
@@ -53,7 +53,7 @@ export class UserController {
   // FIXME: any
   @Put('avatar')
   @UseGuards(IsAuthenticated)
-  @UseInterceptors(FileInterceptor('image', { storage: multerStorage }))
+  @UseInterceptors(FileInterceptor('image'))
   @Output(UserOutDto)
   async updateUserAvatar(@UploadedFile() file: any, @AuthUser() user: User): Promise<User> {
     await this.avatarService.setUserAvatar(user, file);

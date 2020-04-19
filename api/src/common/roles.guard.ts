@@ -1,15 +1,16 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
-import { Role } from 'src/modules/authorization/roles.enum';
-import { User } from 'src/modules/user/user.entity';
-
 import { AuthorizationService } from '../modules/authorization/authorization.service';
+import { Role } from '../modules/authorization/roles.enum';
+import { ConfigService } from '../modules/config/config.service';
+import { User } from '../modules/user/user.entity';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
 
   constructor(
+    private readonly configService: ConfigService,
     private readonly reflector: Reflector,
     private readonly authorizationService: AuthorizationService,
   ) {}
@@ -17,10 +18,12 @@ export class RolesGuard implements CanActivate {
   async canActivate(
     context: ExecutionContext,
   ): Promise<boolean> {
+    const NODE_ENV = this.configService.get('NODE_ENV');
+
     const roles = this.reflector.get<Role[]>('roles', context.getHandler());
 
     // TODO: better roles handling in tests
-    if (process.env.NODE_ENV === 'cypress')
+    if (NODE_ENV === 'cypress')
       return true;
 
     if (!roles)
