@@ -1,9 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as multer from 'multer';
 import { Repository } from 'typeorm';
 
 import { User } from '../user/user.entity';
@@ -15,25 +11,6 @@ const ALLOWED_FORMATS = [
   'image/bmp',
   'image/svg',
 ];
-
-const { USER_AVATAR_DESTINATION } = process.env;
-
-if (process.env.NODE_ENV !== 'test') {
-  if (!fs.existsSync(USER_AVATAR_DESTINATION))
-    fs.mkdirSync(USER_AVATAR_DESTINATION);
-}
-
-export const multerStorage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, USER_AVATAR_DESTINATION);
-  },
-  filename(req, file, cb) {
-    if (!req.user)
-      return cb(new Error('multerStorage: req.user must exist'));
-
-    cb(null, [req.user.nick, Date.now()].join('-') + path.extname(file.originalname));
-  },
-});
 
 @Injectable()
 export class AvatarService {

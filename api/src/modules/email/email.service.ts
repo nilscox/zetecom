@@ -1,53 +1,35 @@
-import { readdirSync, readFileSync } from 'fs';
-import * as path from 'path';
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as email from 'emailjs';
 import { Repository } from 'typeorm';
 
+import { ConfigService } from '../config/config.service';
 import { User } from '../user/user.entity';
 
 import { AuthorizedEmail } from './authorized-email.entity';
 
-const {
-  NODE_ENV,
-  EMAIL_HOST,
-  EMAIL_USER,
-  EMAIL_PASSWORD,
-  EMAIL_TEMPLATE_DIR,
-  EMAIL_BYPASS,
-  EXTENSION_URL,
-} = process.env;
-
-const templates = {};
-
-// TODO: put all that in module init
-if (NODE_ENV !== 'test') {
-  const templateFiles = readdirSync(EMAIL_TEMPLATE_DIR);
-
-  for (const templateFile of templateFiles) {
-    const template = readFileSync(path.join(EMAIL_TEMPLATE_DIR, templateFile));
-    const ext = path.extname(templateFile);
-    const basename = path.basename(templateFile, ext);
-
-    if (!templates[basename])
-      templates[basename] = {};
-
-    templates[basename][ext.slice(1)] = template.toString();
-  }
-}
+type EmailTemplate = {
+  html: string;
+  txt: string;
+};
 
 @Injectable()
 export class EmailService {
 
+  private templates: { [key: string]: EmailTemplate };
+
   constructor(
+    private readonly configService: ConfigService,
     @InjectRepository(AuthorizedEmail)
     private readonly authorizedEmailRepository: Repository<AuthorizedEmail>,
   ) {}
 
-  private static renderTemplate(templateName, replacement: {[key: string]: string}) {
-    const template: { html: string; txt: string } = templates[templateName];
+  setTemplates(templates: { [key: string]: EmailTemplate }) {
+    this.templates = templates;
+  }
+
+  private renderTemplate(templateName, replacement: {[key: string]: string}) {
+    const template = this.templates[templateName];
 
     if (!template)
       throw new Error('Unknown template: ' + template);
@@ -62,6 +44,11 @@ export class EmailService {
   }
 
   private sendEmail(to: string, subject: string, text: string, html: string): Promise<any> {
+    const EMAIL_BYPASS = this.configService.get('EMAIL_BYPASS');
+    const EMAIL_HOST = this.configService.get('EMAIL_HOST');
+    const EMAIL_USER = this.configService.get('EMAIL_USER');
+    const EMAIL_PASSWORD = this.configService.get('EMAIL_PASSWORD');
+
     if (EMAIL_BYPASS === 'true')
       return Promise.resolve();
 
@@ -95,7 +82,7 @@ export class EmailService {
   }
 
   sendTestEmail(to: string, subject: string, value: string): Promise<any> {
-    const template = EmailService.renderTemplate('test', { value });
+    const template = this.renderTemplate('test', { value });
 
     return this.sendEmail(
       to,
@@ -106,7 +93,9 @@ export class EmailService {
   }
 
   sendEmailValidationEmail(user: User): Promise<any> {
-    const template = EmailService.renderTemplate('welcome', {
+    const EXTENSION_URL = this.configService.get('EXTENSION_URL');
+
+    const template = this.renderTemplate('welcome', {
       // eslint-disable-next-line @typescript-eslint/camelcase
       email_validation_link: `${EXTENSION_URL}/api/auth/email-validation?token=${user.emailValidationToken}`,
     });

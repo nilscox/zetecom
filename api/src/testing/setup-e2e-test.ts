@@ -17,6 +17,7 @@ import { UserMiddleware } from 'Common/user.middleware';
 
 import { AuthorizationModule } from '../modules/authorization/authorization.module';
 import { Role } from '../modules/authorization/roles.enum';
+import { ConfigModule } from '../modules/config/config.module';
 import { UserOutDto } from '../modules/user/dtos/user-out.dto';
 import { User } from '../modules/user/user.entity';
 
@@ -44,6 +45,7 @@ const MemoryStore = memorystore(expressSession);
     }),
     TypeOrmModule.forFeature([User]),
     AuthorizationModule,
+    ConfigModule,
   ],
   exports: [
     TypeOrmModule,

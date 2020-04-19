@@ -6,19 +6,16 @@ import * as uuidv4 from 'uuid/v4';
 
 import { SignupUserInDto } from '../authentication/dtos/signup-user-in.dto';
 import { Role } from '../authorization/roles.enum';
+import { ConfigService } from '../config/config.service';
 import { EmailService } from '../email/email.service';
 
 import { User } from './user.entity';
-
-const {
-  EMAIL_ACCOUNT_VERIFICATION,
-  EMAIL_ACCOUNT_AUTHORIZATION,
-} = process.env;
 
 @Injectable()
 export class UserService {
 
   constructor(
+    private readonly configService: ConfigService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly emailService: EmailService,
@@ -41,6 +38,9 @@ export class UserService {
   }
 
   async create(dto: SignupUserInDto): Promise<User> {
+    const EMAIL_ACCOUNT_AUTHORIZATION = this.configService.get('EMAIL_ACCOUNT_AUTHORIZATION');
+    const EMAIL_ACCOUNT_VERIFICATION = this.configService.get('EMAIL_ACCOUNT_VERIFICATION');
+
     const { email, password, nick, avatar } = dto;
 
     if (EMAIL_ACCOUNT_AUTHORIZATION === 'true' && !await this.emailService.isAthorized(email))

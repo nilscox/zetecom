@@ -14,6 +14,7 @@ import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
 import { Output } from 'Common/output.interceptor';
 
+import { ConfigService } from '../config/config.service';
 import { UserOutDto } from '../user/dtos/user-out.dto';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
@@ -22,15 +23,12 @@ import { AuthenticationService } from './authentication.service';
 import { LoginUserInDto } from './dtos/login-user-in.dto';
 import { SignupUserInDto } from './dtos/signup-user-in.dto';
 
-const {
-  WEBSITE_URL,
-} = process.env;
-
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthenticationController {
 
   constructor(
+    private readonly configService: ConfigService,
     private readonly authService: AuthenticationService,
     private readonly userService: UserService,
   ) {}
@@ -50,6 +48,7 @@ export class AuthenticationController {
   @Get('/email-validation')
   @UseGuards(IsNotAuthenticated)
   async emailValidation(@Res() res, @Query('token') token: string, @Session() session): Promise<void> {
+    const WEBSITE_URL = this.configService.get('WEBSITE_URL');
     const user = await this.userService.validateFromToken(token);
 
     session.userId = user.id;
