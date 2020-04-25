@@ -92,10 +92,6 @@ const MarkdownMessagePreview: React.FC<MarkdownMessagePreviewProps> = ({ message
   return <MarkdownMessage className="markdown-github markdown-preview" style={{ minHeight: 42 }} markdown={message} />;
 };
 
-const formatMarkdownNewline = (markdown: string) => {
-  return markdown.replace('\n', '  \n').replace('  \n\n', '\n\n');
-};
-
 type MarkdownMessageEditionProps = {
   message: string;
   placeholder?: string;
@@ -127,7 +123,7 @@ const MarkdownMessageEdition: React.FC<MarkdownMessageEditionProps> = ({ message
             <MarkdownMessageField
               message={message}
               placeholder={placeholder}
-              setMessage={message => setMessage(formatMarkdownNewline(message))}
+              setMessage={setMessage}
             />
           ),
           preview: (
