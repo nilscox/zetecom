@@ -60,7 +60,7 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Comment signaler un bug ou proposer de nouvelles fonctionnalités ?">
-        Pour le moment, le seul moyen pour remonter un problème ou proposer de nouvelles fonctionnalités est de <Link href="#contact">contactez</Link> direcetement l'équipe qui développe le projet.
+        Pour le moment, le seul moyen pour remonter un problème ou proposer de nouvelles fonctionnalités est de <Link href="#contact">contactez</Link> directement l'équipe qui développe le projet.
       </Question>
 
       <SubTitle id="compte">La modération</SubTitle>
