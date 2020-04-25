@@ -11,7 +11,7 @@ import { Reaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
 import { useCurrentUser } from 'src/utils/UserContext';
 
-const DATE_FORMAT = '[Le] DD.MM.YYYY [à] hh:mm';
+const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
 
 type ReportButtonProps = {
   show: boolean;
