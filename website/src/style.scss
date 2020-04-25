@@ -108,6 +108,16 @@ body {
     }
   }
 
+  code {
+    font-family: monospace;
+    font-size: 1rem;
+  }
+
+  sup {
+    vertical-align: super;
+    font-size: smaller;
+  }
+
   .hide {
     display: none;
   }

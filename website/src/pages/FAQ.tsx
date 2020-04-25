@@ -59,8 +59,15 @@ const FAQ: React.FC = () => {
         langage de balisage permettant une mise en forme simple.
       </Question>
 
+      <Question question="Comment indiquer son degré de croyance en exposant ?">
+        La charte vous encourage à expliciter votre degré de croyance dans ce que vous affirmez. Pour se faire, utilisez
+        le symbole <code>^</code> :<br />
+        "<code>J'apprécie les fruits au sirop^42</code>" deviendra "J'apprécie les fruits au sirop<sup>42</sup>".
+      </Question>
+
       <Question question="Comment signaler un bug ou proposer de nouvelles fonctionnalités ?">
-        Vous l'aurez peut-être deviné, <Link href="#contact">contactez</Link> l'équipe qui développe le projet.
+        Pour le moment, le seul moyen pour remonter un problème ou proposer de nouvelles fonctionnalités est de{' '}
+        <Link href="#contact">contactez</Link> direcetement l'équipe qui développe le projet.
       </Question>
 
       <SubTitle id="compte">La modération</SubTitle>
@@ -70,7 +77,8 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Qui peut devenir modérateur ?">
-        <Link href="/utilisation.html#moderation">Tous les membres de la communauté !</Link>
+        Tous les membres de la communauté peuvent demander de devenir modérateur, chaque demande sera traitée au cas par
+        cas.
       </Question>
 
       <SubTitle id="le-projet">Le projet</SubTitle>
