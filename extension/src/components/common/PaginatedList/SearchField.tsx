@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useDebounce } from 'use-debounce';
+
+import useUpdateEffect from 'src/hooks/use-update-effect';
 
 import TextField from '@material-ui/core/TextField';
 
@@ -12,9 +14,8 @@ const SearchField: React.FC<SearchFieldProps> = ({ onSearch }) => {
   const [search, setSearch] = useState('');
   const [searchDebounced] = useDebounce(search, 200);
 
-  useEffect(() => {
-    if (searchDebounced)
-      onSearch(searchDebounced);
+  useUpdateEffect(() => {
+    onSearch(searchDebounced);
   }, [onSearch, searchDebounced]);
 
   return (
