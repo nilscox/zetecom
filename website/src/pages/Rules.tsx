@@ -63,7 +63,10 @@ const Rules: React.FC = () => {
 
       <Rule rule="4. Décrire chaque point de vue objectivement.">
         Lorsque vous donnez votre opinion sur un sujet, votre but doit être d'expliquer ce que vous pensez et pourquoi
-        vous pensez cela. Le prosélytisme ou toute forme de publicité sont donc proscrits.
+        vous pensez cela. Le prosélytisme ou toute forme de publicité sont donc proscrits. Si vous le souhaitez,
+        indiquez <Link href="/faq.html#utilisation">en exposant</Link> le{' '}
+        <Link openInNewTab href="https://twitter.com/HygieneMentale/status/1230849591534407685">degré de croyance</Link>{' '}
+        de ce que vous avancez.
       </Rule>
 
       <Rule rule="5. Apporter les sources nécessaires à la vérification des faits énoncés.">
