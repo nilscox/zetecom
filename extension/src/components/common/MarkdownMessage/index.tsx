@@ -1,17 +1,14 @@
 import React, { useMemo } from 'react';
 
-import showdown from 'showdown';
-
 import { useTheme } from 'src/utils/Theme';
+import Box, { BoxProps } from 'src/components/common/Box';
 
-import Box, { BoxProps } from './Box';
+import converter from './markdown-converter';
 
 type MarkdownMessageProps = BoxProps & {
   markdown: string;
   style?: React.CSSProperties;
 };
-
-const converter = new showdown.Converter({ tables: true, simpleLineBreaks: false });
 
 const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ markdown, style, ...props }) => {
   const html = useMemo(() => converter.makeHtml(markdown), [markdown]);
