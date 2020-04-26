@@ -36,7 +36,7 @@ const Home: React.FC = () => (
       </Card>
 
       <Card text="Lutter contre les fausses informations" image={imageFakeNews}>
-        Parce que le seul point de vue d'un média n'est souvent pas suffisant pour être correctement informé
+        Parce que volontairement ou non, certaines informations ne reflètent pas la réalité
       </Card>
 
       <Card text="Offrir une place aux débats dans un climat de confiance sur la toile" image={imageTrust}>
