@@ -10,7 +10,7 @@ import DownloadExtension from 'src/components/DownloadExtensionButton';
 import imageCommunity from 'src/images/community.png';
 import imageFakeNews from 'src/images/fake-news.png';
 import imageTrust from 'src/images/trust.png';
-import imageExtension from 'src/images/extension.png';
+import gifExtension from 'src/images/youtube-ri.gif';
 import imageSearch from 'src/images/search.png';
 import imageNestedReplies from 'src/images/nested-replies.png';
 import imageSubscription from 'src/images/subscription.png';
@@ -78,7 +78,7 @@ const Home: React.FC = () => (
       </div>
 
       <div className="integration-image">
-        <img src={imageExtension} alt="extension réagir à l'information" />
+        <img src={gifExtension} alt="extension réagir à l'information" />
       </div>
 
     </div>
