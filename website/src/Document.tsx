@@ -29,7 +29,7 @@ const Document: React.FC<DocumentProps> = (props) => (
         <App {...props} />
       </div>
 
-      <script type="text/javascript" src="/assets/js/client.js" />
+      <script type="text/javascript" src="/index.js" />
 
       { useEnvironment('NODE_ENV') === 'development' && (
         <script src={useEnvironment('WEBSITE_URL') + '/webpack-dev-server.js'} />
@@ -41,8 +41,6 @@ const Document: React.FC<DocumentProps> = (props) => (
           <script type="text/javascript" src="/assets/js/gtag.js" />
         </>
       ) }
-
-      <script type="text/javascript" src="/index.js" />
 
     </body>
   </html>
