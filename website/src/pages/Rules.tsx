@@ -109,7 +109,7 @@ const Rules: React.FC = () => {
           Préférez "Selon cette étude, l'énergie nucléaire n'est pas à craindre."
         </Example>
 
-        <Example example={'"Je trouve que ce que vous avez très bien résumé la situation."'}>
+        <Example example={'"Je trouve que vous avez très bien résumé la situation."'}>
           Le message n'apporte aucune plus-value.
         </Example>
 

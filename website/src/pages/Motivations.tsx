@@ -60,7 +60,7 @@ const Motivations: React.FC = () => (
     </p>
 
     <p>
-      En plus d'induire cet état d'esprit dans les échanges, le projet apporte quelques fonctionnalités qui le démarque d'une zone de commentaires ordinaire.
+      En plus d'induire cet état d'esprit dans les échanges, le projet apporte quelques fonctionnalités qui le démarquent d'une zone de commentaires ordinaire.
       Comme illustré en page d'accueil, l'outil propose une fonction de recherche, la possibilité de trier les messages par pertinence, de recevoir des notifications quand une réponse est publiée, ou encore de mettre en forme le texte.
       De plus, l'extension permet d'intégrer ces espaces d'échanges à l'intérieur des sites sur lesquels se trouve l'information, après l'article ou sous la vidéo YouTube - pas besoin d'aller chercher ailleurs.
       Autre avantage non négligeable, cela offre la possibilité d'ouvrir une zone de commentaire là où il n'y en a pas, ou lorsqu'elle est désactivée.
