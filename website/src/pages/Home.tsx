@@ -97,7 +97,7 @@ const Home: React.FC = () => (
     <DownloadExtension>Installer l'extension chrome</DownloadExtension>
 
     <p>
-      L'extension peut être utilisée pour lire les messages présents sur la plateforme sans avoir besoin de créer de compte.
+      L'extension peut être utilisée pour lire les messages présents sur la plateforme sans avoir besoin de créer un compte.
       Pour en savoir plus, la page <Link href="/utilisation.html">utilisation</Link> présente quelques captures d'écran et explique comment fonctionne cet outil.
       Si vous souhaitez mieux comprendre le contexte dans lequel se place Réagir à l'information, et les objectifs du projet, rendez-vous sur la page <Link href="/motivations.html">motivations</Link>.
     </p>

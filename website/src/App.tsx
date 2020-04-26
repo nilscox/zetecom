@@ -8,13 +8,21 @@ import PageHeader from './components/PageHeader';
 import Navigation from './components/Navigation';
 import PageFooter from './components/PageFooter';
 
-const Routes: React.FC = () => (
-  <Switch>
-    { pages.map(({ id, path, Component }) => (
-      <Route key={id} exact path={path} component={Component} />
-    )) }
-  </Switch>
-);
+const Routes: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  return (
+    <Switch>
+      { pages.map(({ id, path, Component }) => (
+        <Route key={id} exact path={path} component={Component} />
+      )) }
+    </Switch>
+  );
+};
 
 const App: React.FC = () => {
   const location = useLocation();

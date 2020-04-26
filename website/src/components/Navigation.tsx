@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { matchPath, useLocation } from 'react-router-dom';
 
@@ -16,6 +16,11 @@ const useActivePage = () => {
 const Navigation = () => {
   const [open, setOpen] = useState(false);
   const active = useActivePage();
+  const location = useLocation();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
 
   return (
     <nav className={`navigation${open ? ' open' : ''}`}>
