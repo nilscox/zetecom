@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { matchPath, useLocation } from 'react-router-dom';
 
@@ -14,12 +14,13 @@ const useActivePage = () => {
 }
 
 const Navigation = () => {
+  const [open, setOpen] = useState(false);
   const active = useActivePage();
 
   return (
-    <nav className="navigation">
+    <nav className={`navigation${open ? ' open' : ''}`}>
 
-      <div className="navigation-burger">≡</div>
+      <div className="navigation-burger" onClick={() => setOpen(open => !open)}>≡</div>
 
       <div className="navigation-links">
         { pages.map(({ id, label, path }) => (
