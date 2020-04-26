@@ -41,7 +41,7 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Comment modifier le mot de passe d'un compte ?">
-        Pour modifier le mot de passe d'un compte, cliquez sur le lien "mot de passe oublié" accessible via la popup de l'extension lorsque vous n'êtes pas connecté(e).
+        Pour modifier le mot de passe de votre compte, cliquez sur le lien "mot de passe oublié" accessible via la popup de l'extension lorsque vous n'êtes pas connecté(e).
       </Question>
 
       <SubTitle id="utilisation">Utilisation de l'extension</SubTitle>
@@ -51,7 +51,7 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Comment mettre en page une réaction ?">
-        Les messages peuvent être rédigés en <Link href="https://fr.wikipedia.org/wiki/Markdown">markdown</Link>, un langage de balisage permettant une mise en forme simple.
+        Les messages peuvent être rédigés en <Link href="https://fr.wikipedia.org/wiki/Markdown">markdown</Link>, une syntaxe de balisage permettant une mise en forme simple.
       </Question>
 
       <Question question="Comment indiquer son degré de croyance en exposant ?">
@@ -60,7 +60,7 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Comment signaler un bug ou proposer de nouvelles fonctionnalités ?">
-        Pour le moment, le seul moyen pour remonter un problème ou proposer de nouvelles fonctionnalités est de <Link href="#contact">contactez</Link> directement l'équipe qui développe le projet.
+        Pour le moment, le seul moyen pour remonter un problème ou proposer de nouvelles fonctionnalités est de <Link href="#contact">contacter</Link> directement l'équipe qui développe le projet.
       </Question>
 
       <SubTitle id="compte">La modération</SubTitle>
@@ -75,7 +75,7 @@ const FAQ: React.FC = () => {
 
       <SubTitle id="le-projet">Le projet</SubTitle>
 
-      <Question question="Est-ce légal de modifier les sites d'information pour y ajouter des zones de commentaires ?">
+      <Question question="Est-ce légal de modifier les sites pour y ajouter des zones de commentaires ?">
         Oui. Lorsque vous installez l'extension sur votre navigateur, la permission de modifier certains sites web vous est demandée.
         L'extension est donc en mesure de modifier le contenu de ces sites (sur votre navigateur, et ceux des autres utilisateurs disposant de l'extension).
         C'est le même principe qu'avec les bloqueurs de publicité, ou les extensions qui ajoutent un "mode sombre".
@@ -124,7 +124,7 @@ const FAQ: React.FC = () => {
       <p>L'équipe à l'origine de Réagir à l'information est à l'écoute via ces différents canaux de communication :</p>
 
       <ul>
-        <li>Par e-mail, à l'adresse <Link href="mailto:reagir-information@nils.cx">reagir-information@nils.cx</Link></li>
+        <li>Par e-mail, à l'adresse <Link openInNewTab href="mailto:reagir-information@nils.cx">reagir-information@nils.cx</Link></li>
         <li>Sur twitter, via le compte de <Link openInNewTab href="https://twitter.com/NilsCox">@NilsCox</Link></li>
       </ul>
 

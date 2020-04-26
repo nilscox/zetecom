@@ -42,7 +42,7 @@ const Usage: React.FC = () => (
     <div className="step step-signup" id="inscription">
       <div className="step-text">
         Pour participer aux échanges, il est nécessaire de disposer d'un compte sur l'extension.
-        Dans un premier temps, consacrez <strong>5 minutes</strong> à la lecture de <Link href="/charte.html">la charte</Link>, il est impératif que chaque membre de la communauté garde ces règles en tête.
+        Dans un premier temps, consacrez <strong>5 minutes</strong> à la lecture de <Link href="/charte.html">la charte</Link>. Il est impératif que chaque membre de la communauté garde ces règles en tête.
         Puis, cliquez sur l'icône de l'extension en haut à droite de votre navigateur pour vous inscrire.
       </div>
       <div className="step-secondary">
@@ -55,7 +55,7 @@ const Usage: React.FC = () => (
     <div className="step step-write-reaction" id="regider-une-reaction">
       <div className="step-text">
         Vous avez votre mot à dire ? Publiez une nouvelle réaction !
-        Avant cela, pensez à rechercher parmi les réactions existantes, car le sujet que vous allez aborder est peut-être déjà en train d'être discuté.
+        Mais avant cela, pensez à rechercher parmi les réactions existantes, car le sujet que vous allez aborder est peut-être déjà en train d'être discuté.
         Pour mettre en valeur vos propos, la syntaxe <Link openInNewTab href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">markdown</Link> vous permet de mettre en forme votre message avec des liens, des listes, des tableaux, etc.
       </div>
       <div className="step-secondary">
