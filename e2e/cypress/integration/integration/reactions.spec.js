@@ -74,7 +74,7 @@ describe('reactions', () => {
         cy.get('img[src="/assets/images/default-avatar.png"]');
         cy.get('[title="Édité"]');
         cy.get('button[type="button"]').contains('Signaler').should('not.exist');
-        cy.contains('✎').should('not.exist');
+        cy.get('[title="Éditer votre message"]').should('not.exist');
         cy.get('[title="Approuver"]').contains('1');
       });
     });
@@ -290,9 +290,9 @@ describe('reactions', () => {
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
       cy.visitIntegration('https://news.fake/article/1');
 
-      cy.getReaction(2).contains('✎').should('not.exist');
+      cy.getReaction(2).within(() => cy.get('[title="Éditer votre message"]').should('not.exist'));
 
-      cy.getReaction(1).contains('✎').click();
+      cy.getReaction(1).within(() => cy.get('[title="Éditer votre message"]').click());
       cy.getReaction(1).should('not.exist');
       cy.get('#reaction-1-form').within(() => {
         cy.contains('reaction 1 text').clear().type('edited 1 text');
