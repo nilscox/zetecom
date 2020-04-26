@@ -1,15 +1,16 @@
 import React from 'react';
 
-import { usePage } from 'src/index';
+import { matchPath, useLocation } from 'react-router-dom';
+
 import pages from 'src/pages';
 import Link from 'src/components/Link';
 
 import './Navgation.scss';
 
 const useActivePage = () => {
-  const page = usePage();
+  const location = useLocation();
 
-  return (path: string) => page.path === path;
+  return (path: string) => matchPath(location.pathname, { path, exact: true }) !== null;
 }
 
 const Navigation = () => {

@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "yarn webpack && rm dist/index.js",
+    "build": "yarn webpack",
     "start": "webpack-dev-server"
   },
   "dependencies": {
@@ -16,12 +16,14 @@
     "copy-webpack-plugin": "^5.0.4",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
+    "history": "^4.10.1",
     "image-webpack-loader": "^6.0.0",
     "mini-css-extract-plugin": "^0.8.0",
     "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-router-dom": "^5.1.2",
     "sass-loader": "^8.0.0",
     "static-site-generator-webpack-plugin": "^3.4.2",
     "style-loader": "^1.0.0",
@@ -43,5 +45,8 @@
     "Android >= 4",
     "Firefox >= 20",
     "iOS >= 8"
-  ]
+  ],
+  "devDependencies": {
+    "@types/react-router-dom": "^5.1.4"
+  }
 }

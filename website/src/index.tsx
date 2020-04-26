@@ -1,38 +1,50 @@
 /// <reference path="index.d.ts" />
 
 import React, { createContext, useContext } from 'react';
+import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
+import { createMemoryHistory } from 'history';
+import { BrowserRouter, Router } from 'react-router-dom';
 
-import pages, { Page } from './pages';
-import PageComponent from './Page';
+import App from './App';
+import Document from './Document';
+import pages from './pages';
 
-type EnvironmentVariables = {
-  NODE_ENV: string,
-  WEBSITE_URL: string,
-  CHROME_EXTENSION_URL: string | undefined,
-  REPOSITORY_URL: string | undefined,
+import './style.scss';
+
+const EnvironmentVariables = {
+  NODE_ENV: process.env.NODE_ENV,
+  WEBSITE_URL: process.env.WEBSITE_URL,
+  CHROME_EXTENSION_URL: process.env.CHROME_EXTENSION_URL,
+  REPOSITORY_URL: process.env.REPOSITORY_URL,
 };
 
-// default value will never be used
-const EnvironmentContext = createContext<EnvironmentVariables>(undefined as any);
-const EnvironmentProvider = EnvironmentContext.Provider;
-export const useEnvironment = (env: keyof EnvironmentVariables) => useContext(EnvironmentContext)[env];
+const EnvironmentContext = createContext(EnvironmentVariables);
+export const useEnvironment = (env: keyof typeof EnvironmentVariables) => useContext(EnvironmentContext)[env];
 
-const PageContext = createContext<Page>(undefined as any);
-const PageProvider = PageContext.Provider;
-export const usePage = () => useContext(PageContext);
-
-const doctype = '<!DOCTYPE html>';
+if (typeof document !== 'undefined') {
+  ReactDOM.hydrate(
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>,
+    document.getElementById('app'),
+  );
+}
 
 export default function render(locals: any) {
+  const doctype = '<!DOCTYPE html>';
+  const makeHistory = (path: string) => createMemoryHistory({
+    initialEntries: [path]
+  });
+
   return pages.reduce((obj, page) => ({
     ...obj,
-    [page.path]: doctype + ReactDOMServer.renderToStaticMarkup(
-      <EnvironmentProvider value={locals}>
-        <PageProvider value={page}>
-          <PageComponent {...page} />
-        </PageProvider>
-      </EnvironmentProvider>
+    [page.path]: doctype + ReactDOMServer.renderToString(
+      <EnvironmentContext.Provider value={locals}>
+        <Router history={makeHistory(page.path)}>
+          <Document locals={locals} page={page} />
+        </Router>
+      </EnvironmentContext.Provider>
     ),
   }), {});
 };
