@@ -101,7 +101,11 @@ $break-xxlarge: 1590px;
   .carousel {
     margin: 40px 0;
     width: 100%;
-    height: 400px;
+    height: 300px;
+
+    @media screen and (min-width: $break-medium) {
+      height: 400px;
+    }
   }
 
   .download-extension-container {
