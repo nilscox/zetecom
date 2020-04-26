@@ -1,0 +1,115 @@
+{
+  "users": [
+
+    { "nick": "nilscox", "email": "nils@nils.cx", "password": "secure p4ssword" },
+    { "nick": "Satoshi Nakamoto", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "avatar04.png" },
+    { "nick": "Wei Dai", "email": "user02@domain.tld", "password": "secure p4ssword", "avatar": "avatar05.png" },
+    { "nick": "user03", "email": "user03@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user04", "email": "user04@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user05", "email": "user05@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user06", "email": "user06@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user07", "email": "user07@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user08", "email": "user08@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user09", "email": "user09@domain.tld", "password": "secure p4ssword" }
+
+  ],
+  "informations": [
+
+    {
+      "title": "Fake news!",
+      "url": "https://news.fake/article/1",
+      "creator": "nilscox",
+      "subjects": [],
+
+      "reactions": [
+
+        {
+          "author": "Wei Dai",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "Très intéressant le vrai complot qu'il raconte à la fin. On peut dire qu'il a vraiment été pris dans un scénario de film d'espionnage. Les complots, quand ils existent sont parfois impressionnants. On se rend compte aussi que ces vrais complots ne peuvent pas être dévoilés avec un esprit complotiste, c'est pour ça que je distingue tjrs l'esprit conspi (une mentalité, un ensemble de biais) et les complots eux même. Ca serait intéressant de faire une émission sur les vrais complots, pour montrer qu'ils sont assez différents des fantasmes conspis mais qu'ils existent en permanence et dépassent parfois la fiction."
+        },
+
+        {
+          "author": "Satoshi Nakamoto",
+          "quickReactions": {
+            "approve": ["user03", "user04", "user05", "user06"],
+            "refute": ["user07"],
+            "skeptic": ["user08", "user09"]
+          },
+          "text": "En somme il y a une nécessité de formation scientifique et surtout à l'esprit critique et au scepticisme. De ce que je comprends c'est déjà le cas mais de manière générale c'est la réalité du système médiatique post formation qui pose problème. La culture du média aurait tendance à pervertir l'info. À voir quel est l'objectif à ça :\n\n- Faire parler\n- Distribuer du sensationnel\n- Simplification\n- ..\n\nTout ceci sans que ce soit pour autant fait systématiquement de manière malhonnête.",
+          "replies": [
+
+            {
+              "author": "Wei Dai",
+              "quickReactions": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": ""
+            },
+
+            {
+              "author": "Wei Dai",
+              "quickReactions": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": ""
+            },
+
+            {
+              "author": "Wei Dai",
+              "quickReactions": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": ""
+            },
+
+            {
+              "author": "Wei Dai",
+              "quickReactions": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": ""
+            },
+
+            {
+              "author": "Wei Dai",
+              "quickReactions": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": ""
+            },
+
+            {
+              "author": "Wei Dai",
+              "quickReactions": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": ""
+            }
+
+          ]
+
+        }
+
+      ]
+
+    }
+
+  ]
+}

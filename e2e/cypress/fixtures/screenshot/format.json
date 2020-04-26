@@ -1,0 +1,73 @@
+{
+  "users": [
+
+    { "nick": "nilscox", "email": "nils@nils.cx", "password": "secure p4ssword" },
+    { "nick": "Doug Forcett", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "avatar09.png" },
+    { "nick": "Stan", "email": "user02@domain.tld", "password": "secure p4ssword" },
+    { "nick": "Michael", "email": "user03@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user04", "email": "user04@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user05", "email": "user05@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user06", "email": "user06@domain.tld", "password": "secure p4ssword" }
+
+  ],
+  "informations": [
+
+    {
+      "title": "Fake news!",
+      "url": "https://news.fake/article/1",
+      "creator": "nilscox",
+      "subjects": [],
+
+      "reactions": [
+
+        {
+          "author": "Michael",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "J'ai appelé Franklin et Trevor, ils sont prêt à partir en mission."
+        },
+
+        {
+          "author": "Doug Forcett",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "Pour aller plus loin dans l'analyse, voici [une source intéressante](https://source.interessante). Les données sous forme de tableau :\n\n| taille | poids  | temps de réponse | réponse partielle |\n|--------|--------|------------------|-------------------|\n| 18 cm  | 147 kg | 23 ms            | oui               |\n| 42 cm  | 612 g  | 8 ans            | non               |\n| 11 UA  | 81 kg  | 11.5 sec         | non               |\n\nCertains participants n'ont pas répondu car :\n- ils n'étaient pas là\n- ils n'ont pas compris la question\n- ils ont oubliés de répondre\n\nVoilà, pour en savoir plus, je vous conseille de lire l'étude elle-même, disponible sur le site de l'université de grenoble : https://universite-de-grenoble.website",
+
+          "replies": [
+
+            {
+              "author": "Stan",
+              "quickReactions": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": "Merci pour ces explications. Par contre, le lien de l'étude est cassé, où puis-je la trouver ?"
+            }
+
+          ]
+
+        },
+
+        {
+          "author": "Michael",
+          "quickReactions": {
+            "approve": [],
+            "refute": ["user04", "user05", "user06"],
+            "skeptic": []
+          },
+          "text": ""
+        }
+
+      ]
+
+    }
+
+  ]
+}

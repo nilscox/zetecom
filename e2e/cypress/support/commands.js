@@ -65,3 +65,16 @@ Cypress.Commands.add('visitReport', (reactionId) => {
 });
 
 Cypress.Commands.add('getReaction', (id) => cy.get(`#reaction-${id}`));
+
+Cypress.Commands.add('websiteScreenshot', (name, scroll = 1) => {
+  cy.wait(500);
+  cy.scrollTo(0, scroll);
+  cy.screenshot(name, {
+    clip: {
+      x: 16,
+      y: scroll,
+      width: 640,
+      height: 480,
+    },
+  });
+});

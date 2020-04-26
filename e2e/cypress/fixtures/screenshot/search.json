@@ -1,0 +1,33 @@
+{
+  "users": [
+
+    { "nick": "nilscox", "email": "nils@nils.cx", "password": "secure p4ssword" },
+    { "nick": "Jeremy F", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "avatar01.png" }
+
+  ],
+  "informations": [
+
+    {
+      "title": "Fake news!",
+      "url": "https://news.fake/article/1",
+      "creator": "nilscox",
+      "subjects": [],
+
+      "reactions": [
+
+        {
+          "author": "Jeremy F",
+          "quickReactions": {
+            "approve": [],
+            "refute": [],
+            "skeptic": []
+          },
+          "text": "Sur le commentaire de la journaliste scientifique à la fin qui a refusé de signer nofakescience, si vous passez l'essentiel de votre temps à démonter les mauvais arguments sans jamais développer les bons il ne faut pas vous étonner si les gens qui ont le plus intérêt à écouter votre message se braquent. Après le problème c'est que assez souvent les bons arguments sont politiques pas techniques (financement et choix des axes de recherche, influence du marketing, capture du régulateur … ), ce qui sort un peu de votre zone de confort pour entrer dans le domaine des sciences sociales. Même sur les sujets comme l'homéopathie où il n'y a pas grand chose à ajouter, détailler les problèmes de l'industrie pharmaceutique est toujours bienvenu si vous voulez gagner des points de sympathie auprès de ceux qui rejettent la médecine conventionnelle. Pas pour dire que c'est le mal absolu, mais pour recentrer le rejet de ces personnes sur les vrais problèmes, en expliquer la portée ainsi que ce qui est fait pour tenter de les résoudre. Enfin, c'est plus facile à écrire qu'à faire mais ce serait dommage que votre travail soit gâché par un manque de diplomatie."
+        }
+
+      ]
+
+    }
+
+  ]
+}
