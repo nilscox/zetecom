@@ -39,6 +39,7 @@ type EditButtonProps = {
 const EditButton: React.FC<EditButtonProps> = ({ onClick }) => {
   return (
     <Button
+      title="Éditer votre message"
       onClick={onClick}
       color="textLight"
       size="big"
