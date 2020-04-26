@@ -4,10 +4,10 @@ import DownloadExtension from 'src/components/DownloadExtensionButton';
 import Link from 'src/components/Link';
 import Image from 'src/components/Image';
 
-import gifReadReactions from 'src/images/read-reactions.gif';
+import gifExtension from 'src/images/youtube-ri.gif';
 import imagePopupLogin from 'src/images/popup-login.png';
-import imageWriteReaction from 'src/images/write-reaction.png';
-import imageReport from 'src/images/report.png';
+import gifWriteReaction from 'src/images/write-reaction.gif';
+import gifReport from 'src/images/report.gif';
 import imageModeration from 'src/images/moderation.png';
 
 import './Usage.scss';
@@ -33,7 +33,7 @@ const Usage: React.FC = () => (
         Vous la trouverez généralement sous l'article (ou la vidéo). Ça y est, vous pouvez déjà lire les réactions et leurs réponses !
       </div>
       <div className="step-secondary">
-        <Image border src={gifReadReactions} alt="réactions" />
+        <Image border src={gifExtension} alt="réactions" />
       </div>
     </div>
 
@@ -56,10 +56,10 @@ const Usage: React.FC = () => (
       <div className="step-text">
         Vous avez votre mot à dire ? Publiez une nouvelle réaction !
         Avant cela, pensez à rechercher parmi les réactions existantes, car le sujet que vous allez aborder est peut-être déjà en train d'être discuté.
-        Pour mettre en valeur vos propos, la syntaxe <Link href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">markdown</Link> vous permet de mettre en forme votre message avec des liens, des listes, des tableaux, etc.
+        Pour mettre en valeur vos propos, la syntaxe <Link openInNewTab href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">markdown</Link> vous permet de mettre en forme votre message avec des liens, des listes, des tableaux, etc.
       </div>
       <div className="step-secondary">
-        <Image border src={imageWriteReaction} alt="écrire une réaction" />
+        <Image border src={gifWriteReaction} alt="écrire une réaction" />
       </div>
     </div>
 
@@ -94,7 +94,7 @@ const Usage: React.FC = () => (
         Passez votre souris sur la date de publication de la réaction à signaler, cela fera apparaître un lien pour ouvrir une popup de signalement.
       </div>
       <div className="step-secondary">
-        <Image border src={imageReport} alt="signaler une réaction" />
+        <Image border src={gifReport} alt="signaler une réaction" />
       </div>
     </div>
 
