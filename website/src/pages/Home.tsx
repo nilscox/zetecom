@@ -12,12 +12,13 @@ import imageFakeNews from 'src/images/fake-news.png';
 import imageTrust from 'src/images/trust.png';
 import imageExtension from 'src/images/extension.png';
 import imageSearch from 'src/images/search.png';
-import imageReplies from 'src/images/replies.png';
-import imageBookmark from 'src/images/bookmark.png';
-import imageQuickReactions from 'src/images/quick-reactions.png';
-import imageMarkdown from 'src/images/markdown.png';
+import imageNestedReplies from 'src/images/nested-replies.png';
+import imageSubscription from 'src/images/subscription.png';
+import imageSortRelevance from 'src/images/sort-relevance.png';
+import imageFormat from 'src/images/format.png';
 
 import './Home.scss';
+import Carousel from 'src/components/Carousel';
 
 const Home: React.FC = () => (
   <>
@@ -82,38 +83,16 @@ const Home: React.FC = () => (
 
     </div>
 
-    <div className="what-advantages">
-      <div className="what-item">
-        <div className="what-image">
-          <img src={imageSearch} />
-        </div>
-        <h4 className="what-text">Recherche</h4>
-      </div>
-      <div className="what-item">
-        <div className="what-image">
-          <img src={imageReplies} />
-        </div>
-        <h4 className="what-text">Réponses imbriquées</h4>
-      </div>
-      <div className="what-item">
-        <div className="what-image">
-          <img src={imageQuickReactions} />
-        </div>
-        <h4 className="what-text">Messages pertinents mis en avant</h4>
-      </div>
-      <div className="what-item">
-        <div className="what-image">
-          <img src={imageBookmark} />
-        </div>
-        <h4 className="what-text">Fils de discussions en favoris</h4>
-      </div>
-      <div className="what-item">
-        <div className="what-image">
-          <img src={imageMarkdown} />
-        </div>
-        <h4 className="what-text">Messages structurés</h4>
-      </div>
-    </div>
+    <Carousel
+      delay={7000}
+      slides={[
+        { text: 'Recherche', image: imageSearch },
+        { text: 'Réponses imbriquées', image: imageNestedReplies },
+        { text: 'Messages pertinents mis en avant', image: imageSortRelevance },
+        { text: 'Notifications', image: imageSubscription },
+        { text: 'Messages structurés', image: imageFormat },
+      ]}
+    />
 
     <DownloadExtension>Installer l'extension chrome</DownloadExtension>
 
