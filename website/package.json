@@ -25,6 +25,7 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-router-dom": "^5.1.2",
+    "react-spring": "^8.0.27",
     "sass-loader": "^8.0.0",
     "static-site-generator-webpack-plugin": "^3.4.2",
     "style-loader": "^1.0.0",
