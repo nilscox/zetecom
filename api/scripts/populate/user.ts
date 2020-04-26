@@ -28,6 +28,7 @@ const signup = async (user: User): Promise<AuthenticatedUser> => {
     email: user.email,
     password: user.password,
     nick: user.nick,
+    avatar: user.avatar,
   };
 
   const { data, headers } = await axios.post('/api/auth/signup', payload);
