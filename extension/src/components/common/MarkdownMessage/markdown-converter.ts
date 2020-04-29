@@ -1,8 +1,10 @@
 import showdown from 'showdown';
 
+import highlight from './highlight.showdown-extension';
 import sup from './sup.showdown-extension';
 
 showdown.extension('sup', sup);
+showdown.extension('highlight', highlight);
 
 const converter = new showdown.Converter({
   simplifiedAutoLink: true,
@@ -14,7 +16,7 @@ const converter = new showdown.Converter({
   disableForced4SpacesIndentedSublists: true,
   simpleLineBreaks: true,
   openLinksInNewWindow: true,
-  extensions: ['sup'],
+  extensions: ['sup', 'highlight'],
 });
 
 export default converter;
