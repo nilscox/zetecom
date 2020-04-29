@@ -12,6 +12,7 @@ import { useCurrentUser } from 'src/hooks/use-user';
 import { parseReaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
 import { useInformation } from 'src/utils/InformationContext';
+import { SearchQueryProvider } from 'src/utils/SearchQueryContext';
 import { useTheme } from 'src/utils/Theme';
 
 const StandaloneReactionsPage: React.FC = () => {
@@ -58,7 +59,9 @@ const StandaloneReactionsPage: React.FC = () => {
 
       { user && <ReactionCreationForm onCreated={reaction => prepend(reaction)} /> }
 
-      <AsyncContent loading={loading || !reactions} content={getReactionsList} />
+      <SearchQueryProvider value={search || undefined}>
+        <AsyncContent loading={loading || !reactions} content={getReactionsList} />
+      </SearchQueryProvider>
 
     </PaginatedList>
   );
