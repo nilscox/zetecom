@@ -1,4 +1,4 @@
-import { ShowdownExtension } from "showdown";
+import { ShowdownExtension } from 'showdown';
 
 const sup: ShowdownExtension = {
   type: 'lang',
