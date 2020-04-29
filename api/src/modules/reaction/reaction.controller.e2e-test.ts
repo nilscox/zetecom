@@ -381,6 +381,27 @@ describe('reaction controller', () => {
       expect(reactionDb).toBeDefined();
     });
 
+    it('should be subscribed to a created reaction', async () => {
+      const reaction = makeReaction(information.id);
+
+      const { body } = await userRequest
+        .post('/api/reaction')
+        .send(reaction)
+        .expect(201);
+
+      expect(body).toMatchObject({
+        subscribed: true,
+      });
+
+      const subscriptionDb = await subscriptionRepository.findOne({
+        where: {
+          reaction: { id : body.id },
+        },
+      });
+
+      expect(subscriptionDb).toBeDefined();
+    });
+
   });
 
   describe('update reaction', () => {

@@ -77,6 +77,8 @@ export class ReactionService {
       this.subscriptionService.notifyReply(reaction);
     }
 
+    await this.subscriptionService.subscribe(user, reaction);
+
     return reaction;
   }
 

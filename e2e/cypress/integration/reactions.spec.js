@@ -204,7 +204,7 @@ describe('reactions', () => {
 
   });
 
-  describe('authentified', () => {
+  describe('authenticated', () => {
 
     it('should add a reaction', () => {
       const data = {
@@ -234,10 +234,11 @@ describe('reactions', () => {
         cy.get('p').contains('Réaction depuis le test');
         cy.get('ul').first().contains('élément1');
         cy.get('ul').children().eq(1).contains('élément2');
+        cy.get('button[title="Se désabonner"]').should('exist');
       });
     });
 
-    it('should add a replie', () => {
+    it('should add a reply', () => {
       const data = {
         users: [user1],
         informations: [
@@ -265,6 +266,9 @@ describe('reactions', () => {
       cy.getReaction(1).siblings().find('form.reaction-form').should('not.be.visible');
 
       cy.getReaction(2).contains('Réponse depuis le test');
+      cy.getReaction(2).within(() => {
+        cy.get('button[title="Se désabonner"]').should('exist');
+      });
     });
 
     it('should edit current user reaction', () => {
@@ -437,7 +441,7 @@ describe('reactions', () => {
       cy.contains('La réaction a été signalée, merci pour votre contribution ! 💪');
     });
 
-    it('should subscribe and unsubscribe to a reaction', () => {
+    it('should unsubscribe and resubscribe to a reaction', () => {
       const data = {
         users: [user1],
         informations: [
@@ -453,15 +457,15 @@ describe('reactions', () => {
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
       cy.visitIntegration('https://news.fake/article/1');
 
-      cy.get('button[title="S\'abonner"]').click();
-      cy.reload();
-
-      cy.get('button[title="Se désabonner"]').should('exist');
-
       cy.get('button[title="Se désabonner"]').click();
       cy.reload();
 
       cy.get('button[title="S\'abonner"]').should('exist');
+
+      cy.get('button[title="S\'abonner"]').click();
+      cy.reload();
+
+      cy.get('button[title="Se désabonner"]').should('exist');
     });
 
   });
