@@ -31,7 +31,7 @@ if (typeof document !== 'undefined') {
   );
 }
 
-export default function render(locals: any) {
+export default function render() {
   const doctype = '<!DOCTYPE html>';
   const makeHistory = (path: string) => createMemoryHistory({
     initialEntries: [path]
@@ -40,11 +40,9 @@ export default function render(locals: any) {
   return pages.reduce((obj, page) => ({
     ...obj,
     [page.path]: doctype + ReactDOMServer.renderToString(
-      <EnvironmentContext.Provider value={locals}>
-        <Router history={makeHistory(page.path)}>
-          <Document locals={locals} page={page} />
-        </Router>
-      </EnvironmentContext.Provider>
+      <Router history={makeHistory(page.path)}>
+        <Document page={page} />
+      </Router>
     ),
   }), {});
 };
