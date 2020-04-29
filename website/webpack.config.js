@@ -1,7 +1,11 @@
 const path = require('path');
+
+const webpack = require('webpack');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+
+const EnvironmentPlugin = webpack.EnvironmentPlugin;
 
 const {
   HOST = '0.0.0.0',
@@ -76,6 +80,13 @@ module.exports = {
   },
 
   plugins: [
+    new EnvironmentPlugin({
+      NODE_ENV: 'development',
+      WEBSITE_URL: 'http://localhost:8080',
+      CHROME_EXTENSION_URL: null,
+      REPOSITORY_URL: null,
+    }),
+
     new MiniCssExtractPlugin({
       filename: 'assets/css/styles.css',
       ignoreOrder: false,
@@ -83,12 +94,6 @@ module.exports = {
 
     new StaticSiteGeneratorPlugin({
       paths: '/',
-      locals: {
-        NODE_ENV: process.env.NODE_ENV || 'development',
-        WEBSITE_URL: process.env.WEBSITE_URL || 'http://localhost:8080',
-        CHROME_EXTENSION_URL: process.env.CHROME_EXTENSION_URL,
-        REPOSITORY_URL: process.env.REPOSITORY_URL,
-      },
       globals: {
         window: {}
       }

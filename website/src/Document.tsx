@@ -5,7 +5,6 @@ import App from './App';
 import { useEnvironment } from './index';
 
 type DocumentProps = {
-  locals: any;
   page: Page;
 };
 
