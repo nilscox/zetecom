@@ -87,15 +87,33 @@ describe('reaction repository', () => {
         ],
       });
     });
+
+    it('should find the root reactions when the first message was edited', async () => {
+      const information = await createInformation();
+      const reaction1 = await createReaction({ information });
+      const reaction2 = await createReaction({ information });
+      await createReaction({ information });
+      await createMessage({ reaction: { id: reaction1.id} });
+
+      const result = await reactionRepository.findRootReactions(information.id, SortType.DATE_ASC, 1, 2);
+
+      expect(result).toMatchObject({
+        items: [
+          { id: reaction1.id },
+          { id: reaction2.id },
+        ],
+        total: 3,
+      });
+    });
   });
 
   describe('search', () => {
     it('should search for a reaction on page 1', async () => {
       const information = await createInformation();
-      const reaction1 = await createReaction({ information, messages: [await createMessage({ text: 'searching...' })] });
+      const reaction1 = await createReaction({ information, message: await createMessage({ text: 'searching...' }) });
       const reaction2 = await createReaction({ information });
-      const reaction3 = await createReaction({ information, parent: reaction2, messages: [await createMessage({ text: 'you search me' })] });
-      await createReaction({ information, messages: [await createMessage({ text: 'eousearcheoop' })] });
+      const reaction3 = await createReaction({ information, parent: reaction2, message: await createMessage({ text: 'you search me' }) });
+      await createReaction({ information, message: await createMessage({ text: 'eousearcheoop' }) });
 
       const result = await reactionRepository.search(information.id, 'search', SortType.DATE_ASC, 1, 2);
 
@@ -109,10 +127,10 @@ describe('reaction repository', () => {
 
     it('should search for a reaction on page 2', async () => {
       const information = await createInformation();
-      await createReaction({ information, messages: [await createMessage({ text: 'searching...' })] });
+      await createReaction({ information, message: await createMessage({ text: 'searching...' }) });
       const reaction2 = await createReaction({ information });
-      await createReaction({ information, parent: reaction2, messages: [await createMessage({ text: 'you search me' })] });
-      const reaction4 = await createReaction({ information, messages: [await createMessage({ text: 'eousearcheoop' })] });
+      await createReaction({ information, parent: reaction2, message: await createMessage({ text: 'you search me' }) });
+      const reaction4 = await createReaction({ information, message: await createMessage({ text: 'eousearcheoop' }) });
 
       const result = await reactionRepository.search(information.id, 'search', SortType.DATE_ASC, 2, 2);
 

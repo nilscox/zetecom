@@ -1,5 +1,7 @@
 import { Expose, Type } from 'class-transformer';
 
+import { Message } from '../message.entity';
+
 import { ReactionOutDto } from './reaction-out.dto';
 
 export class ReactionEditionOutDto {
@@ -16,8 +18,6 @@ export class ReactionWithHistoryOutDto extends ReactionOutDto {
 
   @Expose()
   @Type(() => ReactionEditionOutDto)
-  get history() {
-    return this.messages.slice(0, -1);
-  }
+  history: Message[];
 
 }

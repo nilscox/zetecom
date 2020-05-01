@@ -60,7 +60,7 @@ export class SubscriptionService {
       .leftJoinAndSelect('subscription.reaction', 'reaction')
       .leftJoinAndSelect('reaction.information', 'information')
       .leftJoinAndSelect('reaction.author', 'author')
-      .leftJoinAndSelect('reaction.messages', 'messages')
+      .leftJoinAndSelect('reaction.message', 'message')
       .where('user_id = :userId', { userId: user.id })
       .skip((page - 1) * this.pageSize)
       .take(this.pageSize);

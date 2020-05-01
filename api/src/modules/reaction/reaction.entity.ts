@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Information } from '../information/information.entity';
 import { User } from '../user/user.entity';
@@ -30,8 +30,12 @@ export class Reaction {
   @JoinColumn({ name: 'information_id' })
   information: Information;
 
-  @OneToMany(type => Message, message => message.reaction, { eager: true })
-  messages: Message[];
+  @OneToMany(type => Message, message => message.reaction)
+  history: Message[];
+
+  @OneToOne(type => Message, message => message.reaction, { eager: true })
+  @JoinColumn({ name: 'message_id' })
+  message: Message;
 
   @ManyToOne(type => Reaction, reaction => reaction.replies, { nullable: true })
   @JoinColumn({ name: 'parent_id' })

@@ -15,12 +15,25 @@ export const createReaction = async (data: DeepPartial<Reaction> = {}) => {
   if (!data.author)
     data.author = await createUser();
 
-  if (!data.messages)
-    data.messages = [await createMessage()];
+  if (!data.message)
+    data.message = await createMessage();
 
   const reaction = manager.create(Reaction, {
     ...data,
   });
 
-  return manager.save(reaction);
+  const result = await manager.save(reaction);
+
+  if (data.history) {
+    await Promise.all(data.history.map(message => {
+      message.reaction = result;
+      return manager.save(message);
+    }));
+  }
+
+  data.message.reaction = reaction;
+  await manager.save(data.message);
+  await manager.query(`UPDATE message SET created = NOW() WHERE id = ${data.message.id}`);
+
+  return result;
 };

@@ -72,17 +72,17 @@ describe('information controller', () => {
     information3 = await createInformation();
 
     message1 = await createMessage({ text: 'message1 search wow' });
-    reaction1 = await createReaction({ information: information1, messages: [message1] });
+    reaction1 = await createReaction({ information: information1, message: message1 });
 
     reaction2 = await createReaction({ information: information1 });
 
     message3 = await createMessage({ text: 'searching message3' });
-    reaction3 = await createReaction({ information: information1, messages: [message3], parent: reaction2 });
+    reaction3 = await createReaction({ information: information1, message: message3, parent: reaction2 });
 
     reaction4 = await createReaction({ information: information1 });
 
     message5 = await createMessage({ text: 'message5 search' });
-    reaction5 = await createReaction({ information: information2, messages: [message5] });
+    reaction5 = await createReaction({ information: information2, message: message5 });
 
     message6 = await createMessage({ text: 'message6 search' });
   });
