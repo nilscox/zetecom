@@ -48,6 +48,7 @@ services:
       EMAIL_TEMPLATE_DIR: /app/email-templates
       USER_AVATAR_DESTINATION: /app/avatars
 
+
   restoredb:
     container_name: ri-restoredb
     hostname: ri-restoredb
@@ -82,11 +83,3 @@ services:
       WEBSITE_URL: http://localhost:8080
       CHROME_EXTENSION_URL:
       GITHUB_REPO_URL:
-
-
-  website:
-    build: ./website
-    container_name: ri-website
-    hostname: ri-website
-    ports:
-      - 8080:80
