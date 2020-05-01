@@ -16,3 +16,7 @@ services:
 
   website:
     build: ./website
+    container_name: ri-website
+    hostname: ri-website
+    ports:
+      - 8080:80
