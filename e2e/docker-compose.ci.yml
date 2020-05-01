@@ -4,7 +4,7 @@ services:
   api:
     image: nilscox/reagir-information-api:${GIT_SHA}
     environment:
-      NODE_ENV: cypress
+      BYPASS_AUTHORIZATIONS: true
 
   restoredb:
     image: nilscox/reagir-information-api:${GIT_SHA}

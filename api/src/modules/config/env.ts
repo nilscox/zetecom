@@ -9,6 +9,7 @@ const enviornmentVariables = [
   'LISTEN_PORT',
 
   'REFLECT_ORIGIN',
+  'BYPASS_AUTHORIZATIONS',
 
   'EXTENSION_URL',
   'WEBSITE_URL',

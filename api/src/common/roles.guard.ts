@@ -19,11 +19,12 @@ export class RolesGuard implements CanActivate {
     context: ExecutionContext,
   ): Promise<boolean> {
     const NODE_ENV = this.configService.get('NODE_ENV');
+    const BYPASS_AUTHORIZATIONS = this.configService.get('BYPASS_AUTHORIZATIONS');
 
     const roles = this.reflector.get<Role[]>('roles', context.getHandler());
 
     // TODO: better roles handling in tests
-    if (NODE_ENV === 'cypress')
+    if (BYPASS_AUTHORIZATIONS === 'true')
       return true;
 
     if (!roles)
