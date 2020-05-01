@@ -52,10 +52,8 @@ describe('reaction controller', () => {
     reaction = await createReaction({
       author: user,
       information,
-      messages: [
-        await createMessage({ text: 'message1' }),
-        await createMessage({ text: 'message2' }),
-      ],
+      message: await createMessage({ text: 'message2' }),
+      history: [await createMessage({ text: 'message1' })],
     });
 
     reply1 = await createReaction({ information, parent: reaction });

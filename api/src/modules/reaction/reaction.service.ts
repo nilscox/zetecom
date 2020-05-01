@@ -1,5 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -53,13 +52,16 @@ export class ReactionService {
     reaction.information = information;
 
     message.text = dto.text;
-    reaction.messages = [message];
+    reaction.message = message;
 
     if (parent)
       reaction.parent = parent;
 
     await this.messageRepository.save(message);
     await this.reactionRepository.save(reaction);
+
+    message.reaction = reaction;
+    await this.messageRepository.save(message);
 
     // code smell
     reaction.repliesCount = 0;
@@ -87,7 +89,8 @@ export class ReactionService {
       const message = new Message();
 
       message.text = dto.text;
-      reaction.messages.push(message);
+      message.reaction = reaction;
+      reaction.message = message;
       reaction.updated = new Date();
 
       await this.messageRepository.save(message);

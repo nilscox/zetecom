@@ -14,7 +14,7 @@ export class Message {
   @CreateDateColumn()
   created: Date;
 
-  @ManyToOne(type => Reaction, reaction => reaction.messages, { nullable: true })
+  @ManyToOne(type => Reaction, reaction => reaction.history, { nullable: true })
   @JoinColumn({ name: 'reaction_id' })
   reaction: Reaction;
 

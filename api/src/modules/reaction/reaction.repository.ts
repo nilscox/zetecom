@@ -3,6 +3,7 @@ import { EntityRepository, getRepository, In, Repository, SelectQueryBuilder } f
 import { Paginated } from 'Common/paginated';
 import { SortType } from 'Common/sort-type';
 
+import { Message } from './message.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 import { Reaction } from './reaction.entity';
 
@@ -57,7 +58,7 @@ export class ReactionRepository extends Repository<Reaction> {
   private createDefaultQueryBuilder(page: number, pageSize: number) {
     return this.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author')
-      .leftJoinAndSelect('reaction.messages', 'message')
+      .leftJoinAndSelect('reaction.message', 'message')
       .skip((page - 1) * pageSize)
       .take(pageSize);
   }
@@ -117,10 +118,9 @@ export class ReactionRepository extends Repository<Reaction> {
   async findReplies(parentId: number, page: number, pageSize: number): Promise<Paginated<Reaction>> {
     const [items, total] = await this.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author', 'reaction.author_id = author.id')
-      .leftJoinAndSelect('reaction.messages', 'message', 'message.reaction_id = reaction.id')
+      .leftJoinAndSelect('reaction.message', 'message', 'message.reaction_id = reaction.id')
       .where('reaction.parent_id = :parentId', { parentId })
       .orderBy('reaction.created')
-      .addOrderBy('message.created', 'ASC')
       .skip((page - 1) * pageSize)
       .take(pageSize)
       .getManyAndCount();

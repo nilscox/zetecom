@@ -24,19 +24,17 @@ export class ReactionOutDto {
 
   @Expose()
   get edited(): Date | false {
-    const l = this.messages.length;
+    const l = this.history.length;
 
-    if (l === 1)
+    if (l === 0)
       return false;
 
-    return this.messages[l - 1].created;
+    return this.history[l - 1].created;
   }
 
   @Expose()
   get text(): string {
-    const l = this.messages.length;
-
-    return this.messages[l - 1].text;
+    return this.message.text;
   }
 
   @Expose({ name: 'date' })
@@ -65,7 +63,8 @@ export class ReactionOutDto {
   @Type(() => UserLightOutDto)
   author: UserLightOutDto;
 
-  messages: Message[];
+  message: Message;
+  history: Message[];
 
 }
 

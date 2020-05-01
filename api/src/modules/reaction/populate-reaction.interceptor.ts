@@ -23,6 +23,7 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
   async transform(reactions: Reaction[], request: any) {
     const { user } = request;
 
+    await this.addHistories(reactions);
     await this.addRepliesCounts(reactions);
     await this.addQuickReactionsCounts(reactions);
 
@@ -30,6 +31,20 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
       await this.addUserQuickReaction(reactions, user);
       await this.addUserSubscriptions(reactions, user);
     }
+  }
+
+  private async addHistories(reactions: Reaction[]): Promise<Reaction[]> {
+    const reactionWithHistories = await this.reactionRepository.createQueryBuilder('reaction')
+      .leftJoinAndSelect('reaction.history', 'history')
+      .where('reaction.id IN (' + reactions.map(r => r.id) + ')')
+      .orderBy('history.created', 'DESC')
+      .getMany();
+
+    reactions.forEach(reaction => {
+      reaction.history = reactionWithHistories.find(r => r.id === reaction.id).history.slice(1);
+    });
+
+    return reactions;
   }
 
   private async addRepliesCounts(reactions: Reaction[]): Promise<Reaction[]> {

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
@@ -26,7 +26,7 @@ export class NotificationService {
       .innerJoinAndSelect('subscription.reaction', 'reaction')
       .innerJoinAndSelect('reaction.information', 'information')
       .innerJoinAndSelect('reaction.author', 'author')
-      .innerJoinAndSelect('reaction.messages', 'messages')
+      .innerJoinAndSelect('reaction.message', 'message')
       .where('subscription.user.id = :userId', { userId: user.id })
       .andWhere('seen IS ' + (seen ? 'NOT NULL' : 'NULL'))
       .skip((page - 1) * this.pageSize)
