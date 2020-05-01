@@ -4,7 +4,7 @@ services:
   api:
     image: nilscox/reagir-information-api:${GIT_SHA}
     environment:
-      BYPASS_AUTHORIZATIONS: true
+      BYPASS_AUTHORIZATIONS: 'true'
 
   restoredb:
     image: nilscox/reagir-information-api:${GIT_SHA}
