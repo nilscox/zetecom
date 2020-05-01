@@ -21,7 +21,7 @@
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 1 text",
+          "text": "reaction 1 text, score = 3",
           "history": [],
           "replies": [
 
@@ -32,7 +32,7 @@
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.1 text",
+              "text": "reaction 1.1 text, score = 1",
               "history": [],
               "replies": []
             }
@@ -47,7 +47,7 @@
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 2 text",
+          "text": "reaction 2 text, score = 4",
           "history": [],
           "replies": [
 
@@ -58,7 +58,7 @@
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 2.1 text",
+              "text": "reaction 2.1 text, score = 0",
               "history": [],
               "replies": []
             },
@@ -69,7 +69,7 @@
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 2.2 text",
+              "text": "reaction 2.2 text, score = 0",
               "history": [],
               "replies": []
             }
@@ -84,7 +84,7 @@
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 3 text",
+          "text": "reaction 3 text, score = 2",
           "history": [],
           "replies": []
         },
@@ -96,7 +96,7 @@
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 4 text",
+          "text": "reaction 4 text, score = 0",
           "history": [],
           "replies": []
         }
