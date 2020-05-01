@@ -73,10 +73,10 @@ describe('pagination', () => {
     cy.get('[title=Tri]').click();
     cy.contains('Les plus pertinentes en premier').click();
 
-    cy.get('.reactions-list').first().contains('reaction 2 text');
-    cy.get('.reactions-list').children().eq(1).contains('reaction 1 text');
-    cy.get('.reactions-list').children().eq(2).contains('reaction 3 text');
-    cy.get('.reactions-list').last().contains('reaction 4 text');
+    cy.get('.reactions-list').children().eq(0).contains('reaction 2 text, score = 4');
+    cy.get('.reactions-list').children().eq(1).contains('reaction 1 text, score = 3');
+    cy.get('.reactions-list').children().eq(2).contains('reaction 3 text, score = 2');
+    cy.get('.reactions-list').children().eq(3).contains('reaction 4 text, score = 0');
   });
 
   it('should display reaction according to search field', () => {
