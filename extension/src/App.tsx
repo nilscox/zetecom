@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ErrorBoundary, { DevErrorReporter } from 'src/components/common/ErrorBoundary';
 
 import Dashboard from './dashboard';
+import EmailLogin from './EmailLogin';
 import Integrations from './integrations';
 import Popup from './popup';
 import { createTheme } from './utils/createTheme';
@@ -29,6 +30,7 @@ const App: React.FC = () => (
 
         <Route path="/popup" component={Popup} />
         <Route path="/integration" component={Integrations} />
+        <Route path="/email-login" component={EmailLogin} />
         <Route component={Dashboard} />
 
       </Switch>

@@ -19,7 +19,8 @@ export default function useAxios<T>(
   if (typeof options.useCache === 'undefined')
     options.useCache = false;
 
-  const [{ data, loading, error, response }, refetch] = useAxiosHook(config, options);
+  const [{ data, loading, error, response: axiosResponse }, refetch] = useAxiosHook(config, options);
+  const response = axiosResponse || error?.response;
 
   const parsed = useMemo(() => {
     if (!parse)
