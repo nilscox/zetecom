@@ -74,4 +74,18 @@ describe('authentication', () => {
     cy.contains('Connexion');
   });
 
+  it.only('ask email connection', () => {
+    cy.resetdb();
+
+    cy.visitPopup();
+    cy.contains('Mot de passe oublié ?').click();
+
+    cy.contains('Connexion par email').should('exist');
+
+    cy.get('input[placeholder="Email"]').type('user1@domain.tld');
+    cy.get('button[type="submit"]').contains('Envoyer').click();
+
+    cy.contains('L\'email de connexion a bien été envoyé à l\'adresse user1@domain.tld.');
+  });
+
 });

@@ -20,6 +20,8 @@ import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 
 import { AuthenticationService } from './authentication.service';
+import { AskEmailLoginInDto } from './dtos/ask-email-login-in.dto';
+import { EmailLoginInDto } from './dtos/email-login-in.dto';
 import { LoginUserInDto } from './dtos/login-user-in.dto';
 import { SignupUserInDto } from './dtos/signup-user-in.dto';
 
@@ -66,6 +68,25 @@ export class AuthenticationController {
     session.userId = user.id;
 
     return user;
+  }
+
+  @Post('/email-login')
+  @UseGuards(IsNotAuthenticated)
+  @HttpCode(200)
+  @Output(UserOutDto)
+  async emailLogin(@Body() emailLoginDto: EmailLoginInDto, @Session() session): Promise<User> {
+    const user = await this.authService.emailLogin(emailLoginDto.token);
+
+    session.userId = user.id;
+
+    return user;
+  }
+
+  @Post('/ask-email-login')
+  @UseGuards(IsNotAuthenticated)
+  @HttpCode(204)
+  async askEmailLogin(@Body() aksEmailLoginDto: AskEmailLoginInDto): Promise<void> {
+    await this.authService.askEmailLogin(aksEmailLoginDto.email);
   }
 
   @Post('/logout')

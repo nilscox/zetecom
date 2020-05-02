@@ -2,7 +2,9 @@ import { BadRequestException, Injectable,  UnauthorizedException } from '@nestjs
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
+import * as uuidv4 from 'uuid/v4';
 
+import { EmailService } from '../email/email.service';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 
@@ -15,6 +17,7 @@ export class AuthenticationService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly userService: UserService,
+    private readonly emailService: EmailService,
   ) {}
 
   async signup(dto: SignupUserInDto): Promise<User> {
@@ -45,6 +48,35 @@ export class AuthenticationService {
       throw new UnauthorizedException('EMAIL_NOT_VALIDATED');
 
     return user;
+  }
+
+  async emailLogin(emailLoginToken: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { emailLoginToken },
+    });
+
+    if (!user)
+      throw new UnauthorizedException('INVALID_EMAIL_LOGIN_TOKEN');
+
+    if (!user.emailValidated)
+      await this.userRepository.update(user.id, { emailValidated: true });
+
+    return user;
+  }
+
+  async askEmailLogin(email: string): Promise<void> {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+
+    if (!user)
+      return;
+
+    user.emailLoginToken = uuidv4();
+
+    await this.userRepository.save(user);
+
+    await this.emailService.sendEmailLoginEmail(user);
   }
 
 }

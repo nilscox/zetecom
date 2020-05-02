@@ -108,6 +108,22 @@ export class EmailService {
     );
   }
 
+  sendEmailLoginEmail(user: User): Promise<any> {
+    const EXTENSION_URL = this.configService.get('EXTENSION_URL');
+
+    const template = this.renderTemplate('email-login', {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      email_login_link: `${EXTENSION_URL}/email-login?token=${user.emailLoginToken}`,
+    });
+
+    return this.sendEmail(
+      user.email,
+      'Réagir à l\'information : lien de connexion',
+      template.text,
+      template.html,
+    );
+  }
+
   // tslint:disable-next-line: no-shadowed-variable
   async isAthorized(email: string): Promise<boolean> {
     return (await this.authorizedEmailRepository.count({ email })) === 1;
