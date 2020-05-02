@@ -17,15 +17,12 @@ services:
     container_name: ri-api
     hostname: ri-api
     ports:
-      - 3000:3000
+      - 3000:80
     volumes:
       - ./avatars:/app/avatars
       - ./email-templates:/app/email-templates
     command: bash -c "yarn wait-on tcp:ri-postgres:5432 && yarn start:prod"
     environment:
-      NODE_ENV: production
-      LISTEN_IP: 0.0.0.0
-      LISTEN_PORT: 3000
       REFLECT_ORIGIN: 'true'
       EXTENSION_URL: http://localhost:8000
       WEBSITE_URL: http://localhost:8080
@@ -53,13 +50,14 @@ services:
     container_name: ri-restoredb
     hostname: ri-restoredb
     ports:
-      - 4242:4242
+      - 4242:80
     volumes:
       - ./api/scripts:/app/scripts
     command: bash -c "yarn start:restoredb"
     environment:
       NODE_ENV: production
-      API_URL: http://ri-api:3000
+      PORT: 80
+      API_URL: http://ri-api
       DB_HOST: ri-postgres
       DB_PORT: 5432
       DB_USER: root
@@ -77,9 +75,6 @@ services:
     ports:
       - 8000:80
     environment:
-      NODE_ENV: production
       API_URL: http://localhost:3000
       EXTENSION_URL: http://localhost:8000
       WEBSITE_URL: http://localhost:8080
-      CHROME_EXTENSION_URL:
-      GITHUB_REPO_URL:

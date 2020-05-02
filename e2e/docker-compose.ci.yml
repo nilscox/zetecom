@@ -4,6 +4,7 @@ services:
   api:
     image: nilscox/reagir-information-api:${GIT_SHA}
     environment:
+      CI: 'true'
       BYPASS_AUTHORIZATIONS: 'true'
 
   restoredb:
@@ -12,7 +13,7 @@ services:
   extension:
     image: nilscox/reagir-information-extension:${GIT_SHA}
     environment:
-      API_URL: http://ri-api:3000
+      API_URL: http://ri-api
 
   cypress:
     build: ./e2e
@@ -22,7 +23,7 @@ services:
       - ./e2e/cypress/screenshots:/e2e/cypress/screenshots
       - ./e2e/cypress/videos:/e2e/cypress/videos
     environment:
-      CYPRESS_API_URL: http://ri-api:3000
-      CYPRESS_RESTOREDB_URL: http://ri-restoredb:4242
+      CYPRESS_API_URL: http://ri-api
+      CYPRESS_RESTOREDB_URL: http://ri-restoredb
       CYPRESS_EXTENSION_URL: http://ri-extension
       CYPRESS_WEBSITE_URL: http://ri-website

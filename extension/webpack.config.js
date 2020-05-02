@@ -64,8 +64,6 @@ module.exports = {
       API_URL: 'http://localhost:3000',
       EXTENSION_URL: 'http://localhost:8000',
       WEBSITE_URL: 'http://localhost:8080',
-      CHROME_EXTENSION_URL: null,
-      REPOSITORY_URL: null,
     }),
     new ForkTsCheckerWebpackPlugin(),
     new webpack.NamedModulesPlugin(),
