@@ -1,7 +1,8 @@
 import React from 'react';
 
-import RouterLink, { Link } from 'src/components/common/Link';
+import RouterLink from 'src/components/common/Link';
 import { useCurrentUser } from 'src/hooks/use-user';
+import WebsiteLink from 'src/popup/components/WebsiteLink';
 
 import { drawerWidth } from '../Drawer';
 
@@ -15,8 +16,6 @@ import Typography from '@material-ui/core/Typography';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 import MenuIcon from '@material-ui/icons/Menu';
-
-const { WEBSITE_URL } = process.env;
 
 const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
@@ -71,9 +70,9 @@ const AppBar: React.FC<AppBarProps> = ({ handleDrawerToggle }) => {
         </Typography>
 
         <IconButton color="secondary">
-          <Link openInNewTab href={`${WEBSITE_URL}/faq.html`} className={classes.appBarLink}>
+          <WebsiteLink to="/faq.html" className={classes.appBarLink}>
             <HelpIcon />
-          </Link>
+          </WebsiteLink>
         </IconButton>
 
         <IconButton color="secondary" disabled={!user}>

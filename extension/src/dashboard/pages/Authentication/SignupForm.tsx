@@ -7,10 +7,10 @@ import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 
 import Flex from 'src/components/common/Flex';
-import { Link } from 'src/components/common/Link';
 import useAxios from 'src/hooks/use-axios';
 // TODO: make it common
 import { FieldErrorsHandler, GlobalErrorHandler, useFormErrors } from 'src/popup/components/Form';
+import WebsiteLink from 'src/popup/components/WebsiteLink';
 import { parseUser } from 'src/types/User';
 import UserContext from 'src/utils/UserContext';
 
@@ -22,8 +22,6 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormLabel from '@material-ui/core/FormLabel';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-
-const { WEBSITE_URL } = process.env;
 
 // TODO: export from popup ? make it common ?
 const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
@@ -37,7 +35,7 @@ const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
       <>
         Les inscriptions ne sont pas encore ouvertes.<br />
         Si vous souhaitez participer à la beta,
-        <Link openInNewTab href={`${WEBSITE_URL}/faq.html`}>contactez nous</Link> pour
+        <WebsiteLink to="/faq.html">contactez nous</WebsiteLink> pour
         autoriser votre adresse email.
       </>
     );
