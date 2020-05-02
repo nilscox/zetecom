@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "yarn webpack",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "deploy": "../scripts/deploy-website.sh"
   },
   "dependencies": {
     "@types/node": "^12.11.1",
