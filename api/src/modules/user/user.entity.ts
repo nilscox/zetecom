@@ -26,6 +26,9 @@ export class User {
   @Column({ default: false })
   emailValidated: boolean;
 
+  @Column({ nullable: true })
+  emailLoginToken: string;
+
   @Column({ type: 'enum', enum: Role, array: true })
   roles: Role[];
 

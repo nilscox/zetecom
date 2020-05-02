@@ -12,6 +12,7 @@ import { useTheme } from 'src/utils/Theme';
 
 import Form, { useFormErrors } from '../components/Form';
 import ViewHeader from '../components/ViewHeader';
+import RouterLink from 'src/components/common/Link';
 
 const getGlobalError = (error: AxiosError) => {
   if (!error || !error.response)
@@ -87,6 +88,15 @@ const LoginView: React.FC<RouteComponentProps> = ({ history }) => {
           <Text>
             Connectez-vous sur Réagir à l'information pour interagir avec le reste de la communauté.
           </Text>
+
+          <Box>
+            <RouterLink
+              to="/popup/email-login"
+              style={{ textDecoration: 'underline', fontSize: '12px' }}
+            >
+              Mot de passe oublié ?
+            </RouterLink>
+          </Box>
         </Box>
 
         <Form

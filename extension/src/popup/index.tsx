@@ -5,9 +5,9 @@ import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-
 import Loader from 'src/components/common/Loader';
 import { UserProvider, useUserContext } from 'src/utils/UserContext';
 
+import EmailLoginView from './views/EmailLoginView';
 import LoginView from './views/LoginView';
 import LogoutView from './views/LogoutView';
-import PasswordResetView from './views/PasswordResetView';
 import PostSignupView from './views/PostSignupView';
 import SignupView from './views/SignupView';
 
@@ -25,7 +25,7 @@ const Popup: React.FC<RouteComponentProps> = () => {
           <Route path="/popup/login" component={LoginView} />
           <Route path="/popup/signup" exact component={SignupView} />
           <Route path="/popup/signup/post-signup" component={PostSignupView} />
-          <Route path="/popup/password-reset" component={PasswordResetView} />
+          <Route path="/popup/email-login" component={EmailLoginView} />
 
           <Route path="/popup/logout" component={LogoutView} />
 
