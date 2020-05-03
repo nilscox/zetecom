@@ -10,7 +10,8 @@
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "cypress": "^4.4.0",
     "nyc": "^15.0.1",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.16",
+    "wait-on": "^4.0.2"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",

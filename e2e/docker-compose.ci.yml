@@ -22,7 +22,7 @@ services:
     volumes:
       - ./e2e/cypress/screenshots:/e2e/cypress/screenshots
       - ./e2e/cypress/videos:/e2e/cypress/videos
-    command: yarn wait-on http://ri-api && cypress run
+    entrypoint: yarn wait-on http://ri-api && cypress run
     environment:
       CYPRESS_API_URL: http://ri-api
       CYPRESS_RESTOREDB_URL: http://ri-restoredb
