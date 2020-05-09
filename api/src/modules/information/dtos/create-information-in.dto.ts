@@ -11,6 +11,6 @@ export class CreateInformationInDto {
 
   @IsString()
   @IsOptional()
-  readonly imageUrl: string;
+  readonly imageUrl?: string;
 
 }
