@@ -9,7 +9,7 @@
     "clean": "rimraf dist",
     "lint": "eslint 'src/**/*.ts{,x}'",
     "test": "NODE_ENV=test jest",
-    "storybook": "start-storybook",
+    "storybook": "start-storybook --ci -p 6006",
     "deploy": "../scripts/deploy-extension.sh"
   },
   "dependencies": {
