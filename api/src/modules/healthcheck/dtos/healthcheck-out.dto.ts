@@ -8,10 +8,4 @@ export class HealthCheckOutDto {
   @Expose()
   database: boolean;
 
-  @Expose()
-  extension: boolean;
-
-  @Expose()
-  website: boolean;
-
 }

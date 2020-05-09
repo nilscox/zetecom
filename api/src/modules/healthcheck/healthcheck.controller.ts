@@ -7,7 +7,6 @@ import {
   Get,
   HttpException,
   HttpStatus,
-  Res,
   UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
@@ -49,11 +48,9 @@ export class HealthcheckController {
     const result = {
       api: true,
       database: await this.healthCheckService.checkDatabase(),
-      extension: await this.healthCheckService.checkExtension(),
-      website: await this.healthCheckService.checkWebsite(),
     };
 
-    if (Object.values(result).indexOf(false))
+    if (Object.values(result).includes(false))
       throw new HttpException(result, HttpStatus.EXPECTATION_FAILED);
 
     return result;
@@ -67,22 +64,6 @@ export class HealthcheckController {
   @Get('/database')
   async checkDatabase() {
     if (await this.healthCheckService.checkDatabase())
-      return 'ok';
-
-    throw new HttpException('ko', HttpStatus.EXPECTATION_FAILED);
-  }
-
-  @Get('/extension')
-  async checkExtension() {
-    if (await this.healthCheckService.checkExtension())
-      return 'ok';
-
-    throw new HttpException('ko', HttpStatus.EXPECTATION_FAILED);
-  }
-
-  @Get('/website')
-  async checkWebsite() {
-    if (await this.healthCheckService.checkWebsite())
       return 'ok';
 
     throw new HttpException('ko', HttpStatus.EXPECTATION_FAILED);

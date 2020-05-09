@@ -43,7 +43,6 @@
     "express-session": "^1.16.1",
     "memorystore": "^1.6.1",
     "module-alias": "^2.2.0",
-    "node-fetch": "^2.6.0",
     "pg": "^7.10.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.3.3",
