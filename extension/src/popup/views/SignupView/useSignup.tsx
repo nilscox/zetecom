@@ -25,16 +25,7 @@ const useSignupErrors = createFormErrorsHandler({
       return 'Ce pseudo est déjà utilisé.';
   },
   email: ({ response: { status, data } }) => {
-    if (status !== 400)
-      return;
-
-    if (data.email?.isEmail)
-      return 'Format d\'adresse email invalide.';
-
-    if (data.message === 'EMAIL_ALREADY_EXISTS')
-      return 'Cette adresse email est déjà utilisée.';
-
-    if (data.message === 'EMAIL_NOT_AUTHORIZED') {
+    if (status === 401 && data.message === 'EMAIL_NOT_AUTHORIZED') {
       return (
         <>
           Les inscriptions ne sont pas encore ouvertes.<br />
@@ -43,6 +34,15 @@ const useSignupErrors = createFormErrorsHandler({
         </>
       );
     }
+
+    if (status !== 400)
+      return;
+
+    if (data.email?.isEmail)
+      return 'Format d\'adresse email invalide.';
+
+    if (data.message === 'EMAIL_ALREADY_EXISTS')
+      return 'Cette adresse email est déjà utilisée.';
   },
   password: ({ response: { status, data } }) => {
     if (status !== 400)

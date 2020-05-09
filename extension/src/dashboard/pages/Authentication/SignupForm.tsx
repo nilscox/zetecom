@@ -34,7 +34,7 @@ const getGlobalError: GlobalErrorHandler = (error: AxiosError) => {
     return (
       <>
         Les inscriptions ne sont pas encore ouvertes.<br />
-        Si vous souhaitez participer à la beta,
+        Si vous souhaitez participer à la beta,{' '}
         <WebsiteLink to="/faq.html">contactez nous</WebsiteLink> pour
         autoriser votre adresse email.
       </>

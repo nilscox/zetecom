@@ -14,7 +14,7 @@ import { useTheme } from 'src/utils/Theme';
 
 import { Paper } from '@material-ui/core';
 
-const DATE_FORMAT = '[Le] DD.MM.YYYY [à] hh:mm';
+const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
 
 type ReactionHistoryPopupProps = RouteComponentProps<{ id: string }>;
 
@@ -30,7 +30,7 @@ const ReactionHistoryPopup: React.FC<ReactionHistoryPopupProps> = ({ match }) =>
 
   const history = [
     { date: reaction.edited, text: reaction.text },
-    ...reaction.history.reverse(),
+    ...reaction.history,
   ];
 
   return (
