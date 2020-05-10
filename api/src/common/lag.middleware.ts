@@ -8,7 +8,8 @@ export class LagMiddleware implements NestMiddleware {
     private readonly fakeLag: number,
   ) {}
 
-  use(req, res, next) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  use(req: any, res: any, next: () => void) {
     setTimeout(next, this.fakeLag);
   }
 

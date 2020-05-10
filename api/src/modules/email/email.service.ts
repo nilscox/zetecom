@@ -8,7 +8,7 @@ import { User } from '../user/user.entity';
 
 import { AuthorizedEmail } from './authorized-email.entity';
 
-type EmailTemplate = {
+export type EmailTemplate = {
   html: string;
   txt: string;
 };
@@ -28,7 +28,7 @@ export class EmailService {
     this.templates = templates;
   }
 
-  private renderTemplate(templateName, replacement: {[key: string]: string}) {
+  private renderTemplate(templateName: string, replacement: {[key: string]: string}) {
     const template = this.templates[templateName];
 
     if (!template)
@@ -72,7 +72,8 @@ export class EmailService {
       if (html)
         opts.attachment = [{ data: html, alternative: true }];
 
-      conn.send(opts, (err, message) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      conn.send(opts, (err: any, message: any) => {
         if (err)
           reject(err);
         else

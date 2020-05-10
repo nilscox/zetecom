@@ -52,9 +52,13 @@
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
+    "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.16.0",
     "@types/jest": "^23.3.13",
+    "@types/module-alias": "^2.0.0",
+    "@types/multer": "^1.4.3",
     "@types/supertest": "^2.0.7",
+    "@types/uuid": "^7.0.3",
     "@typescript-eslint/eslint-plugin": "^2.21.0",
     "@typescript-eslint/parser": "^2.21.0",
     "ep2cmd": "https://github.com/nilscox/ep2cmd.git",

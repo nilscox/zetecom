@@ -40,7 +40,7 @@ export class UserController {
   @Get(':id')
   @Output(UserOutDto)
   async findOne(
-    @Param('id', new ParseIntPipe()) id,
+    @Param('id', new ParseIntPipe()) id: number,
   ): Promise<User> {
     const user = await this.userService.findById(id);
 

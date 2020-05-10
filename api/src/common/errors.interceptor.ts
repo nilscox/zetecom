@@ -2,6 +2,9 @@ import { CallHandler, ExecutionContext, HttpException, Injectable, NestIntercept
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ErrorResponse = { [key: string]: any };
+
 @Injectable()
 export class ErrorsInterceptor implements NestInterceptor {
 
@@ -16,7 +19,8 @@ export class ErrorsInterceptor implements NestInterceptor {
         if (typeof err.response.message === 'string')
           return throwError(err);
 
-        const response = message.reduce((obj, error) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const response = message.reduce((obj: ErrorResponse, error: any) => {
           obj[error.property] = error.constraints;
           return obj;
         }, {});

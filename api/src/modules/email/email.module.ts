@@ -9,7 +9,7 @@ import { ConfigService } from '../config/config.service';
 
 import { AuthorizedEmail } from './authorized-email.entity';
 import { UserController } from './email.controller';
-import { EmailService } from './email.service';
+import { EmailService, EmailTemplate } from './email.service';
 
 @Module({
   imports: [
@@ -31,7 +31,7 @@ export class EmailModule implements OnApplicationBootstrap {
     const NODE_ENV = this.configService.get('NODE_ENV');
     const EMAIL_TEMPLATE_DIR = this.configService.get('EMAIL_TEMPLATE_DIR');
 
-    const templates = {};
+    const templates: { [name: string]: Partial<EmailTemplate> } = {};
 
     if (NODE_ENV !== 'test') {
       const templateFiles = await fs.readdir(EMAIL_TEMPLATE_DIR);
@@ -44,11 +44,11 @@ export class EmailModule implements OnApplicationBootstrap {
         if (!templates[basename])
           templates[basename] = {};
 
-        templates[basename][ext.slice(1)] = template.toString();
+        templates[basename][ext.slice(1) as 'txt' | 'html'] = template.toString();
       }
     }
 
-    this.emailService.setTemplates(templates);
+    this.emailService.setTemplates(templates as { [name: string]: EmailTemplate });
   }
 
 }

@@ -12,6 +12,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { Response } from 'express';
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
@@ -29,6 +30,10 @@ import { EmailLoginInDto } from './dtos/email-login-in.dto';
 import { LoginUserInDto } from './dtos/login-user-in.dto';
 import { SignupUserInDto } from './dtos/signup-user-in.dto';
 
+type SessionType = {
+  userId?: number;
+};
+
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthenticationController {
@@ -42,7 +47,7 @@ export class AuthenticationController {
   @Post('/signup')
   @UseGuards(IsNotAuthenticated)
   @Output(UserOutDto)
-  async signup(@Body() signupUserDto: SignupUserInDto, @Session() session): Promise<User> {
+  async signup(@Body() signupUserDto: SignupUserInDto, @Session() session: SessionType): Promise<User> {
     const user = await this.authService.signup(signupUserDto);
 
     if (user.emailValidated)
@@ -53,7 +58,7 @@ export class AuthenticationController {
 
   @Get('/email-validation')
   @UseGuards(IsNotAuthenticated)
-  async emailValidation(@Res() res, @Query('token') token: string, @Session() session): Promise<void> {
+  async emailValidation(@Res() res: Response, @Query('token') token: string, @Session() session: SessionType): Promise<void> {
     const WEBSITE_URL = this.configService.get('WEBSITE_URL');
     const user = await this.userService.validateFromToken(token);
 
@@ -65,7 +70,7 @@ export class AuthenticationController {
   @UseGuards(IsNotAuthenticated)
   @HttpCode(200)
   @Output(UserOutDto)
-  async login(@Body() loginUserDto: LoginUserInDto, @Session() session): Promise<User> {
+  async login(@Body() loginUserDto: LoginUserInDto, @Session() session: SessionType): Promise<User> {
     const { email, password } = loginUserDto;
     const user = await this.authService.login(email, password);
 
@@ -78,7 +83,7 @@ export class AuthenticationController {
   @UseGuards(IsNotAuthenticated)
   @HttpCode(200)
   @Output(UserOutDto)
-  async emailLogin(@Body() emailLoginDto: EmailLoginInDto, @Session() session): Promise<User> {
+  async emailLogin(@Body() emailLoginDto: EmailLoginInDto, @Session() session: SessionType): Promise<User> {
     const user = await this.authService.emailLogin(emailLoginDto.token);
 
     session.userId = user.id;
@@ -106,14 +111,14 @@ export class AuthenticationController {
   @Post('/logout')
   @UseGuards(IsAuthenticated)
   @HttpCode(204)
-  logout(@Session() session): void {
+  logout(@Session() session: SessionType): void {
     delete session.userId;
   }
 
   @Get('/me')
   @UseGuards(IsAuthenticated)
   @Output(UserOutDto)
-  me(@AuthUser() user): User {
+  me(@AuthUser() user: User): User {
     return user;
   }
 

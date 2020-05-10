@@ -100,7 +100,7 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
     const subscriptions = reactions.reduce((acc, { id: reactionId }) => ({
       ...acc,
       [reactionId]: !!results.find(s => s.reactionId === reactionId),
-    }), {});
+    }), {} as { [reactionId: number]: boolean });
 
     reactions.forEach((reaction) => {
       reaction.subscribed = subscriptions[reaction.id];

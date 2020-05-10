@@ -3,6 +3,7 @@ import { Expose, Transform, Type } from 'class-transformer';
 import { InformationOutDto } from '../../../modules/information/dtos/information-out.dto';
 import { UserLightOutDto } from '../../user/dtos/user-light-out.dto';
 import { Message } from '../message.entity';
+import { QuickReactionType } from '../quick-reaction.entity';
 
 export class QuickReactionCountDto {
 
@@ -48,7 +49,7 @@ export class ReactionOutDto {
   quickReactionsCount: QuickReactionCountDto;
 
   @Expose()
-  @Transform(value => ({
+  @Transform((value: QuickReactionType) => ({
     APPROVE: 'approve',
     REFUTE: 'refute',
     SKEPTIC: 'skeptic',

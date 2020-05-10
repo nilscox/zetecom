@@ -9,7 +9,7 @@ export class StripNullRelations implements NestInterceptor {
   intercept(_context: ExecutionContext, next: CallHandler<any>): Observable<any> {
     return next.handle().pipe(
       map(res => {
-        res.items.forEach(i => this.transform(i));
+        res.items.forEach((i: Subscription) => this.transform(i));
         return res;
       }),
     );

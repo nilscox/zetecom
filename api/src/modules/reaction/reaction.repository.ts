@@ -35,6 +35,7 @@ export class ReactionRepository extends Repository<Reaction> {
     this.quickReactionRepository = getRepository(QuickReaction);
   }
 
+  // TODO: remove
   private async sortByRelevance(reactions: Reaction[]) {
     const repliesCounts = await this.getRepliesCounts(reactions.map(r => r.id));
     const quickReactionsCounts = await this.getQuickReactionsCounts(reactions.map(r => r.id));
@@ -48,7 +49,7 @@ export class ReactionRepository extends Repository<Reaction> {
       return r.APPROVE + r.REFUTE + r.SKEPTIC;
     };
 
-    const scores = reactions
+    const scores: { [id: number]: number } = reactions
       .map(r => r.repliesCount + sumQuickReacitonsCount(r))
       .reduce((acc, score, idx) => ({ ...acc, [reactions[idx].id]: score }), {});
 
@@ -215,7 +216,7 @@ export class ReactionRepository extends Repository<Reaction> {
 
     const results = reactionIds.map((id) => ({ reactionId: id, quickReactions: { ...defaultQuickReactions } }));
 
-    counts.forEach(({ reaction_id: id, type, count }) => {
+    counts.forEach(({ reaction_id: id, type, count }: { reaction_id: number; type: QuickReactionType; count: number }) => {
       const result = results.find(({ reactionId }) => id === reactionId);
 
       result.quickReactions[type] = Number(count);

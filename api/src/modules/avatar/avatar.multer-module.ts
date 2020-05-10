@@ -15,9 +15,10 @@ export const AvatarMulterModule = MulterModule.registerAsync({
       destination(req, file, cb) {
         cb(null, USER_AVATAR_DESTINATION);
       },
-      filename(req, file, cb) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      filename(req: any, file, cb) {
         if (!req.user)
-          return cb(new Error('avatar module: req.user must exist'));
+          return cb(new Error('avatar module: req.user must exist'), null);
 
         cb(null, [req.user.nick, Date.now()].join('-') + path.extname(file.originalname));
       },

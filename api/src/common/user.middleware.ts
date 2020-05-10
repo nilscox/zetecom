@@ -12,7 +12,8 @@ export class UserMiddleware implements NestMiddleware {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async use(req, res, next) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async use(req: any, res: any, next: (err?: any) => void) {
     const { userId } = req.session;
 
     if (!userId)
