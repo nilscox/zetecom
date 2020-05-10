@@ -26,10 +26,10 @@ export class ReactionOutDto {
   get edited(): Date | false {
     const l = this.history.length;
 
-    if (l === 0)
+    if (l === 1)
       return false;
 
-    return this.history[l - 1].created;
+    return this.history[0].created;
   }
 
   @Expose()

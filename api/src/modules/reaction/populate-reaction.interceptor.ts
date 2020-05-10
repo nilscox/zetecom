@@ -41,7 +41,7 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
       .getMany();
 
     reactions.forEach(reaction => {
-      reaction.history = reactionWithHistories.find(r => r.id === reaction.id).history.slice(1);
+      reaction.history = reactionWithHistories.find(r => r.id === reaction.id).history;
     });
 
     return reactions;
