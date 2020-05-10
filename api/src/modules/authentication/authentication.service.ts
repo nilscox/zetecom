@@ -20,6 +20,12 @@ export class AuthenticationService {
     private readonly emailService: EmailService,
   ) {}
 
+  private ensurePasswordSecurity(email: string, nick: string, password: string) {
+    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
+    if (password.match(email) || email.match(password) || password.match(nick) || nick.match(password))
+      throw new BadRequestException('PASSWORD_UNSECURE');
+  }
+
   async signup(dto: SignupUserInDto): Promise<User> {
     if (await this.userService.findByNick(dto.nick))
       throw new BadRequestException('NICK_ALREADY_EXISTS');
@@ -29,9 +35,7 @@ export class AuthenticationService {
 
     const { email, nick, password } = dto;
 
-    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
-    if (password.match(email) || email.match(password) || password.match(nick) || nick.match(password))
-      throw new BadRequestException('PASSWORD_UNSECURE');
+    this.ensurePasswordSecurity(email, nick, password);
 
     return this.userService.create(dto);
   }
@@ -79,6 +83,14 @@ export class AuthenticationService {
     await this.userRepository.save(user);
 
     await this.emailService.sendEmailLoginEmail(user);
+  }
+
+  async changeUserPassword(user: User, password: string): Promise<void> {
+    const { email, nick } = user;
+
+    this.ensurePasswordSecurity(email, nick, password);
+
+    await this.userService.setUserPassword(user, password);
   }
 
 }

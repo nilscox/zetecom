@@ -5,10 +5,10 @@ import {
   Get,
   HttpCode,
   Post,
-  Query,
+  Put,  Query,
   Res,
   Session, UseGuards,
-  UseInterceptors } from '@nestjs/common';
+  UseInterceptors} from '@nestjs/common';
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
@@ -21,6 +21,7 @@ import { UserService } from '../user/user.service';
 
 import { AuthenticationService } from './authentication.service';
 import { AskEmailLoginInDto } from './dtos/ask-email-login-in.dto';
+import { ChangePasswordInDto } from './dtos/change-password-in-dto';
 import { EmailLoginInDto } from './dtos/email-login-in.dto';
 import { LoginUserInDto } from './dtos/login-user-in.dto';
 import { SignupUserInDto } from './dtos/signup-user-in.dto';
@@ -87,6 +88,16 @@ export class AuthenticationController {
   @HttpCode(204)
   async askEmailLogin(@Body() aksEmailLoginDto: AskEmailLoginInDto): Promise<void> {
     await this.authService.askEmailLogin(aksEmailLoginDto.email);
+  }
+
+  @Put('change-password')
+  @UseGuards(IsAuthenticated)
+  @Output(UserOutDto)
+  async updateUserPassword(@Body() dto: ChangePasswordInDto, @AuthUser() user: User): Promise<User> {
+    const { password } = dto;
+    await this.authService.changeUserPassword(user, password);
+
+    return user;
   }
 
   @Post('/logout')
