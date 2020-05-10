@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import * as diff from 'diff';
 import moment from 'moment';
 import { RouteComponentProps } from 'react-router';
 
 import Box from 'src/components/common/Box';
 import Break from 'src/components/common/Break';
+import DiffMessage from 'src/components/common/DiffMessage';
 import Loader from 'src/components/common/Loader';
 import Text from 'src/components/common/Text';
-import ReactionBody from 'src/components/reaction/ReactionBody';
 import useAxios from 'src/hooks/use-axios';
 import { parseReaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
@@ -16,32 +17,72 @@ import { Paper } from '@material-ui/core';
 
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
 
-type ReactionHistoryPopupProps = RouteComponentProps<{ id: string }>;
+const useDiff = (messages: string[], mouseOver?: number) => {
+  const makeDiff = (a: string, b: string) => {
+    const result = diff.diffChars(a, b);
+    const [before, after]: Diff.Change[][] = [[], []];
 
-const ReactionHistoryPopup: React.FC<ReactionHistoryPopupProps> = ({ match }) => {
+    for (const { value, added, removed } of result) {
+      if (added)
+        after.push({ value, added: true });
+      else if (removed)
+        before.push({ value, removed: true });
+      else {
+        after.push({ value });
+        before.push({ value });
+      }
+    }
+
+    return [before, after];
+  };
+
+  return (n: number): Diff.Change[] => {
+    const noChange = [{ value: messages[n] }];
+
+    if (mouseOver !== undefined) {
+      if (mouseOver === messages.length - 1 || (n !== mouseOver && n !== mouseOver + 1))
+        return noChange;
+
+      const [before, after] = makeDiff(messages[mouseOver], messages[mouseOver + 1]);
+
+      if (n === mouseOver)
+        return before;
+      else if (n === mouseOver + 1)
+        return after;
+
+      return noChange;
+    }
+
+    if (n === messages.length - 1)
+      return noChange;
+
+    return diff.diffChars(messages[n], messages[n + 1]);
+  };
+};
+
+type DiffMessagesProps = {
+  messages: { date: Date | false; text: string }[];
+};
+
+const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
   const { sizes: { big } } = useTheme();
-  const [{ data: reaction, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseReaction);
-
-  if (error)
-    throw error;
-
-  if (loading)
-    return <Loader size="big" />;
-
-  const history = [
-    { date: reaction.edited, text: reaction.text },
-    ...reaction.history,
-  ];
+  const [mouseOver, setMouseOver] = useState<number>();
+  const getDiff = useDiff(messages.map(message => message.text), mouseOver);
 
   return (
-    <Box
-      p={4 * big}
-      style={{ height: '100%', boxSizing: 'border-box' }}
-      data-e2e="history-list"
-    >
-
-      { history.map(({ date, text }, n) => (
-        <div key={n}>
+    <>
+      { messages.map(({ date }, n) => (
+        <div
+          key={n}
+          style={{
+            transition: 'opacity 300ms ease-in-out',
+            ...(mouseOver !== undefined && n !== mouseOver && n !== mouseOver + 1 && {
+              opacity: 0.5,
+            }),
+          }}
+          onMouseEnter={() => setMouseOver(n)}
+          onMouseLeave={() => setMouseOver(undefined)}
+        >
 
           { n > 0 && <Break size={30} /> }
 
@@ -55,12 +96,36 @@ const ReactionHistoryPopup: React.FC<ReactionHistoryPopupProps> = ({ match }) =>
 
           <Break size={big} />
 
-          <Paper elevation={3}>
-            <ReactionBody text={text} />
+          <Paper elevation={3} style={{ background: 'transparent' }}>
+            <DiffMessage diff={getDiff(n)} />
           </Paper>
 
         </div>
       )) }
+    </>
+  );
+};
+
+type ReactionHistoryPopupProps = RouteComponentProps<{ id: string }>;
+
+const ReactionHistoryPopup: React.FC<ReactionHistoryPopupProps> = ({ match }) => {
+  const { sizes: { big } } = useTheme();
+  const [{ data: reaction, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseReaction);
+
+  if (error)
+    throw error;
+
+  if (loading)
+    return <Loader size="big" />;
+
+  return (
+    <Box
+      p={4 * big}
+      style={{ height: '100%', boxSizing: 'border-box' }}
+      data-e2e="history-list"
+    >
+
+      <DiffMessages messages={reaction.history} />
 
     </Box>
   );
