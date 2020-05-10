@@ -5,10 +5,13 @@ import {
   Get,
   HttpCode,
   Post,
-  Put,  Query,
+  Put,
+  Query,
   Res,
-  Session, UseGuards,
-  UseInterceptors} from '@nestjs/common';
+  Session,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
@@ -93,7 +96,7 @@ export class AuthenticationController {
   @Put('change-password')
   @UseGuards(IsAuthenticated)
   @Output(UserOutDto)
-  async updateUserPassword(@Body() dto: ChangePasswordInDto, @AuthUser() user: User): Promise<User> {
+  async changeUserPassword(@Body() dto: ChangePasswordInDto, @AuthUser() user: User): Promise<User> {
     const { password } = dto;
     await this.authService.changeUserPassword(user, password);
 

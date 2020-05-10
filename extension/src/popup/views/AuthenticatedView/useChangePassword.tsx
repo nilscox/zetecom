@@ -6,7 +6,7 @@ import useAxios from 'src/hooks/use-axios';
 
 import { createFormErrorsHandler } from '../../utils/createFormErrorsHandler';
 
-const useUpdatePasswordErrors = createFormErrorsHandler({
+const useChangePasswordErrors = createFormErrorsHandler({
   password: ({ response: { status, data } }) => {
     if (status !== 400)
       return;
@@ -22,10 +22,10 @@ const useUpdatePasswordErrors = createFormErrorsHandler({
   },
 });
 
-const useUpdatePassword = () => {
+const useChangePassword = () => {
   const opts: AxiosRequestConfig = { method: 'PUT', url: '/api/auth/change-password' };
-  const [{ error, loading, status }, updatePassword] = useAxios(opts, () => undefined, { manual: true });
-  const errors = useUpdatePasswordErrors(error);
+  const [{ error, loading, status }, changePassword] = useAxios(opts, () => undefined, { manual: true });
+  const errors = useChangePasswordErrors(error);
 
   const [passwordChanged, setPasswordChanged] = useState(false);
 
@@ -34,15 +34,15 @@ const useUpdatePassword = () => {
       setPasswordChanged(true);
   }, [status]);
 
-  const handleUpdatePassord = (password: string) => {
+  const handleChangePassord = (password: string) => {
     setPasswordChanged(false);
 
-    updatePassword({
+    changePassword({
       data: { password },
     });
   };
 
-  return [handleUpdatePassord, { loading, errors, passwordChanged }] as const;
+  return [handleChangePassord, { loading, errors, passwordChanged }] as const;
 };
 
-export default useUpdatePassword;
+export default useChangePassword;

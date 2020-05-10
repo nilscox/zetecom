@@ -1,5 +1,5 @@
-describe('update password', () => {
-  it('should successfuly update password', () => {
+describe('change password', () => {
+  it('should successfuly change password', () => {
     const data = {
       users: [
         { nick: 'user1', email: 'user1@domain.tld', password: 'secure p4ssword' },
