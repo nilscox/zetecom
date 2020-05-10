@@ -12,7 +12,7 @@ import TextField from 'src/popup/components/TextField';
 
 import Button from '../../components/Button';
 
-import useUpdatePassword from './useUpdatePassword';
+import useChangePassword from './useChangePassword';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -37,10 +37,10 @@ const useStyles = makeStyles(theme => ({
 
 const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
   const [user, setUser] = useUser();
-  const [updatePassword, { errors, passwordChanged }] = useUpdatePassword();
+  const [changePassword, { errors, passwordChanged }] = useChangePassword();
   const { fieldErrors, globalError, unhandledError } = errors || {};
   const [password, setPassword] = useState('');
-  const [changePassword, setChangePassword] = useState(false);
+  const [displayChangePasswordForm, setDisplayChangePasswordForm] = useState(false);
   const classes = useStyles();
 
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/logout' };
@@ -62,13 +62,13 @@ const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
   useEffect(() => {
     if (passwordChanged) {
       setPassword('');
-      setChangePassword(false);
+      setDisplayChangePasswordForm(false);
     }
   }, [passwordChanged, setPassword]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    updatePassword(password);
+    changePassword(password);
   };
 
   return (
@@ -86,7 +86,7 @@ const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
         Inscrit(e) depuis le : { moment(user.created).format('DD MM YYYY') }
       </Typography>
 
-      { changePassword
+      { displayChangePasswordForm
         ? (
           <form onSubmit={handleSubmit}>
 
@@ -103,8 +103,14 @@ const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
             <FormGlobalError error={globalError} />
 
           </form>
+        ) : (
+          <div
+            className={classes.changePassword}
+            onClick={() => setDisplayChangePasswordForm(true)}
+          >
+            Changer de mot de passe
+          </div>
         )
-        : <div className={classes.changePassword} onClick={() => setChangePassword(true)}>Changer de mot de passe</div>
       }
 
       <Button loading={loading} className={classes.submitButton} onClick={() => logout()}>
