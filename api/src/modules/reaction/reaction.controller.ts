@@ -75,7 +75,12 @@ export class ReactionController {
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Reaction> {
-    return this.reactionService.findById(id);
+    const reaction = await this.reactionService.findById(id);
+
+    if (!reaction)
+      throw new NotFoundException();
+
+    return reaction;
   }
 
   @Get(':id/replies')
@@ -178,7 +183,8 @@ export class ReactionController {
 
     await this.reactionService.setQuickReaction(reaction, user, dto.type);
 
-    return this.reactionService.findById(reaction.id);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return (await this.reactionService.findById(reaction.id))!;
   }
 
   @Post(':id/report')

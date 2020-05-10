@@ -23,7 +23,7 @@ function OutputClassSerializer<T>(Dto: Type<T>): Type<ClassSerializerInterceptor
   });
 }
 
-export function Output<T>(Dto?: Type<T>) {
+export function Output<T>(Dto: Type<T>) {
   return UseInterceptors(OutputClassSerializer(Dto));
 }
 
@@ -38,6 +38,6 @@ function PaginatedOutputClassSerializer<T>(Dto: Type<T>): Type<ClassSerializerIn
   });
 }
 
-export function PaginatedOutput<T>(Dto?: Type<T>) {
+export function PaginatedOutput<T>(Dto: Type<T>) {
   return UseInterceptors(PaginatedOutputClassSerializer(Dto));
 }

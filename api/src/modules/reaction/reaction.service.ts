@@ -30,12 +30,12 @@ export class ReactionService {
 
   ) {}
 
-  async findById(id: number): Promise<Reaction> {
+  async findById(id: number): Promise<Reaction | undefined> {
     return this.reactionRepository.findOne(id);
   }
 
   async create(dto: CreateReactionInDto, user: User, information: Information): Promise<Reaction> {
-    let parent: Reaction | null = null;
+    let parent: Reaction | undefined;
 
     if (dto.parentId) {
       parent = await this.reactionRepository.findOne({ id: dto.parentId });
@@ -70,7 +70,6 @@ export class ReactionService {
       REFUTE: 0,
       SKEPTIC: 0,
     };
-    reaction.userQuickReaction = null;
 
     if (dto.parentId) {
       await this.reactionRepository.incrementScore(dto.parentId, 2);
@@ -112,7 +111,7 @@ export class ReactionService {
       if (existingQuickReaction.type === type)
         return;
 
-      await this.quickReactionRepository.update(existingQuickReaction.id, { type });
+      await this.quickReactionRepository.update(existingQuickReaction.id, { type: type || undefined });
 
       if (existingQuickReaction.type === null && type !== null)
         await this.reactionRepository.incrementScore(reaction.id);

@@ -65,7 +65,7 @@ export class AuthenticationService {
     if (!user.emailValidated)
       await this.userRepository.update(user.id, { emailValidated: true });
 
-    await this.userRepository.update(user.id, { emailLoginToken: null });
+    await this.userRepository.update(user.id, { emailLoginToken: undefined });
 
     return user;
   }

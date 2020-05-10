@@ -20,11 +20,11 @@ export class InformationService {
     return count > 0;
   }
 
-  async findById(id: number): Promise<Information> {
+  async findById(id: number): Promise<Information | undefined> {
     return this.informationRepository.findOne(id);
   }
 
-  async findByUrl(url: string): Promise<Information> {
+  async findByUrl(url: string): Promise<Information | undefined> {
     return this.informationRepository.findOne({ url });
   }
 

@@ -10,7 +10,7 @@ const isSortType = (value: string): value is SortType => {
 export class SortTypePipe implements PipeTransform<string, SortType> {
 
   transform(value: string | undefined): SortType {
-    if (isSortType(value))
+    if (value && isSortType(value))
       return value;
 
     throw new BadRequestException('invalid sort type');

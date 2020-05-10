@@ -41,7 +41,8 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
       .getMany();
 
     reactions.forEach(reaction => {
-      reaction.history = reactionWithHistories.find(r => r.id === reaction.id).history;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      reaction.history = reactionWithHistories.find(r => r.id === reaction.id)!.history;
     });
 
     return reactions;
@@ -66,7 +67,8 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
     const quickReactionsCounts = await this.reactionRepository.getQuickReactionsCounts(reactions.map(r => r.id));
 
     const getQuickReactionsCount = (reactionId: number, type: QuickReactionType): number => {
-      return quickReactionsCounts.find(qrc => qrc.reactionId === reactionId).quickReactions[type];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return quickReactionsCounts.find(qrc => qrc.reactionId === reactionId)!.quickReactions[type];
     };
 
     reactions.forEach(reaction => {
@@ -84,7 +86,8 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
     reactions.forEach((reaction) => {
       const quickReaction = quickReactions.find(qr => qr.reactionId === reaction.id);
 
-      reaction.userQuickReaction = quickReaction ? quickReaction.type : null;
+      if (quickReaction && quickReaction.type)
+        reaction.userQuickReaction = quickReaction.type;
     });
   }
 

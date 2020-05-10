@@ -25,15 +25,15 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  async findById(id: number): Promise<User> {
+  async findById(id: number): Promise<User | undefined> {
     return this.userRepository.findOne(id);
   }
 
-  async findByEmail(email: string): Promise<User> {
+  async findByEmail(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({ where: { email } });
   }
 
-  async findByNick(nick: string): Promise<User> {
+  async findByNick(nick: string): Promise<User | undefined> {
     return this.userRepository.findOne({ where: { nick } });
   }
 

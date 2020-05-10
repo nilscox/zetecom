@@ -5,7 +5,7 @@ export class OptionalParseIntPipe implements PipeTransform<string, Promise<numbe
 
   transform(value: string | undefined, metadata: ArgumentMetadata): Promise<number | undefined> {
     if (typeof value === 'undefined')
-      return undefined;
+      return Promise.resolve(undefined);
 
     return new ParseIntPipe().transform(value, metadata);
   }

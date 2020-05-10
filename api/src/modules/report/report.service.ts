@@ -29,7 +29,7 @@ export class ReportService {
     return (await this.reportRepository.count({ reaction, user })) > 0;
   }
 
-  async findReport(reaction: Reaction, user: User): Promise<Report> {
+  async findReport(reaction: Reaction, user: User): Promise<Report | undefined> {
     return this.reportRepository.findOne({ reaction, user });
   }
 

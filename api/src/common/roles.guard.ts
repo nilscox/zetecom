@@ -18,7 +18,6 @@ export class RolesGuard implements CanActivate {
   async canActivate(
     context: ExecutionContext,
   ): Promise<boolean> {
-    const NODE_ENV = this.configService.get('NODE_ENV');
     const BYPASS_AUTHORIZATIONS = this.configService.get('BYPASS_AUTHORIZATIONS');
 
     const roles = this.reflector.get<Role[]>('roles', context.getHandler());
@@ -36,7 +35,10 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user: User | undefined = request.user;
 
-    return user && this.authorizationService.isAuthorized(user, roles[0]);
+    if (!user)
+      return Promise.resolve(false);
+
+    return this.authorizationService.isAuthorized(user, roles[0]);
   }
 
 }

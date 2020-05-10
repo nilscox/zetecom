@@ -3,7 +3,6 @@ import { EntityRepository, getRepository, In, Repository, SelectQueryBuilder } f
 import { Paginated } from 'Common/paginated';
 import { SortType } from 'Common/sort-type';
 
-import { Message } from './message.entity';
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 import { Reaction } from './reaction.entity';
 
@@ -33,27 +32,6 @@ export class ReactionRepository extends Repository<Reaction> {
     super();
 
     this.quickReactionRepository = getRepository(QuickReaction);
-  }
-
-  // TODO: remove
-  private async sortByRelevance(reactions: Reaction[]) {
-    const repliesCounts = await this.getRepliesCounts(reactions.map(r => r.id));
-    const quickReactionsCounts = await this.getQuickReactionsCounts(reactions.map(r => r.id));
-
-    reactions.forEach(r => {
-      r.repliesCount = repliesCounts.find(({ reactionId }) => reactionId === r.id).repliesCount;
-      r.quickReactionsCount = quickReactionsCounts.find(({ reactionId }) => reactionId === r.id).quickReactions;
-    });
-
-    const sumQuickReacitonsCount = ({ quickReactionsCount: r }: Reaction) => {
-      return r.APPROVE + r.REFUTE + r.SKEPTIC;
-    };
-
-    const scores: { [id: number]: number } = reactions
-      .map(r => r.repliesCount + sumQuickReacitonsCount(r))
-      .reduce((acc, score, idx) => ({ ...acc, [reactions[idx].id]: score }), {});
-
-    reactions.sort((a, b) => scores[b.id] - scores[a.id]);
   }
 
   private createDefaultQueryBuilder(page: number, pageSize: number) {
@@ -190,7 +168,8 @@ export class ReactionRepository extends Repository<Reaction> {
 
     // eslint-disable-next-line @typescript-eslint/camelcase
     repliesCounts.forEach(({ reaction_id: id, reaction_repliesCount }) => {
-      const result = results.find(({ reactionId }) => reactionId === id);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const result = results.find(({ reactionId }) => reactionId === id)!;
 
       result.repliesCount = Number(reaction_repliesCount);
     });
@@ -217,7 +196,8 @@ export class ReactionRepository extends Repository<Reaction> {
     const results = reactionIds.map((id) => ({ reactionId: id, quickReactions: { ...defaultQuickReactions } }));
 
     counts.forEach(({ reaction_id: id, type, count }: { reaction_id: number; type: QuickReactionType; count: number }) => {
-      const result = results.find(({ reactionId }) => id === reactionId);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const result = results.find(({ reactionId }) => id === reactionId)!;
 
       result.quickReactions[type] = Number(count);
     });
