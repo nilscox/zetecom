@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcrypt';
 import { DeepPartial, getManager } from 'typeorm';
 
 import { Role } from '../../modules/authorization/roles.enum';
@@ -10,12 +11,16 @@ export const createUser = async (data: DeepPartial<User> = {}) => {
 
   const user = manager.create(User, {
     nick: `user_${rnd}`,
-    email: `${rnd}@domain.tld`,
-    password: 'password',
+    email: `user_${rnd}@domain.tld`,
+    password: `password_${rnd}`,
     emailValidationToken: 'token',
+    emailValidated: true,
     roles: [Role.USER],
     ...data,
   });
+
+  if (data.password)
+    user.password = await bcrypt.hash(data.password, 10);
 
   return manager.save(user);
 };

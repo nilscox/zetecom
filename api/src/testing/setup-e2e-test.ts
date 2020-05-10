@@ -5,11 +5,14 @@ import { APP_GUARD } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as expressSession from 'express-session';
 import * as memorystore from 'memorystore';
 import * as request from 'supertest';
 import { getRepository } from 'typeorm';
+
+dotenv.config();
 
 import { ErrorsInterceptor } from 'Common/errors.interceptor';
 import { RolesGuard } from 'Common/roles.guard';
@@ -20,6 +23,7 @@ import { Role } from '../modules/authorization/roles.enum';
 import { ConfigModule } from '../modules/config/config.module';
 import { UserOutDto } from '../modules/user/dtos/user-out.dto';
 import { User } from '../modules/user/user.entity';
+
 
 const MemoryStore = memorystore(expressSession);
 
