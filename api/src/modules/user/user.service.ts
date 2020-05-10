@@ -81,4 +81,10 @@ export class UserService {
     return user;
   }
 
+  async setUserPassword(user: User, password: string): Promise<User> {
+    user.password = await bcrypt.hash(password, 10);
+
+    return this.userRepository.save(user);
+  }
+
 }
