@@ -1,5 +1,4 @@
 .env
-.env.test
 ormconfig.js
 node_modules/
 email-templates/

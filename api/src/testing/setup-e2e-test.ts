@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { Module, ValidationPipe } from '@nestjs/common';
 import { MiddlewareConsumer, ModuleMetadata } from '@nestjs/common/interfaces';
@@ -12,7 +14,7 @@ import * as memorystore from 'memorystore';
 import * as request from 'supertest';
 import { getRepository } from 'typeorm';
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env.test') });
 
 import { ErrorsInterceptor } from 'Common/errors.interceptor';
 import { RolesGuard } from 'Common/roles.guard';

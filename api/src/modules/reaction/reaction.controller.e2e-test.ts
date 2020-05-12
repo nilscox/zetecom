@@ -165,7 +165,7 @@ describe('reaction controller', () => {
         .then(({ body }) => {
           expect(body).toMatchObject({
             text: 'message2',
-            history: [{ text: 'message1' }],
+            history: [{ text: 'message2' }, { text: 'message1' }],
           });
         });
     });
@@ -515,8 +515,9 @@ describe('reaction controller', () => {
           refute: 0,
           skeptic: 0,
         },
-        userQuickReaction: null,
       });
+
+      expect(body).not.toHaveProperty('userQuickReaction');
 
       const quickReactionDb = await quickReactionRepository.findOne(body.id);
 

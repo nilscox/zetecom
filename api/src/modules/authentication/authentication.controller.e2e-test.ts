@@ -109,7 +109,7 @@ describe('authentification', () => {
   });
 
   describe('login', () => {
-    const [userRequest, authenticatedUser] = createAuthenticatedUser(server);
+    const [userRequest] = createAuthenticatedUser(server);
 
     let user: User;
 

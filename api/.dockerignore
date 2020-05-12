@@ -8,7 +8,7 @@ docker-run.sh
 node_modules/
 
 .env
-.env.*
+.env.example
 nodemon.json
 
 **/*.spec.json
