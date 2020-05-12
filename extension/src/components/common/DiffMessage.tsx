@@ -22,11 +22,11 @@ type DiffMessageProps = {
 
 const DiffMessage: React.FC<DiffMessageProps> = ({ diff }) => {
   return (
-    <div style={{ padding: 4, fontFamily: 'monospace', fontSize: 13 }}>
+    <pre style={{ padding: 4, fontFamily: 'monospace', fontSize: 13 }}>
       {diff.map(({ added, removed, value }, n) => (
         <DiffChunk key={n} added={added} removed={removed}>{ value }</DiffChunk>
       ))}
-    </div>
+    </pre>
   );
 };
 

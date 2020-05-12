@@ -18,8 +18,10 @@ import { Paper } from '@material-ui/core';
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
 
 const useDiff = (messages: string[], mouseOver?: number) => {
+  const diffFunc = diff.diffLines;
+
   const makeDiff = (a: string, b: string) => {
-    const result = diff.diffChars(a, b);
+    const result = diffFunc(a, b);
     const [before, after]: Diff.Change[][] = [[], []];
 
     for (const { value, added, removed } of result) {
@@ -56,7 +58,7 @@ const useDiff = (messages: string[], mouseOver?: number) => {
     if (n === messages.length - 1)
       return noChange;
 
-    return diff.diffChars(messages[n], messages[n + 1]);
+    return diffFunc(messages[n], messages[n + 1]);
   };
 };
 
