@@ -8,4 +8,9 @@ export const createTheme = () => createMuiTheme({
     secondary: { main: '#446' },
     highlight: { main: pink[500] },
   },
+  typography: {
+    fontFamily: [
+      'Nunito Sans',
+    ].join(', '),
+  },
 });

@@ -33,6 +33,7 @@ const useStyles = makeStyles(theme => ({
   headerLogo: {
     padding: theme.spacing(1),
     borderBottom: '1px solid #CCC',
+    background: 'linear-gradient(to top, #eeeeee 0%, #ffffff 8%)',
   },
   container: {
     marginBottom: theme.spacing(4),
