@@ -1,27 +1,30 @@
 {
   "name": "reagir-information-chrome-extension",
   "description": "Réagir à l'information - Chrome extension",
-  "version": "0.4.4",
+  "version": "0.4.6",
   "scripts": {
-    "start": "concurrently \"yarn build:popup:watch\" \"yarn build:integrations:watch\" \"yarn build:bg-script:watch\"",
-    "clean": "rm -rf extension/integrations extension/popup/popup.js extension/background_script.js reagir-information-chrome-extension.zip",
-    "build": "yarn build:popup && yarn build:integrations && yarn build:bg-script",
-    "build:popup": "webpack --config webpack/popup.config",
-    "build:popup:watch": "yarn build:popup --watch",
-    "build:integrations": "webpack --config webpack/integrations.config",
-    "build:integrations:watch": "yarn build:integrations --watch",
-    "build:bg-script": "cp src/background_script.js extension",
-    "build:bg-script:watch": "watch \"yarn build:bg-script\" src",
-    "zip": "(cd extension && zip -r ../reagir-information-chrome-extension.zip .)"
+    "start": "nodemon -w . -i node_modules -i dist -e js,ts,json,html -x 'yarn build'",
+    "clean": "rm -rf dist reagir-information-chrome-extension.zip",
+    "build": "yarn webpack",
+    "zip": "(cd dist && zip -r ../reagir-information-chrome-extension.zip .)"
   },
   "dependencies": {
     "iframe-resizer": "^4.1.1"
   },
   "devDependencies": {
+    "@types/chrome": "^0.0.108",
+    "@types/iframe-resizer": "^3.5.8",
+    "@types/node": "^13.13.5",
+    "clean-webpack-plugin": "^3.0.0",
     "concurrently": "^4.1.0",
+    "copy-webpack-plugin": "^5.1.1",
     "dotenv": "^8.0.0",
+    "nodemon": "^2.0.3",
+    "ts-loader": "^7.0.4",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.8.3",
     "watch": "^1.0.2",
-    "webpack": "^4.30.0",
+    "webpack": "^5.0.0-beta.16",
     "webpack-cli": "^3.3.2"
   }
 }
