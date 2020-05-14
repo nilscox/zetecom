@@ -62,7 +62,7 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
       API_URL: 'http://localhost:3000',
-      EXTENSION_URL: 'http://localhost:8000',
+      APP_URL: 'http://localhost:8000',
       WEBSITE_URL: 'http://localhost:8080',
     }),
     new ForkTsCheckerWebpackPlugin(),

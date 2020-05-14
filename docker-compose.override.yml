@@ -18,8 +18,8 @@ services:
       context: ./api
       network: host
 
-  extension:
-    build: ./extension
+  app:
+    build: ./app
 
   website:
     build: ./website

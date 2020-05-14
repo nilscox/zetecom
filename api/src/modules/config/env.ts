@@ -11,7 +11,7 @@ const enviornmentVariables = [
   'REFLECT_ORIGIN',
   'BYPASS_AUTHORIZATIONS',
 
-  'EXTENSION_URL',
+  'APP_URL',
   'WEBSITE_URL',
 
   // Database

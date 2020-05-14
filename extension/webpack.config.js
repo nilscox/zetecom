@@ -57,7 +57,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
-      EXTENSION_URL: 'http://localhost:8000',
+      APP_URL: 'http://localhost:8000',
     }),
     new CopyWebpackPlugin([
       'manifest.json',

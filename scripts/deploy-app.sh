@@ -5,7 +5,7 @@ environment=$1
 
 prepare_deployment() {
   if [ "$environment" != 'production' ] && [ "$environment" != 'staging' ]; then
-    echo 'usage: deploy-api.sh [staging|production]' >&2
+    echo 'usage: deploy-app.sh [staging|production]' >&2
     exit 1
   fi
 
@@ -14,40 +14,40 @@ prepare_deployment() {
 
 setup_environment () {
   load_env deploy.env
-  load_env extension.env
+  load_env app.env
   echo
 
   echo "Environment variables:"
-  echo_env extension.env
+  echo_env app.env
   echo
 
   echo "Deployment variables:"
-  echo_vars deploy_user deploy_host extension_image extension_port
+  echo_vars deploy_user deploy_host app_image app_port
 }
 
-deploy_extension() {
-  execute ssh "$deploy_user@$deploy_host" docker pull "$extension_image"
-  execute ssh "$deploy_user@$deploy_host" docker rm -f "ri-extension-$environment" || true
+deploy_app() {
+  execute ssh "$deploy_user@$deploy_host" docker pull "$app_image"
+  execute ssh "$deploy_user@$deploy_host" docker rm -f "ri-app-$environment" || true
   execute ssh "$deploy_user@$deploy_host" docker run -dt \
-    --name "ri-extension-$environment" \
+    --name "ri-app-$environment" \
     --network "ri-network-$environment" \
-    -p "$extension_port:80" \
+    -p "$app_port:80" \
     --volume "$base_dir/logs:/logs:rw" \
     --volume "$base_dir/avatars:/var/www/assets/images/avatars:ro" \
     --env NODE_ENV='production' \
     --env HOST='0.0.0.0' \
     --env PORT='80' \
-    --env API_URL=\'"$API_URL"\' \
-    --env EXTENSION_URL=\'"$EXTENSION_URL"\' \
-    --env WEBSITE_URL=\'"$WEBSITE_URL"\' \
-    "$extension_image"
+    --env $(sshenv API_URL) \
+    --env $(sshenv APP_URL) \
+    --env $(sshenv WEBSITE_URL) \
+    "$app_image"
 }
 
 main() {
-  echo_title "Deploy extension"
+  echo_title "Deploy app"
   step "Prepare deployment" prepare_deployment
   step "Setup environment" setup_environment
-  step "Deploy extension" deploy_extension
+  step "Deploy app" deploy_app
   echo "Deployment success"
 }
 

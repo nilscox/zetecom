@@ -4,7 +4,7 @@ on: [push]
 
 env:
   API_IMAGE: nilscox/reagir-information-api
-  EXTENSION_IMAGE: nilscox/reagir-information-extension
+  APP_IMAGE: nilscox/reagir-information-app
 
 jobs:
 
@@ -27,17 +27,17 @@ jobs:
         workdir: api
         buildoptions: --network=host
 
-  extension:
-    name: build extension
+  app:
+    name: build app
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: nilscox/reagir-information-extension:${{ github.sha }}
+        name: nilscox/reagir-information-app:${{ github.sha }}
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        workdir: extension
+        workdir: app
 
   website:
     name: build website
@@ -50,7 +50,7 @@ jobs:
   e2e:
     name: end-to-end tests
     runs-on: ubuntu-latest
-    needs: [api, extension, website]
+    needs: [api, app, website]
     steps:
     - uses: actions/checkout@v1
     - run: docker-compose -f ../docker-compose.yml -f docker-compose.ci.yml up --abort-on-container-exit
@@ -80,24 +80,24 @@ jobs:
       - run: docker tag $API_IMAGE:${{ github.sha }} $API_IMAGE:master
       - run: docker push $API_IMAGE:master
 
-  publish-extension-staging:
-    name: publish extension docker image staging
+  publish-app-staging:
+    name: publish app docker image staging
     runs-on: ubuntu-latest
-    needs: [extension, e2e]
+    needs: [app, e2e]
     if: github.ref == 'refs/heads/dev'
     steps:
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker pull $EXTENSION_IMAGE:${{ github.sha }}
-      - run: docker tag $EXTENSION_IMAGE:${{ github.sha }} $EXTENSION_IMAGE:dev
-      - run: docker push $EXTENSION_IMAGE:dev
+      - run: docker pull $APP_IMAGE:${{ github.sha }}
+      - run: docker tag $APP_IMAGE:${{ github.sha }} $APP_IMAGE:dev
+      - run: docker push $APP_IMAGE:dev
 
-  publish-extension-production:
-    name: publish extension docker image production
+  publish-app-production:
+    name: publish app docker image production
     runs-on: ubuntu-latest
-    needs: [extension, e2e]
+    needs: [app, e2e]
     if: github.ref == 'refs/heads/master'
     steps:
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker pull $EXTENSION_IMAGE:${{ github.sha }}
-      - run: docker tag $EXTENSION_IMAGE:${{ github.sha }} $EXTENSION_IMAGE:master
-      - run: docker push $EXTENSION_IMAGE:master
+      - run: docker pull $APP_IMAGE:${{ github.sha }}
+      - run: docker tag $APP_IMAGE:${{ github.sha }} $APP_IMAGE:master
+      - run: docker push $APP_IMAGE:master

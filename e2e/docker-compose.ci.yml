@@ -10,8 +10,8 @@ services:
   restoredb:
     image: nilscox/reagir-information-api:${GIT_SHA}
 
-  extension:
-    image: nilscox/reagir-information-extension:${GIT_SHA}
+  app:
+    image: nilscox/reagir-information-app:${GIT_SHA}
     environment:
       API_URL: http://ri-api
 
@@ -26,5 +26,5 @@ services:
     environment:
       CYPRESS_API_URL: http://ri-api
       CYPRESS_RESTOREDB_URL: http://ri-restoredb
-      CYPRESS_EXTENSION_URL: http://ri-extension
+      CYPRESS_APP_URL: http://ri-app
       CYPRESS_WEBSITE_URL: http://ri-website

@@ -2,7 +2,7 @@ import { iframeResizer } from 'iframe-resizer';
 
 const pkg = require('../package');
 
-const EXTENSION_URL = process.env.EXTENSION_URL as string;
+const APP_URL = process.env.APP_URL as string;
 
 let href = window.location.href;
 const activeUrls: string[] = [];
@@ -39,7 +39,7 @@ const createIframe = (url: string) => {
   ].join('&');
 
   iframe.id = 'ri-iframe';
-  iframe.src = EXTENSION_URL + '/integration?' + query;
+  iframe.src = APP_URL + '/integration?' + query;
   iframe.scrolling = 'no';
   iframe.style.width = '1px';
   iframe.style.minWidth = '100%';

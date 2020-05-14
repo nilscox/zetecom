@@ -26,7 +26,7 @@
 
 const API_URL = Cypress.env('API_URL');
 const RESTOREDB_URL = Cypress.env('RESTOREDB_URL');
-const EXTENSION_URL = Cypress.env('EXTENSION_URL');
+const APP_URL = Cypress.env('APP_URL');
 
 const RESETDB_URL = RESTOREDB_URL + '/reset';
 const POPULATEDB_URL = RESTOREDB_URL + '/populate';
@@ -49,19 +49,19 @@ Cypress.Commands.add('login', (body) => {
 });
 
 Cypress.Commands.add('visitPopup', () => {
-  cy.visit(EXTENSION_URL + '/popup');
+  cy.visit(APP_URL + '/popup');
 });
 
 Cypress.Commands.add('visitIntegration', (informationUrl) => {
-  cy.visit(EXTENSION_URL + '/integration?url=' + encodeURIComponent(informationUrl));
+  cy.visit(APP_URL + '/integration?url=' + encodeURIComponent(informationUrl));
 });
 
 Cypress.Commands.add('visitHistory', (reactionId) => {
-  cy.visit(EXTENSION_URL + '/integration/reaction/' + reactionId + '/history');
+  cy.visit(APP_URL + '/integration/reaction/' + reactionId + '/history');
 });
 
 Cypress.Commands.add('visitReport', (reactionId) => {
-  cy.visit(EXTENSION_URL + '/integration/reaction/' + reactionId + '/report');
+  cy.visit(APP_URL + '/integration/reaction/' + reactionId + '/report');
 });
 
 Cypress.Commands.add('getReaction', (id) => cy.get(`#reaction-${id}`));

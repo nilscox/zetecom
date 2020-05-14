@@ -10,7 +10,7 @@
     "lint": "eslint 'src/**/*.ts{,x}'",
     "test": "NODE_ENV=test jest",
     "storybook": "start-storybook --ci -p 6006",
-    "deploy": "../scripts/deploy-extension.sh"
+    "deploy": "../scripts/deploy-app.sh"
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.9.0",

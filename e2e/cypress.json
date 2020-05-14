@@ -9,7 +9,7 @@
   "env": {
     "API_URL": "http://localhost:3000",
     "RESTOREDB_URL": "http://localhost:4242",
-    "EXTENSION_URL": "http://localhost:8000",
+    "APP_URL": "http://localhost:8000",
     "WEBSITE_URL": "http://localhost:8080"
   }
 }

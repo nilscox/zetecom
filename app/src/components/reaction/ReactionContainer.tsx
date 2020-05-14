@@ -57,8 +57,9 @@ export const useReactionReplies = (parent: Reaction) => {
   ] as const;
 };
 
+// TODO: remove APP_URL?
 const useReport = (reaction: Reaction) => {
-  const reportUrl = `${env.EXTENSION_URL}/integration/reaction/${reaction.id}/report`;
+  const reportUrl = `${env.APP_URL}/integration/reaction/${reaction.id}/report`;
 
   const report = () => {
     window.open(reportUrl, '_blank', 'width=600,height=800,resizable=no');
@@ -68,7 +69,7 @@ const useReport = (reaction: Reaction) => {
 };
 
 const useViewHistory = (reaction: Reaction) => {
-  const historyUrl = `${env.EXTENSION_URL}/integration/reaction/${reaction.id}/history`;
+  const historyUrl = `${env.APP_URL}/integration/reaction/${reaction.id}/history`;
 
   const viewHistory = () => {
     window.open(historyUrl, '_blank', 'width=600,height=800,resizable=no');

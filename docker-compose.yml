@@ -24,7 +24,7 @@ services:
     command: bash -c "yarn wait-on tcp:ri-postgres:5432 && yarn start:prod"
     environment:
       REFLECT_ORIGIN: 'true'
-      EXTENSION_URL: http://localhost:8000
+      APP_URL: http://localhost:8000
       WEBSITE_URL: http://localhost:8080
       DB_HOST: ri-postgres
       DB_PORT: 5432
@@ -69,12 +69,12 @@ services:
       DB_DEBUG: 'false'
 
 
-  extension:
-    container_name: ri-extension
-    hostname: ri-extension
+  app:
+    container_name: ri-app
+    hostname: ri-app
     ports:
       - 8000:80
     environment:
       API_URL: http://localhost:3000
-      EXTENSION_URL: http://localhost:8000
+      APP_URL: http://localhost:8000
       WEBSITE_URL: http://localhost:8080

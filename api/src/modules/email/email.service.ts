@@ -94,11 +94,11 @@ export class EmailService {
   }
 
   sendEmailValidationEmail(user: User): Promise<any> {
-    const EXTENSION_URL = this.configService.get('EXTENSION_URL');
+    const APP_URL = this.configService.get('APP_URL');
 
     const template = this.renderTemplate('welcome', {
       // eslint-disable-next-line @typescript-eslint/camelcase
-      email_validation_link: `${EXTENSION_URL}/api/auth/email-validation?token=${user.emailValidationToken}`,
+      email_validation_link: `${APP_URL}/api/auth/email-validation?token=${user.emailValidationToken}`,
     });
 
     return this.sendEmail(
@@ -110,11 +110,11 @@ export class EmailService {
   }
 
   sendEmailLoginEmail(user: User): Promise<any> {
-    const EXTENSION_URL = this.configService.get('EXTENSION_URL');
+    const APP_URL = this.configService.get('APP_URL');
 
     const template = this.renderTemplate('email-login', {
       // eslint-disable-next-line @typescript-eslint/camelcase
-      email_login_link: `${EXTENSION_URL}/email-login?token=${user.emailLoginToken}`,
+      email_login_link: `${APP_URL}/email-login?token=${user.emailLoginToken}`,
     });
 
     return this.sendEmail(
