@@ -10,7 +10,7 @@
 
     {
       "title": "Interesting news!",
-      "url": "https://news.fake/article/1",
+      "identifier": "test:news1",
       "creator": "user1",
       "reactions": [
 

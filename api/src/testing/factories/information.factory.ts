@@ -13,7 +13,7 @@ export const createInformation = async (data: DeepPartial<Information> = {}) => 
   const rnd = Math.random().toString(36).slice(6);
 
   const information = manager.create(Information, {
-    url: `https://news.fake/article/${rnd}`,
+    identifier: `id:${rnd}`,
     title: 'Fake News!',
     ...data,
   });

@@ -4,7 +4,7 @@ describe('pagination', () => {
     cy.resetdb();
     cy.populatedbFromFixture('pagination.json');
 
-    cy.visitIntegration('https://news.fake/article/1');
+    cy.visitIntegration('test:news1');
 
     cy.get('.reactions-list').children().should('have.length', 10);
     cy.get('.reactions-list').first().contains('reaction 11 text');
@@ -31,6 +31,8 @@ describe('pagination', () => {
     cy.get('[title="Dernière page"]').click();
     cy.get('[role="Numéro de page"]').contains('2 / 2');
 
+    cy.wait(500);
+
     cy.get('[title="Première page"]').click();
     cy.get('[role="Numéro de page"]').contains('1 / 2');
   });
@@ -39,7 +41,7 @@ describe('pagination', () => {
     cy.resetdb();
     cy.populatedbFromFixture('pagination.json');
 
-    cy.visitIntegration('https://news.fake/article/1');
+    cy.visitIntegration('test:news1');
 
     cy.get('[title=Tri]').click();
     cy.contains('Les plus anciennes en premier').click();
@@ -68,10 +70,12 @@ describe('pagination', () => {
     cy.resetdb();
     cy.populatedbFromFixture('sort-relevance.json');
 
-    cy.visitIntegration('https://news.fake/article/1');
+    cy.visitIntegration('test:news1');
 
     cy.get('[title=Tri]').click();
     cy.contains('Les plus pertinentes en premier').click();
+
+    cy.wait(500);
 
     cy.get('.reactions-list').children().eq(0).contains('reaction 2 text, score = 4');
     cy.get('.reactions-list').children().eq(1).contains('reaction 1 text, score = 3');
@@ -83,7 +87,7 @@ describe('pagination', () => {
     cy.resetdb();
     cy.populatedbFromFixture('search.json');
 
-    cy.visitIntegration('https://news.fake/article/1');
+    cy.visitIntegration('test:news1');
 
     cy.get('input[name="search"]').type('1');
     cy.wait(500); // wait for api response
@@ -120,7 +124,7 @@ describe('pagination', () => {
     cy.resetdb();
     cy.populatedbFromFixture('paginated-replies.json');
 
-    cy.visitIntegration('https://news.fake/article/1');
+    cy.visitIntegration('test:news1');
 
     cy.getReaction(1).contains('11 réponses').click();
     cy.get('#reactions-list-1').children().should('have.length', 10);

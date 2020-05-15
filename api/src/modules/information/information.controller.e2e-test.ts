@@ -141,15 +141,15 @@ describe('information controller', () => {
         });
     });
 
-    it('should not find an information with unexisting url', () => {
+    it('should not find an information with unexisting identifier', () => {
       return request(server)
-        .get(`/api/information/by-url/${encodeURIComponent('https://fake.news/article/1')}`)
+        .get(`/api/information/by-identifier/${encodeURIComponent('id:unexisting')}`)
         .expect(404);
     });
 
-    it('should fetch an information by url', () => {
+    it('should fetch an information by identifier', () => {
       return request(server)
-        .get(`/api/information/by-url/${encodeURIComponent(information1.url)}`)
+        .get(`/api/information/by-identifier/${encodeURIComponent(information1.identifier)}`)
         .expect(200)
         .then(({ body }) => {
           expect(body).toMatchObject({
@@ -236,7 +236,7 @@ describe('information controller', () => {
 
     const info = {
       title: 'title',
-      url: 'https://some.url',
+      identifier: 'id:someIdentifier',
       imageUrl: 'https://image.url',
     };
 
@@ -264,9 +264,9 @@ describe('information controller', () => {
         .expect(400);
     });
 
-    it('should not create an information with missing url', () => {
+    it('should not create an information with missing identifier', () => {
       const data = { ...info };
-      delete data.url;
+      delete data.identifier;
 
       return adminRequest
         .post('/api/information')
@@ -322,7 +322,7 @@ describe('information controller', () => {
     });
 
     it('should update an information', async () => {
-      const data = { url: 'https://updated.url', imageUrl: 'https://image.url' };
+      const data = { identifier: 'id:someOtherIdentifier', imageUrl: 'https://image.url' };
 
       const { body } = await adminRequest
         .put(`/api/information/${info.id}`)
@@ -333,7 +333,7 @@ describe('information controller', () => {
 
       const infoDb = await informationRepository.findOne(body.id);
 
-      expect(infoDb).toHaveProperty('url', data.url);
+      expect(infoDb).toHaveProperty('identifier', data.identifier);
       expect(infoDb).toHaveProperty('imageUrl', data.imageUrl);
     });
   });

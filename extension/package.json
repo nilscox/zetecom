@@ -9,7 +9,8 @@
     "zip": "(cd dist && zip -r ../reagir-information-extension.zip .)"
   },
   "dependencies": {
-    "iframe-resizer": "^4.1.1"
+    "iframe-resizer": "^4.1.1",
+    "query-string": "^6.12.1"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.108",

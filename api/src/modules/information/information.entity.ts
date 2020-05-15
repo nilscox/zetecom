@@ -9,7 +9,7 @@ export class Information {
   id: number;
 
   @Column({ unique: true })
-  url: string;
+  identifier: string;
 
   @Column()
   title: string;

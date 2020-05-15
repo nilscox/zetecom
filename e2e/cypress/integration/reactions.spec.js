@@ -3,7 +3,7 @@ const user2 = { nick: 'user2', email: 'user2@domain.tld', password: 'secure p4ss
 
 const information = {
   title: 'News',
-  url: 'https://news.fake/article/1',
+  identifier: 'test:news1',
   creator: 'user1',
   reactions: [],
 };
@@ -26,7 +26,7 @@ describe('reactions', () => {
 
     it('should display fallback message if comment zone is not enable', () => {
       cy.resetdb();
-      cy.visitIntegration('https://news.fake/article/2');
+      cy.visitIntegration('test:news2');
 
       cy.contains('L\'espace de commentaires n\'est pas activé sur cette page.');
     });
@@ -39,7 +39,7 @@ describe('reactions', () => {
 
       cy.resetdb();
       cy.populatedb(data);
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
 
       cy.contains('Aucune réaction n\'a été publiée pour le moment.');
     });
@@ -66,7 +66,7 @@ describe('reactions', () => {
 
       cy.resetdb();
       cy.populatedb(data);
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
 
       cy.getReaction(1).within(() => {
         cy.contains('edited 1 text');
@@ -112,7 +112,7 @@ describe('reactions', () => {
 
       cy.resetdb();
       cy.populatedb(data);
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
 
       cy.getReaction(1).contains('reaction 1 text');
       cy.getReaction(1).contains('2 réponses').click();
@@ -143,7 +143,7 @@ describe('reactions', () => {
       cy.resetdb();
       cy.populatedb(data);
 
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
 
       cy.getReaction(1).find('[title="Édité"]').should('not.exist');
     });
@@ -167,7 +167,7 @@ describe('reactions', () => {
       cy.resetdb();
       cy.populatedb(data);
 
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
       cy.window().then((win) => {
         cy.stub(win, 'open').as('windowOpen');
       });
@@ -216,7 +216,7 @@ describe('reactions', () => {
       cy.resetdb();
       cy.populatedb(data);
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
 
       cy.get('button[type="submit"]').should('be.disabled');
 
@@ -253,7 +253,7 @@ describe('reactions', () => {
       cy.resetdb();
       cy.populatedb(data);
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
 
       cy.getReaction(1).contains('Répondre').click();
       cy.getReaction(1).siblings().find('span').contains('×').click();
@@ -293,7 +293,7 @@ describe('reactions', () => {
       cy.resetdb();
       cy.populatedb(data);
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
 
       cy.getReaction(2).within(() => cy.get('[title="Éditer votre message"]').should('not.exist'));
 
@@ -332,7 +332,7 @@ describe('reactions', () => {
       cy.resetdb();
       cy.populatedb(data);
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
 
       cy.getReaction(1).within(() => {
         cy.get('[title="Approuver"]').should('be.disabled');
@@ -366,7 +366,7 @@ describe('reactions', () => {
       cy.resetdb();
       cy.populatedb(data);
       cy.login({ email: 'user2@domain.tld', password: 'secure p4ssword' });
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
 
       cy.getReaction(1).within(() => {
         cy.get('[title="Approuver"]').children().first().should('have.css', 'background-color', 'rgb(255, 238, 170)');
@@ -397,7 +397,7 @@ describe('reactions', () => {
       cy.resetdb();
       cy.populatedb(data);
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
       cy.window().then((win) => {
         cy.stub(win, 'open').as('windowOpen');
       });
@@ -456,7 +456,7 @@ describe('reactions', () => {
       cy.resetdb();
       cy.populatedb(data);
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
-      cy.visitIntegration('https://news.fake/article/1');
+      cy.visitIntegration('test:news1');
 
       cy.get('button[title="Se désabonner"]').click();
       cy.reload();

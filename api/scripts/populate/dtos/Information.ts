@@ -9,7 +9,7 @@ export class Information {
   title: string;
 
   @IsString()
-  url: string;
+  identifier: string;
 
   @IsString()
   creator: string;

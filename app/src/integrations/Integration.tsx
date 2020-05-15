@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
+import AsyncContent from 'src/components/common/AsyncContent';
 import CenteredContent from 'src/components/common/CenteredContent';
 import Text from 'src/components/common/Text';
-import { Information } from 'src/types/Information';
+import useAxios from 'src/hooks/use-axios';
+import useQueryString from 'src/hooks/use-query-string';
+import { parseInformation } from 'src/types/Information';
 import { InformationProvider } from 'src/utils/InformationContext';
 import { useTheme } from 'src/utils/Theme';
 
@@ -44,35 +47,82 @@ const IntegrationRouter = () => (
   </Router>
 );
 
-type IntegrationProps = {
-  information: Information;
-};
-
-const Integration: React.FC<IntegrationProps> = ({ information }) => {
+const InformationUnavalible: React.FC = () => {
   const { colors: { border } } = useTheme();
 
-  if (!information) {
-    return (
-      <div style={{ minHeight: 300, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
+  return (
+    <div style={{ minHeight: 300, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
 
-        <Header />
+      <Header />
 
-        <CenteredContent>
-          <Text uppercase color="textLight">
-            L'espace de commentaires n'est pas activé sur cette page.
-          </Text>
-        </CenteredContent>
+      <CenteredContent>
+        <Text uppercase color="textLight">
+          L'espace de commentaires n'est pas activé sur cette page.
+        </Text>
+      </CenteredContent>
 
-      </div>
-    );
-  }
+    </div>
+  );
+};
+
+const DOMAIN_NAME_REGEXP = /(https?:\/\/[-.a-z0-9]+(:\d+)?)\/?/;
+
+const Integration: React.FC = () => {
+  const { colors: { border } } = useTheme();
+
+  const { identifier, url } = useQueryString();
+  const [margin, setMargin] = useState(0);
+
+  const opts = {
+    url: `/api/information/by-identifier/${encodeURIComponent(identifier as string)}`,
+    validateStatus: (s: number) => [200, 404].includes(s),
+  };
+  const [{ data: information, loading, error }] = useAxios(opts, parseInformation);
+
+  useEffect(() => {
+    if (information) {
+      if (window.parent === window)
+        setMargin(15);
+      else {
+        const match = DOMAIN_NAME_REGEXP.exec(url as string);
+
+        if (!match)
+          console.warn('Cannot find domain name from url');
+        else {
+          window.parent.postMessage(
+            { type: 'INTEGRATION_LOADED' },
+            match[1],
+          );
+        }
+      }
+    }
+  }, [information, identifier, url]);
+
+  if (error)
+    throw error;
 
   return (
-    <InformationProvider value={information}>
-      <div style={{ minHeight: 400, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
-        <IntegrationRouter />
-      </div>
-    </InformationProvider>
+    <AsyncContent
+      loading={loading}
+      content={() => (
+        <div style={{
+          width: 'auto',
+          margin: `0 ${margin}px`,
+          paddingBottom: 20,
+        }}>
+          { information ? (
+            <InformationProvider value={information}>
+              <div style={{ minHeight: 400, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
+                <IntegrationRouter />
+              </div>
+            </InformationProvider>
+          ) : (
+            <InformationUnavalible />
+          ) }
+        </div>
+      )}
+    />
+
   );
 };
 

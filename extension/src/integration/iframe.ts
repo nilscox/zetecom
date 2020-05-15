@@ -3,10 +3,11 @@ const pkg = require('../../package');
 
 const APP_URL = process.env.APP_URL as string;
 
-const createIframe = (url: string) => {
+const createIframe = (identifier: string) => {
   const iframe = document.createElement('iframe');
   const query = [
-    ['url', encodeURIComponent(url)].join('='),
+    ['identifier', encodeURIComponent(identifier)].join('='),
+    ['url', encodeURIComponent(window.location.href)].join('='),
     ['extensionVersion', pkg.version].join('='),
   ].join('&');
 

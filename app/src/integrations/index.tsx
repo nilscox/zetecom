@@ -5,9 +5,9 @@ import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import AsyncContent from 'src/components/common/AsyncContent';
 import { UserProvider, useUserContext } from 'src/utils/UserContext';
 
+import Integration from './Integration';
 import ReactionHistoryPopup from './popups/ReactionHistoryPopup';
 import ReportPopup from './popups/ReportPopup';
-import UrlIntegration from './UrlIntegration';
 
 const Integrations: React.FC<RouteComponentProps> = () => {
   const [user, setUser] = useUserContext();
@@ -18,7 +18,7 @@ const Integrations: React.FC<RouteComponentProps> = () => {
       content={() => (
         <UserProvider value={{ user, setUser }}>
           <Switch>
-            <Route path="/integration" exact component={UrlIntegration} />
+            <Route path="/integration" exact component={Integration} />
             <Route path="/integration/reaction/:id/history" exact component={ReactionHistoryPopup} />
             <Route path="/integration/reaction/:id/report" exact component={ReportPopup} />
           </Switch>

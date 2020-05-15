@@ -24,8 +24,8 @@ export class InformationService {
     return this.informationRepository.findOne(id);
   }
 
-  async findByUrl(url: string): Promise<Information | undefined> {
-    return this.informationRepository.findOne({ url });
+  async findByIdentifier(identifier: string): Promise<Information | undefined> {
+    return this.informationRepository.findOne({ identifier });
   }
 
   async create(dto: CreateInformationInDto, creator: User): Promise<Information> {

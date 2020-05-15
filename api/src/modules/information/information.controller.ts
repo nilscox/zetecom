@@ -79,13 +79,15 @@ export class InformationController {
     return info;
   }
 
-  @Get('by-url/:url')
+  @Get('by-identifier/:identifier')
   @UseInterceptors(PopulateInformation)
   @Output(InformationOutDto)
-  async findOneByUrl(
-    @Param('url') url: string,
+  async findOneByIdentifier(
+    @Param('identifier') identifier: string,
   ): Promise<Information> {
-    const info = await this.informationService.findByUrl(decodeURIComponent(url));
+    const info = await this.informationService.findByIdentifier(decodeURIComponent(identifier));
+
+    console.log(info);
 
     if (!info)
       throw new NotFoundException();
@@ -119,8 +121,8 @@ export class InformationController {
     @Body() dto: CreateInformationInDto,
     @AuthUser() user: User,
   ): Promise<Information> {
-    if (await this.informationService.findByUrl(dto.url))
-      throw new ConflictException(`An information with url ${dto.url} already exists`);
+    if (await this.informationService.findByIdentifier(dto.identifier))
+      throw new ConflictException(`An information with identifier ${dto.identifier} already exists`);
 
     return this.informationService.create(dto, user);
   }
@@ -133,9 +135,9 @@ export class InformationController {
   async update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateInformationInDto,
-    @AuthUser() user: User,
   ): Promise<Information> {
     const information = await this.informationService.findById(id);
+
     if (!information)
       throw new NotFoundException();
 

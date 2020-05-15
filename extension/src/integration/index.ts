@@ -41,6 +41,7 @@ type IntegrationType = 'insert' | 'switch';
 
 type Integration = {
   getElement: () => HTMLElement | null;
+  getIdentifier: () => string | null;
   type: IntegrationType;
   originalText?: string;
   integrationText?: string;
@@ -48,7 +49,12 @@ type Integration = {
 };
 
 const setupIntegration = (integration: Integration, element: HTMLElement): void => {
-  const iframe = createIframe(window.location.href);
+  const identifier = integration.getIdentifier();
+
+  if (!identifier)
+    return;
+
+  const iframe = createIframe(identifier);
 
   if (integration.type === 'switch') {
     loadFont();

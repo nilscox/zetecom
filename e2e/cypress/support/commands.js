@@ -52,8 +52,8 @@ Cypress.Commands.add('visitPopup', () => {
   cy.visit(APP_URL + '/popup');
 });
 
-Cypress.Commands.add('visitIntegration', (informationUrl) => {
-  cy.visit(APP_URL + '/integration?url=' + encodeURIComponent(informationUrl));
+Cypress.Commands.add('visitIntegration', (identifier) => {
+  cy.visit(APP_URL + '/integration?identifier=' + encodeURIComponent(identifier));
 });
 
 Cypress.Commands.add('visitHistory', (reactionId) => {

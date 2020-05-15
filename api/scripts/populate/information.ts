@@ -8,7 +8,7 @@ import { FindUser } from './main';
 import { createReaction } from './reaction';
 
 const findInformation = async (information: Information): Promise<InformationOutDto> => {
-  const { data } = await axios.get('/api/information/by-url/' + encodeURIComponent(information.url));
+  const { data } = await axios.get('/api/information/by-identifier/' + encodeURIComponent(information.identifier));
 
   return plainToClass(InformationOutDto, data);
 };
@@ -16,7 +16,7 @@ const findInformation = async (information: Information): Promise<InformationOut
 const createInformation = async (information: Information, findUser: FindUser): Promise<InformationOutDto> => {
   const creator = findUser(information.creator);
   const payload = {
-    url: information.url,
+    identifier: information.identifier,
     title: information.title,
   };
 
