@@ -39,6 +39,14 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
         workdir: app
 
+  extension:
+    name: build extension
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: yarn && yarn build
+      working-directory: ./extension
+
   website:
     name: build website
     runs-on: ubuntu-latest
