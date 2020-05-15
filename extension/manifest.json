@@ -27,11 +27,11 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/watch*"],
+      "matches": ["*://*.youtube.com/*"],
       "js": ["integrations/youtube.js"]
     },
     {
-      "matches": ["*://*.skeptikon.fr/videos/watch/*"],
+      "matches": ["*://*.skeptikon.fr/*"],
       "js": ["integrations/skeptikon.js"]
     },
     {

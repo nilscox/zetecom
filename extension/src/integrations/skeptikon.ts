@@ -1,24 +1,11 @@
-// import setupIntegration from '../integration';
+import setupIntegration from '../integration';
 
-// setupIntegration({
-//   getElementToSwitchWith: () => document.querySelector('my-video-comments'),
-//   pageUrl: window.location.href,
-//   otherText: 'Commentaires Skepitkón',
-//   riText: 'Commentaires Réagir à l\'information',
-//   buttonsStyles: {
-//     common: {
-//       'font-size': '18px',
-//       'color': '#ffffff',
-//     },
-//     selected: {
-//       'background-color': '#f1680d',
-//       'cursor': 'initial',
-//       'font-weight': 'bold',
-//     },
-//     unselected: {
-//       'background-color': '#404040',
-//       'cursor': 'pointer',
-//       'font-weight': 'initial',
-//     },
-//   },
-// });
+const getElement = () => document.querySelector<HTMLElement>('my-video-comments');
+
+setupIntegration({
+  getElement,
+  type: 'switch',
+  originalText: 'Commentaires Skepitkón',
+  integrationText: 'Commentaires Réagir à l\'information',
+  darkMode: true,
+});

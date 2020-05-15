@@ -1,3 +1,5 @@
+declare const browser: any;
+
 const main = ({ browserAction, runtime }: typeof chrome) => {
   let text = ' ';
 

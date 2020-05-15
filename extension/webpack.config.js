@@ -33,7 +33,7 @@ module.exports = {
     ...loadIntegrationsEntries(),
   },
 
-  devtool: process.env.NODE_ENV === 'development' ? 'source-map' : false,
+  devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : false,
 
   output: {
     filename: '[name].js',

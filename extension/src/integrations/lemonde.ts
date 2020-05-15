@@ -1,8 +1,8 @@
-// import setupIntegration from '../integration';
+import setupIntegration from '../integration';
 
-// window.addEventListener('DOMContentLoaded', () => {
-//   setupIntegration({
-//     getElementToAppendAfter: () => document.getElementsByClassName('article__content')[0],
-//     pageUrl: window.location.href,
-//   });
-// });
+const getElement = () => document.getElementsByClassName('article__content')[0] as HTMLElement;
+
+setupIntegration({
+  getElement,
+  type: 'insert',
+});
