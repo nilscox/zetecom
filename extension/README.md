@@ -21,17 +21,17 @@ First, install the dependencies with `yarn`.
 Then, copy the `.env.example` file, and replace the variables values with the ones corresponding to the target extension
 version (staging or production).
 
+> Note: the source archive provided to the mozilla addon review team already includes the correct .env file
+
 ```sh
 42sh$ cp .env.example .env
 42sh$ $EDITOR .env
 ```
 
-> Note: the source archive provided to the mozilla addon review team already includes the correct .env file
-
 The extension is now ready to be built using webpack.
 
 ```sh
-42sh$ yarn build
+42sh$ NODE_ENV=production yarn build
 ```
 
 This will produce a `dist` folder containing all the extension's files (the root folder of the extension, containing a
