@@ -60,6 +60,19 @@ env_path() {
   echo "$(dirname "$0")/env/$environment/$1"
 }
 
+zip_directory() {
+  zip_filepath="$(realpath $1)"
+  directory="$2"
+
+  execute "cd $directory && zip -r "$zip_filepath" ."
+}
+
+package_version() {
+  package="$1"
+
+  node -e "console.log(require('$package').version)"
+}
+
 sshenv() {
   var_name="$1"
   echo "$var_name=$'\'${!var_name}\''"
