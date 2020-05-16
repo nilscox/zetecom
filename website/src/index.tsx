@@ -16,6 +16,7 @@ const EnvironmentVariables = {
   NODE_ENV: process.env.NODE_ENV,
   WEBSITE_URL: process.env.WEBSITE_URL,
   CHROME_EXTENSION_URL: process.env.CHROME_EXTENSION_URL,
+  FIREFOX_ADDON_URL: process.env.FIREFOX_ADDON_URL,
   REPOSITORY_URL: process.env.REPOSITORY_URL,
 };
 

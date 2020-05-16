@@ -13,6 +13,10 @@ prepare_deployment() {
   fi
 
   echo "Environment: $environment"
+
+  if [ ! -f static/reagir-information-extension-staging.xpi ]; then
+    err "missing static/reagir-information-extension-staging.xpi"
+  fi
 }
 
 setup_environment () {

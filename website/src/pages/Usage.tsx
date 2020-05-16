@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DownloadExtension from 'src/components/DownloadExtensionButton';
+import DownloadExtensions from 'src/components/DownloadExtensions';
 import Link from 'src/components/Link';
 import Image from 'src/components/Image';
 
@@ -17,11 +17,11 @@ const Usage: React.FC = () => (
 
     <div className="step step-install" id="extension">
       <div className="step-text">
-        Pour commencer, installez l'extension chrome en cliquant sur le bouton, puis sur « ajouter à chrome ».
-        Cela permettra à votre navigateur d'intégrer les zones de commentaires sur les sites d'information.
+        Pour commencer, installez l'extension sur votre navigateur préféré en cliquant sur le bouton correspondant.
+        Cela permettra l'intégration des zones de commentaires sur les sites d'information.
       </div>
       <div className="step-secondary">
-        <DownloadExtension>Installer l'extension</DownloadExtension>
+        <DownloadExtensions disposition="column" />
       </div>
     </div>
 
@@ -30,10 +30,10 @@ const Usage: React.FC = () => (
     <div className="step step-read-reactions" id="lire-les-reactions">
       <div className="step-text">
         Lorsque l'icône de l'extension affiche un badge vert, cela signifie qu'une zone de commentaires a été ajoutée sur la page.
-        Vous la trouverez généralement sous l'article (ou la vidéo). Ça y est, vous pouvez déjà lire les réactions et leurs réponses !
+        Vous la trouverez généralement sous l'article (ou la vidéo). Ça y est, vous pouvez déjà lire les messages et leurs réponses !
       </div>
       <div className="step-secondary">
-        <Image border src={gifExtension} alt="réactions" />
+        <Image border src={gifExtension} alt="zone de commentaire" />
       </div>
     </div>
 
@@ -46,7 +46,7 @@ const Usage: React.FC = () => (
         Puis, cliquez sur l'icône de l'extension en haut à droite de votre navigateur pour vous inscrire.
       </div>
       <div className="step-secondary">
-        <Image border src={imagePopupLogin} alt="login" />
+        <Image border src={imagePopupLogin} alt="inscription" />
       </div>
     </div>
 

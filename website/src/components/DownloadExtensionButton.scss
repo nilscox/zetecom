@@ -1,19 +1,35 @@
 @import "../variables.scss";
 
-.download-extension-container {
+.download-extensions-container {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 5px 0;
-  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin: 25px 0;
+  line-height: 24px;
 
-  @media screen and (min-width: $break-medium) {
-    margin: 20px 0;
+  @media screen and (min-width: $break-large) {
+    &.disposition-column {
+      flex-direction: column;
+    }
+
+    &.disposition-row {
+      flex-direction: row;
+    }
+  }
+
+  @media screen and (min-width: $break-large) {
+    margin: 60px 0;
   }
 
   a.download-extension {
-    border: 1px solid #6CB86F;
-    background: #81c784;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 320px;
+    box-sizing: border-box;
+    margin: 8px 0;
     padding: 8px 20px;
     border-radius: 2px;
     font-size: 20px;
@@ -27,8 +43,22 @@
       opacity: 0.85;
     }
 
+    &.browser-firefox {
+      background-color: #fc8c03cc;
+      border: 1px solid #c97602cc;
+    }
+
+    &.browser-chrome {
+      background-color: #039dfccc;
+      border: 1px solid #027dc9cc;
+    }
+
     @media screen and (min-width: $break-medium) {
       font-size: 22px;
+    }
+
+    img {
+      margin-right: 12px;
     }
   }
 }

@@ -84,6 +84,7 @@ module.exports = {
       NODE_ENV: 'development',
       WEBSITE_URL: 'http://localhost:8080',
       CHROME_EXTENSION_URL: null,
+      FIREFOX_ADDON_URL: null,
       REPOSITORY_URL: null,
     }),
 

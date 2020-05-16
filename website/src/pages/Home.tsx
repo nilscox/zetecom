@@ -5,7 +5,7 @@ import React from 'react';
 import Title from 'src/components/Title';
 import Link from 'src/components/Link';
 import Card from 'src/components/Card';
-import DownloadExtension from 'src/components/DownloadExtensionButton';
+import DownloadExtensions from 'src/components/DownloadExtensions';
 
 import imageCommunity from 'src/images/community.png';
 import imageFakeNews from 'src/images/fake-news.png';
@@ -94,7 +94,7 @@ const Home: React.FC = () => (
       ]}
     />
 
-    <DownloadExtension>Installer l'extension chrome</DownloadExtension>
+    <DownloadExtensions disposition="row" />
 
     <p>
       L'extension peut être utilisée pour lire les messages présents sur la plateforme sans avoir besoin de créer un compte.

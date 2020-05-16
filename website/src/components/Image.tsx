@@ -9,21 +9,22 @@ type ImageProps = {
   alt: string;
   title?: string;
   width?: number;
+  height?: number;
   border?: boolean;
   openOnClick?: boolean;
   style?: React.CSSProperties;
 };
 
-const Image: React.FC<ImageProps> = ({ width, border, openOnClick, style, ...props }) => {
+const Image: React.FC<ImageProps> = ({ width, height, border, openOnClick, style, ...props }) => {
   if (!openOnClick) {
-    return <img className={'image' + (border ? ' image-border' : '')} {...props} style={{ width, ...style }} />;
+    return <img className={'image' + (border ? ' image-border' : '')} {...props} style={{ width, height, ...style }} />;
   }
 
   return (
     <figure className="image image-container">
 
       <Link openInNewTab href={props.src}>
-        <img className={border ? 'image-border' : ''} {...props} style={{ width, ...style }} />
+        <img className={border ? 'image-border' : ''} {...props} style={{ width, height, ...style }} />
       </Link>
 
       <figcaption>
