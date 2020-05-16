@@ -1,9 +1,9 @@
 {
   "name": "reagir-information-api",
-  "version": "0.3.0",
   "description": "Réagir à l'information - API",
-  "author": "",
-  "license": "MIT",
+  "version": "0.3.0",
+  "license": "GPL-3.0-only",
+  "author": "nilscox <reagir-information@nils.cx>",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\"",

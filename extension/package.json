@@ -2,6 +2,8 @@
   "name": "reagir-information-extension",
   "description": "Réagir à l'information - browser extension",
   "version": "0.4.6",
+  "license": "GPL-3.0-only",
+  "author": "nilscox <reagir-information@nils.cx>",
   "scripts": {
     "start": "nodemon -w . -i node_modules -i dist -e js,ts,json,html -x 'yarn build'",
     "clean": "rm -rf dist *.zip",

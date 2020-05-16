@@ -1,8 +1,10 @@
 {
   "name": "reagir-information-website",
+  "description": "Réagir à l'information - website",
   "version": "1.0.0",
+  "license": "GPL-3.0-only",
+  "author": "nilscox <reagir-information@nils.cx>",
   "main": "index.js",
-  "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist",
     "build": "yarn webpack",
