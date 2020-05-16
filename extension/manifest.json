@@ -3,6 +3,12 @@
   "version": "0.4.6",
   "name": "Réagir à l'information",
   "description": "Réagir à l'information sur internet, avec esprit critique !",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{89e0d6c7-e0ea-470c-88cf-0d22c8ef27eb}",
+      "strict_min_version": "65.0"
+    }
+  },
   "permissions": [
     "background"
   ],

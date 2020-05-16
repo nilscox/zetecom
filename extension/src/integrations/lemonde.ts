@@ -12,7 +12,7 @@ const getIdentifier = () => {
 
   const [, topic, date, id] = match;
 
-  return ['lemonde', topic, date.replace('/', '-'), id].join(':');
+  return ['lemonde', topic, date.replace(/\//g, '-'), id].join(':');
 };
 
 setupIntegration({
