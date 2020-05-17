@@ -5,11 +5,23 @@ import { createMuiTheme, responsiveFontSizes, Theme } from '@material-ui/core/st
 export const createTheme = (): Theme => {
   const defaultTheme = createMuiTheme({
     spacing: 4,
+    breakpoints: {
+      values: {
+        xxs: 0,
+        xs: 330,
+        sm: 600,
+        md: 960,
+        lg: 1280,
+        xl: 1920,
+      },
+    },
     palette: {
       primary,
       secondary: { main: '#446' },
       highlight: { main: pink[500] },
       border: { main: '#ccc', light: '#ddd' },
+      selected: { main: '#ffeeaa' },
+      textLight: { main: '#666666' },
     },
     typography: {
       fontFamily: [
@@ -39,6 +51,25 @@ export const createTheme = (): Theme => {
     fontSize: '0.8rem',
     [theme.breakpoints.down('xs')]: {
       fontSize: '0.6rem',
+    },
+  };
+
+  theme.typography.button = {
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '0.7rem',
+    },
+  };
+
+  theme.overrides = {
+    MuiButton: {
+      root: {
+        minWidth: 0,
+      },
+      text: {
+        color: theme.palette.secondary.light,
+      },
     },
   };
 

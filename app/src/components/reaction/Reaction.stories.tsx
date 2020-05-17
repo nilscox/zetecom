@@ -4,13 +4,40 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 import { QuickReactionType, Reaction } from 'src/types/Reaction';
-import { parseUser } from 'src/types/User';
+import { parseUser, User } from 'src/types/User';
+import { createTheme } from 'src/utils/createTheme';
 import { UserProvider } from 'src/utils/UserContext';
 
 import ReactionContainer from './ReactionContainer';
 import ReactionsList from './ReactionsList';
 
-export default { title: 'Reaction' };
+import { ThemeProvider } from '@material-ui/core';
+import { boolean, withKnobs } from '@storybook/addon-knobs';
+
+export default {
+  title: 'Reaction',
+  decorators: [
+    withKnobs,
+    (storyFn: any) => {
+      const loggedIn = boolean('Logged in', true);
+      const user: User = parseUser({
+        id: 42,
+        nick: 'Doug Forcett ',
+        avatar: null,
+        created: new Date(),
+        updated: new Date(),
+      });
+
+      return (
+        <UserProvider
+          value={{ user: loggedIn ? user : null, setUser: () => {} }}
+        >
+          <ThemeProvider theme={createTheme()}>{storyFn()}</ThemeProvider>
+        </UserProvider>
+      );
+    },
+  ],
+};
 
 const mockAxios = new MockAdapter(axios);
 
@@ -98,42 +125,54 @@ const loremMarkdown = [
   'Minyis; dixi perpetuos inrita decipis cervus. Munere de deus cavae fessum.',
 ];
 
-export const simpleReaction = () => (
-  <UserProvider value={{ user: null, setUser: () => {} }}>
-    <ReactionContainer reaction={reaction} />
-  </UserProvider>
-);
-
-export const reactionWithLongText = () => (
-  <UserProvider value={{ user: null, setUser: () => {} }}>
-    <ReactionContainer reaction={{ ...reaction, text: lorem.join('\n\n') }} />
-  </UserProvider>
-);
-
-export const reactionWithMarkdown = () => (
-  <UserProvider value={{ user: null, setUser: () => {} }}>
-    <ReactionContainer reaction={{ ...reaction, text: loremMarkdown.join('\n') }} />
-  </UserProvider>
-);
-
 const reactions = [
-  { id: 2, text: lorem[0], quickReactionsCount: { approve: 123, refute: 52, skeptic: 61 } },
-  { id: 3, text: lorem[1], quickReactionsCount: { approve: 14, refute: 8, skeptic: 17 } },
-  { id: 4, text: lorem[2], quickReactionsCount: { approve: 41, refute: 3, skeptic: 66 } },
-  { id: 5, text: lorem[3], quickReactionsCount: { approve: 9, refute: 0, skeptic: 0 } },
-  { id: 6, text: lorem[4], quickReactionsCount: { approve: 241, refute: 111, skeptic: 103 } },
+  {
+    id: 2,
+    text: lorem[0],
+    quickReactionsCount: { approve: 123, refute: 52, skeptic: 61 },
+  },
+  {
+    id: 3,
+    text: lorem[1],
+    quickReactionsCount: { approve: 14, refute: 8, skeptic: 17 },
+  },
+  {
+    id: 4,
+    text: lorem[2],
+    quickReactionsCount: { approve: 41, refute: 3, skeptic: 66 },
+  },
+  {
+    id: 5,
+    text: lorem[3],
+    quickReactionsCount: { approve: 9, refute: 0, skeptic: 0 },
+  },
+  {
+    id: 6,
+    text: lorem[4],
+    quickReactionsCount: { approve: 241, refute: 111, skeptic: 103 },
+  },
 ];
 
-export const reactionsList = () => (
-  <UserProvider value={{ user: null, setUser: () => {} }}>
-    <ReactionsList
-      reactions={reactions.map(extra => ({ ...reaction, ...extra }))}
-      onEdited={() => {}}
-    />
-  </UserProvider>
+export const shortText = () => <ReactionContainer reaction={reaction} />;
+
+export const longText = () => (
+  <ReactionContainer reaction={{ ...reaction, text: lorem.join('\n\n') }} />
 );
 
-export const reactionWithReplies = () => {
+export const markdown = () => (
+  <ReactionContainer
+    reaction={{ ...reaction, text: loremMarkdown.join('\n') }}
+  />
+);
+
+export const list = () => (
+  <ReactionsList
+    reactions={reactions.map((extra) => ({ ...reaction, ...extra }))}
+    onEdited={() => {}}
+  />
+);
+
+export const withReplies = () => {
   mockAxios.onGet('/api/reaction/1/replies').reply(200, {
     items: [
       { ...reaction, ...reactions[0], repliesCount: 1 },
@@ -147,25 +186,27 @@ export const reactionWithReplies = () => {
     total: 1,
   });
 
-  return (
-    <UserProvider value={{ user: null, setUser: () => {} }}>
-      <ReactionContainer reaction={{ ...reaction, repliesCount: 2 }} />
-    </UserProvider>
-  );
+  return <ReactionContainer reaction={{ ...reaction, repliesCount: 2 }} />;
 };
 
-export const reactionLoggedIn = () => {
+export const listWithReplies = () => {
   mockAxios.onGet('/api/reaction/1/replies').reply(200, {
-    items: [],
-    total: 0,
+    items: [
+      { ...reaction, ...reactions[0], repliesCount: 1 },
+      { ...reaction, ...reactions[1] },
+    ],
+    total: 2,
   });
 
-  mockAxios.onPost('/api/reaction').reply(500);
-  mockAxios.onPost('/api/reaction/1/quick-reaction').reply(500);
-
   return (
-    <UserProvider value={{ user: parseUser({ id: 2, nick: 'Doug Forcett', avatar: null }), setUser: () => {} }}>
-      <ReactionContainer reaction={{ ...reaction, userQuickReaction: QuickReactionType.APPROVE }} />
-    </UserProvider>
+    <ReactionsList
+      reactions={[
+        { ...reaction, ...reactions[2] },
+        { ...reaction, repliesCount: 2 },
+        { ...reaction, ...reactions[3] },
+        { ...reaction, ...reactions[4] },
+      ]}
+      onEdited={() => {}}
+    />
   );
 };

@@ -4,6 +4,10 @@ const babelConfig = require('../babel.config');
 
 module.exports = {
 
+  addons: [
+    '@storybook/addon-knobs/register',
+  ],
+
   stories: ['../src/**/*.stories.tsx'],
 
   webpackFinal: (config) => {
