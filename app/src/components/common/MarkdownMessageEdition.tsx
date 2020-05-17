@@ -89,7 +89,7 @@ type MarkdownMessagePreviewProps = {
 };
 
 const MarkdownMessagePreview: React.FC<MarkdownMessagePreviewProps> = ({ message }) => {
-  return <MarkdownMessage className="markdown-github markdown-preview" style={{ minHeight: 42 }} markdown={message} />;
+  return <MarkdownMessage className="markdown-preview" markdown={message} minHeight={42} />;
 };
 
 type MarkdownMessageEditionProps = {

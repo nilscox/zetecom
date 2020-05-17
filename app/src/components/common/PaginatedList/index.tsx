@@ -1,25 +1,20 @@
 import React, { useCallback } from 'react';
 
-import Flex from 'src/components/common/Flex';
 import { SortType } from 'src/types/SortType';
-import { useTheme } from 'src/utils/Theme';
 
 import Pagination from './Pagination';
 import SearchField from './SearchField';
 import SortMenu from './SortMenu';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Grid, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme: Theme) => {
-  return ({
-    container: {
-      flexDirection: 'row',
-      [theme.breakpoints.down('xs')]: {
-        flexDirection: 'column',
-      },
+const useStyles = makeStyles(theme => ({
+  pagination: {
+    [theme.breakpoints.down('md')]: {
+      flexGrow: 1,
     },
-  });
-});
+  },
+}));
 
 type PaginatedListProps = {
   sort?: {
@@ -42,8 +37,7 @@ const PaginatedList: React.FC<PaginatedListProps> = ({
   onPageChange,
   children,
 }) => {
-  const classes = useStyles({});
-  const { sizes: { medium } } = useTheme();
+  const classes = useStyles();
 
   const handleSearch = useCallback((text: string) => {
     onSearch(text);
@@ -57,15 +51,27 @@ const PaginatedList: React.FC<PaginatedListProps> = ({
 
   return (
     <>
-      <Flex className={classes.container}>
 
-        <Flex my={medium} flexDirection="row" alignItems="center" flex={1}>
-          <SearchField onSearch={handleSearch} />
-          { sort && <SortMenu sort={sort.type} onSortChange={handleSort} /> }
+      <Grid container>
+
+        <Grid item style={{ flexGrow: 1 }}>
+          <Grid container>
+            <Grid item style={{ flexGrow: 1 }}>
+              <SearchField onSearch={handleSearch} />
+            </Grid>
+            { sort && (
+              <Grid item>
+                <SortMenu sort={sort.type} onSortChange={handleSort} />
+              </Grid>
+            ) }
+          </Grid>
+        </Grid>
+
+        <Grid item md={3} className={classes.pagination}>
           <Pagination page={page} total={totalPages} pageSize={pageSize} onPageChange={onPageChange} />
-        </Flex>
+        </Grid>
 
-      </Flex>
+      </Grid>
 
       { children }
 

@@ -1,31 +1,28 @@
 import React, { useMemo } from 'react';
 
-import Box, { BoxProps } from 'src/components/common/Box';
-import { useTheme } from 'src/utils/Theme';
+import clsx from 'clsx';
 
 import converter from './markdown-converter';
 
-type MarkdownMessageProps = BoxProps & {
+import { Box, Typography } from '@material-ui/core';
+
+type MarkdownMessageProps = {
   markdown: string;
   highlight?: string;
-  style?: React.CSSProperties;
+  minHeight?: number;
+  className?: string;
 };
 
-const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ markdown, highlight, style, ...props }) => {
+const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ markdown, highlight, minHeight, className }) => {
   converter.setOption('highlight', highlight);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const html = useMemo(() => converter.makeHtml(markdown), [markdown, highlight]);
-  const { sizes: { medium } } = useTheme();
 
   return (
-    <Box
-      p={medium}
-      className="markdown-github"
-      style={style}
-      dangerouslySetInnerHTML={{ __html: html }}
-      {...props}
-    />
+    <Box padding={1} minHeight={minHeight}>
+      <Typography className={clsx('markdown-github', className)} dangerouslySetInnerHTML={{ __html: html }} />
+    </Box>
   );
 };
 

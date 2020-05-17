@@ -60,3 +60,11 @@ sub {
 .ReactCollapse--collapse {
   transition: height 140ms ease-in-out;
 }
+
+:focus {
+  outline: none;
+}
+
+::-moz-focus-inner {
+  border:0;
+}

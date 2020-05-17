@@ -10,6 +10,7 @@ import UserAvatarNick from 'src/components/common/UserAvatarNick';
 import { Reaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
 import { useCurrentUser } from 'src/utils/UserContext';
+import { Grid, Typography, makeStyles } from '@material-ui/core';
 
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
 
@@ -55,6 +56,18 @@ const EditButton: React.FC<EditButtonProps> = ({ onClick }) => {
   );
 };
 
+const useStyles = makeStyles(({ palette: { border }, spacing, breakpoints }) => ({
+  header: {
+    borderTop: `1px solid ${border.light}`,
+    borderBottom: `1px solid ${border.light}`,
+    position: 'relative',
+    padding: spacing(2),
+    [breakpoints.down('xs')]: {
+      padding: spacing(1),
+    },
+  },
+}));
+
 type ReactionHeaderProps = {
   author: Reaction['author'];
   date: Reaction['date'];
@@ -65,21 +78,18 @@ type ReactionHeaderProps = {
 };
 
 const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, onEdit, onViewHistory, onReport }) => {
-  const { sizes: { small, medium }, colors: { borderLight } } = useTheme();
+  const { sizes: { small, medium } } = useTheme();
+  const classes = useStyles();
+
   const [displayReportButton, setDisplayReportButton] = useState(false);
   const [showReportButton, hideReportButton] = [true, false].map(v => () => setDisplayReportButton(v));
   const user = useCurrentUser();
   const isCurrentUserAuthor = author.id === user?.id;
 
   return (
-    <div
-      style={{
-        borderTop: `1px solid ${borderLight}`,
-        borderBottom: `1px solid ${borderLight}`,
-        padding: medium,
-        position: 'relative',
-      }}
-      className="MuiPaper-rounded"
+    <Grid
+      container
+      className={`MuiPaper-rounded ${classes.header}`}
     >
 
       <UserAvatarNick small user={isCurrentUserAuthor ? user : author} />
@@ -96,7 +106,9 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
         { user && !isCurrentUserAuthor && <ReportButton show={displayReportButton} onClick={onReport} /> }
 
         { !edited ? (
-          <Text variant="note">{ moment(date).format(DATE_FORMAT) }</Text>
+          <Typography variant="caption">
+            { moment(date).format(DATE_FORMAT) }
+          </Typography>
         ) : (
           <Text
             variant="note"
@@ -116,7 +128,7 @@ const ReactionHeader: React.FC<ReactionHeaderProps> = ({ author, date, edited, o
         </Box>
       ) }
 
-    </div>
+    </Grid>
   );
 };
 

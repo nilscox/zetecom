@@ -1,21 +1,11 @@
 import React from 'react';
 
+import { Grid } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
 import FirstIcon from '@material-ui/icons/FirstPage';
 import LastIcon from '@material-ui/icons/LastPage';
 import PrevIcon from '@material-ui/icons/NavigateBefore';
 import NextIcon from '@material-ui/icons/NavigateNext';
-
-const usePaginationStyles = makeStyles(theme => ({
-  icon: {
-    margin: theme.spacing(0, 1),
-  },
-  page: {
-    margin: theme.spacing(0, 1),
-    minWidth: 40,
-  },
-}));
 
 type PaginationProps = {
   page: number;
@@ -25,18 +15,15 @@ type PaginationProps = {
 };
 
 const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageChange }) => {
-  const classes = usePaginationStyles({});
-
   // eslint-disable-next-line no-nested-ternary
   const lastPage = total === 0 ? 1 : (total ? Math.ceil(total / pageSize) : '-');
 
   const goToPage = (page: number) => () => onPageChange(page);
 
   return (
-    <>
+    <Grid container alignItems="center" justify="space-evenly">
 
       <IconButton
-        className={classes.icon}
         disabled={page <= 1}
         onClick={goToPage(1)}
         title="Première page"
@@ -45,7 +32,6 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
       </IconButton>
 
       <IconButton
-        className={classes.icon}
         disabled={page <= 1}
         onClick={goToPage(page - 1)}
         title="Page précédente"
@@ -53,10 +39,9 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
         <PrevIcon />
       </IconButton>
 
-      <div className={classes.page} role="Numéro de page">{ page } / { lastPage }</div>
+      <div role="Numéro de page">{ page } / { lastPage }</div>
 
       <IconButton
-        className={classes.icon}
         disabled={page >= lastPage}
         onClick={goToPage(page + 1)}
         title="Page suivante"
@@ -65,7 +50,6 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
       </IconButton>
 
       <IconButton
-        className={classes.icon}
         disabled={typeof lastPage !== 'number' || page >= lastPage}
         onClick={goToPage(lastPage as number)}
         title="Dernière page"
@@ -73,7 +57,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
         <LastIcon />
       </IconButton>
 
-    </>
+    </Grid>
   );
 };
 

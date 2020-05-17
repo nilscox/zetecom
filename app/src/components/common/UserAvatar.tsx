@@ -7,6 +7,8 @@ import { parseUser, UserLight } from 'src/types/User';
 import { useTheme } from 'src/utils/Theme';
 import UserContext from 'src/utils/UserContext';
 
+import { makeStyles } from '@material-ui/core';
+
 type ImageUploadProps = {
   allowedTypes: string[];
   onUpload: (file: File) => void;
@@ -47,6 +49,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ allowedTypes, onUpload, child
   );
 };
 
+const useStyles = makeStyles(theme => ({
+  avatar: (small: boolean) => ({
+    width: small ? 24 : 32,
+    height: small ? 24 : 32,
+    [theme.breakpoints.down('xs')]: {
+      width: small ? 16 : 24,
+      height: small ? 16 : 24,
+    },
+  }),
+}));
+
 type UserAvatarProps = {
   small?: boolean;
   editable?: boolean;
@@ -56,6 +69,7 @@ type UserAvatarProps = {
 const UserAvatar: React.FC<UserAvatarProps> = ({ small = false, editable = false, user }) => {
   const { user: currentUser, setUser } = useContext(UserContext);
   const { colors: { borderImage } } = useTheme();
+  const classes = useStyles(small);
 
   const opts: AxiosRequestConfig = {
     method: 'PUT',
@@ -86,18 +100,15 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ small = false, editable = false
     upload({ data: formData });
   }, [upload]);
 
-  const size = small ? 24 : 32;
-
   const avatarImg = (
     <img
       style={{
-        width: size,
-        height: size,
         borderRadius: 16,
         border: `1px solid ${borderImage}`,
         opacity: loading ? 0.7 : 1,
         background: 'white',
       }}
+      className={classes.avatar}
       src={user.getAvatarUrl()}
     />
   );
