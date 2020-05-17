@@ -87,8 +87,6 @@ export class InformationController {
   ): Promise<Information> {
     const info = await this.informationService.findByIdentifier(decodeURIComponent(identifier));
 
-    console.log(info);
-
     if (!info)
       throw new NotFoundException();
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
@@ -65,38 +65,49 @@ const InformationUnavalible: React.FC = () => {
   );
 };
 
-const DOMAIN_NAME_REGEXP = /(https?:\/\/[-.a-z0-9]+(:\d+)?)\/?/;
-
 const Integration: React.FC = () => {
   const { colors: { border } } = useTheme();
-
-  const { identifier, url } = useQueryString();
   const [margin, setMargin] = useState(0);
 
+  const { identifier: identifierParam, origin: originParam } = useQueryString();
+  const [identifier, setIdentifier] = useState(identifierParam as string);
+  const origin = decodeURIComponent(originParam as string);
+
   const opts = {
-    url: `/api/information/by-identifier/${encodeURIComponent(identifier as string)}`,
+    url: `/api/information/by-identifier/${identifier}`,
     validateStatus: (s: number) => [200, 404].includes(s),
   };
-  const [{ data: information, loading, error }] = useAxios(opts, parseInformation);
+
+  const [{ data: information, loading, error }, fetchInfo] = useAxios(opts, parseInformation);
+
+  useEffect(() => void identifier && fetchInfo(), [identifier, fetchInfo]);
+
+  useEffect(() => {
+    const identifierChangedListener = (evt: MessageEvent) => {
+      if (evt.origin !== origin)
+        return;
+
+      if (evt.data.type === 'IDENTIFIER_CHANGED')
+        setIdentifier(evt.data.identifier);
+    };
+
+    window.addEventListener('message', identifierChangedListener);
+
+    return () => window.removeEventListener('message', identifierChangedListener);
+  }, [origin]);
 
   useEffect(() => {
     if (information) {
       if (window.parent === window)
         setMargin(15);
       else {
-        const match = DOMAIN_NAME_REGEXP.exec(url as string);
-
-        if (!match)
-          console.warn('Cannot find domain name from url');
-        else {
-          window.parent.postMessage(
-            { type: 'INTEGRATION_LOADED' },
-            match[1],
-          );
-        }
+        window.parent.postMessage(
+          { type: 'INTEGRATION_LOADED' },
+          origin,
+        );
       }
     }
-  }, [information, identifier, url]);
+  }, [information, origin]);
 
   if (error)
     throw error;

@@ -1,9 +1,10 @@
 import { iframeResizer } from 'iframe-resizer';
 
-import setupBadgeListener from './badge';
-import createIframe from './iframe';
+import createIframe, { getIframe } from './iframe';
 import createSwitcher from './switcher';
 import loadFont from './font';
+import { sendMessageToBackgroundScript, sendMessageToIFrame, onMessageFromIFrame } from './messages';
+import log from './log';
 
 declare global {
   interface HTMLIFrameElement {
@@ -27,14 +28,14 @@ const setupSwitcher = (integration: Integration, iframe: HTMLIFrameElement, elem
 const setupCleanupSwitcher = (parent: HTMLElement, element: HTMLElement, switcher: HTMLElement) => {
   const originalRemoveChild = parent.removeChild.bind(parent);
 
-  (parent as any).removeChild = (elementToRemove: HTMLElement) => {
+  Object.defineProperty(parent, 'removeChild', (elementToRemove: HTMLElement) => {
     if (elementToRemove === element) {
       switcher.removeChild(element);
       return element;
     }
 
     return originalRemoveChild(elementToRemove);
-  };
+  });
 };
 
 type IntegrationType = 'insert' | 'switch';
@@ -67,26 +68,49 @@ const setupIntegration = (integration: Integration, element: HTMLElement): void 
 };
 
 export default (integration: Integration) => {
-  setupBadgeListener();
+  let currentIdentifier: string | null = null;
+  let intervalId: NodeJS.Timeout;
+
+  log('setup INTEGRATION_LOADED listener');
+
+  onMessageFromIFrame('INTEGRATION_LOADED', () => {
+    log('message INTEGRATION_LOADED');
+    sendMessageToBackgroundScript({ type: 'SET_EXTENSION_ACTIVE' });
+  });
 
   setInterval(() => {
-    const iframe = document.getElementById('ri-iframe');
+    const identifier = integration.getIdentifier();
+    log('getIdentifier', identifier);
+
+    if (currentIdentifier === identifier)
+      return;
+
+    currentIdentifier = identifier;
+    log('identifier changed', currentIdentifier);
+
+    clearInterval(intervalId);
+    sendMessageToBackgroundScript({ type: 'UNSET_EXTENSION_ACTIVE' });
+
+    if (identifier === null)
+      return;
+
+    const iframe = getIframe();
+    log('getIframe', iframe);
 
     if (iframe)
-      return;
+      return sendMessageToIFrame(iframe, { type: 'IDENTIFIER_CHANGED', identifier });
 
-    const element = integration.getElement();
+    intervalId = setInterval(() => {
+      const element = integration.getElement();
+      log('getElement', element);
 
-    if (!element)
-      return;
+      if (!element)
+        return;
 
-    setupIntegration(integration, element);
-  }, 2000);
+      clearInterval(intervalId);
+
+      log('setupIntegration', integration);
+      setupIntegration(integration, element);
+    }, 500);
+  }, 1000);
 };
-
-// export default (integration: Integration) => {
-//   if (document.readyState === 'complete' || document.readyState === 'loaded' || document.readyState === 'interactive')
-//     setupIntegration(integration);
-//
-//   window.addEventListener('DOMContentLoaded', () => setupIntegration(integration));
-// };
