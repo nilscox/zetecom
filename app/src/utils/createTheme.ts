@@ -5,16 +5,16 @@ import { createMuiTheme, responsiveFontSizes, Theme } from '@material-ui/core/st
 export const createTheme = (): Theme => {
   const defaultTheme = createMuiTheme({
     spacing: 4,
-    breakpoints: {
-      values: {
-        xxs: 0,
-        xs: 330,
-        sm: 600,
-        md: 960,
-        lg: 1280,
-        xl: 1920,
-      },
-    },
+    // breakpoints: {
+    //   values: {
+    //     xxs: 0,
+    //     xs: 330,
+    //     sm: 600,
+    //     md: 960,
+    //     lg: 1280,
+    //     xl: 1920,
+    //   },
+    // },
     palette: {
       primary,
       secondary: { main: '#446' },
@@ -69,6 +69,7 @@ export const createTheme = (): Theme => {
       },
       text: {
         color: theme.palette.secondary.light,
+        padding: 0,
       },
     },
   };

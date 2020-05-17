@@ -4,6 +4,7 @@ import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
 import AsyncContent from 'src/components/common/AsyncContent';
 import CenteredContent from 'src/components/common/CenteredContent';
+import HeaderLogo from 'src/components/common/HeaderLogo';
 import Text from 'src/components/common/Text';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
@@ -13,33 +14,10 @@ import { useTheme } from 'src/utils/Theme';
 
 import ReactionsList from './ReactionsList';
 
-const Header: React.FC = () => {
-  const { fontSizes, colors, sizes } = useTheme();
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-
-      <img
-        src="/assets/images/logo.png"
-        alt="Logo de Réagir à l'information"
-        style={{ width: 36, height: 36, opacity: 0.8, marginRight: sizes.big }}
-      />
-
-      <div>
-        <h1 style={{ fontFamily: 'Domine', fontSize: fontSizes.title }}>Réagir à l'information</h1>
-        <div style={{ color: colors.textLight, fontSize: fontSizes.small, letterSpacing: 4 }}>
-          Avec esprit critique !
-        </div>
-      </div>
-
-    </div>
-  );
-};
-
 const IntegrationRouter = () => (
   <Router>
 
-    <Header />
+    <HeaderLogo />
 
     <Route path="/" exact render={() => <Redirect to="/reaction" />} />
     <Route path="/reaction" exact component={ReactionsList} />
@@ -53,7 +31,7 @@ const InformationUnavalible: React.FC = () => {
   return (
     <div style={{ minHeight: 300, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
 
-      <Header />
+      <HeaderLogo />
 
       <CenteredContent>
         <Text uppercase color="textLight">

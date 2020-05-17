@@ -1,5 +1,3 @@
-/// <reference path="global.d.ts" />
-
 import React from 'react';
 
 import { setConfig } from 'react-hot-loader';

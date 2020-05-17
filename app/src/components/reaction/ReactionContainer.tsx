@@ -16,8 +16,10 @@ import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
 import { useTheme } from 'src/utils/Theme';
 
 import ReactionComponent from './Reaction';
-import ReactionForm, { ReactionEditionForm } from './ReactionForm';
+import ReactionCreationForm from './ReactionForm/ReactionCreationForm';
+import ReactionEditionForm from './ReactionForm/ReactionEditionForm';
 import ReactionsList from './ReactionsList';
+import { makeStyles } from '@material-ui/core';
 
 export const useReactionReplies = (parent: Reaction) => {
   const [page, setPage] = useState(0);
@@ -78,12 +80,24 @@ const useViewHistory = (reaction: Reaction) => {
   return viewHistory;
 };
 
+const useIndendetStyles = makeStyles(({ breakpoints, spacing, palette: { border } }) => ({
+  bar: {
+    borderLeft: `6px solid ${border.main}`,
+    paddingLeft: spacing(3),
+    [breakpoints.down('xs')]: {
+      borderLeft: `3px solid ${border.main}`,
+      paddingLeft: spacing(2),
+    },
+  },
+}));
+
 const Indented: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { sizes: { big }, colors: { border } } = useTheme();
+  const classes = useIndendetStyles();
+  const { sizes: { big } } = useTheme();
 
   return (
     <Flex flexDirection="row" pt={big}>
-      <div style={{ borderLeft: `6px solid ${border}`, paddingLeft: big + 2 }} />
+      <div className={classes.bar} />
       <div style={{ flex: 1 }}>
         { children }
       </div>
@@ -203,7 +217,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction: origina
 
       <Collapse open={displayReplyForm}>
         <Indented>
-          <ReactionForm
+          <ReactionCreationForm
             parent={reaction}
             closeForm={hideReplyForm}
             onCreated={onCreated}

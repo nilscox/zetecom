@@ -4,7 +4,7 @@ import AsyncContent from 'src/components/common/AsyncContent';
 import CenteredContent from 'src/components/common/CenteredContent';
 import PaginatedList from 'src/components/common/PaginatedList';
 import Text from 'src/components/common/Text';
-import ReactionCreationForm from 'src/components/reaction/ReactionForm';
+import ReactionCreationForm from 'src/components/reaction/ReactionForm/ReactionCreationForm';
 import ReactionsList from 'src/components/reaction/ReactionsList';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import useEditableDataset from 'src/hooks/use-editable-dataset';

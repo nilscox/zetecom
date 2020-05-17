@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 import PaginatedList from 'src/components/common/PaginatedList';
-import ReactionCreationForm from 'src/components/reaction/ReactionForm';
+import ReactionCreationForm from 'src/components/reaction/ReactionForm/ReactionCreationForm';
 import ReactionsList from 'src/components/reaction/ReactionsList';
 import Loader from 'src/dashboard/components/Loader';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import FirstIcon from '@material-ui/icons/FirstPage';
 import LastIcon from '@material-ui/icons/LastPage';
@@ -39,7 +39,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
         <PrevIcon />
       </IconButton>
 
-      <div role="Numéro de page">{ page } / { lastPage }</div>
+      <Typography role="Numéro de page">{ page } / { lastPage }</Typography>
 
       <IconButton
         disabled={page >= lastPage}
