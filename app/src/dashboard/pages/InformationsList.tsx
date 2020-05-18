@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 
 const InformationList: React.FC = () => {
   const [
-    { loading, data: informations, totalPages },
+    { loading, data: informations, total },
     { setSearch },,
     { page, setPage },
   ] = useAxiosPaginated('/api/information', parseInformation);
@@ -58,7 +58,7 @@ const InformationList: React.FC = () => {
       onSearch={setSearch}
       page={page}
       pageSize={10}
-      totalPages={totalPages}
+      total={total}
       onPageChange={setPage}
     >
 

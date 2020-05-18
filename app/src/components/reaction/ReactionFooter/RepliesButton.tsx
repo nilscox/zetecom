@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { Button, Grid, makeStyles, Typography, useMediaQuery } from '@material-ui/core';
-
-const ARROW_LEFT = '▸';
+import { Button, Grid, Icon, makeStyles, Typography, useMediaQuery } from '@material-ui/core';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   buttonText: {
@@ -21,9 +20,10 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
     transform: `rotate(${displayReplies ? 90 : 0}deg)`,
     transition: 'transform 200ms ease-in-out',
     color: 'inherit',
-    marginLeft: spacing(2),
+    marginLeft: spacing(1),
+    fontSize: spacing(6),
     [breakpoints.down('xs')]: {
-      marginLeft: spacing(1),
+      fontSize: spacing(4),
     },
   }),
 }));
@@ -41,21 +41,15 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayRepl
   return (
     <Button disabled={!onClick || repliesCount === 0} classes={{ text: classes.buttonText }} onClick={onClick}>
 
-      <Grid container alignItems="center">
+      { (repliesCount > 0 || !verySmall) && (
+        <Typography variant="button" className={classes.repliesCount}>
+          { repliesCount } {!verySmall && <>réponse{ repliesCount > 1 ? 's' : '' }</>}
+        </Typography>
+      ) }
 
-        { (repliesCount > 0 || !verySmall) && (
-          <Typography variant="button" className={classes.repliesCount}>
-            { repliesCount } {!verySmall && <>réponse{ repliesCount > 1 ? 's' : '' }</>}
-          </Typography>
-        ) }
-
-        { repliesCount > 0 && (
-          <Typography variant="button" className={classes.arrow}>
-            {ARROW_LEFT}
-          </Typography>
-        ) }
-
-      </Grid>
+      { repliesCount > 0 && (
+        <ArrowRightIcon className={classes.arrow} />
+      ) }
 
     </Button>
   );

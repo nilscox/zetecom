@@ -5,7 +5,7 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-import { QuickReactionType, Reaction } from 'src/types/Reaction';
+import { Reaction } from 'src/types/Reaction';
 import { parseUser, User } from 'src/types/User';
 import { createTheme } from 'src/utils/createTheme';
 import { UserProvider } from 'src/utils/UserContext';
@@ -24,7 +24,7 @@ export default {
       const loggedIn = boolean('Logged in', true);
       const user: User = parseUser({
         id: 42,
-        nick: 'Doug Forcett ',
+        nick: 'Doug Forcett',
         avatar: null,
         created: new Date(),
         updated: new Date(),

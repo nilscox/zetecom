@@ -107,6 +107,9 @@ type QuickReactionsProps = {
 };
 
 const QuickReactions: React.FC<QuickReactionsProps> = ({ reaction }) => {
+  const [hover, setHover] = useState(false);
+  console.log(hover);
+
   const props = useQuickReactions(
     reaction.id,
     reaction.author.id,
@@ -115,15 +118,15 @@ const QuickReactions: React.FC<QuickReactionsProps> = ({ reaction }) => {
   );
 
   return (
-    <Flex>
+    <Flex onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
 
-      <QuickReaction {...props[QuickReactionType.APPROVE]} />
+      <QuickReaction hover={hover} {...props[QuickReactionType.APPROVE]} />
       <VBreak />
 
-      <QuickReaction {...props[QuickReactionType.REFUTE]} />
+      <QuickReaction hover={hover} {...props[QuickReactionType.REFUTE]} />
       <VBreak />
 
-      <QuickReaction {...props[QuickReactionType.SKEPTIC]} />
+      <QuickReaction hover={hover} {...props[QuickReactionType.SKEPTIC]} />
       <VBreak />
 
     </Flex>

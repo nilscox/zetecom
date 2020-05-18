@@ -9,15 +9,11 @@ import NextIcon from '@material-ui/icons/NavigateNext';
 
 type PaginationProps = {
   page: number;
-  total?: number;
-  pageSize: number;
+  totalPages?: number | '-';
   onPageChange: (page: number) => void;
 };
 
-const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageChange }) => {
-  // eslint-disable-next-line no-nested-ternary
-  const lastPage = total === 0 ? 1 : (total ? Math.ceil(total / pageSize) : '-');
-
+const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange }) => {
   const goToPage = (page: number) => () => onPageChange(page);
 
   return (
@@ -39,10 +35,10 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
         <PrevIcon />
       </IconButton>
 
-      <Typography role="Numéro de page">{ page } / { lastPage }</Typography>
+      <Typography role="Numéro de page">{ page } / { totalPages }</Typography>
 
       <IconButton
-        disabled={page >= lastPage}
+        disabled={page >= totalPages}
         onClick={goToPage(page + 1)}
         title="Page suivante"
       >
@@ -50,8 +46,8 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize, onPageCh
       </IconButton>
 
       <IconButton
-        disabled={typeof lastPage !== 'number' || page >= lastPage}
-        onClick={goToPage(lastPage as number)}
+        disabled={typeof totalPages !== 'number' || page >= totalPages}
+        onClick={goToPage(totalPages)}
         title="Dernière page"
       >
         <LastIcon />

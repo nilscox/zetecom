@@ -24,7 +24,7 @@ type PaginatedListProps = {
   onSearch: (query: string) => void;
   page: number;
   pageSize: number;
-  totalPages?: number;
+  total?: number;
   onPageChange: (page: number) => void;
 };
 
@@ -32,11 +32,12 @@ const PaginatedList: React.FC<PaginatedListProps> = ({
   sort,
   onSearch,
   page,
-  totalPages,
   pageSize,
+  total,
   onPageChange,
   children,
 }) => {
+  const totalPages = total ? Math.ceil(total / pageSize) : '-';
   const classes = useStyles();
 
   const handleSearch = useCallback((text: string) => {
@@ -68,7 +69,7 @@ const PaginatedList: React.FC<PaginatedListProps> = ({
         </Grid>
 
         <Grid item md={3} className={classes.pagination}>
-          <Pagination page={page} total={totalPages} pageSize={pageSize} onPageChange={onPageChange} />
+          <Pagination page={page} totalPages={totalPages} onPageChange={onPageChange} />
         </Grid>
 
       </Grid>

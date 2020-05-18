@@ -33,7 +33,7 @@ export default function useAxiosPaginated<T>(url: string, parseItem: (data: Resp
     {
       ...result,
       data: result.data ? result.data.items : undefined,
-      totalPages: result.data ? result.data.total : undefined,
+      total: result.data ? result.data.total : undefined,
     },
     { search, setSearch },
     { sort, setSort },

@@ -34,7 +34,7 @@ type ReactionsListForInformationProps = {
 const ReactionsListForInformation: React.FC<ReactionsListForInformationProps> = ({ axiosResponse, reactions }) => {
   const classes = useStyles({});
   const [
-    { loading, totalPages },
+    { loading, total },
     { setSearch },,
     { page, setPage },
   ] = axiosResponse;
@@ -67,7 +67,7 @@ const ReactionsListForInformation: React.FC<ReactionsListForInformationProps> = 
               onSearch={setSearch}
               page={page}
               pageSize={10}
-              totalPages={totalPages}
+              total={total}
               onPageChange={setPage}
             >
 

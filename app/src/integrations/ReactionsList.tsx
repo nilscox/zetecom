@@ -21,7 +21,7 @@ const StandaloneReactionsPage: React.FC = () => {
   const { sizes: { big } } = useTheme();
 
   const [
-    { loading, data, totalPages },
+    { loading, data, total },
     { search, setSearch },
     { sort, setSort },
     { page, setPage },
@@ -53,7 +53,7 @@ const StandaloneReactionsPage: React.FC = () => {
       onSearch={setSearch}
       page={page}
       pageSize={10}
-      totalPages={totalPages}
+      total={total}
       onPageChange={setPage}
     >
 

@@ -4,16 +4,18 @@ import { QuickReactionType } from 'src/types/Reaction';
 
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 
+type StylesProps = {
+  hover: boolean;
+  userQuickReaction?: boolean;
+}
+
 const useStyles = makeStyles(({ breakpoints, spacing, palette: { selected } }) => ({
-  button: ({ userQuickReaction }: { userQuickReaction?: boolean }) => ({
+  button: ({ hover, userQuickReaction }: StylesProps) => ({
     padding: spacing(1, 2),
     fontWeight: 'normal',
     ...(userQuickReaction && {
       fontWeight: 'bold',
       backgroundColor: selected.main,
-      '&:hover': {
-        background: 'transparent',
-      },
     }),
     [breakpoints.down('xs')]: {
       padding: spacing(0.5, 1),
@@ -48,10 +50,11 @@ export type QuickReactionProps = {
   type: QuickReactionType;
   userQuickReaction?: boolean;
   onClick?: () => void;
+  hover?: boolean;
 };
 
-const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, type, userQuickReaction, onClick }) => {
-  const classes = useStyles({ userQuickReaction });
+const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, type, userQuickReaction, onClick, hover }) => {
+  const classes = useStyles({ userQuickReaction, hover });
 
   return (
     <Button

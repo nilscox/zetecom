@@ -5,7 +5,13 @@ import { useCurrentUser } from 'src/utils/UserContext';
 import { Button, IconButton, makeStyles, useMediaQuery } from '@material-ui/core';
 import ReplyIcon from '@material-ui/icons/Reply';
 
-const useStyles = makeStyles(({ spacing }) => ({
+const useStyles = makeStyles(({ breakpoints, spacing }) => ({
+  button: {
+    marginRight: spacing(2),
+    [breakpoints.down('xs')]: {
+      marginRight: 0,
+    },
+  },
   buttonText: {
     padding: spacing(0, 1),
   },
@@ -41,7 +47,7 @@ const ReplyButton: React.FC<ReplyButtonProps> = ({ disabled, onReply }) => {
   }
 
   return (
-    <Button disabled={disabled} classes={{ text: classes.buttonText }} onClick={onReply}>
+    <Button disabled={disabled} className={classes.button} classes={{ text: classes.buttonText }} onClick={onReply}>
       Répondre
     </Button>
   );

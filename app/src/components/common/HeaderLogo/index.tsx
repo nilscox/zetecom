@@ -4,19 +4,13 @@ import { makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(({ breakpoints, spacing, palette: { textLight } }) => ({
   image: {
-    width: 54,
-    height: 54,
+    width: 36,
+    height: 36,
     opacity: 0.8,
     marginRight: spacing(6),
-    [breakpoints.down('xs')]: {
-      width: 42,
-      height: 42,
-      marginRight: spacing(4),
-    },
     [breakpoints.down(360)]: {
-      width: 36,
-      height: 36,
-      marginRight: spacing(2),
+      width: 24,
+      height: 24,
     },
   },
   title: {

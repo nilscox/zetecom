@@ -31,7 +31,7 @@ const ReactionsTab: React.FC<RecationsTabProps> = ({ informationId }) => {
   const user = useCurrentUser();
 
   const [
-    { loading, data, totalPages },
+    { loading, data, total },
     { setSearch },
     { sort, setSort },
     { page, setPage },
@@ -67,7 +67,7 @@ const ReactionsTab: React.FC<RecationsTabProps> = ({ informationId }) => {
         onSearch={setSearch}
         page={page}
         pageSize={10}
-        totalPages={totalPages}
+        total={total}
         onPageChange={setPage}
       >
 

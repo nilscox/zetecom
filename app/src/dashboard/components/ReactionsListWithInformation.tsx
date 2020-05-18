@@ -75,7 +75,7 @@ const ReactionsListWithInformation: React.FC<ReactionsListWithInformationProps> 
 }) => {
   const classes = useStylesList({});
   const [
-    { loading, totalPages },
+    { loading, total },
     { setSearch },,
     { page, setPage },
   ] = axiosResponse;
@@ -85,7 +85,7 @@ const ReactionsListWithInformation: React.FC<ReactionsListWithInformationProps> 
       onSearch={setSearch}
       page={page}
       pageSize={10}
-      totalPages={totalPages}
+      total={total}
       onPageChange={setPage}
     >
 

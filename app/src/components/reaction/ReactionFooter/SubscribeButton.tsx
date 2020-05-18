@@ -46,12 +46,14 @@ const useSubscription = (reaction: Reaction) => {
   };
 };
 
-const useStyles = makeStyles(({ spacing }) => ({
+const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   iconSizeSmall: {
     padding: spacing(0, 1),
-    fontSize: spacing(4),
     '& svg': {
       fontSize: 'inherit',
+    },
+    [breakpoints.down('xs')]: {
+      fontSize: spacing(4),
     },
   },
 }));
