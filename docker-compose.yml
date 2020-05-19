@@ -76,5 +76,4 @@ services:
       - 8000:80
     environment:
       API_URL: http://localhost:3000
-      APP_URL: http://localhost:8000
       WEBSITE_URL: http://localhost:8080

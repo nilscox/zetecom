@@ -1,0 +1,49 @@
+import { useCallback, useState } from 'react';
+
+import { AxiosRequestConfig } from 'axios';
+
+import useAxios from 'src/hooks/use-axios';
+import useEditableDataset from 'src/hooks/use-editable-dataset';
+import useUpdateEffect from 'src/hooks/use-update-effect';
+import { parseReaction, Reaction } from 'src/types/Reaction';
+import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
+
+const useReplies = (parent: Reaction) => {
+  const [page, setPage] = useState(0);
+
+  const url = `/api/reaction/${parent.id}/replies`;
+  const parse = useCallback(usePaginatedResults(parseReaction), []);
+  const [{ data, loading, error }, fetch] = useAxios<Paginated<Reaction>>(
+    url,
+    parse,
+    { manual: true },
+  );
+
+  const [replies, { prepend, replace }] = useEditableDataset(data ? data.items : null, { appendOnUpdate: true });
+
+  useUpdateEffect(() => {
+    const opts: AxiosRequestConfig = { params: {} };
+
+    if (page !== 1)
+      opts.params.page = page;
+
+    if (parent)
+      fetch(opts);
+  }, [page]);
+
+  return [
+    {
+      replies,
+      total: data ? data.total : undefined,
+      loading,
+      error,
+    },
+    {
+      fetchMoreReplies: () => setPage(page + 1),
+      addReply: prepend,
+      replaceReply: replace,
+    },
+  ] as const;
+};
+
+export default useReplies;

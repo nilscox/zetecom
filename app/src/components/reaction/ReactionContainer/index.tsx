@@ -2,127 +2,20 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { AxiosRequestConfig } from 'axios';
-
 import Collapse from 'src/components/common/Collapse';
-import Flex from 'src/components/common/Flex';
 import Loader from 'src/components/common/Loader';
-import useAxios from 'src/hooks/use-axios';
-import useEditableDataset from 'src/hooks/use-editable-dataset';
-import useUpdateEffect from 'src/hooks/use-update-effect';
-import { parseReaction, Reaction } from 'src/types/Reaction';
-import env from 'src/utils/env';
-import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
-import { useTheme } from 'src/utils/Theme';
+import { Reaction } from 'src/types/Reaction';
 
-import ReactionComponent from './Reaction';
-import ReactionCreationForm from './ReactionForm/ReactionCreationForm';
-import ReactionEditionForm from './ReactionForm/ReactionEditionForm';
-import ReactionsList from './ReactionsList';
-import { makeStyles } from '@material-ui/core';
+import ReactionComponent from '../ReactionComponent';
+import ReactionCreationForm from '../ReactionForm/ReactionCreationForm';
+import ReactionEditionForm from '../ReactionForm/ReactionEditionForm';
+import ReactionsList from '../ReactionsList';
 
-export const useReactionReplies = (parent: Reaction) => {
-  const [page, setPage] = useState(0);
-
-  const url = `/api/reaction/${parent.id}/replies`;
-  const parse = useCallback(usePaginatedResults(parseReaction), []);
-  const [{ data, loading, error }, fetch] = useAxios<Paginated<Reaction>>(
-    url,
-    parse,
-    { manual: true },
-  );
-
-  const [replies, { prepend, replace }] = useEditableDataset(data ? data.items : null, { appendOnUpdate: true });
-
-  useUpdateEffect(() => {
-    const opts: AxiosRequestConfig = { params: {} };
-
-    if (page !== 1)
-      opts.params.page = page;
-
-    if (parent)
-      fetch(opts);
-  }, [page]);
-
-  return [
-    {
-      replies,
-      total: data ? data.total : undefined,
-      loading,
-      error,
-    },
-    {
-      fetchMoreReplies: () => setPage(page + 1),
-      addReply: prepend,
-      replaceReply: replace,
-    },
-  ] as const;
-};
-
-// TODO: remove APP_URL?
-const useReport = (reaction: Reaction) => {
-  const reportUrl = `${env.APP_URL}/integration/reaction/${reaction.id}/report`;
-
-  const report = () => {
-    window.open(reportUrl, '_blank', 'width=600,height=800,resizable=no');
-  };
-
-  return report;
-};
-
-const useViewHistory = (reaction: Reaction) => {
-  const historyUrl = `${env.APP_URL}/integration/reaction/${reaction.id}/history`;
-
-  const viewHistory = () => {
-    window.open(historyUrl, '_blank', 'width=600,height=800,resizable=no');
-  };
-
-  return viewHistory;
-};
-
-const useIndendetStyles = makeStyles(({ breakpoints, spacing, palette: { border } }) => ({
-  bar: {
-    borderLeft: `6px solid ${border.main}`,
-    paddingLeft: spacing(3),
-    [breakpoints.down('xs')]: {
-      borderLeft: `3px solid ${border.main}`,
-      paddingLeft: spacing(2),
-    },
-  },
-}));
-
-const Indented: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const classes = useIndendetStyles();
-  const { sizes: { big } } = useTheme();
-
-  return (
-    <Flex flexDirection="row" pt={big}>
-      <div className={classes.bar} />
-      <div style={{ flex: 1 }}>
-        { children }
-      </div>
-    </Flex>
-  );
-};
-
-type FetchMoreRepliesProps = {
-  remainingReplies: number;
-  fetchMoreReplies: () => void;
-};
-
-const FetchMoreReplies: React.FC<FetchMoreRepliesProps> = ({ remainingReplies, fetchMoreReplies }) => {
-  const s = remainingReplies > 1 ? 's' : '';
-
-  return (
-    <Flex
-      justifyContent="center"
-      onClick={fetchMoreReplies}
-      style={{ color: '#666', marginTop: 4, cursor: 'pointer' }}
-    >
-      ▾ &nbsp; { remainingReplies } réaction{s} restante{s} &nbsp; ▾
-    </Flex>
-  );
-};
+import FetchMoreReplies from './FetchMoreReplies';
+import useReplies from './hooks/useReplies';
+import useReport from './hooks/useReport';
+import useViewHistory from './hooks/useViewHistory';
+import Indented from './Indented';
 
 type ReactionContainerProps = {
   reaction: Reaction;
@@ -138,7 +31,7 @@ const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction: origina
   const [
     { replies, total: totalReplies, loading, error },
     { fetchMoreReplies, addReply, replaceReply },
-  ] = useReactionReplies(reaction);
+  ] = useReplies(reaction);
 
   if (error)
     throw error;
