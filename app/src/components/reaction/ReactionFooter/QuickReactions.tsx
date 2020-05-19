@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 
-import Flex from 'src/components/common/Flex';
 import useAxios from 'src/hooks/use-axios';
 import { parseReaction, QuickReactionsCount, QuickReactionType, Reaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';
 import { useCurrentUser } from 'src/utils/UserContext';
 
 import QuickReaction, { QuickReactionProps } from './QuickReaction';
+
+import { Grid } from '@material-ui/core';
 
 const VBreak: React.FC = () => {
   const { colors: { borderLight } } = useTheme();
@@ -107,9 +108,6 @@ type QuickReactionsProps = {
 };
 
 const QuickReactions: React.FC<QuickReactionsProps> = ({ reaction }) => {
-  const [hover, setHover] = useState(false);
-  console.log(hover);
-
   const props = useQuickReactions(
     reaction.id,
     reaction.author.id,
@@ -118,18 +116,18 @@ const QuickReactions: React.FC<QuickReactionsProps> = ({ reaction }) => {
   );
 
   return (
-    <Flex onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+    <Grid container>
 
-      <QuickReaction hover={hover} {...props[QuickReactionType.APPROVE]} />
+      <QuickReaction {...props[QuickReactionType.APPROVE]} />
       <VBreak />
 
-      <QuickReaction hover={hover} {...props[QuickReactionType.REFUTE]} />
+      <QuickReaction {...props[QuickReactionType.REFUTE]} />
       <VBreak />
 
-      <QuickReaction hover={hover} {...props[QuickReactionType.SKEPTIC]} />
+      <QuickReaction {...props[QuickReactionType.SKEPTIC]} />
       <VBreak />
 
-    </Flex>
+    </Grid>
   );
 };
 

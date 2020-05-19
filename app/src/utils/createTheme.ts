@@ -21,7 +21,8 @@ export const createTheme = (): Theme => {
       highlight: { main: pink[500] },
       border: { main: '#ccc', light: '#ddd' },
       selected: { main: '#ffeeaa' },
-      textLight: { main: '#666666' },
+      textLight: { main: '#666666', light: '#999999' },
+      textWarning: { main: '#ab6565' },
     },
     typography: {
       fontFamily: [
@@ -48,7 +49,8 @@ export const createTheme = (): Theme => {
   };
 
   theme.typography.caption = {
-    fontSize: '0.8rem',
+    fontSize: '0.7rem',
+    color: theme.palette.secondary.light,
     [theme.breakpoints.down('xs')]: {
       fontSize: '0.6rem',
     },

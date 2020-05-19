@@ -37,7 +37,9 @@ const ReactionFooter: React.FC<ReactionFooterProps> = ({
 
       <Grid item style={{ flexGrow: 1 }}>
         <Grid container>
-          <QuickReactions reaction={reaction} />
+          <Grid item>
+            <QuickReactions reaction={reaction} />
+          </Grid>
           <RepliesButton repliesCount={reaction.repliesCount} displayReplies={displayReplies} onClick={toggleReplies} />
         </Grid>
       </Grid>

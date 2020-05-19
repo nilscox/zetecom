@@ -15,6 +15,7 @@ declare module '@material-ui/core/styles/createPalette' {
     border: PaletteColor;
     selected: PaletteColor;
     textLight: PaletteColor;
+    textWarning: PaletteColor;
   }
 
   // allow configuration using `createMuiTheme`
@@ -23,6 +24,7 @@ declare module '@material-ui/core/styles/createPalette' {
     border: PaletteColorOptions;
     selected: PaletteColorOptions;
     textLight: PaletteColorOptions;
+    textWarning: PaletteColorOptions;
   }
 }
 

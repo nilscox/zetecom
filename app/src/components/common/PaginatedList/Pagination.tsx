@@ -47,7 +47,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange 
 
       <IconButton
         disabled={typeof totalPages !== 'number' || page >= totalPages}
-        onClick={goToPage(totalPages)}
+        onClick={goToPage(totalPages as number)}
         title="Dernière page"
       >
         <LastIcon />

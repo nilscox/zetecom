@@ -25,7 +25,8 @@ export const paginatedList = () => (
     }}
     onSearch={action('search')}
     page={number('page', 2)}
-    totalPages={number('total pages', 4)}
+    pageSize={10}
+    total={number('total', 35)}
     onPageChange={action('page change')}
   />
 );
