@@ -1,6 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { Reaction } from 'src/types/Reaction';
+
+import Padding from '../common/Padding';
 
 import ReactionContainer from './ReactionContainer';
 
@@ -14,10 +16,10 @@ const ReactionsList: React.FC<ReactionsListProps> = ({ reactions }) => {
 
   return (
     <div className="reactions-list">
-      { reactions.map(reaction => (
-        <Fragment key={reaction.id}>
+      { reactions.map((reaction, n) => (
+        <Padding key={reaction.id} top when={n > 0}>
           <ReactionContainer reaction={reaction} />
-        </Fragment>
+        </Padding>
       )) }
     </div>
   );

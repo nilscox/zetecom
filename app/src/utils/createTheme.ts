@@ -19,7 +19,7 @@ export const createTheme = (): Theme => {
       primary,
       secondary: { main: '#446' },
       highlight: { main: pink[500] },
-      border: { main: '#ccc', light: '#ddd' },
+      border: { main: '#ccc', light: '#ddd', veryLight: '#eee' },
       selected: { main: '#ffeeaa' },
       textLight: { main: '#666666', light: '#999999' },
       textWarning: { main: '#ab6565' },
@@ -35,14 +35,6 @@ export const createTheme = (): Theme => {
 
   theme.typography.body1 = {
     fontSize: '1rem',
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '0.8rem',
-    },
-  };
-
-  theme.typography.body2 = {
-    fontSize: '1rem',
-    fontWeight: 'bold',
     [theme.breakpoints.down('xs')]: {
       fontSize: '0.8rem',
     },

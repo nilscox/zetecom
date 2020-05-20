@@ -3,6 +3,7 @@ import React from 'react';
 import Collapse from 'src/components/common/Collapse';
 import { Reaction } from 'src/types/Reaction';
 
+import Padding from '../../common/Padding';
 import ReactionCreationForm from '../ReactionForm/ReactionCreationForm';
 
 import Indented from './Indented';
@@ -19,13 +20,15 @@ const ReplyForm: React.FC<ReplyFormProps> = (props) => {
 
   return (
     <Collapse open={displayReplyForm}>
-      <Indented>
-        <ReactionCreationForm
-          parent={reaction}
-          closeForm={closeReplyForm}
-          onCreated={onCreated}
-        />
-      </Indented>
+      <Padding top>
+        <Indented>
+          <ReactionCreationForm
+            parent={reaction}
+            closeForm={closeReplyForm}
+            onCreated={onCreated}
+          />
+        </Indented>
+      </Padding>
     </Collapse>
   );
 };

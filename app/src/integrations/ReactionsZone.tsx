@@ -14,6 +14,8 @@ import { SortType } from 'src/types/SortType';
 import { useInformation } from 'src/utils/InformationContext';
 import { SearchQueryProvider } from 'src/utils/SearchQueryContext';
 
+import Padding from '../components/common/Padding';
+
 const ReactionsZone: React.FC = () => {
   const user = useCurrentUser();
   const information = useInformation();
@@ -52,7 +54,11 @@ const ReactionsZone: React.FC = () => {
       onPageChange={setPage}
     >
 
-      { user && <ReactionCreationForm onCreated={reaction => prepend(reaction)} /> }
+      { user && (
+        <Padding y>
+          <ReactionCreationForm onCreated={reaction => prepend(reaction)} />
+        </Padding>
+      ) }
 
       <SearchQueryProvider value={search || undefined}>
         <AsyncContent loading={loading || !reactions} content={getReactionsList} />

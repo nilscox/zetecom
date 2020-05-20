@@ -12,7 +12,7 @@ import { Grid, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(({ palette: { border }, spacing, breakpoints }) => ({
   header: {
-    borderTop: `1px solid ${border.light}`,
+    borderTop: `1px solid ${border.veryLight}`,
     borderBottom: `1px solid ${border.light}`,
     background: 'rgba(0, 0, 0, 0.02)',
   },

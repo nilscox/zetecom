@@ -8,6 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles(({ breakpoints, palette: { border }, spacing }) => ({
   container: {
+    borderTop: `1px solid ${border.veryLight}`,
     borderBottom: `1px solid ${border.light}`,
     padding: spacing(1),
     position: 'relative',

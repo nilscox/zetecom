@@ -12,7 +12,7 @@ declare module '@material-ui/core/styles/createBreakpoints' {
 declare module '@material-ui/core/styles/createPalette' {
   interface Palette {
     highlight: PaletteColor;
-    border: PaletteColor;
+    border: PaletteColor & { veryLight: string };
     selected: PaletteColor;
     textLight: PaletteColor;
     textWarning: PaletteColor;
@@ -21,7 +21,7 @@ declare module '@material-ui/core/styles/createPalette' {
   // allow configuration using `createMuiTheme`
   interface PaletteOptions {
     highlight: PaletteColorOptions;
-    border: PaletteColorOptions;
+    border: PaletteColorOptions & { veryLight: string };
     selected: PaletteColorOptions;
     textLight: PaletteColorOptions;
     textWarning: PaletteColorOptions;

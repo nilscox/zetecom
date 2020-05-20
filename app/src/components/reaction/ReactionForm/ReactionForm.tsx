@@ -5,7 +5,7 @@ import MarkdownMessageEdition from 'src/components/common/MarkdownMessageEdition
 import FormFooter from './FormFooter';
 import FormHeader from './FormHeader';
 
-import { Grid, Paper } from '@material-ui/core';
+import { Grid, Paper, Theme, useMediaQuery } from '@material-ui/core';
 
 type ReactionFormProps = {
   placeholder: string;
@@ -19,6 +19,8 @@ const ReactionForm = forwardRef((
   { placeholder, preloadedMessage = '', loading, closeForm, onSubmit }: ReactionFormProps,
   ref: React.Ref<{}>,
 ) => {
+  const small = useMediaQuery<Theme>(theme => theme.breakpoints.down('xs'));
+
   const [message, setMessage] = useState(preloadedMessage);
 
   useImperativeHandle(ref, () => ({
@@ -32,7 +34,7 @@ const ReactionForm = forwardRef((
 
   return (
     <form className="reaction-form" onSubmit={onSubmitForm}>
-      <Paper elevation={2}>
+      <Paper elevation={small ? 1 : 2}>
         <Grid container direction="column">
           <FormHeader closeForm={closeForm} />
           <MarkdownMessageEdition placeholder={placeholder} message={message} setMessage={setMessage} />
