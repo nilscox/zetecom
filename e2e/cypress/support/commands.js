@@ -64,7 +64,13 @@ Cypress.Commands.add('visitReport', (reactionId) => {
   cy.visit(APP_URL + '/integration/reaction/' + reactionId + '/report');
 });
 
+Cypress.Commands.add('getReactions', () => cy.get('.reaction'));
+
 Cypress.Commands.add('getReaction', (id) => cy.get(`#reaction-${id}`));
+
+Cypress.Commands.add('getReactionAt', (place) => cy.getReactions().eq(place));
+
+Cypress.Commands.add('countReactions', (expected) => cy.getReactions().should('have.length', expected));
 
 Cypress.Commands.add('websiteScreenshot', (name, scroll = 1) => {
   cy.wait(500);

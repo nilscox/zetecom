@@ -19,7 +19,7 @@ const useReplies = (parent: Reaction) => {
     { manual: true },
   );
 
-  const [replies, { prepend, replace }] = useEditableDataset(data ? data.items : null, { appendOnUpdate: true });
+  const [replies, { prepend }] = useEditableDataset(data ? data.items : null, { appendOnUpdate: true });
 
   useUpdateEffect(() => {
     const opts: AxiosRequestConfig = { params: {} };
@@ -34,14 +34,13 @@ const useReplies = (parent: Reaction) => {
   return [
     {
       replies,
-      total: data ? data.total : undefined,
+      remainingRepliesCount: data?.total - data?.items.length,
       loading,
       error,
     },
     {
       fetchMoreReplies: () => setPage(page + 1),
       addReply: prepend,
-      replaceReply: replace,
     },
   ] as const;
 };

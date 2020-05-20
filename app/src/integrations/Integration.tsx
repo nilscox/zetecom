@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ import { parseInformation } from 'src/types/Information';
 import { InformationProvider } from 'src/utils/InformationContext';
 import { useTheme } from 'src/utils/Theme';
 
-import ReactionsList from './ReactionsList';
+import ReactionsZone from './ReactionsZone';
 
 const IntegrationRouter = () => (
   <Router>
@@ -20,7 +20,7 @@ const IntegrationRouter = () => (
     <HeaderLogo />
 
     <Route path="/" exact render={() => <Redirect to="/reaction" />} />
-    <Route path="/reaction" exact component={ReactionsList} />
+    <Route path="/reaction" exact component={ReactionsZone} />
 
   </Router>
 );

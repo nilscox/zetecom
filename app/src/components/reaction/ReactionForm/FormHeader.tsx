@@ -39,7 +39,12 @@ const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
     <div className={`MuiPaper-rounded ${classes.container}`}>
       { closeForm && (
         <Box position="absolute" top={0} right={0}>
-          <IconButton size="small" onClick={closeForm} classes={{ sizeSmall: classes.buttonSmall }}>
+          <IconButton
+            size="small"
+            onClick={closeForm}
+            classes={{ sizeSmall: classes.buttonSmall }}
+            role="Fermer le formulaire"
+          >
             <CloseIcon />
           </IconButton>
         </Box>

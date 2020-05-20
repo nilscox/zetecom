@@ -13,11 +13,10 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette: { border } }) => 
 }));
 
 type FormFooterProps = {
-  loading: boolean;
   disabled: boolean;
 };
 
-const FormFooter: React.FC<FormFooterProps> = ({ loading, disabled }) => {
+const FormFooter: React.FC<FormFooterProps> = ({ disabled }) => {
   const classes = useStyles();
 
   return (

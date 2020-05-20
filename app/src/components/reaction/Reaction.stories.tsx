@@ -20,7 +20,7 @@ export default {
   title: 'Reaction',
   decorators: [
     withKnobs,
-    (storyFn: any) => {
+    (storyFn: () => React.ReactNode) => {
       const loggedIn = boolean('Logged in', true);
       const user: User = parseUser({
         id: 42,
@@ -168,10 +168,7 @@ export const markdown = () => (
 );
 
 export const list = () => (
-  <ReactionsList
-    reactions={reactions.map((extra) => ({ ...reaction, ...extra }))}
-    onEdited={() => {}}
-  />
+  <ReactionsList reactions={reactions.map((extra) => ({ ...reaction, ...extra }))} />
 );
 
 export const withReplies = () => {
@@ -208,7 +205,6 @@ export const listWithReplies = () => {
         { ...reaction, ...reactions[3] },
         { ...reaction, ...reactions[4] },
       ]}
-      onEdited={() => {}}
     />
   );
 };

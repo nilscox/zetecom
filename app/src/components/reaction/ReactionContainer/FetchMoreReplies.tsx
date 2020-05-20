@@ -3,12 +3,12 @@ import React from 'react';
 import Flex from 'src/components/common/Flex';
 
 type FetchMoreRepliesProps = {
-  remainingReplies: number;
+  remainingRepliesCount: number;
   fetchMoreReplies: () => void;
 };
 
-const FetchMoreReplies: React.FC<FetchMoreRepliesProps> = ({ remainingReplies, fetchMoreReplies }) => {
-  const s = remainingReplies > 1 ? 's' : '';
+const FetchMoreReplies: React.FC<FetchMoreRepliesProps> = ({ remainingRepliesCount, fetchMoreReplies }) => {
+  const s = remainingRepliesCount > 1 ? 's' : '';
 
   return (
     <Flex
@@ -16,7 +16,7 @@ const FetchMoreReplies: React.FC<FetchMoreRepliesProps> = ({ remainingReplies, f
       onClick={fetchMoreReplies}
       style={{ color: '#666', marginTop: 4, cursor: 'pointer' }}
     >
-      ▾ &nbsp; { remainingReplies } réaction{s} restante{s} &nbsp; ▾
+      ▾ &nbsp; { remainingRepliesCount } réaction{s} restante{s} &nbsp; ▾
     </Flex>
   );
 };

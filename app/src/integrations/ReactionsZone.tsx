@@ -13,12 +13,10 @@ import { parseReaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
 import { useInformation } from 'src/utils/InformationContext';
 import { SearchQueryProvider } from 'src/utils/SearchQueryContext';
-import { useTheme } from 'src/utils/Theme';
 
-const StandaloneReactionsPage: React.FC = () => {
+const ReactionsZone: React.FC = () => {
   const user = useCurrentUser();
   const information = useInformation();
-  const { sizes: { big } } = useTheme();
 
   const [
     { loading, data, total },
@@ -27,7 +25,7 @@ const StandaloneReactionsPage: React.FC = () => {
     { page, setPage },
   ] = useAxiosPaginated(`/api/information/${information.id}/reactions`, parseReaction);
 
-  const [reactions, { prepend, replace }] = useEditableDataset(data);
+  const [reactions, { prepend }] = useEditableDataset(data);
 
   const getReactionsList = () => {
     if (!reactions.length) {
@@ -41,15 +39,12 @@ const StandaloneReactionsPage: React.FC = () => {
       );
     }
 
-    return <ReactionsList style={{ paddingTop: big }} reactions={reactions} onEdited={replace} />;
+    return <ReactionsList reactions={reactions} />;
   };
 
   return (
     <PaginatedList
-      sort={{
-        type: sort || SortType.DATE_DESC,
-        onChange: setSort,
-      }}
+      sort={{ type: sort || SortType.DATE_DESC, onChange: setSort }}
       onSearch={setSearch}
       page={page}
       pageSize={10}
@@ -67,4 +62,4 @@ const StandaloneReactionsPage: React.FC = () => {
   );
 };
 
-export default StandaloneReactionsPage;
+export default ReactionsZone;

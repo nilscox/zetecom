@@ -8,38 +8,45 @@ import ReactionHeader from './ReactionHeader';
 
 import { Paper } from '@material-ui/core';
 
-type ReactionProps = {
+export type ReactionComponentProps = {
   reaction: Reaction;
   displayReplies: boolean;
-  toggleReplies: () => void | null;
   displayReplyForm: boolean;
+  toggleReplies: () => void | null;
   onReply: () => void;
   onEdit?: () => void;
   onViewHistory: () => void;
   onReport: () => void;
 };
 
-const ReactionComponent: React.FC<ReactionProps> = ({
+const ReactionComponent: React.FC<ReactionComponentProps> = ({
   reaction,
   displayReplies,
-  toggleReplies,
   displayReplyForm,
+  toggleReplies,
   onReply,
   onEdit,
   onViewHistory,
   onReport,
-}) => (
-  <Paper elevation={2} id={`reaction-${reaction.id}`}>
-    <ReactionHeader {...reaction} onEdit={onEdit} onViewHistory={onViewHistory} onReport={onReport} />
-    <ReactionBody {...reaction} />
-    <ReactionFooter
-      reaction={reaction}
-      displayReplies={displayReplies}
-      toggleReplies={toggleReplies}
-      displayReplyForm={displayReplyForm}
-      onReply={onReply}
-    />
-  </Paper>
-);
+}) => {
+
+  return (
+    <Paper elevation={2}>
+
+      <ReactionHeader {...reaction} onEdit={onEdit} onViewHistory={onViewHistory} onReport={onReport} />
+
+      <ReactionBody {...reaction} />
+
+      <ReactionFooter
+        reaction={reaction}
+        displayReplies={displayReplies}
+        displayReplyForm={displayReplyForm}
+        toggleReplies={toggleReplies}
+        onReply={onReply}
+      />
+
+    </Paper>
+  );
+};
 
 export default ReactionComponent;

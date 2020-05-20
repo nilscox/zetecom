@@ -42,6 +42,7 @@ describe('reactions', () => {
       cy.visitIntegration('test:news1');
 
       cy.contains('Aucune réaction n\'a été publiée pour le moment.');
+      cy.contains('1 / 1');
     });
 
     it('should list reactions', () => {
@@ -80,6 +81,7 @@ describe('reactions', () => {
     });
 
     it('should view replies', () => {
+      // KAMEHAMEHA
       const data = {
         users: [user1],
         informations: [
@@ -115,15 +117,23 @@ describe('reactions', () => {
       cy.visitIntegration('test:news1');
 
       cy.getReaction(1).contains('reaction 1 text');
-      cy.getReaction(1).contains('2 réponses').click();
-      cy.get('#reactions-list-1').children().should('have.length', 2);
-      cy.contains('reaction 1.1 text');
-      cy.contains('reaction 1.2 text');
-
-      cy.getReaction(3).contains('1 réponse').click();
-      cy.contains('reaction 1.2.1 text');
 
       cy.getReaction(1).contains('2 réponses').click();
+
+      cy.getReaction(1).within(() => {
+        cy.countReactions(2);
+        cy.contains('reaction 1.1 text');
+        cy.contains('reaction 1.2 text');
+
+        cy.getReaction(3).contains('1 réponse').click();
+
+        cy.getReaction(3).within(() => {
+          cy.contains('reaction 1.2.1 text');
+        });
+      });
+
+      cy.getReaction(1).contains('2 réponses').click();
+
       cy.getReaction(2).should('not.be.visible');
       cy.getReaction(3).should('not.be.visible');
       cy.getReaction(4).should('not.be.visible');
@@ -173,7 +183,7 @@ describe('reactions', () => {
       });
 
       cy.get('[title="Édité"]').click();
-      cy.get('@windowOpen').should('be.calledWith', 'http://localhost:8000/integration/reaction/1/history');
+      cy.get('@windowOpen').should('be.calledWith', '/integration/reaction/1/history');
     });
 
     // TODO: fix test and assert the messages order
@@ -215,6 +225,7 @@ describe('reactions', () => {
 
       cy.resetdb();
       cy.populatedb(data);
+
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
       cy.visitIntegration('test:news1');
 
@@ -252,22 +263,26 @@ describe('reactions', () => {
 
       cy.resetdb();
       cy.populatedb(data);
+
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
       cy.visitIntegration('test:news1');
 
-      cy.getReaction(1).contains('Répondre').click();
-      cy.getReaction(1).siblings().find('span').contains('×').click();
-      cy.getReaction(1).siblings().find('form.reaction-form').should('not.be.visible');
+      cy.getReaction(1).within(() => {
+        cy.contains('Répondre').click();
 
-      cy.getReaction(1).contains('Répondre').click();
-      cy.getReaction(1).siblings().find('[placeholder="Répondez à user1"]').type('Réponse depuis le test');
+        cy.get('[role="Fermer le formulaire"]').click();
+        cy.get('form.reaction-form').should('not.be.visible');
 
-      cy.getReaction(1).siblings().find('button[type="submit"]').contains('Envoyer').click();
+        cy.contains('Répondre').click();
 
-      cy.getReaction(1).siblings().find('form.reaction-form').should('not.be.visible');
+        cy.get('[placeholder="Répondez à user1"]').type('Réponse depuis le test');
+        cy.get('button[type="submit"]').contains('Envoyer').click();
 
-      cy.getReaction(2).contains('Réponse depuis le test');
+        cy.get('form.reaction-form').should('not.be.visible');
+      });
+
       cy.getReaction(2).within(() => {
+        cy.contains('Réponse depuis le test');
         cy.get('button[title="Se désabonner"]').should('exist');
       });
     });
@@ -292,26 +307,28 @@ describe('reactions', () => {
 
       cy.resetdb();
       cy.populatedb(data);
+
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
       cy.visitIntegration('test:news1');
 
-      cy.getReaction(2).within(() => cy.get('[title="Éditer votre message"]').should('not.exist'));
-
-      cy.getReaction(1).within(() => cy.get('[title="Éditer votre message"]').click());
-      cy.getReaction(1).should('not.exist');
-      cy.get('#reaction-1-form').within(() => {
-        cy.contains('reaction 1 text').clear().type('edited 1 text');
-        cy.get('button[type="submit"]').contains('Envoyer').click();
+      cy.getReaction(2).within(() => {
+        cy.get('[title="Éditer votre message"]').should('not.exist');
       });
 
-      cy.get('#reaction-1-form').should('not.exist');
       cy.getReaction(1).within(() => {
+        cy.get('[title="Éditer votre message"]').click();
+
+        cy.get('.reaction-form').first().contains('reaction 1 text').clear().type('edited 1 text');
+        cy.get('button[type="submit"]').contains('Envoyer').click();
+
+        cy.get('form').should('not.be.visible');
+
         cy.contains('edited 1 text');
         cy.get('[title="Édité"]');
       });
     });
 
-    it('should add a quick reaction', () => {
+    it('should add / remove / update quick reactions', () => {
       const data = {
         users: [user1, user2],
         informations: [
@@ -331,52 +348,49 @@ describe('reactions', () => {
 
       cy.resetdb();
       cy.populatedb(data);
+
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
       cy.visitIntegration('test:news1');
 
+      // user's own reaction
       cy.getReaction(1).within(() => {
         cy.get('[title="Approuver"]').should('be.disabled');
       });
+
       cy.getReaction(2).within(() => {
+        // add
         cy.get('[title="Approuver"]').click();
+
         cy.get('[title="Approuver"]').contains('1');
-        cy.get('[title="Approuver"]').children().first().should('have.css', 'background-color', 'rgb(255, 238, 170)');
-      });
-    });
+        cy.get('[title="Approuver"]').should('have.class', 'user-quick-reaction');
+        cy.get('[title="Réfuter"]').contains('0');
+        cy.get('[title="Réfuter"]').should('not.have.class', 'user-quick-reaction');
+        cy.get('[title="Sceptique"]').contains('0');
+        cy.get('[title="Sceptique"]').should('not.have.class', 'user-quick-reaction');
 
-    it('should remove a quick reaction', () => {
-      const data = {
-        users: [user1, user2],
-        informations: [
-          {
-            ...information,
-            reactions: [
-              {
-                ...reaction,
-                quickReactions: {
-                  ...reaction.quickReactions,
-                  approve: ['user2'],
-                },
-              },
-            ],
-          },
-        ],
-      };
+        // update
+        cy.get('[title="Sceptique"]').click();
 
-      cy.resetdb();
-      cy.populatedb(data);
-      cy.login({ email: 'user2@domain.tld', password: 'secure p4ssword' });
-      cy.visitIntegration('test:news1');
-
-      cy.getReaction(1).within(() => {
-        cy.get('[title="Approuver"]').children().first().should('have.css', 'background-color', 'rgb(255, 238, 170)');
-        cy.get('[title="Approuver"]').click();
         cy.get('[title="Approuver"]').contains('0');
-        cy.get('[title="Approuver"]').children().first().should('not.have.css', 'background-color', 'rgb(255, 238, 170)');
+        cy.get('[title="Approuver"]').should('not.have.class', 'user-quick-reaction');
+        cy.get('[title="Réfuter"]').contains('0');
+        cy.get('[title="Réfuter"]').should('not.have.class', 'user-quick-reaction');
+        cy.get('[title="Sceptique"]').contains('1');
+        cy.get('[title="Sceptique"]').should('have.class', 'user-quick-reaction');
+
+        // remove
+        cy.get('[title="Sceptique"]').click();
+
+        cy.get('[title="Approuver"]').contains('0');
+        cy.get('[title="Approuver"]').should('not.have.class', 'user-quick-reaction');
+        cy.get('[title="Réfuter"]').contains('0');
+        cy.get('[title="Réfuter"]').should('not.have.class', 'user-quick-reaction');
+        cy.get('[title="Sceptique"]').contains('0');
+        cy.get('[title="Sceptique"]').should('not.have.class', 'user-quick-reaction');
       });
     });
 
-    it('should open report reaction popup', () => {
+    it('should open the reaction report popup', () => {
       const data = {
         users: [user1, user2],
         informations: [
@@ -396,20 +410,23 @@ describe('reactions', () => {
 
       cy.resetdb();
       cy.populatedb(data);
+
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
       cy.visitIntegration('test:news1');
+
       cy.window().then((win) => {
         cy.stub(win, 'open').as('windowOpen');
       });
 
       cy.getReaction(1).within(() => {
-        cy.get('button').contains('Signaler').should('not.exist');
-      });
-      cy.getReaction(2).within(() => {
-        cy.get('button').contains('Signaler').click();
+        cy.contains('Signaler').should('not.exist');
       });
 
-      cy.get('@windowOpen').should('be.calledWith', 'http://localhost:8000/integration/reaction/2/report');
+      cy.getReaction(2).within(() => {
+        cy.contains('Signaler').click();
+      });
+
+      cy.get('@windowOpen').should('be.calledWith', '/integration/reaction/2/report');
     });
 
     it('should report a reaction', () => {

@@ -1,141 +1,172 @@
-/* eslint-disable max-lines */
+import React, { useCallback, useReducer, useState } from 'react';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-
-import Collapse from 'src/components/common/Collapse';
-import Loader from 'src/components/common/Loader';
 import { Reaction } from 'src/types/Reaction';
 
-import ReactionComponent from '../ReactionComponent';
-import ReactionCreationForm from '../ReactionForm/ReactionCreationForm';
+import ReactionComponent, { ReactionComponentProps } from '../ReactionComponent';
 import ReactionEditionForm from '../ReactionForm/ReactionEditionForm';
-import ReactionsList from '../ReactionsList';
 
-import FetchMoreReplies from './FetchMoreReplies';
 import useReplies from './hooks/useReplies';
 import useReport from './hooks/useReport';
 import useViewHistory from './hooks/useViewHistory';
-import Indented from './Indented';
+import Replies from './Replies';
+import ReplyForm from './ReplyForm';
+
+type ReactionOrEditionFormProps = ReactionComponentProps & {
+  reaction: Reaction;
+  displayEditionForm: boolean;
+  onEdited: (reaction: Reaction) => void;
+  closeEditionForm: () => void;
+};
+
+const ReactionOrEditionForm: React.FC<ReactionOrEditionFormProps> = (props) => {
+  const { reaction, displayEditionForm, onEdited, closeEditionForm } = props;
+
+  if (displayEditionForm) {
+    return (
+      <ReactionEditionForm
+        reaction={reaction}
+        onEdited={onEdited}
+        closeForm={closeEditionForm}
+      />
+    );
+  }
+
+  return <ReactionComponent {...props} />;
+};
+
+type ReactionStates = {
+  displayReplies: boolean;
+  displayReplyForm: boolean;
+  displayEditionForm: boolean;
+};
+
+type ReactionStatesAction = {
+  property: keyof ReactionStates;
+  value: boolean;
+};
+
+const useReactionStates = () => {
+  const reducer = (states: ReactionStates, action: ReactionStatesAction) => {
+    return { ...states, [action.property]: action.value };
+  };
+
+  const initialState: ReactionStates = {
+    displayReplies: false,
+    displayReplyForm: false,
+    displayEditionForm: false,
+  };
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const set = (property: keyof ReactionStates, value: boolean) => dispatch({ property, value });
+
+  return [
+    state,
+    {
+      toggleReplies: () => set('displayReplies', !state.displayReplies),
+      openReplyForm: () => set('displayReplyForm', true),
+      closeReplyForm: () => set('displayReplyForm', false),
+      openEditionForm: () => set('displayEditionForm', true),
+      closeEditionForm: () => set('displayEditionForm', false),
+    },
+  ] as const;
+};
 
 type ReactionContainerProps = {
   reaction: Reaction;
-  onEdited?: (reaction: Reaction) => void;
 };
 
-const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction: originalReaction, onEdited }) => {
-  const [displayReplies, setDisplayReplies] = useState(false);
-  const [displayReplyForm, setDisplayReplyForm] = useState(false);
-  const [editing, setEditing] = useState(false);
+const ReactionContainer: React.FC<ReactionContainerProps> = ({ reaction: originalReaction }) => {
+  const [
+    {
+      displayReplies,
+      displayReplyForm,
+      displayEditionForm,
+    },
+    {
+      toggleReplies: toggleDisplayReplies,
+      openReplyForm,
+      closeReplyForm,
+      openEditionForm,
+      closeEditionForm,
+    },
+  ] = useReactionStates();
+
   const [reaction, setReaction] = useState(originalReaction);
 
   const [
-    { replies, total: totalReplies, loading, error },
-    { fetchMoreReplies, addReply, replaceReply },
+    { replies, remainingRepliesCount, loading, error },
+    { fetchMoreReplies, addReply },
   ] = useReplies(reaction);
 
   if (error)
     throw error;
 
-  const remainingReplies = useMemo(() => {
-    if (!replies || typeof replies.length !== 'number')
-      return;
-
-    return totalReplies - replies.length;
-  }, [replies, totalReplies]);
-
   const report = useReport(reaction);
   const viewHistory = useViewHistory(reaction);
-
-  const [showReplyForm, hideReplyForm] = [true, false].map(v => () => setDisplayReplyForm(v));
-  const [edit, closeEditionForm] = [true, false].map(v => () => setEditing(v));
 
   const toggleReplies = useCallback(() => {
     if (!replies && !error)
       fetchMoreReplies();
 
-    setDisplayReplies(!displayReplies);
-  }, [replies, error, fetchMoreReplies, setDisplayReplies, displayReplies]);
+    toggleDisplayReplies();
+  }, [replies, error, fetchMoreReplies, toggleDisplayReplies]);
 
-  const onCreated = (created: Reaction) => {
+  const onReply = () => {
+    if (!displayReplies) {
+      // fetch replies if opened for the first time using the reply button
+      toggleReplies();
+    }
+
+    openReplyForm();
+  };
+
+  const onReplyCreated = (created: Reaction) => {
     addReply(created);
-    hideReplyForm();
+    closeReplyForm();
     setReaction({
       ...reaction,
       repliesCount: reaction.repliesCount + 1,
     });
   };
 
-  const onReplyEdited = (reply: Reaction) => {
-    if (!replies)
-      return;
-
-    replaceReply(reply);
-  };
-
-  const onReactionEdited = (reaction: Reaction) => {
-    onEdited(reaction);
+  const onEdited = (reaction: Reaction) => {
+    setReaction(reaction);
     closeEditionForm();
   };
 
-  useEffect(() => void setReaction(originalReaction), [originalReaction]);
-
-  useEffect(() => {
-    if (displayReplyForm && !displayReplies) {
-      const timeout = setTimeout(toggleReplies, 100);
-      return () => clearTimeout(timeout);
-    }
-  }, [displayReplyForm, displayReplies, toggleReplies]);
-
   return (
-    <>
+    <div className="reaction" id={`reaction-${reaction.id}`}>
 
-      { editing ? (
-        <ReactionEditionForm
-          reaction={reaction}
-          onEdited={onReactionEdited}
-          closeForm={closeEditionForm}
-        />
-      ) : (
-        <ReactionComponent
-          reaction={reaction}
-          displayReplies={displayReplies}
-          toggleReplies={!displayReplyForm ? toggleReplies : null}
-          displayReplyForm={displayReplyForm}
-          onReply={showReplyForm}
-          onEdit={onEdited ? edit : undefined}
-          onViewHistory={viewHistory}
-          onReport={report}
-        />
-      ) }
+      <ReactionOrEditionForm
+        reaction={reaction}
+        displayReplies={displayReplies}
+        toggleReplies={!displayReplyForm ? toggleReplies : null}
+        displayReplyForm={displayReplyForm}
+        onReply={onReply}
+        onEdit={openEditionForm}
+        onViewHistory={viewHistory}
+        onReport={report}
+        displayEditionForm={displayEditionForm}
+        onEdited={onEdited}
+        closeEditionForm={closeEditionForm}
+      />
 
-      <Collapse open={displayReplyForm}>
-        <Indented>
-          <ReactionCreationForm
-            parent={reaction}
-            closeForm={hideReplyForm}
-            onCreated={onCreated}
-          />
-        </Indented>
-      </Collapse>
+      <ReplyForm
+        reaction={reaction}
+        displayReplyForm={displayReplyForm}
+        closeReplyForm={closeReplyForm}
+        onCreated={onReplyCreated}
+      />
 
-      <Collapse open={displayReplies}>
-        <Indented>
-          <ReactionsList
-            reactions={replies || []}
-            id={`reactions-list-${reaction.id}`}
-            onEdited={onReplyEdited}
-          />
-          { loading && <Loader /> }
-          { remainingReplies > 0 && !loading && (
-            <FetchMoreReplies
-              remainingReplies={remainingReplies}
-              fetchMoreReplies={fetchMoreReplies}
-            />
-          ) }
-        </Indented>
-      </Collapse>
+      <Replies
+        replies={replies}
+        displayReplies={displayReplies}
+        loading={loading}
+        remainingRepliesCount={remainingRepliesCount}
+        fetchMoreReplies={fetchMoreReplies}
+      />
 
-    </>
+    </div>
   );
 };
 

@@ -38,7 +38,6 @@ const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reaction, onE
   return (
     <ReactionForm
       ref={formRef}
-      id={`reaction-${reaction.id}-form`}
       placeholder="Éditez votre message..."
       preloadedMessage={reaction.text}
       loading={loading}

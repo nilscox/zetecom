@@ -9,14 +9,12 @@ import { useInformation } from 'src/utils/InformationContext';
 import ReactionForm from './ReactionForm';
 
 type ReactionCreationFormProps = {
-  className?: string;
   parent?: Reaction;
   closeForm?: () => void;
   onCreated: (reaction: Reaction) => void;
 };
 
 const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
-  className,
   parent,
   closeForm,
   onCreated,
@@ -46,8 +44,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
       if (formRef.current)
         formRef.current.clear();
     }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, formRef]);
 
   const getPlaceholder = () => {
@@ -59,7 +56,6 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
   return (
     <ReactionForm
       ref={formRef}
-      className={className}
       placeholder={getPlaceholder()}
       loading={loading}
       onSubmit={onSubmit}

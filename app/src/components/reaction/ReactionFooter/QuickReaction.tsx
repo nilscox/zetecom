@@ -1,5 +1,7 @@
 import React from 'react';
 
+import clsx from 'clsx';
+
 import { QuickReactionType } from 'src/types/Reaction';
 
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
@@ -59,7 +61,12 @@ const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, type, userQu
       type="button"
       disabled={!onClick}
       title={quickReactionTraduction[type]}
-      className={classes.button}
+      className={clsx(
+        'quick-reaction',
+        'quick-reaction--' + type,
+        userQuickReaction && 'user-quick-reaction',
+        classes.button,
+      )}
       onClick={() => onClick && onClick()}
     >
 

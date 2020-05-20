@@ -15,15 +15,12 @@ const useEditableDataset = <T extends { id: number }>(
   const findElement = useCallback(find(copy), [find, copy]);
 
   useEffect(() => {
-    if (dataset === null)
-      return;
-
     if (appendOnUpdate && copy)
       setCopy([...copy, ...dataset]);
     else
       setCopy(dataset);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataset, appendOnUpdate]);
 
   const prepend = useCallback((newData: T) => {
     setCopy([newData, ...copy]);

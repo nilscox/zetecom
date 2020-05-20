@@ -37,7 +37,7 @@ const PaginatedList: React.FC<PaginatedListProps> = ({
   onPageChange,
   children,
 }) => {
-  const totalPages = total ? Math.ceil(total / pageSize) : '-';
+  const totalPages = typeof total === 'number' ? Math.max(1, Math.ceil(total / pageSize)) : '-';
   const classes = useStyles();
 
   const handleSearch = useCallback((text: string) => {
