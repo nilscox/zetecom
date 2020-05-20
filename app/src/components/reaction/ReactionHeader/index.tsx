@@ -14,6 +14,7 @@ const useStyles = makeStyles(({ palette: { border }, spacing, breakpoints }) => 
   header: {
     borderTop: `1px solid ${border.light}`,
     borderBottom: `1px solid ${border.light}`,
+    background: 'rgba(0, 0, 0, 0.02)',
   },
   left: {
     flexGrow: 1,

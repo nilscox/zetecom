@@ -12,6 +12,7 @@ import { Grid, makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(({ palette: { border } }) => ({
   container: {
     borderTop: `1px solid ${border.light}`,
+    background: 'rgba(0, 0, 0, 0.03)',
   },
 }));
 
