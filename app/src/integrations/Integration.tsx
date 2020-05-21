@@ -97,7 +97,6 @@ const Integration: React.FC = () => {
         <div style={{
           width: 'auto',
           margin: `0 ${margin}px`,
-          paddingBottom: 20,
         }}>
           { information ? (
             <InformationProvider value={information}>

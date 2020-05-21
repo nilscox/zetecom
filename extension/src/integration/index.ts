@@ -6,6 +6,8 @@ import loadFont from './font';
 import { sendMessageToBackgroundScript, sendMessageToIFrame, onMessageFromIFrame } from './messages';
 import log from './log';
 
+import './integration.css';
+
 declare global {
   interface HTMLIFrameElement {
     iFrameResizer?: any;
@@ -41,7 +43,8 @@ const setupIntegration = (integration: Integration, element: HTMLElement): void 
       { text: integration.integrationText!, element: iframe },
     );
 
-    element.replaceWith(switcher);
+    element.insertAdjacentElement('afterend', iframe);
+    element.insertAdjacentElement('beforebegin', switcher);
   } else if (integration.type === 'insert') {
     element.insertAdjacentElement('afterend', iframe);
   }

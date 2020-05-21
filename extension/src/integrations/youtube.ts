@@ -2,7 +2,9 @@ import queryString from 'query-string';
 
 import setupIntegration from '../integration';
 
-const getElement = () => document.getElementById('comments') || document.getElementById('comment-section-renderer');
+const getElement = () =>
+  document.getElementById('comments') ||
+  document.getElementsByTagName('ytm-comment-section-renderer')[0] as HTMLElement;
 
 const getIdentifier = () => {
   const { v } = queryString.parse(window.location.search);

@@ -5,7 +5,7 @@
   "license": "GPL-3.0-only",
   "author": "nilscox <reagir-information@nils.cx>",
   "scripts": {
-    "start": "nodemon -w . -i node_modules -i dist -e js,ts,json,html -x 'yarn build'",
+    "start": "nodemon -w . -i node_modules -i dist -e js,ts,css,json,html -x 'yarn build'",
     "clean": "rm -rf dist *.zip",
     "build": "yarn webpack"
   },
@@ -20,8 +20,10 @@
     "clean-webpack-plugin": "^3.0.0",
     "concurrently": "^4.1.0",
     "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^3.5.3",
     "dotenv": "^8.0.0",
     "nodemon": "^2.0.3",
+    "style-loader": "^1.2.1",
     "ts-loader": "^7.0.4",
     "tsc": "^1.20150623.0",
     "typescript": "^3.8.3",
