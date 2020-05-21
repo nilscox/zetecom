@@ -38,7 +38,6 @@ deploy_app() {
     --env HOST='0.0.0.0' \
     --env PORT='80' \
     --env $(sshenv API_URL) \
-    --env $(sshenv APP_URL) \
     --env $(sshenv WEBSITE_URL) \
     "$app_image"
 }
