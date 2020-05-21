@@ -1,6 +1,6 @@
 import React from 'react';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { Typography } from '@material-ui/core';
 
@@ -16,7 +16,7 @@ const EditionDate: React.FC<EditionDateProps> = ({ edited, date, onViewHistory }
   if (!edited) {
     return (
       <Typography variant="caption">
-        { moment(date).format(DATE_FORMAT) }
+        { dayjs(date).format(DATE_FORMAT) }
       </Typography>
     );
   }
@@ -28,7 +28,7 @@ const EditionDate: React.FC<EditionDateProps> = ({ edited, date, onViewHistory }
       style={{ fontStyle: 'oblique', cursor: 'pointer' }}
       onClick={onViewHistory}
     >
-      *&nbsp;{ moment(date).format(DATE_FORMAT) }
+      *&nbsp;{ dayjs(date).format(DATE_FORMAT) }
     </Typography>
   );
 };

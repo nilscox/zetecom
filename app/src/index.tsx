@@ -5,13 +5,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import axios from 'axios';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import queryString from 'query-string';
 import ReactModal from 'react-modal';
 
 import App from './App';
 import env from './utils/env';
 
+import 'dayjs/locale/fr';
 import * as Sentry from '@sentry/browser';
 
 if (env.NODE_ENV === 'production')
@@ -28,7 +29,7 @@ const getApiRootUrl = () => {
 };
 
 const setup = () => {
-  moment.locale('fr');
+  dayjs.locale('fr');
 
   axios.defaults.baseURL = getApiRootUrl();
   axios.defaults.withCredentials = true;

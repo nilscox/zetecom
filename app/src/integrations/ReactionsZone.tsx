@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import AsyncContent from 'src/components/common/AsyncContent';
 import CenteredContent from 'src/components/common/CenteredContent';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { UserAvatarNick } from 'src/components/common/UserAvatar';
@@ -83,7 +83,7 @@ const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
       </Typography>
 
       <Typography>
-        Inscrit(e) depuis le : { moment(user.created).format('DD MM YYYY') }
+        Inscrit(e) depuis le : { dayjs(user.created).format('DD MM YYYY') }
       </Typography>
 
       { displayChangePasswordForm

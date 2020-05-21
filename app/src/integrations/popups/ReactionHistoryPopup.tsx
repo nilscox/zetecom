@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
+import dayjs from 'dayjs';
 import * as diff from 'diff';
-import moment from 'moment';
 import { RouteComponentProps } from 'react-router';
 
 import Box from 'src/components/common/Box';
@@ -93,7 +93,7 @@ const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
             align="center"
             color="textLight"
           >
-            { moment(date as Date).format(DATE_FORMAT) }
+            { dayjs(date as Date).format(DATE_FORMAT) }
           </Text>
 
           <Break size={big} />

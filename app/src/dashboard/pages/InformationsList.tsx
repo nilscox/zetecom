@@ -1,6 +1,6 @@
 import React from 'react';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
@@ -45,7 +45,7 @@ const InformationList: React.FC = () => {
           <div className={classes.informationTitle}>
             { information.title }
           </div>
-          <Box my={6} className={classes.publicationDate}>{ moment().format('[Publiée le] DD.MM.YYYY') }</Box>
+          <Box my={6} className={classes.publicationDate}>{ dayjs().format('[Publiée le] DD.MM.YYYY') }</Box>
           <div>{ information.reactionsCount } réaction{ information.reactionsCount !== 1 && 's' }</div>
         </Flex>
 
