@@ -3,6 +3,10 @@ import showdown from 'showdown';
 import highlight from './highlight.showdown-extension';
 import sup from './sup.showdown-extension';
 
+import './github-markdown.css';
+
+showdown.setFlavor('github');
+
 showdown.extension('sup', sup);
 showdown.extension('highlight', highlight);
 
