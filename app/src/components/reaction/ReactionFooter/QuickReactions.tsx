@@ -10,6 +10,10 @@ import { useCurrentUser } from 'src/utils/UserContext';
 
 import QuickReaction, { QuickReactionProps } from './QuickReaction';
 
+import approve from './images/approve.png';
+import refute from './images/refute.png';
+import skeptic from './images/skeptic.png';
+
 import { Grid } from '@material-ui/core';
 
 const VBreak: React.FC = () => {
@@ -61,17 +65,17 @@ const useQuickReactions = (
 
   const quickReactions: { [key in QuickReactionType]: QuickReactionProps } = {
     approve: {
-      icon: '/assets/images/1f44d.png',
+      icon: approve,
       count: qrc.approve,
       type: QuickReactionType.APPROVE,
     },
     refute: {
-      icon: '/assets/images/1f44e.png',
+      icon: refute,
       count: qrc.refute,
       type: QuickReactionType.REFUTE,
     },
     skeptic: {
-      icon: '/assets/images/1f9d0.png',
+      icon: skeptic,
       count: qrc.skeptic,
       type: QuickReactionType.SKEPTIC,
     },

@@ -81,7 +81,8 @@
         ["^src/"],
         ["^../"],
         ["^./"],
-        ["\\.css$", "\\.scss$"]
+        ["\\.css$", "\\.scss$"],
+        ["\\.png$"]
       ]
     }],
     "@typescript-eslint/explicit-function-return-type": "off",

@@ -7,7 +7,7 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { Reaction } from 'src/types/Reaction';
 import { parseUser, User } from 'src/types/User';
-import { createTheme } from 'src/utils/createTheme';
+import createTheme from 'src/utils/createDefaultTheme';
 import { UserProvider } from 'src/utils/UserContext';
 
 import ReactionContainer from './ReactionContainer';

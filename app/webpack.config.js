@@ -62,6 +62,11 @@ module.exports = {
         use: 'file-loader',
       },
 
+      {
+        test: /\.(svg|png)$/,
+        use: 'file-loader',
+      },
+
     ],
   },
 
@@ -78,10 +83,6 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        {
-          from: path.resolve(__dirname, 'public', 'assets'),
-          to: path.resolve(__dirname, 'dist', 'assets'),
-        },
         path.resolve(__dirname, 'public', 'robots.txt')
       ],
     }),

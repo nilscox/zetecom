@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from 'axios';
 import moment from 'moment';
 import { RouteComponentProps } from 'react-router-dom';
 
-import UserAvatarNick from 'src/components/common/UserAvatarNick';
+import { UserAvatarNick } from 'src/components/common/UserAvatar';
 import useAxios from 'src/hooks/use-axios';
 import useUser from 'src/hooks/use-user';
 import FormGlobalError from 'src/popup/components/FormGlobalError';

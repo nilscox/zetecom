@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import { createTheme } from 'src/utils/createTheme';
+import createTheme from 'src/utils/createDefaultTheme';
 
 import HeaderLogo from './index';
 

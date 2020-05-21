@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import UserAvatarNick from 'src/components/common/UserAvatarNick';
+import { UserAvatarNick } from 'src/components/common/UserAvatar';
 import { Reaction } from 'src/types/Reaction';
 import { useCurrentUser } from 'src/utils/UserContext';
 

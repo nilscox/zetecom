@@ -3,7 +3,7 @@ import React from 'react';
 import { NotificationsCountProvider } from 'src/dashboard/contexts/NotificationsCountContext';
 import mockAxios, { mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 import { User } from 'src/types/User';
-import { createTheme } from 'src/utils/createTheme';
+import createTheme from 'src/utils/createDefaultTheme';
 import { UserProvider } from 'src/utils/UserContext';
 
 import NotificationsIcon from '../NotificationsIcon';

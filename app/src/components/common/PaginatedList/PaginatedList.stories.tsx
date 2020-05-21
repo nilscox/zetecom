@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import { SortType } from 'src/types/SortType';
-import { createTheme } from 'src/utils/createTheme';
+import createTheme from 'src/utils/createDefaultTheme';
 
 import PaginatedList from './index';
 

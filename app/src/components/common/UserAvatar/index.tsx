@@ -7,7 +7,21 @@ import { parseUser, UserLight } from 'src/types/User';
 import { useTheme } from 'src/utils/Theme';
 import UserContext from 'src/utils/UserContext';
 
+import UserAvatarNickImport from './UserAvatarNick';
+
+import defaultAvatar from './default-avatar.png';
+
 import { makeStyles } from '@material-ui/core';
+
+// TODO: export default from
+export const UserAvatarNick = UserAvatarNickImport;
+
+const getAvatarUrl = (user: UserLight) => {
+  if (user.avatar)
+    return '/avatars/' + user.avatar;
+
+  return defaultAvatar;
+};
 
 type ImageUploadProps = {
   allowedTypes: string[];
@@ -109,7 +123,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ small = false, editable = false
         background: 'white',
       }}
       className={classes.avatar}
-      src={user.getAvatarUrl()}
+      src={getAvatarUrl(user)}
     />
   );
 
