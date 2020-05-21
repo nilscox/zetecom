@@ -4,14 +4,14 @@ import { Button, Grid, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(({ breakpoints, spacing, palette: { border } }) => ({
   tab: ({ active }: { active: boolean }) => ({
-    padding: spacing(2, 4),
+    padding: spacing(1, 4),
     borderTop: `1px solid ${border.light}`,
     borderRight: `1px solid ${border.light}`,
     borderLeft: `1px solid ${border.light}`,
     ...(!active && {
       borderBottom: `1px solid ${border.light}`,
     }),
-    [breakpoints.up('xs')]: {
+    [breakpoints.down('xs')]: {
       padding: spacing(1, 3),
       lineHeight: 0.8,
     },

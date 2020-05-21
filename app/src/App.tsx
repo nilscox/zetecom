@@ -1,7 +1,10 @@
-import React from 'react';
+/* eslint-disable simple-import-sort/sort */
 
 import { setConfig } from 'react-hot-loader';
 import { hot } from 'react-hot-loader/root';
+
+import React from 'react';
+
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import ErrorBoundary, { DevErrorReporter } from 'src/components/common/ErrorBoundary';
@@ -20,7 +23,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 const { NODE_ENV } = env;
 
 if (NODE_ENV === 'development')
-  setConfig({ errorReporter: DevErrorReporter });
+  setConfig({ reloadHooks: false, errorReporter: DevErrorReporter });
 
 const App: React.FC = () => (
   <ThemeProvider theme={createTheme()}>

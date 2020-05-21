@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import AsyncContent from 'src/components/common/AsyncContent';
 import CenteredContent from 'src/components/common/CenteredContent';
@@ -41,7 +41,11 @@ const ReactionsZone: React.FC = () => {
       );
     }
 
-    return <ReactionsList reactions={reactions} />;
+    return (
+      <Padding top>
+        <ReactionsList reactions={reactions} />
+      </Padding>
+    );
   };
 
   return (
@@ -55,7 +59,7 @@ const ReactionsZone: React.FC = () => {
     >
 
       { user && (
-        <Padding y>
+        <Padding top>
           <ReactionCreationForm onCreated={reaction => prepend(reaction)} />
         </Padding>
       ) }
