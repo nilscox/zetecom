@@ -20,6 +20,7 @@ import env from './utils/env';
 import './App.css';
 
 import { ThemeProvider } from '@material-ui/core/styles';
+import { CssBaseline } from '@material-ui/core';
 
 const { NODE_ENV } = env;
 
@@ -28,6 +29,9 @@ if (NODE_ENV === 'development')
 
 const App: React.FC = () => (
   <ThemeProvider theme={createTheme()}>
+
+    <CssBaseline />
+
     <Router>
 
       <Switch>
@@ -40,6 +44,7 @@ const App: React.FC = () => (
       </Switch>
 
     </Router>
+
   </ThemeProvider>
 );
 

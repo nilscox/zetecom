@@ -1,3 +1,5 @@
+import '@openfonts/domine_latin';
+import '@openfonts/nunito-sans_all';
 import primary from '@material-ui/core/colors/amber';
 import pink from '@material-ui/core/colors/pink';
 import { createMuiTheme, responsiveFontSizes, Theme } from '@material-ui/core/styles';
@@ -26,7 +28,8 @@ export const createTheme = (): Theme => {
     },
     typography: {
       fontFamily: [
-        'Nunito Sans',
+        '"Nunito Sans"',
+        'sans-serif',
       ].join(', '),
     },
   });
@@ -60,6 +63,7 @@ export const createTheme = (): Theme => {
     MuiButton: {
       root: {
         minWidth: 0,
+        transition: 'color 200ms ease-in-out',
       },
       text: {
         color: theme.palette.secondary.light,
