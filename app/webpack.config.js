@@ -71,13 +71,15 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public', 'index.html'),
     }),
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, 'public', 'assets'),
-        to: path.resolve(__dirname, 'dist', 'assets'),
-      },
-      path.resolve(__dirname, 'public', 'robots.txt')
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'public', 'assets'),
+          to: path.resolve(__dirname, 'dist', 'assets'),
+        },
+        path.resolve(__dirname, 'public', 'robots.txt')
+      ],
+    }),
   ],
 
   devServer: {

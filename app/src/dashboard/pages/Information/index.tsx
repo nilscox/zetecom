@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useLocation } from 'react-router-dom';
 
 import Box from 'src/components/common/Box';
 import Flex from 'src/components/common/Flex';
@@ -50,7 +50,8 @@ const useNotification = () => {
   };
 };
 
-const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match, location }) => {
+const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
+  const location = useLocation<{ notificationId?: string }>();
   const informationId = Number(match.params.id);
   const { markNotificationAsSeen } = useNotification();
 

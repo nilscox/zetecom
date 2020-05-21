@@ -15,9 +15,9 @@ export const useFormErrors = (
   getGlobalError: GlobalErrorHandler,
   getFieldErrors: FieldErrorsHandler,
 ) => {
-  const [unhandledError, setUnhandledError] = useState();
-  const [global, setGlobal] = useState();
-  const [fields, setFields] = useState();
+  const [unhandledError, setUnhandledError] = useState<Error>();
+  const [global, setGlobal] = useState<ReactNode>();
+  const [fields, setFields] = useState<{ [key: string]: ReactNode }>();
 
   if (unhandledError)
     throw unhandledError;

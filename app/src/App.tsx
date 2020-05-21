@@ -6,6 +6,7 @@ import { hot } from 'react-hot-loader/root';
 import React from 'react';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import 'iframe-resizer/js/iframeResizer.contentWindow';
 
 import ErrorBoundary, { DevErrorReporter } from 'src/components/common/ErrorBoundary';
 

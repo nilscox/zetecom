@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import React from 'react';
 
-import { createMemoryHistory, MemoryHistory } from 'history';
+import { createMemoryHistory, Location, MemoryHistory } from 'history';
 import { Route, Router, Switch } from 'react-router-dom';
 
 import { NotificationsCountProvider } from 'src/dashboard/contexts/NotificationsCountContext';
@@ -117,7 +117,12 @@ describe('Notifications', () => {
           <NotificationsCountProvider>
             <Switch>
               <Route path="/notifications" component={Notifications} />
-              <Route path="/information" render={({ location }) => <>{ location.state.notificationId }</>} />
+              <Route
+                path="/information"
+                render={({ location }: { location: Location<{ notificationId?: string }>}) => (
+                  <>{ location.state.notificationId }</>
+                )}
+              />
             </Switch>
           </NotificationsCountProvider>
         </UserProvider>
