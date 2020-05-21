@@ -64,9 +64,9 @@ module.exports = {
   // maxWorkers: "50%",
 
   // An array of directory names to be searched recursively up from the requiring module's location
-  // moduleDirectories: [
-  //   "node_modules"
-  // ],
+  moduleDirectories: [
+    "node_modules"
+  ],
 
   // An array of file extensions your modules use
   moduleFileExtensions: [
@@ -80,7 +80,8 @@ module.exports = {
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    '\\.css$': '<rootDir>/__mocks__/styleMock.js',
+    '\\.css$': 'identity-obj-proxy',
+    '\\.(woff|woff2|eot|ttf|otf|svg|png)$': '<rootDir>/__mocks__/fileMock.js',
     'src/(.+)': '<rootDir>/src/$1',
   },
 

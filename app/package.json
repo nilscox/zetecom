@@ -82,6 +82,7 @@
     "fork-ts-checker-webpack-plugin": "^4.1.4",
     "history": "^4.10.1",
     "html-webpack-plugin": "^4.3.0",
+    "identity-obj-proxy": "^3.0.0",
     "istanbul-lib-coverage": "^3.0.0",
     "jest": "^26.0.1",
     "jest-mock-axios": "^4.0.0",

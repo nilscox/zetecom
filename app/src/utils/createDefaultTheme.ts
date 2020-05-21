@@ -1,5 +1,6 @@
-import '@openfonts/domine_latin';
-import '@openfonts/nunito-sans_all';
+import '@openfonts/domine_latin/index.css';
+import '@openfonts/nunito-sans_all/index.css';
+
 import primary from '@material-ui/core/colors/amber';
 import pink from '@material-ui/core/colors/pink';
 import { createMuiTheme, responsiveFontSizes, Theme } from '@material-ui/core/styles';
