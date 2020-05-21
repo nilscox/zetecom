@@ -72,7 +72,7 @@ describe('reactions', () => {
       cy.getReaction(1).within(() => {
         cy.contains('edited 1 text');
         cy.contains('user1');
-        cy.get('img[src="/assets/images/default-avatar.png"]');
+        // cy.get('img[src="/assets/images/default-avatar.png"]');
         cy.get('[title="Édité"]');
         cy.get('button[type="button"]').contains('Signaler').should('not.exist');
         cy.get('[title="Éditer votre message"]').should('not.exist');
