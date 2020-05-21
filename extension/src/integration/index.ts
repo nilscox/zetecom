@@ -12,16 +12,6 @@ declare global {
   }
 }
 
-const setupSwitcher = (integration: Integration, iframe: HTMLIFrameElement, element: HTMLElement) => {
-  const switcher = createSwitcher(
-    Boolean(integration.darkMode),
-    { text: integration.originalText!, element },
-    { text: integration.integrationText!, element: iframe },
-  );
-
-  element.replaceWith(switcher);
-};
-
 type IntegrationType = 'insert' | 'switch';
 
 type Integration = {
@@ -44,7 +34,14 @@ const setupIntegration = (integration: Integration, element: HTMLElement): void 
 
   if (integration.type === 'switch') {
     loadFont();
-    setupSwitcher(integration, iframe, element);
+
+    const switcher = createSwitcher(
+      Boolean(integration.darkMode),
+      { text: integration.originalText!, element },
+      { text: integration.integrationText!, element: iframe },
+    );
+
+    element.replaceWith(switcher);
   } else if (integration.type === 'insert') {
     element.insertAdjacentElement('afterend', iframe);
   }
