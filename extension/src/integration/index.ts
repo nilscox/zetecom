@@ -13,8 +13,6 @@ declare global {
 }
 
 const setupSwitcher = (integration: Integration, iframe: HTMLIFrameElement, element: HTMLElement) => {
-  const parent: HTMLElement = element.parentElement!;
-
   const switcher = createSwitcher(
     Boolean(integration.darkMode),
     { text: integration.originalText!, element },
@@ -22,20 +20,6 @@ const setupSwitcher = (integration: Integration, iframe: HTMLIFrameElement, elem
   );
 
   element.replaceWith(switcher);
-  setupCleanupSwitcher(parent, element, switcher)
-};
-
-const setupCleanupSwitcher = (parent: HTMLElement, element: HTMLElement, switcher: HTMLElement) => {
-  const originalRemoveChild = parent.removeChild.bind(parent);
-
-  Object.defineProperty(parent, 'removeChild', (elementToRemove: HTMLElement) => {
-    if (elementToRemove === element) {
-      switcher.removeChild(element);
-      return element;
-    }
-
-    return originalRemoveChild(elementToRemove);
-  });
 };
 
 type IntegrationType = 'insert' | 'switch';
@@ -43,6 +27,7 @@ type IntegrationType = 'insert' | 'switch';
 type Integration = {
   getElement: () => HTMLElement | null;
   getIdentifier: () => string | null;
+  healthcheck: () => boolean;
   type: IntegrationType;
   originalText?: string;
   integrationText?: string;
@@ -67,6 +52,28 @@ const setupIntegration = (integration: Integration, element: HTMLElement): void 
   iframeResizer({ log: false, checkOrigin: false }, iframe);
 };
 
+const unloadIntegration = (integration: Integration) => {
+  const iframe = getIframe();
+  const element = integration.getElement();
+
+  if (!iframe || !element)
+    return;
+
+  if (integration.type === 'switch') {
+    const switcher = document.querySelector('#ri-switcher');
+
+    if (!switcher)
+      return;
+
+    switcher.replaceWith(element);
+    switcher.remove();
+  } else if (integration.type === 'insert') {
+    iframe.remove();
+  }
+
+  iframe.iFrameResizer.close();
+};
+
 export default (integration: Integration) => {
   let currentIdentifier: string | null = null;
   let intervalId: NodeJS.Timeout;
@@ -82,6 +89,19 @@ export default (integration: Integration) => {
     const identifier = integration.getIdentifier();
     log('getIdentifier', identifier);
 
+    const iframe = getIframe();
+    log('getIframe', iframe);
+
+    if (iframe) {
+      const healthy = integration.healthcheck();
+      log('healthcheck', healthy);
+
+      if (!healthy) {
+        currentIdentifier = null;
+        return unloadIntegration(integration);
+      }
+    }
+
     if (currentIdentifier === identifier)
       return;
 
@@ -93,9 +113,6 @@ export default (integration: Integration) => {
 
     if (identifier === null)
       return;
-
-    const iframe = getIframe();
-    log('getIframe', iframe);
 
     if (iframe)
       return sendMessageToIFrame(iframe, { type: 'IDENTIFIER_CHANGED', identifier });

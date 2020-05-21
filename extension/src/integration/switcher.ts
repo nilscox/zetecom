@@ -29,6 +29,8 @@ const createTabs = (leftText: string, rightText: string) => {
 
   const container = document.createElement('div');
 
+  container.id = 'ri-switcher';
+
   container.style.minWidth= '660px';
   container.style.margin = '20px 0';
   container.style.textAlign = 'center';
@@ -65,6 +67,8 @@ type Tab = {
 
 const createSwitcher = (darkMode: boolean, left: Tab, right: Tab) => {
   const container = document.createElement('div');
+
+  container.id = 'ri-container';
 
   const [tabs, [leftTab, rightTab]] = createTabs(left.text, right.text);
 

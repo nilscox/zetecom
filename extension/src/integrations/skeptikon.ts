@@ -14,6 +14,7 @@ const getIdentifier = () => {
 setupIntegration({
   getElement,
   getIdentifier,
+  healthcheck: () => true,
   type: 'switch',
   originalText: 'Commentaires Skepitkón',
   integrationText: 'Commentaires Réagir à l\'information',

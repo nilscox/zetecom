@@ -13,9 +13,19 @@ const getIdentifier = () => {
   return ['youtube', v].join(':');
 };
 
+const healthcheck = () => {
+  const comments = getElement();
+
+  if (comments?.previousElementSibling?.getAttribute('id') === 'related')
+    return false;
+
+  return true;
+};
+
 setupIntegration({
   getElement,
   getIdentifier,
+  healthcheck,
   type: 'switch',
   originalText: 'Commentaires YouTube',
   integrationText: 'Commentaires Réagir à l\'information',

@@ -18,5 +18,6 @@ const getIdentifier = () => {
 setupIntegration({
   getElement,
   getIdentifier,
+  healthcheck: () => true,
   type: 'insert',
 });
