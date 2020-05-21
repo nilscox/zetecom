@@ -16,7 +16,9 @@ const HTTPS = process.env.WDS_HTTPS === 'true';
 module.exports = {
 
   mode: NODE_ENV,
-  devtool: NODE_ENV === 'development' ? 'inline-source-map' : false,
+
+  // publish source maps in production
+  devtool: NODE_ENV === 'development' ? 'cheap-module-source-map' : 'source-map',
 
   entry: {
     main: './src/index.tsx',
