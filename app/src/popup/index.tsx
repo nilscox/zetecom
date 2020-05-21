@@ -8,11 +8,13 @@ import RouterLink from 'src/components/common/Link';
 import Loader from 'src/components/common/Loader';
 import { UserProvider, useUserContext } from 'src/utils/UserContext';
 
+import { createTheme } from './createTheme';
 import AuthenticatedView from './views/AuthenticatedView';
 import EmailLoginView from './views/EmailLoginView';
 import LoginView from './views/LoginView';
 import SignupView from './views/SignupView';
 
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -40,7 +42,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Popup: React.FC<RouteComponentProps> = () => {
+const theme = createTheme();
+
+const Popup: React.FC = () => {
   const [user, setUser] = useUserContext();
   const classes = useStyles();
 
@@ -48,35 +52,41 @@ const Popup: React.FC<RouteComponentProps> = () => {
     return <Loader size="big" />;
 
   return (
-    <UserProvider value={{ user, setUser }}>
+    <ThemeProvider theme={theme}>
 
-      <RouterLink to="/popup">
-        <HeaderLogo className={classes.headerLogo} />
-      </RouterLink>
+      <CssBaseline />
 
-      <ErrorBoundary>
+      <UserProvider value={{ user, setUser }}>
 
-        <Route exact path="/popup/(login|signup)">
-          <LoginSignupTabs />
-        </Route>
+        <RouterLink to="/popup">
+          <HeaderLogo className={classes.headerLogo} />
+        </RouterLink>
 
-        <div className={classes.container}>
-          <Switch>
+        <ErrorBoundary>
 
-            <Route path="/popup/login" component={LoginView} />
-            <Route path="/popup/signup" exact component={SignupView} />
-            <Route path="/popup/email-login" component={EmailLoginView} />
-            <Route path="/popup/authenticated" component={AuthenticatedView} />
+          <Route exact path="/popup/(login|signup)">
+            <LoginSignupTabs />
+          </Route>
 
-            <Route render={() => <Redirect to={user ? '/popup/authenticated' : '/popup/login'} />} />
+          <div className={classes.container}>
+            <Switch>
 
-          </Switch>
-        </div>
+              <Route path="/popup/login" component={LoginView} />
+              <Route path="/popup/signup" exact component={SignupView} />
+              <Route path="/popup/email-login" component={EmailLoginView} />
+              <Route path="/popup/authenticated" component={AuthenticatedView} />
 
-      </ErrorBoundary>
+              <Route render={() => <Redirect to={user ? '/popup/authenticated' : '/popup/login'} />} />
 
-    </UserProvider>
+            </Switch>
+          </div>
+
+        </ErrorBoundary>
+
+      </UserProvider>
+
+    </ThemeProvider>
   );
 };
 
-export default withRouter(Popup);
+export default Popup;

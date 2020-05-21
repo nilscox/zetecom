@@ -8,6 +8,7 @@ import AppBar from './components/AppBar';
 import Drawer, { drawerWidth } from './components/Drawer';
 import Loader from './components/Loader';
 import { NotificationsCountProvider } from './contexts/NotificationsCountContext';
+import { createTheme } from './createTheme';
 import Authentication from './pages/Authentication';
 import Information from './pages/Information';
 import Informations from './pages/InformationsList';
@@ -16,7 +17,7 @@ import Settings from './pages/Settings';
 import UserReactions from './pages/UserReactions';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, Theme, ThemeProvider } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 
 const Switch: React.FC = () => (
@@ -47,6 +48,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const theme = createTheme();
+
 const Dashboard: React.FC = () => {
   const classes = useStyles({});
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -55,30 +58,36 @@ const Dashboard: React.FC = () => {
   const handleDrawerToggle = () => setMobileOpen(open => !open);
 
   return (
-    <UserProvider value={{ user, setUser }}>
-      <NotificationsCountProvider>
-        <div className={classes.container}>
+    <ThemeProvider theme={theme}>
 
-          <CssBaseline />
+      <CssBaseline />
 
-          <AppBar handleDrawerToggle={handleDrawerToggle} />
+      <UserProvider value={{ user, setUser }}>
+        <NotificationsCountProvider>
+          <div className={classes.container}>
 
-          <Drawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            <CssBaseline />
 
-          <main className={classes.content}>
+            <AppBar handleDrawerToggle={handleDrawerToggle} />
 
-            <Toolbar />
+            <Drawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
 
-            { user === undefined
-              ? <Loader />
-              : <Switch />
-            }
+            <main className={classes.content}>
 
-          </main>
+              <Toolbar />
 
-        </div>
-      </NotificationsCountProvider>
-    </UserProvider>
+              { user === undefined
+                ? <Loader />
+                : <Switch />
+              }
+
+            </main>
+
+          </div>
+        </NotificationsCountProvider>
+      </UserProvider>
+
+    </ThemeProvider>
   );
 };
 
