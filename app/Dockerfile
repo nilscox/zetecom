@@ -14,8 +14,12 @@ COPY yarn.lock /app
 RUN yarn --production=false --frozen-lockfile
 
 COPY public /app/public
+COPY webpack /app/webpack
+COPY webpack.config.js tsconfig.json babel.config.js /app/
+COPY jest.config.js jest.setup.ts /app/
+COPY .eslintignore .eslintrc.json /app/
+
 COPY src /app/src
-COPY .eslintignore .eslintrc.json tsconfig.json babel.config.js webpack.config.js jest.config.js jest.setup.ts /app/
 
 RUN yarn build
 RUN yarn lint

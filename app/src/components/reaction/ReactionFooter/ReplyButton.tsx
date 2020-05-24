@@ -40,7 +40,7 @@ const ReplyButton: React.FC<ReplyButtonProps> = ({ disabled, onReply }) => {
 
   if (verySmall) {
     return (
-      <IconButton size="small" classes={{ sizeSmall: classes.iconSizeSmall }} onClick={onReply}>
+      <IconButton disabled={disabled} size="small" classes={{ sizeSmall: classes.iconSizeSmall }} onClick={onReply}>
         <ReplyIcon />
       </IconButton>
     );

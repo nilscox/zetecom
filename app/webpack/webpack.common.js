@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBILC_PATH }) => ({
+module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
 
   entry: {
     main: [
@@ -69,12 +69,12 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBILC_PATH }) => ({
     // new webpack.NamedModulesPlugin(),
 
     new HtmlWebpackPlugin({
-      template: path.join(PUBILC_PATH, 'index.html'),
+      template: path.join(PUBLIC_PATH, 'index.html'),
     }),
 
     new CopyWebpackPlugin({
       patterns: [
-        path.join(PUBILC_PATH, 'robots.txt'),
+        path.join(PUBLIC_PATH, 'robots.txt'),
       ],
     }),
 

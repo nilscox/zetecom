@@ -1,11 +1,12 @@
-.gitignore
-
-.dockerignore
-Dockerfile
-
 node_modules
+dist
 
 .env
 .env.*
 
-dist
+Dockerfile
+.dockerignore
+.storybook
+.gitignore
+LICENSE.md
+README.md

@@ -11,6 +11,8 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: db
+    # volumes:
+    #   - ./postgres:/var/lib/postgresql/data
 
 
   api:
@@ -20,7 +22,7 @@ services:
       - 3000:80
     volumes:
       - ./avatars:/app/avatars
-      - ./email-templates:/app/email-templates
+      - ./email-templates:/app/email-templates:ro
     command: bash -c "yarn wait-on tcp:ri-postgres:5432 && yarn start:prod"
     environment:
       REFLECT_ORIGIN: 'true'
@@ -74,6 +76,8 @@ services:
     hostname: ri-app
     ports:
       - 8000:80
+    volumes:
+      - ./avatars:/var/www/avatars:ro
     environment:
       API_URL: http://localhost:3000
       WEBSITE_URL: http://localhost:8080

@@ -5,6 +5,12 @@ const plugins = () => {
     return [
       '@babel/plugin-transform-runtime',
       'react-refresh/babel',
+    ];
+  }
+
+  if (NODE_ENV === 'test') {
+    return [
+      '@babel/plugin-transform-runtime',
       'istanbul',
     ];
   }
