@@ -12,6 +12,8 @@ const useEditableDataset = <T extends { id: number }>(
   } = {},
 ) => {
   const [copy, setCopy] = useState(dataset);
+  // TODO
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const findElement = useCallback(find(copy), [find, copy]);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 

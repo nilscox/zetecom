@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import React, { useCallback, useReducer, useState } from 'react';
 
 import { Reaction } from 'src/types/Reaction';
 

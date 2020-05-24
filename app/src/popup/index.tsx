@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Redirect, Route, RouteComponentProps, Switch, useHistory, useLocation, withRouter } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
 import ErrorBoundary from 'src/components/common/ErrorBoundary';
 import HeaderLogo from 'src/components/common/HeaderLogo';

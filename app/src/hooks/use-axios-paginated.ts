@@ -27,6 +27,8 @@ export default function useAxiosPaginated<T>(url: string, parseItem: (data: Resp
       opts.params.page = page;
 
     refetch(opts);
+  // TODO
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, sort, page]);
 
   return [

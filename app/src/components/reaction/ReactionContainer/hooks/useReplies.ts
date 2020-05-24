@@ -12,6 +12,8 @@ const useReplies = (parent: Reaction) => {
   const [page, setPage] = useState(0);
 
   const url = `/api/reaction/${parent.id}/replies`;
+  // TODO
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const parse = useCallback(usePaginatedResults(parseReaction), []);
   const [{ data, loading, error }, fetch] = useAxios<Paginated<Reaction>>(
     url,
@@ -29,6 +31,8 @@ const useReplies = (parent: Reaction) => {
 
     if (parent)
       fetch(opts);
+  // TODO
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   return [
