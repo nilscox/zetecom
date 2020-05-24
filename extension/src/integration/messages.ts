@@ -25,3 +25,17 @@ export const sendMessageToIFrame = (iframe: HTMLIFrameElement, message: IFrameMe
   log('send message to iframe', message);
   iframe.contentWindow?.postMessage(message, process.env.APP_URL!);
 };
+
+type TabChanged = { type: 'TAB_CHANGED', tab: 'left' | 'right' };
+type ContentScriptMessage = TabChanged;
+
+export const sendMessageToContentScript = (message: ContentScriptMessage) => {
+  window.postMessage(message, window.location.origin);
+};
+
+export const onMessageFromContentScript = <T extends ContentScriptMessage['type']>(type: T, cb: (message: ContentScriptMessage) => void) => {
+  window.addEventListener('message', ({ data }) => {
+    if (data.type === type)
+      cb(data);
+  });
+};

@@ -1,3 +1,5 @@
+import { sendMessageToContentScript } from "./messages";
+
 const createTabs = (darkMode: boolean, leftText: string, rightText: string) => {
   const left = document.createElement('button');
   const right = document.createElement('button');
@@ -47,14 +49,13 @@ const createSwitcher = (darkMode: boolean, left: Tab, right: Tab) => {
     const [unselectedTab, unselectedElement] = selected === 'left' ? [rightTab, right.element] : [leftTab, left.element];
 
     setSelectedStyles(selectedTab, selectedElement, unselectedTab, unselectedElement);
+    sendMessageToContentScript({ type: 'TAB_CHANGED', tab: selected });
   };
 
   leftTab.addEventListener('click', () => setTabSelected('left'));
   rightTab.addEventListener('click', () => setTabSelected('right'));
 
-  setTabSelected('right');
-
-  return tabs;
+  return [tabs, setTabSelected] as const;
 };
 
 export default createSwitcher;
