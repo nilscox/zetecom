@@ -1,34 +1,16 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "target": "es6",
     "outDir": "./dist/",
+    "baseUrl": ".",
+    "jsx": "react",
     "sourceMap": true,
     "noImplicitAny": true,
-    "module": "esnext",
-    "target": "es5",
-    "jsx": "react",
-    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     // "strictNullChecks": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "lib": [
-      "es5",
-      "es6",
-      "dom",
-      "dom.iterable",
-      "es2015.core",
-      "es2015.collection",
-      "es2015.generator",
-      "es2015.iterable",
-      "es2015.promise",
-      "es2015.proxy",
-      "es2015.reflect",
-      "es2015.symbol",
-      "es2015.iterable",
-      "es2015.symbol.wellknown",
-      "esnext.asynciterable"
-    ]
+    "resolveJsonModule": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/__mocks__"]
 }

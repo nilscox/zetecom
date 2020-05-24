@@ -33,16 +33,16 @@ const GenericErrorView: React.FC = () => (
       </Text>
       <Box my={42}>
         <Text align="center">
-          Réessayez plus tard ! ¯\_(ツ)_/¯
+          Réessayez plus tard !
         </Text>
       </Box>
     </Flex>
   </>
 );
 
-export const DevErrorReporter: React.FC<{ error: Error; errorInfo: ErrorInfo }> = ({ error, errorInfo }) => (
+const DevErrorView: React.FC<{ error: Error; errorInfo: ErrorInfo }> = ({ error, errorInfo }) => (
   <div style={{ margin: 30 }}>
-    <pre style={{ fontFamily: 'monospace', fontSize: 14 }}>{ error.stack } </pre>
+    <pre style={{ fontFamily: 'monospace', fontSize: 14 }}>{ error.stack.toString() } </pre>
     <hr />
     <pre style={{ fontFamily: 'monospace', fontSize: 12 }}>{ errorInfo.componentStack }</pre>
   </div>
@@ -54,16 +54,22 @@ type ErrorBoundaryProps = {
 
 type ErrorBoundaryState = {
   error: Error;
+  errorInfo: ErrorInfo;
 };
 
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
-  state: ErrorBoundaryState = {
-    error: null,
-  };
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+
+    this.state = {
+      error: null,
+      errorInfo: null,
+    };
+  }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    this.setState({ error });
+    this.setState({ error, errorInfo });
 
     if (NODE_ENV === 'production') {
       Sentry.withScope(scope => {
@@ -75,10 +81,14 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   render() {
     const { children } = this.props;
-    const { error } = this.state;
+    const { error, errorInfo } = this.state;
 
-    if (error !== null)
-      return <GenericErrorView />;
+    if (error !== null) {
+      if (NODE_ENV === 'development')
+        return <DevErrorView error={error} errorInfo={errorInfo} />;
+      else
+        return <GenericErrorView />;
+    }
 
     return children;
   }
