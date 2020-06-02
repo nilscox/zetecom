@@ -15,6 +15,15 @@ import env from './utils/env';
 import 'dayjs/locale/fr';
 import * as Sentry from '@sentry/browser';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const pkg = require('../package.json');
+
+declare global {
+  interface Window {
+    RI_APP_VERSION: string;
+  }
+}
+
 if (env.NODE_ENV === 'production')
   Sentry.init({ dsn: 'https://51c4eddbbeee4643a355e27533be2891@sentry.io/1536528' });
 
@@ -40,6 +49,8 @@ const setup = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).axios = axios;
   }
+
+  window.RI_APP_VERSION = pkg.version;
 };
 
 setup();
