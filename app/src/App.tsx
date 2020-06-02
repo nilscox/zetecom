@@ -7,32 +7,44 @@ import 'iframe-resizer/js/iframeResizer.contentWindow';
 
 import ErrorBoundary from 'src/components/ErrorBoundary';
 
-import Dashboard from './dashboard';
+import Pages from './pages';
 import EmailLogin from './EmailLogin';
-import Integrations from './integrations';
+import Integration from './pages/integration';
 import Popup from './popup';
 
 import './App.css';
+import { ThemeProvider, CssBaseline } from '@material-ui/core';
+import { UserProvider, useUserContext } from './utils/UserContext';
+import { NotificationsCountProvider } from './dashboard/contexts/NotificationsCountContext';
+import { createTheme } from './pages/integration/createTheme';
 
 const Router: React.FC = () => (
   <BrowserRouter>
-
     <Switch>
-
       <Route path="/popup" component={Popup} />
-      <Route path="/integration" component={Integrations} />
+      <Route path="/integration" component={Integration} />
       <Route path="/email-login" component={EmailLogin} />
-      <Route component={Dashboard} />
-
+      <Route component={Pages} />
     </Switch>
-
   </BrowserRouter>
 );
 
+const theme = createTheme();
+
 const App: React.FC = () => {
+  const [user, setUser] = useUserContext();
+
   return (
     <ErrorBoundary>
-      <Router />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+
+        <UserProvider value={{ user, setUser }}>
+          <NotificationsCountProvider>
+            <Router />
+          </NotificationsCountProvider>
+        </UserProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 };

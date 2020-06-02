@@ -2,7 +2,7 @@ import React from 'react';
 
 import { RouteComponentProps } from 'react-router-dom';
 
-import Authenticated from 'src/dashboard/components/Authenticated';
+import Authenticated from 'src/components/Authenticated';
 import ReactionsListForInformation from 'src/dashboard/components/ReactionsListForInformation';
 import ReactionsListWithInformation from 'src/dashboard/components/ReactionsListWithInformation';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';

@@ -1,4 +1,4 @@
-import createDefaultTheme from '../utils/createDefaultTheme';
+import createDefaultTheme from '../../utils/createDefaultTheme';
 
 export const createTheme = () => {
   const theme = createDefaultTheme();

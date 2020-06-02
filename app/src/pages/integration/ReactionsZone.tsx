@@ -14,7 +14,7 @@ import { SortType } from 'src/types/SortType';
 import { useInformation } from 'src/utils/InformationContext';
 import { SearchQueryProvider } from 'src/utils/SearchQueryContext';
 
-import Padding from '../components/Padding';
+import Padding from '../../components/Padding';
 
 const ReactionsZone: React.FC = () => {
   const user = useCurrentUser();

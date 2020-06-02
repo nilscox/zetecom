@@ -62,7 +62,7 @@ const InformationList: React.FC = () => {
       onPageChange={setPage}
     >
 
-      { !loading && informations.map(renderInformation) }
+      { !loading && <div style={{ paddingTop: 16 }}>{informations.map(renderInformation)}</div> }
 
     </PaginatedList>
   );

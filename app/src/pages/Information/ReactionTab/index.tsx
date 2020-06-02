@@ -9,8 +9,8 @@ import { useCurrentUser } from 'src/hooks/use-user';
 import { parseReaction, Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
 
-import AsyncContent from '../../../../components/AsyncContent';
-import AddButton from '../../../components/AddButton';
+import AsyncContent from '../../../components/AsyncContent';
+import AddButton from '../../../dashboard/components/AddButton';
 
 import Collapse from '@material-ui/core/Collapse';
 
@@ -48,31 +48,35 @@ const ReactionsTab: React.FC<RecationsTabProps> = ({ informationId }) => {
     <div ref={containerRef}>
       <AddButton show={user && !showReactionForm} onClick={handleShowReactionForm} />
 
-      <PaginatedList
-        sort={{
-          type: sort || SortType.DATE_DESC,
-          onChange: setSort,
-        }}
-        onSearch={setSearch}
-        page={page}
-        pageSize={10}
-        total={total}
-        onPageChange={setPage}
-      >
+      <div style={{ paddingTop: 16 }}>
+        <PaginatedList
+          sort={{
+            type: sort || SortType.DATE_DESC,
+            onChange: setSort,
+          }}
+          onSearch={setSearch}
+          page={page}
+          pageSize={10}
+          total={total}
+          onPageChange={setPage}
+        >
 
-        <Collapse in={showReactionForm}>
-          <ReactionCreationForm
-            onCreated={handleonReactionCreated}
-            closeForm={() => setShowReactionForm(false)}
-          />
-        </Collapse>
+          <div style={{ paddingTop: 16 }}>
+            <Collapse in={showReactionForm}>
+              <ReactionCreationForm
+                onCreated={handleonReactionCreated}
+                closeForm={() => setShowReactionForm(false)}
+              />
+            </Collapse>
 
-        <AsyncContent
-          loading={loading || !reactions}
-          content={() => <ReactionsList reactions={reactions} />}
-        />
+            <AsyncContent
+              loading={loading || !reactions}
+              content={() => <ReactionsList reactions={reactions} />}
+            />
+          </div>
 
-      </PaginatedList>
+        </PaginatedList>
+      </div>
 
     </div>
   );
