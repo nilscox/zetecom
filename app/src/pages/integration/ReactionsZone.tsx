@@ -2,7 +2,7 @@ import React from 'react';
 
 import AsyncContent from 'src/components/AsyncContent';
 import CenteredContent from 'src/components/CenteredContent';
-import PaginatedList from 'src/components/PaginatedList';
+import FiltersBar from 'src/components/FiltersBar';
 import { ReactionCreationForm } from 'src/components/ReactionForm';
 import ReactionsList from 'src/components/ReactionsList';
 import Text from 'src/components/Text';
@@ -49,14 +49,15 @@ const ReactionsZone: React.FC = () => {
   };
 
   return (
-    <PaginatedList
-      sort={{ type: sort || SortType.DATE_DESC, onChange: setSort }}
-      onSearch={setSearch}
-      page={page}
-      pageSize={10}
-      total={total}
-      onPageChange={setPage}
-    >
+    <>
+      <FiltersBar
+        sort={{ type: sort || SortType.DATE_DESC, onChange: setSort }}
+        onSearch={setSearch}
+        page={page}
+        pageSize={10}
+        total={total}
+        onPageChange={setPage}
+      />
 
       { user && (
         <Padding top>
@@ -68,7 +69,7 @@ const ReactionsZone: React.FC = () => {
         <AsyncContent loading={loading || !reactions} content={getReactionsList} />
       </SearchQueryProvider>
 
-    </PaginatedList>
+    </>
   );
 };
 

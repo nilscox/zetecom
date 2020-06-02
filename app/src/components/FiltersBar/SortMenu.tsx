@@ -32,7 +32,7 @@ const SortMenu: React.FC<SortMenuProps> = ({ sort: currentSort, onSortChange }) 
 
       <IconButton
         onClick={handleClick}
-        style={{ background: 'transparent' }}
+        style={{ background: 'transparent', marginLeft: -12 }}
         title="Tri"
       >
         <SortIcon />

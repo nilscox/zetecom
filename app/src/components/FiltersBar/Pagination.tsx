@@ -1,11 +1,22 @@
 import React from 'react';
 
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import FirstIcon from '@material-ui/icons/FirstPage';
 import LastIcon from '@material-ui/icons/LastPage';
 import PrevIcon from '@material-ui/icons/NavigateBefore';
 import NextIcon from '@material-ui/icons/NavigateNext';
+
+const useStyles = makeStyles(({ breakpoints, spacing }) => ({
+  pagination: {
+    [breakpoints.down('md')]: {
+      flexGrow: 1,
+    },
+    [breakpoints.up('lg')]: {
+      minWidth: spacing(100),
+    },
+  },
+}));
 
 type PaginationProps = {
   page: number;
@@ -15,9 +26,10 @@ type PaginationProps = {
 
 const Pagination: React.FC<PaginationProps> = ({ page, totalPages, onPageChange }) => {
   const goToPage = (page: number) => () => onPageChange(page);
+  const classes = useStyles();
 
   return (
-    <Grid container alignItems="center" justify="space-evenly">
+    <Grid container justify="space-evenly" alignItems="center" className={classes.pagination}>
 
       <IconButton
         disabled={page <= 1}

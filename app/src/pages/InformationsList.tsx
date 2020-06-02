@@ -3,9 +3,9 @@ import React from 'react';
 import dayjs from 'dayjs';
 
 import Box from 'src/components/Box';
+import FiltersBar from 'src/components/FiltersBar';
 import Flex from 'src/components/Flex';
 import RouterLink from 'src/components/Link';
-import PaginatedList from 'src/components/PaginatedList';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { Information, parseInformation } from 'src/types/Information';
 
@@ -54,17 +54,19 @@ const InformationList: React.FC = () => {
   );
 
   return (
-    <PaginatedList
-      onSearch={setSearch}
-      page={page}
-      pageSize={10}
-      total={total}
-      onPageChange={setPage}
-    >
+    <>
 
-      { !loading && <div style={{ paddingTop: 16 }}>{informations.map(renderInformation)}</div> }
+      <FiltersBar
+        onSearch={setSearch}
+        page={page}
+        pageSize={10}
+        total={total}
+        onPageChange={setPage}
+      />
 
-    </PaginatedList>
+      { !loading && informations.map(renderInformation) }
+
+    </>
   );
 };
 

@@ -2,8 +2,6 @@ import React, { useContext, useEffect } from 'react';
 
 import { RouteComponentProps, useLocation } from 'react-router-dom';
 
-import Box from 'src/components/Box';
-import Flex from 'src/components/Flex';
 import { Link } from 'src/components/Link';
 import Loader from 'src/dashboard/components/Loader';
 import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
@@ -11,19 +9,33 @@ import useAxios from 'src/hooks/use-axios';
 import { Information, parseInformation } from 'src/types/Information';
 import { InformationProvider } from 'src/utils/InformationContext';
 
-import ReactionsTab from './ReactionTab';
+import Padding from '../../components/Padding';
+import ReactionsZone from '../integration/ReactionsZone';
 
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const useInformation = (id: number) => {
   return useAxios<Information>(`/api/information/${id}`, parseInformation);
 };
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(({ breakpoints, spacing, palette }: Theme) => ({
   title: {
-    fontSize: 26,
+    flex: 1,
+    paddingLeft: spacing(4),
+    fontSize: '1.8rem',
     fontWeight: 'bold',
-    color: theme.palette.secondary.dark,
+    color: palette.secondary.dark,
+    [breakpoints.down('lg')]: {
+      fontSize: '1.5rem',
+    },
+    [breakpoints.down('md')]: {
+      paddingLeft: spacing(2),
+      fontSize: '1.5rem',
+    },
+    [breakpoints.down('sm')]: {
+      fontSize: '1.2rem',
+    },
   },
   image: {
     width: 240,
@@ -70,14 +82,16 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
   return (
     <InformationProvider value={information}>
 
-      <Flex flexDirection="row">
-        <img className={classes.image} src={information.imageUrl || ''} />
-        <Box m={12} className={classes.title}>
-          <Link openInNewTab href={information.url}>{ information.title }</Link>
-        </Box>
-      </Flex>
+      <Padding bottom>
+        <Grid container>
+          <img className={classes.image} src={information.imageUrl || ''} />
+          <Typography variant="h3" className={classes.title}>
+            <Link openInNewTab href={information.url}>{ information.title }</Link>
+          </Typography>
+        </Grid>
+      </Padding>
 
-      <ReactionsTab informationId={informationId} />
+      <ReactionsZone />
 
     </InformationProvider>
   );

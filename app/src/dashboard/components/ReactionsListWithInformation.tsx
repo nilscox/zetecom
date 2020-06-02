@@ -1,8 +1,8 @@
 import React from 'react';
 
+import FiltersBar from 'src/components/FiltersBar';
 import RouterLink from 'src/components/Link';
 import Loader from 'src/components/Loader';
-import PaginatedList from 'src/components/PaginatedList';
 import ReactionContainer from 'src/components/Reaction/ReactionContainer';
 import Text from 'src/components/Text';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
@@ -81,13 +81,14 @@ const ReactionsListWithInformation: React.FC<ReactionsListWithInformationProps> 
   ] = axiosResponse;
 
   return (
-    <PaginatedList
-      onSearch={setSearch}
-      page={page}
-      pageSize={10}
-      total={total}
-      onPageChange={setPage}
-    >
+    <>
+      <FiltersBar
+        onSearch={setSearch}
+        page={page}
+        pageSize={10}
+        total={total}
+        onPageChange={setPage}
+      />
 
       { loading
         ? <Loader />
@@ -101,7 +102,7 @@ const ReactionsListWithInformation: React.FC<ReactionsListWithInformationProps> 
         ))
       }
 
-    </PaginatedList>
+    </>
   );
 
 };

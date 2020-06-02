@@ -11,6 +11,12 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
       paddingTop: spacing(3),
     },
   },
+  bottom: {
+    paddingBottom: spacing(4),
+    [breakpoints.down('xs')]: {
+      paddingBottom: spacing(3),
+    },
+  },
   y: {
     padding: spacing(4, 0),
     [breakpoints.down('xs')]: {
@@ -21,18 +27,19 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
 
 type PaddingProps = {
   top?: boolean;
+  bottom?: boolean;
   y?: boolean;
   when?: boolean;
 };
 
-const Padding: React.FC<PaddingProps> = ({ top, y, when = true, children }) => {
+const Padding: React.FC<PaddingProps> = ({ top, bottom, y, when = true, children }) => {
   const classes = useStyles();
 
   if (!when)
     return <>{children}</>;
 
   return (
-    <div className={clsx(top && classes.top, y && classes.y)}>
+    <div className={clsx(top && classes.top, bottom && classes.bottom, y && classes.y)}>
       { children }
     </div>
   );

@@ -1,8 +1,8 @@
 import React from 'react';
 
+import FiltersBar from 'src/components/FiltersBar';
 import Flex from 'src/components/Flex';
 import RouterLink from 'src/components/Link';
-import PaginatedList from 'src/components/PaginatedList';
 import ReactionContainer from 'src/components/Reaction/ReactionContainer';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { Reaction } from 'src/types/Reaction';
@@ -63,24 +63,23 @@ const ReactionsListForInformation: React.FC<ReactionsListForInformationProps> = 
               </Flex>
             </RouterLink>
 
-            <PaginatedList
+            <FiltersBar
               onSearch={setSearch}
               page={page}
               pageSize={10}
               total={total}
               onPageChange={setPage}
-            >
+            />
 
-              { loading
-                ? <Loader />
-                : reactions && reactions.map(reaction => (
-                  <div key={reaction.id} className={classes.container}>
-                    <ReactionContainer reaction={reaction} />
-                  </div>
-                ))
-              }
+            { loading
+              ? <Loader />
+              : reactions && reactions.map(reaction => (
+                <div key={reaction.id} className={classes.container}>
+                  <ReactionContainer reaction={reaction} />
+                </div>
+              ))
+            }
 
-            </PaginatedList>
           </>
         )
       }
