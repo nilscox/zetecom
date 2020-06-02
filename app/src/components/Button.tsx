@@ -3,6 +3,18 @@ import React from 'react';
 import Loader from 'src/components/Loader';
 import Text, { TextProps } from 'src/components/Text';
 
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  loader: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+});
+
 export type ButtonProps = Omit<React.HTMLProps<HTMLButtonElement>, 'size'> & {
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
   disabled?: boolean;
@@ -24,6 +36,8 @@ const Button: React.FC<ButtonProps> = ({
   children,
   ...props
 }) => {
+  const classes = useStyles();
+
   return (
     <button
       type={type}
@@ -55,13 +69,7 @@ const Button: React.FC<ButtonProps> = ({
       { loading && (
         <Loader
           size="small"
-          style={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-          }}
+          className={classes.loader}
         />
       ) }
 

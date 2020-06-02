@@ -2,14 +2,13 @@ import React, { useContext, useEffect } from 'react';
 
 import { RouteComponentProps, useLocation } from 'react-router-dom';
 
-import Loader from 'src/dashboard/components/Loader';
+import Loader from 'src/components/Loader';
 import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
 import useAxios from 'src/hooks/use-axios';
 import { Information, parseInformation } from 'src/types/Information';
 import { InformationProvider } from 'src/utils/InformationContext';
 
 import InformationOverview from '../../components/InformationOverview';
-import { Link } from '../../components/Link';
 import Padding from '../../components/Padding';
 import ReactionsZone from '../integration/ReactionsZone';
 

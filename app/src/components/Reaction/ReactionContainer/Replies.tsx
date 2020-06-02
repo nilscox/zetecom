@@ -1,9 +1,9 @@
 import React from 'react';
 
 import Collapse from 'src/components/Collapse';
+import Loader from 'src/components/Loader';
 import Padding from 'src/components/Padding';
 import ReactionsList from 'src/components/ReactionsList';
-import Loader from 'src/dashboard/components/Loader';
 import { Reaction } from 'src/types/Reaction';
 
 import FetchMoreReplies from './FetchMoreReplies';
