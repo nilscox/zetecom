@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Collapse from 'src/components/common/Collapse';
+import Collapse from 'src/components/Collapse';
 import Loader from 'src/dashboard/components/Loader';
 import { Reaction } from 'src/types/Reaction';
 
-import Padding from '../../common/Padding';
+import Padding from '../../Padding';
 import ReactionsList from '../ReactionsList';
 
 import FetchMoreReplies from './FetchMoreReplies';

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
-import AsyncContent from 'src/components/common/AsyncContent';
-import CenteredContent from 'src/components/common/CenteredContent';
-import HeaderLogo from 'src/components/common/HeaderLogo';
-import Text from 'src/components/common/Text';
+import AsyncContent from 'src/components/AsyncContent';
+import CenteredContent from 'src/components/CenteredContent';
+import HeaderLogo from 'src/components/HeaderLogo';
+import Text from 'src/components/Text';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
 import { parseInformation } from 'src/types/Information';

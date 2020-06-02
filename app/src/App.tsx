@@ -5,7 +5,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import 'iframe-resizer/js/iframeResizer.contentWindow';
 
-import ErrorBoundary from 'src/components/common/ErrorBoundary';
+import ErrorBoundary from 'src/components/ErrorBoundary';
 
 import Dashboard from './dashboard';
 import EmailLogin from './EmailLogin';

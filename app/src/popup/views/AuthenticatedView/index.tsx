@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from 'axios';
 import dayjs from 'dayjs';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { UserAvatarNick } from 'src/components/common/UserAvatar';
+import { UserAvatarNick } from 'src/components/UserAvatar';
 import useAxios from 'src/hooks/use-axios';
 import useUser from 'src/hooks/use-user';
 import FormGlobalError from 'src/popup/components/FormGlobalError';

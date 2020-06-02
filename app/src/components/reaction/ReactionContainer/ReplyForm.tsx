@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Collapse from 'src/components/common/Collapse';
+import Collapse from 'src/components/Collapse';
 import { Reaction } from 'src/types/Reaction';
 
-import Padding from '../../common/Padding';
+import Padding from '../../Padding';
 import ReactionCreationForm from '../ReactionForm/ReactionCreationForm';
 
 import Indented from './Indented';

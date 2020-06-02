@@ -1,6 +1,6 @@
 import React from 'react';
 
-import RouterLink from 'src/components/common/Link';
+import RouterLink from 'src/components/Link';
 import { useCurrentUser } from 'src/hooks/use-user';
 import WebsiteLink from 'src/popup/components/WebsiteLink';
 

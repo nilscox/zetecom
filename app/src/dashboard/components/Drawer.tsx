@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
-import Flex from 'src/components/common/Flex';
+import Flex from 'src/components/Flex';
 import useAxios from 'src/hooks/use-axios';
 import useUser, { useCurrentUser } from 'src/hooks/use-user';
 

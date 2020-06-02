@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 
-import AsyncContent from 'src/components/common/AsyncContent';
+import AsyncContent from 'src/components/AsyncContent';
 import { UserProvider, useUserContext } from 'src/utils/UserContext';
 
 import { createTheme } from './createTheme';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Text from 'src/components/common/Text';
+import Text from 'src/components/Text';
 
 type FormErrorProps = {
   children?: string;

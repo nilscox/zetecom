@@ -1,11 +1,11 @@
 import React from 'react';
 
-import AsyncContent from 'src/components/common/AsyncContent';
-import CenteredContent from 'src/components/common/CenteredContent';
-import PaginatedList from 'src/components/common/PaginatedList';
-import Text from 'src/components/common/Text';
+import AsyncContent from 'src/components/AsyncContent';
+import CenteredContent from 'src/components/CenteredContent';
+import PaginatedList from 'src/components/PaginatedList';
 import ReactionCreationForm from 'src/components/reaction/ReactionForm/ReactionCreationForm';
 import ReactionsList from 'src/components/reaction/ReactionsList';
+import Text from 'src/components/Text';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import useEditableDataset from 'src/hooks/use-editable-dataset';
 import { useCurrentUser } from 'src/hooks/use-user';
@@ -14,7 +14,7 @@ import { SortType } from 'src/types/SortType';
 import { useInformation } from 'src/utils/InformationContext';
 import { SearchQueryProvider } from 'src/utils/SearchQueryContext';
 
-import Padding from '../components/common/Padding';
+import Padding from '../components/Padding';
 
 const ReactionsZone: React.FC = () => {
   const user = useCurrentUser();

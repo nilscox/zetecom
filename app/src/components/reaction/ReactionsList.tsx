@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Reaction } from 'src/types/Reaction';
 
-import Padding from '../common/Padding';
+import Padding from '../Padding';
 
 import ReactionContainer from './ReactionContainer';
 

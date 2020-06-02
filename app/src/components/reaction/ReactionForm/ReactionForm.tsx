@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
 
-import MarkdownMessageEdition from 'src/components/common/MarkdownMessageEdition';
+import MarkdownMessageEdition from 'src/components/MarkdownMessageEdition';
 
 import FormFooter from './FormFooter';
 import FormHeader from './FormHeader';

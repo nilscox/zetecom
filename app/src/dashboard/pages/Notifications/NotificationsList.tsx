@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { LocationDescriptorObject } from 'history';
 
-import RouterLink from 'src/components/common/Link';
-import Loader from 'src/components/common/Loader';
+import RouterLink from 'src/components/Link';
+import Loader from 'src/components/Loader';
 import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
 import useAxios from 'src/hooks/use-axios';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';

@@ -38,6 +38,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ allowedTypes, onUpload, child
     if (files.length === 0)
       return;
 
+    // TODO: warning message
     if (!allowedTypes.includes(files[0].type.split('/')[1]))
       return;
 

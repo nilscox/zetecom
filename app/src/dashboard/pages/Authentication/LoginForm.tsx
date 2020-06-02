@@ -4,7 +4,7 @@ import { AxiosError, AxiosRequestConfig } from 'axios';
 import clsx from 'clsx';
 import { Redirect, useHistory } from 'react-router-dom';
 
-import Flex from 'src/components/common/Flex';
+import Flex from 'src/components/Flex';
 import useAxios from 'src/hooks/use-axios';
 import useUser from 'src/hooks/use-user';
 // TODO: make it common ?

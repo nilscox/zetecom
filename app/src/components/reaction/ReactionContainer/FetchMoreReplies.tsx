@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Flex from 'src/components/common/Flex';
+import Flex from 'src/components/Flex';
 
 type FetchMoreRepliesProps = {
   remainingRepliesCount: number;

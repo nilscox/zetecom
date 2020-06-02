@@ -6,7 +6,7 @@ import { AxiosError, AxiosRequestConfig } from 'axios';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 
-import Flex from 'src/components/common/Flex';
+import Flex from 'src/components/Flex';
 import useAxios from 'src/hooks/use-axios';
 // TODO: make it common
 import { FieldErrorsHandler, GlobalErrorHandler, useFormErrors } from 'src/popup/components/Form';

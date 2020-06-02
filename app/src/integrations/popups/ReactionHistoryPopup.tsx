@@ -4,11 +4,11 @@ import dayjs from 'dayjs';
 import * as diff from 'diff';
 import { RouteComponentProps } from 'react-router';
 
-import Box from 'src/components/common/Box';
-import Break from 'src/components/common/Break';
-import DiffMessage from 'src/components/common/DiffMessage';
-import Loader from 'src/components/common/Loader';
-import Text from 'src/components/common/Text';
+import Box from 'src/components/Box';
+import Break from 'src/components/Break';
+import DiffMessage from 'src/components/DiffMessage';
+import Loader from 'src/components/Loader';
+import Text from 'src/components/Text';
 import useAxios from 'src/hooks/use-axios';
 import { parseReaction } from 'src/types/Reaction';
 import { useTheme } from 'src/utils/Theme';

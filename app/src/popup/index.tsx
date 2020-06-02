@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
-import ErrorBoundary from 'src/components/common/ErrorBoundary';
-import HeaderLogo from 'src/components/common/HeaderLogo';
-import RouterLink from 'src/components/common/Link';
-import Loader from 'src/components/common/Loader';
+import ErrorBoundary from 'src/components/ErrorBoundary';
+import HeaderLogo from 'src/components/HeaderLogo';
+import RouterLink from 'src/components/Link';
+import Loader from 'src/components/Loader';
 import { UserProvider, useUserContext } from 'src/utils/UserContext';
 
 import { createTheme } from './createTheme';

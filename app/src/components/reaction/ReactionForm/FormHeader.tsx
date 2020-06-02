@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { UserAvatarNick } from 'src/components/common/UserAvatar';
+import { UserAvatarNick } from 'src/components/UserAvatar';
 import { useCurrentUser } from 'src/utils/UserContext';
 
 import { Box, IconButton, makeStyles } from '@material-ui/core';

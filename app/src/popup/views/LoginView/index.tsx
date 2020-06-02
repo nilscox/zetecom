@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import RouterLink from 'src/components/common/Link';
+import RouterLink from 'src/components/Link';
 import FormGlobalError from 'src/popup/components/FormGlobalError';
 import WebsiteLink from 'src/popup/components/WebsiteLink';
 

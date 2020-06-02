@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FormError from 'src/components/common/FormError';
+import FormError from 'src/components/FormError';
 import { useTheme } from 'src/utils/Theme';
 
 export type InputProps = React.HTMLProps<HTMLInputElement> & {

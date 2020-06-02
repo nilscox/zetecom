@@ -1,6 +1,6 @@
 import React from 'react';
 
-import UserAvatar from 'src/components/common/UserAvatar';
+import UserAvatar from 'src/components/UserAvatar';
 import { UserLight } from 'src/types/User';
 
 import { Grid, makeStyles, Typography } from '@material-ui/core';

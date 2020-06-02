@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Flex from './components/common/Flex';
-import HeaderLogo from './components/common/HeaderLogo';
+import Flex from './components/Flex';
+import HeaderLogo from './components/HeaderLogo';
 import useAxios from './hooks/use-axios';
 import useQueryString from './hooks/use-query-string';
 import { parseUser } from './types/User';

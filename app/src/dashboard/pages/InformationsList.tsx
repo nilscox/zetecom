@@ -2,10 +2,10 @@ import React from 'react';
 
 import dayjs from 'dayjs';
 
-import Box from 'src/components/common/Box';
-import Flex from 'src/components/common/Flex';
-import RouterLink from 'src/components/common/Link';
-import PaginatedList from 'src/components/common/PaginatedList';
+import Box from 'src/components/Box';
+import Flex from 'src/components/Flex';
+import RouterLink from 'src/components/Link';
+import PaginatedList from 'src/components/PaginatedList';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { Information, parseInformation } from 'src/types/Information';
 

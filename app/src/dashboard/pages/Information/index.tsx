@@ -2,9 +2,9 @@ import React, { useContext, useEffect } from 'react';
 
 import { RouteComponentProps, useLocation } from 'react-router-dom';
 
-import Box from 'src/components/common/Box';
-import Flex from 'src/components/common/Flex';
-import { Link } from 'src/components/common/Link';
+import Box from 'src/components/Box';
+import Flex from 'src/components/Flex';
+import { Link } from 'src/components/Link';
 import Loader from 'src/dashboard/components/Loader';
 import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
 import useAxios from 'src/hooks/use-axios';

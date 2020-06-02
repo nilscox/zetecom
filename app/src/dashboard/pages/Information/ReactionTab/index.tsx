@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-import PaginatedList from 'src/components/common/PaginatedList';
+import PaginatedList from 'src/components/PaginatedList';
 import ReactionCreationForm from 'src/components/reaction/ReactionForm/ReactionCreationForm';
 import ReactionsList from 'src/components/reaction/ReactionsList';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
@@ -9,7 +9,7 @@ import { useCurrentUser } from 'src/hooks/use-user';
 import { parseReaction, Reaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
 
-import AsyncContent from '../../../../components/common/AsyncContent';
+import AsyncContent from '../../../../components/AsyncContent';
 import AddButton from '../../../components/AddButton';
 
 import Collapse from '@material-ui/core/Collapse';

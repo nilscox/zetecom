@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 
-import Box from 'src/components/common/Box';
-import Button from 'src/components/common/Button';
+import Box from 'src/components/Box';
+import Button from 'src/components/Button';
 import { useTheme } from 'src/utils/Theme';
 
 import FormError from './FormError';

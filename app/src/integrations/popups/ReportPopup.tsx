@@ -4,14 +4,14 @@ import React, { useEffect, useState } from 'react';
 
 import { RouteComponentProps } from 'react-router';
 
-import Box from 'src/components/common/Box';
-import Break from 'src/components/common/Break';
-import Button, { ButtonProps } from 'src/components/common/Button';
-import Flex from 'src/components/common/Flex';
-import Loader from 'src/components/common/Loader';
-import Text from 'src/components/common/Text';
-import TextArea from 'src/components/common/TextArea';
+import Box from 'src/components/Box';
+import Break from 'src/components/Break';
+import Button, { ButtonProps } from 'src/components/Button';
+import Flex from 'src/components/Flex';
+import Loader from 'src/components/Loader';
 import ReactionBody from 'src/components/reaction/ReactionBody';
+import Text from 'src/components/Text';
+import TextArea from 'src/components/TextArea';
 import useAxios from 'src/hooks/use-axios';
 import WebsiteLink from 'src/popup/components/WebsiteLink';
 import { parseReaction } from 'src/types/Reaction';

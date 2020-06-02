@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import SearchQueryContext from 'src/utils/SearchQueryContext';
 
-import MarkdownMessage from '../common/MarkdownMessage';
+import MarkdownMessage from '../MarkdownMessage';
 
 type ReactionBodyProps = {
   text: string;

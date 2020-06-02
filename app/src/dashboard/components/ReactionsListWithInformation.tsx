@@ -1,10 +1,10 @@
 import React from 'react';
 
-import RouterLink from 'src/components/common/Link';
-import Loader from 'src/components/common/Loader';
-import PaginatedList from 'src/components/common/PaginatedList';
-import Text from 'src/components/common/Text';
+import RouterLink from 'src/components/Link';
+import Loader from 'src/components/Loader';
+import PaginatedList from 'src/components/PaginatedList';
 import ReactionContainer from 'src/components/reaction/ReactionContainer';
+import Text from 'src/components/Text';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { Information } from 'src/types/Information';
 import { Reaction } from 'src/types/Reaction';

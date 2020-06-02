@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import Flex from 'src/components/common/Flex';
-import MarkdownMessage from 'src/components/common/MarkdownMessage';
+import Flex from 'src/components/Flex';
+import MarkdownMessage from 'src/components/MarkdownMessage';
 import { useTheme } from 'src/utils/Theme';
 
 import Tabs from './Tabs';

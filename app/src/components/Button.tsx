@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Loader from 'src/components/common/Loader';
-import Text, { TextProps } from 'src/components/common/Text';
+import Loader from 'src/components/Loader';
+import Text, { TextProps } from 'src/components/Text';
 
 export type ButtonProps = Omit<React.HTMLProps<HTMLButtonElement>, 'size'> & {
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
