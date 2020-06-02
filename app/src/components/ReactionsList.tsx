@@ -2,9 +2,8 @@ import React from 'react';
 
 import { Reaction } from 'src/types/Reaction';
 
-import Padding from '../Padding';
-
-import ReactionContainer from './ReactionContainer';
+import Padding from './Padding';
+import ReactionContainer from './Reaction';
 
 type ReactionsListProps = {
   reactions: Reaction[];

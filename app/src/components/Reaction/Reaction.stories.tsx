@@ -10,8 +10,9 @@ import { parseUser, User } from 'src/types/User';
 import createTheme from 'src/utils/createDefaultTheme';
 import { UserProvider } from 'src/utils/UserContext';
 
+import ReactionsList from '../ReactionsList';
+
 import ReactionContainer from './ReactionContainer';
-import ReactionsList from './ReactionsList';
 
 import { ThemeProvider } from '@material-ui/core';
 import { boolean, withKnobs } from '@storybook/addon-knobs';

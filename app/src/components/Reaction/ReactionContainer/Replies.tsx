@@ -1,11 +1,10 @@
 import React from 'react';
 
 import Collapse from 'src/components/Collapse';
+import Padding from 'src/components/Padding';
+import ReactionsList from 'src/components/ReactionsList';
 import Loader from 'src/dashboard/components/Loader';
 import { Reaction } from 'src/types/Reaction';
-
-import Padding from '../../Padding';
-import ReactionsList from '../ReactionsList';
 
 import FetchMoreReplies from './FetchMoreReplies';
 import Indented from './Indented';

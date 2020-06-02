@@ -1,9 +1,9 @@
 import React, { useCallback, useReducer, useState } from 'react';
 
+import { ReactionEditionForm } from 'src/components/ReactionForm';
 import { Reaction } from 'src/types/Reaction';
 
 import ReactionComponent, { ReactionComponentProps } from '../ReactionComponent';
-import ReactionEditionForm from '../ReactionForm/ReactionEditionForm';
 
 import useReplies from './hooks/useReplies';
 import useReport from './hooks/useReport';

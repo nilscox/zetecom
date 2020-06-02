@@ -9,7 +9,7 @@ import Break from 'src/components/Break';
 import Button, { ButtonProps } from 'src/components/Button';
 import Flex from 'src/components/Flex';
 import Loader from 'src/components/Loader';
-import ReactionBody from 'src/components/reaction/ReactionBody';
+import ReactionBody from 'src/components/Reaction/ReactionBody';
 import Text from 'src/components/Text';
 import TextArea from 'src/components/TextArea';
 import useAxios from 'src/hooks/use-axios';

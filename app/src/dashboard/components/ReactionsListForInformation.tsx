@@ -3,7 +3,7 @@ import React from 'react';
 import Flex from 'src/components/Flex';
 import RouterLink from 'src/components/Link';
 import PaginatedList from 'src/components/PaginatedList';
-import ReactionContainer from 'src/components/reaction/ReactionContainer';
+import ReactionContainer from 'src/components/Reaction/ReactionContainer';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { Reaction } from 'src/types/Reaction';
 
