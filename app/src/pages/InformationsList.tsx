@@ -1,30 +1,12 @@
 import React from 'react';
 
-import dayjs from 'dayjs';
-
-import Box from 'src/components/Box';
 import FiltersBar from 'src/components/FiltersBar';
-import Flex from 'src/components/Flex';
-import RouterLink from 'src/components/Link';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
-import { Information, parseInformation } from 'src/types/Information';
+import { parseInformation } from 'src/types/Information';
 
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles({
-  image: {
-    width: 240,
-    height: 160,
-    objectFit: 'cover',
-  },
-  informationTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  publicationDate: {
-    color: '#666',
-  },
-});
+import InformationOverview from '../components/InformationOverview';
+import RouterLink from '../components/Link';
+import Padding from '../components/Padding';
 
 const InformationList: React.FC = () => {
   const [
@@ -32,26 +14,6 @@ const InformationList: React.FC = () => {
     { setSearch },,
     { page, setPage },
   ] = useAxiosPaginated('/api/information', parseInformation);
-
-  const classes = useStyles({});
-
-  const renderInformation = (information: Information) => (
-    <RouterLink key={information.id} to={`/information/${information.id}`}>
-      <Flex flexDirection="row" my={12}>
-
-        <img src={information.imageUrl || ''} className={classes.image} />
-
-        <Flex flexDirection="column" p={12} >
-          <div className={classes.informationTitle}>
-            { information.title }
-          </div>
-          <Box my={6} className={classes.publicationDate}>{ dayjs().format('[Publiée le] DD.MM.YYYY') }</Box>
-          <div>{ information.reactionsCount } réaction{ information.reactionsCount !== 1 && 's' }</div>
-        </Flex>
-
-      </Flex>
-    </RouterLink>
-  );
 
   return (
     <>
@@ -64,7 +26,13 @@ const InformationList: React.FC = () => {
         onPageChange={setPage}
       />
 
-      { !loading && informations.map(renderInformation) }
+      { !loading && informations.map((information, n) => (
+        <Padding top key={information.id}>
+          <RouterLink to={`/information/${information.id}`}>
+            <InformationOverview information={information} />
+          </RouterLink>
+        </Padding>
+      )) }
 
     </>
   );

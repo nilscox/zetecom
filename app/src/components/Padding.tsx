@@ -23,6 +23,9 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
       padding: spacing(3, 0),
     },
   },
+  disabled: {
+    padding: 0,
+  },
 }));
 
 type PaddingProps = {
@@ -35,11 +38,8 @@ type PaddingProps = {
 const Padding: React.FC<PaddingProps> = ({ top, bottom, y, when = true, children }) => {
   const classes = useStyles();
 
-  if (!when)
-    return <>{children}</>;
-
   return (
-    <div className={clsx(top && classes.top, bottom && classes.bottom, y && classes.y)}>
+    <div className={clsx(top && classes.top, bottom && classes.bottom, y && classes.y, !when && classes.disabled)}>
       { children }
     </div>
   );
