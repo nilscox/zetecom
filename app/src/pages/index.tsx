@@ -6,6 +6,7 @@ import Loader from 'src/components/Loader';
 import { useCurrentUser } from 'src/contexts/UserContext';
 
 import HeaderLogo from '../components/HeaderLogo';
+import RouterLink from '../components/Link';
 
 import Authentication from './Authentication';
 import Information from './Information';
@@ -48,7 +49,9 @@ const Pages: React.FC = () => {
     <Container fixed component="main" className={classes.container}>
 
       <Box paddingY={4}>
-        <HeaderLogo href="/" />
+        <RouterLink to="/">
+          <HeaderLogo />
+        </RouterLink>
       </Box>
 
       { user === undefined ? <Loader /> : <Router />}

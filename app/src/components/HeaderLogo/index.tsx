@@ -1,6 +1,4 @@
-import React, { ElementType } from 'react';
-
-import { Link } from 'react-router-dom';
+import React from 'react';
 
 import logo from './logo.png';
 
@@ -50,16 +48,13 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette: { textLight } }) 
 
 type HeaderLogoProps = {
   className?: string;
-  href?: string;
 };
 
-const HeaderLogo: React.FC<HeaderLogoProps> = ({ className, href }) => {
+const HeaderLogo: React.FC<HeaderLogoProps> = ({ className }) => {
   const classes = useStyles();
-  const Element: ElementType = href ? Link : 'div';
-  const props = { to: href };
 
   return (
-    <Element {...props} style={{ display: 'flex', flexDirection: 'row', color: 'inherit' }} className={className}>
+    <div style={{ display: 'flex', flexDirection: 'row' }} className={className}>
 
       <img src={logo} alt="Logo de Réagir à l'information" className={classes.image} />
 
@@ -72,7 +67,7 @@ const HeaderLogo: React.FC<HeaderLogoProps> = ({ className, href }) => {
         </Typography>
       </div>
 
-    </Element>
+    </div>
   );
 };
 
