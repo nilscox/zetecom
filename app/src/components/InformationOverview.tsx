@@ -67,7 +67,7 @@ const InformationOverview: React.FC<InformationOverviewProps> = ({ link, informa
           </Typography>
 
           <div>
-            { information.reactionsCount } réaction{ information.reactionsCount !== 1 && 's' }
+            { information.reactionsCount } commentaire{ information.reactionsCount !== 1 && 's' }
           </div>
 
         </Grid>

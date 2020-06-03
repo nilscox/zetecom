@@ -22,9 +22,9 @@ const SortMenu: React.FC<SortMenuProps> = ({ sort: currentSort, onSortChange }) 
   };
 
   const menuText = {
-    [SortType.DATE_DESC]: 'Les plus récentes en premier',
-    [SortType.DATE_ASC]: 'Les plus anciennes en premier',
-    [SortType.RELEVANCE]: 'Les plus pertinentes en premier',
+    [SortType.DATE_DESC]: 'Les plus récents en premier',
+    [SortType.DATE_ASC]: 'Les plus anciens en premier',
+    [SortType.RELEVANCE]: 'Les plus pertinents en premier',
   };
 
   return (

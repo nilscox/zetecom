@@ -82,6 +82,13 @@ const createDefaultTheme = (): Theme => {
         padding: 0,
       },
     },
+    MuiMenuItem: {
+      root: {
+        [theme.breakpoints.down('xs')]: {
+          minHeight: 0,
+        },
+      },
+    },
   };
 
   return theme;
