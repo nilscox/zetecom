@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { Theme, useTheme } from 'src/utils/Theme';
+import { Theme, useTheme } from 'src/theme/Theme';
 
 type TextVariant =
   | 'main-title'

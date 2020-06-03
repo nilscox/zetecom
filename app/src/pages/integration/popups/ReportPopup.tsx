@@ -14,8 +14,8 @@ import Text from 'src/components/Text';
 import TextArea from 'src/components/TextArea';
 import useAxios from 'src/hooks/use-axios';
 import WebsiteLink from 'src/popup/components/WebsiteLink';
+import { useTheme } from 'src/theme/Theme';
 import { parseReaction } from 'src/types/Reaction';
-import { useTheme } from 'src/utils/Theme';
 
 const POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT = 3000;
 

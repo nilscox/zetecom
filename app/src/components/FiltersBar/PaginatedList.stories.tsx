@@ -1,21 +1,13 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import { SortType } from 'src/types/SortType';
-import createTheme from 'src/utils/createDefaultTheme';
 
 import PaginatedList from './index';
 
-import { ThemeProvider } from '@material-ui/core';
 import { action } from '@storybook/addon-actions';
-import { number, withKnobs } from '@storybook/addon-knobs';
+import { number } from '@storybook/addon-knobs';
 
-export default {
-  title: 'PaginatedList',
-  decorators: [
-    withKnobs,
-    (storyFn: () => ReactNode) => <ThemeProvider theme={createTheme()}>{ storyFn() }</ThemeProvider>,
-  ],
-};
+export default { title: 'PaginatedList' };
 
 export const paginatedList = () => (
   <PaginatedList

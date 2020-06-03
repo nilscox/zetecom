@@ -16,7 +16,7 @@ import './App.css';
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
 import { UserProvider, useUserContext } from './utils/UserContext';
 import { NotificationsCountProvider } from './dashboard/contexts/NotificationsCountContext';
-import createTheme from './utils/createDefaultTheme';
+import createTheme from './theme/createTheme';
 
 const Router: React.FC = () => (
   <BrowserRouter>

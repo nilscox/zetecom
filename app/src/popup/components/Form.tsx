@@ -2,7 +2,7 @@ import React, { ReactNode, useEffect, useState } from 'react';
 
 import Box from 'src/components/Box';
 import Button from 'src/components/Button';
-import { useTheme } from 'src/utils/Theme';
+import { useTheme } from 'src/theme/Theme';
 
 import FormError from './FormError';
 import FormInput, { FormInputProps } from './FormInput';

@@ -1,16 +1,7 @@
-import React, { ReactNode } from 'react';
-
-import createTheme from 'src/utils/createDefaultTheme';
+import React from 'react';
 
 import HeaderLogo from './index';
 
-import { ThemeProvider } from '@material-ui/core';
-
-export default {
-  title: 'Header',
-  decorators: [
-    (storyFn: () => ReactNode) => <ThemeProvider theme={createTheme()}>{ storyFn() }</ThemeProvider>,
-  ],
-};
+export default { title: 'Header' };
 
 export const headerLogo = () => <HeaderLogo />;

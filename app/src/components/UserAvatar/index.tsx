@@ -3,8 +3,8 @@ import React, { useCallback, useContext, useEffect } from 'react';
 import { AxiosRequestConfig } from 'axios';
 
 import useAxios from 'src/hooks/use-axios';
+import { useTheme } from 'src/theme/Theme';
 import { parseUser, UserLight } from 'src/types/User';
-import { useTheme } from 'src/utils/Theme';
 import UserContext from 'src/utils/UserContext';
 
 import UserAvatarNickImport from './UserAvatarNick';

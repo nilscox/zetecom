@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Flex from 'src/components/Flex';
 import Input, { InputProps } from 'src/components/Input';
-import { useTheme } from 'src/utils/Theme';
+import { useTheme } from 'src/theme/Theme';
 
 import FormError from './FormError';
 

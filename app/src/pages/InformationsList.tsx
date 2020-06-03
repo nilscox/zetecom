@@ -26,7 +26,7 @@ const InformationList: React.FC = () => {
         onPageChange={setPage}
       />
 
-      { !loading && informations.map((information, n) => (
+      { !loading && informations.map(information => (
         <Padding top key={information.id}>
           <RouterLink to={`/information/${information.id}`}>
             <InformationOverview information={information} />

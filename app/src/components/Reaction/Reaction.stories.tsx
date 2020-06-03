@@ -7,20 +7,18 @@ import MockAdapter from 'axios-mock-adapter';
 
 import { Reaction } from 'src/types/Reaction';
 import { parseUser, User } from 'src/types/User';
-import createTheme from 'src/utils/createDefaultTheme';
 import { UserProvider } from 'src/utils/UserContext';
 
 import ReactionsList from '../ReactionsList';
 
 import ReactionContainer from './ReactionContainer';
 
-import { ThemeProvider } from '@material-ui/core';
-import { boolean, withKnobs } from '@storybook/addon-knobs';
+import { boolean } from '@storybook/addon-knobs';
 
 export default {
   title: 'Reaction',
   decorators: [
-    withKnobs,
+    // TODO: extract this decorator
     (storyFn: () => React.ReactNode) => {
       const loggedIn = boolean('Logged in', true);
       const user: User = parseUser({
@@ -35,7 +33,7 @@ export default {
         <UserProvider
           value={{ user: loggedIn ? user : null, setUser: () => {} }}
         >
-          <ThemeProvider theme={createTheme()}>{storyFn()}</ThemeProvider>
+          {storyFn()}
         </UserProvider>
       );
     },

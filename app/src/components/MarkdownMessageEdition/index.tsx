@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import Flex from 'src/components/Flex';
 import MarkdownMessage from 'src/components/MarkdownMessage';
-import { useTheme } from 'src/utils/Theme';
+import { useTheme } from 'src/theme/Theme';
 
 import Tabs from './Tabs';
 

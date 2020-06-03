@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useTheme } from 'src/utils/Theme';
+import { useTheme } from 'src/theme/Theme';
 
 type SelectProps = React.HTMLProps<HTMLSelectElement> & {
   values: { [key: string]: string };

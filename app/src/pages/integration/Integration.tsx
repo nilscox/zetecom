@@ -8,9 +8,9 @@ import HeaderLogo from 'src/components/HeaderLogo';
 import Text from 'src/components/Text';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
+import { useTheme } from 'src/theme/Theme';
 import { parseInformation } from 'src/types/Information';
 import { InformationProvider } from 'src/utils/InformationContext';
-import { useTheme } from 'src/utils/Theme';
 
 import ReactionsZone from './ReactionsZone';
 

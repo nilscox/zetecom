@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useTheme } from 'src/utils/Theme';
+import { useTheme } from 'src/theme/Theme';
 
 type TextAreaProps = React.HTMLProps<HTMLTextAreaElement> & {
   fullWidth?: boolean;

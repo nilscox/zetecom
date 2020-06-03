@@ -2,19 +2,17 @@ import React from 'react';
 
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
-import ErrorBoundary from 'src/components/ErrorBoundary';
 import HeaderLogo from 'src/components/HeaderLogo';
 import RouterLink from 'src/components/Link';
-import Loader from 'src/components/Loader';
-import { UserProvider, useUserContext } from 'src/utils/UserContext';
 
-import { createTheme } from './createTheme';
+import AsyncContent from '../components/AsyncContent';
+import { useCurrentUser } from '../hooks/use-user';
+
 import AuthenticatedView from './views/AuthenticatedView';
 import EmailLoginView from './views/EmailLoginView';
 import LoginView from './views/LoginView';
 import SignupView from './views/SignupView';
 
-import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
@@ -42,27 +40,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const theme = createTheme();
-
 const Popup: React.FC = () => {
-  const [user, setUser] = useUserContext();
+  const user = useCurrentUser();
   const classes = useStyles();
 
-  if (user === undefined)
-    return <Loader size="big" />;
-
   return (
-    <ThemeProvider theme={theme}>
-
-      <CssBaseline />
-
-      <UserProvider value={{ user, setUser }}>
-
-        <RouterLink to="/popup">
-          <HeaderLogo className={classes.headerLogo} />
-        </RouterLink>
-
-        <ErrorBoundary>
+    <AsyncContent
+      loading={typeof user === 'undefined'}
+      content={() => (
+        <>
+          <RouterLink to="/popup">
+            <HeaderLogo className={classes.headerLogo} />
+          </RouterLink>
 
           <Route exact path="/popup/(login|signup)">
             <LoginSignupTabs />
@@ -80,12 +69,9 @@ const Popup: React.FC = () => {
 
             </Switch>
           </div>
-
-        </ErrorBoundary>
-
-      </UserProvider>
-
-    </ThemeProvider>
+        </>
+      )}
+    />
   );
 };
 
