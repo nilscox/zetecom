@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import SearchQueryContext from 'src/utils/SearchQueryContext';
+import SearchQueryContext from 'src/contexts/SearchQueryContext';
 
 import MarkdownMessage from '../MarkdownMessage';
 

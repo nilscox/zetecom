@@ -7,12 +7,12 @@ import { ReactionCreationForm } from 'src/components/ReactionForm';
 import ReactionsList from 'src/components/ReactionsList';
 import Text from 'src/components/Text';
 import { useInformation } from 'src/contexts/InformationContext';
+import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
 import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import useEditableDataset from 'src/hooks/use-editable-dataset';
 import { parseReaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
-import { SearchQueryProvider } from 'src/utils/SearchQueryContext';
 
 import Padding from '../../components/Padding';
 

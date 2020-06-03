@@ -5,7 +5,7 @@ import { parseUser, User } from 'src/types/User';
 
 import { useAppContext } from './AppContext';
 
-export type UserContextValue = {
+export type UserContextType = {
   user: User | null;
   setUser: (user: User) => void;
 };
@@ -27,15 +27,15 @@ export const useUserContext = () => {
     }
   }, [response, status, data]);
 
-  return [user, setUser] as const;
+  return { user, setUser };
 };
 
 export const useUser = () => {
-  const { user, setUser } = useAppContext();
+  const { user: { user, setUser } } = useAppContext();
   return [user, setUser] as const;
 };
 
 export const useCurrentUser = () => {
-  const { user } = useAppContext();
+  const { user: { user } } = useAppContext();
   return user;
 };

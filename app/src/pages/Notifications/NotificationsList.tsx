@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { LocationDescriptorObject } from 'history';
 
 import RouterLink from 'src/components/Link';
 import Loader from 'src/components/Loader';
-import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
+import { useNotifications as useNotificationsContext } from 'src/contexts/NotificationsContext';
 import useAxios from 'src/hooks/use-axios';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import useEditableDataset from 'src/hooks/use-editable-dataset';
@@ -86,7 +86,7 @@ const FallbackMessage: React.FC<FallbackMessageProps> = ({ seen }) => {
 };
 
 const useNotifications = (seen: boolean) => {
-  const { refetch: refetchNotificationsCount } = useContext(NotificationsCountContext);
+  const { refetch: refetchNotificationsCount } = useNotificationsContext();
 
   const [{ data, loading }] = useAxiosPaginated(
     `/api/notification/me${seen ? '/seen' : ''}`,

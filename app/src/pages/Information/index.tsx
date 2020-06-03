@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { RouteComponentProps, useLocation } from 'react-router-dom';
 
 import Loader from 'src/components/Loader';
 import { useInformation } from 'src/contexts/InformationContext';
-import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
+import { useNotifications } from 'src/contexts/NotificationsContext';
 import useAxios from 'src/hooks/use-axios';
 import { Information, parseInformation } from 'src/types/Information';
 
@@ -17,7 +17,7 @@ const useFetchInformation = (id: number) => {
 };
 
 const useNotification = () => {
-  const { refetch } = useContext(NotificationsCountContext);
+  const { refetch } = useNotifications();
 
   const [{ status }, setSeen] = useAxios({
     method: 'POST',

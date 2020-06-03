@@ -1,44 +1,43 @@
-import React, { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 
-import { Information } from '../types/Information';
-import { User } from '../types/User';
+import {
+  InformationContextType,
+  useInformationContext,
+} from './InformationContext';
+import {
+  NotificationsContextType,
+  useNotificationsContext,
+} from './NotificationsContext';
+import { UserContextType, useUserContext } from './UserContext';
 
-import { useUserContext } from './UserContext';
-
-type AppContextType = {
-  information: Information;
-  setInformation: Dispatch<SetStateAction<Information>>;
-  user: User;
-  setUser: Dispatch<SetStateAction<User>>;
-  notifications: { count: number };
-  setNotifications: Dispatch<SetStateAction<{ count: number }>>;
+export type AppContextType = {
+  user: UserContextType;
+  information: InformationContextType;
+  notifications: NotificationsContextType;
 };
 
 const AppContext = createContext<AppContextType>(null);
+export default AppContext;
 
-type AppContextProps = {
-  value?: Partial<AppContextType>;
-}
+export const useAppContext = () => useContext(AppContext);
 
-export const AppContextProvider: React.FC<AppContextProps> = ({ value: providedValue, children }) => {
-  const [information, setInformation] = useState<Information>();
-  const [user, setUser] = useUserContext();
-  const [notifications, setNotifications] = useState<{ count: number }>();
-
+export const AppContextProvider: React.FC = ({ children }) => {
   const value = {
-    information,
-    setInformation,
-    user,
-    setUser,
-    notifications,
-    setNotifications,
+    information: useInformationContext(),
+    user: useUserContext(),
+    notifications: useNotificationsContext(),
   };
 
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+};
+
+export const AppContextProviderTesting: React.FC<Partial<AppContextType>> = ({
+  children,
+  ...value
+}) => {
   return (
-    <AppContext.Provider value={providedValue as AppContextType || value}>
-      { children }
+    <AppContext.Provider value={value as AppContextType}>
+      {children}
     </AppContext.Provider>
   );
 };
-
-export const useAppContext = () => useContext(AppContext);

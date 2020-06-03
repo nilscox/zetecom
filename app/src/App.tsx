@@ -13,7 +13,6 @@ import Integration from './pages/integration';
 import Popup from './popup';
 
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
-import { NotificationsCountProvider } from './dashboard/contexts/NotificationsCountContext';
 import createTheme from './theme/createTheme';
 import { AppContextProvider } from './contexts/AppContext';
 
@@ -39,9 +38,7 @@ const App: React.FC = () => {
         <CssBaseline />
 
         <AppContextProvider>
-          <NotificationsCountProvider>
-            <Router />
-          </NotificationsCountProvider>
+          <Router />
         </AppContextProvider>
 
       </ThemeProvider>
