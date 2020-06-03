@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useCurrentUser } from 'src/utils/UserContext';
+import { useCurrentUser } from 'src/contexts/UserContext';
 
 import { Button, IconButton, makeStyles, useMediaQuery } from '@material-ui/core';
 import ReplyIcon from '@material-ui/icons/Reply';

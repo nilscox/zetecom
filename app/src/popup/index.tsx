@@ -2,11 +2,10 @@ import React from 'react';
 
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 
+import AsyncContent from 'src/components/AsyncContent';
 import HeaderLogo from 'src/components/HeaderLogo';
 import RouterLink from 'src/components/Link';
-
-import AsyncContent from '../components/AsyncContent';
-import { useCurrentUser } from '../hooks/use-user';
+import { useCurrentUser } from 'src/contexts/UserContext';
 
 import AuthenticatedView from './views/AuthenticatedView';
 import EmailLoginView from './views/EmailLoginView';

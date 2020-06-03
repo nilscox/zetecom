@@ -1,18 +1,18 @@
 /* eslint-disable max-lines */
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 
 import Flex from 'src/components/Flex';
+import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 // TODO: make it common
 import { FieldErrorsHandler, GlobalErrorHandler, useFormErrors } from 'src/popup/components/Form';
 import WebsiteLink from 'src/popup/components/WebsiteLink';
 import { parseUser } from 'src/types/User';
-import UserContext from 'src/utils/UserContext';
 
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -108,7 +108,7 @@ const Signup: React.FC = () => {
   const [valid, setValid] = useState(false);
 
   const history = useHistory();
-  const { setUser } = useContext(UserContext);
+  const [, setUser] = useUser();
   const classes = useStyles({});
 
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/signup' };

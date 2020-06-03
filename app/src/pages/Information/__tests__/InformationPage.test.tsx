@@ -3,10 +3,10 @@ import React from 'react';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { Route, Router } from 'react-router-dom';
 
+import { AppContextProvider } from 'src/contexts/AppContext';
 import { NotificationsCountProvider } from 'src/dashboard/contexts/NotificationsCountContext';
 import mockAxios, { mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 import { User } from 'src/types/User';
-import { UserProvider } from 'src/utils/UserContext';
 
 import InformationPage from '../index';
 
@@ -52,11 +52,11 @@ describe('InformationPage', () => {
 
       const { getByText } = render(
         <Router history={history}>
-          <UserProvider value={{ user: mockUser, setUser: () => {} }}>
+          <AppContextProvider value={{ user: mockUser, setUser: () => {} }}>
             <NotificationsCountProvider>
               <Route path="/information/:id" component={InformationPage} />
             </NotificationsCountProvider>
-          </UserProvider>
+          </AppContextProvider>
         </Router>,
       );
 
@@ -73,11 +73,11 @@ describe('InformationPage', () => {
 
       render(
         <Router history={history}>
-          <UserProvider value={{ user: mockUser, setUser: () => {} }}>
+          <AppContextProvider value={{ user: mockUser, setUser: () => {} }}>
             <NotificationsCountProvider>
               <Route path="/information/:id" component={InformationPage} />
             </NotificationsCountProvider>
-          </UserProvider>
+          </AppContextProvider>
         </Router>,
       );
 

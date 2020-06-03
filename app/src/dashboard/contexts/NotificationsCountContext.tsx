@@ -1,7 +1,7 @@
 import React, { createContext, useEffect } from 'react';
 
+import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
-import { useCurrentUser } from 'src/hooks/use-user';
 import { parseNotificationsCount } from 'src/types/Notification';
 
 type NotificationsCountContextType = {

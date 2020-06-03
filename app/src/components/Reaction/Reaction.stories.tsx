@@ -6,39 +6,13 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
 import { Reaction } from 'src/types/Reaction';
-import { parseUser, User } from 'src/types/User';
-import { UserProvider } from 'src/utils/UserContext';
+import { parseUser } from 'src/types/User';
 
 import ReactionsList from '../ReactionsList';
 
 import ReactionContainer from './ReactionContainer';
 
-import { boolean } from '@storybook/addon-knobs';
-
-export default {
-  title: 'Reaction',
-  decorators: [
-    // TODO: extract this decorator
-    (storyFn: () => React.ReactNode) => {
-      const loggedIn = boolean('Logged in', true);
-      const user: User = parseUser({
-        id: 42,
-        nick: 'Doug Forcett',
-        avatar: null,
-        created: new Date(),
-        updated: new Date(),
-      });
-
-      return (
-        <UserProvider
-          value={{ user: loggedIn ? user : null, setUser: () => {} }}
-        >
-          {storyFn()}
-        </UserProvider>
-      );
-    },
-  ],
-};
+export default { title: 'Reaction' };
 
 const mockAxios = new MockAdapter(axios);
 

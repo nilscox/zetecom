@@ -5,8 +5,8 @@ import clsx from 'clsx';
 import { Redirect, useHistory } from 'react-router-dom';
 
 import Flex from 'src/components/Flex';
+import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
-import useUser from 'src/hooks/use-user';
 // TODO: make it common ?
 import { FieldErrorsHandler, GlobalErrorHandler, useFormErrors } from 'src/popup/components/Form';
 import { parseUser } from 'src/types/User';

@@ -4,10 +4,10 @@ import React from 'react';
 import { createMemoryHistory, Location, MemoryHistory } from 'history';
 import { Route, Router, Switch } from 'react-router-dom';
 
+import { AppContextProvider } from 'src/contexts/AppContext';
 import { NotificationsCountProvider } from 'src/dashboard/contexts/NotificationsCountContext';
 import mockAxios, { mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 import { User } from 'src/types/User';
-import { UserProvider } from 'src/utils/UserContext';
 
 import Notifications from '../index';
 
@@ -21,11 +21,11 @@ const mockUser: User = { id: 1 } as User;
 
 const Test: React.FC<{ history: MemoryHistory }> = ({ history }) => (
   <Router history={history}>
-    <UserProvider value={{ user: mockUser, setUser: () => {} }}>
+    <AppContextProvider value={{ user: mockUser, setUser: () => {} }}>
       <NotificationsCountProvider>
         <Notifications />
       </NotificationsCountProvider>
-    </UserProvider>
+    </AppContextProvider>
   </Router>
 );
 
@@ -113,7 +113,7 @@ describe('Notifications', () => {
   it('should set notification as seen on notification item click', async () => {
     const { getByText } = render(
       <Router history={history}>
-        <UserProvider value={{ user: mockUser, setUser: () => {} }}>
+        <AppContextProvider value={{ user: mockUser, setUser: () => {} }}>
           <NotificationsCountProvider>
             <Switch>
               <Route path="/notifications" component={Notifications} />
@@ -125,7 +125,7 @@ describe('Notifications', () => {
               />
             </Switch>
           </NotificationsCountProvider>
-        </UserProvider>
+        </AppContextProvider>
       </Router>,
     );
 

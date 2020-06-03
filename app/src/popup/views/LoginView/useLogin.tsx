@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { AxiosRequestConfig } from 'axios';
 import { useHistory } from 'react-router-dom';
 
+import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
-import useUser from 'src/hooks/use-user';
 import { parseUser } from 'src/types/User';
 
 import { createFormErrorsHandler } from '../../utils/createFormErrorsHandler';

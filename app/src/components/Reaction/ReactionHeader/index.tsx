@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 import { UserAvatarNick } from 'src/components/UserAvatar';
+import { useCurrentUser } from 'src/contexts/UserContext';
 import { Reaction } from 'src/types/Reaction';
-import { useCurrentUser } from 'src/utils/UserContext';
 
 import EditButton from './EditButton';
 import EditionDate from './EditionDate';

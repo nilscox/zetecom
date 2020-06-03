@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 import { AxiosRequestConfig } from 'axios';
 import { useHistory } from 'react-router-dom';
 
+import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
-import useUser from 'src/hooks/use-user';
 import WebsiteLink from 'src/popup/components/WebsiteLink';
 import { parseUser } from 'src/types/User';
 

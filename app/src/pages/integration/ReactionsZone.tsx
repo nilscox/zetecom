@@ -6,19 +6,19 @@ import FiltersBar from 'src/components/FiltersBar';
 import { ReactionCreationForm } from 'src/components/ReactionForm';
 import ReactionsList from 'src/components/ReactionsList';
 import Text from 'src/components/Text';
+import { useInformation } from 'src/contexts/InformationContext';
+import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import useEditableDataset from 'src/hooks/use-editable-dataset';
-import { useCurrentUser } from 'src/hooks/use-user';
 import { parseReaction } from 'src/types/Reaction';
 import { SortType } from 'src/types/SortType';
-import { useInformation } from 'src/utils/InformationContext';
 import { SearchQueryProvider } from 'src/utils/SearchQueryContext';
 
 import Padding from '../../components/Padding';
 
 const ReactionsZone: React.FC = () => {
   const user = useCurrentUser();
-  const information = useInformation();
+  const [information] = useInformation();
 
   const [
     { loading, data, total },

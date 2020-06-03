@@ -3,9 +3,9 @@ import React from 'react';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 
+import { AppContextProvider } from 'src/contexts/AppContext';
 import mockAxios, { mockAxiosError, mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 import { User } from 'src/types/User';
-import { UserProvider } from 'src/utils/UserContext';
 
 import LoginForm from '../LoginForm';
 
@@ -29,9 +29,9 @@ describe('LoginForm', () => {
     const setUser = jest.fn();
     const { getByTestId, getByLabelText } = render(
       <Router history={history}>
-        <UserProvider value={{ user: null, setUser }}>
+        <AppContextProvider value={{ user: null, setUser }}>
           <LoginForm />
-        </UserProvider>
+        </AppContextProvider>
       </Router>,
     );
 
@@ -65,9 +65,9 @@ describe('LoginForm', () => {
     const setUser = jest.fn();
     const { getByTestId, getByLabelText, getByText } = render(
       <Router history={history}>
-        <UserProvider value={{ user: null, setUser }}>
+        <AppContextProvider value={{ user: null, setUser }}>
           <LoginForm />
-        </UserProvider>
+        </AppContextProvider>
       </Router>,
     );
 

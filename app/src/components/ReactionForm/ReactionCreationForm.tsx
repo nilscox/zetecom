@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 
+import { useInformation } from 'src/contexts/InformationContext';
 import useAxios from 'src/hooks/use-axios';
 import { parseReaction, Reaction } from 'src/types/Reaction';
-import { useInformation } from 'src/utils/InformationContext';
 
 import ReactionForm from './ReactionForm';
 
@@ -19,7 +19,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
   closeForm,
   onCreated,
 }) => {
-  const information = useInformation();
+  const [information] = useInformation();
 
   const formRef = React.useRef(null);
 

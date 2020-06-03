@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Redirect } from 'react-router-dom';
 
-import { useCurrentUser } from 'src/hooks/use-user';
+import { useCurrentUser } from 'src/contexts/UserContext';
 
 const Authenticated: React.FC = ({ children }) => {
   const user = useCurrentUser();

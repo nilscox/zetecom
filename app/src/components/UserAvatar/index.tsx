@@ -1,11 +1,11 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 
+import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
 import { parseUser, UserLight } from 'src/types/User';
-import UserContext from 'src/utils/UserContext';
 
 import UserAvatarNickImport from './UserAvatarNick';
 
@@ -82,7 +82,7 @@ type UserAvatarProps = {
 };
 
 const UserAvatar: React.FC<UserAvatarProps> = ({ small = false, editable = false, user }) => {
-  const { user: currentUser, setUser } = useContext(UserContext);
+  const [currentUser, setUser] = useUser();
   const { colors: { borderImage } } = useTheme();
   const classes = useStyles(small);
 

@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { UserAvatarNick } from 'src/components/UserAvatar';
+import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
-import useUser from 'src/hooks/use-user';
 import FormGlobalError from 'src/popup/components/FormGlobalError';
 import TextField from 'src/popup/components/TextField';
 

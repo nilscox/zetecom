@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 
+import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
 import { parseReaction, QuickReactionsCount, QuickReactionType, Reaction } from 'src/types/Reaction';
-import { useCurrentUser } from 'src/utils/UserContext';
 
 import QuickReaction, { QuickReactionProps } from './QuickReaction';
 

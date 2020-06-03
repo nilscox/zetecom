@@ -12,11 +12,12 @@ import EmailLogin from './EmailLogin';
 import Integration from './pages/integration';
 import Popup from './popup';
 
-import './App.css';
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
-import { UserProvider, useUserContext } from './utils/UserContext';
 import { NotificationsCountProvider } from './dashboard/contexts/NotificationsCountContext';
 import createTheme from './theme/createTheme';
+import { AppContextProvider } from './contexts/AppContext';
+
+import './App.css';
 
 const Router: React.FC = () => (
   <BrowserRouter>
@@ -32,18 +33,17 @@ const Router: React.FC = () => (
 const theme = createTheme();
 
 const App: React.FC = () => {
-  const [user, setUser] = useUserContext();
-
   return (
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
         <CssBaseline />
 
-        <UserProvider value={{ user, setUser }}>
+        <AppContextProvider>
           <NotificationsCountProvider>
             <Router />
           </NotificationsCountProvider>
-        </UserProvider>
+        </AppContextProvider>
+
       </ThemeProvider>
     </ErrorBoundary>
   );

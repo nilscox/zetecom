@@ -6,11 +6,11 @@ import AsyncContent from 'src/components/AsyncContent';
 import CenteredContent from 'src/components/CenteredContent';
 import HeaderLogo from 'src/components/HeaderLogo';
 import Text from 'src/components/Text';
+import { useInformation } from 'src/contexts/InformationContext';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
 import { useTheme } from 'src/theme/Theme';
 import { parseInformation } from 'src/types/Information';
-import { InformationProvider } from 'src/utils/InformationContext';
 
 import ReactionsZone from './ReactionsZone';
 
@@ -47,6 +47,8 @@ const Integration: React.FC = () => {
   const { colors: { border } } = useTheme();
   const [margin, setMargin] = useState(0);
 
+  const [information, setInformation] = useInformation();
+
   const { identifier: identifierParam, origin: originParam } = useQueryString();
   const [identifier, setIdentifier] = useState(identifierParam as string);
   const origin = decodeURIComponent(originParam as string);
@@ -56,7 +58,12 @@ const Integration: React.FC = () => {
     validateStatus: (s: number) => [200, 404].includes(s),
   };
 
-  const [{ data: information, loading, error }, fetchInfo] = useAxios(opts, parseInformation);
+  const [{ data, loading, error }, fetchInfo] = useAxios(opts, parseInformation);
+
+  if (error)
+    throw error;
+
+  useEffect(() => void setInformation(data), [data, setInformation]);
 
   useEffect(() => void identifier && fetchInfo(), [identifier, fetchInfo]);
 
@@ -87,9 +94,6 @@ const Integration: React.FC = () => {
     }
   }, [information, origin]);
 
-  if (error)
-    throw error;
-
   return (
     <AsyncContent
       loading={loading}
@@ -99,11 +103,9 @@ const Integration: React.FC = () => {
           margin: `0 ${margin}px`,
         }}>
           { information ? (
-            <InformationProvider value={information}>
-              <div style={{ minHeight: 400, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
-                <IntegrationRouter />
-              </div>
-            </InformationProvider>
+            <div style={{ minHeight: 400, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
+              <IntegrationRouter />
+            </div>
           ) : (
             <InformationUnavalible />
           ) }

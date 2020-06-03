@@ -3,16 +3,16 @@ import React, { useContext, useEffect } from 'react';
 import { RouteComponentProps, useLocation } from 'react-router-dom';
 
 import Loader from 'src/components/Loader';
+import { useInformation } from 'src/contexts/InformationContext';
 import NotificationsCountContext from 'src/dashboard/contexts/NotificationsCountContext';
 import useAxios from 'src/hooks/use-axios';
 import { Information, parseInformation } from 'src/types/Information';
-import { InformationProvider } from 'src/utils/InformationContext';
 
 import InformationOverview from '../../components/InformationOverview';
 import Padding from '../../components/Padding';
 import ReactionsZone from '../integration/ReactionsZone';
 
-const useInformation = (id: number) => {
+const useFetchInformation = (id: number) => {
   return useAxios<Information>(`/api/information/${id}`, parseInformation);
 };
 
@@ -39,7 +39,11 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
   const informationId = Number(match.params.id);
   const { markNotificationAsSeen } = useNotification();
 
-  const [{ loading, data: information }] = useInformation(informationId);
+  const [information, setInformation] = useInformation();
+
+  const [{ loading, data }] = useFetchInformation(informationId);
+
+  useEffect(() => void setInformation(data), [data, setInformation]);
 
   useEffect(() => {
     if (location.state?.notificationId)
@@ -52,15 +56,13 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
     return <Loader />;
 
   return (
-    <InformationProvider value={information}>
-
+    <>
       <Padding bottom>
         <InformationOverview link information={information} />
       </Padding>
 
       <ReactionsZone />
-
-    </InformationProvider>
+    </>
   );
 };
 

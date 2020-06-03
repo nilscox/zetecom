@@ -3,7 +3,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 
 import Loader from 'src/components/Loader';
-import { useCurrentUser } from 'src/utils/UserContext';
+import { useCurrentUser } from 'src/contexts/UserContext';
 
 import HeaderLogo from '../components/HeaderLogo';
 

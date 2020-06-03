@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 
+import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import { Reaction } from 'src/types/Reaction';
-import { useCurrentUser } from 'src/utils/UserContext';
 
 import { makeStyles } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
