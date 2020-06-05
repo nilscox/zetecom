@@ -1,7 +1,7 @@
 import '@openfonts/domine_latin/index.css';
 import '@openfonts/nunito-sans_all/index.css';
 
-import primary from '@material-ui/core/colors/amber';
+import amber from '@material-ui/core/colors/amber';
 import pink from '@material-ui/core/colors/pink';
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
 
@@ -22,7 +22,7 @@ const createTheme = (): Theme => {
     // },
 
     palette: {
-      primary,
+      primary: { main: amber[800] },
       secondary: { main: '#446' },
       highlight: { main: pink[500] },
       border: { main: '#ccc', light: '#ddd', veryLight: '#eee' },

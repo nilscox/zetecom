@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Route, Switch } from 'react-router';
 
@@ -7,6 +7,8 @@ import RouterLink from 'src/components/Link';
 import Loader from 'src/components/Loader';
 import UserMenu from 'src/components/UserMenu';
 import { useCurrentUser } from 'src/contexts/UserContext';
+
+import { useNotifications } from '../contexts/NotificationsContext';
 
 import Authentication from './Authentication';
 import Information from './Information';
@@ -55,6 +57,14 @@ const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
 const Pages: React.FC = () => {
   const user = useCurrentUser();
   const classes = useStyles();
+  const { refetch: fetchNotifications } = useNotifications();
+
+  useEffect(() => {
+    console.log(user);
+    if (user)
+      fetchNotifications();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <Container fixed component="main" className={classes.container}>
