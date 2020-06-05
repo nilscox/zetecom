@@ -1,5 +1,9 @@
+/* eslint-disable simple-import-sort/sort */
+
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="index.d.ts" />
+
+import { setConfig } from 'react-hot-loader';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -23,6 +27,10 @@ declare global {
     RI_APP_VERSION: string;
   }
 }
+
+setConfig({
+  reloadHooks: false,
+});
 
 if (env.NODE_ENV === 'production')
   Sentry.init({ dsn: 'https://51c4eddbbeee4643a355e27533be2891@sentry.io/1536528' });

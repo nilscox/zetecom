@@ -1,5 +1,7 @@
 /* eslint-disable simple-import-sort/sort */
 
+import { hot } from 'react-hot-loader/root';
+
 import React from 'react';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -46,4 +48,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default hot(App);

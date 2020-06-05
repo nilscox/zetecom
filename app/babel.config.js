@@ -4,7 +4,7 @@ const plugins = () => {
   if (NODE_ENV === 'development') {
     return [
       '@babel/plugin-transform-runtime',
-      'react-refresh/babel',
+      'react-hot-loader/babel',
     ];
   }
 

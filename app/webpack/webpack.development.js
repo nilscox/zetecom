@@ -1,6 +1,4 @@
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const ReactRefreshPlugin = require('@webhotelier/webpack-fast-refresh');
-const ErrorOverlayPlugin = require('@webhotelier/webpack-fast-refresh/error-overlay');
 
 const HOST = process.env.WDS_HOST || 'localhost';
 const PORT = process.env.WDS_PORT || '8000';
@@ -11,30 +9,13 @@ module.exports = ({ PUBLIC_PATH, SOURCES_PATH }) => ({
   mode: 'development',
   devtool: 'cheap-module-source-map',
 
-  entry: {
-    main: [
-      '@webhotelier/webpack-fast-refresh/runtime.js',
-    ],
-  },
-
-  module: {
-    rules: [
-
-      {
-        test: /\.(j|t)sx?$/,
-        include: SOURCES_PATH,
-        use: [
-          { loader: '@webhotelier/webpack-fast-refresh/loader.js' },
-        ],
-      },
-
-    ],
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
   },
 
   plugins: [
-
-    new ReactRefreshPlugin(),
-    new ErrorOverlayPlugin(),
 
     new ForkTsCheckerWebpackPlugin({
       async: false,
