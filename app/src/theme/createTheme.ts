@@ -86,6 +86,11 @@ const createTheme = (): Theme => {
         },
       },
     },
+    MuiListItemIcon: {
+      root: {
+        minWidth: theme.spacing(10),
+      },
+    },
   };
 
   return theme;

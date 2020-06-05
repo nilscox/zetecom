@@ -66,7 +66,7 @@ const Pages: React.FC = () => {
         </RouterLink>
 
         <Grid item className={classes.userMenu}>
-          <UserMenu />
+          <UserMenu user={user} />
         </Grid>
 
       </Grid>
