@@ -24,7 +24,7 @@ const Router: React.FC = () => (
   <Switch>
     <Route path="/" exact component={Informations} />
     <Route path="/information/:id" component={Information} />
-    <Route path="/reactions" component={UserReactions} />
+    <Route path="/mes-commentaires" component={UserReactions} />
     <Route path="/:sign(connexion|inscription|connexion-par-email)" component={Authentication} />
     <Route path="/notifications" component={Notifications} />
     <Route component={NotFound} />

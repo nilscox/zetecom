@@ -1,7 +1,13 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+
+import { AxiosRequestConfig } from 'axios';
+import clsx from 'clsx';
 
 import { useNotifications } from '../../contexts/NotificationsContext';
+import { useUser } from '../../contexts/UserContext';
+import useAxios from '../../hooks/use-axios';
 import { User } from '../../types/User';
+import RouterLink from '../Link';
 import UserAvatar from '../UserAvatar';
 
 import {
@@ -18,7 +24,6 @@ import {
 import CommentIcon from '@material-ui/icons/Comment';
 import SignoutIcon from '@material-ui/icons/ExitToApp';
 import NotificationIcon from '@material-ui/icons/Notifications';
-import clsx from 'clsx';
 
 const useStyles = makeStyles(({ palette }) => ({
   userMenuButton: {
@@ -33,34 +38,61 @@ const useStyles = makeStyles(({ palette }) => ({
   },
 }));
 
-const UserMenu: React.FC<MenuProps> = (props) => {
+type UserMenuProps = MenuProps & {
+  onClose: () => void;
+};
+
+const UserMenu: React.FC<UserMenuProps> = ({ onClose, ...props }) => {
+  const [, setUser] = useUser();
   const { count: notificationsCount } = useNotifications();
   const hasNotifications = notificationsCount > 0;
   const classes = useStyles();
+
+  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/logout' };
+  const [{ error, loading, status }, logout] = useAxios(opts, () => undefined, { manual: true });
+
+  if (error)
+    throw error;
+
+  useEffect(() => {
+    if (status(204))
+      setUser(null);
+  }, [status, setUser]);
+
+  const handleLogout = () => {
+    logout();
+    onClose();
+  };
 
   return (
     <Menu
       getContentAnchorEl={null}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      onClose={onClose}
       {...props}
     >
 
-      <MenuItem className={clsx(hasNotifications && classes.notificationsActive)}>
+      <MenuItem
+        component={RouterLink}
+        to="/notifications"
+        className={clsx(hasNotifications && classes.notificationsActive)}
+        onClick={onClose}
+      >
         <ListItemIcon>
           <NotificationIcon fontSize="small" color={hasNotifications ? 'primary' : 'inherit'} />
         </ListItemIcon>
         <ListItemText primary="Notifications" />
       </MenuItem>
 
-      <MenuItem>
+      <MenuItem component={RouterLink} to="/mes-commentaires" onClick={onClose}>
         <ListItemIcon>
           <CommentIcon fontSize="small" />
         </ListItemIcon>
         <ListItemText primary="Mes commentaires" />
       </MenuItem>
 
-      <MenuItem>
+      <MenuItem onClick={handleLogout}>
         <ListItemIcon>
           <SignoutIcon fontSize="small" />
         </ListItemIcon>

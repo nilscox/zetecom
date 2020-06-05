@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import clsx from 'clsx';
 import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
@@ -15,16 +15,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const RouterLink: React.FC<ReactRouterLinkProps> = ({ className, ...props }) => {
+const RouterLink: React.FC<ReactRouterLinkProps> = forwardRef(({ className, ...props }, ref) => {
   const classes = useStyles({});
 
   return (
     <ReactRouterLink
       {...props}
+      ref={ref as any}
       className={clsx(classes.link, className)}
     />
   );
-};
+});
 
 export default RouterLink;
 
