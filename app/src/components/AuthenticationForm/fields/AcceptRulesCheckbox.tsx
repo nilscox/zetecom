@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 
 import WebsiteLink from 'src/popup/components/WebsiteLink';
 
+import { Form } from '../types';
+
+import { Collapse } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,11 +20,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 type AcceptRulesCheckbox = {
+  form: Form;
   checked: boolean;
-  onChange: (checked: boolean) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ checked, onChange }) => {
+const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ form, checked, onChange }) => {
   const [showWarning, setShowWarning] = useState(false);
   const classes = useStyles();
 
@@ -29,11 +33,11 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ checked, onChange 
     if (!showWarning)
       setShowWarning(true);
     else
-      onChange(e.target.checked);
+      onChange(e);
   };
 
   return (
-    <>
+    <Collapse in={form === 'signup'}>
       <FormControlLabel
         control={<Checkbox checked={checked} onChange={handleChange} />}
         label={<>J'accepte <WebsiteLink to="/charte.html">la charte</WebsiteLink>.</>}
@@ -44,7 +48,7 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ checked, onChange 
           La charte est composée de quelques règles simples. Accordez 5 minutes à sa lecture avant de vous inscrire.
         </Typography>
       ) }
-    </>
+    </Collapse>
   );
 };
 

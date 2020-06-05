@@ -5319,7 +5319,7 @@ eslint-scope@^5.0.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-"eslint-stats@github:ianvs/eslint-stats#cb1ff8251b50c7f0cb431a2b395431ebfdeb10c8":
+eslint-stats@ianvs/eslint-stats#cb1ff8251b50c7f0cb431a2b395431ebfdeb10c8:
   version "1.0.0"
   resolved "https://codeload.github.com/ianvs/eslint-stats/tar.gz/cb1ff8251b50c7f0cb431a2b395431ebfdeb10c8"
   dependencies:
@@ -10236,6 +10236,11 @@ react-transition-group@^4.3.0, react-transition-group@^4.4.0:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+react-use-form-state@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/react-use-form-state/-/react-use-form-state-0.13.1.tgz#891e678cf6248e4668bfffc1112833c2d98a2e82"
+  integrity sha512-h0b+KFykqihTpjHKOi8fKZ3aaFqZofkAMof4K2rkCgC8FaU7JnkjzCAPv9lVJjDuf9AAmFHFM1PPMzPtzdwY3Q==
 
 react@^16.13.1, react@^16.8.3:
   version "16.13.1"

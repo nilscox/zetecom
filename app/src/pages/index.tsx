@@ -2,19 +2,20 @@ import React from 'react';
 
 import { Route, Switch } from 'react-router';
 
+import HeaderLogo from 'src/components/HeaderLogo';
+import RouterLink from 'src/components/Link';
 import Loader from 'src/components/Loader';
+import UserMenu from 'src/components/UserMenu';
 import { useCurrentUser } from 'src/contexts/UserContext';
-
-import HeaderLogo from '../components/HeaderLogo';
-import RouterLink from '../components/Link';
 
 import Authentication from './Authentication';
 import Information from './Information';
 import Informations from './InformationsList';
+import NotFound from './NotFound';
 import Notifications from './Notifications';
 import UserReactions from './UserReactions';
 
-import { Box, Container } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const Router: React.FC = () => (
@@ -22,8 +23,9 @@ const Router: React.FC = () => (
     <Route path="/" exact component={Informations} />
     <Route path="/information/:id" component={Information} />
     <Route path="/reactions" component={UserReactions} />
-    <Route path="/:sign(connexion|inscription)" component={Authentication} />
+    <Route path="/:sign(connexion|inscription|connexion-par-email)" component={Authentication} />
     <Route path="/notifications" component={Notifications} />
+    <Route component={NotFound} />
   </Switch>
 );
 
@@ -39,6 +41,15 @@ const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
       padding: spacing(0, 26),
     },
   },
+  header: {
+    padding: spacing(4, 0),
+  },
+  userMenu: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
 }));
 
 const Pages: React.FC = () => {
@@ -48,11 +59,17 @@ const Pages: React.FC = () => {
   return (
     <Container fixed component="main" className={classes.container}>
 
-      <Box paddingY={4}>
+      <Grid container className={classes.header}>
+
         <RouterLink to="/">
           <HeaderLogo />
         </RouterLink>
-      </Box>
+
+        <Grid item className={classes.userMenu}>
+          <UserMenu />
+        </Grid>
+
+      </Grid>
 
       { user === undefined ? <Loader /> : <Router />}
 

@@ -17,7 +17,7 @@ const paths = {
 
 const mergeConfig = merge.smartStrategy({
   'entry.main': 'prepend',
-  'module.rules.use': 'prepend',
+  'module.rules.use': 'append',
   'plugins': 'prepend',
 });
 

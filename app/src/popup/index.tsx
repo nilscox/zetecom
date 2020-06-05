@@ -1,74 +1,53 @@
 import React from 'react';
 
-import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import AsyncContent from 'src/components/AsyncContent';
 import HeaderLogo from 'src/components/HeaderLogo';
 import RouterLink from 'src/components/Link';
 import { useCurrentUser } from 'src/contexts/UserContext';
 
+import createTheme from '../theme/createTheme';
+
 import AuthenticatedView from './views/AuthenticatedView';
-import EmailLoginView from './views/EmailLoginView';
-import LoginView from './views/LoginView';
-import SignupView from './views/SignupView';
+import AuthenticationView from './views/AuthenticationView';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
+import { Box } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core/styles';
 
-const LoginSignupTabs: React.FC = () => {
-  const location = useLocation();
-  const history = useHistory();
+const theme = createTheme();
 
-  return (
-    <Tabs variant="fullWidth" value={location.pathname} onChange={(_e, value) => history.replace(value)}>
-      <Tab value="/popup/login" label="Connexion" />
-      <Tab value="/popup/signup" label="Inscription" />
-    </Tabs>
-  );
+theme.typography.body1 = {
+  [theme.breakpoints.up('xs')]: {
+    fontSize: '1rem',
+  },
 };
-
-const useStyles = makeStyles(theme => ({
-  headerLogo: {
-    padding: theme.spacing(1),
-    borderBottom: '1px solid #CCC',
-    background: 'linear-gradient(to top, #eeeeee 0%, #ffffff 8%)',
-  },
-  container: {
-    marginBottom: theme.spacing(4),
-  },
-}));
 
 const Popup: React.FC = () => {
   const user = useCurrentUser();
-  const classes = useStyles();
 
   return (
     <AsyncContent
       loading={typeof user === 'undefined'}
       content={() => (
-        <>
-          <RouterLink to="/popup">
-            <HeaderLogo className={classes.headerLogo} />
-          </RouterLink>
+        <ThemeProvider theme={theme}>
+          <Box padding={3}>
 
-          <Route exact path="/popup/(login|signup)">
-            <LoginSignupTabs />
-          </Route>
+            <RouterLink to="/popup">
+              <HeaderLogo />
+            </RouterLink>
 
-          <div className={classes.container}>
             <Switch>
 
-              <Route path="/popup/login" component={LoginView} />
-              <Route path="/popup/signup" exact component={SignupView} />
-              <Route path="/popup/email-login" component={EmailLoginView} />
-              <Route path="/popup/authenticated" component={AuthenticatedView} />
+              <Route path="/popup/:sign(connexion|inscription|connexion-par-email)" component={AuthenticationView} />
+              <Route path="/popup" component={AuthenticatedView} />
 
-              <Route render={() => <Redirect to={user ? '/popup/authenticated' : '/popup/login'} />} />
+              <Route render={() => <Redirect to="/popup" />} />
 
             </Switch>
-          </div>
-        </>
+
+          </Box>
+        </ThemeProvider>
       )}
     />
   );

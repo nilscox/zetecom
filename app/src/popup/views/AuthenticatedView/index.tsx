@@ -2,36 +2,31 @@ import React, { useEffect, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 import dayjs from 'dayjs';
-import { RouteComponentProps } from 'react-router-dom';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
 
+import Button from 'src/components/Button';
+import TextField from 'src/components/TextField';
 import { UserAvatarNick } from 'src/components/UserAvatar';
 import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import FormGlobalError from 'src/popup/components/FormGlobalError';
-import TextField from 'src/popup/components/TextField';
-
-import Button from '../../components/Button';
 
 import useChangePassword from './useChangePassword';
 
+import { Box, Collapse } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    padding: theme.spacing(2),
-  },
-  avatarContainer: {
-    marginBottom: theme.spacing(2),
-  },
+const useStyles = makeStyles(({ palette }) => ({
   changePassword: {
     textDecoration: 'underline',
-    marginTop: theme.spacing(2),
+    cursor: 'pointer',
   },
-  submitButton: {
-    display: 'block',
-    margin: 'auto',
-    marginTop: theme.spacing(2),
+  logoutButton: {
+    fontSize: 18,
+  },
+  passwordChanged: {
+    color: palette.success.dark,
   },
 }));
 
@@ -71,12 +66,15 @@ const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
     changePassword(password);
   };
 
-  return (
-    <div className={classes.container}>
+  if (!user)
+    return <Redirect to="/popup/connexion" />;
 
-      <div className={classes.avatarContainer}>
+  return (
+    <>
+
+      <Box marginTop={2} paddingY={2}>
         <UserAvatarNick user={user} />
-      </div>
+      </Box>
 
       <Typography>
         Email : { user.email }
@@ -86,8 +84,8 @@ const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
         Inscrit(e) depuis le : { dayjs(user.created).format('DD MM YYYY') }
       </Typography>
 
-      { displayChangePasswordForm
-        ? (
+      <Box paddingY={2}>
+        <Collapse in={displayChangePasswordForm}>
           <form onSubmit={handleSubmit}>
 
             <TextField
@@ -103,21 +101,29 @@ const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
             <FormGlobalError error={globalError} />
 
           </form>
+        </Collapse>
+
+        { passwordChanged ? (
+          <Typography className={classes.passwordChanged}>
+            Votre mot de passe a bien été mis à jour !
+          </Typography>
         ) : (
-          <div
+          <Typography
             className={classes.changePassword}
-            onClick={() => setDisplayChangePasswordForm(true)}
+            onClick={() => setDisplayChangePasswordForm(d => !d)}
           >
             Changer de mot de passe
-          </div>
-        )
-      }
+          </Typography>
+        ) }
+      </Box>
 
-      <Button loading={loading} className={classes.submitButton} onClick={() => logout()}>
-        Déconnexion
-      </Button>
+      <Box paddingTop={4} display="flex" justifyContent="center">
+        <Button loading={loading} className={classes.logoutButton} onClick={() => logout()}>
+          Déconnexion
+        </Button>
+      </Box>
 
-    </div>
+    </>
   );
 };
 

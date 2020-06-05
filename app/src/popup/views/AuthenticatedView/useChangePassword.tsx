@@ -34,6 +34,14 @@ const useChangePassword = () => {
       setPasswordChanged(true);
   }, [status]);
 
+  useEffect(() => {
+    if (passwordChanged) {
+      const timeout = setTimeout(() => setPasswordChanged(false), 3000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [passwordChanged]);
+
   const handleChangePassord = (password: string) => {
     setPasswordChanged(false);
 

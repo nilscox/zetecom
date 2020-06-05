@@ -3,10 +3,10 @@ import '@openfonts/nunito-sans_all/index.css';
 
 import primary from '@material-ui/core/colors/amber';
 import pink from '@material-ui/core/colors/pink';
-import { createMuiTheme, responsiveFontSizes, Theme } from '@material-ui/core/styles';
+import { createMuiTheme, Theme } from '@material-ui/core/styles';
 
-const createDefaultTheme = (): Theme => {
-  const defaultTheme = createMuiTheme({
+const createTheme = (): Theme => {
+  const theme = createMuiTheme({
 
     spacing: 4,
 
@@ -40,9 +40,6 @@ const createDefaultTheme = (): Theme => {
     },
 
   });
-
-  // const theme = responsiveFontSizes(defaultTheme);
-  const theme = defaultTheme;
 
   theme.typography.h1.fontSize = '1rem';
   theme.typography.h2.fontSize = '1rem';
@@ -94,4 +91,4 @@ const createDefaultTheme = (): Theme => {
   return theme;
 };
 
-export default createDefaultTheme;
+export default createTheme;

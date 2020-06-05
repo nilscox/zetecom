@@ -38,7 +38,7 @@ module.exports = ({ PUBLIC_PATH, SOURCES_PATH }) => ({
 
     new ForkTsCheckerWebpackPlugin({
       async: false,
-      eslint: true,
+      // eslint: true,
       formatter: 'codeframe',
       formatterOptions: {
         linesAbove: 5,

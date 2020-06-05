@@ -8,23 +8,23 @@ import { User } from 'src/types/User';
 
 import { Box } from '@material-ui/core';
 
-const Authentication: React.FC = () => {
+const AuthenticationView: React.FC = () => {
   const [currentUser, setUser] = useUser();
   const history = useHistory();
 
   const handleAuthenticated = (user: User) => {
     setUser(user);
-    history.push('/');
+    history.push('/popup');
   };
 
   if (currentUser)
-    return <Redirect to="/" />;
+    return <Redirect to="/popup" />;
 
   return (
-    <Box margin="auto" maxWidth={480} marginTop={16}>
-      <AuthenticationForm formErrorConsistentHeight onAuthenticated={handleAuthenticated} />
+    <Box paddingTop={4}>
+      <AuthenticationForm urlPrefix="/popup" onAuthenticated={handleAuthenticated} />
     </Box>
   );
 };
 
-export default Authentication;
+export default AuthenticationView;

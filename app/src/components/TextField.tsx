@@ -5,11 +5,11 @@ import MUITextField, { TextFieldProps as MUITextFieldProps } from '@material-ui/
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: theme.spacing(2),
+    margin: theme.spacing(2, 0),
   },
 }));
 
-type TextFieldProps = Omit<MUITextFieldProps, 'error' | 'variant'> & {
+export type TextFieldProps = Omit<MUITextFieldProps, 'error' | 'variant'> & {
   error?: React.ReactNode;
   onTextChange?: (value: string) => void;
 };

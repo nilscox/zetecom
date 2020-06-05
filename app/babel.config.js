@@ -26,3 +26,5 @@ module.exports = {
   ],
   plugins: plugins(),
 };
+
+// console.log(module.exports);
