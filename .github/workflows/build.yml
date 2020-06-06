@@ -19,13 +19,14 @@ jobs:
         postgresql db: 'test'
         postgresql user: 'root'
         postgresql password: 'root'
-    - uses: elgohr/Publish-Docker-Github-Action@master
+    - uses: whoan/docker-build-with-cache-action@v5
       with:
-        name: nilscox/reagir-information-api:${{ github.sha }}
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        workdir: api
-        buildoptions: --network=host
+        image_name: nilscox/reagir-information-api
+        image_tag: ${{ github.sha }}
+        context: ./api
+        build_extra_args: --network=host
 
   app:
     name: build app
