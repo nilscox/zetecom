@@ -65,6 +65,11 @@ jobs:
       working-directory: ./e2e
       env:
         GIT_SHA: ${{ github.sha }}
+    - uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: cypress-output
+        path: e2e/cypress/artifacts
 
   publish-api-staging:
     name: publish api docker image staging
