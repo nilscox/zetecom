@@ -8,6 +8,8 @@ import AuthenticatedUserMenu from './AuthenticatedUserMenu';
 
 import defaultAvatar from '../UserAvatar/default-avatar.png';
 
+import { Grid, Typography } from '@material-ui/core';
+
 type UserMenuProps = {
   user: User | null;
 };
@@ -19,7 +21,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
 
   return (
     <RouterLink to="/connexion">
-      <CircleAvatarIwage src={defaultAvatar} />
+      <Grid container direction="column" alignItems="center">
+        <CircleAvatarIwage src={defaultAvatar} />
+        <Grid item>
+          <Typography style={{ fontWeight: 600 }}>
+            Conexion
+          </Typography>
+        </Grid>
+      </Grid>
     </RouterLink>
   );
 };

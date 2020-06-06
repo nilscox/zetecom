@@ -16,8 +16,8 @@ const AuthenticationNavigation: React.FC<AuthenticationNavigationProps> = ({ for
     <Grid container>
 
       <Box flex={1}>
-        <RouterLink to={`${urlPrefix}/${form === 'signup' ? 'connexion' : 'inscription'}`}>
-          { form === 'signup' ? 'J\'ai déjà un compte' : 'Créer un compte' }
+        <RouterLink to={`${urlPrefix}/${form === 'login' ? 'inscription' : 'connexion'}`}>
+          { form === 'login' ? 'Créer un compte' : 'Connexion' }
         </RouterLink>
       </Box>
 
