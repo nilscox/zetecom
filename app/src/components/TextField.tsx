@@ -9,6 +9,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const useInputStyles = makeStyles(theme => ({
+  root: {
+    '&$cssFocused $notchedOutline': {
+      borderColor: `${theme.palette.primary.light} !important`,
+    },
+  },
+  focused: {},
+  notchedOutline: {
+    borderWidth: '1px',
+    borderColor: `${theme.palette.secondary.light}`,
+  },
+}));
+
 export type TextFieldProps = Omit<MUITextFieldProps, 'error' | 'variant'> & {
   error?: React.ReactNode;
   onTextChange?: (value: string) => void;
@@ -16,6 +29,7 @@ export type TextFieldProps = Omit<MUITextFieldProps, 'error' | 'variant'> & {
 
 const TextField: React.FC<TextFieldProps> = ({ error, onTextChange, ...props }) => {
   const classes = useStyles();
+  const inputClasses = useInputStyles();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // https://github.com/facebook/create-react-app/issues/8107#issuecomment-569780409
@@ -34,6 +48,7 @@ const TextField: React.FC<TextFieldProps> = ({ error, onTextChange, ...props }) 
       variant="outlined"
       onChange={handleChange}
       classes={classes}
+      InputProps={{ classes: inputClasses }}
       {...props}
     />
   );
