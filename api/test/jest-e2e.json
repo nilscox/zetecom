@@ -8,5 +8,6 @@
   },
   "moduleNameMapper": {
     "Common/(.*)": "<rootDir>/common/$1"
-  }
+  },
+  "verbose": true
 }
