@@ -6,12 +6,12 @@
     "start": "cypress open"
   },
   "devDependencies": {
-    "@cypress/code-coverage": "^3.1.0",
+    "@cypress/code-coverage": "^3.7.6",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "cypress": "^4.4.0",
+    "cypress": "^4.7.0",
     "nyc": "^15.0.1",
-    "source-map-support": "^0.5.16",
-    "wait-on": "^4.0.2"
+    "source-map-support": "^0.5.19",
+    "wait-on": "^5.0.0"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
