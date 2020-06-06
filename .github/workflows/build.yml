@@ -32,12 +32,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: elgohr/Publish-Docker-Github-Action@master
+    - uses: whoan/docker-build-with-cache-action@v5
       with:
-        name: nilscox/reagir-information-app:${{ github.sha }}
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        workdir: app
+        image_name: nilscox/reagir-information-app
+        image_tag: ${{ github.sha }}
+        context: ./app
 
   extension:
     name: build extension
