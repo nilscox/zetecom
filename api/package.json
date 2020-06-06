@@ -19,7 +19,7 @@
     "test:intg": "yarn test --config ./test/jest-intg.json --runInBand",
     "test:e2e": "yarn test --config ./test/jest-e2e.json --runInBand",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
-    "start:restoredb": "ep2cmd --log=dev /reset 'yarn db:reset' /populate 'yarn db:populate'",
+    "start:restoredb": "ep2cmd /reset 'yarn db:reset' /populate 'yarn db:populate'",
     "db:drop": "yarn typeorm schema:drop",
     "db:migrate": "yarn typeorm migration:run",
     "db:populate": "ts-node ./scripts/populate",
