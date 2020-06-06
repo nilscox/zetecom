@@ -20,7 +20,7 @@ const useAuthenticationForm = (form: Form, onAuthenticated: (user: User) => void
   const [signup, signupResult] = useSignup(onAuthenticated);
   const signupErrors = useFormErrors(signupErrorsHandlers, signupResult.error);
 
-  const [askEmailLogin, askEmailLoginResult] = useAskEmailLogin(onAuthenticated);
+  const [askEmailLogin, askEmailLoginResult] = useAskEmailLogin();
   const askEmailLoginErrors = useFormErrors(askEmailLoginErrorsHandlers, askEmailLoginResult.error);
 
   const [{ loading }, errors] = useMemo(() => {

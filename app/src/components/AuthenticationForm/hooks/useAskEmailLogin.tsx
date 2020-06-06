@@ -1,23 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { AxiosError, AxiosRequestConfig } from 'axios';
+import { toast } from 'react-toastify';
 
 import useAxios from 'src/hooks/use-axios';
-import { parseUser, User } from 'src/types/User';
+import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
 
-import { FormErrorsHandlers } from '../../../hooks/use-form-errors';
 import { FormFields } from '../types';
 
-const useAskEmailLogin = (onAuthenticated: (user: User) => void) => {
+const useAskEmailLogin = () => {
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/ask-email-login' };
-  const [{ data: user, loading, error, status }, askEmailLogin] = useAxios(opts, parseUser, { manual: true });
+  const [{ loading, error, status }, askEmailLogin] = useAxios(opts, null, { manual: true });
+  const [email, setEmail] = useState<string>();
 
   useEffect(() => {
-    if (status(204))
-      onAuthenticated(user);
-  }, [status, user, onAuthenticated]);
+    if (status(204) && email)
+      toast.success(`L'email de connexion a bien été envoyé à l'adresse ${email}`);
+  }, [status, email]);
 
   const handleAskEmailLogin = (email: string) => {
+    setEmail(email);
     askEmailLogin({ data: { email } });
   };
 

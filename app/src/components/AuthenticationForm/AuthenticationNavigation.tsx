@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useLocation } from 'react-router-dom';
+
 import RouterLink from '../Link';
 
 import { Form } from './types';
@@ -12,17 +14,29 @@ type AuthenticationNavigationProps = {
 };
 
 const AuthenticationNavigation: React.FC<AuthenticationNavigationProps> = ({ form, urlPrefix }) => {
+  const { search: queryString } = useLocation();
+
+  const loginSignupLocation = () => {
+    const path = form === 'login' ? 'inscription' : 'connexion';
+
+    return `${urlPrefix}/${path}${queryString}`;
+  };
+
+  const forgotPasswordLocation = () => {
+    return `${urlPrefix}/connexion-par-email${queryString}`;
+  };
+
   return (
     <Grid container>
 
       <Box flex={1}>
-        <RouterLink to={`${urlPrefix}/${form === 'login' ? 'inscription' : 'connexion'}`}>
+        <RouterLink to={loginSignupLocation()}>
           { form === 'login' ? 'Créer un compte' : 'Connexion' }
         </RouterLink>
       </Box>
 
       <Box flex={1} textAlign="right">
-        <RouterLink to={`${urlPrefix}/connexion-par-email`}>
+        <RouterLink to={forgotPasswordLocation()}>
           Mot de passe oublié
         </RouterLink>
       </Box>

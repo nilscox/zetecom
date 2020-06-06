@@ -1,8 +1,8 @@
 import React from 'react';
 
+import { RedirectAuthenticated } from 'src/components/Authenticated';
+import FormError from 'src/components/FormError';
 import { User } from 'src/types/User';
-
-import FormError from '../FormError';
 
 import AuthenticateButton from './AuthenticateButton';
 import AuthenticationMessage from './AuthenticationMessage';
@@ -49,6 +49,8 @@ const AuthenticationForm: React.FC<AuthenticationFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit}>
+
+      <RedirectAuthenticated />
 
       <AuthenticationMessage form={form} />
 

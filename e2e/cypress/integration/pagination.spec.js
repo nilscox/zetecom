@@ -33,7 +33,7 @@ describe('pagination', () => {
     cy.visitIntegration('test:news1');
 
     cy.get('[title=Tri]').click();
-    cy.contains('[FAIL]').click();
+    cy.contains('Les plus anciens en premier').click();
 
     cy.countReactions(10);
     cy.getReaction(11).should('not.exist');
@@ -48,6 +48,8 @@ describe('pagination', () => {
 
     cy.get('[title=Tri]').click();
     cy.contains('Les plus pertinents en premier').click();
+
+    // cy.wait(500);
 
     cy.getReactionAt(0).should('contain', 'score = 4');
     cy.getReactionAt(1).should('contain', 'score = 3');

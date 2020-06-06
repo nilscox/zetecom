@@ -1,18 +1,38 @@
 describe('authentication', () => {
 
+  it('navigation', () => {
+    cy.visitPopup();
+
+    cy.location(location => expect(location).to.eq('/popup/connexion'));
+    cy.contains('Connectez-vous sur Réagir à l\'information').should('be.visible');
+    cy.contains('Créer un compte').should('be.visible');
+    cy.contains('Mot de passe oublié').should('be.visible');
+
+    cy.contains('Créer un compte').click();
+    cy.location(location => expect(location).to.eq('/popup/inscription'));
+    cy.contains('Créez votre compte sur Réagir à l\'information').should('be.visible');
+    cy.contains('Connexion').should('be.visible');
+    cy.contains('Mot de passe oublié').should('be.visible');
+
+    cy.contains('Mot de passe oublié').click();
+    cy.location(location => expect(location).to.eq('/popup/connexion-par-email'));
+    cy.contains('via un email contenant un lien de connexion sans mot de passe.').should('be.visible');
+    cy.contains('Connexion').should('be.visible');
+    cy.contains('Mot de passe oublié').should('be.visible');
+  });
+
   it('signup', () => {
     cy.resetdb();
 
-    cy.visitPopup();
+    cy.visitPopup('/inscription');
 
-    cy.contains('Inscription').click();
     cy.get('input[name="email"]').type('user@domain.tld');
     cy.get('input[name="password"]').type('secure p4ssword');
     cy.get('input[name="nick"]').type('User');
     cy.contains('J\'accepte la charte.').closest('label').children().eq(0).click();
     cy.contains('J\'accepte la charte.').closest('label').children().eq(0).click();
-    cy.get('button[type="submit"]').contains('Inscription').click();
-    cy.contains('un email vous a été envoyé à user@domain.tld.');
+    cy.get('button[type="submit"]').click();
+    cy.contains('un email vous a été envoyé à user@domain.tld');
 
     cy.visitPopup();
 
@@ -75,18 +95,15 @@ describe('authentication', () => {
     cy.contains('Connexion');
   });
 
-  it('ask email connection', () => {
+  it('ask email login', () => {
     cy.resetdb();
 
-    cy.visitPopup();
-    cy.contains('Mot de passe oublié ?').click();
-
-    cy.contains('Connexion par email').should('exist');
+    cy.visitPopup('/connexion-par-email');
 
     cy.get('input[name="email"]').type('user1@domain.tld');
     cy.get('button[type="submit"]').contains('Envoyer').click();
 
-    cy.contains('L\'email de connexion a bien été envoyé à l\'adresse user1@domain.tld.');
+    cy.contains('L\'email de connexion a bien été envoyé à l\'adresse user1@domain.tld');
   });
 
   it('change password', () => {
@@ -113,6 +130,7 @@ describe('authentication', () => {
     cy.get('input[name="password"]').clear().type('n3w p4ssword');
     cy.get('form').submit();
 
+    cy.contains('Votre mot de passe a bien été mis à jour !').should('be.visible');
     cy.contains('Changer de mot de passe').should('be.visible');
 
     cy.contains('Déconnexion').click();

@@ -5,9 +5,9 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import AsyncContent from 'src/components/AsyncContent';
 import HeaderLogo from 'src/components/HeaderLogo';
 import RouterLink from 'src/components/Link';
+import ToastContainer from 'src/components/ToastContainer';
 import { useCurrentUser } from 'src/contexts/UserContext';
-
-import createTheme from '../theme/createTheme';
+import createTheme from 'src/theme/createTheme';
 
 import AuthenticatedView from './views/AuthenticatedView';
 import AuthenticationView from './views/AuthenticationView';
@@ -32,6 +32,8 @@ const Popup: React.FC = () => {
       content={() => (
         <ThemeProvider theme={theme}>
           <Box padding={3}>
+
+            <ToastContainer />
 
             <RouterLink to="/popup">
               <HeaderLogo />

@@ -48,8 +48,9 @@ Cypress.Commands.add('login', (body) => {
   cy.request({ method: 'POST', url: API_URL + '/api/auth/login', body });
 });
 
-Cypress.Commands.add('visitPopup', () => {
-  cy.visit(APP_URL + '/popup');
+Cypress.Commands.add('visitPopup', (url = '') => {
+  cy.viewport(380, 550);
+  cy.visit(APP_URL + '/popup' + url);
 });
 
 Cypress.Commands.add('visitIntegration', (identifier) => {

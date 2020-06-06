@@ -8,6 +8,7 @@ import Loader from 'src/components/Loader';
 import UserMenu from 'src/components/UserMenu';
 import { useCurrentUser } from 'src/contexts/UserContext';
 
+import ToastContainer from '../components/ToastContainer';
 import { useNotifications } from '../contexts/NotificationsContext';
 
 import Authentication from './Authentication';
@@ -17,8 +18,10 @@ import NotFound from './NotFound';
 import Notifications from './Notifications';
 import UserReactions from './UserReactions';
 
+import 'react-toastify/dist/ReactToastify.min.css';
+
 import { Container, Grid } from '@material-ui/core';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 const Router: React.FC = () => (
   <Switch>
@@ -31,7 +34,7 @@ const Router: React.FC = () => (
   </Switch>
 );
 
-const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
+const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   container: {
     [breakpoints.up('sm')]: {
       padding: spacing(0, 6),
@@ -60,7 +63,6 @@ const Pages: React.FC = () => {
   const { refetch: fetchNotifications } = useNotifications();
 
   useEffect(() => {
-    console.log(user);
     if (user)
       fetchNotifications();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,6 +70,8 @@ const Pages: React.FC = () => {
 
   return (
     <Container fixed component="main" className={classes.container}>
+
+      <ToastContainer />
 
       <Grid container className={classes.header}>
 

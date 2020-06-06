@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { AxiosError, AxiosRequestConfig } from 'axios';
+import { toast } from 'react-toastify';
 
 import useAxios from 'src/hooks/use-axios';
 import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
@@ -14,8 +15,10 @@ const useSignup = (onAuthenticated: (user: User) => void) => {
   const [{ data: user, loading, error, status }, signup] = useAxios(opts, parseUser, { manual: true });
 
   useEffect(() => {
-    if (status(200))
+    if (status(201)) {
+      toast.success(`Pour finaliser votre inscription, un email vous a été envoyé à ${user.email}`);
       onAuthenticated(user);
+    }
   }, [status, user, onAuthenticated]);
 
   const handleSignup = (email: string, password: string, nick: string) => {
