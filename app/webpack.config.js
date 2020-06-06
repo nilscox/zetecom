@@ -6,12 +6,14 @@ const merge = require('webpack-merge');
 const common = require('./webpack/webpack.common');
 const development = require('./webpack/webpack.development');
 const production = require('./webpack/webpack.production');
+const test = require('./webpack/webpack.test');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 const paths = {
   SOURCES_PATH: path.resolve(__dirname, 'src'),
   OUTPUT_PATH: path.resolve(__dirname, 'dist'),
+  OUTPUT_PATH_INSTRUMENTED: path.resolve(__dirname, 'instrumented'),
   PUBLIC_PATH: path.resolve(__dirname, 'public'),
 };
 
@@ -21,10 +23,13 @@ const mergeConfig = merge.smartStrategy({
   'plugins': 'prepend',
 });
 
-module.exports = mergeConfig(
-  common(paths),
-  NODE_ENV === 'development' ? development(paths) : production(paths),
-);
+const config = {
+  development,
+  production,
+  test,
+};
+
+module.exports = mergeConfig(common(paths), config[NODE_ENV](paths));
 
 // console.dir({
 //   entry: module.exports.entry,

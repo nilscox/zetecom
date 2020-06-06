@@ -7,9 +7,10 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",
+    "build:coverage": "NODE_ENV=test webpack",
     "clean": "rimraf dist",
     "lint": "eslint 'src/**/*.ts{,x}'",
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --verbose",
     "storybook": "start-storybook --ci -p 6006",
     "deploy": "../scripts/deploy-app.sh"
   },
@@ -45,6 +46,7 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
     "@hot-loader/react-dom": "^16.13.0",
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-centered": "^5.3.19",
     "@storybook/addon-info": "^5.3.18",
@@ -69,6 +71,8 @@
     "babel-jest": "^26.0.1",
     "babel-loader": "^8.1.0",
     "babel-plugin-istanbul": "^6.0.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "concurrently": "^5.2.0",
     "copy-webpack-plugin": "^6.0.1",
     "css-loader": "^3.5.3",
     "dotenv": "^8.1.0",
@@ -91,9 +95,11 @@
     "react-docgen-typescript-loader": "^3.7.2",
     "react-hot-loader": "^4.12.21",
     "rimraf": "^3.0.2",
+    "source-map-support": "^0.5.19",
     "storybook-addon-material-ui": "^0.9.0-alpha.21",
     "style-loader": "^1.2.1",
     "ts-loader": "^7.0.4",
+    "ts-node": "^8.10.2",
     "typescript": "^3.9.3",
     "webpack": "4",
     "webpack-cli": "^3.3.11",
@@ -102,6 +108,10 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "all": true
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true

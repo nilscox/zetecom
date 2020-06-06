@@ -3,18 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "cypress open"
+    "start": "cypress open",
+    "start:ci": "cypress run --config-file cypress.ci.json"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.7.6",
-    "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "cypress": "^4.7.0",
-    "nyc": "^15.0.1",
-    "source-map-support": "^0.5.19",
+    "nyc": "^15.1.0",
     "wait-on": "^5.0.0"
-  },
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
-    "all": true
   }
 }

@@ -3,6 +3,7 @@ services:
 
   api:
     image: nilscox/reagir-information-api:${GIT_SHA}
+    command: bash -c "yarn start:coverage"
     environment:
       CI: 'true'
       BYPASS_AUTHORIZATIONS: 'true'
@@ -12,6 +13,7 @@ services:
 
   app:
     image: nilscox/reagir-information-app:${GIT_SHA}
+    command: /start.sh --ci
     environment:
       API_URL: http://ri-api
 
@@ -21,10 +23,9 @@ services:
     hostname: ri-cypress
     volumes:
       - ./e2e/artifacts:/artifacts
-    entrypoint: bash -c "yarn wait-on http://ri-api/api/healthcheck && cypress run"
+      - ./coverage:/e2e/coverage
+    entrypoint: bash -c "yarn wait-on http://ri-api/api/healthcheck && yarn start:ci && yarn nyc report --reporter=lcov"
     environment:
-      CYPRESS_screenshotsFolder: /artifacts/screenshots
-      CYPRESS_videosFolder: /artifacts/videos
       CYPRESS_API_URL: http://ri-api
       CYPRESS_RESTOREDB_URL: http://ri-restoredb
       CYPRESS_APP_URL: http://ri-app

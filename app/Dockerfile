@@ -21,7 +21,7 @@ COPY .eslintignore .eslintrc.json /app/
 
 COPY src /app/src
 
-RUN yarn build
+RUN yarn concurrently "yarn build" "yarn build:coverage"
 RUN yarn lint
 RUN yarn test
 
@@ -38,8 +38,9 @@ COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
 RUN mkdir -p /var/www
-WORKDIR /var/www
+WORKDIR /var/www/ri-app
 
-COPY --from=0 /app/dist /var/www
+COPY --from=0 /app/dist /var/www/ri-app
+COPY --from=0 /app/instrumented /var/www/ri-app_instrumented
 
 CMD /start.sh

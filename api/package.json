@@ -8,6 +8,7 @@
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
+    "start:coverage": "nyc --silent yarn start",
     "start:dev": "NODE_ENV=development nodemon",
     "start:debug": "NODE_ENV=development nodemon --config nodemon-debug.json",
     "start:prod": "yarn db:migrate && node dist/src/main.js",
@@ -52,6 +53,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@nestjs/testing": "^6.0.0",
     "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.16.0",
@@ -71,6 +73,8 @@
     "express": "^4.17.1",
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
+    "nyc": "^15.1.0",
+    "source-map-support": "^0.5.19",
     "supertest": "^3.4.1",
     "ts-jest": "^23.10.5",
     "ts-node": "^7.0.1",
@@ -90,5 +94,9 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "all": true
   }
 }
