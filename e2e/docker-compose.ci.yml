@@ -20,10 +20,11 @@ services:
     container_name: ri-cypress
     hostname: ri-cypress
     volumes:
-      - ./e2e/cypress/screenshots:/e2e/cypress/screenshots
-      - ./e2e/cypress/videos:/e2e/cypress/videos
+      - ./e2e/artifacts:/artifacts
     entrypoint: bash -c "yarn wait-on http://ri-api/api/healthcheck && cypress run"
     environment:
+      CYPRESS_screenshotsFolder: /artifacts/screenshots
+      CYPRESS_videosFolder: /artifacts/videos
       CYPRESS_API_URL: http://ri-api
       CYPRESS_RESTOREDB_URL: http://ri-restoredb
       CYPRESS_APP_URL: http://ri-app

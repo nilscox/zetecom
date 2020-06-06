@@ -50,8 +50,8 @@ export const signupErrorsHandlers: FormErrorsHandlers<AxiosError, FormFields> = 
         return (
           <>
             Les inscriptions ne sont pas encore ouvertes.<br />
-            Si vous souhaitez participer à la beta, <WebsiteLink to="/faq.html#contact">contactez nous</WebsiteLink> pour
-            autoriser votre adresse email.
+            {/* eslint-disable-next-line max-len */}
+            Si vous souhaitez participer à la beta, <WebsiteLink to="/faq.html#contact">contactez nous</WebsiteLink> pour autoriser votre adresse email.
           </>
         );
       }

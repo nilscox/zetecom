@@ -1,8 +1,8 @@
 {
   "viewportWidth": 1920,
   "viewportHeight": 1080,
-  "screenshotsFolder": "cypress/artifacts/screenshots",
-  "videosFolder": "cypress/artifacts/videos",
+  "screenshotsFolder": "artifacts/screenshots",
+  "videosFolder": "artifacts/videos",
   "blacklistHosts": [
     "*google-analytics.com",
     "*googletagmanager.com",

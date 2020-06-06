@@ -1,4 +1,4 @@
 node_modules
-cypress/artifacts
 coverage
 .nyc_output
+artifacts

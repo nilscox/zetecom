@@ -15,13 +15,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const RouterLink: React.FC<ReactRouterLinkProps> = forwardRef(({ className, ...props }, ref) => {
+const RouterLink = forwardRef<HTMLAnchorElement, ReactRouterLinkProps>(({ className, ...props }, ref) => {
   const classes = useStyles({});
 
   return (
     <ReactRouterLink
       {...props}
-      ref={ref as any}
+      ref={ref}
       className={clsx(classes.link, className)}
     />
   );
