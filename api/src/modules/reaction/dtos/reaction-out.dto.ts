@@ -1,20 +1,19 @@
 import { Expose, Transform, Type } from 'class-transformer';
 
-import { InformationOutDto } from '../../../modules/information/dtos/information-out.dto';
 import { UserLightOutDto } from '../../user/dtos/user-light-out.dto';
 import { Message } from '../message.entity';
 import { QuickReactionType } from '../quick-reaction.entity';
 
 export class QuickReactionCountDto {
 
-  @Expose({ name: 'approve' })
-  APPROVE: number;
+  @Expose({ name: 'APPROVE' })
+  approve: number;
 
-  @Expose({ name: 'refute' })
-  REFUTE: number;
+  @Expose({ name: 'REFUTE' })
+  refute: number;
 
-  @Expose({ name: 'skeptic' })
-  SKEPTIC: number;
+  @Expose({ name: 'SKEPTIC' })
+  skeptic: number;
 
 }
 
@@ -66,13 +65,5 @@ export class ReactionOutDto {
 
   message: Message;
   history: Message[];
-
-}
-
-export class ReactionWithInformationOutDto extends ReactionOutDto {
-
-  @Expose()
-  @Type(() => InformationOutDto)
-  information: InformationOutDto;
 
 }

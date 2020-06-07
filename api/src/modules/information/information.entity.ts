@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
+import { Reaction } from '../reaction/reaction.entity';
 import { User } from '../user/user.entity';
 
 @Entity({ name: 'information', orderBy: { created: 'ASC' } })
@@ -34,5 +35,7 @@ export class Information {
   creator: User;
 
   reactionsCount: number;
+
+  reactions?: Reaction[];
 
 }

@@ -24,9 +24,10 @@ import { Output, PaginatedOutput } from 'Common/output.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
 import { SearchQuery } from 'Common/search-query.decorator';
-import { SortType } from 'Common/sort-type';
 
+import { InformationOutDto } from '../information/dtos/information-out.dto';
 import { InformationService } from '../information/information.service';
+import { PopulateInformation } from '../information/populate-information.interceptor';
 import { ReportInDto } from '../report/dtos/report-in.dto';
 import { ReportService } from '../report/report.service';
 import { SubscriptionService } from '../subscription/subscription.service';
@@ -34,7 +35,7 @@ import { User } from '../user/user.entity';
 
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
-import { ReactionOutDto, ReactionWithInformationOutDto } from './dtos/reaction-out.dto';
+import { ReactionOutDto } from './dtos/reaction-out.dto';
 import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { PopulateReaction } from './populate-reaction.interceptor';
@@ -58,15 +59,25 @@ export class ReactionController {
 
   @Get('me')
   @UseGuards(IsAuthenticated)
-  @UseInterceptors(PopulateReaction)
-  @PaginatedOutput(ReactionWithInformationOutDto)
+  @UseInterceptors(PopulateInformation)
+  @PaginatedOutput(InformationOutDto)
   async findForUser(
     @AuthUser() user: User,
     @OptionalQuery({ key: 'informationId' }, OptionalParseIntPipe) informationId: number | undefined,
     @SearchQuery() search: string,
     @PageQuery() page: number,
-  ): Promise<Paginated<Reaction>> {
-    return this.reactionRepository.findForUser(user.id, informationId, search, SortType.DATE_DESC, page, this.reactionPageSize);
+  ): Promise<Paginated<InformationOutDto>> {
+    const results = await this.reactionRepository.findForUser(user.id, search, page, this.reactionPageSize);
+    const informations = await this.informationService.findByIds([...new Set(results.items.map(({ informationId }) => informationId))]);
+    const reactions = await this.reactionRepository.findAll(results.items.map(({ reactionId }) => reactionId), { author: false });
+
+    informations.forEach(info => {
+      info.reactions = results.items
+        .filter(({ informationId }) => informationId === info.id)
+        .map(({ reactionId }) => reactions.find(({ id }) => id === reactionId));
+    });
+
+    return { items: informations, total: results.total };
   }
 
   @Get(':id')

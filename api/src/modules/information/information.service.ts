@@ -24,6 +24,10 @@ export class InformationService {
     return this.informationRepository.findOne(id);
   }
 
+  async findByIds(id: number[]): Promise<Information[]> {
+    return this.informationRepository.findByIds(id);
+  }
+
   async findByIdentifier(identifier: string): Promise<Information | undefined> {
     return this.informationRepository.findOne({ identifier });
   }

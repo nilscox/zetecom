@@ -24,7 +24,7 @@ export class PopulateSubscription extends TransformInterceptor<Subscription> {
     });
 
     await new PopulateReaction().transform(reactions, request);
-    await new PopulateInformation().transform([...new Set(informations)]);
+    await new PopulateInformation().transform([...new Set(informations)], request);
   }
 
 }

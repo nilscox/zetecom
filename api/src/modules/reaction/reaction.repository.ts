@@ -1,4 +1,6 @@
-import { EntityRepository, getRepository, In, Repository, SelectQueryBuilder } from 'typeorm';
+/* eslint-disable @typescript-eslint/camelcase */
+
+import { EntityRepository, getConnection, getRepository, In, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 import { SortType } from 'Common/sort-type';
@@ -34,7 +36,22 @@ export class ReactionRepository extends Repository<Reaction> {
     this.quickReactionRepository = getRepository(QuickReaction);
   }
 
+  public findAll(ids: number[], { author = true, message = true } = {}) {
+    const qb = this.createQueryBuilder('reaction')
+      .where(`reaction.id IN (${ids.join(', ')})`);
+
+    if (author)
+      qb.leftJoinAndSelect('reaction.author', 'author');
+
+    if (message)
+      qb.leftJoinAndSelect('reaction.message', 'message');
+
+    return qb.getMany();
+  }
+
   private createDefaultQueryBuilder(page: number, pageSize: number) {
+    // take does not work well with orderBy
+    // https://github.com/typeorm/typeorm/issues/747#issuecomment-349108902
     return this.createQueryBuilder('reaction')
       .leftJoinAndSelect('reaction.author', 'author')
       .leftJoinAndSelect('reaction.message', 'message')
@@ -109,27 +126,67 @@ export class ReactionRepository extends Repository<Reaction> {
 
   async findForUser(
     userId: number,
-    informationId: number | undefined,
     search: string,
-    sort: SortType,
     page: number,
     pageSize: number,
-  ): Promise<Paginated<Reaction>> {
-    const qb = this.createDefaultQueryBuilder(page, pageSize)
-      .leftJoinAndSelect('reaction.information', 'information')
-      .where('reaction.author_id = :userId', { userId });
+  ): Promise<Paginated<{ reactionId: number; informationId: number }>> {
 
-    if (informationId)
-      qb.andWhere('information.id = :informationId', { informationId });
+    // select distinct information_id from (
+    //   select information_id from reaction
+    //   where author_id = 1
+    //   group by information_id, created
+    //   order by created desc
+    // ) information_id;
 
-    if (search)
-      qb.andWhere('message.text ILIKE :search', { search: `%${search}%` });
+    const getInformationIds = async () => {
+      const qb = getConnection().createQueryBuilder()
+        .select('information_id')
+        .distinct(true)
+        .from(subQuery => subQuery.select('reaction.information_id')
+          .from('reaction', 'reaction')
+          .leftJoin('reaction.message', 'message')
+          .where('reaction.author_id = :userId', { userId })
+          .groupBy('reaction.information_id, reaction.created')
+          .orderBy('reaction.created', 'DESC')
+        , 'information_id');
 
-    this.orderBy(qb, sort);
+      if (search)
+        qb.andWhere('message.text ILIKE :search', { search: `%${search}%` });
 
-    const [items, total] = await qb.getManyAndCount();
+      const result = await qb.getRawMany();
 
-    return { items, total };
+      return result.map(({ information_id }: { information_id: number }) => information_id);
+    };
+
+    // select i.id, r.id, r.created from information i
+    // join reaction r on r.information_id = i.id
+    // where r.author_id = 1
+    // order by i.id=XX, i.id=YY, r.created desc;
+
+    const getReactionsIds = async (informationIds: number[]) => {
+      const qb = this.createQueryBuilder('reaction')
+        .select('reaction.id')
+        .addSelect('reaction.information_id')
+        .leftJoin('reaction.message', 'message')
+        .leftJoin('reaction.information', 'information')
+        .where('reaction.author_id = :userId', { userId })
+        .orderBy(informationIds.map(id => `information.id=${id}`).join(', '))
+        .addOrderBy('reaction.created', 'DESC')
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+
+      if (search)
+        qb.andWhere('message.text ILIKE :search', { search: `%${search}%` });
+
+      const results = await qb.getRawMany();
+
+      return {
+        items: results.map(({ reaction_id, information_id }) => ({ reactionId: reaction_id, informationId: information_id })),
+        total: await qb.getCount(),
+      };
+    };
+
+    return getReactionsIds(await getInformationIds());
   }
 
   private async findAncestors(id: number) {
@@ -166,7 +223,6 @@ export class ReactionRepository extends Repository<Reaction> {
 
     const results = reactionIds.map((id) => ({ reactionId: id, repliesCount: 0 }));
 
-    // eslint-disable-next-line @typescript-eslint/camelcase
     repliesCounts.forEach(({ reaction_id: id, reaction_repliesCount }) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const result = results.find(({ reactionId }) => reactionId === id)!;

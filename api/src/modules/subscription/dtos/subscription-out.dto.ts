@@ -1,7 +1,7 @@
 import { Expose, Type } from 'class-transformer';
 
 import { InformationOutDto } from '../../information/dtos/information-out.dto';
-import { ReactionWithInformationOutDto } from '../../reaction/dtos/reaction-out.dto';
+// import { ReactionWithInformationOutDto } from '../../reaction/dtos/reaction-out.dto';
 
 export class SubscriptionOutDto {
 
@@ -15,9 +15,9 @@ export class SubscriptionOutDto {
   @Type(() => InformationOutDto)
   information: InformationOutDto;
 
-  @Expose()
-  @Type(() => ReactionWithInformationOutDto)
-  reaction: ReactionWithInformationOutDto;
+  // @Expose()
+  // @Type(() => ReactionWithInformationOutDto)
+  // reaction: ReactionWithInformationOutDto;
 
   constructor(value: any) {
     Object.assign(this, value);
@@ -28,8 +28,8 @@ export class SubscriptionOutDto {
     if (value.information)
       this.information = Object.assign(new InformationOutDto(), value.information);
 
-    if (value.reaction)
-      this.reaction = Object.assign(new ReactionWithInformationOutDto(), value.reaction);
+    // if (value.reaction)
+    //   this.reaction = Object.assign(new ReactionWithInformationOutDto(), value.reaction);
   }
 
 }
