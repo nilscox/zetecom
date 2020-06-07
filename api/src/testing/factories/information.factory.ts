@@ -15,6 +15,7 @@ export const createInformation = async (data: DeepPartial<Information> = {}) => 
   const information = manager.create(Information, {
     identifier: `id:${rnd}`,
     title: 'Fake News!',
+    url: 'https://information.url',
     ...data,
   });
 

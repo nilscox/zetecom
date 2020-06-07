@@ -14,6 +14,9 @@ export class InformationOutDto {
   identifier: string;
 
   @Expose()
+  url: string;
+
+  @Expose()
   imageUrl: string;
 
   @Expose()

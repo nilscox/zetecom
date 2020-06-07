@@ -14,6 +14,5 @@ export const parseInformation = (data: any): Information => {
   return {
     ...data,
     creator: data.creator ? parseUser(data.creator) : undefined,
-    url: 'https://fake.news',
   };
 };

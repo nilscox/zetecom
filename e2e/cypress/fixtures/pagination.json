@@ -8,6 +8,7 @@
 
     {
       "title": "Interesting news!",
+      "url": "https://info.url",
       "identifier": "test:news1",
       "creator": "user1",
       "reactions": [

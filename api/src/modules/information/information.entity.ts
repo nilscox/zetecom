@@ -14,6 +14,9 @@ export class Information {
   @Column()
   title: string;
 
+  @Column()
+  url: string;
+
   @Column({ name: 'image_url', nullable: true })
   imageUrl: string;
 

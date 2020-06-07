@@ -9,6 +9,9 @@ export class CreateInformationInDto {
   readonly title: string;
 
   @IsString()
+  readonly url?: string;
+
+  @IsString()
   @IsOptional()
   readonly imageUrl?: string;
 

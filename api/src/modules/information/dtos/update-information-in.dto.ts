@@ -8,6 +8,10 @@ export class UpdateInformationInDto {
 
   @IsString()
   @IsOptional()
+  readonly url: string;
+
+  @IsString()
+  @IsOptional()
   readonly imageUrl: string;
 
 }
