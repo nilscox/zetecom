@@ -10,10 +10,13 @@ import Padding from '../components/Padding';
 
 const InformationList: React.FC = () => {
   const [
-    { loading, data: informations, total },
+    { loading, data: informations, total, error },
     { setSearch },,
     { page, setPage },
   ] = useAxiosPaginated('/api/information', parseInformation);
+
+  if (error)
+    throw error;
 
   return (
     <>

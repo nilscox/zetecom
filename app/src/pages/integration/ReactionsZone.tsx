@@ -18,7 +18,7 @@ import Padding from '../../components/Padding';
 
 const ReactionsZone: React.FC = () => {
   const user = useCurrentUser();
-  const [information] = useInformation();
+  const information = useInformation();
 
   const [
     { loading, data, total },

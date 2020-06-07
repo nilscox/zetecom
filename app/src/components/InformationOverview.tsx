@@ -39,14 +39,12 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }: Theme) => ({
 }));
 
 type InformationOverviewProps = {
-  link?: boolean;
   information: Information;
+  title?: React.ReactNode;
 };
 
-const InformationOverview: React.FC<InformationOverviewProps> = ({ link, information }) => {
+const InformationOverview: React.FC<InformationOverviewProps> = ({ information, title }) => {
   const classes = useStyles({});
-  const LinkElement: ElementType = link ? Link : 'div';
-  const linkProps = link ? { openInNewTab: true, href: information.url } : {};
 
   return (
     <Grid container>
@@ -58,7 +56,7 @@ const InformationOverview: React.FC<InformationOverviewProps> = ({ link, informa
         <Grid container direction="column">
 
           <Typography variant="h3" className={classes.title}>
-            <LinkElement {...linkProps}>{ information.title }</LinkElement>
+            { title || information.title }
           </Typography>
 
           <Typography>

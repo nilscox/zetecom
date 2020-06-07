@@ -19,7 +19,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
   closeForm,
   onCreated,
 }) => {
-  const [information] = useInformation();
+  const information = useInformation();
 
   const formRef = React.useRef(null);
 

@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 
 import { RouteComponentProps, useLocation } from 'react-router-dom';
 
-import Loader from 'src/components/Loader';
-import { useInformation } from 'src/contexts/InformationContext';
+import { InformationProvider } from 'src/contexts/InformationContext';
 import { useNotifications } from 'src/contexts/NotificationsContext';
 import useAxios from 'src/hooks/use-axios';
 import { Information, parseInformation } from 'src/types/Information';
 
+import AsyncContent from '../../components/AsyncContent';
 import InformationOverview from '../../components/InformationOverview';
+import { Link } from '../../components/Link';
 import Padding from '../../components/Padding';
 import ReactionsZone from '../integration/ReactionsZone';
 
@@ -39,11 +40,10 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
   const informationId = Number(match.params.id);
   const { markNotificationAsSeen } = useNotification();
 
-  const [information, setInformation] = useInformation();
+  const [{ loading, data: information, error }] = useFetchInformation(informationId);
 
-  const [{ loading, data }] = useFetchInformation(informationId);
-
-  useEffect(() => void setInformation(data), [data, setInformation]);
+  if (error)
+    throw error;
 
   useEffect(() => {
     if (location.state?.notificationId)
@@ -51,18 +51,22 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.state?.notificationId]);
 
-  // TODO: use AsyncContent?
-  if (loading || !information)
-    return <Loader />;
-
   return (
-    <>
-      <Padding bottom>
-        <InformationOverview link information={information} />
-      </Padding>
+    <AsyncContent
+      loading={loading}
+      content={() => (
+        <InformationProvider value={information}>
+          <Padding bottom>
+            <InformationOverview
+              information={information}
+              title={<Link openInNewTab href={information.url}>{ information.title }</Link>}
+            />
+          </Padding>
 
-      <ReactionsZone />
-    </>
+          <ReactionsZone />
+        </InformationProvider>
+      )}
+    />
   );
 };
 

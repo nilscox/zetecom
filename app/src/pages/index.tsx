@@ -34,6 +34,10 @@ const Router: React.FC = () => (
   </Switch>
 );
 
+const Footer: React.FC = () => (
+  <div style={{ minHeight: 69 }} />
+);
+
 const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   container: {
     [breakpoints.up('sm')]: {
@@ -86,6 +90,8 @@ const Pages: React.FC = () => {
       </Grid>
 
       { user === undefined ? <Loader /> : <Router />}
+
+      <Footer />
 
     </Container>
   );

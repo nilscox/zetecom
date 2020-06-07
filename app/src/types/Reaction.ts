@@ -48,7 +48,7 @@ export const parseReaction = (data: any): Reaction => {
     ...data,
     date: new Date(data.date),
     edited: !data.edited ? false : new Date(data.edited),
-    author: parseUser(data.author),
+    author: data.author ? parseUser(data.author) : undefined,
     history: data.history ? data.history.map(parseReactionHistory) : null,
     quickReactionsCount: data.quickReactionsCount
       ? Object.keys(data.quickReactionsCount).reduce((obj, key) => {

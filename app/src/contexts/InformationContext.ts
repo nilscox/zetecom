@@ -1,21 +1,8 @@
-import { useState } from 'react';
+import { createContext, useContext } from 'react';
 
 import { Information } from '../types/Information';
 
-import { useAppContext } from './AppContext';
+const InformationContext = createContext<Information | null>(null);
 
-export type InformationContextType = {
-  information: Information;
-  setInformation: (information: Information) => void;
-};
-
-export const useInformationContext = () => {
-  const [information, setInformation] = useState<Information>();
-
-  return { information, setInformation };
-};
-
-export const useInformation = () => {
-  const { information: { information, setInformation } } = useAppContext();
-  return [information, setInformation] as const;
-};
+export const InformationProvider = InformationContext.Provider;
+export const useInformation = () => useContext(InformationContext);

@@ -5,16 +5,82 @@ import { RouteComponentProps } from 'react-router-dom';
 import Authenticated from 'src/components/Authenticated';
 import useQueryString from 'src/hooks/use-query-string';
 
+import AsyncContent from '../components/AsyncContent';
+import FiltersBar from '../components/FiltersBar';
+import InformationOverview from '../components/InformationOverview';
+import RouterLink from '../components/Link';
+import Padding from '../components/Padding';
+import Indented from '../components/Reaction/ReactionContainer/Indented';
+import ReactionsList from '../components/ReactionsList';
+import { InformationProvider } from '../contexts/InformationContext';
+import { useCurrentUser } from '../contexts/UserContext';
 import useAxiosPaginated from '../hooks/use-axios-paginated';
-import { parseReaction } from '../types/Reaction';
+import { Information, parseInformation } from '../types/Information';
+
+const useParseInformationForUser = () => {
+  const user = useCurrentUser();
+
+  return (data: any) => {
+    const information = parseInformation(data);
+
+    information.reactions.forEach(reaction => reaction.author = user);
+
+    return information;
+  };
+};
+
+const UserReactionsInformation: React.FC<{ information: Information }> = ({ information }) => (
+  <InformationProvider value={information}>
+
+    <Padding y>
+      <InformationOverview
+        title={<RouterLink to={`/information/${information.id}`}>{ information.title }</RouterLink>}
+        information={information}
+      />
+    </Padding>
+
+    <Indented>
+      <ReactionsList reactions={information.reactions} />
+    </Indented>
+
+  </InformationProvider>
+);
 
 const UserReactions: React.FC<RouteComponentProps> = ({ location }) => {
   const { informationId } = useQueryString(location.search);
-  const [{ data: comments }] = useAxiosPaginated('/api/reaction/me', parseReaction);
+  const parseInformationForUser = useParseInformationForUser();
+  const [
+    { loading, data: informations, total, error },
+    { setSearch },,
+    { page, setPage },
+  ] = useAxiosPaginated('/api/reaction/me', parseInformationForUser);
+
+  if (error)
+    throw error;
+
+  const renderInformations = () => (
+    <>
+
+      <FiltersBar
+        onSearch={setSearch}
+        page={page}
+        pageSize={10}
+        total={total}
+        onPageChange={setPage}
+      />
+
+      {informations.map((information, n) => (
+        <Padding key={information.id} top when={n > 0}>
+          <UserReactionsInformation information={information} />
+        </Padding>
+      ))}
+
+    </>
+  );
 
   return (
     <Authenticated>
-
+      <AsyncContent loading={loading} content={renderInformations} />
     </Authenticated>
   );
 };
