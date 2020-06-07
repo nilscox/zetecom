@@ -240,6 +240,7 @@ describe('information controller', () => {
     const info = {
       title: 'title',
       identifier: 'id:someIdentifier',
+      published: new Date(2020, 0, 1).toJSON(),
       url: 'https://info.url',
       imageUrl: 'https://image.url',
     };
@@ -294,6 +295,7 @@ describe('information controller', () => {
         title: 'title',
         identifier: 'id:someIdentifier',
         url: 'https://info.url',
+        published: '2020-01-01',
         imageUrl: 'https://image.url',
         creator: { id: admin.id },
       });
@@ -332,7 +334,12 @@ describe('information controller', () => {
     });
 
     it('should update an information', async () => {
-      const data = { identifier: 'id:someOtherIdentifier', url: 'https://other.url', imageUrl: 'https://image.url' };
+      const data = {
+        identifier: 'id:someOtherIdentifier',
+        url: 'https://other.url',
+        published: new Date(2020, 0, 1).toJSON(),
+        imageUrl: 'https://image.url',
+      };
 
       const { body } = await adminRequest
         .put(`/api/information/${info.id}`)
@@ -343,7 +350,10 @@ describe('information controller', () => {
 
       const infoDb = await informationRepository.findOne(body.id);
 
-      expect(infoDb).toMatchObject(data);
+      expect(infoDb).toMatchObject({
+        ...data,
+        published: '2020-01-01',
+      });
     });
   });
 

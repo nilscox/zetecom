@@ -18,7 +18,7 @@
     "test:cov": "yarn test --coverage",
     "test:debug": "NODE_ENV=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:intg": "yarn test --config ./test/jest-intg.json --runInBand",
-    "test:e2e": "yarn test --config ./test/jest-e2e.json --runInBand",
+    "test:e2e": "yarn test --config ./jest-e2e.config.js --runInBand",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "start:restoredb": "ep2cmd /reset 'yarn db:reset' /populate 'yarn db:populate'",
     "db:drop": "yarn typeorm schema:drop",
@@ -57,7 +57,7 @@
     "@nestjs/testing": "^6.0.0",
     "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.16.0",
-    "@types/jest": "^23.3.13",
+    "@types/jest": "^25.2.3",
     "@types/module-alias": "^2.0.0",
     "@types/multer": "^1.4.3",
     "@types/supertest": "^2.0.7",
@@ -80,20 +80,6 @@
     "ts-node": "^7.0.1",
     "tsconfig-paths": "^3.7.0",
     "wait-on": "^4.0.0"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",

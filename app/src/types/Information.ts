@@ -5,6 +5,7 @@ export type Information = {
   title: string;
   url: string;
   imageUrl: string | null;
+  published?: Date;
   creator?: Partial<User>;
   reactionsCount: number;
 };
@@ -13,6 +14,7 @@ export type Information = {
 export const parseInformation = (data: any): Information => {
   return {
     ...data,
+    published: data.published ? new Date(data.published) : undefined,
     creator: data.creator ? parseUser(data.creator) : undefined,
   };
 };

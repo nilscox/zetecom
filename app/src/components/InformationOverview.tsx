@@ -62,8 +62,7 @@ const InformationOverview: React.FC<InformationOverviewProps> = ({ link, informa
           </Typography>
 
           <Typography>
-            {/* TODO: store the information publication date in the API */}
-            { dayjs().format('[Publiée le] DD.MM.YYYY') }
+            { information.published && dayjs(information.published).format('[Publiée le] D MMMM YYYY') }
           </Typography>
 
           <div>

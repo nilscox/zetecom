@@ -20,6 +20,10 @@ export class InformationOutDto {
   imageUrl: string;
 
   @Expose()
+  @Type(() => Date)
+  published: Date;
+
+  @Expose()
   @Type(() => UserLightOutDto)
   creator: UserLightOutDto;
 

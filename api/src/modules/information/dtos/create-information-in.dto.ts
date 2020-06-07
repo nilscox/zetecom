@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class CreateInformationInDto {
 
@@ -14,5 +14,9 @@ export class CreateInformationInDto {
   @IsString()
   @IsOptional()
   readonly imageUrl?: string;
+
+  @IsDateString()
+  @IsOptional()
+  readonly published?: string;
 
 }

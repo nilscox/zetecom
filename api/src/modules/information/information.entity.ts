@@ -20,6 +20,9 @@ export class Information {
   @Column({ name: 'image_url', nullable: true })
   imageUrl: string;
 
+  @Column({ type: 'date', nullable: true })
+  published: Date;
+
   @CreateDateColumn()
   created: Date;
 
