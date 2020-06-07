@@ -50,7 +50,7 @@ const AuthenticationForm: React.FC<AuthenticationFormProps> = ({
   return (
     <form onSubmit={handleSubmit}>
 
-      <RedirectAuthenticated />
+      <RedirectAuthenticated to={urlPrefix} />
 
       <AuthenticationMessage form={form} />
 

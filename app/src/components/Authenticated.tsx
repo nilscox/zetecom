@@ -21,7 +21,7 @@ const Authenticated: React.FC = ({ children }) => {
 
 export default Authenticated;
 
-export const RedirectAuthenticated: React.FC = () => {
+export const RedirectAuthenticated: React.FC<{ to?: string }> = ({ to }) => {
   const { next } = useQueryString();
   const user = useCurrentUser();
 
@@ -29,7 +29,7 @@ export const RedirectAuthenticated: React.FC = () => {
     if (next && typeof next === 'string' && next.startsWith('/'))
       return <Redirect to={next} />;
 
-    return <Redirect to="/popup" />;
+    return <Redirect to={to} />;
   }
 
   return null;
