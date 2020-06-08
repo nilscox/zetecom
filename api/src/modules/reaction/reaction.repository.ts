@@ -158,10 +158,10 @@ export class ReactionRepository extends Repository<Reaction> {
       return result.map(({ information_id }: { information_id: number }) => information_id);
     };
 
-    // select i.id, r.id, r.created from information i
+    // select i.id iid, r.id rid, r.created from information i
     // join reaction r on r.information_id = i.id
     // where r.author_id = 1
-    // order by i.id=XX, i.id=YY, r.created desc;
+    // order idx(array[XX, YY], i.id), r.created desc;
 
     const getReactionsIds = async (informationIds: number[]) => {
       const qb = this.createQueryBuilder('reaction')
@@ -170,9 +170,9 @@ export class ReactionRepository extends Repository<Reaction> {
         .leftJoin('reaction.message', 'message')
         .leftJoin('reaction.information', 'information')
         .where('reaction.author_id = :userId', { userId })
-        .orderBy(informationIds.map(id => `information.id=${id}`).join(', '))
+        .orderBy(`idx(array[${informationIds.join(', ')}], information.id)`)
         .addOrderBy('reaction.created', 'DESC')
-        .skip((page - 1) * pageSize)
+        .offset((page - 1) * pageSize)
         .limit(pageSize);
 
       if (search)

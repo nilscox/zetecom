@@ -6,13 +6,13 @@ import { getCustomRepository, getRepository, Repository } from 'typeorm';
 import { createInformation } from '../../testing/factories/information.factory';
 import { createMessage } from '../../testing/factories/message.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
-import { createSubscription } from '../../testing/factories/subscription.factory';
+import { createReactionSubscription } from '../../testing/factories/subscription.factory';
 import { createUser } from '../../testing/factories/user.factory';
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { Information } from '../information/information.entity';
 import { Reaction } from '../reaction/reaction.entity';
-import { Subscription } from '../subscription/subscription.entity';
+import { ReactionSubscription } from '../subscription/subscription.entity';
 
 import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
 import { ReactionModule } from './reaction.module';
@@ -30,7 +30,7 @@ describe('reaction controller', () => {
 
   let reactionRepository: ReactionRepository;
   let quickReactionRepository: Repository<QuickReaction>;
-  let subscriptionRepository: Repository<Subscription>;
+  let subscriptionRepository: Repository<ReactionSubscription>;
 
   let information: Information;
 
@@ -43,7 +43,7 @@ describe('reaction controller', () => {
   beforeAll(async () => {
     reactionRepository = getCustomRepository(ReactionRepository);
     quickReactionRepository = getRepository(QuickReaction);
-    subscriptionRepository = getRepository(Subscription);
+    subscriptionRepository = getRepository(ReactionSubscription);
 
     const user = await createUser();
 
@@ -65,18 +65,24 @@ describe('reaction controller', () => {
 
     const [userRequest, user] = createAuthenticatedUser(server);
 
-    let information: Information;
+    let information1: Information;
+    let information2: Information;
     let reaction1: Reaction;
     let reaction2: Reaction;
     let reaction3: Reaction;
     let reaction4: Reaction;
 
     beforeAll(async () => {
-      information = await createInformation();
-      reaction1 = await createReaction({ author: user });
-      reaction2 = await createReaction({ information, author: user });
-      reaction3 = await createReaction({ information, author: user });
-      reaction4 = await createReaction({ information, author: user });
+      information1 = await createInformation();
+      information2 = await createInformation();
+
+      reaction1 = await createReaction({ information: information1, author: user });
+
+      reaction2 = await createReaction({ information: information2, author: user });
+      // await createReaction({ information: information2 });
+
+      reaction3 = await createReaction({ information: information1, author: user });
+      reaction4 = await createReaction({ information: information1, author: user });
     });
 
     it('should not get reactions created by a specific user when unauthenticated', () => {
@@ -90,13 +96,11 @@ describe('reaction controller', () => {
         .get('/api/reaction/me')
         .expect(200);
 
-      expect(body).toMatchObject({
-        items: [
-          { id: reaction4.id, information: { id: information.id } },
-          { id: reaction3.id, information: { id: information.id } },
-        ],
-        total: 4,
-      });
+      // .toMatchObject makes the output hard to debug
+      expect(body).toHaveProperty('total', 4);
+      expect(body).toHaveProperty('items.0.id', information1.id);
+      expect(body).toHaveProperty('items.0.reactions.0.id', reaction4.id);
+      expect(body).toHaveProperty('items.0.reactions.1.id', reaction3.id);
     });
 
     it('should get reactions created by a specific user on page 2', async () => {
@@ -105,42 +109,11 @@ describe('reaction controller', () => {
         .query({ page: 2 })
         .expect(200);
 
-      expect(body).toMatchObject({
-        items: [
-          { id: reaction2.id, information: { id: information.id } },
-          { id: reaction1.id, information: { id: expect.anything() } },
-        ],
-        total: 4,
-      });
-    });
-
-    it('should get reactions created by a specific user for an information', async () => {
-      const { body } = await userRequest
-        .get('/api/reaction/me')
-        .query({ informationId: information.id })
-        .expect(200);
-
-      expect(body).toMatchObject({
-        items: [
-          { id: reaction4.id, information: { id: information.id } },
-          { id: reaction3.id, information: { id: information.id } },
-        ],
-        total: 3,
-      });
-    });
-
-    it('should get reactions created by a specific user for an information on page 2', async () => {
-      const { body } = await userRequest
-        .get('/api/reaction/me')
-        .query({ informationId: information.id, page: 2 })
-        .expect(200);
-
-      expect(body).toMatchObject({
-        items: [
-          { id: reaction2.id, information: { id: information.id } },
-        ],
-        total: 3,
-      });
+      expect(body).toHaveProperty('total', 4);
+      expect(body).toHaveProperty('items.0.id', information1.id);
+      expect(body).toHaveProperty('items.0.reactions.0.id', reaction1.id);
+      expect(body).toHaveProperty('items.1.id', information2.id);
+      expect(body).toHaveProperty('items.1.reactions.0.id', reaction2.id);
     });
 
   });
@@ -154,6 +127,7 @@ describe('reaction controller', () => {
         .then(({ body }) => {
           expect(body).toMatchObject({
             id: reaction.id,
+            // date: expect.any(String),
           });
         });
     });
@@ -229,7 +203,7 @@ describe('reaction controller', () => {
 
     it('should not subscribe to a reaction twice', async () => {
       const reaction = await createReaction();
-      await createSubscription({ reaction, user });
+      await createReactionSubscription({ reaction, user });
 
       return userRequest
         .post(`/api/reaction/${reaction.id}/subscribe`)
@@ -266,7 +240,7 @@ describe('reaction controller', () => {
 
     it('unsubscribe to a reaction', async () => {
       const reaction = await createReaction();
-      await createSubscription({ user, reaction });
+      await createReactionSubscription({ user, reaction });
 
       await userRequest
         .post(`/api/reaction/${reaction.id}/unsubscribe`)
@@ -303,7 +277,7 @@ describe('reaction controller', () => {
 
     it('should set the subscribed field to true when subscribed to a reaction', async () => {
       const reaction = await createReaction();
-      await createSubscription({ user, reaction });
+      await createReactionSubscription({ user, reaction });
 
       const { body } = await userRequest
         .get(`/api/reaction/${reaction.id}`)
@@ -471,11 +445,11 @@ describe('reaction controller', () => {
 
       expect(body).toMatchObject({
         quickReactionsCount: {
-          approve: 1,
-          refute: 0,
-          skeptic: 0,
+          APPROVE: 1,
+          REFUTE: 0,
+          SKEPTIC: 0,
         },
-        userQuickReaction: 'approve',
+        userQuickReaction: 'APPROVE',
       });
 
       const quickReactionDb = await quickReactionRepository.findOne(body.id);
@@ -491,11 +465,11 @@ describe('reaction controller', () => {
 
       expect(body).toMatchObject({
         quickReactionsCount: {
-          approve: 0,
-          refute: 0,
-          skeptic: 1,
+          APPROVE: 0,
+          REFUTE: 0,
+          SKEPTIC: 1,
         },
-        userQuickReaction: 'skeptic',
+        userQuickReaction: 'SKEPTIC',
       });
 
       const quickReactionDb = await quickReactionRepository.findOne(body.id);
@@ -511,9 +485,9 @@ describe('reaction controller', () => {
 
       expect(body).toMatchObject({
         quickReactionsCount: {
-          approve: 0,
-          refute: 0,
-          skeptic: 0,
+          APPROVE: 0,
+          REFUTE: 0,
+          SKEPTIC: 0,
         },
       });
 

@@ -6,12 +6,12 @@ import { PopulateInformation } from '../information/populate-information.interce
 import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
 import { Reaction } from '../reaction/reaction.entity';
 
-import { Subscription } from './subscription.entity';
+import { ReactionSubscription } from './subscription.entity';
 
 @Injectable()
-export class PopulateSubscription extends TransformInterceptor<Subscription> {
+export class PopulateSubscription extends TransformInterceptor<ReactionSubscription> {
 
-  async transform(subscriptions: Subscription[], request: any) {
+  async transform(subscriptions: ReactionSubscription[], request: any) {
     const reactions: Reaction[] = [];
     const informations: Information[] = [];
 

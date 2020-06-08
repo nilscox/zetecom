@@ -1,7 +1,38 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 
-import { SubscriptionOutDto } from '../../subscription/dtos/subscription-out.dto';
 import { UserLightOutDto } from '../../user/dtos/user-light-out.dto';
+import { NotificationType } from '../notification.entity';
+
+class NotificationPayload {}
+
+class RulesUpdatePayload extends NotificationPayload {
+  @Expose()
+  version: string;
+}
+
+class SubscriptionReplyPayload extends NotificationPayload {
+
+  @Expose()
+  informationId: number;
+
+  @Expose()
+  reactionId: number;
+
+  @Expose()
+  replyId: number;
+
+  @Expose()
+  @Type(() => UserLightOutDto)
+  author: UserLightOutDto;
+
+  @Expose()
+  text: string;
+}
+
+const mapNotificationTypePayload = {
+  [NotificationType.RULES_UPDATE]: RulesUpdatePayload,
+  [NotificationType.SUBSCRIPTION_REPLY]: SubscriptionReplyPayload,
+};
 
 export class NotificationOutDto {
 
@@ -9,24 +40,17 @@ export class NotificationOutDto {
   id: number;
 
   @Expose()
-  created: Date;
+  type: NotificationType;
 
   @Expose()
-  @Type(() => UserLightOutDto)
-  actor: UserLightOutDto;
+  @Type(({ object }: any) => mapNotificationTypePayload[object.type])
+  payload: NotificationPayload;
 
   @Expose()
-  @Type(() => SubscriptionOutDto)
-  subscription: SubscriptionOutDto;
+  @Transform(value => value || false)
+  seen: Date | false;
 
-  constructor(values: any) {
-    Object.assign(this, values);
-
-    if (values.subscription)
-      this.subscription = new SubscriptionOutDto(values.subscription);
-
-    if (values.actor)
-      this.actor = new UserLightOutDto(values.actor);
-  }
+  @Expose()
+  created: string;
 
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { getCustomRepository, getRepository } from 'typeorm';
 
 import { TransformInterceptor } from '../../common/transform.interceptor';
-import { Subscription } from '../subscription/subscription.entity';
+import { ReactionSubscription } from '../subscription/subscription.entity';
 import { User } from '../user/user.entity';
 
 import { QuickReactionType } from './quick-reaction.entity';
@@ -17,7 +17,7 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
   }
 
   get subscriptionRepository() {
-    return getRepository(Subscription);
+    return getRepository(ReactionSubscription);
   }
 
   async transform(reactions: Reaction[], request: any) {
@@ -93,9 +93,9 @@ export class PopulateReaction extends TransformInterceptor<Reaction> {
 
   private async addUserSubscriptions(reactions: Reaction[], user: User): Promise<void> {
     // TODO: handle this in subscription repository
-    const results = await this.subscriptionRepository.createQueryBuilder('subscription')
+    const results = await this.subscriptionRepository.createQueryBuilder('reaction_subscription')
       .select('reaction_id', 'reactionId')
-      .leftJoin('reaction', 'reaction', 'subscription.reaction_id = reaction.id')
+      .leftJoin('reaction', 'reaction', 'reaction_subscription.reaction_id = reaction.id')
       .where('user_id = :userId', { userId: user.id })
       .andWhere('reaction.id IN (' + reactions.map(r => r.id) + ')')
       .getRawMany();

@@ -17,6 +17,7 @@ const createInformation = async (information: Information, findUser: FindUser): 
   const creator = findUser(information.creator);
   const payload = {
     identifier: information.identifier,
+    url: information.url,
     title: information.title,
   };
 

@@ -2,15 +2,15 @@ import { Information, parseInformation } from './Information';
 import { parseUser, UserLight } from './User';
 
 export enum QuickReactionType {
-  APPROVE = 'approve',
-  REFUTE = 'refute',
-  SKEPTIC = 'skeptic',
+  APPROVE = 'APPROVE',
+  REFUTE = 'REFUTE',
+  SKEPTIC = 'SKEPTIC',
 }
 
 export type QuickReactionsCount = {
-  approve: number;
-  refute: number;
-  skeptic: number;
+  APPROVE: number;
+  REFUTE: number;
+  SKEPTIC: number;
 };
 
 export type ReactionHistory = {

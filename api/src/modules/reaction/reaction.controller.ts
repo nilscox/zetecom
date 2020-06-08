@@ -30,7 +30,7 @@ import { InformationService } from '../information/information.service';
 import { PopulateInformation } from '../information/populate-information.interceptor';
 import { ReportInDto } from '../report/dtos/report-in.dto';
 import { ReportService } from '../report/report.service';
-import { SubscriptionService } from '../subscription/subscription.service';
+import { ReactionSubscriptionService } from '../subscription/subscription.service';
 import { User } from '../user/user.entity';
 
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
@@ -52,7 +52,7 @@ export class ReactionController {
   constructor(
     private readonly informationService: InformationService,
     private readonly reactionService: ReactionService,
-    private readonly subscriptionService: SubscriptionService,
+    private readonly subscriptionService: ReactionSubscriptionService,
     private readonly reportService: ReportService,
     private readonly reactionRepository: ReactionRepository,
   ) {}

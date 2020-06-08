@@ -2,11 +2,11 @@ import { getRepository, In, Repository } from 'typeorm';
 
 import { createInformation } from '../../testing/factories/information.factory';
 import { createReaction } from '../../testing/factories/reaction.factory';
-import { createSubscription } from '../../testing/factories/subscription.factory';
+import { createReactionSubscription } from '../../testing/factories/subscription.factory';
 import { createUser } from '../../testing/factories/user.factory';
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
-import { Notification } from '../notification/notification.entity';
+import { Notification, SubscriptionReplyNotification } from '../notification/notification.entity';
 import { NotificationModule } from '../notification/notification.module';
 import { ReactionModule } from '../reaction/reaction.module';
 
@@ -18,10 +18,10 @@ describe('subscription', () => {
 
   const [userRequest, user] = createAuthenticatedUser(server);
 
-  let notificationRepository: Repository<Notification>;
+  let notificationRepository: Repository<SubscriptionReplyNotification>;
 
   beforeAll(() => {
-    notificationRepository = getRepository(Notification);
+    notificationRepository = getRepository(Notification as any);
   });
 
   it('should create a notification from a subscription to a reaction', async () => {
@@ -29,8 +29,8 @@ describe('subscription', () => {
     const reaction = await createReaction({ information });
     const otherUser = await createUser();
 
-    const subscription = await createSubscription({ reaction, user });
-    const subscriptionOther = await createSubscription({ reaction, user: otherUser });
+    await createReactionSubscription({ reaction, user });
+    await createReactionSubscription({ reaction, user: otherUser });
 
     const requestBody = {
       parentId: reaction.id,
@@ -38,18 +38,25 @@ describe('subscription', () => {
       text: 'text',
     };
 
-    await userRequest
+    const { body } = await userRequest
       .post('/api/reaction')
       .send(requestBody)
       .expect(201);
 
     const notificationsDb = await notificationRepository.find({
-      where: { subscription: In([subscription.id, subscriptionOther.id]) },
-      relations: ['subscription'],
+      where: { user: otherUser },
     });
 
     expect(notificationsDb).toHaveLength(1);
-    expect(notificationsDb[0]).toMatchObject({ subscription: { id: subscriptionOther.id } });
+    expect(notificationsDb[0]).toMatchObject({
+      payload: {
+        author: { id: user.id },
+        informationId: information.id,
+        reactionId: reaction.id,
+        replyId: body.id,
+        text: 'text',
+      },
+    });
   });
 
 });

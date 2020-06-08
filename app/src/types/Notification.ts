@@ -1,21 +1,39 @@
-import { parseSubscription, Subscription } from './Subscription';
-import { parseUser, User } from './User';
+import env from "../utils/env";
 
-export type Notification = {
+type NotificationType = 'rulesUpdate' | 'subscriptionReply';
+
+export class Notification {
+
   id: number;
-  subscription: Subscription;
+
+  type: NotificationType;
+
   created: Date;
-  actor: User;
-};
+
+  seen: Date | false;
+
+  payload: any;
+
+  constructor(data: any) {
+    Object.assign(this, {
+      ...data,
+      created: new Date(data.created),
+      seen: data.seen ? new Date(data.seen) : false,
+    });
+  }
+
+  getLink() {
+    if (this.type === 'rulesUpdate')
+      return { href: env.WEBSITE_URL + '/charte.html', external: true };
+
+    if (this.type === 'subscriptionReply')
+      return { href: '/information/' + this.payload.informationId, external: false };
+  }
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseNotification = (data: any) => {
-  return {
-    ...data,
-    subscription: parseSubscription(data.subscription),
-    created: new Date(data.created),
-    actor: parseUser(data.actor),
-  };
+  return new Notification(data);
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

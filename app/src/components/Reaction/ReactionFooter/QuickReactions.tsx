@@ -63,19 +63,19 @@ const useQuickReactions = (
   }, [status, updated, setUpdatedQuickReaction]);
 
   const quickReactions: { [key in QuickReactionType]: QuickReactionProps } = {
-    approve: {
+    APPROVE: {
       icon: approve,
-      count: qrc.approve,
+      count: qrc.APPROVE,
       type: QuickReactionType.APPROVE,
     },
-    refute: {
+    REFUTE: {
       icon: refute,
-      count: qrc.refute,
+      count: qrc.REFUTE,
       type: QuickReactionType.REFUTE,
     },
-    skeptic: {
+    SKEPTIC: {
       icon: skeptic,
-      count: qrc.skeptic,
+      count: qrc.SKEPTIC,
       type: QuickReactionType.SKEPTIC,
     },
   };
@@ -100,9 +100,9 @@ const useQuickReactions = (
   };
 
   return {
-    approve: getQuickReactionProps(QuickReactionType.APPROVE),
-    refute: getQuickReactionProps(QuickReactionType.REFUTE),
-    skeptic: getQuickReactionProps(QuickReactionType.SKEPTIC),
+    APPROVE: getQuickReactionProps(QuickReactionType.APPROVE),
+    REFUTE: getQuickReactionProps(QuickReactionType.REFUTE),
+    SKEPTIC: getQuickReactionProps(QuickReactionType.SKEPTIC),
   };
 };
 

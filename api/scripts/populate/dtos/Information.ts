@@ -12,6 +12,9 @@ export class Information {
   identifier: string;
 
   @IsString()
+  url: string;
+
+  @IsString()
   creator: string;
 
   @IsOptional()

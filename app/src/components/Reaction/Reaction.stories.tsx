@@ -30,9 +30,9 @@ const reaction: Reaction = {
     avatar: null,
   }),
   quickReactionsCount: {
-    approve: 182,
-    refute: 23,
-    skeptic: 97,
+    APPROVE: 182,
+    REFUTE: 23,
+    SKEPTIC: 97,
   },
   subscribed: false,
 };
@@ -104,27 +104,27 @@ const reactions = [
   {
     id: 2,
     text: lorem[0],
-    quickReactionsCount: { approve: 123, refute: 52, skeptic: 61 },
+    quickReactionsCount: { APPROVE: 123, REFUTE: 52, SKEPTIC: 61 },
   },
   {
     id: 3,
     text: lorem[1],
-    quickReactionsCount: { approve: 14, refute: 8, skeptic: 17 },
+    quickReactionsCount: { APPROVE: 14, REFUTE: 8, SKEPTIC: 17 },
   },
   {
     id: 4,
     text: lorem[2],
-    quickReactionsCount: { approve: 41, refute: 3, skeptic: 66 },
+    quickReactionsCount: { APPROVE: 41, REFUTE: 3, SKEPTIC: 66 },
   },
   {
     id: 5,
     text: lorem[3],
-    quickReactionsCount: { approve: 9, refute: 0, skeptic: 0 },
+    quickReactionsCount: { APPROVE: 9, REFUTE: 0, SKEPTIC: 0 },
   },
   {
     id: 6,
     text: lorem[4],
-    quickReactionsCount: { approve: 241, refute: 111, skeptic: 103 },
+    quickReactionsCount: { APPROVE: 241, REFUTE: 111, SKEPTIC: 103 },
   },
 ];
 

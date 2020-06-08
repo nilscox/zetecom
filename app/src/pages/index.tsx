@@ -16,6 +16,7 @@ import Information from './Information';
 import Informations from './InformationsList';
 import NotFound from './NotFound';
 import Notifications from './Notifications';
+import MarkNotificationAsSeen from './Notifications/MarkNotificationAsSeet';
 import UserReactions from './UserReactions';
 
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -76,6 +77,7 @@ const Pages: React.FC = () => {
     <Container fixed component="main" className={classes.container}>
 
       <ToastContainer />
+      <MarkNotificationAsSeen />
 
       <Grid container className={classes.header}>
 

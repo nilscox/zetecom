@@ -4,16 +4,16 @@ import { UserLightOutDto } from '../../user/dtos/user-light-out.dto';
 import { Message } from '../message.entity';
 import { QuickReactionType } from '../quick-reaction.entity';
 
-export class QuickReactionCountDto {
+export class QuickReactionsCountDto {
 
-  @Expose({ name: 'APPROVE' })
-  approve: number;
+  @Expose()
+  APPROVE: number;
 
-  @Expose({ name: 'REFUTE' })
-  refute: number;
+  @Expose()
+  REFUTE: number;
 
-  @Expose({ name: 'SKEPTIC' })
-  skeptic: number;
+  @Expose()
+  SKEPTIC: number;
 
 }
 
@@ -32,10 +32,17 @@ export class ReactionOutDto {
     return this.history[0].created;
   }
 
+  // plainToClass fails without a setter (in OutputInterceptor)
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  set edited(p) {}
+
   @Expose()
   get text(): string {
     return this.message.text;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  set text(p) {}
 
   @Expose({ name: 'date' })
   created: Date;
@@ -44,17 +51,11 @@ export class ReactionOutDto {
   repliesCount: number;
 
   @Expose()
-  @Type(() => QuickReactionCountDto)
-  quickReactionsCount: QuickReactionCountDto;
+  @Type(() => QuickReactionsCountDto)
+  quickReactionsCount: QuickReactionsCountDto;
 
   @Expose()
-  @Transform((value: QuickReactionType) => ({
-    APPROVE: 'approve',
-    REFUTE: 'refute',
-    SKEPTIC: 'skeptic',
-    null: null,
-  }[value]))
-  userQuickReaction: string;
+  userQuickReaction: QuickReactionType;
 
   @Expose()
   subscribed?: boolean;

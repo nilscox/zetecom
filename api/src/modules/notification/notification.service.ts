@@ -6,29 +6,23 @@ import { Paginated } from 'Common/paginated';
 
 import { User } from '../user/user.entity';
 
-import { Notification } from './notification.entity';
+import { Notification, NotificationType } from './notification.entity';
 
 @Injectable()
-export class NotificationService {
+export class NotificationService<T extends NotificationType> {
 
   @Inject('NOTIFICATION_PAGE_SIZE')
   private readonly pageSize: number;
 
   constructor(
     @InjectRepository(Notification)
-    private readonly notificationRepository: Repository<Notification>,
+    private readonly notificationRepository: Repository<Notification<T>>,
   ) {}
 
-  async findForUser(user: User, seen: boolean, page: number): Promise<Paginated<Notification>> {
+  async findForUser(user: User, page: number): Promise<Paginated<Notification<T>>> {
     const [items, total] = await this.notificationRepository.createQueryBuilder('notification')
-      .innerJoinAndSelect('notification.subscription', 'subscription')
-      .innerJoinAndSelect('notification.actor', 'actor')
-      .innerJoinAndSelect('subscription.reaction', 'reaction')
-      .innerJoinAndSelect('reaction.information', 'information')
-      .innerJoinAndSelect('reaction.author', 'author')
-      .innerJoinAndSelect('reaction.message', 'message')
-      .where('subscription.user.id = :userId', { userId: user.id })
-      .andWhere('seen IS ' + (seen ? 'NOT NULL' : 'NULL'))
+      .where('notification.user.id = :userId', { userId: user.id })
+      .orderBy('seen', 'DESC', 'NULLS FIRST')
       .skip((page - 1) * this.pageSize)
       .take(this.pageSize)
       .getManyAndCount();
@@ -36,11 +30,10 @@ export class NotificationService {
     return { items, total };
   }
 
-  async countForUser(user: User, seen: boolean): Promise<number> {
+  async countUnseenForUser(user: User): Promise<number> {
     return this.notificationRepository.createQueryBuilder('notification')
-      .innerJoin('notification.subscription', 'subscription')
-      .where('subscription.user.id = :userId', { userId: user.id })
-      .andWhere('seen IS ' + (seen ? 'NOT NULL' : 'NULL'))
+      .where('notification.user.id = :userId', { userId: user.id })
+      .andWhere('seen IS NULL')
       .getCount();
   }
 

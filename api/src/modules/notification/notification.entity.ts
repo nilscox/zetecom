@@ -1,21 +1,41 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Subscription } from '../subscription/subscription.entity';
+import { UserLightOutDto } from '../user/dtos/user-light-out.dto';
 import { User } from '../user/user.entity';
 
+export enum NotificationType {
+  RULES_UPDATE = 'rulesUpdate',
+  SUBSCRIPTION_REPLY = 'subscriptionReply',
+}
+
+export type NotificationPayload = {
+  [NotificationType.RULES_UPDATE]: {
+    version: string;
+  };
+  [NotificationType.SUBSCRIPTION_REPLY]: {
+    informationId: number;
+    reactionId: number;
+    replyId: number;
+    author: UserLightOutDto;
+    text: string;
+  };
+};
+
 @Entity({ name: 'notification' })
-export class Notification {
+export class Notification<T extends NotificationType> {
 
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type => Subscription, { nullable: false })
-  @JoinColumn({ name: 'subscription_id' })
-  subscription: Subscription;
+  @Column({ type: 'enum', enum: NotificationType })
+  type: NotificationType;
 
-  @ManyToOne(type => User, { nullable: false })
-  @JoinColumn({ name: 'actor_id' })
-  actor: User;
+  @Column({ type: 'json' })
+  payload: NotificationPayload[T];
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @Column({ nullable: true })
   seen: Date;
@@ -24,3 +44,5 @@ export class Notification {
   created: Date;
 
 }
+
+export class SubscriptionReplyNotification extends Notification<NotificationType.SUBSCRIPTION_REPLY> {}

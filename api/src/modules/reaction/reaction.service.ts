@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Information } from '../information/information.entity';
-import { SubscriptionService } from '../subscription/subscription.service';
+import { ReactionSubscriptionService } from '../subscription/subscription.service';
 import { User } from '../user/user.entity';
 
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
@@ -26,7 +26,7 @@ export class ReactionService {
     @InjectRepository(QuickReaction)
     private readonly quickReactionRepository: Repository<QuickReaction>,
 
-    private readonly subscriptionService: SubscriptionService,
+    private readonly subscriptionService: ReactionSubscriptionService,
 
   ) {}
 

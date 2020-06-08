@@ -7,7 +7,6 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -23,16 +22,18 @@ import { User } from '../user/user.entity';
 
 import { NotificationOutDto } from './dtos/notification-out.dto';
 import { NotificationsCountOutDto } from './dtos/notifications-count-out.dto';
-import { Notification } from './notification.entity';
+import { Notification, NotificationType } from './notification.entity';
 import { NotificationService } from './notification.service';
+
+type GenericNotification = Notification<NotificationType>;
 
 @Controller('notification')
 export class NotificationController {
 
   constructor(
-    private readonly notificationService: NotificationService,
+    private readonly notificationService: NotificationService<NotificationType.SUBSCRIPTION_REPLY>,
     @InjectRepository(Notification)
-    private readonly notificationRepository: Repository<Notification>,
+    private readonly notificationRepository: Repository<GenericNotification>,
   ) {}
 
   @Get('me')
@@ -41,8 +42,8 @@ export class NotificationController {
   findUnseenForUser(
     @AuthUser() user: User,
     @PageQuery() page: number,
-  ): Promise<Paginated<Notification>> {
-    return this.notificationService.findForUser(user, false, page);
+  ): Promise<Paginated<GenericNotification>> {
+    return this.notificationService.findForUser(user, page);
   }
 
   @Get('me/count')
@@ -52,28 +53,7 @@ export class NotificationController {
     @AuthUser() user: User,
   ): Promise<{ count: number }> {
     return {
-      count: await this.notificationService.countForUser(user, false),
-    };
-  }
-
-  @Get('me/seen')
-  @UseGuards(IsAuthenticated)
-  @PaginatedOutput(NotificationOutDto)
-  findSseenForUser(
-    @AuthUser() user: User,
-    @PageQuery() page: number,
-  ): Promise<Paginated<Notification>> {
-    return this.notificationService.findForUser(user, true, page);
-  }
-
-  @Get('me/seen/count')
-  @UseGuards(IsAuthenticated)
-  @Output(NotificationsCountOutDto)
-  async countSeenForUser(
-    @AuthUser() user: User,
-  ): Promise<{ count: number }> {
-    return {
-      count: await this.notificationService.countForUser(user, true),
+      count: await this.notificationService.countUnseenForUser(user),
     };
   }
 
@@ -84,13 +64,13 @@ export class NotificationController {
     @Param('id', new ParseIntPipe()) id: number,
     @AuthUser() user: User,
   ): Promise<void> {
-    const notification = await this.notificationRepository.findOne(id, { relations: ['subscription', 'subscription.user'] });
+    const notification = await this.notificationRepository.findOne(id, { relations: ['user'] });
 
     if (!notification)
       throw new NotFoundException();
 
-    if (user.id !== notification.subscription.user.id)
-      throw new UnauthorizedException();
+    if (user.id !== notification.user.id)
+      throw new NotFoundException();
 
     notification.seen = new Date();
 
