@@ -1,25 +1,23 @@
 import {
   BadRequestException,
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Get,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
 
-import { Output } from 'Common/output.interceptor';
+import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { Roles } from 'Common/roles.decorator';
 
 import { Role } from '../authorization/roles.enum';
 
 import { AuthorizedEmail } from './authorized-email.entity';
-import { AuthorizedEmailOutDto } from './dtos/authorized-email-out.dto';
 import { CreateAuthorizedEmailInDto } from './dtos/create-authorized-email-in.dto';
 import { EmailService } from './email.service';
 
 @Controller('email')
-@UseInterceptors(ClassSerializerInterceptor)
+@UseInterceptors(ClassToPlainInterceptor)
 export class UserController {
 
   constructor(
@@ -27,14 +25,12 @@ export class UserController {
   ) {}
 
   @Get('authorized')
-  @Output(AuthorizedEmailOutDto)
   @Roles(Role.ADMIN)
   async findAll(): Promise<AuthorizedEmail[]> {
     return this.emailService.findAllAuthorized();
   }
 
   @Post('authorize')
-  @Output(AuthorizedEmailOutDto)
   @Roles(Role.ADMIN)
   async create(@Body() dto: CreateAuthorizedEmailInDto): Promise<AuthorizedEmail> {
     if (await this.emailService.isAthorized(dto.email))

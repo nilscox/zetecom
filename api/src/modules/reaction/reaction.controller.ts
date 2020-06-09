@@ -17,15 +17,15 @@ import {
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
+import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { IsAuthor, IsNotAuthor } from 'Common/is-author.guard';
 import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
 import { OptionalQuery } from 'Common/optional-query.decorator';
-import { Output, PaginatedOutput } from 'Common/output.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
 import { SearchQuery } from 'Common/search-query.decorator';
 
-import { InformationOutDto } from '../information/dtos/information-out.dto';
+import { Information } from '../information/information.entity';
 import { InformationService } from '../information/information.service';
 import { PopulateInformation } from '../information/populate-information.interceptor';
 import { ReportInDto } from '../report/dtos/report-in.dto';
@@ -35,8 +35,6 @@ import { User } from '../user/user.entity';
 
 import { CreateReactionInDto } from './dtos/create-reaction-in.dto';
 import { QuickReactionInDto } from './dtos/quick-reaction-in.dto';
-import { ReactionOutDto } from './dtos/reaction-out.dto';
-import { ReactionWithHistoryOutDto } from './dtos/reaction-with-history-out.dto';
 import { UpdateReactionInDto } from './dtos/update-reaction-in.dto';
 import { PopulateReaction } from './populate-reaction.interceptor';
 import { Reaction } from './reaction.entity';
@@ -44,6 +42,7 @@ import { ReactionRepository } from './reaction.repository';
 import { ReactionService } from './reaction.service';
 
 @Controller('/reaction')
+@UseInterceptors(ClassToPlainInterceptor)
 export class ReactionController {
 
   @Inject('REACTION_PAGE_SIZE')
@@ -60,13 +59,12 @@ export class ReactionController {
   @Get('me')
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateInformation)
-  @PaginatedOutput(InformationOutDto)
   async findForUser(
     @AuthUser() user: User,
     @OptionalQuery({ key: 'informationId' }, OptionalParseIntPipe) informationId: number | undefined,
     @SearchQuery() search: string,
     @PageQuery() page: number,
-  ): Promise<Paginated<InformationOutDto>> {
+  ): Promise<Paginated<Information>> {
     const results = await this.reactionRepository.findForUser(user.id, search, page, this.reactionPageSize);
     const informations = await this.informationService.findByIds([...new Set(results.items.map(({ informationId }) => informationId))]);
     const reactions = await this.reactionRepository.findAll(results.items.map(({ reactionId }) => reactionId), { author: false });
@@ -82,7 +80,6 @@ export class ReactionController {
 
   @Get(':id')
   @UseInterceptors(PopulateReaction)
-  @Output(ReactionWithHistoryOutDto)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Reaction> {
@@ -96,7 +93,6 @@ export class ReactionController {
 
   @Get(':id/replies')
   @UseInterceptors(PopulateReaction)
-  @PaginatedOutput(ReactionOutDto)
   async findReplies(
     @Param('id', new ParseIntPipe()) id: number,
     @PageQuery() page: number,
@@ -149,7 +145,6 @@ export class ReactionController {
   @Post()
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateReaction)
-  @Output(ReactionOutDto)
   async create(
     @AuthUser() user: User,
     @Body() dto: CreateReactionInDto,
@@ -165,7 +160,6 @@ export class ReactionController {
   @Put(':id')
   @UseGuards(IsAuthenticated, IsAuthor)
   @UseInterceptors(PopulateReaction)
-  @Output(ReactionWithHistoryOutDto)
   async update(
     @Body() dto: UpdateReactionInDto,
     @Param('id', new ParseIntPipe()) id: number,
@@ -181,7 +175,6 @@ export class ReactionController {
   @Post(':id/quick-reaction')
   @UseGuards(IsAuthenticated, IsNotAuthor)
   @UseInterceptors(PopulateReaction)
-  @Output(ReactionOutDto)
   async quickReaction(
     @AuthUser() user: User,
     @Param('id', new ParseIntPipe()) id: number,
@@ -201,7 +194,6 @@ export class ReactionController {
   @Post(':id/report')
   @UseGuards(IsAuthenticated, IsNotAuthor)
   @UseInterceptors(PopulateReaction)
-  @Output(ReactionOutDto)
   async report(
     @AuthUser() user: User,
     @Param('id', new ParseIntPipe()) id: number,

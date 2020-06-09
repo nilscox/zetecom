@@ -286,8 +286,6 @@ describe('information controller', () => {
         .expect(201);
 
       expect(body).toMatchObject(info);
-      expect(body).toHaveProperty('creator');
-      expect(body.creator).toMatchObject({ id: admin.id });
 
       const infoDb = await informationRepository.findOne(body.id);
 
@@ -297,7 +295,6 @@ describe('information controller', () => {
         url: 'https://info.url',
         published: '2020-01-01',
         imageUrl: 'https://image.url',
-        creator: { id: admin.id },
       });
     });
   });

@@ -12,9 +12,6 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-import { Output } from 'Common/output.interceptor';
-
-import { HealthCheckOutDto } from './dtos/healthcheck-out.dto';
 import { HealthCheckService } from './HealthCheck.service';
 
 @Catch(HttpException)
@@ -43,8 +40,7 @@ export class HealthcheckController {
   ) {}
 
   @Get()
-  @Output(HealthCheckOutDto)
-  async check(): Promise<HealthCheckOutDto> {
+  async check(): Promise<{ api: boolean; database: boolean }> {
     const result = {
       api: true,
       database: await this.healthCheckService.checkDatabase(),

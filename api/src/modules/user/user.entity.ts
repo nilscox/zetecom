@@ -1,3 +1,4 @@
+import { Exclude, Expose } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Role } from '../authorization/roles.enum';
@@ -6,18 +7,22 @@ import { Role } from '../authorization/roles.enum';
 export class User {
 
   @PrimaryGeneratedColumn()
+  @Expose()
   id: number;
 
   @Column({ unique: true })
+  @Expose()
   email: string;
 
   @Column()
   password: string;
 
   @Column({ unique: true })
+  @Expose()
   nick: string;
 
   @Column({ nullable: true })
+  @Expose()
   avatar: string;
 
   @Column()
@@ -33,9 +38,18 @@ export class User {
   roles: Role[];
 
   @CreateDateColumn()
+  @Expose()
   created: Date;
 
   @UpdateDateColumn()
   updated: Date;
 
+}
+
+export class UserLight extends User {
+  @Exclude()
+  email;
+
+  @Exclude()
+  created;
 }

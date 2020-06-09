@@ -1,3 +1,4 @@
+import { Expose } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Reaction } from '../reaction/reaction.entity';
@@ -7,21 +8,27 @@ import { User } from '../user/user.entity';
 export class Information {
 
   @PrimaryGeneratedColumn()
+  @Expose()
   id: number;
 
   @Column({ unique: true })
+  @Expose()
   identifier: string;
 
   @Column()
+  @Expose()
   title: string;
 
   @Column()
+  @Expose()
   url: string;
 
   @Column({ name: 'image_url', nullable: true })
+  @Expose()
   imageUrl: string;
 
   @Column({ type: 'date', nullable: true })
+  @Expose()
   published: Date;
 
   @CreateDateColumn()
@@ -34,8 +41,10 @@ export class Information {
   @JoinColumn({ name: 'creator_id' })
   creator: User;
 
+  @Expose()
   reactionsCount: number;
 
+  @Expose()
   reactions?: Reaction[];
 
 }

@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   ConflictException,
   Controller,
   Get,
@@ -16,8 +15,8 @@ import {
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
+import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { OptionalQuery } from 'Common/optional-query.decorator';
-import { Output, PaginatedOutput } from 'Common/output.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
 import { Roles } from 'Common/roles.decorator';
@@ -27,21 +26,19 @@ import { SortTypePipe } from 'Common/sort-type.pipe';
 
 import { PopulateInformation } from '../../modules/information/populate-information.interceptor';
 import { Role } from '../authorization/roles.enum';
-import { ReactionOutDto } from '../reaction/dtos/reaction-out.dto';
 import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
 import { Reaction } from '../reaction/reaction.entity';
 import { ReactionRepository } from '../reaction/reaction.repository';
 import { User } from '../user/user.entity';
 
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
-import { InformationOutDto } from './dtos/information-out.dto';
 import { UpdateInformationInDto } from './dtos/update-information-in.dto';
 import { Information } from './information.entity';
 import { InformationRepository } from './information.repository';
 import { InformationService } from './information.service';
 
 @Controller('information')
-@UseInterceptors(ClassSerializerInterceptor)
+@UseInterceptors(ClassToPlainInterceptor)
 export class InformationController {
 
   @Inject('INFORMATION_PAGE_SIZE')
@@ -58,7 +55,6 @@ export class InformationController {
 
   @Get()
   @UseInterceptors(PopulateInformation)
-  @PaginatedOutput(InformationOutDto)
   async findAll(
     @PageQuery() page: number,
   ): Promise<Paginated<Information>> {
@@ -67,7 +63,6 @@ export class InformationController {
 
   @Get(':id')
   @UseInterceptors(PopulateInformation)
-  @Output(InformationOutDto)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Information> {
@@ -81,7 +76,6 @@ export class InformationController {
 
   @Get('by-identifier/:identifier')
   @UseInterceptors(PopulateInformation)
-  @Output(InformationOutDto)
   async findOneByIdentifier(
     @Param('identifier') identifier: string,
   ): Promise<Information> {
@@ -95,7 +89,6 @@ export class InformationController {
 
   @Get(':id/reactions')
   @UseInterceptors(PopulateReaction)
-  @PaginatedOutput(ReactionOutDto)
   async findReactions(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
@@ -113,7 +106,6 @@ export class InformationController {
   @Post()
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateInformation)
-  @Output(InformationOutDto)
   @Roles(Role.ADMIN)
   async create(
     @Body() dto: CreateInformationInDto,
@@ -128,7 +120,6 @@ export class InformationController {
   @Put(':id')
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateInformation)
-  @Output(InformationOutDto)
   @Roles(Role.ADMIN)
   async update(
     @Param('id', new ParseIntPipe()) id: number,

@@ -1,3 +1,4 @@
+import { Expose, Type } from 'class-transformer';
 import { CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { Reaction } from '../reaction/reaction.entity';
@@ -8,6 +9,7 @@ import { User } from '../user/user.entity';
 export class ReactionSubscription {
 
   @PrimaryGeneratedColumn()
+  @Expose()
   id: number;
 
   @ManyToOne(type => User, { nullable: false })
@@ -16,9 +18,12 @@ export class ReactionSubscription {
 
   @ManyToOne(type => Reaction, { nullable: true })
   @JoinColumn({ name: 'reaction_id' })
+  @Expose()
+  @Type(() => Reaction)
   reaction: Reaction;
 
   @CreateDateColumn()
+  @Expose({ name: 'date' })
   created: Date;
 
 }

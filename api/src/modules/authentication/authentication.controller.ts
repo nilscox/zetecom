@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Get,
   HttpCode,
@@ -16,10 +15,9 @@ import { Response } from 'express';
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
-import { Output } from 'Common/output.interceptor';
+import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 
 import { ConfigService } from '../config/config.service';
-import { UserOutDto } from '../user/dtos/user-out.dto';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 
@@ -35,7 +33,7 @@ type SessionType = {
 };
 
 @Controller('auth')
-@UseInterceptors(ClassSerializerInterceptor)
+@UseInterceptors(ClassToPlainInterceptor)
 export class AuthenticationController {
 
   constructor(
@@ -46,7 +44,6 @@ export class AuthenticationController {
 
   @Post('/signup')
   @UseGuards(IsNotAuthenticated)
-  @Output(UserOutDto)
   async signup(@Body() signupUserDto: SignupUserInDto, @Session() session: SessionType): Promise<User> {
     const user = await this.authService.signup(signupUserDto);
 
@@ -69,7 +66,6 @@ export class AuthenticationController {
   @Post('/login')
   @UseGuards(IsNotAuthenticated)
   @HttpCode(200)
-  @Output(UserOutDto)
   async login(@Body() loginUserDto: LoginUserInDto, @Session() session: SessionType): Promise<User> {
     const { email, password } = loginUserDto;
     const user = await this.authService.login(email, password);
@@ -82,7 +78,6 @@ export class AuthenticationController {
   @Post('/email-login')
   @UseGuards(IsNotAuthenticated)
   @HttpCode(200)
-  @Output(UserOutDto)
   async emailLogin(@Body() emailLoginDto: EmailLoginInDto, @Session() session: SessionType): Promise<User> {
     const user = await this.authService.emailLogin(emailLoginDto.token);
 
@@ -100,7 +95,6 @@ export class AuthenticationController {
 
   @Put('change-password')
   @UseGuards(IsAuthenticated)
-  @Output(UserOutDto)
   async changeUserPassword(@Body() dto: ChangePasswordInDto, @AuthUser() user: User): Promise<User> {
     const { password } = dto;
     await this.authService.changeUserPassword(user, password);
@@ -117,7 +111,6 @@ export class AuthenticationController {
 
   @Get('/me')
   @UseGuards(IsAuthenticated)
-  @Output(UserOutDto)
   me(@AuthUser() user: User): User {
     return user;
   }

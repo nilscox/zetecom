@@ -7,8 +7,7 @@ import { Paginated } from 'Common/paginated';
 
 import { Notification, NotificationType, SubscriptionReplyNotification } from '../notification/notification.entity';
 import { Reaction } from '../reaction/reaction.entity';
-import { UserLightOutDto } from '../user/dtos/user-light-out.dto';
-import { User } from '../user/user.entity';
+import { User, UserLight } from '../user/user.entity';
 
 import { ReactionSubscription } from './subscription.entity';
 
@@ -85,7 +84,7 @@ export class ReactionSubscriptionService {
       informationId: reply.information.id,
       reactionId: reply.parent.id,
       replyId: reply.id,
-      author: classToPlain(plainToClass(UserLightOutDto, reply.author), { strategy: 'excludeAll' }),
+      author: classToPlain(plainToClass(UserLight, reply.author), { strategy: 'excludeAll' }),
       text: reply.message.text,
     };
 

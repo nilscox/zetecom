@@ -8,26 +8,36 @@ import {
   ParseIntPipe,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Expose } from 'class-transformer';
 import { Repository } from 'typeorm';
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
-import { Output, PaginatedOutput } from 'Common/output.interceptor';
+import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
 
 import { User } from '../user/user.entity';
 
-import { NotificationOutDto } from './dtos/notification-out.dto';
-import { NotificationsCountOutDto } from './dtos/notifications-count-out.dto';
 import { Notification, NotificationType } from './notification.entity';
 import { NotificationService } from './notification.service';
 
 type GenericNotification = Notification<NotificationType>;
 
+class NotificationOutDto {
+  constructor(private readonly _count: number) {}
+
+  @Expose()
+  get count() {
+    return this._count;
+  }
+}
+
 @Controller('notification')
+@UseInterceptors(ClassToPlainInterceptor)
 export class NotificationController {
 
   constructor(
@@ -38,7 +48,6 @@ export class NotificationController {
 
   @Get('me')
   @UseGuards(IsAuthenticated)
-  @PaginatedOutput(NotificationOutDto)
   findUnseenForUser(
     @AuthUser() user: User,
     @PageQuery() page: number,
@@ -48,13 +57,10 @@ export class NotificationController {
 
   @Get('me/count')
   @UseGuards(IsAuthenticated)
-  @Output(NotificationsCountOutDto)
   async countUnseenForUser(
     @AuthUser() user: User,
-  ): Promise<{ count: number }> {
-    return {
-      count: await this.notificationService.countUnseenForUser(user),
-    };
+  ): Promise<NotificationOutDto> {
+    return new NotificationOutDto(await this.notificationService.countUnseenForUser(user));
   }
 
   @Post(':id/seen')
