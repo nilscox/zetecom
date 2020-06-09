@@ -1,25 +1,18 @@
+import * as dotenv from 'dotenv';
 import { Connection, createConnection } from 'typeorm';
+
+dotenv.config({ path: '.env.test' });
 
 export const setupIntgTest = async () => {
 
   let connection: Connection;
 
   beforeAll(async () => {
-    connection = await createConnection({
-      database: 'test',
-      dropSchema: true,
-      entities: ['src/**/*.entity.ts'],
-      host: 'localhost',
-      // logging: ['query', 'error'],
-      password: 'root',
-      port: 5432,
-      synchronize: true,
-      type: 'postgres',
-      username: 'root',
-    });
+    connection = await createConnection();
   });
 
   afterAll(async () => {
     await connection.close();
   });
+
 };

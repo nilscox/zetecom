@@ -12,7 +12,7 @@
     "start:dev": "NODE_ENV=development nodemon",
     "start:debug": "NODE_ENV=development nodemon --config nodemon-debug.json",
     "start:prod": "yarn db:migrate && node dist/src/main.js",
-    "lint": "eslint --ext .ts src/** migrations/*",
+    "lint": "eslint --ext .ts src/**",
     "test": "NODE_ENV=test jest",
     "test:watch": "yarn test --watch",
     "test:cov": "yarn test --coverage",

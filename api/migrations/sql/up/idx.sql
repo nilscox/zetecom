@@ -1,4 +1,3 @@
-
 CREATE OR REPLACE FUNCTION idx(anyarray, anyelement)
   RETURNS INT AS
 $$

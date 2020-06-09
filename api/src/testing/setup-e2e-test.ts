@@ -1,5 +1,3 @@
-import * as path from 'path';
-
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { Module, ValidationPipe } from '@nestjs/common';
 import { MiddlewareConsumer, ModuleMetadata } from '@nestjs/common/interfaces';
@@ -14,7 +12,7 @@ import * as memorystore from 'memorystore';
 import * as request from 'supertest';
 import { getRepository } from 'typeorm';
 
-dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env.test') });
+dotenv.config({ path: '.env.test' });
 
 import { ErrorsInterceptor } from 'Common/errors.interceptor';
 import { RolesGuard } from 'Common/roles.guard';
@@ -24,7 +22,6 @@ import { AuthorizationModule } from '../modules/authorization/authorization.modu
 import { Role } from '../modules/authorization/roles.enum';
 import { ConfigModule } from '../modules/config/config.module';
 import { User } from '../modules/user/user.entity';
-
 
 const MemoryStore = memorystore(expressSession);
 
@@ -36,18 +33,7 @@ const MemoryStore = memorystore(expressSession);
     },
   ],
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'root',
-      password: 'root',
-      database: 'test',
-      synchronize: true,
-      dropSchema: true,
-      entities: ['src/**/*.entity.ts'],
-      logging: ['error'],
-    }),
+    TypeOrmModule.forRoot(),
     TypeOrmModule.forFeature([User]),
     AuthorizationModule,
     ConfigModule,
