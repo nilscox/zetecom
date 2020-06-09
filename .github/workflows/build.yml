@@ -35,12 +35,19 @@ jobs:
         context: ./app
 
   extension:
-    name: build extension
+    name: build extension staging
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev'
     steps:
     - uses: actions/checkout@v1
-    - run: yarn && yarn build
+    - run: yarn && ../scripts/build-extension.ci.sh staging
       working-directory: ./extension
+      env:
+        APP_URL: ${{ secrets.APP_URL_STAGING }}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: extension
+        path: extension/*.zip
 
   website:
     name: build website
