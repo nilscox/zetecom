@@ -142,16 +142,21 @@ export class ReactionRepository extends Repository<Reaction> {
       const qb = getConnection().createQueryBuilder()
         .select('information_id')
         .distinct(true)
-        .from(subQuery => subQuery.select('reaction.information_id')
-          .from('reaction', 'reaction')
-          .leftJoin('reaction.message', 'message')
-          .where('reaction.author_id = :userId', { userId })
-          .groupBy('reaction.information_id, reaction.created')
-          .orderBy('reaction.created', 'DESC')
-        , 'information_id');
+        .from(subQuery => {
+          subQuery.select('reaction.information_id')
+            .from('reaction', 'reaction')
+            .where('reaction.author_id = :userId', { userId })
+            .groupBy('reaction.information_id, reaction.created')
+            .orderBy('reaction.created', 'DESC');
 
-      if (search)
-        qb.andWhere('message.text ILIKE :search', { search: `%${search}%` });
+          if (search) {
+            subQuery
+              .leftJoin('reaction.message', 'message')
+              .andWhere('message.text ILIKE :search', { search: `%${search}%` });
+          }
+
+          return subQuery;
+        }, 'information_id');
 
       const result = await qb.getRawMany();
 
@@ -167,7 +172,6 @@ export class ReactionRepository extends Repository<Reaction> {
       const qb = this.createQueryBuilder('reaction')
         .select('reaction.id')
         .addSelect('reaction.information_id')
-        .leftJoin('reaction.message', 'message')
         .leftJoin('reaction.information', 'information')
         .where('reaction.author_id = :userId', { userId })
         .orderBy(`idx(array[${informationIds.join(', ')}], information.id)`)
@@ -175,8 +179,11 @@ export class ReactionRepository extends Repository<Reaction> {
         .offset((page - 1) * pageSize)
         .limit(pageSize);
 
-      if (search)
-        qb.andWhere('message.text ILIKE :search', { search: `%${search}%` });
+      if (search) {
+        qb
+          .leftJoin('reaction.message', 'message')
+          .andWhere('message.text ILIKE :search', { search: `%${search}%` });
+      }
 
       const results = await qb.getRawMany();
 
