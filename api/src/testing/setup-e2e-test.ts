@@ -23,7 +23,6 @@ import { UserMiddleware } from 'Common/user.middleware';
 import { AuthorizationModule } from '../modules/authorization/authorization.module';
 import { Role } from '../modules/authorization/roles.enum';
 import { ConfigModule } from '../modules/config/config.module';
-import { UserOutDto } from '../modules/user/dtos/user-out.dto';
 import { User } from '../modules/user/user.entity';
 
 
@@ -115,7 +114,7 @@ let createUsersCount = 0;
 
 export const createAuthenticatedUser = (server) => {
   const userRequest = request.agent(server);
-  const user: UserOutDto = {} as any;
+  const user: User = {} as any;
 
   beforeAll(async () => {
     const { body } = await userRequest
