@@ -1,19 +1,16 @@
 import axios from 'axios';
-import { plainToClass } from 'class-transformer';
 
-import { InformationOutDto } from '../../src/modules/information/dtos/information-out.dto';
-
-import { Information } from './dtos/Information';
+import { InformationDto } from './dtos/Information';
 import { FindUser } from './main';
 import { createReaction } from './reaction';
 
-const findInformation = async (information: Information): Promise<InformationOutDto> => {
+const findInformation = async (information: InformationDto) => {
   const { data } = await axios.get('/api/information/by-identifier/' + encodeURIComponent(information.identifier));
 
-  return plainToClass(InformationOutDto, data);
+  return data;
 };
 
-const createInformation = async (information: Information, findUser: FindUser): Promise<InformationOutDto> => {
+const createInformation = async (information: InformationDto, findUser: FindUser) => {
   const creator = findUser(information.creator);
   const payload = {
     identifier: information.identifier,
@@ -25,10 +22,10 @@ const createInformation = async (information: Information, findUser: FindUser): 
     headers: { cookie: creator.cookie },
   });
 
-  return plainToClass(InformationOutDto, data);
+  return data;
 };
 
-export const findOrCreateInformation = async (information: Information, findUser: FindUser): Promise<InformationOutDto> => {
+export const findOrCreateInformation = async (information: InformationDto, findUser: FindUser) => {
   try {
     return await findInformation(information);
   } catch (e) {

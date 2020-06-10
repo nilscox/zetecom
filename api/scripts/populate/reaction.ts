@@ -1,15 +1,14 @@
 import axios from 'axios';
-import { plainToClass } from 'class-transformer';
 
-import { InformationOutDto } from '../../src/modules/information/dtos/information-out.dto';
-import { ReactionOutDto } from '../../src/modules/reaction/dtos/reaction-out.dto';
+import { Information } from '../../src/modules/information/information.entity';
 import { QuickReactionType } from '../../src/modules/reaction/quick-reaction.entity';
+import { Reaction } from '../../src/modules/reaction/reaction.entity';
 
-import { Reaction } from './dtos/Reaction';
+import { ReactionDto } from './dtos/Reaction';
 import { FindUser } from './main';
 import { AuthenticatedUser } from './user';
 
-const updateReaction = async (reaction: ReactionOutDto, updatedText: string, findUser: FindUser): Promise<ReactionOutDto> => {
+const updateReaction = async (reaction: Reaction, updatedText: string, findUser: FindUser) => {
   const author = findUser(reaction.author.nick);
   const payload = {
     text: updatedText,
@@ -19,10 +18,10 @@ const updateReaction = async (reaction: ReactionOutDto, updatedText: string, fin
     headers: { cookie: author.cookie },
   });
 
-  return plainToClass(ReactionOutDto, data);
+  return data;
 };
 
-const createQuickReaction = async (reaction: ReactionOutDto, type: QuickReactionType, user: AuthenticatedUser) => {
+const createQuickReaction = async (reaction: Reaction, type: QuickReactionType, user: AuthenticatedUser) => {
   const payload = {
     type,
   };
@@ -33,11 +32,11 @@ const createQuickReaction = async (reaction: ReactionOutDto, type: QuickReaction
 };
 
 export const createReaction = async (
-  reaction: Reaction,
-  information: InformationOutDto,
-  parent: ReactionOutDto | null,
+  reaction: ReactionDto,
+  information: Information,
+  parent: Reaction | null,
   findUser: FindUser,
-): Promise<ReactionOutDto> => {
+) => {
   const author = findUser(reaction.author);
   const payload = {
     informationId: information.id,
@@ -49,7 +48,7 @@ export const createReaction = async (
     headers: { cookie: author.cookie },
   });
 
-  let created = plainToClass(ReactionOutDto, data);
+  let created = data;
 
   if (reaction.history) {
     for (const text of reaction.history)

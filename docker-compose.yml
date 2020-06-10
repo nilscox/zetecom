@@ -34,6 +34,7 @@ services:
       DB_SYNC: 'true'
       DB_ENTITIES: ./dist/src/**/*.entity.js
       DB_MIGRATIONS_DIR: ./dist/migrations/*.js
+      DB_MIGRATIONS_RUN: 'false'
       DB_DEBUG: 'false'
       EMAIL_HOST: domain.tld
       EMAIL_USER: username

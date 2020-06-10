@@ -1,15 +1,14 @@
 import axios from 'axios';
-import { plainToClass } from 'class-transformer';
 
-import { UserOutDto } from '../../src/modules/user/dtos/user-out.dto';
+import { User } from '../../src/modules/user/user.entity';
 
-import { User } from './dtos/User';
+import { UserDto } from './dtos/User';
 
-export type AuthenticatedUser = UserOutDto & {
+export type AuthenticatedUser = User & {
   cookie: string;
 };
 
-const login = async (user: User): Promise<AuthenticatedUser> => {
+const login = async (user: UserDto): Promise<AuthenticatedUser> => {
   const payload = {
     email: user.email,
     password: user.password,
@@ -18,12 +17,12 @@ const login = async (user: User): Promise<AuthenticatedUser> => {
   const { data, headers } = await axios.post('/api/auth/login', payload);
 
   return {
-    ...plainToClass(UserOutDto, data),
+    ...data,
     cookie: headers['set-cookie'][0].split(';')[0],
   };
 };
 
-const signup = async (user: User): Promise<AuthenticatedUser> => {
+const signup = async (user: UserDto): Promise<AuthenticatedUser> => {
   const payload = {
     email: user.email,
     password: user.password,
@@ -34,12 +33,12 @@ const signup = async (user: User): Promise<AuthenticatedUser> => {
   const { data, headers } = await axios.post('/api/auth/signup', payload);
 
   return {
-    ...plainToClass(UserOutDto, data),
+    ...data,
     cookie: headers['set-cookie'][0].split(';')[0],
   };
 };
 
-export const loginOrSignup = async (user: User): Promise<AuthenticatedUser> => {
+export const loginOrSignup = async (user: UserDto): Promise<AuthenticatedUser> => {
   try {
     return await login(user);
   } catch (e) {

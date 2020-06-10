@@ -1,0 +1,30 @@
+version: '3.4'
+services:
+
+  api:
+    command: bash -c "yarn typeorm migration:run && yarn start:coverage"
+    environment:
+      CI: 'true'
+      BYPASS_AUTHORIZATIONS: 'true'
+      DB_SYNC: 'false'
+      DB_ENTITIES: ./src/**/*.entity.ts
+      DB_MIGRATIONS_DIR: ./migrations/*.ts
+
+  app:
+    command: /start.sh --ci
+    environment:
+      API_URL: http://ri-api
+
+  cypress:
+    build: ./e2e
+    container_name: ri-cypress
+    hostname: ri-cypress
+    volumes:
+      - ./e2e/artifacts:/artifacts
+      - ./coverage:/e2e/coverage
+    entrypoint: bash -c "yarn wait-on http://ri-api/api/healthcheck && yarn test:ci && yarn nyc report --reporter=lcov"
+    environment:
+      CYPRESS_API_URL: http://ri-api
+      CYPRESS_RESTOREDB_URL: http://ri-restoredb
+      CYPRESS_APP_URL: http://ri-app
+      CYPRESS_WEBSITE_URL: http://ri-website

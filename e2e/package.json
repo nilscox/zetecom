@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "cypress open",
-    "start:ci": "cypress run --config-file cypress.ci.json"
+    "test": "cypress open",
+    "test:ci": "cypress run --config-file cypress.ci.json",
+    "start": "docker-compose -f ../docker-compose.yml -f docker-compose.e2e.yml",
+    "start:local": "yarn start -f ../docker-compose.override.yml up --abort-on-container-exit postgresql api restoredb app cypress",
+    "start:ci": "yarn start -f docker-compose.ci.yml up --abort-on-container-exit"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.7.6",

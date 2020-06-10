@@ -1,3 +1,4 @@
+export const up = `
 CREATE OR REPLACE FUNCTION idx(anyarray, anyelement)
   RETURNS INT AS
 $$
@@ -7,3 +8,8 @@ $$
   WHERE $1[i] = $2
   LIMIT 1;
 $$ LANGUAGE SQL IMMUTABLE;
+`;
+
+export const down = `
+DROP FUNCTION idx;
+`;

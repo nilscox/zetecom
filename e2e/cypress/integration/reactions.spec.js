@@ -4,6 +4,7 @@ const user2 = { nick: 'user2', email: 'user2@domain.tld', password: 'secure p4ss
 const information = {
   title: 'News',
   identifier: 'test:news1',
+  url: 'https://info.url',
   creator: 'user1',
   reactions: [],
 };

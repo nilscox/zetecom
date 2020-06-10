@@ -1,5 +1,6 @@
 // tslint:disable: no-console
 
+// eslint-disable-next-line simple-import-sort/sort
 import 'reflect-metadata';
 
 import { plainToClass } from 'class-transformer';

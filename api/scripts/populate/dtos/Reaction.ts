@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsOptional, IsString, ValidateNested } from 'class-validator';
 
-class QuickReactions {
+class QuickReactionsDto {
   @IsString({ each: true })
   @IsOptional()
   approve?: string[];
@@ -15,7 +15,7 @@ class QuickReactions {
   skeptic?: string[];
 }
 
-export class Reaction {
+export class ReactionDto {
 
   @IsString()
   author: string;
@@ -25,8 +25,8 @@ export class Reaction {
 
   @IsOptional()
   @ValidateNested()
-  @Type(() => QuickReactions)
-  quickReactions?: QuickReactions;
+  @Type(() => QuickReactionsDto)
+  quickReactions?: QuickReactionsDto;
 
   @IsString({ each: true })
   @IsOptional()
@@ -34,7 +34,7 @@ export class Reaction {
 
   @IsOptional()
   @ValidateNested()
-  @Type(() => Reaction)
-  replies?: Reaction[];
+  @Type(() => ReactionDto)
+  replies?: ReactionDto[];
 
 }

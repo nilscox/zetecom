@@ -1,9 +1,9 @@
 import { Type } from 'class-transformer';
 import { IsOptional, IsString, ValidateNested } from 'class-validator';
 
-import { Reaction } from './Reaction';
+import { ReactionDto } from './Reaction';
 
-export class Information {
+export class InformationDto {
 
   @IsString()
   title: string;
@@ -19,7 +19,7 @@ export class Information {
 
   @IsOptional()
   @ValidateNested()
-  @Type(() => Reaction)
-  reactions?: Reaction[];
+  @Type(() => ReactionDto)
+  reactions?: ReactionDto[];
 
 }
