@@ -17,21 +17,29 @@ import WebsiteLink from 'src/popup/components/WebsiteLink';
 import { useTheme } from 'src/theme/Theme';
 import { parseReaction } from 'src/types/Reaction';
 
+import { makeStyles } from '@material-ui/core';
+
 const POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT = 3000;
 
+type StylesProps = {
+  hover: boolean;
+}
+
+const useStyles = makeStyles(({ palette }) => ({
+  submitButton: ({ hover }: StylesProps) => ({
+    color: hover ? palette.textWarning.main : undefined,
+    transition: 'color 160ms ease',
+  }),
+}));
+
 const ReportButton: React.FC<ButtonProps> = (props) => {
-  const { colors: { textLight, textWarning } } = useTheme();
   const [hover, setHover] = useState(false);
+  const classes = useStyles({ hover });
 
   return (
     <Button
-      size="big"
-      text={{
-        style: {
-          color: hover ? textWarning : textLight,
-          transition: 'color 160ms ease',
-        },
-      }}
+      size="large"
+      className={classes.submitButton}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       {...props}

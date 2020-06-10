@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsOptional, IsString, IsUrl, ValidateNested } from 'class-validator';
 
 import { ReactionDto } from './Reaction';
 
@@ -12,6 +12,7 @@ export class InformationDto {
   identifier: string;
 
   @IsString()
+  @IsUrl()
   url: string;
 
   @IsString()

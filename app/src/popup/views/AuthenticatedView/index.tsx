@@ -5,11 +5,11 @@ import dayjs from 'dayjs';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 
 import Button from 'src/components/Button';
+import FormError from 'src/components/FormError';
 import TextField from 'src/components/TextField';
 import { UserAvatarNick } from 'src/components/UserAvatar';
 import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
-import FormGlobalError from 'src/popup/components/FormGlobalError';
 
 import useChangePassword from './useChangePassword';
 
@@ -98,7 +98,7 @@ const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
               onTextChange={setPassword}
             />
 
-            <FormGlobalError error={globalError} />
+            <FormError error={globalError} />
 
           </form>
         </Collapse>

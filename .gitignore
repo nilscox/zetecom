@@ -1,4 +1,5 @@
 .vscode/
+coverage/
 data/
 avatars/
 email-templates/

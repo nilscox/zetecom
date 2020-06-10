@@ -458,6 +458,11 @@ describe('reactions', () => {
       cy.get('[placeholder="Précisez en quelques mots le motif du signalement si nécessaire..."]').type('Contenu non pertinent');
       cy.get('button[type="button"]').contains('Signaler').click();
       cy.contains('La réaction a été signalée, merci pour votre contribution ! 💪');
+
+      cy.reload();
+
+      cy.get('button[type="button"]').contains('Signaler').click();
+      cy.contains('Vous avez déjà signalé cette réaction');
     });
 
     it('should unsubscribe and resubscribe to a reaction', () => {
