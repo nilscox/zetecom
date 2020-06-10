@@ -30,13 +30,13 @@ const AuthenticationNavigation: React.FC<AuthenticationNavigationProps> = ({ for
     <Grid container>
 
       <Box flex={1}>
-        <RouterLink to={loginSignupLocation()}>
+        <RouterLink focusColor to={loginSignupLocation()}>
           { form === 'login' ? 'Créer un compte' : 'Connexion' }
         </RouterLink>
       </Box>
 
       <Box flex={1} textAlign="right">
-        <RouterLink to={forgotPasswordLocation()}>
+        <RouterLink tabIndex={-1} to={forgotPasswordLocation()}>
           Mot de passe oublié
         </RouterLink>
       </Box>

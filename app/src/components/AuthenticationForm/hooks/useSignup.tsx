@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 import useAxios from 'src/hooks/use-axios';
 import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
-import WebsiteLink from 'src/popup/components/WebsiteLink';
+import { WebsiteLink } from 'src/components/Link';
 import { parseUser, User } from 'src/types/User';
 
 import { FormFields } from '../types';

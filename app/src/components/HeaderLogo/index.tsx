@@ -4,7 +4,7 @@ import logo from './logo.png';
 
 import { makeStyles, Typography } from '@material-ui/core';
 
-const useStyles = makeStyles(({ breakpoints, spacing, palette: { textLight } }) => ({
+const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
   image: {
     width: 54,
     height: 54,
@@ -32,7 +32,7 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette: { textLight } }) 
     },
   },
   subTitle: {
-    color: textLight.main,
+    color: palette.textLight.main,
     letterSpacing: 4,
     fontSize: 20,
     [breakpoints.down('xs')]: {

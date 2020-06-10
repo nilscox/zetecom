@@ -4,7 +4,10 @@ import Loader from 'src/components/Loader';
 
 import { Button as MuiButton, ButtonProps as MuiButtonProps, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(({ palette }) => ({
+  buttonFocus: {
+    color: palette.primary.main,
+  },
   loader: {
     position: 'absolute',
     top: 0,
@@ -12,7 +15,7 @@ const useStyles = makeStyles({
     left: 0,
     right: 0,
   },
-});
+}));
 
 export type ButtonProps = MuiButtonProps & {
   loading?: boolean;
@@ -21,12 +24,21 @@ export type ButtonProps = MuiButtonProps & {
 const Button: React.FC<ButtonProps> = ({
   loading,
   children,
+  disableFocusRipple = true,
   ...props
 }) => {
   const classes = useStyles();
 
   return (
-    <MuiButton disabled={loading || props.disabled} {...props}>
+    <MuiButton
+      disableFocusRipple={disableFocusRipple}
+      disabled={loading || props.disabled}
+      classes={{
+        focusVisible: classes.buttonFocus,
+        ...props.classes,
+      }}
+      {...props}
+    >
 
       { children }
 

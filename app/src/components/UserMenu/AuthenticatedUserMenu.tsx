@@ -28,6 +28,10 @@ import NotificationIcon from '@material-ui/icons/Notifications';
 const useStyles = makeStyles(({ palette }) => ({
   userMenuButton: {
     cursor: 'pointer',
+    transition: 'color 200ms ease-in-out',
+    '&:hover': {
+      color: palette.secondary.light,
+    },
   },
   nick: {
     fontWeight: 600,

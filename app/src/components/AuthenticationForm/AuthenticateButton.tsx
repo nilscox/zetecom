@@ -29,7 +29,13 @@ type AuthenticateButtonProps = {
   formError: ReactNode | undefined;
 };
 
-const AuthenticateButton: React.FC<AuthenticateButtonProps> = ({ form, loading, values, fieldErrors, formError }) => {
+const AuthenticateButton: React.FC<AuthenticateButtonProps> = ({
+  form,
+  loading,
+  values,
+  fieldErrors,
+  formError,
+}) => {
   const isValid = useMemo(() => {
     if (typeof formError !== 'undefined' || Object.values(fieldErrors).some(error => typeof error !== 'undefined'))
       return false;

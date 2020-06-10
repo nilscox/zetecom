@@ -1,6 +1,6 @@
 import React from 'react';
 
-import WebsiteLink from '../../popup/components/WebsiteLink';
+import { WebsiteLink } from 'src/components/Link';
 
 import { Form } from './types';
 

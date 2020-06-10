@@ -1,15 +1,13 @@
-import React, { ElementType } from 'react';
+import React from 'react';
 
 import dayjs from 'dayjs';
-
-import { Link } from 'src/components/Link';
 
 import { Information } from '../types/Information';
 
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(({ breakpoints, spacing, palette }: Theme) => ({
+const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
   image: {
     width: 240,
     height: 160,
@@ -25,7 +23,6 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }: Theme) => ({
   title: {
     fontSize: '1.6rem',
     fontWeight: 'bold',
-    color: palette.secondary.dark,
     [breakpoints.down('lg')]: {
       fontSize: '1.5rem',
     },

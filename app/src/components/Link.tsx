@@ -1,39 +1,63 @@
-import React, { forwardRef } from 'react';
+import React, { useRef } from 'react';
 
 import clsx from 'clsx';
 import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
 
+import env from 'src/utils/env';
+
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(({ palette }) => ({
   link: {
     textDecoration: 'none',
-    color: theme.palette.secondary.dark,
+    color: palette.secondary.main,
+    transition: 'color 200ms ease-in-out',
+    '&:focus': {
+      color: palette.secondary.light,
+    },
+  },
+  linkColor: {
+    color: palette.textLink.main,
     '&:hover': {
-      color: theme.palette.secondary.main,
+      color: palette.textLink.light,
+    },
+  },
+  linkFocusColor: {
+    '&:focus': {
+      color: palette.primary.main,
     },
   },
 }));
 
-const RouterLink = forwardRef<HTMLAnchorElement, ReactRouterLinkProps>(({ className, ...props }, ref) => {
+type RouterLinkProps = ReactRouterLinkProps & {
+  color?: boolean;
+  focusColor?: boolean;
+}
+
+const RouterLink: React.FC<RouterLinkProps> = ({ color, focusColor, className, ...props }) => {
+  const ref = useRef<HTMLAnchorElement>(null);
   const classes = useStyles({});
 
   return (
     <ReactRouterLink
-      {...props}
       ref={ref}
-      className={clsx(classes.link, className)}
+      onClick={() => ref && 'current' in ref && ref.current?.blur()}
+      className={clsx(classes.link, color && classes.linkColor, focusColor && classes.linkFocusColor, className)}
+      {...props}
     />
   );
-});
+};
 
 export default RouterLink;
 
-type LinkProps = React.HTMLProps<HTMLAnchorElement> & {
+export type LinkProps = Omit<React.HTMLProps<HTMLAnchorElement>, 'color'> & {
+  color?: boolean;
+  focusColor?: boolean;
   openInNewTab?: boolean;
 };
 
-export const Link: React.FC<LinkProps> = ({ openInNewTab, className, ...props }) => {
+export const Link: React.FC<LinkProps> = ({ color, focusColor, openInNewTab, className, ...props }) => {
+  const ref = useRef<HTMLAnchorElement>(null);
   const classes = useStyles({});
   const other: React.HTMLProps<HTMLAnchorElement> = {};
 
@@ -42,9 +66,27 @@ export const Link: React.FC<LinkProps> = ({ openInNewTab, className, ...props })
 
   return (
     <a
+      ref={ref}
+      onClick={() => console.log(ref.current)}
+      className={clsx(classes.link, color && classes.linkColor, focusColor && classes.linkFocusColor, className)}
       {...props}
       {...other}
-      className={clsx(classes.link, className)}
     />
   );
 };
+
+type WebsiteLinkProps = LinkProps & {
+  to: string;
+};
+
+export const WebsiteLink: React.FC<WebsiteLinkProps> = ({ to, ...props }) => (
+  <Link
+    color
+    focusColor
+    openInNewTab
+    target="_blank"
+    rel="noopener noreferrer"
+    href={env.WEBSITE_URL + to}
+    {...props}
+  />
+);

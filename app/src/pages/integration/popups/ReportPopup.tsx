@@ -13,7 +13,7 @@ import ReactionBody from 'src/components/Reaction/ReactionBody';
 import Text from 'src/components/Text';
 import TextArea from 'src/components/TextArea';
 import useAxios from 'src/hooks/use-axios';
-import WebsiteLink from 'src/popup/components/WebsiteLink';
+import { WebsiteLink } from 'src/components/Link';
 import { useTheme } from 'src/theme/Theme';
 import { parseReaction } from 'src/types/Reaction';
 

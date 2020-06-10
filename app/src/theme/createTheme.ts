@@ -28,6 +28,7 @@ const createTheme = (): Theme => {
       border: { main: '#ccc', light: '#ddd', veryLight: '#eee' },
       selected: { main: '#ffeeaa' },
       textLight: { main: '#666666', light: '#999999' },
+      textLink: { main: '#44C', light: '#55A', dark: '#446' },
       textWarning: { main: '#ab6565' },
       background: { default: 'white' },
     },
