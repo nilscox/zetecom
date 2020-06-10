@@ -2,19 +2,14 @@ import React from 'react';
 
 import { Button, Grid, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles(({ breakpoints, spacing, palette: { border } }) => ({
+const useStyles = makeStyles(({ breakpoints, spacing, palette: { border, ...palette } }) => ({
   tab: ({ active }: { active: boolean }) => ({
-    padding: spacing(1, 4),
     borderTop: `1px solid ${border.light}`,
     borderRight: `1px solid ${border.light}`,
     borderLeft: `1px solid ${border.light}`,
     ...(!active && {
       borderBottom: `1px solid ${border.light}`,
     }),
-    [breakpoints.down('xs')]: {
-      padding: spacing(1, 3),
-      lineHeight: 0.8,
-    },
   }),
   separator: {
     width: spacing(4),
@@ -26,6 +21,18 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette: { border } }) => 
   filler: {
     flex: 1,
     borderBottom: `1px solid ${border.light}`,
+  },
+  tabButton: {
+    padding: spacing(2, 4),
+    [breakpoints.down('xs')]: {
+      padding: spacing(1, 3),
+      lineHeight: 0.8,
+    },
+    '&:hover': {
+      background: 'none',
+      color: palette.secondary.main,
+      transition: 'color 200ms ease-in-out',
+    },
   },
 }));
 
@@ -61,24 +68,28 @@ type TabsProps = {
   setCurrentTab: (tab: 'edit' | 'preview') => void;
 };
 
-const Tabs: React.FC<TabsProps> = ({ currentTab, setCurrentTab }) => (
-  <Grid container>
+const Tabs: React.FC<TabsProps> = ({ currentTab, setCurrentTab }) => {
+  const classes = useStyles();
 
-    <TabSeparator />
+  return (
+    <Grid container>
 
-    <Tab active={currentTab === 'edit'}>
-      <Button disableRipple onClick={() => setCurrentTab('edit')}>Editer</Button>
-    </Tab>
+      <TabSeparator />
 
-    <TabSeparator />
+      <Tab active={currentTab === 'edit'}>
+        <Button disableRipple className={classes.tabButton} onClick={() => setCurrentTab('edit')}>Editer</Button>
+      </Tab>
 
-    <Tab active={currentTab === 'preview'}>
-      <Button disableRipple onClick={() => setCurrentTab('preview')}>Aperçu</Button>
-    </Tab>
+      <TabSeparator />
 
-    <TabFiller />
+      <Tab active={currentTab === 'preview'}>
+        <Button disableRipple className={classes.tabButton} onClick={() => setCurrentTab('preview')}>Aperçu</Button>
+      </Tab>
 
-  </Grid>
-);
+      <TabFiller />
+
+    </Grid>
+  );
+};
 
 export default Tabs;
