@@ -2,7 +2,9 @@ import React from 'react';
 
 import dayjs from 'dayjs';
 
-import { Information } from '../types/Information';
+import { Information } from 'src/types/Information';
+
+import defaultInfo from './default-info.png';
 
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
@@ -47,7 +49,7 @@ const InformationOverview: React.FC<InformationOverviewProps> = ({ information, 
     <Grid container>
 
       {/* TODO: default image */}
-      <img className={classes.image} src={information.imageUrl || ''} />
+      <img className={classes.image} src={information.imageUrl || defaultInfo} />
 
       <Grid item className={classes.text}>
         <Grid container direction="column">
