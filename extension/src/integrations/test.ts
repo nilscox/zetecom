@@ -17,5 +17,5 @@ setupIntegration({
   healthcheck: () => true,
   type: 'switch',
   originalText: 'Commentaires Test',
-  integrationText: 'Commentaires Réagir à l\'information',
+  integrationText: 'Commentaires Zétécom',
 });

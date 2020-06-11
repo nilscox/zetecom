@@ -30,5 +30,5 @@ setupIntegration({
   healthcheck,
   type: 'switch',
   originalText: 'Commentaires YouTube',
-  integrationText: 'Commentaires Réagir à l\'information',
+  integrationText: 'Commentaires Zétécom',
 });

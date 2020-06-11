@@ -17,6 +17,6 @@ setupIntegration({
   healthcheck: () => true,
   type: 'switch',
   originalText: 'Commentaires Skepitkón',
-  integrationText: 'Commentaires Réagir à l\'information',
+  integrationText: 'Commentaires Zétécom',
   darkMode: true,
 });

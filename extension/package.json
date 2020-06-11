@@ -1,9 +1,9 @@
 {
-  "name": "reagir-information-extension",
-  "description": "Réagir à l'information - browser extension",
+  "name": "zetecom-extension",
+  "description": "Zétécom - browser extension",
   "version": "0.5.1",
   "license": "GPL-3.0-only",
-  "author": "nilscox <reagir-information@nils.cx>",
+  "author": "nilscox <nils@epita.fr>",
   "scripts": {
     "start": "nodemon -w . -i node_modules -i dist -e js,ts,css,json,html -x 'yarn build'",
     "clean": "rm -rf dist *.zip",

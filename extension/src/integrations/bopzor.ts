@@ -17,5 +17,5 @@ setupIntegration({
   healthcheck: () => true,
   type: 'switch',
   originalText: 'Pagination',
-  integrationText: 'Commentaires Réagir à l\'information',
+  integrationText: 'Commentaires Zétécom',
 });

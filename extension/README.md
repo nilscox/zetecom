@@ -1,4 +1,4 @@
-# Réagir à l'information - browser extension
+# Zétécom - browser extension
 
 This extension's purpose is to inject an iframe in some websites, displaying a comments area where all messages must
 respect a set of rules to ensure constructive debates.

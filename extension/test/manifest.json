@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "version": "0.0.0",
-  "name": "Réagir à l'information",
-  "description": "Réagir à l'information sur internet, avec esprit critique !",
+  "name": "Zétécom",
+  "description": "L'information sur internet, avec esprit critique",
   "browser_specific_settings": {
     "gecko": {
       "id": "{89e0d6c7-e0ea-470c-88cf-0d22c8ef27eb}",
