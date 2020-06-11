@@ -140,7 +140,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
     >
 
       <Text variant="subtitle">
-        Signaler le commentair de {reaction.author.nick}
+        Signaler le commentaire de {reaction.author.nick}
       </Text>
 
       <Break size={10} />
