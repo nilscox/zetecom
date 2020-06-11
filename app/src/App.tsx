@@ -16,9 +16,9 @@ import Popup from './popup';
 
 import { ThemeProvider, CssBaseline } from '@material-ui/core';
 import createTheme from './theme/createTheme';
-import { AppContextProvider } from './contexts/AppContext';
 
 import './App.css';
+import { UserProvider } from './contexts/UserContext';
 
 const Router: React.FC = () => (
   <BrowserRouter>
@@ -37,12 +37,10 @@ const App: React.FC = () => {
   return (
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-
-        <AppContextProvider>
+        <UserProvider>
+          <CssBaseline />
           <Router />
-        </AppContextProvider>
-
+        </UserProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

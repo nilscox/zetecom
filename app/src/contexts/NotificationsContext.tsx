@@ -10,7 +10,7 @@ export type NotificationsContextType = {
   refetch: () => void;
 };
 
-const NotificationsContext = createContext<NotificationsContextType | null>(null);
+export const NotificationsContext = createContext<NotificationsContextType | null>(null);
 
 export const useNotifications = () => useContext(NotificationsContext);
 

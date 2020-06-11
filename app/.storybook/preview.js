@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { ThemeProvider } from '@material-ui/core';
 import centered from '@storybook/addon-centered/react';
 import { boolean, withKnobs } from '@storybook/addon-knobs';
 import { addDecorator } from '@storybook/react';
-import {muiTheme} from 'storybook-addon-material-ui';
+import { muiTheme } from 'storybook-addon-material-ui';
 
+import { UserContext } from 'src/contexts/UserContext';
 import createTheme from 'src/theme/createTheme';
-import { AppContextProviderTesting } from 'src/contexts/AppContext';
 import { parseUser } from 'src/types/User';
 import '../src/App.css';
 
@@ -19,7 +18,9 @@ const mockUser = parseUser({
   updated: new Date(),
 });
 
-const AppContextKnobs = ({ children }) => {
+const UserProvider = UserContext.Provider;
+
+const UserProviderKnobs = ({ children }) => {
   const fetching = boolean('Fetching user', false);
   const loggedIn = boolean('Logged in', true);
 
@@ -38,9 +39,9 @@ const AppContextKnobs = ({ children }) => {
   }, [fetching, loggedIn]);
 
   return (
-    <AppContextProviderTesting user={{ user, setUser }}>
+    <UserProvider value={[user, setUser]}>
       { children }
-    </AppContextProviderTesting>
+    </UserProvider>
   );
 };
 
@@ -53,4 +54,4 @@ addDecorator(muiTheme([theme]));
 addDecorator(storyFn => <div id="app">{storyFn()}</div>);
 
 // https://github.com/storybookjs/storybook/issues/8531#issuecomment-568947201
-addDecorator(StoryFn => <AppContextKnobs><StoryFn /></AppContextKnobs>);
+addDecorator(StoryFn => <UserProviderKnobs><StoryFn /></UserProviderKnobs>);

@@ -3,7 +3,7 @@ import React from 'react';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { Route, Router } from 'react-router-dom';
 
-import { AppContextProviderTesting } from 'src/contexts/AppContext';
+import { UserContext } from 'src/contexts/UserContext';
 import mockAxios, { mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 import { User } from 'src/types/User';
 
@@ -28,6 +28,8 @@ const mockInformation: any = {
   reactionsCount: 0,
 };
 
+const UserProvider = UserContext.Provider;
+
 describe.skip('InformationPage', () => {
   let history: MemoryHistory;
 
@@ -46,9 +48,9 @@ describe.skip('InformationPage', () => {
 
       const { getByText } = render(
         <Router history={history}>
-          <AppContextProviderTesting user={{ user: mockUser, setUser: () => {} }}>
+          <UserProvider value={[mockUser, () => {}]}>
             <Route path="/information/:id" component={InformationPage} />
-          </AppContextProviderTesting>
+          </UserProvider>
         </Router>,
       );
 
@@ -65,9 +67,9 @@ describe.skip('InformationPage', () => {
 
       render(
         <Router history={history}>
-          <AppContextProviderTesting user={{ user: mockUser, setUser: () => {} }}>
+          <UserProvider value={[mockUser, () => {}]}>
             <Route path="/information/:id" component={InformationPage} />
-          </AppContextProviderTesting>
+          </UserProvider>
         </Router>,
       );
 

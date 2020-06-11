@@ -3,7 +3,7 @@ import React from 'react';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 
-import { AppContextProviderTesting } from 'src/contexts/AppContext';
+import { UserContext } from 'src/contexts/UserContext';
 import mockAxios, { mockAxiosError, mockAxiosResponseFor } from 'src/testing/jest-mock-axios';
 import { User } from 'src/types/User';
 
@@ -13,6 +13,8 @@ import { act, fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 const mockUser: User = { id: 1 } as User;
+
+const UserProvider = UserContext.Provider;
 
 describe.skip('AuthenticationForm', () => {
   let history: MemoryHistory;
@@ -29,9 +31,9 @@ describe.skip('AuthenticationForm', () => {
     const setUser = jest.fn();
     const { getByTestId, getByLabelText } = render(
       <Router history={history}>
-        <AppContextProviderTesting user={{ user: null, setUser }}>
+        <UserProvider value={[null, setUser]}>
           <AuthenticationForm />
-        </AppContextProviderTesting>
+        </UserProvider>
       </Router>,
     );
 
@@ -65,9 +67,9 @@ describe.skip('AuthenticationForm', () => {
     const setUser = jest.fn();
     const { getByTestId, getByLabelText, getByText } = render(
       <Router history={history}>
-        <AppContextProviderTesting user={{ user: null, setUser }}>
+        <UserProvider value={[null, setUser]}>
           <AuthenticationForm />
-        </AppContextProviderTesting>
+        </UserProvider>
       </Router>,
     );
 
