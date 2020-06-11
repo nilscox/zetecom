@@ -2,6 +2,7 @@ import React from 'react';
 
 import { RouteComponentProps } from 'react-router-dom';
 
+import Fallback from 'src/components/Fallback';
 import { InformationProvider } from 'src/contexts/InformationContext';
 import useAxios from 'src/hooks/use-axios';
 import { Information, parseInformation } from 'src/types/Information';
@@ -25,21 +26,26 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
     throw error;
 
   return (
-    <AsyncContent
-      loading={loading}
-      content={() => (
-        <InformationProvider value={information}>
-          <Padding bottom>
-            <InformationOverview
-              information={information}
-              title={<Link openInNewTab href={information.url}>{ information.title }</Link>}
-            />
-          </Padding>
+    <AsyncContent loading={loading}>
+      {() => (
+        <Fallback when={!information} fallback={<>oeuoeu</>}>
+          {() => (
+            <InformationProvider value={information}>
 
-          <ReactionsZone />
-        </InformationProvider>
+              <Padding bottom>
+                <InformationOverview
+                  information={information}
+                  title={<Link openInNewTab href={information.url}>{ information.title }</Link>}
+                />
+              </Padding>
+
+              <ReactionsZone />
+
+            </InformationProvider>
+          )}
+        </Fallback>
       )}
-    />
+    </AsyncContent>
   );
 };
 

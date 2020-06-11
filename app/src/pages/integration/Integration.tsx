@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
 import AsyncContent from 'src/components/AsyncContent';
-import CenteredContent from 'src/components/CenteredContent';
+import Fallback from 'src/components/Fallback';
 import HeaderLogo from 'src/components/HeaderLogo';
 import Text from 'src/components/Text';
 import { InformationProvider } from 'src/contexts/InformationContext';
@@ -24,24 +24,6 @@ const IntegrationRouter = () => (
 
   </Router>
 );
-
-const InformationUnavalible: React.FC = () => {
-  const { colors: { border } } = useTheme();
-
-  return (
-    <div style={{ minHeight: 300, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
-
-      <HeaderLogo />
-
-      <CenteredContent>
-        <Text uppercase color="textLight">
-          L'espace de commentaires n'est pas activé sur cette page.
-        </Text>
-      </CenteredContent>
-
-    </div>
-  );
-};
 
 const Integration: React.FC = () => {
   const { colors: { border } } = useTheme();
@@ -90,27 +72,27 @@ const Integration: React.FC = () => {
     }
   }, [information, origin]);
 
-  return (
-    <AsyncContent
-      loading={loading}
-      content={() => (
-        <div style={{
-          width: 'auto',
-          margin: `0 ${margin}px`,
-        }}>
-          <InformationProvider value={information}>
-            { information ? (
-              <div style={{ minHeight: 400, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
-                <IntegrationRouter />
-              </div>
-            ) : (
-              <InformationUnavalible />
-            ) }
-          </InformationProvider>
-        </div>
-      )}
-    />
+  const commentsZoneUnavailable = (
+    <>
+      <HeaderLogo />
+      <Text uppercase color="textLight">
+        L'espace de commentaires n'est pas activé sur cette page.
+      </Text>
+    </>
+  );
 
+  return (
+    <AsyncContent loading={loading}>
+      {() => (
+        <Fallback when={!information} fallback={commentsZoneUnavailable}>
+          <InformationProvider value={information}>
+            <div style={{ minHeight: 400, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
+              <IntegrationRouter />
+            </div>
+          </InformationProvider>
+        </Fallback>
+      )}
+    </AsyncContent>
   );
 };
 

@@ -55,29 +55,29 @@ const UserReactions: React.FC = () => {
   if (error)
     throw error;
 
-  const renderInformations = () => (
-    <SearchQueryProvider value={search}>
-
-      <FiltersBar
-        onSearch={setSearch}
-        page={page}
-        pageSize={10}
-        total={total}
-        onPageChange={setPage}
-      />
-
-      {informations.map((information, n) => (
-        <Padding key={information.id} top when={n > 0}>
-          <UserReactionsInformation information={information} />
-        </Padding>
-      ))}
-
-    </SearchQueryProvider>
-  );
-
   return (
     <Authenticated>
-      <AsyncContent loading={loading} content={renderInformations} />
+      <AsyncContent loading={loading}>
+        {() => (
+          <SearchQueryProvider value={search}>
+
+            <FiltersBar
+              onSearch={setSearch}
+              page={page}
+              pageSize={10}
+              total={total}
+              onPageChange={setPage}
+            />
+
+            {informations.map((information, n) => (
+              <Padding key={information.id} top when={n > 0}>
+                <UserReactionsInformation information={information} />
+              </Padding>
+            ))}
+
+          </SearchQueryProvider>
+        )}
+      </AsyncContent>
     </Authenticated>
   );
 };

@@ -27,9 +27,8 @@ const Popup: React.FC = () => {
   const user = useCurrentUser();
 
   return (
-    <AsyncContent
-      loading={typeof user === 'undefined'}
-      content={() => (
+    <AsyncContent loading={typeof user === 'undefined'}>
+      {() => (
         <ThemeProvider theme={theme}>
           <Box padding={3}>
 
@@ -51,7 +50,7 @@ const Popup: React.FC = () => {
           </Box>
         </ThemeProvider>
       )}
-    />
+    </AsyncContent>
   );
 };
 

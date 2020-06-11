@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AsyncContent from 'src/components/AsyncContent';
-import CenteredContent from 'src/components/CenteredContent';
+import Fallback from 'src/components/Fallback';
 import FiltersBar from 'src/components/FiltersBar';
 import { ReactionCreationForm } from 'src/components/ReactionForm';
 import ReactionsList from 'src/components/ReactionsList';
@@ -29,25 +29,6 @@ const ReactionsZone: React.FC = () => {
 
   const [reactions, { prepend }] = useEditableDataset(data);
 
-  const getReactionsList = () => {
-    if (!reactions.length) {
-      return (
-        <CenteredContent>
-          <Text uppercase color="textLight">
-            { !search && <>Aucune réaction n'a été publiée pour le moment.</> }
-            { search && !loading && <>Aucun résultat ne correspond à cette recherche</> }
-          </Text>
-        </CenteredContent>
-      );
-    }
-
-    return (
-      <Padding top>
-        <ReactionsList reactions={reactions} />
-      </Padding>
-    );
-  };
-
   return (
     <>
       <FiltersBar
@@ -66,7 +47,25 @@ const ReactionsZone: React.FC = () => {
       ) }
 
       <SearchQueryProvider value={search || undefined}>
-        <AsyncContent loading={loading || !reactions} content={getReactionsList} />
+        <AsyncContent loading={loading || !reactions}>
+          {() => (
+            <Fallback
+              when={reactions.length === 0}
+              fallback={
+                <Text uppercase color="textLight">
+                  { !search && <>Aucune réaction n'a été publiée pour le moment.</> }
+                  { search && !loading && <>Aucun résultat ne correspond à cette recherche</> }
+                </Text>
+              }
+            >
+              {() => (
+                <Padding top>
+                  <ReactionsList reactions={reactions} />
+                </Padding>
+              )}
+            </Fallback>
+          )}
+        </AsyncContent>
       </SearchQueryProvider>
 
     </>
