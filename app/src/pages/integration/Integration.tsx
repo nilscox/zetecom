@@ -5,6 +5,7 @@ import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 import AsyncContent from 'src/components/AsyncContent';
 import Fallback from 'src/components/Fallback';
 import HeaderLogo from 'src/components/HeaderLogo';
+import Padding from 'src/components/Padding';
 import Text from 'src/components/Text';
 import { InformationProvider } from 'src/contexts/InformationContext';
 import useAxios from 'src/hooks/use-axios';
@@ -17,7 +18,9 @@ import ReactionsZone from './ReactionsZone';
 const IntegrationRouter = () => (
   <Router>
 
-    <HeaderLogo />
+    <Padding bottom>
+      <HeaderLogo />
+    </Padding>
 
     <Route path="/" exact render={() => <Redirect to="/reaction" />} />
     <Route path="/reaction" exact component={ReactionsZone} />

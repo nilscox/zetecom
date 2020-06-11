@@ -54,6 +54,11 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   header: {
     padding: spacing(4, 0),
   },
+  headerLink: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   userMenu: {
     flex: 1,
     display: 'flex',
@@ -75,7 +80,7 @@ const Pages: React.FC = () => {
 
         <Grid container className={classes.header}>
 
-          <RouterLink to="/">
+          <RouterLink to="/" className={classes.headerLink}>
             <HeaderLogo />
           </RouterLink>
 

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import clsx from 'clsx';
+
 import logo from './logo.png';
 
 import { makeStyles, Typography } from '@material-ui/core';
@@ -7,42 +9,51 @@ import { makeStyles, Typography } from '@material-ui/core';
 const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
   image: {
     width: 54,
-    height: 54,
     opacity: 0.8,
     marginRight: spacing(6),
     [breakpoints.down('xs')]: {
       width: 42,
-      height: 42,
       marginRight: spacing(4),
     },
     [breakpoints.down(360)]: {
       width: 36,
-      height: 36,
       marginRight: spacing(2),
     },
   },
   title: {
-    fontFamily: 'Domine',
-    fontSize: 24,
+    fontFamily: '"Noticia Text", serif',
+    fontWeight: 400,
+    fontSize: 28,
+    letterSpacing: 3,
+    lineHeight: 1,
+    color: palette.secondary.main,
     [breakpoints.down('xs')]: {
       fontSize: 20,
+      letterSpacing: 2,
     },
     [breakpoints.down(360)]: {
       fontSize: 16,
+      letterSpacing: 1,
     },
+  },
+  subtitleContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginLeft: spacing(4),
   },
   subTitle: {
     color: palette.textLight.main,
-    letterSpacing: 4,
-    fontSize: 20,
+    fontSize: 18,
+    lineHeight: 1,
     [breakpoints.down('xs')]: {
       fontSize: 16,
-      letterSpacing: 3,
     },
     [breakpoints.down(360)]: {
       fontSize: 14,
-      letterSpacing: 2,
     },
+  },
+  subtitleTop: {
+    alignSelf: 'flex-end',
   },
 }));
 
@@ -54,19 +65,27 @@ const HeaderLogo: React.FC<HeaderLogoProps> = ({ className }) => {
   const classes = useStyles();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }} className={className}>
+    <div
+      style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end' }}
+      className={className}
+    >
+      <img src={logo} alt="Logo de Zétécom" className={classes.image} />
 
-      <img src={logo} alt="Logo de Réagir à l'information" className={classes.image} />
+      <Typography variant="h1" className={classes.title}>
+        Zétécom
+      </Typography>
 
-      <div>
-        <Typography variant="h1" className={classes.title}>
-          Réagir à l'information
+      <div className={classes.subtitleContainer}>
+        <Typography
+          variant="h2"
+          className={clsx(classes.subTitle, classes.subtitleTop)}
+        >
+          L'information
         </Typography>
         <Typography variant="h2" className={classes.subTitle}>
-          Avec esprit critique !
+          avec esprit critique
         </Typography>
       </div>
-
     </div>
   );
 };
