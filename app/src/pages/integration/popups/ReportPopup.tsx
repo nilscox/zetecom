@@ -8,12 +8,12 @@ import Box from 'src/components/Box';
 import Break from 'src/components/Break';
 import Button, { ButtonProps } from 'src/components/Button';
 import Flex from 'src/components/Flex';
+import { WebsiteLink } from 'src/components/Link';
 import Loader from 'src/components/Loader';
 import ReactionBody from 'src/components/Reaction/ReactionBody';
 import Text from 'src/components/Text';
 import TextArea from 'src/components/TextArea';
 import useAxios from 'src/hooks/use-axios';
-import { WebsiteLink } from 'src/components/Link';
 import { useTheme } from 'src/theme/Theme';
 import { parseReaction } from 'src/types/Reaction';
 
@@ -68,7 +68,7 @@ const ReportSuccess: React.FC = () => {
           color="textLight"
           align="center"
         >
-          La réaction a été signalée, merci pour votre contribution ! 💪
+          Ce commentaire a été signalée, merci pour votre contribution ! 💪
         </Text>
       </Flex>
     </div>
@@ -140,23 +140,22 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
     >
 
       <Text variant="subtitle">
-        Signaler la réaction de <Text bold>{reaction.author.nick}</Text>
+        Signaler le commentair de {reaction.author.nick}
       </Text>
 
       <Break size={10} />
 
       <Text bold color="textWarning">
         <p style={{ margin: `${big}px 0` }}>
-          Attention ! Vous êtes sur le point de signaler une réaction.
+          Vous êtes sur le point de signaler un commentaire.
         </p>
         <p style={{ margin: `${big}px 0` }}>
-          Cette démarche doit être faite si la réaction déroge à une ou plusieurs règle(s) de{' '}
-          <WebsiteLink to="/charte.html">la charte</WebsiteLink>. Le fait que vous ne soyez pas d'accord avec les propos
-          tenus dans ce message n'est pas un motif valable pour la signaler.
+          {/* eslint-disable-next-line max-len */}
+          Il est important de signaler les commentaires qui dérogent à <WebsiteLink to="/charte.html">la charte</WebsiteLink> : cela en informera les modérateurs qui pourront entreprendre une action en fonction de la situation.
         </p>
         <p style={{ margin: `${big}px 0` }}>
-          En revanche, abuser de la fonction de signalement de manière répété et sans raison valable peut entrainer une
-          suspension de votre compte.
+          {/* eslint-disable-next-line max-len */}
+          Cependant, être en désaccord avec un message n'est pas un motif valable pour la signaler, et abuser de la fonction de signalement de manière répété et sans raison valable peut entrainer une suspension de votre compte.
         </p>
       </Text>
 
@@ -176,14 +175,14 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
       <TextArea
         fullWidth
         rows={4}
-        placeholder="Précisez en quelques mots le motif du signalement si nécessaire..."
+        placeholder="Précisez en quelques mots le motif du signalement si nécessaire"
         style={{ resize: 'vertical' }}
         onChange={e => setMessage(e.currentTarget.value)}
       />
 
       { alreadyReported && (
         <Box mt={30} style={{ textAlign: 'center' }}>
-          <Text bold color="textWarning" >Vous avez déjà signalé cette réaction</Text>
+          <Text bold color="textWarning" >Vous avez déjà signalé ce commentaire</Text>
         </Box>
       ) }
 

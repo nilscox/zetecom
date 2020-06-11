@@ -452,7 +452,7 @@ describe('reactions', () => {
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
       cy.visitReport(1);
 
-      cy.contains('Signaler la réaction de user2');
+      cy.contains('Signaler le commentaire de user2');
       cy.contains('reaction 2 text');
 
       cy.get('[placeholder="Précisez en quelques mots le motif du signalement si nécessaire..."]').type('Contenu non pertinent');

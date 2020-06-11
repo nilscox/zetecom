@@ -85,11 +85,13 @@ const Integration: React.FC = () => {
     <AsyncContent loading={loading}>
       {() => (
         <Fallback when={!information} fallback={commentsZoneUnavailable}>
-          <InformationProvider value={information}>
-            <div style={{ minHeight: 400, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
-              <IntegrationRouter />
-            </div>
-          </InformationProvider>
+          {() => (
+            <InformationProvider value={information}>
+              <div style={{ minHeight: 400, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
+                <IntegrationRouter />
+              </div>
+            </InformationProvider>
+          )}
         </Fallback>
       )}
     </AsyncContent>

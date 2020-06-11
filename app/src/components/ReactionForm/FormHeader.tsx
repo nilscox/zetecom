@@ -10,9 +10,12 @@ const useStyles = makeStyles(({ breakpoints, palette: { border }, spacing }) => 
   container: {
     borderTop: `1px solid ${border.veryLight}`,
     borderBottom: `1px solid ${border.light}`,
-    padding: spacing(1),
     position: 'relative',
     background: 'rgba(0, 0, 0, 0.02)',
+    padding: spacing(2),
+    [breakpoints.down('xs')]: {
+      padding: spacing(1),
+    },
   },
   buttonSmall: {
     fontSize: spacing(4),
