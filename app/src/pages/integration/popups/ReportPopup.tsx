@@ -68,7 +68,7 @@ const ReportSuccess: React.FC = () => {
           color="textLight"
           align="center"
         >
-          Ce commentaire a été signalée, merci pour votre contribution ! 💪
+          Le commentaire a été signalée, merci pour votre contribution ! 💪
         </Text>
       </Flex>
     </div>
