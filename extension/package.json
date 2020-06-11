@@ -1,13 +1,14 @@
 {
   "name": "zetecom-extension",
   "description": "Zétécom - browser extension",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "license": "GPL-3.0-only",
   "author": "nilscox <nils@epita.fr>",
   "scripts": {
     "start": "nodemon -w . -i node_modules -i dist -e js,ts,css,json,html -x 'yarn build'",
     "clean": "rm -rf dist *.zip",
-    "build": "yarn webpack"
+    "build": "yarn webpack",
+    "zip": "../scripts/build-extension.ci.sh"
   },
   "dependencies": {
     "iframe-resizer": "^4.1.1",

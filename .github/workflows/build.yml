@@ -34,16 +34,31 @@ jobs:
         image_tag: ${{ github.sha }}
         context: ./app
 
-  extension:
+  extension-staging:
     name: build extension staging
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/dev'
     steps:
     - uses: actions/checkout@v1
-    - run: yarn && ../scripts/build-extension.ci.sh staging
+    - run: yarn zip staging
       working-directory: ./extension
       env:
         APP_URL: ${{ secrets.APP_URL_STAGING }}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: extension
+        path: extension/*.zip
+
+  extension-production:
+    name: build extension production
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+    - uses: actions/checkout@v1
+    - run: yarn zip production
+      working-directory: ./extension
+      env:
+        APP_URL: ${{ secrets.APP_URL_PRODUCTION }}
     - uses: actions/upload-artifact@v2
       with:
         name: extension
