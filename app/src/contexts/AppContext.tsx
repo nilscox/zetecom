@@ -1,14 +1,9 @@
 import React, { createContext, useContext } from 'react';
 
-import {
-  NotificationsContextType,
-  useNotificationsContext,
-} from './NotificationsContext';
 import { UserContextType, useUserContext } from './UserContext';
 
 export type AppContextType = {
   user: UserContextType;
-  notifications: NotificationsContextType;
 };
 
 const AppContext = createContext<AppContextType>(null);
@@ -19,7 +14,6 @@ export const useAppContext = () => useContext(AppContext);
 export const AppContextProvider: React.FC = ({ children }) => {
   const value = {
     user: useUserContext(),
-    notifications: useNotificationsContext(),
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

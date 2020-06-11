@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from 'react';
 
-import { useNotifications as useNotificationsState } from '../../../contexts/NotificationsContext';
+import { useNotifications } from '../../../contexts/NotificationsContext';
 import useAxios from '../../../hooks/use-axios';
 
 const useMarkNotificationAsSeen = () => {
-  const { refetch: refetchNotificationsCount } = useNotificationsState();
+  const { refetch: refetchNotificationsCount } = useNotifications();
 
   const [{ status: setSeenStatus }, setSeen] = useAxios({
     method: 'POST',

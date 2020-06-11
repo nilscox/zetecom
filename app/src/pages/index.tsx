@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Route, Switch } from 'react-router';
 
@@ -6,10 +6,10 @@ import HeaderLogo from 'src/components/HeaderLogo';
 import RouterLink from 'src/components/Link';
 import Loader from 'src/components/Loader';
 import UserMenu from 'src/components/UserMenu';
+import { NotificationsProvider } from 'src/contexts/NotificationsContext';
 import { useCurrentUser } from 'src/contexts/UserContext';
 
 import ToastContainer from '../components/ToastContainer';
-import { useNotifications } from '../contexts/NotificationsContext';
 
 import Authentication from './Authentication';
 import Information from './Information';
@@ -65,37 +65,32 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
 const Pages: React.FC = () => {
   const user = useCurrentUser();
   const classes = useStyles();
-  const { refetch: fetchNotifications } = useNotifications();
-
-  useEffect(() => {
-    if (user)
-      fetchNotifications();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
 
   return (
-    <Container fixed component="main" className={classes.container}>
+    <NotificationsProvider>
+      <Container fixed component="main" className={classes.container}>
 
-      <ToastContainer />
-      <MarkNotificationAsSeen />
+        <ToastContainer />
+        <MarkNotificationAsSeen />
 
-      <Grid container className={classes.header}>
+        <Grid container className={classes.header}>
 
-        <RouterLink to="/">
-          <HeaderLogo />
-        </RouterLink>
+          <RouterLink to="/">
+            <HeaderLogo />
+          </RouterLink>
 
-        <Grid item className={classes.userMenu}>
-          <UserMenu user={user} />
+          <Grid item className={classes.userMenu}>
+            <UserMenu user={user} />
+          </Grid>
+
         </Grid>
 
-      </Grid>
+        { user === undefined ? <Loader /> : <Router />}
 
-      { user === undefined ? <Loader /> : <Router />}
+        <Footer />
 
-      <Footer />
-
-    </Container>
+      </Container>
+    </NotificationsProvider>
   );
 };
 
