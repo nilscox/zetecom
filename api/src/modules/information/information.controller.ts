@@ -56,9 +56,10 @@ export class InformationController {
   @Get()
   @UseInterceptors(PopulateInformation)
   async findAll(
+    @OptionalQuery({ key: 'search', defaultValue: null }) search: string | null,
     @PageQuery() page: number,
   ): Promise<Paginated<Information>> {
-    return this.informationRepository.findAllPaginated(page, this.informationPageSize);
+    return this.informationRepository.findAllPaginated(search, page, this.informationPageSize);
   }
 
   @Get(':id')

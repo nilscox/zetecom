@@ -7,8 +7,18 @@ import { Information } from './information.entity';
 @EntityRepository(Information)
 export class InformationRepository extends Repository<Information> {
 
-  async findAllPaginated(page: number, pageSize: number): Promise<Paginated<Information>> {
-    const [items, total] = await this.findAndCount({ skip: (page - 1) * pageSize, take: pageSize });
+  async findAllPaginated(search: string | null, page: number, pageSize: number): Promise<Paginated<Information>> {
+    const qb = this.createQueryBuilder()
+      .skip((page - 1) * pageSize)
+      .take(pageSize);
+
+    if (search) {
+      qb.where('url = :search', { search });
+      qb.orWhere('identifier = :search', { search });
+      qb.orWhere('title ILIKE :search', { search: `%${search}%` });
+    }
+
+    const [items, total] = await qb.getManyAndCount();
 
     return { items, total };
   }

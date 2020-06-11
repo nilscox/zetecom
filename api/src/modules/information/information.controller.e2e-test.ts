@@ -68,7 +68,7 @@ describe('information controller', () => {
     informationRepository = getCustomRepository(InformationRepository);
 
     information1 = await createInformation({ title: 'title', url: 'url', imageUrl: 'imageUrl' });
-    information2 = await createInformation();
+    information2 = await createInformation({ title: 'search me' });
     information3 = await createInformation();
 
     message1 = await createMessage({ text: 'message1 search wow' });
@@ -115,6 +115,21 @@ describe('information controller', () => {
               { id: information3.id, reactionsCount: 0 },
             ],
             total: 3,
+          });
+        });
+    });
+
+    it('should search informations', async () => {
+      return request(server)
+        .get('/api/information')
+        .query({ search: 'search' })
+        .expect(200)
+        .then(({ body }) => {
+          expect(body).toMatchObject({
+            items: [
+              { id: information2.id },
+            ],
+            total: 1,
           });
         });
     });
