@@ -193,7 +193,12 @@ export class ReactionRepository extends Repository<Reaction> {
       };
     };
 
-    return getReactionsIds(await getInformationIds());
+    const informationIds = await getInformationIds();
+
+    if (informationIds.length === 0)
+      return { items: [], total: 0 };
+
+    return getReactionsIds(informationIds);
   }
 
   private async findAncestors(id: number) {

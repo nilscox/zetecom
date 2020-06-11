@@ -66,6 +66,10 @@ export class ReactionController {
     @PageQuery() page: number,
   ): Promise<Paginated<Information>> {
     const results = await this.reactionRepository.findForUser(user.id, search, page, this.reactionPageSize);
+
+    if (results.total === 0)
+      return { items: [], total: 0 };
+
     const informations = await this.informationService.findByIds([...new Set(results.items.map(({ informationId }) => informationId))]);
     const reactions = await this.reactionRepository.findAll(results.items.map(({ reactionId }) => reactionId), { author: false });
 
