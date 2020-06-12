@@ -78,7 +78,7 @@ const unloadIntegration = (integration: Integration) => {
 
 export default (integration: Integration) => {
   let currentIdentifier: string | null = null;
-  let currentTab: 'left' | 'right' = 'right';
+  let currentTab: 'left' | 'right' = 'left';
   let intervalId: NodeJS.Timeout;
 
   log('setup INTEGRATION_LOADED listener');
