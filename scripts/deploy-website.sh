@@ -8,14 +8,14 @@ prepare_deployment() {
     err 'usage: deploy-website.sh [staging|production]'
   fi
 
-  if ! grep '"name": "reagir-information-website"' package.json > /dev/null 2>&1;  then
+  if ! grep '"name": "zetecom-website"' package.json > /dev/null 2>&1;  then
     err 'wrong directory'
   fi
 
   echo "Environment: $environment"
 
-  if [ ! -f static/reagir-information-extension-staging.xpi ]; then
-    err "missing static/reagir-information-extension-staging.xpi"
+  if [ ! -f static/zetecom-extension-staging.xpi ]; then
+    err "missing static/zetecom-extension-staging.xpi"
   fi
 }
 
