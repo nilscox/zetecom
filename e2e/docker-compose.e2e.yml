@@ -2,7 +2,7 @@ version: '3.4'
 services:
 
   api:
-    command: bash -c "yarn typeorm migration:run && yarn start:coverage"
+    command: bash -c "yarn wait-on tcp:ri-postgres:5432 && yarn typeorm migration:run && yarn start:coverage"
     environment:
       CI: 'true'
       BYPASS_AUTHORIZATIONS: 'true'
