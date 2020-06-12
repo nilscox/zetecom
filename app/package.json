@@ -17,7 +17,7 @@
   "dependencies": {
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.5.1",
-    "@openfonts/domine_latin": "^1.44.1",
+    "@openfonts/noticia-text_all": "^1.44.1",
     "@openfonts/nunito-sans_all": "^1.44.1",
     "@sentry/browser": "^5.15.5",
     "@types/diff": "^4.0.2",

@@ -22,7 +22,7 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
   },
   title: {
     fontFamily: '"Noticia Text", serif',
-    fontWeight: 400,
+    fontWeight: 'bold',
     fontSize: 28,
     letterSpacing: 3,
     lineHeight: 1,

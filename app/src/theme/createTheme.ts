@@ -1,4 +1,4 @@
-import '@openfonts/domine_latin/index.css';
+import '@openfonts/noticia-text_all/index.css';
 import '@openfonts/nunito-sans_all/index.css';
 
 import amber from '@material-ui/core/colors/amber';

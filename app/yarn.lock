@@ -1439,10 +1439,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@openfonts/domine_latin@^1.44.1":
+"@openfonts/noticia-text_all@^1.44.1":
   version "1.44.1"
-  resolved "https://registry.yarnpkg.com/@openfonts/domine_latin/-/domine_latin-1.44.1.tgz#260623a3c0ef69cdbdd845e549e330a9267c691c"
-  integrity sha512-p2JUlVhSszINlY0p71uEDt/4sxmH1VuMVdgWtY6P4cCXjst4cm412q7EWQnhn1ikSgoxsxeS08rqQoyrjyhX5g==
+  resolved "https://registry.yarnpkg.com/@openfonts/noticia-text_all/-/noticia-text_all-1.44.1.tgz#9b8ccd0e675271663cede6b76d34a396560ae0d3"
+  integrity sha512-JG9Mg4QI8VXYb57U/+zDWyvuaTmZG2K+OhH7EXU4CnlCuA6jcCNGTKOAmg3+2HtfLdDKx7N0/IMd9uE4jY3v6w==
 
 "@openfonts/nunito-sans_all@^1.44.1":
   version "1.44.1"
