@@ -55,7 +55,7 @@ const Motivations: React.FC = () => (
     <SubTitle id="objectifs">Les objectifs</SubTitle>
 
     <p>
-      L'idée qui a fait naître Réagir à l'information, c'est de proposer un espace d'échange basé sur <strong>la bienveillance</strong> et <strong>l'esprit critique</strong>, pour discuter de l'information sur internet.
+      L'idée qui a fait naître Zétécom, c'est de proposer un espace d'échange basé sur <strong>la bienveillance</strong> et <strong>l'esprit critique</strong>, pour discuter de l'information sur internet.
       Par exemple, cela peut être pour apporter une source qui remet en question l'information. Ou bien pour poser une question. Pour relever une incohérence dans un article, un biais méthodologique, ou un argument fallacieux. Ou encore, pour partager son opinion sur un sujet, et en discuter avec des personnes ayant un avis potentiellement différent.
     </p>
 

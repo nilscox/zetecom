@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Link from 'src/components/Link';
+import { useEnvironment } from 'src/index';
 
 import logoFacebook from 'src/images/facebook-logo.png';
 import logoTwitter from 'src/images/twitter-logo.png';
@@ -27,14 +28,12 @@ const PageFooter: React.FC = () => (
         Powered by <Link href="https://reactjs.org/">React</Link> and <Link href="https://nestjs.com/">Nest</Link> 😍
       </div>
       <div>
-        An <Link href="https://github.com/nilscox/reagir-information">open source</Link> project.
+        An <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>open source</Link> project.
       </div>
     </div>
 
     <div className="footer-item join-us">
-      Vous voulez participer à la conception de <em>Réagir à l'information</em> ? Que ce soit pour proposer des
-      fonctionnalités, étoffer la charte, améliorer les designs, ou même simplement réfléchir à ce que l'on
-      peut construire ensemble, n'hésitez pas à <Link href="/faq.html#contact">nous contacter</Link> :)
+      Vous souhaitez participer à la conception de <em>Zétécom</em> ? Nous sommes <Link href="/faq.html#contact">à l'écoute</Link> de vos retours pour améliorer l'extension, le site, ou même la charte. Tant sur les fonctionnalités que sur la forme, n'hésitez pas à nous partager vos avis et vos idées !
     </div>
 
   </div>

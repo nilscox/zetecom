@@ -85,12 +85,12 @@ const FAQ: React.FC = () => {
         Le but du projet n'est pas de faire du profit, et aucun financement n'est en jeu.
       </Question>
 
-      <Question question="Qui développe Réagir à l'information ?">
+      <Question question="Qui développe Zétécom ?">
         Le projet est développé par une <Link openInNewTab href="https://nils.cx">petite</Link> <Link openInNewTab href="https://bopzor.me">équipe</Link> de développeurs passionnés par l'esprit critique et la <Link openInNewTab href="https://fr.wikipedia.org/wiki/Zététique">zététique</Link>.
       </Question>
 
       <Question question="Peut-on participer au projet ?">
-        Que ce soit pour donner vos impressions, proposer des axes d'amélioration, ou même plus généralement réfléchir au concept de Réagir à l'information et imaginer ce que l'on peut construire ensemble, vous êtes chaleureusement invité(e) à <Link href="#contact">nous envoyer un petit message</Link>.
+        Que ce soit pour donner vos impressions, proposer des axes d'amélioration, ou même plus généralement réfléchir au concept de Zétécom et imaginer ce que l'on peut construire ensemble, vous êtes chaleureusement invité(e) à <Link href="#contact">nous envoyer un petit message</Link>.
         Et si vous êtes développeur et que le projet vous intéresse techniquement, les source sont disponibles sur <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>github</Link>.
       </Question>
 
@@ -121,10 +121,10 @@ const FAQ: React.FC = () => {
 
       <Title id="contact">Une idée à proposer ? Un bug à signaler ?</Title>
 
-      <p>L'équipe à l'origine de Réagir à l'information est à l'écoute via ces différents canaux de communication :</p>
+      <p>L'équipe à l'origine de Zétécom est à l'écoute via ces différents canaux de communication :</p>
 
       <ul>
-        <li>Par e-mail, à l'adresse <Link openInNewTab href="mailto:reagir-information@nils.cx">reagir-information@nils.cx</Link></li>
+        <li>Par e-mail, à l'adresse <Link openInNewTab href="mailto:contact@zetecom.fr">contact@zetecom.fr</Link></li>
         <li>Sur twitter, via le compte de <Link openInNewTab href="https://twitter.com/NilsCox">@NilsCox</Link></li>
       </ul>
 

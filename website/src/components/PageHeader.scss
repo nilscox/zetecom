@@ -3,88 +3,92 @@
 .page-header {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   margin: 10px 0;
 
   img.logo {
     width: 48px;
-    height: 48px;
-    margin-right: 10px;
-    opacity: 0.8;
+    margin-right: 8px;
 
     @media screen and (min-width: $break-small) {
       width: 64px;
-      height: 64px;
+      margin-right: 16px;
     }
 
     @media screen and (min-width: $break-medium) {
       width: 72px;
-      height: 72px;
-      margin-right: 15px;
+      margin-right: 32px;
     }
 
     @media screen and (min-width: $break-large) {
-      width: 92px;
-      height: 92px;
+      width: 64px;
     }
   }
 
-  .header-title {
+  .title {
+    position: relative;
+    font-size: 22px;
+    font-family: "Noticia Text", serif;
+    color: #446;
+    line-height: 1;
 
-    .title {
+    @media screen and (min-width: $break-small) {
+      font-size: 24px;
+    }
+
+    @media screen and (min-width: $break-medium) {
+      font-size: 36px;
+    }
+
+    @media screen and (min-width: $break-large) {
+      font-size: 48px;
+    }
+  }
+
+  .subtitle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: 36px;
+
+    @media screen and (min-width: $break-large) {
+      margin-left: 48px;
+    }
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: #666;
+    line-height: 1;
+
+    @media screen and (min-width: $break-small) {
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    @media screen and (min-width: $break-medium) {
+      font-size: 20px;
+      letter-spacing: 2px;
+    }
+
+    @media screen and (min-width: $break-large) {
       font-size: 22px;
-      font-family: 'Domine';
-      color: #222;
-
-      @media screen and (min-width: $break-small) {
-        font-size: 28px;
-        line-height: 28px;
-      }
-
-      @media screen and (min-width: $break-medium) {
-        font-size: 36px;
-        line-height: 36px;
-      }
-
-      @media screen and (min-width: $break-large) {
-        font-size: 48px;
-        line-height: 48px;
-      }
+      letter-spacing: 3px;
     }
-
-    .subtitle {
-      font-size: 13px;
-      letter-spacing: 4px;
-      color: #666;
-
-      @media screen and (min-width: $break-small) {
-        font-size: 18px;
-        line-height: 18px;
-      }
-
-      @media screen and (min-width: $break-medium) {
-        font-size: 22px;
-        line-height: 22px;
-        letter-spacing: 6px;
-      }
-
-      @media screen and (min-width: $break-large) {
-        font-size: 26px;
-        line-height: 26px;
-      }
-    }
-
   }
 
   .beta {
-    align-self: flex-start;
-    width: 32px;
-    height: 32px;
-    font-size: 12px;
+    position: absolute;
+    top: 0;
+    right: -22px;
+    font-size: 9px;
+    font-family: 'Nunito Sans', sans-serif;
     font-weight: bold;
-    margin-left: 12px;
-    line-height: 32px;
-    text-align: center;
     opacity: 0.8;
+
+    @media screen and (min-width: $break-medium) {
+      font-size: 12px;
+      right: -28px;
+    }
   }
 }

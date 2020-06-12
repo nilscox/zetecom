@@ -15,9 +15,9 @@
 }
 
 @font-face {
-  font-family: 'Domine';
-  src: url('/assets/fonts/Domine/Domine-Regular.ttf');
-  font-style: normal;
+  font-family: 'Noticia Text';
+  src: url('/assets/fonts/NoticiaText/NoticiaText-Bold.ttf');
+  font-style: bold;
   font-weight: bold;
 }
 
@@ -78,8 +78,9 @@ body {
   h2 {
     font-size: 24px;
     line-height: 24px;
-    font-family: 'Domine';
+    font-family: "Noticia Text";
     margin: 30px 0 20px;
+    color: #446;
 
     @media screen and (min-width: $break-small) {
       margin: 45px 0 20px;
@@ -96,6 +97,8 @@ body {
     font-size: 22px;
     line-height: 22px;
     margin: 25px 0 20px 10px;
+    font-family: "Noticia Text";
+    color: #446;
 
     @media screen and (min-width: $break-small) {
       margin: 35px 25px 15px;

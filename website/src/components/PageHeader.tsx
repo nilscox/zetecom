@@ -7,14 +7,17 @@ import './PageHeader.scss';
 const PageHeader: React.FC = () => (
   <div className="page-header">
 
-    <img className="logo" src={Logo} alt="Logo de Réagir à l'information" />
+    <img className="logo" src={Logo} alt="Logo de Zétécom" />
 
-    <div className="header-title">
-      <h1 className="title">Réagir à l'information</h1>
-      <div className="subtitle">Avec esprit critique !</div>
+    <h1 className="title">
+      Zétécom
+      <div className="beta" title="Le projet est en phase de test, lancement officiel bientôt !">BETA</div>
+    </h1>
+
+    <div className="subtitle-container">
+      <div className="subtitle subtitle-top">L'information</div>
+      <div className="subtitle">avec esprit critique</div>
     </div>
-
-    <div className="beta" title="Le projet est en phase de test, lancement officiel bientôt !">BETA</div>
 
   </div>
 );

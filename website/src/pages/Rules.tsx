@@ -25,7 +25,7 @@ const Rules: React.FC = () => {
   return (
     <>
 
-      <Title id="Charte">La charte de Réagir à l'information</Title>
+      <Title id="Charte">La charte de Zétécom</Title>
 
       <p>
         Cette présente charte propose un ensemble de règles dans le but d'apporter un cadre sain et propice à des échanges ouverts et respectueux.
@@ -38,7 +38,7 @@ const Rules: React.FC = () => {
       </p>
 
       <p>
-        Sur Réagir à l'information, vous êtes tenus de :
+        Sur Zétécom, vous êtes tenus de :
       </p>
 
       <Rule rule={<>1. Respecter les limites de <Link openInNewTab href="https://eduscol.education.fr/internet-responsable/ressources/legamedia/liberte-d-expression-et-ses-limites.html">la liberté d'expression</Link>.</>}>

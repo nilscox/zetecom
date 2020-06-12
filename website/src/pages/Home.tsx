@@ -24,7 +24,7 @@ const Home: React.FC = () => (
   <>
 
     <div className="heading">
-      <Link href="/"><em>Réagir à l'information</em></Link>, c'est un <strong>espace d'échange collaboratif</strong>, pour discuter de l'information diffusée par les médias sur internet.
+      <Link href="/"><em>Zétécom</em></Link>, c'est un <strong>espace d'échange collaboratif</strong>, pour discuter de l'information diffusée par les médias sur internet.
     </div>
 
     <Title id="Les objectifs">Les objectifs ?</Title>
@@ -45,8 +45,6 @@ const Home: React.FC = () => (
 
     </div>
 
-    <Title id="Pourquoi">Pourquoi ?</Title>
-
     <div className="why">
 
       <p>
@@ -59,7 +57,7 @@ const Home: React.FC = () => (
 
       <p>
         Mais avons-nous <strong>les bons outils</strong> pour réfléchir ensemble, intelligemment, face à cette abondance d'information ?<br />
-        Réagir à l'information a pour ambition d'apporter des solutions à ces problèmes, en proposant une plateforme qui <em>vous</em> permet de réagir aux médias sur internet, comme des articles de presse ou des vidéos sur YouTube.
+        Zétécom a pour ambition d'apporter des solutions à ces problèmes, en proposant une plateforme qui <em>vous</em> permet de réagir aux médias sur internet, comme des articles de presse ou des vidéos sur YouTube.
       </p>
 
     </div>
@@ -69,16 +67,16 @@ const Home: React.FC = () => (
     <div className="what-integration">
 
       <div className="integration-text">
-        <h3>
+        <div>
           Une exension chrome va <strong>intégrer</strong> des zones de commentaires sur les sites d'information que vous visitez.
-        </h3>
-        <h3>
+        </div>
+        <div>
           Ces commentaires doivent respecter <Link href="/charte.html">une charte</Link>, construite dans le but de favoriser des échanges argumentatifs et respectueux.
-        </h3>
+        </div>
       </div>
 
       <div className="integration-image">
-        <img src={gifExtension} alt="extension réagir à l'information" />
+        <img src={gifExtension} alt="extension Zétécom" />
       </div>
 
     </div>
@@ -99,7 +97,7 @@ const Home: React.FC = () => (
     <p>
       L'extension peut être utilisée pour lire les messages présents sur la plateforme sans avoir besoin de créer un compte.
       Pour en savoir plus, la page <Link href="/utilisation.html">utilisation</Link> présente quelques captures d'écran et explique comment fonctionne cet outil.
-      Si vous souhaitez mieux comprendre le contexte dans lequel se place Réagir à l'information, et les objectifs du projet, rendez-vous sur la page <Link href="/motivations.html">motivations</Link>.
+      Si vous souhaitez mieux comprendre le contexte dans lequel se place Zétécom, et les objectifs du projet, rendez-vous sur la page <Link href="/motivations.html">motivations</Link>.
     </p>
 
     <p>

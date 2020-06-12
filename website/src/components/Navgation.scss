@@ -122,10 +122,7 @@ nav.navigation {
 
       &.active {
         font-weight: bold;
-
-        @media screen and (min-width: $break-desktop) {
-          color: #333;
-        }
+        color: #446;
       }
     }
   }

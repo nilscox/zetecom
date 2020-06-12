@@ -14,9 +14,9 @@ const Document: React.FC<DocumentProps> = (props) => (
 
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="description" content="Réagir à l'information sur internet" />
+      <meta name="description" content="L'information sur internet, avec esprit critique" />
 
-      <title>Réagir à l'information</title>
+      <title>Zétécom</title>
 
       <link type="text/css" rel="stylesheet" href="/assets/css/reset.css" />
       <link type="text/css" rel="stylesheet" href="/assets/css/styles.css" />
