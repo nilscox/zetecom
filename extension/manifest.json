@@ -5,7 +5,7 @@
   "description": "L'information sur internet, avec esprit critique",
   "browser_specific_settings": {
     "gecko": {
-      "id": "{f61fdab5-2cd8-4a50-bf1c-ea16642b2fa3}",
+      "id": "__EXTENSION_ID__",
       "strict_min_version": "65.0"
     }
   },
