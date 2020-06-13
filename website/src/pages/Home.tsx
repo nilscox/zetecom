@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { Carousel } from 'react-responsive-carousel';
+
 import Title from 'src/components/Title';
 import Link from 'src/components/Link';
 import Card from 'src/components/Card';
@@ -17,8 +19,8 @@ import imageSubscription from 'src/images/subscription.png';
 import imageSortRelevance from 'src/images/sort-relevance.png';
 import imageFormat from 'src/images/format.png';
 
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './Home.scss';
-import Carousel from 'src/components/Carousel';
 
 const Home: React.FC = () => (
   <>
@@ -66,6 +68,10 @@ const Home: React.FC = () => (
 
     <div className="what-integration">
 
+    <div className="integration-image">
+        <img src={gifExtension} alt="extension Zétécom" />
+      </div>
+
       <div className="integration-text">
         <div>
           Une exension chrome va <strong>intégrer</strong> des zones de commentaires sur les sites d'information que vous visitez.
@@ -75,22 +81,39 @@ const Home: React.FC = () => (
         </div>
       </div>
 
-      <div className="integration-image">
-        <img src={gifExtension} alt="extension Zétécom" />
-      </div>
-
     </div>
 
     <Carousel
-      delay={7000}
-      slides={[
-        { text: 'Recherche', image: imageSearch },
-        { text: 'Réponses imbriquées', image: imageNestedReplies },
-        { text: 'Messages pertinents mis en avant', image: imageSortRelevance },
-        { text: 'Notifications', image: imageSubscription },
-        { text: 'Messages structurés', image: imageFormat },
-      ]}
-    />
+      autoPlay
+      stopOnHover
+      infiniteLoop
+      transitionTime={640}
+      interval={5500}
+      showThumbs={false}
+      showStatus={false}
+      className="carousel"
+    >
+      <div className="carousel-slide">
+        <div className="carousel-slide-legend">Recherche</div>
+        <img src={imageSearch} alt="" />
+      </div>
+      <div className="carousel-slide">
+        <div className="carousel-slide-legend">Réponses imbriquées</div>
+        <img src={imageNestedReplies} alt="" />
+      </div>
+      <div className="carousel-slide">
+        <div className="carousel-slide-legend">Messages pertinents mis en avant</div>
+        <img src={imageSortRelevance} alt="" />
+      </div>
+      <div className="carousel-slide">
+        <div className="carousel-slide-legend">Notifications</div>
+        <img src={imageSubscription} alt="" />
+      </div>
+      <div className="carousel-slide">
+        <div className="carousel-slide-legend">Messages structurés</div>
+        <img src={imageFormat} alt="" />
+      </div>
+    </Carousel>
 
     <DownloadExtensions disposition="row" />
 

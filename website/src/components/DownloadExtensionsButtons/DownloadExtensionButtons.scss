@@ -2,18 +2,15 @@
 
 .download-extensions-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: space-around;
 
-  @media screen and (min-width: $break-large) {
-    &.disposition-column {
-      flex-direction: column;
-    }
+  &.disposition-column {
+    flex-direction: column;
+  }
 
-    &.disposition-row {
-      flex-direction: row;
-    }
+  &.disposition-row {
+    flex-direction: row;
   }
 
   @media screen and (min-width: $break-large) {
