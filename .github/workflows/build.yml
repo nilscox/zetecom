@@ -3,8 +3,8 @@ name: build
 on: [push]
 
 env:
-  API_IMAGE: nilscox/reagir-information-api
-  APP_IMAGE: nilscox/reagir-information-app
+  API_IMAGE: nilscox/zetecom-api
+  APP_IMAGE: nilscox/zetecom-app
 
 jobs:
 
@@ -17,7 +17,7 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        image_name: nilscox/reagir-information-api
+        image_name: nilscox/zetecom-api
         image_tag: ${{ github.sha }}
         context: ./api
 
@@ -30,7 +30,7 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        image_name: nilscox/reagir-information-app
+        image_name: nilscox/zetecom-app
         image_tag: ${{ github.sha }}
         context: ./app
 
@@ -83,8 +83,8 @@ jobs:
         postgresql db: 'test'
         postgresql user: 'root'
         postgresql password: 'root'
-    - run: docker run --network=host nilscox/reagir-information-api:${{ github.sha }} yarn test:intg
-    - run: docker run --network=host nilscox/reagir-information-api:${{ github.sha }} yarn test:e2e
+    - run: docker run --network=host nilscox/zetecom-api:${{ github.sha }} yarn test:intg
+    - run: docker run --network=host nilscox/zetecom-api:${{ github.sha }} yarn test:e2e
 
   e2e:
     name: end-to-end tests

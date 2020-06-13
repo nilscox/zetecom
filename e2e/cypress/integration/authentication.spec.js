@@ -4,13 +4,13 @@ describe('authentication', () => {
     cy.visitPopup();
 
     cy.location(location => expect(location).to.eq('/popup/connexion'));
-    cy.contains('Connectez-vous sur Réagir à l\'information').should('be.visible');
+    cy.contains('Connectez-vous sur Zétécom').should('be.visible');
     cy.contains('Créer un compte').should('be.visible');
     cy.contains('Mot de passe oublié').should('be.visible');
 
     cy.contains('Créer un compte').click();
     cy.location(location => expect(location).to.eq('/popup/inscription'));
-    cy.contains('Créez votre compte sur Réagir à l\'information').should('be.visible');
+    cy.contains('Créez votre compte sur Zétécom').should('be.visible');
     cy.contains('Connexion').should('be.visible');
     cy.contains('Mot de passe oublié').should('be.visible');
 

@@ -10,7 +10,7 @@
   ],
   "env": {
     "codeCoverage": {
-      "url": "http://ri-api/api/__coverage__"
+      "url": "http://zc-api/api/__coverage__"
     },
     "API_URL": "http://localhost:3000",
     "RESTOREDB_URL": "http://localhost:4242",

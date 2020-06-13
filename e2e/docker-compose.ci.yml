@@ -2,10 +2,10 @@ version: '3.4'
 services:
 
   api:
-    image: nilscox/reagir-information-api:${GIT_SHA}
+    image: nilscox/zetecom-api:${GIT_SHA}
 
   restoredb:
-    image: nilscox/reagir-information-api:${GIT_SHA}
+    image: nilscox/zetecom-api:${GIT_SHA}
 
   app:
-    image: nilscox/reagir-information-app:${GIT_SHA}
+    image: nilscox/zetecom-app:${GIT_SHA}

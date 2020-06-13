@@ -2,7 +2,7 @@ version: '3.4'
 services:
 
   api:
-    command: bash -c "yarn wait-on tcp:ri-postgres:5432 && yarn typeorm migration:run && yarn start:coverage"
+    command: bash -c "yarn wait-on tcp:zc-postgres:5432 && yarn typeorm migration:run && yarn start:coverage"
     environment:
       CI: 'true'
       BYPASS_AUTHORIZATIONS: 'true'
@@ -13,18 +13,18 @@ services:
   app:
     command: /start.sh --ci
     environment:
-      API_URL: http://ri-api
+      API_URL: http://zc-api
 
   cypress:
     build: ./e2e
-    container_name: ri-cypress
-    hostname: ri-cypress
+    container_name: zc-cypress
+    hostname: zc-cypress
     volumes:
       - ./e2e/artifacts:/artifacts
       - ./coverage:/e2e/coverage
-    entrypoint: bash -c "yarn wait-on http://ri-api/api/healthcheck && yarn test:ci && yarn nyc report --reporter=lcov"
+    entrypoint: bash -c "yarn wait-on http://zc-api/api/healthcheck && yarn test:ci && yarn nyc report --reporter=lcov"
     environment:
-      CYPRESS_API_URL: http://ri-api
-      CYPRESS_RESTOREDB_URL: http://ri-restoredb
-      CYPRESS_APP_URL: http://ri-app
-      CYPRESS_WEBSITE_URL: http://ri-website
+      CYPRESS_API_URL: http://zc-api
+      CYPRESS_RESTOREDB_URL: http://zc-restoredb
+      CYPRESS_APP_URL: http://zc-app
+      CYPRESS_WEBSITE_URL: http://zc-website
