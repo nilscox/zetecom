@@ -1,4 +1,5 @@
 [![Build Status](https://github.com/nilscox/reagir-information/workflows/build/badge.svg)](https://github.com/nilscox/reagir-information/actions)
+[![codecov](https://codecov.io/gh/nilscox/reagir-information/branch/master/graph/badge.svg)](https://codecov.io/gh/nilscox/reagir-information)
 
 This is where the code of *Réagir à l'information* lives. For more information about the project, please have a look at the website: [https://reagir-information.nils.cx](https://reagir-information.nils.cx), if you understand french :).
 
