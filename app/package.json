@@ -1,9 +1,9 @@
 {
-  "name": "reagir-information-frontend",
-  "description": "Réagir à l'information - app",
+  "name": "zetecom-frontend",
+  "description": "Zétecom - app",
   "version": "0.3.0",
   "license": "GPL-3.0-only",
-  "author": "nilscox <reagir-information@nils.cx>",
+  "author": "nilscox <contact@zetecom.fr>",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",
