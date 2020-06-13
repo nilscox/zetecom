@@ -9,19 +9,31 @@ import installChromeExtension from './install-chrome-extension.png';
 
 import './DownloadExtensionButtons.scss';
 
-const images = {
-  firefox: installFirefoxAddon,
-  chrome: installChromeExtension,
-}
-
 type DownloadExtensionProps = {
   browser: 'firefox' | 'chrome',
 };
 
 const DownloadExtension: React.FC<DownloadExtensionProps> = ({ browser }) => {
-  const url = {
-    firefox: useEnvironment('FIREFOX_ADDON_URL'),
-    chrome :useEnvironment('CHROME_EXTENSION_URL'),
+  const linkProps = {
+    firefox: {
+      href: useEnvironment('FIREFOX_ADDON_URL'),
+      className: 'firefox-addon',
+    },
+    chrome :{
+      href: useEnvironment('CHROME_EXTENSION_URL'),
+      className: 'chrome-extension',
+    },
+  }[browser];
+
+  const imageProps = {
+    firefox: {
+      alt: 'Installer l\'addon Firefox',
+      src: installFirefoxAddon,
+    },
+    chrome: {
+      src: installChromeExtension,
+      alt: 'Installer l\'extension Chrome',
+    },
   }[browser];
 
   const notAvailableMessage = {
@@ -33,10 +45,10 @@ const DownloadExtension: React.FC<DownloadExtensionProps> = ({ browser }) => {
     <Link
       openInNewTab
       className={`download-extension browser-${browser}`}
-      href={url}
-      title={!url ? notAvailableMessage : undefined}
+      title={!linkProps.href ? notAvailableMessage : undefined}
+      {...linkProps}
     >
-      <Image src={images[browser]} alt={`extension ${browser}`} />
+      <Image {...imageProps} />
     </Link>
   );
 };
