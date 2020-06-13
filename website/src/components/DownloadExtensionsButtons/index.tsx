@@ -2,24 +2,23 @@ import React from 'react';
 
 import { useEnvironment } from 'src/index';
 import Link from 'src/components/Link';
-
 import Image from 'src/components/Image';
-import logoFirefox from 'src/images/firefox-logo.png';
-import logoChrome from 'src/images/chrome-logo.png';
 
-import './DownloadExtensionButton.scss';
+import installFirefoxAddon from './install-firefox-addon.png';
+import installChromeExtension from './install-chrome-extension.png';
 
-const logo = {
-  firefox: logoFirefox,
-  chrome: logoChrome,
+import './DownloadExtensionButtons.scss';
+
+const images = {
+  firefox: installFirefoxAddon,
+  chrome: installChromeExtension,
 }
 
 type DownloadExtensionProps = {
   browser: 'firefox' | 'chrome',
-  children: string;
 };
 
-const DownloadExtension: React.FC<DownloadExtensionProps> = ({ browser, children }) => {
+const DownloadExtension: React.FC<DownloadExtensionProps> = ({ browser }) => {
   const url = {
     firefox: useEnvironment('FIREFOX_ADDON_URL'),
     chrome :useEnvironment('CHROME_EXTENSION_URL'),
@@ -37,19 +36,18 @@ const DownloadExtension: React.FC<DownloadExtensionProps> = ({ browser, children
       href={url}
       title={!url ? notAvailableMessage : undefined}
     >
-      <Image src={logo[browser]} alt={`logo ${browser}`} width={24} height={24} />
-      { children }
+      <Image src={images[browser]} alt={`extension ${browser}`} />
     </Link>
   );
 };
 
-const DownloadExtensions: React.FC<{ disposition: 'row' | 'column' }> = ({ disposition }) => {
+const DownloadExtensionsButtons: React.FC<{ disposition: 'row' | 'column' }> = ({ disposition }) => {
   return (
     <div className={`download-extensions-container disposition-${disposition}`}>
-      <DownloadExtension browser="firefox">Add-on firefox</DownloadExtension>
-      <DownloadExtension browser="chrome">Extension chrome</DownloadExtension>
+      <DownloadExtension browser="firefox" />
+      <DownloadExtension browser="chrome" />
     </div>
   );
 };
 
-export default DownloadExtensions;
+export default DownloadExtensionsButtons;

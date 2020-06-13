@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DownloadExtensions from 'src/components/DownloadExtensions';
+import DownloadExtensions from 'src/components/DownloadExtensionsButtons';
 import Link from 'src/components/Link';
 import Image from 'src/components/Image';
 

@@ -5,7 +5,7 @@ import React from 'react';
 import Title from 'src/components/Title';
 import Link from 'src/components/Link';
 import Card from 'src/components/Card';
-import DownloadExtensions from 'src/components/DownloadExtensions';
+import DownloadExtensions from 'src/components/DownloadExtensionsButtons';
 
 import imageCommunity from 'src/images/community.png';
 import imageFakeNews from 'src/images/fake-news.png';
