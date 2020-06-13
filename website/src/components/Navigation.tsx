@@ -28,7 +28,7 @@ const Navigation = () => {
       <div className="navigation-burger" onClick={() => setOpen(open => !open)}>≡</div>
 
       <div className="navigation-links">
-        { pages.map(({ id, label, path }) => (
+        { pages.map(({ id, label, path }) => label !== null && (
           <Link key={id} className={'navigation-link' + (active(path) ? ' active' : '')} href={path}>
             { label }
           </Link>
