@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-root='/var/www/ri-app'
+root='/var/www/zc-app'
 
 if [ "$1" == "--ci" ]; then
-  root='/var/www/ri-app_instrumented'
+  root='/var/www/zc-app_instrumented'
 fi
 
 sed -i "s|__ROOT_DIR__|$root|" /etc/nginx/conf.d/default.conf

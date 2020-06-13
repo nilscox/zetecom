@@ -24,8 +24,8 @@ setup_environment () {
 
 dump_database() {
   dumpfile="$repo/data/dumps/dump-$environment-$(date +%Y-%m-%d-%H:%M:%S).sql"
-  db_remote="ri-postgres-$environment"
-  db_local="ri-postgres"
+  db_remote="zc-postgres-$environment"
+  db_local="zc-postgres"
 
   mkdir -p $(dirname "$dumpfile")
 

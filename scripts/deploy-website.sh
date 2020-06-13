@@ -13,10 +13,6 @@ prepare_deployment() {
   fi
 
   echo "Environment: $environment"
-
-  if [ ! -f static/zetecom-extension-staging.xpi ]; then
-    err "missing static/zetecom-extension-staging.xpi"
-  fi
 }
 
 setup_environment () {
@@ -40,18 +36,18 @@ build_website() {
 }
 
 deploy_website() {
-  execute ssh-add ~/.ssh/ri-deploy
+  execute ssh-add "$deploy_key"
 
   # assert that the target directory is correct to avoid undesired upcoming `rm -rf`
   if ! ssh "$deploy_user@$deploy_host" ls "$website_dir" | grep charte.html > /dev/null; then
-    execute ssh-add -d ~/.ssh/ri-deploy
-    err "charte.html not found in $deploy_host:$website_dir aborting deployment"
+    execute ssh-add -d "$deploy_key"
+    err "charte.html not found in $deploy_host:$website_dir, aborting deployment"
   fi
 
   execute ssh "$deploy_user@$deploy_host" rm -rf "$website_dir"
   execute scp -r dist "$deploy_user@$deploy_host:$website_dir"
 
-  execute ssh-add -d ~/.ssh/ri-deploy
+  execute ssh-add -d "$deploy_key"
 }
 
 main() {

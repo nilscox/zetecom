@@ -38,9 +38,9 @@ COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
 RUN mkdir -p /var/www
-WORKDIR /var/www/ri-app
+WORKDIR /var/www/zc-app
 
-COPY --from=0 /app/dist /var/www/ri-app
-COPY --from=0 /app/instrumented /var/www/ri-app_instrumented
+COPY --from=0 /app/dist /var/www/zc-app
+COPY --from=0 /app/instrumented /var/www/zc-app_instrumented
 
 CMD /start.sh

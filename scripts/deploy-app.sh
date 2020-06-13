@@ -27,10 +27,10 @@ setup_environment () {
 
 deploy_app() {
   execute ssh "$deploy_user@$deploy_host" docker pull "$app_image"
-  execute ssh "$deploy_user@$deploy_host" docker rm -f "ri-app-$environment" || true
+  execute ssh "$deploy_user@$deploy_host" docker rm -f "zc-app-$environment" || true
   execute ssh "$deploy_user@$deploy_host" docker run -dt \
-    --name "ri-app-$environment" \
-    --network "ri-network-$environment" \
+    --name "zc-app-$environment" \
+    --network "zc-network-$environment" \
     -p "$app_port:80" \
     --volume "$base_dir/logs:/logs:rw" \
     --volume "$base_dir/avatars:/var/www/avatars:ro" \

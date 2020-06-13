@@ -27,10 +27,10 @@ setup_environment () {
 
 deploy_api() {
   execute ssh "$deploy_user@$deploy_host" docker pull "$api_image"
-  execute ssh "$deploy_user@$deploy_host" docker rm -f "ri-api-$environment" || true
+  execute ssh "$deploy_user@$deploy_host" docker rm -f "zc-api-$environment" || true
   execute ssh "$deploy_user@$deploy_host" docker run -dt \
-    --name "ri-api-$environment" \
-    --network "ri-network-$environment" \
+    --name "zc-api-$environment" \
+    --network "zc-network-$environment" \
     --volume "$base_dir/avatars:/app/avatars:rw" \
     --volume "$base_dir/email-templates:/app/email-templates:ro" \
     -p "$api_port:80" \

@@ -16,7 +16,7 @@ const createIframe = (identifier: string) => {
     extensionVersion: pkg.version,
   };
 
-  iframe.id = 'ri-iframe';
+  iframe.id = 'zc-iframe';
   iframe.src = APP_URL + '/integration?' + queryString.stringify(query);
   iframe.scrolling = 'no';
   iframe.style.width = '1px';
@@ -29,6 +29,6 @@ const createIframe = (identifier: string) => {
   return iframe;
 }
 
-export const getIframe = () => document.getElementById('ri-iframe') as HTMLIFrameElement | null;
+export const getIframe = () => document.getElementById('zc-iframe') as HTMLIFrameElement | null;
 
 export default createIframe;

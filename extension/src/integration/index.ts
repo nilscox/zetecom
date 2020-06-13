@@ -62,7 +62,7 @@ const unloadIntegration = (integration: Integration) => {
     return;
 
   if (integration.type === 'switch') {
-    const switcher = document.querySelector('#ri-switcher');
+    const switcher = document.querySelector('#zc-switcher');
 
     if (!switcher)
       return;

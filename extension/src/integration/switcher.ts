@@ -12,7 +12,7 @@ const createTabs = (darkMode: boolean, leftText: string, rightText: string) => {
 
   const container = document.createElement('div');
 
-  container.id = 'ri-switcher';
+  container.id = 'zc-switcher';
 
   if (darkMode)
     container.classList.add('dark');
