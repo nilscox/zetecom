@@ -1,9 +1,9 @@
 {
-  "name": "reagir-information-api",
-  "description": "Réagir à l'information - API",
+  "name": "zetecom-api",
+  "description": "Zétécom - API",
   "version": "0.3.0",
   "license": "GPL-3.0-only",
-  "author": "nilscox <reagir-information@nils.cx>",
+  "author": "nilscox <contact@zetecom.fr>",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\"",

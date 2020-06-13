@@ -61,7 +61,7 @@ export class EmailService {
       });
 
       const opts: any = {
-        from: 'Réagir à l\'information <reply-if-you-want@nils.cx>',
+        from: 'Zétécom <contact@zetecom.fr>',
         to,
         subject,
       };
@@ -103,7 +103,7 @@ export class EmailService {
 
     return this.sendEmail(
       user.email,
-      'Bienvenue sur Réagir à l\'information ! Confirmez votre adresse email',
+      'Bienvenue sur Zétécom ! Confirmez votre adresse email',
       template.text,
       template.html,
     );
@@ -119,7 +119,7 @@ export class EmailService {
 
     return this.sendEmail(
       user.email,
-      'Réagir à l\'information : lien de connexion',
+      'Zétécom : lien de connexion',
       template.text,
       template.html,
     );
