@@ -53,6 +53,7 @@
     "iOS >= 8"
   ],
   "devDependencies": {
-    "@types/react-router-dom": "^5.1.4"
+    "@types/react-router-dom": "^5.1.4",
+    "clean-webpack-plugin": "^3.0.0"
   }
 }

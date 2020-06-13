@@ -1,6 +1,7 @@
 const path = require('path');
 
 const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -85,6 +86,8 @@ module.exports = {
   },
 
   plugins: [
+    new CleanWebpackPlugin(),
+
     new EnvironmentPlugin({
       NODE_ENV: 'development',
       WEBSITE_URL: 'http://localhost:8080',
@@ -108,7 +111,15 @@ module.exports = {
     new CopyPlugin([
       {
         from: 'static/**/*',
-        transformPath: target => target.replace(/^static/, 'assets'),
+        transformPath: target => {
+          if (target.match(/^static\/robots.txt/))
+            return target.replace(/^static/, '');
+
+          if (target.match(/^static\/favicon/))
+            return target.replace(/^static\/favicon/, '');
+
+          return target.replace(/^static/, 'assets');
+        },
       },
     ]),
   ],
