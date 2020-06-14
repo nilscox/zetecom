@@ -24,6 +24,7 @@ import {
 import CommentIcon from '@material-ui/icons/Comment';
 import SignoutIcon from '@material-ui/icons/ExitToApp';
 import NotificationIcon from '@material-ui/icons/Notifications';
+import track from 'src/utils/track';
 
 const useStyles = makeStyles(({ palette }) => ({
   userMenuButton: {
@@ -59,8 +60,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ onClose, ...props }) => {
     throw error;
 
   useEffect(() => {
-    if (status(204))
+    if (status(204)) {
       setUser(null);
+      track('logout', { from: 'app' });
+    }
   }, [status, setUser]);
 
   const handleLogout = () => {

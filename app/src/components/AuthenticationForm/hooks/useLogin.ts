@@ -5,6 +5,7 @@ import { AxiosError, AxiosRequestConfig } from 'axios';
 import useAxios from 'src/hooks/use-axios';
 import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
 import { parseUser, User } from 'src/types/User';
+import track from 'src/utils/track';
 
 import { FormFields } from '../types';
 
@@ -13,8 +14,10 @@ const useLogin = (onAuthenticated: (user: User) => void) => {
   const [{ data: user, loading, error, status }, login] = useAxios(opts, parseUser, { manual: true });
 
   useEffect(() => {
-    if (status(200))
+    if (status(200)) {
       onAuthenticated(user);
+      track('login');
+    }
   }, [status, user, onAuthenticated]);
 
   const handleLogin = (email: string, password: string) => {

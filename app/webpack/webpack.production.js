@@ -13,6 +13,15 @@ module.exports = () => ({
       measureCompilationTime: true,
     }),
 
+    new HtmlWebpackPlugin({
+      template: path.join(PUBLIC_PATH, 'index.ejs'),
+      templateParameters: {
+        ENABLE_TRACKING: 'true',
+        GTM_CONTAINER_ID: 'GTM-KM3DQMX',
+        GA_ID: 'UA-169280449-1',
+      },
+    }),
+
   ],
 
 });

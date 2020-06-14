@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 import useAxios from 'src/hooks/use-axios';
 import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
+import track from 'src/utils/track';
 
 import { FormFields } from '../types';
 
@@ -14,8 +15,10 @@ const useAskEmailLogin = () => {
   const [email, setEmail] = useState<string>();
 
   useEffect(() => {
-    if (status(204) && email)
+    if (status(204) && email) {
       toast.success(`L'email de connexion a bien été envoyé à l'adresse ${email}`);
+      track('ask-email-login');
+    }
   }, [status, email]);
 
   const handleAskEmailLogin = (email: string) => {

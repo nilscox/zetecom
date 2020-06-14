@@ -28,6 +28,10 @@ module.exports = ({ PUBLIC_PATH, SOURCES_PATH }) => ({
       },
     }),
 
+    new HtmlWebpackPlugin({
+      template: path.join(PUBLIC_PATH, 'index.ejs'),
+    }),
+
   ],
 
   devServer: {
