@@ -34,19 +34,11 @@ dump_database() {
   echo "Dump saved in $dumpfile"
 }
 
-mount_avatars() {
-  avatars="$repo/app/public/avatars"
-
-  fusermount3 -u "$avatars" > /dev/null 2>&1 || true
-  execute sshfs "$deploy_host:$base_dir/avatars" "$avatars"
-}
-
 main() {
   echo_title "Dump database"
   step "Prepare dump" prepare_dump
   step "Setup environment" setup_environment
   step "Dump database" dump_database
-  step "Mount avatars" mount_avatars
   echo "Dump success"
 }
 
