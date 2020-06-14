@@ -79,34 +79,34 @@ const Integration: React.FC = () => {
   }, [information, origin]);
 
   return (
-    <AsyncContent loading={loading}>
-      {() => (
-        <>
+    <div className={classes.container}>
+      <AsyncContent loading={loading}>
+        {() => (
+          <>
 
-          <Padding bottom>
-            <HeaderLogo />
-          </Padding>
+            <Padding bottom>
+              <HeaderLogo />
+            </Padding>
 
-          <Fallback
-            when={!information}
-            fallback={
-              <Text uppercase color="textLight">
-                L'espace de commentaires n'est pas activé sur cette page.
-              </Text>
-            }
-          >
-            {() => (
-              <InformationProvider value={information}>
-                <div className={classes.container}>
+            <Fallback
+              when={!information}
+              fallback={
+                <Text uppercase color="textLight">
+                  L'espace de commentaires n'est pas activé sur cette page.
+                </Text>
+              }
+            >
+              {() => (
+                <InformationProvider value={information}>
                   <IntegrationRouter />
-                </div>
-              </InformationProvider>
-            )}
-          </Fallback>
+                </InformationProvider>
+              )}
+            </Fallback>
 
-        </>
-      )}
-    </AsyncContent>
+          </>
+        )}
+      </AsyncContent>
+    </div>
   );
 };
 
