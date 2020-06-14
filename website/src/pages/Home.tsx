@@ -12,7 +12,7 @@ import DownloadExtensions from 'src/components/DownloadExtensionsButtons';
 import imageCommunity from 'src/images/community.png';
 import imageFakeNews from 'src/images/fake-news.png';
 import imageTrust from 'src/images/trust.png';
-import gifExtension from 'src/images/youtube-ri.gif';
+import gifExtension from 'src/images/youtube-zc.gif';
 import imageSearch from 'src/images/search.png';
 import imageNestedReplies from 'src/images/nested-replies.png';
 import imageSubscription from 'src/images/subscription.png';
