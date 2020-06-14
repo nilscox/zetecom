@@ -1,7 +1,6 @@
 const path = require('path');
 const { EnvironmentPlugin } = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({

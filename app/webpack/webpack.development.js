@@ -1,4 +1,5 @@
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const HOST = process.env.WDS_HOST || 'localhost';
 const PORT = process.env.WDS_PORT || '8000';
