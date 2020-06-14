@@ -42,7 +42,7 @@ describe('reactions', () => {
       cy.populatedb(data);
       cy.visitIntegration('test:news1');
 
-      cy.contains('Aucune réaction n\'a été publiée pour le moment.');
+      cy.contains('Aucun commentaire n\'a été publié pour le moment.');
       cy.contains('1 / 1');
     });
 
@@ -232,10 +232,10 @@ describe('reactions', () => {
 
       cy.get('button[type="submit"]').should('be.disabled');
 
-      cy.get('[placeholder="Composez votre message..."]').type('Réaction depuis le test \n\n * élément1 \n * élément2');
+      cy.get('[placeholder="Composez votre message..."]').type('Commentaire \n\n * élément1 \n * élément2');
       cy.get('.reaction-form').within(() => {
         cy.contains('Aperçu').click();
-        cy.get('p').contains('Réaction depuis le test');
+        cy.get('p').contains('Commentaire');
         cy.get('ul').first().contains('élément1');
         cy.get('ul').children().eq(1).contains('élément2');
         cy.contains('Editer').click();
@@ -244,7 +244,7 @@ describe('reactions', () => {
       });
 
       cy.getReaction(1).within(() => {
-        cy.get('p').contains('Réaction depuis le test');
+        cy.get('p').contains('Commentaire');
         cy.get('ul').first().contains('élément1');
         cy.get('ul').children().eq(1).contains('élément2');
         cy.get('button[title="Se désabonner"]').should('exist');

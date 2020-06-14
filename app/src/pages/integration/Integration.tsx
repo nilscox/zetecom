@@ -10,17 +10,14 @@ import Text from 'src/components/Text';
 import { InformationProvider } from 'src/contexts/InformationContext';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
-import { useTheme } from 'src/theme/Theme';
 import { parseInformation } from 'src/types/Information';
 
 import ReactionsZone from './ReactionsZone';
 
+import { makeStyles } from '@material-ui/core';
+
 const IntegrationRouter = () => (
   <Router>
-
-    <Padding bottom>
-      <HeaderLogo />
-    </Padding>
 
     <Route path="/" exact render={() => <Redirect to="/reaction" />} />
     <Route path="/reaction" exact component={ReactionsZone} />
@@ -28,9 +25,17 @@ const IntegrationRouter = () => (
   </Router>
 );
 
+const useStyles = makeStyles(({ spacing, palette }) => ({
+  container: {
+    minHeight: 400,
+    backgroundColor: 'white',
+    padding: spacing(2),
+    border: `1px solid ${palette.grey[400]}`,
+  },
+}));
+
 const Integration: React.FC = () => {
-  const { colors: { border } } = useTheme();
-  const [margin, setMargin] = useState(0);
+  const classes = useStyles();
 
   const { identifier: identifierParam, origin: originParam } = useQueryString();
   const [identifier, setIdentifier] = useState(identifierParam as string);
@@ -64,9 +69,7 @@ const Integration: React.FC = () => {
 
   useEffect(() => {
     if (information) {
-      if (window.parent === window)
-        setMargin(15);
-      else {
+      if (window.parent !== window) {
         window.parent.postMessage(
           { type: 'INTEGRATION_LOADED' },
           origin,
@@ -75,27 +78,33 @@ const Integration: React.FC = () => {
     }
   }, [information, origin]);
 
-  const commentsZoneUnavailable = (
-    <>
-      <HeaderLogo />
-      <Text uppercase color="textLight">
-        L'espace de commentaires n'est pas activé sur cette page.
-      </Text>
-    </>
-  );
-
   return (
     <AsyncContent loading={loading}>
       {() => (
-        <Fallback when={!information} fallback={commentsZoneUnavailable}>
-          {() => (
-            <InformationProvider value={information}>
-              <div style={{ minHeight: 400, backgroundColor: 'white', padding: 10, border: `1px solid ${border}` }}>
-                <IntegrationRouter />
-              </div>
-            </InformationProvider>
-          )}
-        </Fallback>
+        <>
+
+          <Padding bottom>
+            <HeaderLogo />
+          </Padding>
+
+          <Fallback
+            when={!information}
+            fallback={
+              <Text uppercase color="textLight">
+                L'espace de commentaires n'est pas activé sur cette page.
+              </Text>
+            }
+          >
+            {() => (
+              <InformationProvider value={information}>
+                <div className={classes.container}>
+                  <IntegrationRouter />
+                </div>
+              </InformationProvider>
+            )}
+          </Fallback>
+
+        </>
       )}
     </AsyncContent>
   );

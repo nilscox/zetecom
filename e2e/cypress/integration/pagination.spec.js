@@ -100,9 +100,9 @@ describe('pagination', () => {
 
     cy.get('#reaction-1').within(() => {
       cy.countReactions(10);
-      cy.contains('1 réaction restante').click();
+      cy.contains('1 commentaire restant').click();
       cy.countReactions(11);
-      cy.contains('0 réaction restante').should('not.exist');
+      cy.contains('0 commentaire restant').should('not.exist');
     });
   });
 

@@ -38,7 +38,7 @@ const useReplies = (parent: Reaction) => {
   return [
     {
       replies,
-      remainingRepliesCount: data?.total - data?.items.length,
+      remainingRepliesCount: data?.total - replies?.length,
       loading,
       error,
     },

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Route, RouteComponentProps, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import Integration from './Integration';
 import ReactionHistoryPopup from './popups/ReactionHistoryPopup';
 import ReportPopup from './popups/ReportPopup';
 
-const Integrations: React.FC<RouteComponentProps> = () => {
+const IntegrationRouter: React.FC = () => {
   return (
     <Switch>
       <Route path="/integration" exact component={Integration} />
@@ -16,4 +16,4 @@ const Integrations: React.FC<RouteComponentProps> = () => {
   );
 };
 
-export default Integrations;
+export default IntegrationRouter;

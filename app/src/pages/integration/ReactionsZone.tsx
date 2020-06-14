@@ -53,7 +53,7 @@ const ReactionsZone: React.FC = () => {
               when={reactions.length === 0}
               fallback={
                 <Text uppercase color="textLight">
-                  { !search && <>Aucune réaction n'a été publiée pour le moment.</> }
+                  { !search && <>Aucun commentaire n'a été publié pour le moment.</> }
                   { search && !loading && <>Aucun résultat ne correspond à cette recherche</> }
                 </Text>
               }

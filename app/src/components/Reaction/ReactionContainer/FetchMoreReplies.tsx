@@ -1,6 +1,15 @@
 import React from 'react';
 
-import Flex from 'src/components/Flex';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles(({ palette }) => ({
+  text: {
+    color: palette.secondary.main,
+    marginTop: 4,
+    cursor: 'pointer',
+    textAlign: 'center',
+  },
+}));
 
 type FetchMoreRepliesProps = {
   remainingRepliesCount: number;
@@ -9,15 +18,15 @@ type FetchMoreRepliesProps = {
 
 const FetchMoreReplies: React.FC<FetchMoreRepliesProps> = ({ remainingRepliesCount, fetchMoreReplies }) => {
   const s = remainingRepliesCount > 1 ? 's' : '';
+  const classes = useStyles();
 
   return (
-    <Flex
-      justifyContent="center"
+    <div
       onClick={fetchMoreReplies}
-      style={{ color: '#666', marginTop: 4, cursor: 'pointer' }}
+      className={classes.text}
     >
-      ▾ &nbsp; { remainingRepliesCount } réaction{s} restante{s} &nbsp; ▾
-    </Flex>
+      ▾ &nbsp; { remainingRepliesCount } commentaire{s} restant{s} &nbsp; ▾
+    </div>
   );
 };
 
