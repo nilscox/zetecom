@@ -33,7 +33,7 @@ deploy_app() {
     --network "zc-network-$environment" \
     -p "$app_port:80" \
     --volume "$base_dir/logs:/logs:rw" \
-    --volume "$base_dir/avatars:/var/www/avatars:ro" \
+    --volume "$base_dir/avatars:/var/www/zc-app/avatars:ro" \
     --env NODE_ENV='production' \
     --env HOST='0.0.0.0' \
     --env PORT='80' \
