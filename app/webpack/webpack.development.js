@@ -1,3 +1,4 @@
+const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -31,6 +32,9 @@ module.exports = ({ PUBLIC_PATH, SOURCES_PATH }) => ({
 
     new HtmlWebpackPlugin({
       template: path.join(PUBLIC_PATH, 'index.ejs'),
+      templateParameters: {
+        ENABLE_TRACKING: 'false',
+      },
     }),
 
   ],
