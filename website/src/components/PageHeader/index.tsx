@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Logo from 'src/images/logo.png';
+import Logo from './logo.png';
 
 import './PageHeader.scss';
 
