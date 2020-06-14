@@ -29,7 +29,7 @@ const RulesUpdateNotification: React.FC<NotificationProps> = ({ notification }) 
 const SubscriptionReplyNotification: React.FC<NotificationProps> = ({ notification: { payload, created } }) => (
   <>
     <div>
-      <strong>{ payload.author.nick }</strong> a répondu à une réaction
+      <strong>{ payload.author.nick }</strong> a répondu à un commentaire
     </div>
   </>
 );

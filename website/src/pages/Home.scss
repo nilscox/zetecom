@@ -118,12 +118,14 @@ $break-xxlarge: 1590px;
     }
   }
 
+  .spacer {
+    margin: 30px 0;
+    border-bottom: 1px solid #CCC;
+  }
+
   .carousel {
     margin: auto;
     max-width: 520px;
-
-    margin-top: 20px;
-    margin-bottom: 20px;
 
     @media screen and (min-width: $break-medium) {
       margin-top: 50px;

@@ -29,28 +29,30 @@ const FAQ: React.FC = () => {
       <SubTitle id="compte">Compte utilisateur</SubTitle>
 
       <Question question="Est-il possible d'utiliser l'extension sans créer de compte ?">
-        Oui, pour lire les réactions. La création d'un compte n'est nécessaire que si vous souhaitez interagir avec la communauté.
+        Oui, pour lire les commentaires. La création d'un compte n'est nécessaire que si vous souhaitez interagir avec les autres membres de la plateforme.
       </Question>
 
       <Question question="Comment créer un compte ?">
-        Les inscriptions ne sont pas encore ouvertes publiquement pour l'instant.
+        Les inscriptions ne sont pas encore ouvertes publiquement pour l'instant. Si vous souhaitez rejoindre les béta-testeurs, envoyez-nous un petit message pour que nous vous donnions toutes les informations nécessaires.
       </Question>
 
+      {/*
       <Question question="Comment supprimer un compte de la plateforme ?">
         Il est possible de supprimer un compte en <Link href="#contact">contactant</Link> l'équipe qui développe le projet par e-mail, depuis l'adresse associée au compte à supprimer.
       </Question>
+      */}
 
       <Question question="Comment modifier le mot de passe d'un compte ?">
-        Pour modifier le mot de passe de votre compte, cliquez sur le lien "mot de passe oublié" accessible via la popup de l'extension lorsque vous n'êtes pas connecté(e).
+        Vous pouvez mettre à jour le mot de passe de votre compte, en passant par la popup de l'extension lorsque vous êtes connecté.e.
       </Question>
 
       <SubTitle id="utilisation">Utilisation de l'extension</SubTitle>
 
       <Question question="Comment ouvrir une nouvelle zone de commentaire sur un article ou une vidéo ?">
-        Pour le moment, il est nécessaire de <Link href="#contact">passer par un administrateur</Link> pour ouvrir une nouvelle zone de commentaires sur l'extension.
+        Pour le moment, c'est une action manuelle réservée aux administrateurs.
       </Question>
 
-      <Question question="Comment mettre en page une réaction ?">
+      <Question question="Comment mettre en page un commentaire ?">
         Les messages peuvent être rédigés en <Link href="https://fr.wikipedia.org/wiki/Markdown">markdown</Link>, une syntaxe de balisage permettant une mise en forme simple.
       </Question>
 
@@ -60,7 +62,7 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Comment signaler un bug ou proposer de nouvelles fonctionnalités ?">
-        Pour le moment, le seul moyen pour remonter un problème ou proposer de nouvelles fonctionnalités est de <Link href="#contact">contacter</Link> directement l'équipe qui développe le projet.
+        <Link href="#contact">Contactez</Link> directement l'équipe qui développe le projet.
       </Question>
 
       <SubTitle id="compte">La modération</SubTitle>
@@ -70,15 +72,15 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Qui peut devenir modérateur ?">
-        Tous les membres de la communauté peuvent demander de devenir modérateur, chaque demande sera traitée au cas par cas.
+        Tous les membres de Zétécom peuvent demander de devenir modérateur, chaque demande sera traitée au cas par cas.
       </Question>
 
       <SubTitle id="le-projet">Le projet</SubTitle>
 
       <Question question="Est-ce légal de modifier les sites pour y ajouter des zones de commentaires ?">
         Oui. Lorsque vous installez l'extension sur votre navigateur, la permission de modifier certains sites web vous est demandée.
-        L'extension est donc en mesure de modifier le contenu de ces sites (sur votre navigateur, et ceux des autres utilisateurs disposant de l'extension).
-        C'est le même principe qu'avec les bloqueurs de publicité, ou les extensions qui ajoutent un "mode sombre".
+        Avec cette autorisation, l'extension est en mesure de modifier le contenu de ces sites (sur votre navigateur, et ceux des autres utilisateurs disposant de l'extension).
+        C'est le même principe qu'avec les bloqueurs de publicité, ou les extensions ajoutant un "mode sombre".
       </Question>
 
       <Question question="Comment le projet est-il financé ?">
@@ -90,8 +92,8 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Peut-on participer au projet ?">
-        Que ce soit pour donner vos impressions, proposer des axes d'amélioration, ou même plus généralement réfléchir au concept de Zétécom et imaginer ce que l'on peut construire ensemble, vous êtes chaleureusement invité(e) à <Link href="#contact">nous envoyer un petit message</Link>.
-        Et si vous êtes développeur et que le projet vous intéresse techniquement, les source sont disponibles sur <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>github</Link>.
+        Que ce soit pour donner vos impressions, proposer des axes d'amélioration, ou même plus généralement réfléchir au concept de Zétécom et imaginer ce que l'on peut construire ensemble, vous êtes chaleureusement invité.e à <Link href="#contact">nous envoyer un petit message</Link>.
+        Et si vous êtes développeu.r.se et que le projet vous intéresse techniquement, les source sont disponibles sur <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>github</Link>.
       </Question>
 
       <Question question="Votre question ne figure pas dans cette liste... ?">

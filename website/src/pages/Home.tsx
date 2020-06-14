@@ -74,7 +74,7 @@ const Home: React.FC = () => (
 
       <div className="integration-text">
         <div>
-          Une exension chrome va <strong>intégrer</strong> des zones de commentaires sur les sites d'information que vous visitez.
+          Une extension permet à votre navigateur d'<strong>intégrer</strong> des zones de commentaires Zétécom sur les sites que vous visitez.
         </div>
         <div>
           Ces commentaires doivent respecter <Link href="/charte.html">une charte</Link>, construite dans le but de favoriser des échanges argumentatifs et respectueux.
@@ -82,6 +82,8 @@ const Home: React.FC = () => (
       </div>
 
     </div>
+
+    <div className="spacer" />
 
     <Carousel
       autoPlay

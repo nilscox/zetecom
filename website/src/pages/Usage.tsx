@@ -42,7 +42,7 @@ const Usage: React.FC = () => (
     <div className="step step-signup" id="inscription">
       <div className="step-text">
         Pour participer aux échanges, il est nécessaire de disposer d'un compte sur l'extension.
-        Dans un premier temps, consacrez <strong>5 minutes</strong> à la lecture de <Link href="/charte.html">la charte</Link>. Il est impératif que chaque membre de la communauté garde ces règles en tête.
+        Dans un premier temps, consacrez <strong>5 minutes</strong> à la lecture de <Link href="/charte.html">la charte</Link>. Il est impératif que tous les membres participant aux échanges gardent ces règles en tête.
         Puis, cliquez sur l'icône de l'extension en haut à droite de votre navigateur pour vous inscrire.
       </div>
       <div className="step-secondary">
@@ -54,12 +54,12 @@ const Usage: React.FC = () => (
 
     <div className="step step-write-reaction" id="regider-une-reaction">
       <div className="step-text">
-        Vous avez votre mot à dire ? Publiez une nouvelle réaction !
-        Mais avant cela, pensez à rechercher parmi les réactions existantes, car le sujet que vous allez aborder est peut-être déjà en train d'être discuté.
-        Pour mettre en valeur vos propos, la syntaxe <Link openInNewTab href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">markdown</Link> vous permet de mettre en forme votre message avec des liens, des listes, des tableaux, etc.
+        Vous avez votre mot à dire ? Publiez un nouveau commentaire !
+        Pensez à rechercher parmi les commentaires existants, car le sujet que vous allez aborder est peut-être déjà en train d'être discuté.<br />
+        Pour mieux structurer vos propos, un système de balisage simple vous permet de mettre en forme votre message avec des liens, des listes, des tableaux, etc. C'est la syntaxe <Link openInNewTab href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">markdown</Link>.
       </div>
       <div className="step-secondary">
-        <Image border src={gifWriteReaction} alt="écrire une réaction" />
+        <Image border src={gifWriteReaction} alt="écrire un commentaire" />
       </div>
     </div>
 
@@ -67,8 +67,8 @@ const Usage: React.FC = () => (
 
     <div className="step step-quick-reactions" id="votes">
       <div className="step-text">
-        Si vous trouvez une réaction pertinente, il vous est possible de la mettre en avant en l'annotant d'un 👍, 👎 ou 🧐.
-        Un algorithme va comptabiliser le nombre total d'annotations et de réponses pour vous présenter les réactions les plus impactantes en premier lorsqu'elles sont triées par pertinence.
+        Si vous trouvez un commentaire pertinent, il vous est possible de le mettre en avant en l'annotant d'un 👍, 👎 ou 🧐.
+        Un algorithme va comptabiliser le nombre total d'annotations et de réponses pour vous présenter les commentaires les plus impactants en premier lorsqu'ils sont triés par pertinence.
       </div>
       <div className="step-secondary">
         <div className="quick-reaction">
@@ -90,11 +90,11 @@ const Usage: React.FC = () => (
 
     <div className="step step-report" id="signalement">
       <div className="step-text">
-        Si une réaction ne respecte pas la charte, il est important de notifier les modérateurs.
-        Passez votre souris sur la date de publication de la réaction à signaler, cela fera apparaître un lien pour ouvrir une popup de signalement.
+        Si un commentaire ne respecte pas la charte, il est important de notifier les modérateurs.
+        Passez votre souris sur la date de publication du commentaire à signaler, cela fera apparaître un lien pour ouvrir une popup de signalement.
       </div>
       <div className="step-secondary">
-        <Image border src={gifReport} alt="signaler une réaction" />
+        <Image border src={gifReport} alt="signaler un commentaire" />
       </div>
     </div>
 
