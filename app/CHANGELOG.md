@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Avatars path
+- Replies count calculation
+- Logo color
+
 ## [0.4.0] - 2020-06-13
 
 ### Added
