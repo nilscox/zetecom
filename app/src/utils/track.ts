@@ -4,19 +4,16 @@ declare global {
   }
 }
 
-export type TrackArguments =
-  | ['login']
-  | ['signup']
-  | ['logout', { from: 'popup' | 'app' }]
-  | ['ask-email-login']
-  | ['change-password'];
+export type TrackingEvent = {
+  category: 'authentication';
+  action: string;
+  // label: string;
+};
 
-const track = (...args: TrackArguments) => {
-  const [event, parameters = {}] = args;
-
+const track = (event: TrackingEvent) => {
   if (typeof window !== 'undefined') {
     // eslint-disable-next-line no-unused-expressions
-    window?.dataLayer?.push({ event, ...parameters });
+    window?.dataLayer?.push({ event: 'ga-event', label: event.action, ...event });
   }
 };
 

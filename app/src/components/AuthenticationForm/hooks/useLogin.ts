@@ -16,7 +16,7 @@ const useLogin = (onAuthenticated: (user: User) => void) => {
   useEffect(() => {
     if (status(200)) {
       onAuthenticated(user);
-      track('login');
+      track({ category: 'authentication', action: 'login' });
     }
   }, [status, user, onAuthenticated]);
 

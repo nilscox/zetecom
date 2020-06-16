@@ -17,7 +17,7 @@ const useAskEmailLogin = () => {
   useEffect(() => {
     if (status(204) && email) {
       toast.success(`L'email de connexion a bien été envoyé à l'adresse ${email}`);
-      track('ask-email-login');
+      track({ category: 'authentication', action: 'ask-email-login' });
     }
   }, [status, email]);
 

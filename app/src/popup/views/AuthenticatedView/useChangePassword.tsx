@@ -33,7 +33,7 @@ const useChangePassword = () => {
   useEffect(() => {
     if (status(200)) {
       setPasswordChanged(true);
-      track('change-password');
+      track({ category: 'authentication', action: 'change-password' });
     }
   }, [status]);
 

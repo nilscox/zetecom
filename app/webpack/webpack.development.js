@@ -1,6 +1,4 @@
-const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const HOST = process.env.WDS_HOST || 'localhost';
 const PORT = process.env.WDS_PORT || '8000';
@@ -27,13 +25,6 @@ module.exports = ({ PUBLIC_PATH, SOURCES_PATH }) => ({
         linesAbove: 5,
         linesBelow: 5,
         highlightCode: true,
-      },
-    }),
-
-    new HtmlWebpackPlugin({
-      template: path.join(PUBLIC_PATH, 'index.ejs'),
-      templateParameters: {
-        ENABLE_TRACKING: 'false',
       },
     }),
 

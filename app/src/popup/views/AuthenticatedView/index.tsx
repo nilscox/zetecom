@@ -52,7 +52,7 @@ const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
     if (status(204)) {
       setUser(null);
       history.push('/popup');
-      track('logout', { from: 'popup' });
+      track({ category: 'authentication', action: 'logout' });
     }
   }, [status, setUser, history]);
 

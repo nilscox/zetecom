@@ -1,6 +1,4 @@
-const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = ({ PUBLIC_PATH }) => ({
 
@@ -13,15 +11,6 @@ module.exports = ({ PUBLIC_PATH }) => ({
 
     new ForkTsCheckerWebpackPlugin({
       measureCompilationTime: true,
-    }),
-
-    new HtmlWebpackPlugin({
-      template: path.join(PUBLIC_PATH, 'index.ejs'),
-      templateParameters: {
-        ENABLE_TRACKING: 'true',
-        GTM_CONTAINER_ID: 'GTM-KM3DQMX',
-        GA_ID: 'UA-169280449-1',
-      },
     }),
 
   ],

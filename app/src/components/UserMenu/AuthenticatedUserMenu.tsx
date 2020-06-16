@@ -62,7 +62,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ onClose, ...props }) => {
   useEffect(() => {
     if (status(204)) {
       setUser(null);
-      track('logout', { from: 'app' });
+      track({ category: 'authentication', action: 'logout' });
     }
   }, [status, setUser]);
 

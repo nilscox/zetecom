@@ -23,8 +23,7 @@ export const NotificationsProvider: React.FC = ({ children }) => {
   useEffect(() => {
     if (user)
       refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, refetch]);
 
   useEffect(() => {
     if (typeof data !== 'undefined')
@@ -32,9 +31,13 @@ export const NotificationsProvider: React.FC = ({ children }) => {
   }, [data]);
 
   useEffect(() => {
-    const interval = setInterval(() => void refetch(), 60 * 1000);
+    const interval = setInterval(() => {
+      if (user)
+        refetch();
+    }, 60 * 1000);
+
     return () => clearInterval(interval);
-  }, [refetch]);
+  }, [user, refetch]);
 
   const value = { count, refetch };
 

@@ -19,7 +19,7 @@ const useSignup = (onAuthenticated: (user: User) => void) => {
     if (status(201)) {
       toast.success(`Pour finaliser votre inscription, un email vous a été envoyé à ${user.email}`);
       onAuthenticated(user);
-      track('signup');
+      track({ category: 'authentication', action: 'signup' });
     }
   }, [status, user, onAuthenticated]);
 
