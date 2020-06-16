@@ -80,3 +80,7 @@ services:
     environment:
       API_URL: http://localhost:3000
       WEBSITE_URL: http://localhost:8080
+      ENABLE_TRACKING: 'false'
+      GTM_CONTAINER_ID: ''
+      GA_ID: ''
+
