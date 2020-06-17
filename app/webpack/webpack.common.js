@@ -4,12 +4,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const {
-  ENABLE_TRACKING,
-  GTM_CONTAINER_ID,
-  GA_ID,
-} = process.env;
-
 module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
 
   entry: {
@@ -73,6 +67,7 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
       NODE_ENV: 'development',
       API_URL: 'http://localhost:3000',
       WEBSITE_URL: 'http://localhost:8080',
+      GOOGLE_ANALYTICS_ID: null,
     }),
 
     // new webpack.NamedModulesPlugin(),
@@ -84,12 +79,7 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
     }),
 
     new HtmlWebpackPlugin({
-      template: path.join(PUBLIC_PATH, 'index.ejs'),
-      templateParameters: {
-        ENABLE_TRACKING,
-        GTM_CONTAINER_ID,
-        GA_ID,
-      },
+      template: path.join(PUBLIC_PATH, 'index.html'),
     }),
 
   ],

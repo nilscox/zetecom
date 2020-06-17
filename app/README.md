@@ -3,11 +3,13 @@
 Environment variables locations:
 
 ```plain
-../scripts/env/template/app.env
+../scripts/env/*/app.env
+../scripts/deploy-app.sh
 ../docker-compose.yml
 ./.env.example
+./.env
 ./Dockerfile
 ./start.sh
-./webpack.config.js
+./webpack/webpack.common.js
 ./src/utils/env.ts
 ```

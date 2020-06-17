@@ -27,6 +27,7 @@
     "query-string": "^6.12.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-ga": "^3.0.0",
     "react-responsive-carousel": "^3.2.7",
     "react-router-dom": "^5.1.2",
     "react-spring": "^8.0.27",

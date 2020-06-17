@@ -11,6 +11,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import queryString from 'query-string';
+import ReactGA from 'react-ga';
 import ReactModal from 'react-modal';
 
 import App from './App';
@@ -46,6 +47,9 @@ const getApiRootUrl = () => {
 };
 
 const setup = () => {
+  if (env.GOOGLE_ANALYTICS_ID)
+    ReactGA.initialize(env.GOOGLE_ANALYTICS_ID);
+
   dayjs.locale('fr');
 
   axios.defaults.baseURL = getApiRootUrl();

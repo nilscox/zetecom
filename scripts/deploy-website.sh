@@ -27,7 +27,7 @@ setup_environment () {
   echo
 
   echo "Deployment variables:"
-  echo_vars deploy_user deploy_host website_dir
+  echo_vars delpoy_key deploy_user deploy_host website_dir
 }
 
 build_website() {

@@ -39,9 +39,7 @@ deploy_app() {
     --env PORT='80' \
     --env $(sshenv API_URL) \
     --env $(sshenv WEBSITE_URL) \
-    --env $(sshenv ENABLE_TRACKING) \
-    --env $(sshenv GTM_CONTAINER_ID) \
-    --env $(sshenv GA_ID) \
+    --env $(sshenv GOOGLE_ANALYTICS_ID) \
     "$app_image"
 }
 

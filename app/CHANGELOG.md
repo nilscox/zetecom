@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Track a single custom event
+- Track with GA only
 
 ## [0.4.2] - 2020-06-14
 
