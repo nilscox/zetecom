@@ -19,7 +19,7 @@ const PageFooter: React.FC = () => (
       </div>
       <div className="social-item">
         <img src={logoTwitter} />
-        @NilsCox
+        @zetecom1
       </div>
     </div>
 

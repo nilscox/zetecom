@@ -13,6 +13,7 @@ type ImageProps = {
   border?: boolean;
   openOnClick?: boolean;
   style?: React.CSSProperties;
+  className?: string;
 };
 
 const Image: React.FC<ImageProps> = ({ width, height, border, openOnClick, style, ...props }) => {
