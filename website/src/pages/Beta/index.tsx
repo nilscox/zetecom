@@ -3,6 +3,7 @@ import React from 'react';
 import './Beta.scss';
 import Link from 'src/components/Link';
 import Image from 'src/components/Image';
+import { useEnvironment } from 'src/index';
 
 import hereWeAre from './images/here-we-are-infography.png';
 import logoFacebook from './images/logo-facebook.png';
@@ -103,20 +104,26 @@ const Beta: React.FC = () => (
 
     <div className="contacts">
 
-      <Link openInNewTab href="https://twitter.com/zetecom1" className="twitter-link">
-        <Image src={logoTwitter} alt="logo twitter" width={80} />
-        <strong>@zetecom1</strong>
-      </Link>
+      {useEnvironment('TWITTER_ACCOUNT') && (
+        <Link openInNewTab href={`https://twitter.com/${useEnvironment('TWITTER_ACCOUNT')}`} className="twitter-link">
+          <Image src={logoTwitter} alt="logo twitter" width={80} />
+          <strong>@{useEnvironment('TWITTER_ACCOUNT')}</strong>
+        </Link>
+      )}
 
-      <Link openInNewTab href="https://facebook.com/zetecom3" className="facebook-link">
-        <Image src={logoFacebook} alt="logo facebook" width={80} />
-        <strong>zetecom3</strong>
-      </Link>
+      {useEnvironment('FACEBOOK_PAGE') && (
+        <Link openInNewTab href={`https://facebook.com/${useEnvironment('FACEBOOK_PAGE')}`} className="facebook-link">
+          <Image src={logoFacebook} alt="logo facebook" width={80} />
+          <strong>{useEnvironment('FACEBOOK_PAGE')}</strong>
+        </Link>
+      )}
 
-      <a href="mailto:contact@zetecom.fr" className="email-link">
-        <Image src={imageEmail} alt="email" width={80} />
-        <strong>contact@zetecom.fr</strong>
-      </a>
+      {useEnvironment('CONTACT_EMAIL') && (
+        <a href={`mailto:${useEnvironment('CONTACT_EMAIL')}`} className="email-link">
+          <Image src={imageEmail} alt="email" width={80} />
+          <strong>{useEnvironment('CONTACT_EMAIL')}</strong>
+        </a>
+      )}
 
     </div>
 

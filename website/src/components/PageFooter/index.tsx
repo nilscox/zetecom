@@ -12,15 +12,23 @@ const PageFooter: React.FC = () => (
   <div className="page-footer">
 
     <div className="footer-item social">
+
       Retrouvez-nous sur les réseaux !
-      <Link openInNewTab className="social-item" href="https://facebook.com/zetecom3">
-        <img src={logoFacebook} />
-        zetecom3
-      </Link>
-      <Link openInNewTab className="social-item" href="https://twitter.com/zetecom1">
-        <img src={logoTwitter} />
-        @zetecom1
-      </Link>
+
+      {useEnvironment('FACEBOOK_PAGE') && (
+        <Link openInNewTab className="social-item" href={`https://facebook.com/${useEnvironment('FACEBOOK_PAGE')}`}>
+          <img src={logoFacebook} />
+          {useEnvironment('FACEBOOK_PAGE')}
+        </Link>
+      )}
+
+      {useEnvironment('TWITTER_ACCOUNT') && (
+        <Link openInNewTab className="social-item" href={`https://twitter.com/${useEnvironment('TWITTER_ACCOUNT')}`}>
+          <img src={logoTwitter} />
+          @{useEnvironment('TWITTER_ACCOUNT')}
+        </Link>
+      )}
+
     </div>
 
     <div className="footer-item tech">

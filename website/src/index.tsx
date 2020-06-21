@@ -19,6 +19,9 @@ const EnvironmentVariables = {
   FIREFOX_ADDON_URL: process.env.FIREFOX_ADDON_URL,
   REPOSITORY_URL: process.env.REPOSITORY_URL,
   GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
+  CONTACT_EMAIL: process.env.CONTACT_EMAIL,
+  FACEBOOK_PAGE: process.env.FACEBOOK_PAGE,
+  TWITTER_ACCOUNT: process.env.TWITTER_ACCOUNT,
 };
 
 const EnvironmentContext = createContext(EnvironmentVariables);

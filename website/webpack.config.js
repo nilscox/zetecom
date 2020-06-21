@@ -103,6 +103,9 @@ module.exports = {
       FIREFOX_ADDON_URL: null,
       REPOSITORY_URL: null,
       GOOGLE_ANALYTICS_ID: null,
+      CONTACT_EMAIL: null,
+      FACEBOOK_PAGE: null,
+      TWITTER_ACCOUNT: null,
     }),
 
     new MiniCssExtractPlugin({
