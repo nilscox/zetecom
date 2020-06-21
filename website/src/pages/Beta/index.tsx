@@ -4,11 +4,10 @@ import './Beta.scss';
 import Link from 'src/components/Link';
 import Image from 'src/components/Image';
 
-import hereWeAre from './here-we-are-infography.png';
-
-import logoFacebook from './logo-facebook.png';
-import logoTwitter from './logo-twitter.png';
-import imageEmail from './email.png';
+import hereWeAre from './images/here-we-are-infography.png';
+import logoFacebook from './images/logo-facebook.png';
+import logoTwitter from './images/logo-twitter.png';
+import imageEmail from './images/email.png';
 
 const Beta: React.FC = () => (
   <>

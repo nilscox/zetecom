@@ -4,6 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin: 20px 0;
 
   &.disposition-column {
     flex-direction: column;
@@ -14,7 +15,7 @@
   }
 
   @media screen and (min-width: $break-large) {
-    margin: 60px 0;
+    margin: 80px 0;
   }
 
   a.download-extension {

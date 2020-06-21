@@ -3,8 +3,8 @@ import React from 'react';
 import Link from 'src/components/Link';
 import { useEnvironment } from 'src/index';
 
-import logoFacebook from 'src/images/facebook-logo.png';
-import logoTwitter from 'src/images/twitter-logo.png';
+import logoFacebook from './facebook-logo.png';
+import logoTwitter from './twitter-logo.png';
 
 import './PageFooter.scss';
 

@@ -9,15 +9,16 @@ import Link from 'src/components/Link';
 import Card from 'src/components/Card';
 import DownloadExtensions from 'src/components/DownloadExtensionsButtons';
 
-import imageCommunity from 'src/images/community.png';
-import imageFakeNews from 'src/images/fake-news.png';
-import imageTrust from 'src/images/trust.png';
-import gifExtension from 'src/images/youtube-zc.gif';
-import imageSearch from 'src/images/search.png';
-import imageNestedReplies from 'src/images/nested-replies.png';
-import imageSubscription from 'src/images/subscription.png';
-import imageSortRelevance from 'src/images/sort-relevance.png';
-import imageFormat from 'src/images/format.png';
+import gifExtension from '../../images/youtube-zc.gif';
+
+import imageCommunity from './images/community.png';
+import imageFakeNews from './images/fake-news.png';
+import imageTrust from './images/trust.png';
+import imageSearch from './images/search.png';
+import imageNestedReplies from './images/nested-replies.png';
+import imageSubscription from './images/subscription.png';
+import imageSortRelevance from './images/sort-relevance.png';
+import imageFormat from './images/format.png';
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './Home.scss';

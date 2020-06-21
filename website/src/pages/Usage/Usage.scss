@@ -1,4 +1,4 @@
-@import "../variables.scss";
+@import "../../variables.scss";
 
 $break-xlarge: 1320px;
 $break-xxlarge: 1590px;
@@ -23,9 +23,6 @@ $break-xxlarge: 1590px;
 
     .image {
       max-width: 100%;
-    }
-
-    .step-text {
     }
 
     .step-secondary {

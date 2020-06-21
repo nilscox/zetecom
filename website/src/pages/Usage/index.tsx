@@ -4,11 +4,12 @@ import DownloadExtensions from 'src/components/DownloadExtensionsButtons';
 import Link from 'src/components/Link';
 import Image from 'src/components/Image';
 
-import gifExtension from 'src/images/youtube-zc.gif';
-import imagePopupLogin from 'src/images/popup-login.png';
-import gifWriteReaction from 'src/images/write-reaction.gif';
-import gifReport from 'src/images/report.gif';
-import imageModeration from 'src/images/moderation.png';
+import gifExtension from '../../images/youtube-zc.gif';
+
+import imagePopupLogin from './images/popup-login.png';
+import gifWriteReaction from './images/write-reaction.gif';
+import gifReport from './images/report.gif';
+import imageModeration from './images/moderation.png';
 
 import './Usage.scss';
 
