@@ -6,6 +6,7 @@ import Image from 'src/components/Image';
 
 import hereWeAre from './here-we-are-infography.png';
 
+import logoFacebook from './logo-facebook.png';
 import logoTwitter from './logo-twitter.png';
 import imageEmail from './email.png';
 
@@ -108,14 +109,19 @@ const Beta: React.FC = () => (
         <strong>@zetecom1</strong>
       </Link>
 
-      <a href="mailto:contact@zetecom.fr" className="twitter-link">
+      <Link openInNewTab href="https://facebook.com/zetecom3" className="facebook-link">
+        <Image src={logoFacebook} alt="logo facebook" width={80} />
+        <strong>zetecom3</strong>
+      </Link>
+
+      <a href="mailto:contact@zetecom.fr" className="email-link">
         <Image src={imageEmail} alt="email" width={80} />
         <strong>contact@zetecom.fr</strong>
       </a>
 
     </div>
 
-    <p style={{ marginTop: 32 }}>
+    <p>
       Au fait, c'est qui "nous" ?<br />
       Nous sommes deux : je suis Nils, 27 ans, développeur web, je suis à l'initiative du projet. Mais je ne suis pas seul : Violaine, 28 ans, est elle aussi développeuse web et elle me donne un bon coup de main. Nous habitons ensemble à Aix-en-Provence.
     </p>

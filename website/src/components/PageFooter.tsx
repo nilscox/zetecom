@@ -13,19 +13,19 @@ const PageFooter: React.FC = () => (
 
     <div className="footer-item social">
       Retrouvez-nous sur les réseaux !
-      <div className="social-item">
+      <Link openInNewTab className="social-item" href="https://facebook.com/zetecom3">
         <img src={logoFacebook} />
-        Bientôt...
-      </div>
-      <div className="social-item">
+        zetecom3
+      </Link>
+      <Link openInNewTab className="social-item" href="https://twitter.com/zetecom1">
         <img src={logoTwitter} />
         @zetecom1
-      </div>
+      </Link>
     </div>
 
     <div className="footer-item tech">
       <div>
-        Powered by <Link href="https://reactjs.org/">React</Link> and <Link href="https://nestjs.com/">Nest</Link> 😍
+        Powered by <Link openInNewTab href="https://reactjs.org/">React</Link> and <Link openInNewTab href="https://nestjs.com/">Nest</Link> 😍
       </div>
       <div>
         An <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>open source</Link> project.

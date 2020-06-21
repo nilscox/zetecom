@@ -126,8 +126,9 @@ const FAQ: React.FC = () => {
       <p>L'équipe à l'origine de Zétécom est à l'écoute via ces différents canaux de communication :</p>
 
       <ul>
-        <li>Par e-mail, à l'adresse <Link openInNewTab href="mailto:contact@zetecom.fr">contact@zetecom.fr</Link></li>
-        <li>Sur twitter, via le compte de <Link openInNewTab href="https://twitter.com/NilsCox">@NilsCox</Link></li>
+        <li>Par e-mail : <Link openInNewTab href="mailto:contact@zetecom.fr">contact@zetecom.fr</Link></li>
+        <li>Sur twitter : <Link openInNewTab href="https://twitter.com/zetecom1">twitter.com/zetecom1</Link></li>
+        <li>Sur facebook : <Link openInNewTab href="https://facebook.com/zetecom3">facebook.com/zetecom3</Link></li>
       </ul>
 
     </>
