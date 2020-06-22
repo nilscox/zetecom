@@ -13,7 +13,7 @@ import DownloadExtensionsButtons from 'src/components/DownloadExtensionsButtons'
 
 const Beta: React.FC = () => (
   <>
-    <Image src="https://i.imgflip.com/45st4i.jpg" style={{ float: 'right', maxWidth: 230 }} alt="we need you"></Image>
+    <Image src="https://i.imgflip.com/45st4i.jpg" className="we-need-you" alt="we need you"></Image>
 
     <h2>Rejoindre la bêta</h2>
 
