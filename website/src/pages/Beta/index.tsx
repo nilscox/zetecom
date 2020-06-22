@@ -4,12 +4,12 @@ import './Beta.scss';
 import Link from 'src/components/Link';
 import Image from 'src/components/Image';
 import { useEnvironment } from 'src/index';
+import DownloadExtensionsButtons from 'src/components/DownloadExtensionsButtons';
 
 import hereWeAre from './images/here-we-are-infography.png';
 import logoFacebook from './images/logo-facebook.png';
 import logoTwitter from './images/logo-twitter.png';
 import imageEmail from './images/email.png';
-import DownloadExtensionsButtons from 'src/components/DownloadExtensionsButtons';
 
 const Beta: React.FC = () => (
   <>
@@ -38,7 +38,9 @@ const Beta: React.FC = () => (
       Une image vaut souvent mieux que mille mots :
     </p>
 
-    <Image src={hereWeAre} alt="on en est là" className="hereWeAre" />
+    <a href={hereWeAre}>
+      <Image src={hereWeAre} alt="on en est là" className="hereWeAre" />
+    </a>
 
     <p>
       Notre objectif est de proposer un outil qui pourra servir à une communauté en quête d'esprit critique sur internet. Pour cela, nous cherchons à recueillir des retours de futurs utilisateurs, pour mieux comprendre leurs intérêts, leurs attentes, et ce que ce produit pourra leur apporter.
@@ -77,8 +79,8 @@ const Beta: React.FC = () => (
     </ul>
 
     <ul className="comments-zones-links">
-      <li>YouTube : <a href="https://img.youtube.com/vi/LB2sVSD5LhM/0.jpg">Sciences, Média & Foutaises (TenL#81)</a> (la Tronche en Biais)</li>
-      <li>LeMonde.fr : <a href="https://img.lemde.fr/2020/04/05/0/0/1024/682/688/0/60/0/59bd152_JXxyTT9Py3J-R4jEx4-EW20I.jpg">Coronavirus : le risque est d’entrer dans « une nouvelle ère de surveillance numérique invasive »</a></li>
+      <li>YouTube : <a href="https://www.youtube.com/watch?v=LB2sVSD5LhM">Sciences, Média & Foutaises (TenL#81)</a> (la Tronche en Biais)</li>
+      <li>LeMonde.fr : <a href="https://www.lemonde.fr/pixels/article/2020/04/05/coronavirus-le-risque-est-d-entrer-dans-une-nouvelle-ere-de-surveillance-numerique-invasive_6035640_4408996.html">Coronavirus : le risque est d’entrer dans « une nouvelle ère de surveillance numérique invasive »</a></li>
     </ul>
 
     <small>Nous pourrons ouvrir des zones de commentaires sur d'autres pages à la demande.</small>
@@ -86,12 +88,12 @@ const Beta: React.FC = () => (
     <h3>Quels points aborder ?</h3>
 
     <p>
-      Vous êtes bien sur libre de nous dire tout ce que vous pensez du projet : les choses cool, les points d'améliorations, les bugs, vos idées... (les points d'améliorations étant très appréciés).
+      Vous êtes bien sur libre de nous dire tout ce que vous pensez du projet : les choses cool, les points d'améliorations, les bugs, vos idées...
       Plus spécifiquement, voici quelques axes sur lesquels il y a matière à réfléchir :
     </p>
 
     <ul>
-      <li><strong>L'extension</strong>, son utilisation sur la version de test (création de compte, envoi de message, signalement...)</li>
+      <li><strong>L'extension</strong>, son utilisation sur la version de test (création de compte, publication de commentaire, signalement...)</li>
       <li><strong>Le site web</strong>, la façon dont il présente le projet, les mots utilisés, mais aussi sa forme, son apparence</li>
       <li><strong>La charte</strong>, la pertinence et la formulation des règles</li>
       <li><strong>Le projet</strong> de manière générale, le contexte dans lequel il se place et les solutions qu'il apporte</li>
@@ -107,21 +109,21 @@ const Beta: React.FC = () => (
 
       {useEnvironment('TWITTER_ACCOUNT') && (
         <Link openInNewTab href={`https://twitter.com/${useEnvironment('TWITTER_ACCOUNT')}`} className="twitter-link">
-          <Image src={logoTwitter} alt="logo twitter" width={80} />
+          <Image src={logoTwitter} alt="logo twitter" />
           <strong>@{useEnvironment('TWITTER_ACCOUNT')}</strong>
         </Link>
       )}
 
       {useEnvironment('FACEBOOK_PAGE') && (
         <Link openInNewTab href={`https://facebook.com/${useEnvironment('FACEBOOK_PAGE')}`} className="facebook-link">
-          <Image src={logoFacebook} alt="logo facebook" width={80} />
+          <Image src={logoFacebook} alt="logo facebook" />
           <strong>{useEnvironment('FACEBOOK_PAGE')}</strong>
         </Link>
       )}
 
       {useEnvironment('CONTACT_EMAIL') && (
         <a href={`mailto:${useEnvironment('CONTACT_EMAIL')}`} className="email-link">
-          <Image src={imageEmail} alt="email" width={80} />
+          <Image src={imageEmail} alt="email" />
           <strong>{useEnvironment('CONTACT_EMAIL')}</strong>
         </a>
       )}
