@@ -127,7 +127,7 @@ const Home: React.FC = () => (
     </p>
 
     <p>
-      Nous tentons de rassembler sur cette plateforme, des personnes bienveillantes, attentives aux biais, qui savent écouter et partager leurs opinions, tout en gardant un œil critique face aux arguments qu'on leur présente. Prêt(e) à tenter l'expérience ?
+      Cette plateforme tente de rassembler des personnes bienveillantes, attentives aux biais, qui savent écouter et partager leurs opinions, tout en gardant un œil critique face aux arguments qu'on leur présente. Prêt(e) à tenter l'expérience ?
     </p>
 
   </>

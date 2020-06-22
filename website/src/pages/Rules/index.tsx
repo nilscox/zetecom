@@ -79,12 +79,11 @@ const Rules: React.FC = () => {
 
       <p style={{ marginTop: 40 }}>
         Ces règles sont la base d'une collaboration intelligente entre tous les utilisateurs.
-        Vous êtes toutefois vivement encouragé(e) à employer les outils de la pensée critique et de la rhétorique pour mieux comprendre les points de vue et étayer votre discours.
+        Vous êtes toutefois vivement encouragé.e à employer les outils de la pensée critique et de la rhétorique pour mieux comprendre les points de vue et étayer votre discours.
       </p>
 
       <p>
-        Enfin, dans un but d'amélioration en continu, ces règles évoluent.
-        Si vous avez des remarques pour améliorer la charte, tant sur le fond que sur la forme, nous sommes à l'écoute.
+        Enfin, dans un but d'amélioration en continu, ces règles évoluent. Vous serez tenu.e informé.e par email lorsque des modifications y seront apportées.
       </p>
 
       <p style={{ marginTop: 40 }}>Quelques exemples de commentaires ne respectant pas la charte :</p>
@@ -115,9 +114,11 @@ const Rules: React.FC = () => {
 
       </div>
 
-      <p>
-        Pour plus d'exemples s'appliquant aussi à cette charte, faites un tour sur <Link openInNewTab href="https://www.lemonde.fr/actualite-medias/article/2019/05/21/l-espace-des-contributions-du-monde-en-10-questions_5465155_3236.html">la partie 2 de l'espace des contribution du Monde</Link>.
-      </p>
+      {/*
+        <p>
+          Pour plus d'exemples s'appliquant aussi à cette charte, faites un tour sur <Link openInNewTab href="https://www.lemonde.fr/actualite-medias/article/2019/05/21/l-espace-des-contributions-du-monde-en-10-questions_5465155_3236.html">la partie 2 de l'espace des contribution du Monde</Link>.
+        </p>
+      */}
 
     </>
   );

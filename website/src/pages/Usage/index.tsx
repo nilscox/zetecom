@@ -104,7 +104,7 @@ const Usage: React.FC = () => (
     <div className="step step-join-moderators" id="moderation">
       <div className="step-text">
         La modération des échanges est assurée par des membres volontaires de la communauté.
-        Si vous souhaitez en faire partie, <Link href="/faq.html#contact">contactez nous</Link> en expliquant les raisons qui motivent ce choix, nous en discuterons directement.
+        Si vous souhaitez en faire partie, <Link href="/faq.html#contact">contactez nous</Link> pour en discuter directement.
       </div>
       <div className="step-secondary">
         <Image src={imageModeration} style={{ opacity: 0.7 }} alt="moderation" />

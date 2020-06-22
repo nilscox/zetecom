@@ -10,17 +10,18 @@ import installChromeExtension from './install-chrome-extension.png';
 import './DownloadExtensionButtons.scss';
 
 type DownloadExtensionProps = {
+  staging?: boolean;
   browser: 'firefox' | 'chrome',
 };
 
-const DownloadExtension: React.FC<DownloadExtensionProps> = ({ browser }) => {
+const DownloadExtension: React.FC<DownloadExtensionProps> = ({ staging, browser }) => {
   const linkProps = {
     firefox: {
-      href: useEnvironment('FIREFOX_ADDON_URL'),
+      href: useEnvironment(staging ? 'FIREFOX_ADDON_STAGING_URL' : 'FIREFOX_ADDON_URL'),
       className: 'firefox-addon',
     },
     chrome :{
-      href: useEnvironment('CHROME_EXTENSION_URL'),
+      href: useEnvironment(staging ? 'CHROME_EXTENSION_STAGING_URL' : 'CHROME_EXTENSION_URL'),
       className: 'chrome-extension',
     },
   }[browser];
@@ -53,11 +54,16 @@ const DownloadExtension: React.FC<DownloadExtensionProps> = ({ browser }) => {
   );
 };
 
-const DownloadExtensionsButtons: React.FC<{ disposition: 'row' | 'column' }> = ({ disposition }) => {
+type DownloadExtensionButtonsProps = {
+  staging?: boolean;
+  disposition: 'row' | 'column';
+};
+
+const DownloadExtensionsButtons: React.FC<DownloadExtensionButtonsProps> = ({ staging, disposition }) => {
   return (
     <div className={`download-extensions-container disposition-${disposition}`}>
-      <DownloadExtension browser="firefox" />
-      <DownloadExtension browser="chrome" />
+      <DownloadExtension staging={staging} browser="firefox" />
+      <DownloadExtension staging={staging} browser="chrome" />
     </div>
   );
 };

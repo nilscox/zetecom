@@ -76,8 +76,8 @@ const Motivations: React.FC = () => (
     <p>
       En son cœur, le projet abrite des valeurs qui forgent la façon dont il est pensé et développé.
       Premièrement, à l'heure où attaques personnelles et procès d'intention sont monnaie courante sur les réseaux, il nous parait fondamental d'attribuer une place d'honneur au <strong>respect des personnes</strong>.
-      Secondement, nous pensons qu'un maximum de <strong>transparence</strong> est bénéfique pour l'évolution du projet, autant dans les motivations qui guident nos décisions, que dans le partage de l'intégralité de <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>son code source</Link>.
-      Enfin, nous voulons mettre en place un outil qui reste neutre, <strong>non partisan</strong>, c'est-à-dire qui n'est rattaché à aucune norme politique ou idéologique.
+      Deuxièmement, nous pensons qu'un maximum de <strong>transparence</strong> est bénéfique pour l'évolution du projet, autant dans les motivations qui guident nos décisions, que dans le partage de l'intégralité de <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>son code source</Link>.
+      Et troisièmement, nous voulons mettre en place un outil qui reste neutre, <strong>non partisan</strong>, n'étant ainsi rattaché à aucune norme politique ou idéologique.
     </p>
 
   </>

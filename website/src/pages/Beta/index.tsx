@@ -9,12 +9,13 @@ import hereWeAre from './images/here-we-are-infography.png';
 import logoFacebook from './images/logo-facebook.png';
 import logoTwitter from './images/logo-twitter.png';
 import imageEmail from './images/email.png';
+import DownloadExtensionsButtons from 'src/components/DownloadExtensionsButtons';
 
 const Beta: React.FC = () => (
   <>
     <Image src="https://i.imgflip.com/45st4i.jpg" style={{ float: 'right', maxWidth: 230 }} alt="we need you"></Image>
 
-    <h2>Rejoindre la beta</h2>
+    <h2>Rejoindre la bêta</h2>
 
     <p>
       Nous, qui mettons en place le projet Zétécom, avons besoin de vous ! Que vous soyez un homme, une femme, jeune, vieux, zététicien ou non, ou même géologue, votre avis nous intéresse !
@@ -44,7 +45,7 @@ const Beta: React.FC = () => (
     </p>
 
     <p>
-      Si vous souhaitez participer à la phase de beta, voici les quelques petites choses à savoir pour tester efficassement le produit.
+      Si vous souhaitez participer à la phase de bêta, voici les quelques petites choses à savoir pour tester efficassement le produit.
     </p>
 
     <h3>Deux versions : test et production</h3>
@@ -59,10 +60,10 @@ const Beta: React.FC = () => (
     </ul>
 
     <p style={{ marginTop: 24 }}>
-      Celle à utiliser pour beta-tester l'extension est la version staging, disponible sur :
+      Celle à utiliser pour tester l'extension est la version staging, disponible ici :
     </p>
 
-    <Link openInNewTab href="https://staging.zetecom.fr" className="link-staging">https://staging.zetecom.fr</Link>
+    <DownloadExtensionsButtons staging disposition="row" />
 
     <p>
       <strong>Sur version staging :</strong>
@@ -93,7 +94,7 @@ const Beta: React.FC = () => (
       <li><strong>L'extension</strong>, son utilisation sur la version de test (création de compte, envoi de message, signalement...)</li>
       <li><strong>Le site web</strong>, la façon dont il présente le projet, les mots utilisés, mais aussi sa forme, son apparence</li>
       <li><strong>La charte</strong>, la pertinence et la formulation des règles</li>
-      <li><strong>Le projet</strong> de manière générale, le contexte dans lequel il se place et les solutions qu'il met en place</li>
+      <li><strong>Le projet</strong> de manière générale, le contexte dans lequel il se place et les solutions qu'il apporte</li>
     </ul>
 
     <h3>Merci !</h3>

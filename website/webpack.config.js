@@ -101,6 +101,8 @@ module.exports = {
       NODE_ENV: 'development',
       CHROME_EXTENSION_URL: null,
       FIREFOX_ADDON_URL: null,
+      CHROME_EXTENSION_STAGING_URL: null,
+      FIREFOX_ADDON_STAGING_URL: null,
       REPOSITORY_URL: null,
       GOOGLE_ANALYTICS_ID: null,
       CONTACT_EMAIL: null,
