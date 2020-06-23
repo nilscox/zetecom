@@ -12,6 +12,7 @@ import { useCurrentUser } from 'src/contexts/UserContext';
 import ToastContainer from '../components/ToastContainer';
 
 import Authentication from './Authentication';
+import EmailLogin from './EmailLogin';
 import Information from './Information';
 import Informations from './InformationsList';
 import NotFound from './NotFound';
@@ -30,6 +31,7 @@ const Router: React.FC = () => (
     <Route path="/information/:id" component={Information} />
     <Route path="/mes-commentaires" component={UserReactions} />
     <Route path="/:sign(connexion|inscription|connexion-par-email)" component={Authentication} />
+    <Route path="/email-login" component={EmailLogin} />
     <Route path="/notifications" component={Notifications} />
     <Route component={NotFound} />
   </Switch>

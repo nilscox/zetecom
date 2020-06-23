@@ -11,7 +11,6 @@ import 'iframe-resizer/js/iframeResizer.contentWindow';
 import ErrorBoundary from 'src/components/ErrorBoundary';
 
 import Pages from './pages';
-import EmailLogin from './EmailLogin';
 import Integration from './pages/integration';
 import Popup from './popup';
 
@@ -40,7 +39,6 @@ const Router: React.FC = () => (
     <Switch>
       <Route path="/popup" component={Popup} />
       <Route path="/integration" component={Integration} />
-      <Route path="/email-login" component={EmailLogin} />
       <Route component={Pages} />
     </Switch>
   </BrowserRouter>

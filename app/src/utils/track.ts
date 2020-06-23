@@ -45,3 +45,10 @@ export const trackChangePassword = () => {
     action: 'change-password',
   });
 };
+
+export const trackEmailLogin = () => {
+  ReactGA.event({
+    category: 'Authentication',
+    action: 'email-login',
+  });
+};
