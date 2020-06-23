@@ -1,24 +1,26 @@
 import { useEffect } from 'react';
 
 import { AxiosError, AxiosRequestConfig } from 'axios';
+import { useLocation } from 'react-router-dom';
 
 import useAxios from 'src/hooks/use-axios';
 import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
 import { parseUser, User } from 'src/types/User';
-import track from 'src/utils/track';
+import { trackLogin } from 'src/utils/track';
 
 import { FormFields } from '../types';
 
 const useLogin = (onAuthenticated: (user: User) => void) => {
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/login' };
   const [{ data: user, loading, error, status }, login] = useAxios(opts, parseUser, { manual: true });
+  const location = useLocation();
 
   useEffect(() => {
     if (status(200)) {
       onAuthenticated(user);
-      track({ category: 'authentication', action: 'login' });
+      trackLogin(/popup/.exec(location.pathname) ? 'popup' : 'app');
     }
-  }, [status, user, onAuthenticated]);
+  }, [status, user, onAuthenticated, location.pathname]);
 
   const handleLogin = (email: string, password: string) => {
     login({ data: { email, password } });

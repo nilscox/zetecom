@@ -1,27 +1,29 @@
 import React, { useEffect } from 'react';
 
 import { AxiosError, AxiosRequestConfig } from 'axios';
+import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { WebsiteLink } from 'src/components/Link';
 import useAxios from 'src/hooks/use-axios';
 import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
 import { parseUser, User } from 'src/types/User';
-import track from 'src/utils/track';
+import { trackSignup } from 'src/utils/track';
 
 import { FormFields } from '../types';
 
 const useSignup = (onAuthenticated: (user: User) => void) => {
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/signup' };
   const [{ data: user, loading, error, status }, signup] = useAxios(opts, parseUser, { manual: true });
+  const location = useLocation();
 
   useEffect(() => {
     if (status(201)) {
       toast.success(`Pour finaliser votre inscription, un email vous a été envoyé à ${user.email}`);
       onAuthenticated(user);
-      track({ category: 'authentication', action: 'signup' });
+      trackSignup(/popup/.exec(location.pathname) ? 'popup' : 'app');
     }
-  }, [status, user, onAuthenticated]);
+  }, [status, user, onAuthenticated, location.pathname]);
 
   const handleSignup = (email: string, password: string, nick: string) => {
     signup({ data: { email, password, nick } });

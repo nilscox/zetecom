@@ -1,20 +1,47 @@
+import ReactGA from 'react-ga';
+
 declare global {
   interface Window {
     dataLayer?: any[];
   }
 }
 
-export type TrackingEvent = {
-  category: 'authentication';
-  action: string;
-  // label: string;
+export type AuthenticateFrom = 'app' | 'popup';
+
+export const trackSignup = (from: AuthenticateFrom) => {
+  ReactGA.event({
+    category: 'Authentication',
+    action: 'Signup',
+    label: 'Signup from ' + from,
+  });
 };
 
-const track = (event: TrackingEvent) => {
-  if (typeof window !== 'undefined') {
-    // eslint-disable-next-line no-unused-expressions
-    window?.dataLayer?.push({ event: 'ga-event', label: event.action, ...event });
-  }
+export const trackLogin = (from: AuthenticateFrom) => {
+  ReactGA.event({
+    category: 'Authentication',
+    action: 'Login',
+    label: 'Login from ' + from,
+  });
 };
 
-export default track;
+export const trackLogout = (from: AuthenticateFrom) => {
+  ReactGA.event({
+    category: 'Authentication',
+    action: 'Logout',
+    label: 'Logout from ' + from,
+  });
+};
+
+export const trackAskEmailLogin = () => {
+  ReactGA.event({
+    category: 'Authentication',
+    action: 'AskEmailLogin',
+  });
+};
+
+export const trackChangePassword = () => {
+  ReactGA.event({
+    category: 'Authentication',
+    action: 'change-password',
+  });
+};

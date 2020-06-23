@@ -10,7 +10,7 @@ import TextField from 'src/components/TextField';
 import { UserAvatarNick } from 'src/components/UserAvatar';
 import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
-import track from 'src/utils/track';
+import { trackLogout } from 'src/utils/track';
 
 import useChangePassword from './useChangePassword';
 
@@ -52,7 +52,7 @@ const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
     if (status(204)) {
       setUser(null);
       history.push('/popup');
-      track({ category: 'authentication', action: 'logout' });
+      trackLogout('popup');
     }
   }, [status, setUser, history]);
 

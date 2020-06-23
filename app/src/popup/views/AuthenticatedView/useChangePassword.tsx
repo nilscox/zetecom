@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { AxiosRequestConfig } from 'axios';
 
 import useAxios from 'src/hooks/use-axios';
-import track from 'src/utils/track';
+import { trackChangePassword } from 'src/utils/track';
 
 import { createFormErrorsHandler } from '../../utils/createFormErrorsHandler';
 
@@ -33,7 +33,7 @@ const useChangePassword = () => {
   useEffect(() => {
     if (status(200)) {
       setPasswordChanged(true);
-      track({ category: 'authentication', action: 'change-password' });
+      trackChangePassword();
     }
   }, [status]);
 
