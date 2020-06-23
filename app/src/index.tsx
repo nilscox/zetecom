@@ -25,7 +25,7 @@ const pkg = require('../package.json');
 
 declare global {
   interface Window {
-    RI_APP_VERSION: string;
+    ZETECOM_APP_VERSION: string;
   }
 }
 
@@ -62,7 +62,7 @@ const setup = () => {
     (window as any).axios = axios;
   }
 
-  window.RI_APP_VERSION = pkg.version;
+  window.ZETECOM_APP_VERSION = pkg.version;
 };
 
 setup();
