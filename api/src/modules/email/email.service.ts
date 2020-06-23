@@ -35,10 +35,10 @@ export class EmailService {
       throw new Error('Unknown template: ' + template);
 
     const html = Object.keys(replacement)
-      .reduce((templ, repl) => templ.replace(`{${repl}}`, replacement[repl]), template.html);
+      .reduce((templ, repl) => templ.replace(new RegExp(`\\{${repl}\\}`, 'g'), replacement[repl]), template.html);
 
     const text = Object.keys(replacement)
-      .reduce((templ, repl) => templ.replace(`{${repl}}`, replacement[repl]), template.txt);
+      .reduce((templ, repl) => templ.replace(new RegExp(`\\{${repl}\\}`, 'g'), replacement[repl]), template.txt);
 
     return { html, text };
   }
