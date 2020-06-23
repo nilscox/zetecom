@@ -19,8 +19,8 @@ services:
     ports:
       - 3000:80
     volumes:
-      - ./avatars:/app/avatars
-      - ./email-templates:/app/email-templates:ro
+      - ./data/avatars:/app/avatars
+      - ./data/email-templates:/app/email-templates:ro
     command: bash -c "yarn wait-on tcp:zc-postgres:5432 && yarn start:prod"
     environment:
       REFLECT_ORIGIN: 'true'
