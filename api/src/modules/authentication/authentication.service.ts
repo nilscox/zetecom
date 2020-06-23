@@ -82,7 +82,8 @@ export class AuthenticationService {
 
     await this.userRepository.save(user);
 
-    await this.emailService.sendEmailLoginEmail(user);
+    // don't await the promise to avoid leaking information about the email being used
+    this.emailService.sendEmailLoginEmail(user);
   }
 
   async changeUserPassword(user: User, password: string): Promise<void> {
