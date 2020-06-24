@@ -42,13 +42,13 @@ export const trackAskEmailLogin = () => {
 export const trackChangePassword = () => {
   ReactGA.event({
     category: 'Authentication',
-    action: 'change-password',
+    action: 'ChangePassword',
   });
 };
 
 export const trackEmailLogin = () => {
   ReactGA.event({
     category: 'Authentication',
-    action: 'email-login',
+    action: 'EmailLogin',
   });
 };
