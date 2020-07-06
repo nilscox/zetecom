@@ -3,6 +3,6 @@ Bienvenue sur Zétécom !
 Votre compte utilisateur vous permet d'intéragir avec la comunauté.
 Pour l'activer, cliquez sur le boutton :
 
-{emailValidationLink}
+{{emailValidationLink}}
 
 A bientôt !

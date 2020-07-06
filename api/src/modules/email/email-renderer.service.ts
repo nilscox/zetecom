@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import { Injectable } from '@nestjs/common';
 import mjml2html from 'mjml';
+import Handlebars from 'handlebars';
 
 import { ConfigService } from 'src/modules/config/config.service';
 
@@ -33,7 +34,6 @@ const templates: { [key in EmailTemplate ]: { text: string; html: string } } = e
   {} as any,
 );
 
-console.log(templates);
 @Injectable()
 class EmailRendererService {
 
@@ -76,9 +76,9 @@ class EmailRendererService {
       websiteUrl: this.configService.get('WEBSITE_URL'),
     };
 
-    return Object.entries({ ...env, ...payload }).reduce((text, [key, value]) => {
-      return text.replace(new RegExp(`\\{${key}\\}`, 'g'), value);
-    }, text);
+    const template = Handlebars.compile(text);
+
+    return template({ ...env, ...payload });
   }
 
 }

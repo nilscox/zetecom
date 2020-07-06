@@ -15,7 +15,7 @@
 
     <mj-section>
       <mj-column padding="0" width="120px">
-        <mj-image src={logoUrl} />
+        <mj-image src="{{websiteUrl}}/assets/images/logo.png" />
       </mj-column>
       <mj-column padding="0" width="200px">
         <mj-text font-size="22px">Zétécom</mj-text>
@@ -42,7 +42,7 @@
 
     <mj-section>
       <mj-column>
-        <mj-button href="{emailValidationLink}">Valider mon address email</mj-button>
+        <mj-button href="{{emailValidationLink}}">Valider mon address email</mj-button>
       </mj-column>
     </mj-section>
 

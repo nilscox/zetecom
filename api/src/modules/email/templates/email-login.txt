@@ -3,6 +3,6 @@ Connexion par email sur Zétécom
 Vous avez fait une demande de connexion par email sur Zétécom.
 Ouvrez ce lien pour vous connecter :
 
-{emailLoginLink}
+{{emailLoginLink}}
 
 A bientôt !

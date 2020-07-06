@@ -66,8 +66,6 @@ export class EmailService {
   sendTestEmail(to: string, subject: string, value: string): Promise<any> {
     const template = this.emailRendererService.renderTestEmail({ value });
 
-    require('fs').writeFileSync('/tmp/email.html', template.html);
-
     return this.sendEmail(
       to,
       subject,

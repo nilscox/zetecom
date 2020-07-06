@@ -14,8 +14,8 @@
     <mj-section>
       <mj-column>
         <mj-text>
-          value: "${value}"
-        </mj-tex>
+          value: "{{value}}"
+        </mj-text>
       </mj-column>
     </mj-section>
   </mj-body>
