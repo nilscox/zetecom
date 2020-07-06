@@ -1,0 +1,23 @@
+<mjml>
+  <mj-head>
+    <mj-preview>Connexion par email sur Zétécom</mj-preview>
+  </mj-head>
+  <mj-body width={600}>
+    <mj-section>
+      <mj-column>
+        <mj-text>Vous avez fait une demande de connexion par email sur Zétécom.</mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-Button>Ouvrez ce lien pour vous connecter :</mj-Button>
+        <a href="{emailLoginLink}">{emailLoginLink}</a>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text>A bientôt !</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

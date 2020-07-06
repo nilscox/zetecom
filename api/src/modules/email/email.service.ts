@@ -7,6 +7,7 @@ import { ConfigService } from '../config/config.service';
 import { User } from '../user/user.entity';
 
 import { AuthorizedEmail } from './authorized-email.entity';
+import EmailRendererService from './email-renderer.service';
 
 export type EmailTemplate = {
   html: string;
@@ -16,32 +17,12 @@ export type EmailTemplate = {
 @Injectable()
 export class EmailService {
 
-  private templates: { [key: string]: EmailTemplate };
-
   constructor(
     private readonly configService: ConfigService,
     @InjectRepository(AuthorizedEmail)
     private readonly authorizedEmailRepository: Repository<AuthorizedEmail>,
+    private readonly emailRendererService: EmailRendererService,
   ) {}
-
-  setTemplates(templates: { [key: string]: EmailTemplate }) {
-    this.templates = templates;
-  }
-
-  private renderTemplate(templateName: string, replacement: {[key: string]: string}) {
-    const template = this.templates[templateName];
-
-    if (!template)
-      throw new Error('Unknown template: ' + template);
-
-    const html = Object.keys(replacement)
-      .reduce((templ, repl) => templ.replace(new RegExp(`\\{${repl}\\}`, 'g'), replacement[repl]), template.html);
-
-    const text = Object.keys(replacement)
-      .reduce((templ, repl) => templ.replace(new RegExp(`\\{${repl}\\}`, 'g'), replacement[repl]), template.txt);
-
-    return { html, text };
-  }
 
   private sendEmail(to: string, subject: string, text: string, html: string): Promise<any> {
     const EMAIL_BYPASS = this.configService.get('EMAIL_BYPASS');
@@ -83,7 +64,9 @@ export class EmailService {
   }
 
   sendTestEmail(to: string, subject: string, value: string): Promise<any> {
-    const template = this.renderTemplate('test', { value });
+    const template = this.emailRendererService.renderTestEmail({ value });
+
+    require('fs').writeFileSync('/tmp/email.html', template.html);
 
     return this.sendEmail(
       to,
@@ -96,9 +79,8 @@ export class EmailService {
   sendEmailValidationEmail(user: User): Promise<any> {
     const APP_URL = this.configService.get('APP_URL');
 
-    const template = this.renderTemplate('welcome', {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      email_validation_link: `${APP_URL}/api/auth/email-validation?token=${user.emailValidationToken}`,
+    const template = this.emailRendererService.renderWelcomeEmail({
+      emailValidationLink: `${APP_URL}/api/auth/email-validation?token=${user.emailValidationToken}`,
     });
 
     return this.sendEmail(
@@ -112,9 +94,8 @@ export class EmailService {
   sendEmailLoginEmail(user: User): Promise<any> {
     const APP_URL = this.configService.get('APP_URL');
 
-    const template = this.renderTemplate('email-login', {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      email_login_link: `${APP_URL}/email-login?token=${user.emailLoginToken}`,
+    const template = this.emailRendererService.renderEmailLoginEmail({
+      emailLoginLink: `${APP_URL}/email-login?token=${user.emailLoginToken}`,
     });
 
     return this.sendEmail(

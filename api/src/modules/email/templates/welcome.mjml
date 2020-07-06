@@ -1,0 +1,57 @@
+<mjml>
+
+  <mj-head>
+
+    <mj-preview>Bienvenue sur Zétécom !</mj-preview>
+
+    <mj-attributes>
+      <mj-column padding="0" />
+      <mj-button background-color="#334" border="1px solid #112" />
+    </mj-attributes>
+
+  </mj-head>
+
+  <mj-body>
+
+    <mj-section>
+      <mj-column padding="0" width="120px">
+        <mj-image src={logoUrl} />
+      </mj-column>
+      <mj-column padding="0" width="200px">
+        <mj-text font-size="22px">Zétécom</mj-text>
+      </mj-column>
+      <mj-column padding="0" width="280px">
+        <mj-text font-size="18px" color="#666">L'information</mj-text>
+        <mj-text font-size="18px" color="#666">avec esprit critique</mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="22px">Bienvenue sur Zétécom !</mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column>
+        <mj-text>
+          Votre compte utilisateur vous permet d'intéragir avec la comunauté. Pour l'activer, cliquez sur le boutton :
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column>
+        <mj-button href="{emailValidationLink}">Valider mon address email</mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column>
+        <mj-text>A bientôt !</mj-text>
+      </mj-column>
+    </mj-section>
+
+  </mj-body>
+
+</mjml>

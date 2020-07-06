@@ -14,6 +14,7 @@ import { Role } from '../authorization/roles.enum';
 
 import { AuthorizedEmail } from './authorized-email.entity';
 import { CreateAuthorizedEmailInDto } from './dtos/create-authorized-email-in.dto';
+import { SendTestEmailInDto } from './dtos/send-test-email-in.dto';
 import { EmailService } from './email.service';
 
 @Controller('email')
@@ -37,6 +38,12 @@ export class UserController {
       throw new BadRequestException(`email ${dto.email} already authorized`);
 
     return this.emailService.authorize(dto.email);
+  }
+
+  @Post('test')
+  @Roles(Role.ADMIN)
+  async test(@Body() dto: SendTestEmailInDto): Promise<void> {
+    await this.emailService.sendTestEmail(dto.to, dto.subject, dto.value);
   }
 
 }

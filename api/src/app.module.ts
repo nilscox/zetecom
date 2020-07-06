@@ -3,8 +3,8 @@ import { MorganMiddleware } from '@nest-middlewares/morgan';
 import { MiddlewareConsumer, Module, Provider } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import * as expressSession from 'express-session';
-import * as memorystore from 'memorystore';
+import expressSession from 'express-session';
+import memorystore from 'memorystore';
 
 import { LagMiddleware } from 'Common/lag.middleware';
 import { RolesGuard } from 'Common/roles.guard';

@@ -1,0 +1,3 @@
+Test email.
+
+value: "${value}"
