@@ -8,6 +8,7 @@ const useStyles = makeStyles(({ palette }) => ({
   toast: {
     '&.Toastify__toast--success': {
       background: palette.success.light,
+      border: `1px solid ${palette.success.main}`,
       color: palette.secondary.dark,
       '& .Toastify__close-button': {
         color: palette.secondary.main,
