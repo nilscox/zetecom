@@ -4,13 +4,17 @@ import {
   Controller,
   Get,
   Post,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 
+import { AuthUser } from 'Common/auth-user.decorator';
+import { IsAuthenticated } from 'Common/auth.guard';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { Roles } from 'Common/roles.decorator';
 
 import { Role } from '../authorization/roles.enum';
+import { User } from '../user/user.entity';
 
 import { AuthorizedEmail } from './authorized-email.entity';
 import { CreateAuthorizedEmailInDto } from './dtos/create-authorized-email-in.dto';
@@ -42,8 +46,9 @@ export class UserController {
 
   @Post('test')
   @Roles(Role.ADMIN)
-  async test(@Body() dto: SendTestEmailInDto): Promise<void> {
-    await this.emailService.sendTestEmail(dto.to, dto.subject, dto.value);
+  @UseGuards(IsAuthenticated)
+  async test(@Body() dto: SendTestEmailInDto, @AuthUser() user: User): Promise<void> {
+    await this.emailService.sendTestEmail(user.email, dto.subject, dto.value);
   }
 
 }
