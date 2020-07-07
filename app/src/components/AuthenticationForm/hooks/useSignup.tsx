@@ -53,16 +53,6 @@ export const signupErrorsHandlers: FormErrorsHandlers<AxiosError, FormFields> = 
         return 'Ce pseudo est déjà utilisé.';
     },
     email: ({ response: { status, data } }) => {
-      if (status === 401 && data.message === 'EMAIL_NOT_AUTHORIZED') {
-        return (
-          <>
-            Les inscriptions ne sont pas encore ouvertes.<br />
-            {/* eslint-disable-next-line max-len */}
-            Si vous souhaitez participer à la beta, <WebsiteLink to="/faq.html#contact">contactez nous</WebsiteLink> pour autoriser votre adresse email.
-          </>
-        );
-      }
-
       if (status !== 400)
         return;
 
@@ -86,8 +76,18 @@ export const signupErrorsHandlers: FormErrorsHandlers<AxiosError, FormFields> = 
         return 'Ce mot de passe n\'est pas assez sécurisé.';
     },
   },
-  ({ response: { status } }) => {
+  ({ response: { status, data } }) => {
     if (status === 403)
       return 'Vous êtes déjà connecté.e';
+
+    if (status === 401 && data.message === 'EMAIL_NOT_AUTHORIZED') {
+      return (
+        <>
+          Les inscriptions ne sont pas encore ouvertes publiquement.<br />
+          {/* eslint-disable-next-line max-len */}
+          Si vous souhaitez participer à la beta, <WebsiteLink to="/faq.html#contact">contactez nous</WebsiteLink> pour autoriser votre adresse email.
+        </>
+      );
+    }
   },
 ];
