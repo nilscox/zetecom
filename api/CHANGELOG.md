@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Render email using mjml and handlebars
+- Validate the user email through the app
 
 ### Fixed
 

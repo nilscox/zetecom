@@ -24,6 +24,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 import { Container, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import EmailValidation from './EmailValidation';
 
 const Router: React.FC = () => (
   <Switch>
@@ -31,6 +32,7 @@ const Router: React.FC = () => (
     <Route path="/information/:id" component={Information} />
     <Route path="/mes-commentaires" component={UserReactions} />
     <Route path="/:sign(connexion|inscription|connexion-par-email)" component={Authentication} />
+    <Route path="/validation-email/:token" component={EmailValidation} />
     <Route path="/email-login" component={EmailLogin} />
     <Route path="/notifications" component={Notifications} />
     <Route component={NotFound} />

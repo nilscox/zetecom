@@ -78,7 +78,7 @@ export class EmailService {
     const APP_URL = this.configService.get('APP_URL');
 
     const template = this.emailRendererService.renderWelcomeEmail({
-      emailValidationLink: `${APP_URL}/api/auth/email-validation?token=${user.emailValidationToken}`,
+      emailValidationLink: `${APP_URL}/validation-email/${user.emailValidationToken}`,
     });
 
     return this.sendEmail(

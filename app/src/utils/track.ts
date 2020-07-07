@@ -32,6 +32,13 @@ export const trackLogout = (from: AuthenticateFrom) => {
   });
 };
 
+export const trackEmailValidated = () => {
+  ReactGA.event({
+    category: 'Authentication',
+    action: 'EmailValidated',
+  });
+};
+
 export const trackAskEmailLogin = () => {
   ReactGA.event({
     category: 'Authentication',

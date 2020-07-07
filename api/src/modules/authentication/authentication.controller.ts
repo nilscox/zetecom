@@ -3,21 +3,18 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Post,
   Put,
-  Query,
-  Res,
   Session,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { Response } from 'express';
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 
-import { ConfigService } from '../config/config.service';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 
@@ -37,7 +34,6 @@ type SessionType = {
 export class AuthenticationController {
 
   constructor(
-    private readonly configService: ConfigService,
     private readonly authService: AuthenticationService,
     private readonly userService: UserService,
   ) {}
@@ -53,14 +49,15 @@ export class AuthenticationController {
     return user;
   }
 
-  @Get('/email-validation')
+  @Post('/email-validation/:token')
   @UseGuards(IsNotAuthenticated)
-  async emailValidation(@Res() res: Response, @Query('token') token: string, @Session() session: SessionType): Promise<void> {
-    const WEBSITE_URL = this.configService.get('WEBSITE_URL');
+  @HttpCode(201)
+  async emailValidation(@Param('token') token: string, @Session() session: SessionType): Promise<User> {
     const user = await this.userService.validateFromToken(token);
 
     session.userId = user.id;
-    res.redirect(`${WEBSITE_URL}?email-validated=true`);
+
+    return user;
   }
 
   @Post('/login')
