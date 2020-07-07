@@ -19,51 +19,29 @@ export type EmailLoginPayload = {
   emailLoginLink: string;
 };
 
-const loadTemplate = (template: string) => ({
-  html: fs.readFileSync(path.join(__dirname, 'templates', template + '.mjml')).toString(),
-  text: fs.readFileSync(path.join(__dirname, 'templates', template + '.txt')).toString(),
-});
-
 type EmailPayload = TestEmailPayload | WelcomeEmailPayload | EmailLoginPayload;
 
 const emailTemplates = ['test', 'welcome', 'email-login'] as const;
 type EmailTemplate = typeof emailTemplates[number];
 
-const templates: { [key in EmailTemplate ]: { text: string; html: string } } = emailTemplates.reduce(
-  (obj, template) => ({ ...obj, [template]: loadTemplate(template) }),
-  {} as any,
-);
+type Template<P extends EmailPayload> = {
+  text: HandlebarsTemplateDelegate<P>;
+  html: HandlebarsTemplateDelegate<P>;
+};
 
 @Injectable()
 class EmailRendererService {
 
-  constructor(private readonly configService: ConfigService) {}
+  private templates?: { [key in EmailTemplate]: Template<EmailPayload> };
 
-  renderTestEmail(payload: TestEmailPayload) {
-    return this.renderEmail('test', payload);
-  }
+  constructor(
+    private readonly configService: ConfigService,
+  ) {}
 
-  renderWelcomeEmail(payload: WelcomeEmailPayload) {
-    return this.renderEmail('welcome', payload);
-  }
-
-  renderEmailLoginEmail(payload: EmailLoginPayload) {
-    return this.renderEmail('email-login', payload);
-  }
-
-  private renderEmail(template: EmailTemplate, payload: EmailPayload) {
-    const { html, text } = templates[template];
-
-    return {
-      html: this.replacePayload(this.renderTemplate(html), payload),
-      text: this.replacePayload(text, payload),
-    };
-  }
-
-  private renderTemplate(template: string) {
+  private renderMjml(mjml: string) {
     const NODE_ENV = this.configService.get('NODE_ENV');
 
-    const { html, errors } = mjml2html(template, {
+    const { html, errors } = mjml2html(mjml, {
       fonts: {
         'Nunito Sans': 'https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700',
         'Noticia Text': 'https://fonts.googleapis.com/css2?family=Noticia+Text:wght@700',
@@ -82,14 +60,49 @@ class EmailRendererService {
     return html;
   }
 
-  private replacePayload(text: string, payload: EmailPayload) {
+  private async loadTemplate(template: EmailTemplate) {
+    const html = await fs.promises.readFile(path.join(__dirname, 'templates', template + '.mjml'));
+    const text = await fs.promises.readFile(path.join(__dirname, 'templates', template + '.txt'));
+
+    return {
+      html: Handlebars.compile(this.renderMjml(html.toString())),
+      text: Handlebars.compile(text.toString()),
+    };
+  }
+
+  async onInit() {
+    const templates = {};
+
+    await Promise.all(emailTemplates.map(async template => {
+      templates[template] = await this.loadTemplate(template);
+    }));
+
+    this.templates = templates as { [key in EmailTemplate]: Template<EmailPayload> };
+  }
+
+  renderTestEmail(payload: TestEmailPayload) {
+    return this.renderEmail('test', payload);
+  }
+
+  renderWelcomeEmail(payload: WelcomeEmailPayload) {
+    return this.renderEmail('welcome', payload);
+  }
+
+  renderEmailLoginEmail(payload: EmailLoginPayload) {
+    return this.renderEmail('email-login', payload);
+  }
+
+  private renderEmail(template: EmailTemplate, payload: EmailPayload) {
     const env = {
       websiteUrl: this.configService.get('WEBSITE_URL'),
     };
 
-    const template = Handlebars.compile(text);
+    const { html, text } = this.templates[template];
 
-    return template({ ...env, ...payload });
+    return {
+      html: html({ ...env, ...payload }),
+      text: text({ ...env, ...payload }),
+    };
   }
 
 }
