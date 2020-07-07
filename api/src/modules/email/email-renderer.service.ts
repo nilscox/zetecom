@@ -2,8 +2,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import { Injectable } from '@nestjs/common';
-import mjml2html from 'mjml';
 import Handlebars from 'handlebars';
+import mjml2html from 'mjml';
 
 import { ConfigService } from 'src/modules/config/config.service';
 
@@ -61,7 +61,18 @@ class EmailRendererService {
   }
 
   private renderTemplate(template: string) {
-    const { html, errors } = mjml2html(template);
+    const NODE_ENV = this.configService.get('NODE_ENV');
+
+    const { html, errors } = mjml2html(template, {
+      fonts: {
+        'Nunito Sans': 'https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700',
+        'Noticia Text': 'https://fonts.googleapis.com/css2?family=Noticia+Text:wght@700',
+      },
+      beautify: NODE_ENV !== 'production',
+      minify: NODE_ENV === 'production',
+      validationLevel: 'strict',
+      filePath: path.join(__dirname, 'templates'),
+    });
 
     if (errors.length) {
       console.error(errors);

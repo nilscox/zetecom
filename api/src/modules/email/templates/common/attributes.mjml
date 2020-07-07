@@ -1,0 +1,5 @@
+<mj-attributes>
+  <mj-all padding="0" />
+  <mj-text font-family="'Nunito Sans', sans-serif" font-size="16px" line-height="20px" color="#333" />
+  <mj-button background-color="#EEF" border="1px solid #CCF" border-radius="4px" color="#446" font-size="18px" line-height="18px" />
+</mj-attributes>

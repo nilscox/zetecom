@@ -1,23 +1,42 @@
 <mjml>
+
   <mj-head>
+
     <mj-preview>Connexion par email sur Zétécom</mj-preview>
+
+    <mj-include path="./common/attributes.mjml" />
+
   </mj-head>
-  <mj-body width="600">
+
+  <mj-body>
+
+    <mj-include path="./common/header.mjml" />
+
+    <mj-section padding-bottom="25px">
+      <mj-column>
+        <mj-text font-size="22px" line-height="22px">Connexion par email</mj-text>
+      </mj-column>
+    </mj-section>
+
     <mj-section>
       <mj-column>
         <mj-text>Vous avez fait une demande de connexion par email sur Zétécom.</mj-text>
+        <mj-text>Cliquez sur ce bouton pour vous connecter :</mj-text>
       </mj-column>
     </mj-section>
+
+    <mj-section padding="25px 0">
+      <mj-column>
+        <mj-button href="{{emailLoginLink}}">Je me connecte</mj-button>
+      </mj-column>
+    </mj-section>
+
     <mj-section>
       <mj-column>
-        <mj-Button>Ouvrez ce lien pour vous connecter :</mj-Button>
-        <a href="{{emailLoginLink}}">{{emailLoginLink}}</a>
+        <mj-text>Une fois connecté.e, vous pourrez changer votre mot de passe depuis la popup de l'extension.</mj-text>
       </mj-column>
     </mj-section>
-    <mj-section>
-      <mj-column>
-        <mj-text>A bientôt !</mj-text>
-      </mj-column>
-    </mj-section>
-  </mj-body>
+
+    <mj-include path="./common/footer.mjml" />
+
 </mjml>

@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Render email using mjml and handlebars
+
 ### Fixed
 
 - Replace all replacements occurrences in email templates

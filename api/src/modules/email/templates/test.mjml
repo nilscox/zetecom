@@ -1,16 +1,24 @@
 <mjml>
+
   <mj-head>
+
     <mj-title>Test email - title</mj-title>
     <mj-preview>Test email - preview</mj-preview>
+
+    <mj-include path="./common/attributes.mjml" />
+
   </mj-head>
+
   <mj-body>
-    <mj-section>
+
+    <mj-include path="./common/header.mjml" />
+
+    <mj-section padding-bottom="25px">
       <mj-column>
-        <mj-text>
-          Test email.
-        </mj-text>
+        <mj-text font-size="22px" line-height="22px">Test email</mj-text>
       </mj-column>
     </mj-section>
+
     <mj-section>
       <mj-column>
         <mj-text>
@@ -18,5 +26,9 @@
         </mj-text>
       </mj-column>
     </mj-section>
+
+    <mj-include path="./common/footer.mjml" />
+
   </mj-body>
+
 </mjml>
