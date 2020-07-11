@@ -1,11 +1,11 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 
 import { Injectable } from '@nestjs/common';
 import Handlebars from 'handlebars';
 import mjml2html from 'mjml';
 
-import { ConfigService } from 'src/modules/config/config.service';
+import { ConfigService } from '../config/config.service';
 
 export type TestEmailPayload = {
   value: string;

@@ -1,4 +1,4 @@
-import * as request from 'supertest';
+import request from 'supertest';
 import { getRepository, Repository } from 'typeorm';
 
 import { createUser } from '../../testing/factories/user.factory';

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as email from 'emailjs';
+import email from 'emailjs';
 import { Repository } from 'typeorm';
 
 import { ConfigService } from '../config/config.service';

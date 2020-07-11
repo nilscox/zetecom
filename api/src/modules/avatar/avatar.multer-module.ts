@@ -1,7 +1,7 @@
-import * as path from 'path';
+import path from 'path';
 
 import { MulterModule } from '@nestjs/platform-express';
-import * as multer from 'multer';
+import multer from 'multer';
 
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';

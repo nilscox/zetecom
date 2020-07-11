@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="index.d.ts" />
 
-import * as path from 'path';
+import path from 'path';
 
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import { addAlias } from 'module-alias';
 
 addAlias('Common', path.join(__dirname, 'common'));

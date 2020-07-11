@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import { DeepPartial, getManager } from 'typeorm';
 
 import { Role } from '../../modules/authorization/roles.enum';

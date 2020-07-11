@@ -5,11 +5,11 @@ import { APP_GUARD } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import * as dotenv from 'dotenv';
-import * as express from 'express';
-import * as expressSession from 'express-session';
-import * as memorystore from 'memorystore';
-import * as request from 'supertest';
+import dotenv from 'dotenv';
+import express from 'express';
+import expressSession from 'express-session';
+import memorystore from 'memorystore';
+import request from 'supertest';
 import { getRepository } from 'typeorm';
 
 dotenv.config({ path: '.env.test' });

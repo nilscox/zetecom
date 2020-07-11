@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import { Connection, createConnection } from 'typeorm';
 
 dotenv.config({ path: '.env.test' });

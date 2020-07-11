@@ -1,4 +1,4 @@
-import * as request from 'supertest';
+import request from 'supertest';
 
 import { createNotification } from '../../testing/factories/notification.factory';
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';

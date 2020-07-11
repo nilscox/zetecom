@@ -1,4 +1,4 @@
-import * as request from 'supertest';
+import request from 'supertest';
 import { getRepository, Repository } from 'typeorm';
 
 import { createAuthenticatedAdmin, createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';

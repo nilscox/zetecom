@@ -1,6 +1,6 @@
 // tslint:disable no-shadowed-variable
 
-import * as request from 'supertest';
+import request from 'supertest';
 import { getCustomRepository, getRepository, Repository } from 'typeorm';
 
 import { createInformation } from '../../testing/factories/information.factory';
