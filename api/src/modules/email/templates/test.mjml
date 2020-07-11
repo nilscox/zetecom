@@ -11,23 +11,28 @@
 
   <mj-body>
 
-    <mj-include path="./common/header.mjml" />
+    <mj-section padding-top="25px" />
+    <mj-wrapper css-class="wrapper">
 
-    <mj-section padding-bottom="25px">
-      <mj-column>
-        <mj-text font-size="22px" line-height="22px">Test email</mj-text>
-      </mj-column>
-    </mj-section>
+      <mj-include path="./common/header.mjml" />
 
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          value: "{{value}}"
-        </mj-text>
-      </mj-column>
-    </mj-section>
+      <mj-section padding-bottom="25px">
+        <mj-column>
+          <mj-text font-size="22px" line-height="22px">Test email</mj-text>
+        </mj-column>
+      </mj-section>
 
-    <mj-include path="./common/footer.mjml" />
+      <mj-section>
+        <mj-column>
+          <mj-text>
+            value: "{{value}}"
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-include path="./common/footer.mjml" />
+
+    </mj-wrapper>
 
   </mj-body>
 

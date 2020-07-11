@@ -1,5 +1,32 @@
 <mj-attributes>
   <mj-all padding="0" />
+  <mj-body width="680px" background-color="#F6F6F6" />
   <mj-text font-family="'Nunito Sans', sans-serif" font-size="16px" line-height="20px" color="#333" />
   <mj-button background-color="#EEF" border="1px solid #CCF" border-radius="4px" color="#446" font-size="18px" line-height="18px" />
 </mj-attributes>
+
+<mj-style inline="inline">
+  .wrapper {
+    background-color: #FFF;
+    padding: 20px 40px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+  }
+</mj-style>
+
+<mj-style>
+  @media all and (max-width: 479px) {
+    .subtitle {
+      display: none !important;
+    }
+
+    .logo {
+      display: none !important;
+    }
+  }
+
+  @media all and (min-width: 600px) {
+    .subtitle {
+      text-indent: 55px;
+    }
+  }
+</mj-style>

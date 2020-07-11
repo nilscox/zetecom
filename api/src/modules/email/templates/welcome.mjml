@@ -10,38 +10,43 @@
 
   <mj-body>
 
-    <mj-include path="./common/header.mjml" />
+    <mj-section padding-top="25px" />
+    <mj-wrapper css-class="wrapper">
 
-    <mj-section padding-bottom="25px">
-      <mj-column>
-        <mj-text font-size="22px" line-height="22px">Bienvenue sur Zétécom !</mj-text>
-      </mj-column>
-    </mj-section>
+      <mj-include path="./common/header.mjml" />
 
-    <mj-section>
-      <mj-column>
-        <mj-text>
-          Votre compte utilisateur vous permet d'intéragir avec la comunauté.
-        </mj-text>
-        <mj-text>
-          Pour l'activer, cliquez sur le boutton :
-        </mj-text>
-      </mj-column>
-    </mj-section>
+      <mj-section padding-bottom="25px">
+        <mj-column>
+          <mj-text font-size="22px" line-height="22px">Bienvenue sur Zétécom !</mj-text>
+        </mj-column>
+      </mj-section>
 
-    <mj-section padding="25px 0">
-      <mj-column>
-        <mj-button href="{{emailValidationLink}}">Valider mon address email</mj-button>
-      </mj-column>
-    </mj-section>
+      <mj-section>
+        <mj-column>
+          <mj-text>
+            Votre compte utilisateur vous permet d'intéragir avec la comunauté.
+          </mj-text>
+          <mj-text>
+            Pour l'activer, cliquez sur le boutton :
+          </mj-text>
+        </mj-column>
+      </mj-section>
 
-    <mj-section>
-      <mj-column>
-        <mj-text>A bientôt !</mj-text>
-      </mj-column>
-    </mj-section>
+      <mj-section padding="25px 0">
+        <mj-column>
+          <mj-button href="{{emailValidationLink}}">Valider mon address email</mj-button>
+        </mj-column>
+      </mj-section>
 
-    <mj-include path="./common/footer.mjml" />
+      <mj-section>
+        <mj-column>
+          <mj-text>A bientôt !</mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-include path="./common/footer.mjml" />
+
+    </mj-wrapper>
 
   </mj-body>
 

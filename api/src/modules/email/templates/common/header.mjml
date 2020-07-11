@@ -1,14 +1,14 @@
 <mj-section padding="25px 0 10px 0" border-bottom="1px solid #CCC">
 
-  <mj-column padding="0" width="60px">
-    <mj-image src="{{websiteUrl}}/assets/images/logo.png" />
+  <mj-column vertical-align="bottom" width="10%">
+    <mj-image css-class="logo" src="https://zetecom.fr/assets/images/logo.png" />
   </mj-column>
 
-  <mj-column padding="0" width="380px" vertical-align="bottom">
+  <mj-column vertical-align="bottom" width="50%">
     <mj-text padding-left="25px" font-size="32px" line-height="32px" font-family="'Noticia Text', serif" font-weight="bold" color="#446">Zétécom</mj-text>
   </mj-column>
 
-  <mj-column padding="0" width="160px" vertical-align="bottom">
+  <mj-column vertical-align="bottom" width="40%" css-class="subtitle">
     <mj-text font-size="18px" line-height="18px" color="#666">L'information</mj-text>
     <mj-text font-size="18px" line-height="18px" color="#666">avec esprit critique</mj-text>
   </mj-column>
