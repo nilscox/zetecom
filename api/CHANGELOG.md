@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Replace all replacements occurrences in email templates
+- Copy assets after build
 
 ## [0.4.0] - 2020-06-13
 

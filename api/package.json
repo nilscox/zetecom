@@ -5,7 +5,7 @@
   "license": "GPL-3.0-only",
   "author": "nilscox <contact@zetecom.fr>",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json && cp -r src/modules/email/templates dist/src/modules/email",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:coverage": "nyc --silent yarn start",
