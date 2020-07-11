@@ -11,6 +11,7 @@
   <mj-body>
 
     <mj-section padding-top="25px" />
+
     <mj-wrapper css-class="wrapper">
 
       <mj-include path="./common/header.mjml" />
@@ -43,5 +44,7 @@
       <mj-include path="./common/footer.mjml" />
 
     </mj-wrapper>
+
+    <mj-section padding-top="40px">
 
 </mjml>
