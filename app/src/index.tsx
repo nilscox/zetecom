@@ -11,11 +11,11 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import queryString from 'query-string';
-import ReactGA from 'react-ga';
 import ReactModal from 'react-modal';
 
 import App from './App';
 import env from './utils/env';
+import ReactGA from './utils/ga';
 
 import 'dayjs/locale/fr';
 import * as Sentry from '@sentry/browser';

@@ -4,6 +4,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import useAxios from 'src/hooks/use-axios';
 import { parseReaction, Reaction } from 'src/types/Reaction';
+import { trackEditComment } from 'src/utils/track';
 
 import ReactionForm from './ReactionForm';
 
@@ -26,6 +27,7 @@ const ReactionEditionForm: React.FC<ReactionEditionFormProps> = ({ reaction, onE
 
   useEffect(() => {
     if (data) {
+      trackEditComment();
       onEdited(data);
 
       if (formRef.current)

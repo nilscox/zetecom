@@ -1,8 +1,9 @@
-const path = require('path');
 const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = ({ OUTPUT_PATH_INSTRUMENTED }) => ({
+
+  mode: 'development',
 
   output: {
     path: OUTPUT_PATH_INSTRUMENTED,

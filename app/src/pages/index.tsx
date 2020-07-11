@@ -13,6 +13,7 @@ import ToastContainer from '../components/ToastContainer';
 
 import Authentication from './Authentication';
 import EmailLogin from './EmailLogin';
+import EmailValidation from './EmailValidation';
 import Information from './Information';
 import Informations from './InformationsList';
 import NotFound from './NotFound';
@@ -24,7 +25,6 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 import { Container, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import EmailValidation from './EmailValidation';
 
 const Router: React.FC = () => (
   <Switch>

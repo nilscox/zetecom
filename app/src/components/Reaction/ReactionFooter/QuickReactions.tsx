@@ -6,6 +6,7 @@ import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
 import { parseReaction, QuickReactionsCount, QuickReactionType, Reaction } from 'src/types/Reaction';
+import { trackSetReaction } from 'src/utils/track';
 
 import QuickReaction, { QuickReactionProps } from './QuickReaction';
 
@@ -58,8 +59,10 @@ const useQuickReactions = (
   };
 
   useEffect(() => {
-    if (status(201))
+    if (status(201)) {
+      trackSetReaction();
       setUpdatedQuickReaction(updated.userQuickReaction);
+    }
   }, [status, updated, setUpdatedQuickReaction]);
 
   const quickReactions: { [key in QuickReactionType]: QuickReactionProps } = {

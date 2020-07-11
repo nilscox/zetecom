@@ -31,7 +31,7 @@ const createTheme = (): Theme => {
       textLink: { main: '#44C', light: '#55A', dark: '#446' },
       textWarning: { main: '#ab6565' },
       background: { default: 'white' },
-      success: { main: '#81c784', light: '#81c78499' },
+      success: { main: '#81c784', light: '#a4d7a6' },
     },
 
     typography: {

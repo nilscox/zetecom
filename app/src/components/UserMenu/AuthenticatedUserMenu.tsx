@@ -42,6 +42,9 @@ const useStyles = makeStyles(({ palette }) => ({
     color: palette.primary.main,
     fontWeight: 600,
   },
+  logout: {
+    color: palette.secondary.main,
+  },
 }));
 
 type UserMenuProps = MenuProps & {
@@ -100,7 +103,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ onClose, ...props }) => {
         <ListItemText primary="Mes commentaires" />
       </MenuItem>
 
-      <MenuItem onClick={handleLogout}>
+      <MenuItem onClick={handleLogout} className={classes.logout}>
         <ListItemIcon>
           <SignoutIcon fontSize="small" />
         </ListItemIcon>

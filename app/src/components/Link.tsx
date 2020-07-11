@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
 
 import clsx from 'clsx';
 import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
@@ -34,8 +34,13 @@ type RouterLinkProps = ReactRouterLinkProps & {
   focusColor?: boolean;
 }
 
-const RouterLink: React.FC<RouterLinkProps> = ({ color, focusColor, className, ...props }) => {
-  const ref = useRef<HTMLAnchorElement>(null);
+const RouterLink: React.ForwardRefRenderFunction<HTMLAnchorElement, RouterLinkProps> = ({
+  color,
+  focusColor,
+  className,
+  ...props
+}, ref) => {
+  // const ref = useRef<HTMLAnchorElement>(null);
   const classes = useStyles({});
 
   return (
@@ -48,7 +53,7 @@ const RouterLink: React.FC<RouterLinkProps> = ({ color, focusColor, className, .
   );
 };
 
-export default RouterLink;
+export default forwardRef(RouterLink);
 
 export type LinkProps = Omit<React.HTMLProps<HTMLAnchorElement>, 'color'> & {
   color?: boolean;

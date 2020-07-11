@@ -5,6 +5,7 @@ import { AxiosRequestConfig } from 'axios';
 import { useInformation } from 'src/contexts/InformationContext';
 import useAxios from 'src/hooks/use-axios';
 import { parseReaction, Reaction } from 'src/types/Reaction';
+import { trackCreateComment } from 'src/utils/track';
 
 import ReactionForm from './ReactionForm';
 
@@ -39,6 +40,7 @@ const ReactionCreationForm: React.FC<ReactionCreationFormProps> = ({
 
   useEffect(() => {
     if (data) {
+      trackCreateComment();
       onCreated(data);
 
       if (formRef.current)

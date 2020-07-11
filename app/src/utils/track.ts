@@ -1,4 +1,4 @@
-import ReactGA from 'react-ga';
+import ReactGA from './ga';
 
 declare global {
   interface Window {
@@ -21,6 +21,14 @@ export const trackLogin = (from: AuthenticateFrom) => {
     category: 'Authentication',
     action: 'Login',
     label: 'Login from ' + from,
+  });
+};
+
+export const trackLoginFailed = (from: AuthenticateFrom) => {
+  ReactGA.event({
+    category: 'Authentication',
+    action: 'LoginFailed',
+    label: 'Login failed from ' + from,
   });
 };
 
@@ -57,5 +65,40 @@ export const trackEmailLogin = () => {
   ReactGA.event({
     category: 'Authentication',
     action: 'EmailLogin',
+  });
+};
+
+export const trackCreateComment = () => {
+  ReactGA.event({
+    category: 'Comment',
+    action: 'Create',
+  });
+};
+
+export const trackEditComment = () => {
+  ReactGA.event({
+    category: 'Comment',
+    action: 'Edit',
+  });
+};
+
+export const trackSetReaction = () => {
+  ReactGA.event({
+    category: 'Comment',
+    action: 'SetReaction',
+  });
+};
+
+export const trackSubscribeComment = () => {
+  ReactGA.event({
+    category: 'Comment',
+    action: 'Subscribe',
+  });
+};
+
+export const trackReportComment = () => {
+  ReactGA.event({
+    category: 'Comment',
+    action: 'Report',
   });
 };

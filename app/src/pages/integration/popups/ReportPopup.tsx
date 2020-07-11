@@ -16,6 +16,7 @@ import TextArea from 'src/components/TextArea';
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
 import { parseReaction } from 'src/types/Reaction';
+import { trackReportComment } from 'src/utils/track';
 
 import { makeStyles } from '@material-ui/core';
 
@@ -110,6 +111,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
 
   useEffect(() => {
     if (status(201)) {
+      trackReportComment();
       setSuccess(true);
       setTimeout(window.close, POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT);
     }

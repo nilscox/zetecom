@@ -5,6 +5,7 @@ import { AxiosRequestConfig } from 'axios';
 import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import { Reaction } from 'src/types/Reaction';
+import { trackSubscribeComment } from 'src/utils/track';
 
 import { makeStyles } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -34,9 +35,10 @@ const useSubscription = (reaction: Reaction) => {
   };
 
   useEffect(() => {
-    if (status(201))
+    if (status(201)) {
+      trackSubscribeComment();
       setSubscribed(true);
-    else if (status(204))
+    } else if (status(204))
       setSubscribed(false);
   }, [status]);
 

@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import useAxios from 'src/hooks/use-axios';
 import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
 import { parseUser, User } from 'src/types/User';
-import { trackLogin } from 'src/utils/track';
+import { trackLogin, trackLoginFailed } from 'src/utils/track';
 
 import { FormFields } from '../types';
 
@@ -16,10 +16,15 @@ const useLogin = (onAuthenticated: (user: User) => void) => {
   const location = useLocation();
 
   useEffect(() => {
+    const from = /popup/.exec(location.pathname) ? 'popup' : 'app';
+
     if (status(200)) {
       onAuthenticated(user);
-      trackLogin(/popup/.exec(location.pathname) ? 'popup' : 'app');
+      trackLogin(from);
     }
+
+    if (status(401))
+      trackLoginFailed(from);
   }, [status, user, onAuthenticated, location.pathname]);
 
   const handleLogin = (email: string, password: string) => {

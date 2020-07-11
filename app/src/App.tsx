@@ -5,10 +5,10 @@ import { hot } from 'react-hot-loader/root';
 import React, { useEffect } from 'react';
 
 import { BrowserRouter, Route, Switch, useLocation } from 'react-router-dom';
-import ReactGA from 'react-ga';
 import 'iframe-resizer/js/iframeResizer.contentWindow';
 
 import ErrorBoundary from 'src/components/ErrorBoundary';
+import ReactGA from 'src/utils/ga';
 
 import Pages from './pages';
 import Integration from './pages/integration';
