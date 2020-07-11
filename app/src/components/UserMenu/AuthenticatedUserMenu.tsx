@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 import clsx from 'clsx';
@@ -86,6 +86,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ onClose, ...props }) => {
 
       <MenuItem
         component={RouterLink}
+        focusColor={false}
         to="/notifications"
         className={clsx(hasNotifications && classes.notificationsActive)}
         onClick={onClose}
@@ -96,7 +97,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ onClose, ...props }) => {
         <ListItemText primary="Notifications" />
       </MenuItem>
 
-      <MenuItem component={RouterLink} to="/mes-commentaires" onClick={onClose}>
+      <MenuItem
+        component={RouterLink}
+        focusColor={false}
+        to="/mes-commentaires"
+        onClick={onClose}
+      >
         <ListItemIcon>
           <CommentIcon fontSize="small" />
         </ListItemIcon>

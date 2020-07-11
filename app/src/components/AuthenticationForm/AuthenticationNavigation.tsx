@@ -30,7 +30,7 @@ const AuthenticationNavigation: React.FC<AuthenticationNavigationProps> = ({ for
     <Grid container>
 
       <Box flex={1}>
-        <RouterLink focusColor to={loginSignupLocation()}>
+        <RouterLink focusHighlightColor to={loginSignupLocation()}>
           { form === 'login' ? 'Créer un compte' : 'Connexion' }
         </RouterLink>
       </Box>

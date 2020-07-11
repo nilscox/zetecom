@@ -19,7 +19,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
     return <AuthenticatedUserMenu user={user} />;
 
   return (
-    <RouterLink to="/connexion">
+    <RouterLink focusColor={false} to="/connexion">
       <Grid container direction="column" alignItems="center">
         <CircleAvatarIwage src={defaultAvatar} />
         <Grid item>

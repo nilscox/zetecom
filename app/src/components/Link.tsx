@@ -12,31 +12,35 @@ const useStyles = makeStyles(({ palette }) => ({
     textDecoration: 'none',
     color: palette.secondary.main,
     transition: 'color 200ms ease-in-out',
-    '&:focus': {
-      color: palette.secondary.light,
-    },
   },
-  linkColor: {
+  color: {
     color: palette.textLink.main,
     '&:hover': {
       color: palette.textLink.light,
     },
   },
-  linkFocusColor: {
+  focusColor: {
+    '&:focus': {
+      color: palette.secondary.light,
+    },
+  },
+  focusHighlightColor: {
     '&:focus': {
       color: palette.primary.main,
     },
   },
 }));
 
-type RouterLinkProps = ReactRouterLinkProps & {
+export type RouterLinkProps = Omit<ReactRouterLinkProps, 'color'> & {
   color?: boolean;
   focusColor?: boolean;
+  focusHighlightColor?: boolean;
 }
 
 const RouterLink: React.ForwardRefRenderFunction<HTMLAnchorElement, RouterLinkProps> = ({
   color,
-  focusColor,
+  focusColor = true,
+  focusHighlightColor,
   className,
   ...props
 }, ref) => {
@@ -47,7 +51,15 @@ const RouterLink: React.ForwardRefRenderFunction<HTMLAnchorElement, RouterLinkPr
     <ReactRouterLink
       ref={ref}
       onClick={() => ref && 'current' in ref && ref.current?.blur()}
-      className={clsx(classes.link, color && classes.linkColor, focusColor && classes.linkFocusColor, className)}
+      className={
+        clsx(
+          classes.link,
+          color && classes.color,
+          focusColor && classes.focusColor,
+          focusHighlightColor && classes.focusHighlightColor,
+          className,
+        )
+      }
       {...props}
     />
   );
@@ -58,10 +70,18 @@ export default forwardRef(RouterLink);
 export type LinkProps = Omit<React.HTMLProps<HTMLAnchorElement>, 'color'> & {
   color?: boolean;
   focusColor?: boolean;
+  focusHighlightColor?: boolean;
   openInNewTab?: boolean;
 };
 
-export const Link: React.FC<LinkProps> = ({ color, focusColor, openInNewTab, className, ...props }) => {
+export const Link: React.FC<LinkProps> = ({
+  color,
+  focusColor = true,
+  focusHighlightColor,
+  openInNewTab,
+  className,
+  ...props
+}) => {
   const ref = useRef<HTMLAnchorElement>(null);
   const classes = useStyles({});
   const other: React.HTMLProps<HTMLAnchorElement> = {};
@@ -72,8 +92,15 @@ export const Link: React.FC<LinkProps> = ({ color, focusColor, openInNewTab, cla
   return (
     <a
       ref={ref}
-      onClick={() => console.log(ref.current)}
-      className={clsx(classes.link, color && classes.linkColor, focusColor && classes.linkFocusColor, className)}
+      className={
+        clsx(
+          classes.link,
+          color && classes.color,
+          focusColor && classes.focusColor,
+          focusHighlightColor && classes.focusHighlightColor,
+          className,
+        )
+      }
       {...props}
       {...other}
     />

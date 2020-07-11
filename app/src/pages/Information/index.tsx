@@ -35,7 +35,7 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
               <Padding bottom>
                 <InformationOverview
                   information={information}
-                  title={<Link openInNewTab href={information.url}>{ information.title }</Link>}
+                  title={<Link color={false} openInNewTab href={information.url}>{ information.title }</Link>}
                 />
               </Padding>
 
