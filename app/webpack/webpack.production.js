@@ -10,7 +10,6 @@ module.exports = ({ OUTPUT_PATH }) => ({
   output: {
     path: OUTPUT_PATH,
     publicPath: '/',
-    filename: '[name].[hash].js',
   },
 
   plugins: [

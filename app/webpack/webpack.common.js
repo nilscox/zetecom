@@ -15,7 +15,7 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
   output: {
     path: OUTPUT_PATH,
     publicPath: '/',
-    filename: '[name].js',
+    filename: '[name].[hash].js',
   },
 
   resolve: {
