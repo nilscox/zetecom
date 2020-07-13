@@ -13,6 +13,7 @@ import Loader from 'src/components/Loader';
 import ReactionBody from 'src/components/Reaction/ReactionBody';
 import Text from 'src/components/Text';
 import TextArea from 'src/components/TextArea';
+import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
 import { parseReaction } from 'src/types/Reaction';
@@ -79,6 +80,8 @@ const ReportSuccess: React.FC = () => {
 type ReportPopupProps = RouteComponentProps<{ id: string }>;
 
 const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
+  useTrackPageview();
+
   const [message, setMessage] = useState('');
   const [success, setSuccess] = useState(false);
   const [alreadyReported, setArleadyReported] = useState(false);

@@ -7,10 +7,12 @@ import Fallback from 'src/components/Fallback';
 import HeaderLogo from 'src/components/HeaderLogo';
 import Padding from 'src/components/Padding';
 import Text from 'src/components/Text';
+import { useTrackPageview } from 'src/components/TrackPageView';
 import { InformationProvider } from 'src/contexts/InformationContext';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
 import { parseInformation } from 'src/types/Information';
+import { trackViewIntegration } from 'src/utils/track';
 
 import ReactionsZone from './ReactionsZone';
 
@@ -47,6 +49,13 @@ const Integration: React.FC = () => {
   };
 
   const [{ data: information, loading, error }, fetchInfo] = useAxios(opts, parseInformation);
+
+  useTrackPageview(() => !!information);
+
+  useEffect(() => {
+    if (information)
+      trackViewIntegration(identifier);
+  });
 
   if (error)
     throw error;

@@ -9,6 +9,7 @@ import Break from 'src/components/Break';
 import DiffMessage from 'src/components/DiffMessage';
 import Loader from 'src/components/Loader';
 import Text from 'src/components/Text';
+import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
 import { parseReaction } from 'src/types/Reaction';
@@ -111,6 +112,8 @@ const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
 type ReactionHistoryPopupProps = RouteComponentProps<{ id: string }>;
 
 const ReactionHistoryPopup: React.FC<ReactionHistoryPopupProps> = ({ match }) => {
+  useTrackPageview();
+
   const { sizes: { big } } = useTheme();
   const [{ data: reaction, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseReaction);
 

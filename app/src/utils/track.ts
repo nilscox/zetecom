@@ -8,6 +8,14 @@ declare global {
 
 export type AuthenticateFrom = 'app' | 'popup';
 
+export const trackViewIntegration = (identifier: string) => {
+  ReactGA.event({
+    category: 'Integration',
+    action: 'View',
+    label: 'View integration ' + identifier,
+  });
+};
+
 export const trackSignup = (from: AuthenticateFrom) => {
   ReactGA.event({
     category: 'Authentication',
