@@ -3,14 +3,14 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import env from 'src/utils/env';
-import ReactGA from 'src/utils/ga';
+import ReactGA from 'src/utils/google-analytics';
 
 export const useTrackPageview = (shouldTrack?: (page: string) => boolean) => {
   const location = useLocation();
   const page = [location.pathname, location.search, location.hash].join('');
 
   useEffect(() => {
-    if (env.GOOGLE_ANALYTICS_ID && shouldTrack(page))
+    if (env.GOOGLE_ANALYTICS_ID && shouldTrack?.(page))
       ReactGA.pageview(page);
   }, [page, shouldTrack]);
 };

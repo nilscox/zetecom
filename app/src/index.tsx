@@ -8,26 +8,23 @@ import { setConfig } from 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import * as Sentry from '@sentry/browser';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import 'dayjs/locale/fr';
 import queryString from 'query-string';
 import ReactModal from 'react-modal';
 
+// keep this import first, as it defines window.zetecom
+import './utils/zetecom-global';
+
+import pkg from '../package.json';
+
 import App from './App';
 import env from './utils/env';
-import ReactGA from './utils/ga';
+import ReactGA from './utils/google-analytics';
 
-import 'dayjs/locale/fr';
-import * as Sentry from '@sentry/browser';
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pkg = require('../package.json');
-
-declare global {
-  interface Window {
-    ZETECOM_APP_VERSION: string;
-  }
-}
+window.zetecom.appVersion = pkg.version;
 
 setConfig({
   reloadHooks: false,
@@ -40,7 +37,7 @@ const root = document.getElementById('app');
 
 const getApiRootUrl = () => {
   return [
-    queryString.parse(window.location.search).api_url as string,
+    queryString.parse(window.location.search).api_url as string | undefined,
     localStorage.getItem('API_URL'),
     env.API_URL,
   ].filter(u => !!u)[0];
@@ -57,12 +54,8 @@ const setup = () => {
 
   ReactModal.setAppElement(root);
 
-  if (env.NODE_ENV === 'devlopment') {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (window as any).axios = axios;
-  }
-
-  window.ZETECOM_APP_VERSION = pkg.version;
+  if (env.NODE_ENV === 'devlopment')
+    window.zetecom.axios = axios;
 };
 
 setup();

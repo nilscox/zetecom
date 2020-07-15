@@ -3,6 +3,7 @@ const env = {
   API_URL: process.env.API_URL,
   WEBSITE_URL: process.env.WEBSITE_URL,
   GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
+  CYPRESS: process.env.CYPRESS,
 };
 
 export type EnvironmentVariable = keyof typeof env;

@@ -11,6 +11,6 @@
     "moduleResolution": "node",
     "resolveJsonModule": true
   },
-  "include": ["src"],
+  "include": ["src", "package.json"],
   "exclude": ["src/__mocks__"]
 }

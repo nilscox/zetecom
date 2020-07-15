@@ -14,6 +14,7 @@ services:
     command: /start.sh --ci
     environment:
       API_URL: http://zc-api
+      CYPRESS: 'true'
 
   cypress:
     build: ./e2e
@@ -22,7 +23,7 @@ services:
     volumes:
       - ./e2e/artifacts:/artifacts
       - ./coverage:/e2e/coverage
-    entrypoint: bash -c "yarn wait-on http://zc-api/api/healthcheck && yarn test:ci && yarn nyc report --reporter=lcov"
+    entrypoint: bash -c "yarn wait-on http://zc-api/api/healthcheck && yarn cypress:run && yarn nyc report --reporter=lcov"
     environment:
       CYPRESS_API_URL: http://zc-api
       CYPRESS_RESTOREDB_URL: http://zc-restoredb

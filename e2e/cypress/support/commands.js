@@ -73,6 +73,31 @@ Cypress.Commands.add('getReactionAt', (place) => cy.getReactions().eq(place));
 
 Cypress.Commands.add('countReactions', (expected) => cy.getReactions().should('have.length', expected));
 
+Cypress.Commands.add('zetecom', () => cy.window().then(win => win.zetecom));
+
+Cypress.Commands.add('didTrack', (event) => {
+  cy.wait(500);
+
+  return cy.zetecom()
+    .then(zc => zc.mockGa.events)
+    .then((events) => {
+      const found = events.find((other) => {
+        return ['category', 'action', 'label'].every(prop => event[prop] === other[prop]);
+      });
+
+      if (!found) {
+        console.log('GA events', events);
+        console.log('expected', event);
+
+        // not working
+        // cy.log('GA events', events);
+        // cy.log('expected', event);
+      }
+
+      expect(found, 'GA event was not tracked').not.to.be.undefined;
+    });
+});
+
 Cypress.Commands.add('websiteScreenshot', (name, scroll = 1) => {
   cy.wait(500);
   cy.scrollTo(0, scroll);

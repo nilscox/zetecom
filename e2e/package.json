@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "cypress open",
-    "test:ci": "cypress run --config-file cypress.ci.json",
-    "start": "docker-compose -f ../docker-compose.yml -f docker-compose.e2e.yml",
-    "start:local": "yarn start -f ../docker-compose.override.yml up --abort-on-container-exit postgresql api restoredb app cypress",
-    "start:ci": "yarn start -f docker-compose.ci.yml up --abort-on-container-exit",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --config-file cypress.ci.json",
+    "docker-compose": "docker-compose -f ../docker-compose.yml -f docker-compose.e2e.yml",
+    "docker-compose:ci": "yarn docker-compose -f docker-compose.ci.yml",
+    "docker-compose:local": "yarn docker-compose -f ../docker-compose.override.yml",
+    "start:local": "yarn docker-compose:local up --abort-on-container-exit postgresql api restoredb app cypress",
+    "start:ci": "yarn docker-compose:ci up --abort-on-container-exit",
     "start:ci:local": "GIT_SHA=$(git rev-list HEAD | head -1) yarn start:ci"
   },
   "devDependencies": {

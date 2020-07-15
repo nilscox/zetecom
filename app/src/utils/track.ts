@@ -1,10 +1,4 @@
-import ReactGA from './ga';
-
-declare global {
-  interface Window {
-    dataLayer?: any[];
-  }
-}
+import ReactGA from './google-analytics';
 
 export type AuthenticateFrom = 'app' | 'popup';
 

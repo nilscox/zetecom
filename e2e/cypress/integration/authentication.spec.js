@@ -34,6 +34,8 @@ describe('authentication', () => {
     cy.get('button[type="submit"]').click();
     cy.contains('un email vous a été envoyé à user@domain.tld');
 
+    cy.didTrack({ category: 'Authentication', action: 'Signup', label: 'Signup from popup' });
+
     cy.visitPopup();
 
     cy.contains('User');
@@ -61,6 +63,8 @@ describe('authentication', () => {
 
     cy.contains('Combinaison email / mot de passe non valide');
 
+    cy.didTrack({ category: 'Authentication', action: 'LoginFailed', label: 'Login failed from popup' });
+
     cy.get('input[name="password"]').clear();
     cy.get('input[name="password"]').type('secure p4ssword');
 
@@ -68,6 +72,8 @@ describe('authentication', () => {
 
     cy.contains('user1');
     cy.contains('Email : user1@domain.tld');
+
+    cy.didTrack({ category: 'Authentication', action: 'Login', label: 'Login from popup' });
 
     cy.get('button').contains('Déconnexion');
     cy.visitPopup();
@@ -90,6 +96,8 @@ describe('authentication', () => {
 
     cy.get('button').contains('Déconnexion').click();
 
+    cy.didTrack({ category: 'Authentication', action: 'Logout', label: 'Logout from popup' });
+
     cy.contains('Connexion');
     cy.visitPopup();
     cy.contains('Connexion');
@@ -104,6 +112,8 @@ describe('authentication', () => {
     cy.get('button[type="submit"]').contains('Envoyer').click();
 
     cy.contains('L\'email de connexion a bien été envoyé à l\'adresse user1@domain.tld');
+
+    cy.didTrack({ category: 'Authentication', action: 'AskEmailLogin' });
   });
 
   it('change password', () => {
@@ -132,6 +142,8 @@ describe('authentication', () => {
 
     cy.contains('Votre mot de passe a bien été mis à jour !').should('be.visible');
     cy.contains('Changer de mot de passe').should('be.visible');
+
+    cy.didTrack({ category: 'Authentication', action: 'ChangePassword' });
 
     cy.contains('Déconnexion').click();
 

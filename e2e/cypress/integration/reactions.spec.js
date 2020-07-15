@@ -44,6 +44,8 @@ describe('reactions', () => {
 
       cy.contains('Aucun commentaire n\'a été publié pour le moment.');
       cy.contains('1 / 1');
+
+      cy.didTrack({ category: 'Integration', action: 'View', label: 'View integration test:news1' });
     });
 
     it('should list reactions', () => {
@@ -241,6 +243,7 @@ describe('reactions', () => {
         cy.contains('Editer').click();
         cy.get('button[type="submit"]').contains('Envoyer').click();
         cy.get('[placeholder="Composez votre message..."]').children().should('have.length', 0);
+        cy.didTrack({ category: 'Comment', action: 'Create' });
       });
 
       cy.getReaction(1).within(() => {
@@ -326,6 +329,8 @@ describe('reactions', () => {
 
         cy.contains('edited 1 text');
         cy.get('[title="Édité"]');
+
+        cy.didTrack({ category: 'Comment', action: 'Edit' });
       });
     });
 
@@ -361,6 +366,8 @@ describe('reactions', () => {
       cy.getReaction(2).within(() => {
         // add
         cy.get('[title="Approuver"]').click();
+
+        cy.didTrack({ category: 'Comment', action: 'SetReaction' });
 
         cy.get('[title="Approuver"]').contains('1');
         cy.get('[title="Approuver"]').should('have.class', 'user-quick-reaction');
@@ -458,6 +465,8 @@ describe('reactions', () => {
       cy.get('[placeholder="Précisez en quelques mots le motif du signalement si nécessaire"]').type('Contenu non pertinent');
       cy.get('button[type="button"]').contains('Signaler').click();
       cy.contains('Le commentaire a été signalée, merci pour votre contribution ! 💪');
+
+      cy.didTrack({ category: 'Comment', action: 'Report' });
 
       cy.reload();
 
