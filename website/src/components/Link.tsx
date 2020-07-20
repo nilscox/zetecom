@@ -2,10 +2,7 @@ import React from 'react';
 
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-type LinkProps = {
-  className?: string;
-  title?: string;
-  href?: string;
+type LinkProps = React.PropsWithRef<React.HTMLProps<HTMLAnchorElement>> & {
   openInNewTab?: boolean;
 };
 

@@ -1,8 +1,12 @@
 import React from 'react';
 
+import clsx from 'clsx';
+
 import { useEnvironment } from 'src/index';
 import Link from 'src/components/Link';
 import Image from 'src/components/Image';
+
+import { trackOpenExtensionDownloadLink } from '../../utils/track';
 
 import installFirefoxAddon from './install-firefox-addon.png';
 import installChromeExtension from './install-chrome-extension.png';
@@ -45,8 +49,10 @@ const DownloadExtension: React.FC<DownloadExtensionProps> = ({ staging, browser 
   return (
     <Link
       openInNewTab
-      className={`download-extension browser-${browser}`}
+      /* @ts-ignore */
+      className={clsx(`download-extension browser-${browser}`, linkProps.className)}
       title={!linkProps.href ? notAvailableMessage : undefined}
+      onClick={() => trackOpenExtensionDownloadLink(browser, staging)}
       {...linkProps}
     >
       <Image {...imageProps} />

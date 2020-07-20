@@ -7,6 +7,7 @@ import SubTitle from 'src/components/SubTitle';
 import Link from 'src/components/Link';
 import { useEnvironment } from 'src/index';
 
+import { trackOpenRepositoryLink } from '../../utils/track';
 import './FAQ.scss';
 
 type QuestionProps = {
@@ -93,7 +94,7 @@ const FAQ: React.FC = () => {
 
       <Question question="Peut-on participer au projet ?">
         Que ce soit pour donner vos impressions, proposer des axes d'amélioration, ou même plus généralement réfléchir au concept de Zétécom et imaginer ce que l'on peut construire ensemble, vous êtes chaleureusement invité.e à <Link href="#contact">nous envoyer un petit message</Link>.
-        Et si vous êtes développeu.r.se et que le projet vous intéresse techniquement, les source sont disponibles sur <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>github</Link>.
+        Et si vous êtes développeu.r.se et que le projet vous intéresse techniquement, les source sont disponibles sur <Link openInNewTab href={useEnvironment('REPOSITORY_URL')} onClick={() => trackOpenRepositoryLink('faq')}>github</Link>.
       </Question>
 
       <Question question="Votre question ne figure pas dans cette liste... ?">

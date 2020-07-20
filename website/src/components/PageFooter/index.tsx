@@ -6,6 +6,7 @@ import { useEnvironment } from 'src/index';
 import logoFacebook from './facebook-logo.png';
 import logoTwitter from './twitter-logo.png';
 
+import { trackOpenFeatureUpvoteLink, trackOpenRepositoryLink } from '../../utils/track';
 import './PageFooter.scss';
 
 const PageFooter: React.FC = () => (
@@ -36,12 +37,12 @@ const PageFooter: React.FC = () => (
         Powered by <Link openInNewTab href="https://reactjs.org/">React</Link> and <Link openInNewTab href="https://nestjs.com/">Nest</Link> 😍
       </div>
       <div>
-        An <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>open source</Link> project.
+        An <Link openInNewTab href={useEnvironment('REPOSITORY_URL')} onClick={() => trackOpenRepositoryLink('footer')}>open source</Link> project.
       </div>
     </div>
 
     <div className="footer-item join-us">
-      Vous souhaitez participer à la conception de <em>Zétécom</em> ? L'équipe qui met en place le projet est <Link href="/faq.html#contact">à l'écoute</Link> de vos retours pour améliorer l'extension, le site, ou même la charte. Tant sur les fonctionnalités que sur la forme, n'hésitez pas à partager vos avis et vos idées sur <Link openInNewTab href="https://zetecom.featureupvote.com/">featureupvote.com</Link> !
+      Vous souhaitez participer à la conception de <em>Zétécom</em> ? L'équipe qui met en place le projet est <Link href="/faq.html#contact">à l'écoute</Link> de vos retours pour améliorer l'extension, le site, ou même la charte. Tant sur les fonctionnalités que sur la forme, n'hésitez pas à partager vos avis et vos idées sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>featureupvote.com</Link> !
     </div>
 
   </div>
