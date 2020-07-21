@@ -32,7 +32,7 @@ describe('authentication', () => {
     cy.contains('J\'accepte la charte.').closest('label').children().eq(0).click();
     cy.contains('J\'accepte la charte.').closest('label').children().eq(0).click();
     cy.get('button[type="submit"]').click();
-    cy.contains('un email vous a été envoyé à user@domain.tld');
+    cy.contains('Bienvenue');
 
     cy.didTrack({ category: 'Authentication', action: 'Signup', label: 'Signup from popup' });
 
