@@ -10,9 +10,10 @@ replace_vars_in_manifest() {
   manifest="$1"
 
   if [ "$environment" == 'staging' ]; then
-    sed -i $'s/"name": "Zétécom"/"name": "Zétécom (staging)"/' $manifest
+    sed -i 's/"name": ".*"/"name": "Zétécom (staging)"/' $manifest
     sed -i "s/__EXTENSION_ID__/$extension_id_staging/" $manifest
   elif [ "$environment" == 'production' ]; then
+    sed -i 's/"name": ".*"/"name": "Zétécom"/' $manifest
     sed -i "s/__EXTENSION_ID__/$extension_id_production/" $manifest
   fi
 }
@@ -21,9 +22,14 @@ sources_zip_filename="zetecom-extension-$environment-sources-$(package_version .
 zip_filename="zetecom-extension-$environment-$(package_version ./package.json).zip"
 
 create_source_archive() {
-  echo APP_URL="$APP_URL" > .env
-  replace_vars_in_manifest manifest.json
-  zip_directory "./$sources_zip_filename" .
+  tmp_dir=$(mktemp -d)
+  tmp_extension_dir="$tmp_dir/extension"
+
+  git clone .. "$tmp_dir"
+
+  echo APP_URL="$APP_URL" > "$tmp_extension_dir/.env"
+  replace_vars_in_manifest "$tmp_extension_dir/manifest.json"
+  zip_directory "./$sources_zip_filename" "$tmp_extension_dir"
 }
 
 build_extension_from_sources() {
