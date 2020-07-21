@@ -19,7 +19,10 @@ const useSignup = (onAuthenticated: (user: User) => void) => {
 
   useEffect(() => {
     if (status(201)) {
-      toast.success(`Pour finaliser votre inscription, un email vous a été envoyé à ${user.email}`);
+      if (user.requiresEmailValidation)
+        toast.success(`Pour finaliser votre inscription, un email vous a été envoyé à ${user.email}`);
+      else
+        toast.success('Bienvenue ! 🎉');
       onAuthenticated(user);
       trackSignup(/popup/.exec(location.pathname) ? 'popup' : 'app');
     }

@@ -6,6 +6,7 @@ export type UserLight = {
 
 export type User = UserLight & {
   email: string;
+  requiresEmailValidation?: boolean;
   created: Date;
   updated: Date;
 };

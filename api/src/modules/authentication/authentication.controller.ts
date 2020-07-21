@@ -10,6 +10,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { plainToClass } from 'class-transformer';
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
@@ -24,6 +25,7 @@ import { ChangePasswordInDto } from './dtos/change-password-in-dto';
 import { EmailLoginInDto } from './dtos/email-login-in.dto';
 import { LoginUserInDto } from './dtos/login-user-in.dto';
 import { SignupUserInDto } from './dtos/signup-user-in.dto';
+import { SignupUserOutDto } from './dtos/signup-user-out.dto';
 
 type SessionType = {
   userId?: number;
@@ -40,13 +42,16 @@ export class AuthenticationController {
 
   @Post('/signup')
   @UseGuards(IsNotAuthenticated)
-  async signup(@Body() signupUserDto: SignupUserInDto, @Session() session: SessionType): Promise<User> {
+  async signup(@Body() signupUserDto: SignupUserInDto, @Session() session: SessionType): Promise<SignupUserOutDto> {
     const user = await this.authService.signup(signupUserDto);
 
     if (user.emailValidated)
       session.userId = user.id;
 
-    return user;
+    return plainToClass(SignupUserOutDto, {
+      ...user,
+      requiresEmailValidation: !user.emailValidated,
+    });
   }
 
   @Post('/email-validation/:token')

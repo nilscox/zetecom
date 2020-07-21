@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Fixed
+
+- Don't set the user requiring email validation
+
 ### Removed
 
 - Remove tracking when the extension is not active
