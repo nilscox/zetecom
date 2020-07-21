@@ -5,7 +5,7 @@ export type AuthenticateFrom = 'app' | 'popup';
 export const trackViewIntegration = (identifier: string) => {
   ReactGA.event({
     category: 'Integration',
-    action: 'View',
+    action: 'ViewIntegration',
     label: 'View integration ' + identifier,
   });
 };

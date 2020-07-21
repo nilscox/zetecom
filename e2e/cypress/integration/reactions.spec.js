@@ -45,7 +45,7 @@ describe('reactions', () => {
       cy.contains('Aucun commentaire n\'a été publié pour le moment.');
       cy.contains('1 / 1');
 
-      cy.didTrack({ category: 'Integration', action: 'View', label: 'View integration test:news1' });
+      cy.didTrack({ category: 'Integration', action: 'ViewIntegration', label: 'View integration test:news1' });
     });
 
     it('should list reactions', () => {
