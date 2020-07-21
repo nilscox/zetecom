@@ -38,7 +38,6 @@ const root = document.getElementById('app');
 const getApiRootUrl = () => {
   return [
     queryString.parse(window.location.search).api_url as string | undefined,
-    localStorage.getItem('API_URL'),
     env.API_URL,
   ].filter(u => !!u)[0];
 };
