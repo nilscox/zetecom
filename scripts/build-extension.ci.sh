@@ -1,8 +1,5 @@
 #!/bin/bash
 
-extension_id_staging='{e84db867-422d-4f5b-ab2a-8ea81ca80e9d}'
-extension_id_production='{f61fdab5-2cd8-4a50-cafe-ea16642b2fa3}'
-
 source $(dirname "$0")/functions.sh
 environment=$1
 
@@ -10,12 +7,28 @@ replace_vars_in_manifest() {
   manifest="$1"
 
   if [ "$environment" == 'staging' ]; then
-    sed -i 's/"name": ".*"/"name": "Zétécom (staging)"/' $manifest
-    sed -i "s/__EXTENSION_ID__/$extension_id_staging/" $manifest
+    app_name='Zétécom (staging)'
+    app_url='https://app-staging.zetecom.fr'
+    extension_id='{e84db867-422d-4f5b-ab2a-8ea81ca80e9d}'
+    extension_update_url='https://staging.zetecom/updates.json'
   elif [ "$environment" == 'production' ]; then
-    sed -i 's/"name": ".*"/"name": "Zétécom"/' $manifest
-    sed -i "s/__EXTENSION_ID__/$extension_id_production/" $manifest
+    app_name='Zétécom'
+    app_url='https://app.zetecom.fr'
+    extension_id='{f61fdab5-2cd8-4a50-cafe-ea16642b2fa3}'
   fi
+
+  node -e "
+    const fs = require('fs');
+    const manifest = require('$manifest');
+
+    manifest.name = '$app_name';
+    manifest.browser_specific_settings.gecko.id = '$extension_id';
+
+    if ('$extension_update_url' !== '')
+      manifest.browser_specific_settings.gecko.update_url = '$extension_update_url';
+
+    fs.writeFileSync('$manifest', JSON.stringify(manifest, null, 2));
+  "
 }
 
 sources_zip_filename="zetecom-extension-$environment-sources-$(package_version ./package.json).zip"
@@ -27,9 +40,11 @@ create_source_archive() {
 
   git clone .. "$tmp_dir"
 
-  echo APP_URL="$APP_URL" > "$tmp_extension_dir/.env"
   replace_vars_in_manifest "$tmp_extension_dir/manifest.json"
+  echo APP_URL="$app_url" > "$tmp_extension_dir/.env"
   zip_directory "./$sources_zip_filename" "$tmp_extension_dir"
+
+  rm -rf "$tmp_dir"
 }
 
 build_extension_from_sources() {
@@ -46,10 +61,6 @@ build_extension_from_sources() {
 main() {
   if [ "$environment" != 'staging' ] && [ "$environment" != 'production' ]; then
     err "usage: build-extension.ci.sh [staging|production]"
-  fi
-
-  if [ -z "$APP_URL" ]; then
-    err "Environment variable APP_URL is not set"
   fi
 
   echo "Build extension in environment: $environment"

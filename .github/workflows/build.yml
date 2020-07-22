@@ -8,6 +8,8 @@ env:
 
 jobs:
 
+  # build
+
   api:
     name: build api
     runs-on: ubuntu-latest
@@ -34,35 +36,29 @@ jobs:
         image_tag: ${{ github.sha }}
         context: ./app
 
-  extension-staging:
-    name: build extension staging
+  extension:
+    name: build extension
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
     - uses: actions/checkout@v1
-    - run: yarn zip staging
+    - run: if [ '${{ github.ref }}' = 'refs/heads/master' ]; then echo "::set-env name=environment::production"; fi
+    - run: if [ '${{ github.ref }}' = 'refs/heads/dev' ]; then echo "::set-env name=environment::staging"; fi
+    - run: echo "::set-env name=extension_version::$(node -e $'console.log(require(\'./extension/package.json\').version)')"
+    - run: yarn zip "$environment"
       working-directory: ./extension
-      env:
-        APP_URL: ${{ secrets.APP_URL_STAGING }}
+    - run: echo "::set-env name=extension_zip::zetecom-extension-${{ env.environment }}-${{ env.extension_version }}"
+    - run: mkdir -p artifacts/build && cd artifacts/build && unzip "../../extension/$extension_zip"
     - uses: actions/upload-artifact@v2
       with:
-        name: extension
-        path: extension/*.zip
-
-  extension-production:
-    name: build extension production
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    steps:
-    - uses: actions/checkout@v1
-    - run: yarn zip production
-      working-directory: ./extension
-      env:
-        APP_URL: ${{ secrets.APP_URL_PRODUCTION }}
+        name: ${{ env.extension_zip }}
+        path: artifacts/build
+    - run: echo "::set-env name=extension_sources_zip::zetecom-extension-${{ env.environment }}-sources-${{ env.extension_version }}"
+    - run: mkdir -p artifacts/sources && cd artifacts/sources && unzip "../../extension/$extension_sources_zip"
     - uses: actions/upload-artifact@v2
       with:
-        name: extension
-        path: extension/*.zip
+        name: ${{ env.extension_sources_zip }}
+        path: artifacts/sources
 
   website:
     name: build website
@@ -71,6 +67,8 @@ jobs:
     - uses: actions/checkout@v1
     - run: docker build .
       working-directory: ./website
+
+  # e2e
 
   api-e2e:
     name: api end-to-end tests
@@ -104,46 +102,28 @@ jobs:
         name: cypress-outputs
         path: e2e/artifacts
 
-  publish-api-staging:
-    name: publish api docker image staging
+  # publish
+
+  publish-api:
+    name: publish api docker image
     runs-on: ubuntu-latest
-    needs: [api, api-e2e, e2e]
-    if: github.ref == 'refs/heads/dev'
+    needs: [api-e2e, e2e]
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
+      - run: ref=${{ github.ref }}; echo "::set-env name=tag::${ref#refs/heads/}"
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - run: docker pull $API_IMAGE:${{ github.sha }}
-      - run: docker tag $API_IMAGE:${{ github.sha }} $API_IMAGE:dev
-      - run: docker push $API_IMAGE:dev
+      - run: docker tag $API_IMAGE:${{ github.sha }} "$API_IMAGE:$tag"
+      - run: docker push "$API_IMAGE:$tag"
 
-  publish-api-production:
-    name: publish api docker image production
+  publish-app:
+    name: publish app docker image
     runs-on: ubuntu-latest
-    needs: [api, api-e2e, e2e]
-    if: github.ref == 'refs/heads/master'
+    needs: [e2e]
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
-      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker pull $API_IMAGE:${{ github.sha }}
-      - run: docker tag $API_IMAGE:${{ github.sha }} $API_IMAGE:master
-      - run: docker push $API_IMAGE:master
-
-  publish-app-staging:
-    name: publish app docker image staging
-    runs-on: ubuntu-latest
-    needs: [app, e2e]
-    if: github.ref == 'refs/heads/dev'
-    steps:
+      - run: ref=${{ github.ref }}; echo "::set-env name=tag::${ref#refs/heads/}"
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - run: docker pull $APP_IMAGE:${{ github.sha }}
-      - run: docker tag $APP_IMAGE:${{ github.sha }} $APP_IMAGE:dev
-      - run: docker push $APP_IMAGE:dev
-
-  publish-app-production:
-    name: publish app docker image production
-    runs-on: ubuntu-latest
-    needs: [app, e2e]
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker pull $APP_IMAGE:${{ github.sha }}
-      - run: docker tag $APP_IMAGE:${{ github.sha }} $APP_IMAGE:master
-      - run: docker push $APP_IMAGE:master
+      - run: docker tag $APP_IMAGE:${{ github.sha }} "$APP_IMAGE:$tag"
+      - run: docker push "$APP_IMAGE:$tag"
