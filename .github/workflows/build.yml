@@ -90,6 +90,8 @@ jobs:
     needs: [api, app, website]
     steps:
     - uses: actions/checkout@v1
+    - run: yarn
+      working-directory: ./e2e
     - run: yarn start:ci
       working-directory: ./e2e
       env:
