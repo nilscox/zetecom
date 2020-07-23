@@ -7,32 +7,16 @@ respect a set of rules to ensure constructive debates.
 
 To build this extension, make sure to have these tools installed in your system:
 
-- node 12.16.3
-- yarn 1.22.4
+- node 12
+- yarn 1
 
-> Note: this build process was only tested on archlinux, but should work with any linux distribution.
+> Note: other node versions should work too
 
-First, install the dependencies with `yarn`.
+Install the dependencies with `yarn install`, then build it with `yarn build`.
 
 ```sh
 42sh$ yarn install
-```
-
-Then, copy the `.env.example` file, and replace the variables values with the ones corresponding to the target extension
-version (staging or production).
-
-> Note: the source archive provided to the mozilla addon review team already includes the correct .env file
-
-```sh
-42sh$ cp .env.example .env
-42sh$ $EDITOR .env
-```
-
-The extension is now ready to be built using webpack.
-
-```sh
 42sh$ NODE_ENV=production yarn build
 ```
 
-This will produce a `dist` folder containing all the extension's files (the root folder of the extension, containing a
-copy of the `manifest.json`).
+This will produce a `dist` folder containing the extension's build output.
