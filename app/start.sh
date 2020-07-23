@@ -2,7 +2,7 @@
 
 root='/var/www/zc-app'
 
-if [ "$1" == "--ci" ]; then
+if [ "$CYPRESS" == "true" ]; then
   root='/var/www/zc-app_instrumented'
 fi
 

@@ -11,21 +11,7 @@ services:
       DB_MIGRATIONS_DIR: ./migrations/*.ts
 
   app:
-    command: /start.sh --ci
+    command: /start.sh
     environment:
-      API_URL: http://zc-api
+      API_URL: http://localhost:3000
       CYPRESS: 'true'
-
-  cypress:
-    build: ./e2e
-    container_name: zc-cypress
-    hostname: zc-cypress
-    volumes:
-      - ./e2e/artifacts:/artifacts
-      - ./coverage:/e2e/coverage
-    entrypoint: bash -c "yarn wait-on http://zc-api/api/healthcheck && yarn cypress:run && yarn nyc report --reporter=lcov"
-    environment:
-      CYPRESS_API_URL: http://zc-api
-      CYPRESS_RESTOREDB_URL: http://zc-restoredb
-      CYPRESS_APP_URL: http://zc-app
-      CYPRESS_WEBSITE_URL: http://zc-website

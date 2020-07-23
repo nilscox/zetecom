@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run --config-file cypress.ci.json",
+    "wait:api": "yarn wait-on http://localhost:3000/api/healthcheck",
     "docker-compose": "docker-compose -f ../docker-compose.yml -f docker-compose.e2e.yml",
     "docker-compose:ci": "yarn docker-compose -f docker-compose.ci.yml",
     "docker-compose:local": "yarn docker-compose -f ../docker-compose.override.yml",
-    "start:local": "yarn docker-compose:local up --abort-on-container-exit postgresql api restoredb app cypress",
-    "start:ci": "yarn docker-compose:ci up --abort-on-container-exit",
-    "start:ci:local": "GIT_SHA=$(git rev-list HEAD | head -1) yarn start:ci"
+    "start": "yarn docker-compose:local up -d && yarn wait:api && yarn cypress open",
+    "start:ci:local": "GIT_SHA=$(git rev-list HEAD | head -1) yarn start:ci",
+    "start:ci": "yarn docker-compose:ci up -d && yarn wait:api && yarn cypress run && yarn nyc report --reporter=lcov"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.7.6",
+    "cypress": "^4.11.0",
     "nyc": "^15.1.0",
     "wait-on": "^5.0.0"
   }

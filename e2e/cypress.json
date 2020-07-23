@@ -1,8 +1,7 @@
 {
   "viewportWidth": 1920,
   "viewportHeight": 1080,
-  "screenshotsFolder": "artifacts/screenshots",
-  "videosFolder": "artifacts/videos",
+  "video": false,
   "blacklistHosts": [
     "*google-analytics.com",
     "*googletagmanager.com",
