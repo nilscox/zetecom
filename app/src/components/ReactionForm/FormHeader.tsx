@@ -36,7 +36,6 @@ const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
   const classes = useStyles();
   const user = useCurrentUser();
 
-  // TODO: this check should not be done here
   if (!user)
     return null;
 

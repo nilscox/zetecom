@@ -48,7 +48,6 @@ const InformationOverview: React.FC<InformationOverviewProps> = ({ information, 
   return (
     <Grid container>
 
-      {/* TODO: default image */}
       <img className={classes.image} src={information.imageUrl || defaultInfo} />
 
       <Grid item className={classes.text}>
