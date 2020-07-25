@@ -1,5 +1,7 @@
 import React, { useCallback } from 'react';
 
+import { toast } from 'react-toastify';
+
 type ImageUploadProps = {
   allowedTypes: string[];
   onUpload: (file: File) => void;
@@ -15,9 +17,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ allowedTypes, onUpload, child
     if (files.length === 0)
       return;
 
-    // TODO: warning message
-    if (!allowedTypes.includes(files[0].type.split('/')[1]))
+    if (!allowedTypes.includes(files[0].type.split('/')[1])) {
+      toast.warn('Type de fichier non valide.');
       return;
+    }
 
     onUpload(files[0]);
   }, [allowedTypes, onUpload]);

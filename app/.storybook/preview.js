@@ -8,6 +8,8 @@ import { muiTheme } from 'storybook-addon-material-ui';
 import { UserContext } from 'src/contexts/UserContext';
 import createTheme from 'src/theme/createTheme';
 import { parseUser } from 'src/types/User';
+import 'src/utils/zetecom-global';
+
 import '../src/App.css';
 
 const mockUser = parseUser({

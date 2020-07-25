@@ -6,7 +6,7 @@ import ToastContainer from './index';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 
-import { text } from '@storybook/addon-knobs';
+import { select, text } from '@storybook/addon-knobs';
 
 export default {
   title: 'Toast',
@@ -22,6 +22,7 @@ export default {
 
 export const toastStory = () => {
   const message = text('message', 'Hello !');
+  const type = select('type', ['success', 'warning', 'error'], 'success');
 
-  return <button onClick={() => toast.success(message)}>Trigger a toast</button>;
+  return <button onClick={() => toast[type](message)}>Trigger a toast</button>;
 };

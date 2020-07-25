@@ -32,6 +32,8 @@ const createTheme = (): Theme => {
       textWarning: { main: '#ab6565' },
       background: { default: 'white' },
       success: { main: '#81c784', light: '#a4d7a6' },
+      warning: { main: '#decb81', light: '#e0d194' },
+      error: { main: '#de8c5d', light: '#e3ae8f' },
     },
 
     typography: {
