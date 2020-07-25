@@ -32,9 +32,7 @@ const useQuickReactions = (
 ) => {
   const user = useCurrentUser();
   const [updatedQuickReaction, setUpdatedQuickReaction] = useState<QuickReactionType | null>();
-  const userQuickReaction = typeof updatedQuickReaction !== 'undefined'
-    ? updatedQuickReaction
-    : originalUserQuickReaction;
+  const userQuickReaction = user && (updatedQuickReaction || originalUserQuickReaction);
 
   const opts: AxiosRequestConfig = {
     method: 'POST',
@@ -89,7 +87,7 @@ const useQuickReactions = (
     if (type === userQuickReaction)
       props.userQuickReaction = true;
 
-    if (user && user.id !== authorId)
+    if (user?.id !== authorId)
       props.onClick = () => updateUserQuickReaction(type === userQuickReaction ? null : type);
 
     if (typeof updatedQuickReaction !== 'undefined') {
