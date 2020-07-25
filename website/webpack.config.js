@@ -132,6 +132,12 @@ module.exports = {
           if (target.match(/^static\/favicon/))
             return target.replace(/^static\/favicon/, '');
 
+          if (target.match(/^static\/extension/))
+            return target.replace(/^static\/extension/, 'extension');
+
+          if (target.match(/^static\/updates\.json/))
+            return target.replace(/^static\//, '');
+
           return target.replace(/^static/, 'assets');
         },
       },
