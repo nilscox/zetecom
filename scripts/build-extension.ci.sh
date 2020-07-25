@@ -10,7 +10,7 @@ replace_vars_in_manifest() {
     app_name='Zétécom (staging)'
     app_url='https://app-staging.zetecom.fr'
     extension_id='{e84db867-422d-4f5b-ab2a-8ea81ca80e9d}'
-    extension_update_url='https://staging.zetecom/updates.json'
+    extension_update_url='https://staging.zetecom.fr/updates.json'
   elif [ "$environment" == 'production' ]; then
     app_name='Zétécom'
     app_url='https://app.zetecom.fr'
