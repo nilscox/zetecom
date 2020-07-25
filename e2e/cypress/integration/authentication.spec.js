@@ -111,7 +111,7 @@ describe('authentication', () => {
     cy.get('input[name="email"]').type('user1@domain.tld');
     cy.get('button[type="submit"]').contains('Envoyer').click();
 
-    cy.contains('L\'email de connexion a bien été envoyé à l\'adresse user1@domain.tld');
+    cy.contains('Si un compte est associé à l\'adresse user1@domain.tld, l\'email de connexion a bien été envoyé.');
 
     cy.didTrack({ category: 'Authentication', action: 'AskEmailLogin' });
   });
