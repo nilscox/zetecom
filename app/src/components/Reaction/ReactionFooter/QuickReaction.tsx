@@ -10,7 +10,7 @@ type StylesProps = {
   userQuickReaction?: boolean;
 }
 
-const useStyles = makeStyles(({ breakpoints, spacing, palette: { selected } }) => ({
+const useStyles = makeStyles(({ breakpoints, spacing, palette: { selected, text } }) => ({
   button: ({ userQuickReaction }: StylesProps) => ({
     padding: spacing(1, 2),
     fontWeight: 'normal',
@@ -22,6 +22,12 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette: { selected } }) =
       padding: spacing(0.5, 1),
     },
   }),
+  buttonRoot: {
+    '&$disabled': {
+      color: text.secondary,
+    },
+  },
+  disabled: {},
   image: {
     width: spacing(6),
     height: spacing(6),
@@ -67,6 +73,7 @@ const QuickReaction: React.FC<QuickReactionProps> = ({ icon, count, type, userQu
         userQuickReaction && 'user-quick-reaction',
         classes.button,
       )}
+      classes={{ root: classes.buttonRoot, disabled: classes.disabled }}
       onClick={() => onClick && onClick()}
     >
 
