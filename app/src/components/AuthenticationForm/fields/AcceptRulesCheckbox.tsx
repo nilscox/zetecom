@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
   },
   warning: {
-    color: theme.palette.warning.dark,
+    color: theme.palette.textWarning.main,
   },
 }));
 
