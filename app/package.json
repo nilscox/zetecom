@@ -3,7 +3,7 @@
   "description": "Zétecom - app",
   "version": "0.4.4",
   "license": "GPL-3.0-only",
-  "author": "nilscox <contact@zetecom.fr>",
+  "author": "nilscox <nils@zetecom.fr>",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",

@@ -3,7 +3,7 @@
   "description": "Zétécom - API",
   "version": "0.4.2",
   "license": "GPL-3.0-only",
-  "author": "nilscox <contact@zetecom.fr>",
+  "author": "nilscox <nils@zetecom.fr>",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && cp -r src/modules/email/templates dist/src/modules/email",
     "format": "prettier --write \"src/**/*.ts\"",
