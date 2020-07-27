@@ -1,16 +1,16 @@
-import { parseReaction, Reaction } from './Reaction';
+import { parseComment, Comment } from './Comment';
 
-export type ReactionSubscription = {
+export type CommentSubscription = {
   id: number;
   created: Date;
-  reaction: Reaction;
+  comment: Comment;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseReactionSubscription = (data: any): ReactionSubscription => {
+export const parseCommentSubscription = (data: any): CommentSubscription => {
   return {
     ...data,
     date: new Date(data.date),
-    reaction: parseReaction(data.reaction),
+    comment: parseComment(data.comment),
   };
 };

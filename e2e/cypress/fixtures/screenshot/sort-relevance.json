@@ -21,11 +21,11 @@
       "creator": "nilscox",
       "subjects": [],
 
-      "reactions": [
+      "comments": [
 
         {
           "author": "Wei Dai",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
@@ -35,7 +35,7 @@
 
         {
           "author": "Satoshi Nakamoto",
-          "quickReactions": {
+          "quickComments": {
             "approve": ["user03", "user04", "user05", "user06"],
             "refute": ["user07"],
             "skeptic": ["user08", "user09"]
@@ -45,7 +45,7 @@
 
             {
               "author": "Wei Dai",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -55,7 +55,7 @@
 
             {
               "author": "Wei Dai",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -65,7 +65,7 @@
 
             {
               "author": "Wei Dai",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -75,7 +75,7 @@
 
             {
               "author": "Wei Dai",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -85,7 +85,7 @@
 
             {
               "author": "Wei Dai",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -95,7 +95,7 @@
 
             {
               "author": "Wei Dai",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []

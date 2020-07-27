@@ -15,11 +15,11 @@
       "creator": "nilscox",
       "subjects": [],
 
-      "reactions": [
+      "comments": [
 
         {
           "author": "KimWex",
-          "quickReactions": {
+          "quickComments": {
             "approve": ["Jimmy", "De Guzman"],
             "refute": [],
             "skeptic": []
@@ -29,7 +29,7 @@
 
             {
               "author": "Jimmy",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": ["KimWex"]
@@ -39,7 +39,7 @@
 
                 {
                   "author": "KimWex",
-                  "quickReactions": {
+                  "quickComments": {
                     "approve": [],
                     "refute": [],
                     "skeptic": []
@@ -52,7 +52,7 @@
 
             {
               "author": "De Guzman",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []

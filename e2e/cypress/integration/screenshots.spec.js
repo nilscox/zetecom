@@ -11,7 +11,7 @@ describe.skip('website screenshots', () => {
 
     cy.get('input[name="search"]').type('NoFakeScience');
 
-    cy.getReaction(1).contains('nofakescience');
+    cy.getComment(1).contains('nofakescience');
 
     cy.websiteScreenshot('search');
   });
@@ -22,8 +22,8 @@ describe.skip('website screenshots', () => {
 
     cy.visitIntegration('https://news.fake/article/1');
 
-    cy.getReaction(1).contains('2 réponses').click();
-    cy.getReaction(2).contains('1 réponse').click();
+    cy.getComment(1).contains('2 réponses').click();
+    cy.getComment(2).contains('1 réponse').click();
 
     cy.websiteScreenshot('nested-replies', 380);
   });
@@ -44,8 +44,8 @@ describe.skip('website screenshots', () => {
 
     cy.visitIntegration('https://news.fake/article/1');
 
-    cy.getReaction(2).contains('1 réponse').click();
-    cy.getReaction(2).within(() => cy.get('[title="S\'abonner"]').click());
+    cy.getComment(2).contains('1 réponse').click();
+    cy.getComment(2).within(() => cy.get('[title="S\'abonner"]').click());
 
     cy.websiteScreenshot('subscription', 260);
   });
@@ -57,7 +57,7 @@ describe.skip('website screenshots', () => {
 
     cy.visitIntegration('https://news.fake/article/1');
 
-    cy.getReaction(2).contains('1 réponse').click();
+    cy.getComment(2).contains('1 réponse').click();
 
     cy.websiteScreenshot('format', 393);
   });

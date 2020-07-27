@@ -21,11 +21,11 @@
       "creator": "nilscox",
       "subjects": [],
 
-      "reactions": [
+      "comments": [
 
         {
           "author": "Eddie Pulaski",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
@@ -35,7 +35,7 @@
 
         {
           "author": "Frank Tenpenny",
-          "quickReactions": {
+          "quickComments": {
             "approve": ["user04", "user05", "user06"],
             "refute": [],
             "skeptic": ["user07"]
@@ -45,7 +45,7 @@
 
             {
               "author": "Carl",
-              "quickReactions": {
+              "quickComments": {
                 "approve": ["user04"],
                 "refute": [],
                 "skeptic": []

@@ -5,7 +5,7 @@
       "subscription": {
         "created": "2020-01-14T18:32:21.502Z",
         "id": 1,
-        "reaction": {
+        "comment": {
           "author": {
             "avatar": null,
             "id": 1,
@@ -16,11 +16,11 @@
           "id": 1,
           "information": {
             "id": 1,
-            "reactionsCount": 2,
+            "commentsCount": 2,
             "title": "FAKE new",
             "url": "https://fake.news"
           },
-          "quickReactionsCount": {
+          "reactionsCount": {
             "approve": 0,
             "refute": 0,
             "skeptic": 0
@@ -28,7 +28,7 @@
           "repliesCount": 1,
           "subscribed": true,
           "text": "Hello world!",
-          "userQuickReaction": null
+          "userReaction": null
         }
       },
       "created": "2020-01-14T18:32:21.502Z",

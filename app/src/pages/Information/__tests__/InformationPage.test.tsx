@@ -25,7 +25,7 @@ const mockInformation: any = {
     nick: 'nick',
     avatar: null,
   },
-  reactionsCount: 0,
+  commentsCount: 0,
 };
 
 const UserProvider = UserContext.Provider;
@@ -44,7 +44,7 @@ describe.skip('InformationPage', () => {
     });
 
     it('should display information title', async () => {
-      history.push('/information/1/reactions');
+      history.push('/information/1/comments');
 
       const { getByText } = render(
         <Router history={history}>
@@ -63,7 +63,7 @@ describe.skip('InformationPage', () => {
     });
 
     it('should set notification as seen and refetch notifications count', async () => {
-      history.push('/information/1/reactions', { notificationId: 1 });
+      history.push('/information/1/comments', { notificationId: 1 });
 
       render(
         <Router history={history}>

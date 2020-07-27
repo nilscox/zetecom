@@ -13,27 +13,27 @@
       "url": "https://info.url",
       "identifier": "test:news1",
       "creator": "user1",
-      "reactions": [
+      "comments": [
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 1 text, score = 3",
+          "text": "comment 1 text, score = 3",
           "history": [],
           "replies": [
 
             {
               "author": "user2",
-              "quickReactions": {
+              "quickComments": {
                 "approve": ["user3"],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.1 text, score = 1",
+              "text": "comment 1.1 text, score = 1",
               "history": [],
               "replies": []
             }
@@ -43,34 +43,34 @@
 
         {
           "author": "user2",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 2 text, score = 4",
+          "text": "comment 2 text, score = 4",
           "history": [],
           "replies": [
 
             {
               "author": "user2",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 2.1 text, score = 0",
+              "text": "comment 2.1 text, score = 0",
               "history": [],
               "replies": []
             },
             {
               "author": "user3",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 2.2 text, score = 0",
+              "text": "comment 2.2 text, score = 0",
               "history": [],
               "replies": []
             }
@@ -80,24 +80,24 @@
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": ["user2", "user3"],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 3 text, score = 2",
+          "text": "comment 3 text, score = 2",
           "history": [],
           "replies": []
         },
 
         {
           "author": "user3",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 4 text, score = 0",
+          "text": "comment 4 text, score = 0",
           "history": [],
           "replies": []
         }

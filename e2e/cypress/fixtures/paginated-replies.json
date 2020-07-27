@@ -11,146 +11,146 @@
       "url": "https://info.url",
       "identifier": "test:news1",
       "creator": "user1",
-      "reactions": [
+      "comments": [
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 1 text",
+          "text": "comment 1 text",
           "history": [],
           "replies": [
 
             {
               "author": "user1",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.1 text",
+              "text": "comment 1.1 text",
               "history": [],
               "replies": []
             },
 
             {
               "author": "user1",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.2 text",
+              "text": "comment 1.2 text",
               "history": [],
               "replies": []
             },
 
             {
               "author": "user1",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.3 text",
+              "text": "comment 1.3 text",
               "history": [],
               "replies": []
             },
 
             {
               "author": "user1",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.4 text",
+              "text": "comment 1.4 text",
               "history": [],
               "replies": []
             },
 
             {
               "author": "user1",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1 text",
+              "text": "comment 1 text",
               "history": [],
               "replies": []
             },
             {
               "author": "user1",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.5 text",
-              "history": [],
-              "replies": []
-            },
-
-            {
-              "author": "user1",
-              "quickReactions": {
-                "approve": [],
-                "refute": [],
-                "skeptic": []
-              },
-              "text": "reaction 1.6 text",
+              "text": "comment 1.5 text",
               "history": [],
               "replies": []
             },
 
             {
               "author": "user1",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.7 text",
+              "text": "comment 1.6 text",
               "history": [],
               "replies": []
             },
 
             {
               "author": "user1",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.8 text",
+              "text": "comment 1.7 text",
               "history": [],
               "replies": []
             },
 
             {
               "author": "user1",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.9 text",
+              "text": "comment 1.8 text",
               "history": [],
               "replies": []
             },
 
             {
               "author": "user1",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
               },
-              "text": "reaction 1.10 text",
+              "text": "comment 1.9 text",
+              "history": [],
+              "replies": []
+            },
+
+            {
+              "author": "user1",
+              "quickComments": {
+                "approve": [],
+                "refute": [],
+                "skeptic": []
+              },
+              "text": "comment 1.10 text",
               "history": [],
               "replies": []
             }

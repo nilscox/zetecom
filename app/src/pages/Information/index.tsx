@@ -11,7 +11,7 @@ import AsyncContent from '../../components/AsyncContent';
 import InformationOverview from '../../components/InformationOverview';
 import { Link } from '../../components/Link';
 import Padding from '../../components/Padding';
-import ReactionsZone from '../integration/ReactionsZone';
+import CommentsZone from '../integration/CommentsZone';
 
 const useFetchInformation = (id: number) => {
   return useAxios<Information>(`/api/information/${id}`, parseInformation);
@@ -39,7 +39,7 @@ const InformationPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match 
                 />
               </Padding>
 
-              <ReactionsZone />
+              <CommentsZone />
 
             </InformationProvider>
           )}

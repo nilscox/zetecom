@@ -14,15 +14,15 @@ import useQueryString from 'src/hooks/use-query-string';
 import { parseInformation } from 'src/types/Information';
 import { trackViewIntegration } from 'src/utils/track';
 
-import ReactionsZone from './ReactionsZone';
+import CommentsZone from './CommentsZone';
 
 import { makeStyles } from '@material-ui/core';
 
 const IntegrationRouter = () => (
   <Router>
 
-    <Route path="/" exact render={() => <Redirect to="/reaction" />} />
-    <Route path="/reaction" exact component={ReactionsZone} />
+    <Route path="/" exact render={() => <Redirect to="/comment" />} />
+    <Route path="/comment" exact component={CommentsZone} />
 
   </Router>
 );

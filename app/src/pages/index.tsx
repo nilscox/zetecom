@@ -19,7 +19,7 @@ import Informations from './InformationsList';
 import NotFound from './NotFound';
 import Notifications from './Notifications';
 import MarkNotificationAsSeen from './Notifications/MarkNotificationAsSeet';
-import UserReactions from './UserReactions';
+import UserComments from './UserComments';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 
@@ -30,7 +30,7 @@ const Router: React.FC = () => (
   <Switch>
     <Route path="/" exact component={Informations} />
     <Route path="/information/:id" component={Information} />
-    <Route path="/mes-commentaires" component={UserReactions} />
+    <Route path="/mes-commentaires" component={UserComments} />
     <Route path="/:sign(connexion|inscription|connexion-par-email)" component={Authentication} />
     <Route path="/validation-email/:token" component={EmailValidation} />
     <Route path="/email-login" component={EmailLogin} />

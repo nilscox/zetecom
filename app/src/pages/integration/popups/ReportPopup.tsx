@@ -10,13 +10,13 @@ import Button, { ButtonProps } from 'src/components/Button';
 import Flex from 'src/components/Flex';
 import { WebsiteLink } from 'src/components/Link';
 import Loader from 'src/components/Loader';
-import ReactionBody from 'src/components/Reaction/ReactionBody';
+import CommentBody from 'src/components/Comment/CommentBody';
 import Text from 'src/components/Text';
 import TextArea from 'src/components/TextArea';
 import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
-import { parseReaction } from 'src/types/Reaction';
+import { parseComment } from 'src/types/Comment';
 import { trackReportComment } from 'src/utils/track';
 
 import { makeStyles } from '@material-ui/core';
@@ -87,7 +87,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
   const [alreadyReported, setArleadyReported] = useState(false);
   const { colors: { border }, sizes: { big }, borderRadius } = useTheme();
 
-  const [{ data: reaction, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseReaction);
+  const [{ data: comment, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseComment);
 
   const requestConfig = { method: 'POST', validateStatus: (status: number) => [201, 400].includes(status) } as const;
   const [{
@@ -121,11 +121,11 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
   }, [status, setSuccess]);
 
   const onSubmit = () => {
-    if (reaction) {
+    if (comment) {
       report({
-        url: `/api/reaction/${reaction.id}/report`,
+        url: `/api/reaction/${comment.id}/report`,
         data: {
-          reactionId: reaction.id,
+          commentId: comment.id,
           message: message !== '' ? message : undefined,
         },
       });
@@ -145,7 +145,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
     >
 
       <Text variant="subtitle">
-        Signaler le commentaire de {reaction.author.nick}
+        Signaler le commentaire de {comment.author.nick}
       </Text>
 
       <Break size={10} />
@@ -172,7 +172,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
         borderRadius={borderRadius}
         style={{ width: '100%', boxSizing: 'border-box' }}
       >
-        <ReactionBody text={reaction.text} />
+        <CommentBody text={comment.text} />
       </Box>
 
       <Break size={30} />

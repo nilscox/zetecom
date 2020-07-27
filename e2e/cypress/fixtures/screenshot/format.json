@@ -18,11 +18,11 @@
       "creator": "nilscox",
       "subjects": [],
 
-      "reactions": [
+      "comments": [
 
         {
           "author": "Michael",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
@@ -32,7 +32,7 @@
 
         {
           "author": "Doug Forcett",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
@@ -43,7 +43,7 @@
 
             {
               "author": "Stan",
-              "quickReactions": {
+              "quickComments": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -57,7 +57,7 @@
 
         {
           "author": "Michael",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": ["user04", "user05", "user06"],
             "skeptic": []

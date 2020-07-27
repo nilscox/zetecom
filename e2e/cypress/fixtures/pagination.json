@@ -11,136 +11,136 @@
       "url": "https://info.url",
       "identifier": "test:news1",
       "creator": "user1",
-      "reactions": [
+      "comments": [
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 1 text",
+          "text": "comment 1 text",
           "history": [],
           "replies": []
         },
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 2 text",
+          "text": "comment 2 text",
           "history": [],
           "replies": []
         },
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 3 text",
+          "text": "comment 3 text",
           "history": [],
           "replies": []
         },
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 4 text",
+          "text": "comment 4 text",
           "history": [],
           "replies": []
         },
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 5 text",
+          "text": "comment 5 text",
           "history": [],
           "replies": []
         },
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 6 text",
+          "text": "comment 6 text",
           "history": [],
           "replies": []
         },
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 7 text",
+          "text": "comment 7 text",
           "history": [],
           "replies": []
         },
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 8 text",
+          "text": "comment 8 text",
           "history": [],
           "replies": []
         },
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 9 text",
+          "text": "comment 9 text",
           "history": [],
           "replies": []
         },
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 10 text",
+          "text": "comment 10 text",
           "history": [],
           "replies": []
         },
 
         {
           "author": "user1",
-          "quickReactions": {
+          "quickComments": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "reaction 11 text",
+          "text": "comment 11 text",
           "history": [],
           "replies": []
         }

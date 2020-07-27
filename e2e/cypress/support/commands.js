@@ -57,21 +57,21 @@ Cypress.Commands.add('visitIntegration', (identifier) => {
   cy.visit(APP_URL + '/integration?identifier=' + encodeURIComponent(identifier));
 });
 
-Cypress.Commands.add('visitHistory', (reactionId) => {
-  cy.visit(APP_URL + '/integration/reaction/' + reactionId + '/history');
+Cypress.Commands.add('visitHistory', (commentId) => {
+  cy.visit(APP_URL + '/integration/comment/' + commentId + '/history');
 });
 
-Cypress.Commands.add('visitReport', (reactionId) => {
-  cy.visit(APP_URL + '/integration/reaction/' + reactionId + '/report');
+Cypress.Commands.add('visitReport', (commentId) => {
+  cy.visit(APP_URL + '/integration/comment/' + commentId + '/report');
 });
 
-Cypress.Commands.add('getReactions', () => cy.get('.reaction'));
+Cypress.Commands.add('getComments', () => cy.get('.comment'));
 
-Cypress.Commands.add('getReaction', (id) => cy.get(`#reaction-${id}`));
+Cypress.Commands.add('getComment', (id) => cy.get(`#comment-${id}`));
 
-Cypress.Commands.add('getReactionAt', (place) => cy.getReactions().eq(place));
+Cypress.Commands.add('getCommentAt', (place) => cy.getComments().eq(place));
 
-Cypress.Commands.add('countReactions', (expected) => cy.getReactions().should('have.length', expected));
+Cypress.Commands.add('countComments', (expected) => cy.getComments().should('have.length', expected));
 
 Cypress.Commands.add('zetecom', () => cy.window().then(win => win.zetecom));
 

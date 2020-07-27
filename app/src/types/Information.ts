@@ -1,4 +1,4 @@
-import { parseReaction, Reaction } from './Reaction';
+import { parseComment, Comment } from './Comment';
 import { parseUser, User } from './User';
 
 export type Information = {
@@ -8,8 +8,8 @@ export type Information = {
   imageUrl: string | null;
   published?: Date;
   creator?: Partial<User>;
-  reactionsCount: number;
-  reactions?: Reaction[];
+  commentsCount: number;
+  comments?: Comment[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,6 +18,6 @@ export const parseInformation = (data: any): Information => {
     ...data,
     published: data.published ? new Date(data.published) : undefined,
     creator: data.creator ? parseUser(data.creator) : undefined,
-    reactions: Array.isArray(data.reactions) ? data.reactions.map(parseReaction) : undefined,
+    comments: Array.isArray(data.comments) ? data.comments.map(parseComment) : undefined,
   };
 };
