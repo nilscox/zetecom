@@ -68,9 +68,9 @@ const Reaction: React.FC<ReactionProps> = ({ icon, count, type, userReaction, on
       disabled={!onClick}
       title={reactionTraduction[type]}
       className={clsx(
-        'quick-comment',
-        'quick-comment--' + type,
-        userReaction && 'user-quick-comment',
+        'reaction',
+        'reaction--' + type,
+        userReaction && 'user-reaction',
         classes.button,
       )}
       classes={{ root: classes.buttonRoot, disabled: classes.disabled }}

@@ -367,7 +367,7 @@ describe('comments', () => {
         // add
         cy.get('[title="Approuver"]').click();
 
-        cy.didTrack({ category: 'Comment', action: 'SetComment' });
+        cy.didTrack({ category: 'Comment', action: 'SetReaction' });
 
         cy.get('[title="Approuver"]').contains('1');
         cy.get('[title="Approuver"]').should('have.class', 'user-reaction');

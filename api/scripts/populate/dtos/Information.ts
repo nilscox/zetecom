@@ -21,6 +21,6 @@ export class InformationDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => ReactionDto)
-  reactions?: ReactionDto[];
+  comments?: ReactionDto[];
 
 }

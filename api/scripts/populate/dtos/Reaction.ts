@@ -26,7 +26,7 @@ export class ReactionDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => QuickReactionsDto)
-  quickReactions?: QuickReactionsDto;
+  reactions?: QuickReactionsDto;
 
   @IsString({ each: true })
   @IsOptional()

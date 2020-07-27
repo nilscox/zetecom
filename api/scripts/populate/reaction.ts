@@ -55,8 +55,8 @@ export const createReaction = async (
       created = await updateReaction(created, text, findUser);
   }
 
-  if (reaction.quickReactions) {
-    const qr = reaction.quickReactions;
+  if (reaction.reactions) {
+    const qr = reaction.reactions;
 
     await Promise.all([
       qr.approve?.map(findUser).map(user => createQuickReaction(created, QuickReactionType.APPROVE, user)),

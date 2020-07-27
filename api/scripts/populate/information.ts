@@ -34,8 +34,8 @@ export const findOrCreateInformation = async (information: InformationDto, findU
 
     const created = await createInformation(information, findUser);
 
-    if (information.reactions) {
-      for (const reaction of information.reactions) {
+    if (information.comments) {
+      for (const reaction of information.comments) {
         await createReaction(reaction, created, null, findUser);
       }
     }
