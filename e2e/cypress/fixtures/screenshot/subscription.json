@@ -25,7 +25,7 @@
 
         {
           "author": "Eddie Pulaski",
-          "quickComments": {
+          "reactions": {
             "approve": [],
             "refute": [],
             "skeptic": []
@@ -35,7 +35,7 @@
 
         {
           "author": "Frank Tenpenny",
-          "quickComments": {
+          "reactions": {
             "approve": ["user04", "user05", "user06"],
             "refute": [],
             "skeptic": ["user07"]
@@ -45,7 +45,7 @@
 
             {
               "author": "Carl",
-              "quickComments": {
+              "reactions": {
                 "approve": ["user04"],
                 "refute": [],
                 "skeptic": []

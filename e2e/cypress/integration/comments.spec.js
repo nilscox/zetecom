@@ -11,7 +11,7 @@ const information = {
 
 const comment = {
   author: 'user1',
-  quickComments: {
+  reactions: {
     approve: [],
     refute: [],
     skeptic: []
@@ -57,8 +57,8 @@ describe('comments', () => {
             comments: [
               {
                 ...comment,
-                quickComments: {
-                  ...comment.quickComments,
+                reactions: {
+                  ...comment.reactions,
                   approve: ['user2'],
                 },
                 history: ['edited 1 text'],
@@ -334,7 +334,7 @@ describe('comments', () => {
       });
     });
 
-    it('should add / remove / update quick comments', () => {
+    it('should add / remove / update reaction', () => {
       const data = {
         users: [user1, user2],
         informations: [

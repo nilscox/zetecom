@@ -17,7 +17,7 @@
 
         {
           "author": "user1",
-          "quickComments": {
+          "reactions": {
             "approve": [],
             "refute": [],
             "skeptic": []
@@ -28,7 +28,7 @@
 
             {
               "author": "user2",
-              "quickComments": {
+              "reactions": {
                 "approve": ["user3"],
                 "refute": [],
                 "skeptic": []
@@ -43,7 +43,7 @@
 
         {
           "author": "user2",
-          "quickComments": {
+          "reactions": {
             "approve": [],
             "refute": [],
             "skeptic": []
@@ -54,7 +54,7 @@
 
             {
               "author": "user2",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -65,7 +65,7 @@
             },
             {
               "author": "user3",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -80,7 +80,7 @@
 
         {
           "author": "user1",
-          "quickComments": {
+          "reactions": {
             "approve": ["user2", "user3"],
             "refute": [],
             "skeptic": []
@@ -92,7 +92,7 @@
 
         {
           "author": "user3",
-          "quickComments": {
+          "reactions": {
             "approve": [],
             "refute": [],
             "skeptic": []

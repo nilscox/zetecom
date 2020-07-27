@@ -15,7 +15,7 @@
 
         {
           "author": "user1",
-          "quickComments": {
+          "reactions": {
             "approve": [],
             "refute": [],
             "skeptic": []
@@ -26,7 +26,7 @@
 
             {
               "author": "user1",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -38,7 +38,7 @@
 
             {
               "author": "user1",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -50,7 +50,7 @@
 
             {
               "author": "user1",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -62,7 +62,7 @@
 
             {
               "author": "user1",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -74,7 +74,7 @@
 
             {
               "author": "user1",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -85,7 +85,7 @@
             },
             {
               "author": "user1",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -97,7 +97,7 @@
 
             {
               "author": "user1",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -109,7 +109,7 @@
 
             {
               "author": "user1",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -121,7 +121,7 @@
 
             {
               "author": "user1",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -133,7 +133,7 @@
 
             {
               "author": "user1",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -145,7 +145,7 @@
 
             {
               "author": "user1",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []

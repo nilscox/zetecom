@@ -19,7 +19,7 @@
 
         {
           "author": "KimWex",
-          "quickComments": {
+          "reactions": {
             "approve": ["Jimmy", "De Guzman"],
             "refute": [],
             "skeptic": []
@@ -29,7 +29,7 @@
 
             {
               "author": "Jimmy",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": ["KimWex"]
@@ -39,7 +39,7 @@
 
                 {
                   "author": "KimWex",
-                  "quickComments": {
+                  "reactions": {
                     "approve": [],
                     "refute": [],
                     "skeptic": []
@@ -52,7 +52,7 @@
 
             {
               "author": "De Guzman",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []

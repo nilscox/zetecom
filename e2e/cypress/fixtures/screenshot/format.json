@@ -22,7 +22,7 @@
 
         {
           "author": "Michael",
-          "quickComments": {
+          "reactions": {
             "approve": [],
             "refute": [],
             "skeptic": []
@@ -32,7 +32,7 @@
 
         {
           "author": "Doug Forcett",
-          "quickComments": {
+          "reactions": {
             "approve": [],
             "refute": [],
             "skeptic": []
@@ -43,7 +43,7 @@
 
             {
               "author": "Stan",
-              "quickComments": {
+              "reactions": {
                 "approve": [],
                 "refute": [],
                 "skeptic": []
@@ -57,7 +57,7 @@
 
         {
           "author": "Michael",
-          "quickComments": {
+          "reactions": {
             "approve": [],
             "refute": ["user04", "user05", "user06"],
             "skeptic": []
