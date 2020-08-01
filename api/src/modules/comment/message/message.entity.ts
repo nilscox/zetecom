@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Reaction } from './reaction.entity';
+import { Comment } from '../comment.entity';
 
 @Entity({ name: 'message', orderBy: { created: 'ASC' } })
 export class Message {
@@ -14,8 +14,8 @@ export class Message {
   @CreateDateColumn()
   created: Date;
 
-  @ManyToOne(type => Reaction, reaction => reaction.history, { nullable: true })
-  @JoinColumn({ name: 'reaction_id' })
-  reaction: Reaction;
+  @ManyToOne(type => Comment, comment => comment.history, { nullable: true })
+  @JoinColumn({ name: 'comment_id' })
+  comment: Comment;
 
 }

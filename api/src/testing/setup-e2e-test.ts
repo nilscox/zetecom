@@ -1,7 +1,8 @@
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
-import { Module, ValidationPipe } from '@nestjs/common';
+import { Module, UseGuards, ValidationPipe } from '@nestjs/common';
 import { MiddlewareConsumer, ModuleMetadata } from '@nestjs/common/interfaces';
 import { APP_GUARD } from '@nestjs/core';
+import { GraphQLModule } from '@nestjs/graphql';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -35,6 +36,7 @@ const MemoryStore = memorystore(expressSession);
   imports: [
     TypeOrmModule.forRoot(),
     TypeOrmModule.forFeature([User]),
+    GraphQLModule.forRoot({ autoSchemaFile: true, useGlobalPrefix: true }),
     AuthorizationModule,
     ConfigModule,
   ],

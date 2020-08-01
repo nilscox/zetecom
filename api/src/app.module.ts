@@ -2,6 +2,7 @@ import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
 import { MiddlewareConsumer, Module, Provider } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
+import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import expressSession from 'express-session';
 import memorystore from 'memorystore';
@@ -13,12 +14,12 @@ import { UserMiddleware } from 'Common/user.middleware';
 import { AppController } from './app.controller';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { AuthorizationModule } from './modules/authorization/authorization.module';
+import { CommentModule } from './modules/comment/comment.module';
 import { ConfigModule } from './modules/config/config.module';
 import { ConfigService } from './modules/config/config.service';
 import { EmailModule } from './modules/email/email.module';
 import { HealthcheckModule } from './modules/healthcheck/healthcheck.module';
 import { InformationModule } from './modules/information/information.module';
-import { ReactionModule } from './modules/reaction/reaction.module';
 import { User } from './modules/user/user.entity';
 import { UserModule } from './modules/user/user.module';
 
@@ -42,6 +43,7 @@ const MemoryStore = memorystore(expressSession);
   imports: [
     TypeOrmModule.forRoot(),
     TypeOrmModule.forFeature([User]),
+    GraphQLModule.forRoot({ autoSchemaFile: true, useGlobalPrefix: true }),
     ConfigModule,
     HealthcheckModule,
     EmailModule,
@@ -49,7 +51,7 @@ const MemoryStore = memorystore(expressSession);
     AuthenticationModule,
     AuthorizationModule,
     InformationModule,
-    ReactionModule,
+    CommentModule,
   ],
   controllers: [AppController],
 })

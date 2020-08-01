@@ -24,11 +24,7 @@ import { SearchQuery } from 'Common/search-query.decorator';
 import { SortType } from 'Common/sort-type';
 import { SortTypePipe } from 'Common/sort-type.pipe';
 
-import { PopulateInformation } from '../../modules/information/populate-information.interceptor';
 import { Role } from '../authorization/roles.enum';
-import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
-import { Reaction } from '../reaction/reaction.entity';
-import { ReactionRepository } from '../reaction/reaction.repository';
 import { User } from '../user/user.entity';
 
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
@@ -44,17 +40,12 @@ export class InformationController {
   @Inject('INFORMATION_PAGE_SIZE')
   private readonly informationPageSize: number;
 
-  @Inject('REACTION_PAGE_SIZE')
-  private readonly reactionPageSize: number;
-
   constructor(
     private readonly informationService: InformationService,
     private readonly informationRepository: InformationRepository,
-    private readonly reactionRepository: ReactionRepository,
   ) {}
 
   @Get()
-  @UseInterceptors(PopulateInformation)
   async findAll(
     @OptionalQuery({ key: 'search', defaultValue: null }) search: string | null,
     @PageQuery() page: number,
@@ -63,7 +54,6 @@ export class InformationController {
   }
 
   @Get(':id')
-  @UseInterceptors(PopulateInformation)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Information> {
@@ -76,7 +66,6 @@ export class InformationController {
   }
 
   @Get('by-identifier/:identifier')
-  @UseInterceptors(PopulateInformation)
   async findOneByIdentifier(
     @Param('identifier') identifier: string,
   ): Promise<Information> {
@@ -88,25 +77,23 @@ export class InformationController {
     return info;
   }
 
-  @Get(':id/reactions')
-  @UseInterceptors(PopulateReaction)
-  async findReactions(
-    @Param('id', new ParseIntPipe()) id: number,
-    @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
-    @SearchQuery() search: string,
-    @PageQuery() page: number,
-  ): Promise<Paginated<Reaction>> {
-    if (!(await this.informationService.exists(id)))
-      throw new NotFoundException();
+  // @Get(':id/reactions')
+  // async findReactions(
+  //   @Param('id', new ParseIntPipe()) id: number,
+  //   @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
+  //   @SearchQuery() search: string,
+  //   @PageQuery() page: number,
+  // ): Promise<Paginated<Reaction>> {
+  //   if (!(await this.informationService.exists(id)))
+  //     throw new NotFoundException();
 
-    return search
-      ? this.reactionRepository.search(id, search, sort, page, this.reactionPageSize)
-      : this.reactionRepository.findRootReactions(id, sort, page, this.reactionPageSize);
-  }
+  //   return search
+  //     ? this.reactionRepository.search(id, search, sort, page, this.reactionPageSize)
+  //     : this.reactionRepository.findRootReactions(id, sort, page, this.reactionPageSize);
+  // }
 
   @Post()
   @UseGuards(IsAuthenticated)
-  @UseInterceptors(PopulateInformation)
   @Roles(Role.ADMIN)
   async create(
     @Body() dto: CreateInformationInDto,
@@ -120,7 +107,6 @@ export class InformationController {
 
   @Put(':id')
   @UseGuards(IsAuthenticated)
-  @UseInterceptors(PopulateInformation)
   @Roles(Role.ADMIN)
   async update(
     @Param('id', new ParseIntPipe()) id: number,
