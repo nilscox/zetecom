@@ -2,7 +2,7 @@ import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { Module, UseGuards, ValidationPipe } from '@nestjs/common';
 import { MiddlewareConsumer, ModuleMetadata } from '@nestjs/common/interfaces';
 import { APP_GUARD } from '@nestjs/core';
-import { GraphQLModule } from '@nestjs/graphql';
+import { GraphQLModule, Int, ObjectType, Query, Resolver } from '@nestjs/graphql';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -24,7 +24,17 @@ import { Role } from '../modules/authorization/roles.enum';
 import { ConfigModule } from '../modules/config/config.module';
 import { User } from '../modules/user/user.entity';
 
+import { GraphQLClient } from './GraphQLClient';
+
 const MemoryStore = memorystore(expressSession);
+
+@Resolver(() => Int)
+class RootQueryResolver {
+  @Query(() => Int)
+  root() {
+    return 42;
+  }
+}
 
 @Module({
   providers: [
@@ -39,6 +49,7 @@ const MemoryStore = memorystore(expressSession);
     GraphQLModule.forRoot({ autoSchemaFile: true, useGlobalPrefix: true }),
     AuthorizationModule,
     ConfigModule,
+    RootQueryResolver,
   ],
   exports: [
     TypeOrmModule,
@@ -47,7 +58,7 @@ const MemoryStore = memorystore(expressSession);
 export class TestModule {
 
   configure(consumer: MiddlewareConsumer) {
-    const middlewares = [];
+    const middlewares: any[] = [];
 
     ExpressSessionMiddleware.configure({
       store: new MemoryStore(),
@@ -66,19 +77,24 @@ export class TestModule {
 
 }
 
-export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module: TestingModuleBuilder) => any): express.Express => {
+type SetupE2eTestOptions = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  beforeInit?: (module: TestingModuleBuilder) => any | Promise<any>;
+};
+
+export const setupE2eTest = (testingModule: ModuleMetadata, opts?: SetupE2eTestOptions) => {
 
   const server = express();
+  const graph = new GraphQLClient();
   let module: TestingModule;
 
   beforeAll(async () => {
     const moduleBuilder = Test.createTestingModule({
       ...testingModule,
-      imports: [TestModule, ...testingModule.imports],
+      imports: [TestModule, ...testingModule.imports || []],
     });
 
-    if (beforeInit)
-      beforeInit(moduleBuilder);
+    await opts?.beforeInit?.(moduleBuilder);
 
     module = await moduleBuilder.compile();
 
@@ -89,13 +105,15 @@ export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module
     app.useGlobalInterceptors(new ErrorsInterceptor());
 
     await app.init();
+
+    graph.server = server;
   });
 
   afterAll(async () => {
     await module.close();
   });
 
-  return server;
+  return { server, graph, getModule: () => module };
 };
 
 let createUsersCount = 0;

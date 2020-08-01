@@ -1,6 +1,6 @@
 import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
-import { MiddlewareConsumer, Module, Provider } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestMiddleware, Provider } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -66,7 +66,7 @@ export class AppModule {
     const CI = this.configService.get('CI');
     const SESSION_SECRET = this.configService.get('SESSION_SECRET');
 
-    const middlewares = [];
+    const middlewares: any[] = [];
 
     ExpressSessionMiddleware.configure({
       // one year

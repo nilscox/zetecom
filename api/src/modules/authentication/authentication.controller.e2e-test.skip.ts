@@ -1,23 +1,27 @@
 import request from 'supertest';
 import { getRepository, Repository } from 'typeorm';
 
-import { createUser } from '../../testing/factories/user.factory';
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { EmailModule } from '../email/email.module';
 import { User } from '../user/user.entity';
+import { UserFactory } from '../user/user.factory';
 
 import { AuthenticationModule } from './authentication.module';
 
 describe('authentification', () => {
 
-  const server = setupE2eTest({
+  const { server, getModule } = setupE2eTest({
     imports: [AuthenticationModule, EmailModule],
   });
 
   let userRepository: Repository<User>;
+  let userFactory: UserFactory;
 
   beforeAll(async () => {
+    const module = getModule();
+
     userRepository = getRepository(User);
+    userFactory = module.get<UserFactory>(UserFactory);
   });
 
   describe('signup', () => {
@@ -114,7 +118,7 @@ describe('authentification', () => {
     let user: User;
 
     beforeAll(async () => {
-      user = await createUser({ password: 'pa$$word' });
+      user = await userFactory.create({ password: 'pa$$word' });
     });
 
     it('should not be possible to login when already authenticated', () => {
@@ -145,7 +149,7 @@ describe('authentification', () => {
     });
 
     it('should not login when the email is not validated', async () => {
-      const user = await createUser({ password: 'pa$$word', emailValidated: false });
+      const user = await userFactory.create({ password: 'pa$$word', emailValidated: false });
       const data = { email: user.email, password: 'pa$$word' };
 
       const { body } = await request(server)
@@ -174,7 +178,7 @@ describe('authentification', () => {
     let user: User;
 
     beforeAll(async () => {
-      user = await createUser({ emailLoginToken: 'token' });
+      user = await userFactory.create({ emailLoginToken: 'token' });
     });
 
     it('should not login with an invalid token', async () => {
@@ -198,7 +202,7 @@ describe('authentification', () => {
     });
 
     it('should validate the email address', async () => {
-      const user = await createUser({ emailValidated: false, emailLoginToken: 'token' });
+      const user = await userFactory.create({ emailValidated: false, emailLoginToken: 'token' });
 
       await request(server)
         .post('/api/auth/email-login')
@@ -219,7 +223,7 @@ describe('authentification', () => {
     let user: User;
 
     beforeAll(async () => {
-      user = await createUser({ emailLoginToken: 'token' });
+      user = await userFactory.create({ emailLoginToken: 'token' });
     });
 
     it('should ask for a login token', async () => {

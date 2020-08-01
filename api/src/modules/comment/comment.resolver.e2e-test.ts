@@ -1,20 +1,17 @@
-import { createInformation } from '../../testing/factories/information.factory';
-import { createUser } from '../../testing/factories/user.factory';
-import { GraphQLClient } from '../../testing/GraphQLClient';
 import { setupE2eTest } from '../../testing/setup-e2e-test';
 import { Information } from '../information/information.entity';
+import { InformationFactory } from '../information/information.factory';
 import { User } from '../user/user.entity';
+import { UserFactory } from '../user/user.factory';
 
 import { Comment } from './comment.entity';
-import { createComment } from './comment.factory';
+import { CommentFactory } from './comment.factory';
 import { CommentModule } from './comment.module';
 
 describe('CommentResolver', () => {
-  const server = setupE2eTest({
+  const { graph, getModule } = setupE2eTest({
     imports: [CommentModule],
   });
-
-  const graph = new GraphQLClient();
 
   let information: Information;
   let user: User;
@@ -25,14 +22,18 @@ describe('CommentResolver', () => {
   let comment4: Comment;
 
   beforeAll(async () => {
-    graph.server = server;
+    const module = getModule();
 
-    information = await createInformation();
-    user = await createUser();
-    comment1 = await createComment();
-    comment2 = await createComment({ information });
-    comment3 = await createComment({ author: user });
-    comment4 = await createComment({ information, author: user });
+    const informationFactory = module.get(InformationFactory);
+    const userFactory = module.get(UserFactory);
+    const commentFactory = module.get(CommentFactory);
+
+    information = await informationFactory.create();
+    user = await userFactory.create();
+    comment1 = await commentFactory.create();
+    comment2 = await commentFactory.create({ information });
+    comment3 = await commentFactory.create({ author: user });
+    comment4 = await commentFactory.create({ information, author: user });
   });
 
   describe('query comments', () => {

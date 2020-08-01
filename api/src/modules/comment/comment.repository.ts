@@ -15,19 +15,19 @@ export class CommentRepository extends Repository<Comment> {
     queryBuilder.limit(limit);
   }
 
-  findAll(informationId: number | null, authorId: number | null, search: string | null, offset: number, limit: number) {
+  findAll(informationId: number | undefined, authorId: number | undefined, search: string | undefined, offset: number, limit: number) {
     const qb = this.createQueryBuilder('comment');
 
     this.joinRelations(qb);
     this.addPagination(qb, offset, limit);
 
-    if (null !== informationId)
+    if (undefined !== informationId)
       qb.andWhere('information_id = :informationId', { informationId });
 
-    if (null !== authorId)
+    if (undefined !== authorId)
       qb.andWhere('author_id = :authorId', { authorId });
 
-    if (null !== search)
+    if (undefined !== search)
       qb.andWhere('message.text ILIKE :search', { search });
 
     return qb.getMany();

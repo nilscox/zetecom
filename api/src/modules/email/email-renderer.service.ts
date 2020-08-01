@@ -97,6 +97,10 @@ class EmailRendererService {
       websiteUrl: this.configService.get('WEBSITE_URL'),
     };
 
+    // should not happen
+    if (!this.templates)
+      throw new Error('email-renderer:templates-not-loaded');
+
     const { html, text } = this.templates[template];
 
     return {

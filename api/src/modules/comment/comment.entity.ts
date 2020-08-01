@@ -30,11 +30,7 @@ export class Comment {
   score: number;
 
   @OneToMany(() => Message, message => message.comment)
-  history: Message[];
-
-  @OneToOne(() => Message, message => message.comment, { eager: true })
-  @JoinColumn({ name: 'message_id' })
-  message: Message;
+  messages: Message[];
 
   @ManyToOne(() => Comment, reaction => reaction.replies, { nullable: true })
   @JoinColumn({ name: 'parent_id' })

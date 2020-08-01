@@ -15,7 +15,7 @@ export class CommentService {
     private readonly messageService: MessageService,
   ) {}
 
-  findAll(informationId: number, authorId: number, search: string, offset: number, limit: number) {
+  findAll(informationId: number | undefined, authorId: number | undefined, search: string | undefined, offset: number, limit: number) {
     return this.commentRepository.findAll(informationId, authorId, search, offset, limit);
   }
 
@@ -26,7 +26,7 @@ export class CommentService {
   async create(information: Information, author: User, message: string) {
     const comment = await this.commentRepository.save({ information, author });
 
-    comment.message = await this.messageService.create(comment, message);
+    comment.messages = [await this.messageService.create(comment, message)];
 
     return comment;
   }

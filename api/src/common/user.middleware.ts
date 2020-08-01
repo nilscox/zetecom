@@ -19,7 +19,7 @@ export class UserMiddleware implements NestMiddleware {
     if (!userId)
       return next();
 
-    let user = null;
+    let user: User | undefined = undefined;
 
     try {
       user = await this.userRepository.findOne(userId);

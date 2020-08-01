@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { InformationModule } from '../information/information.module';
 import { UserModule } from '../user/user.module';
 
+import { CommentFactory } from './comment.factory';
 import { CommentRepository } from './comment.repository';
 import { CommentResolver } from './comment.resolver';
 import { CommentService } from './comment.service';
@@ -21,6 +22,10 @@ import { ReactionModule } from './reaction/reaction.module';
   providers: [
     CommentResolver,
     CommentService,
+    CommentFactory,
+  ],
+  exports: [
+    CommentFactory,
   ],
 })
 export class CommentModule {}

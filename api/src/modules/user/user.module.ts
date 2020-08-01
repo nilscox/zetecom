@@ -9,6 +9,7 @@ import { EmailModule } from '../email/email.module';
 
 import { UserController } from './user.controller';
 import { User } from './user.entity';
+import { UserFactory } from './user.factory';
 import { UserService } from './user.service';
 
 @Module({
@@ -24,9 +25,11 @@ import { UserService } from './user.service';
   ],
   providers: [
     UserService,
+    UserFactory,
   ],
   exports: [
     UserService,
+    UserFactory,
   ],
 })
 export class UserModule implements OnModuleInit {
@@ -42,10 +45,10 @@ export class UserModule implements OnModuleInit {
     if (!admin)
       return;
 
-    const [email, nick, password] = admin.split(':');
+    const [nick, email, password] = admin.split(':');
 
-    if (!email || !nick || !password)
-      return;
+    if (!nick || !email || !password)
+      throw new Error('ADMIN_USER does not match the format nick:email:password)');
 
     const existing = await this.userService.findByEmail(email);
 

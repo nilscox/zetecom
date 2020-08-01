@@ -1,26 +1,40 @@
-import { DeepPartial, getManager } from 'typeorm';
+import { Injectable } from '@nestjs/common';
 
-import { Comment } from '../../modules/comment/comment.entity';
-import { createInformation } from '../../testing/factories/information.factory';
-import { createUser } from '../../testing/factories/user.factory';
+import { Information } from '../information/information.entity';
+import { InformationFactory } from '../information/information.factory';
+import { User } from '../user/user.entity';
+import { UserFactory } from '../user/user.factory';
 
-import { createMessage } from './message/message.factory';
+import { Comment } from './comment.entity';
+import { CommentService } from './comment.service';
 
-export const createComment = async (data: DeepPartial<Comment> = {}) => {
-  const manager = getManager();
-
-  if (!data.information)
-    data.information = await createInformation();
-
-  if (!data.author)
-    data.author = await createUser();
-
-  if (!data.message) {
-    data.message = await createMessage();
-    data.history = [data.message];
-  }
-
-  const comment = manager.create(Comment, data);
-
-  return manager.save(comment);
+type CommentFactoryData = {
+  information?: Information;
+  author?: User;
+  text?: string;
 };
+
+@Injectable()
+export class CommentFactory implements Factory<CommentFactoryData, Comment> {
+  constructor(
+    private readonly commentService: CommentService,
+    private readonly userFactory: UserFactory,
+    private readonly informationFactory: InformationFactory,
+  ) {}
+
+  async create(data: CommentFactoryData = {}) {
+    const getInformation = async () => {
+      return data.information || await this.informationFactory.create();
+    };
+
+    const getAuthor = async () => {
+      return data.author || await this.userFactory.create();
+    };
+
+    return this.commentService.create(
+      await getInformation(),
+      await getAuthor(),
+      data.text || 'comment text',
+    );
+  }
+}

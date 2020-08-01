@@ -1,8 +1,8 @@
 import { ArgsType, Field, Int } from '@nestjs/graphql';
-import { IsInt, IsOptional, IsPositive, Max, Min } from 'class-validator';
+import { IsInt, IsOptional, IsPositive, IsString, Max, Min } from 'class-validator';
 
 @ArgsType()
-export class GetCommentsArgs {
+export class CommentsQueryArgs {
 
   @Field(type => Int, { nullable: true })
   @IsOptional()
@@ -15,6 +15,11 @@ export class GetCommentsArgs {
   @IsInt()
   @IsPositive()
   authorId?: number;
+
+  @Field(type => Int, { nullable: true })
+  @IsOptional()
+  @IsString()
+  search?: string;
 
   @Field(type => Int, { nullable: true, defaultValue: 0 })
   @IsOptional()

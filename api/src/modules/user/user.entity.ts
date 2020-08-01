@@ -23,7 +23,7 @@ export class User {
 
   @Column({ nullable: true })
   @Expose()
-  avatar: string;
+  avatar?: string;
 
   @Column()
   emailValidationToken: string;
