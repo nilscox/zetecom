@@ -1,8 +1,10 @@
 import { ArgsType, Field, Int } from '@nestjs/graphql';
-import { IsInt, IsOptional, IsPositive, IsString, Max, Min } from 'class-validator';
+import { IsInt, IsOptional, IsPositive, IsString } from 'class-validator';
+
+import PaginationArgs from '../../graphql/pagination.args';
 
 @ArgsType()
-export class CommentsQueryArgs {
+export class CommentsQueryArgs extends PaginationArgs {
 
   @Field(type => Int, { nullable: true })
   @IsOptional()
@@ -20,18 +22,5 @@ export class CommentsQueryArgs {
   @IsOptional()
   @IsString()
   search?: string;
-
-  @Field(type => Int, { nullable: true, defaultValue: 0 })
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  offset: number;
-
-  @Field(type => Int, { nullable: true, defaultValue: 10 })
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  @Max(50)
-  limit: number;
 
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { UserService } from '../../modules/user/user.service';
+import { Factory } from '../../testing/factory';
 
 import { User } from './user.entity';
 

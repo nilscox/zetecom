@@ -1,21 +1,34 @@
-import { CanActivate, ExecutionContext } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { GqlContextType, GqlExecutionContext } from '@nestjs/graphql';
 
-export class IsAuthenticated implements CanActivate {
+class AuthenticationGuard {
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
+  protected getRequest(context: ExecutionContext) {
+    switch (context.getType<GqlContextType>()) {
+    case 'graphql':
+      return GqlExecutionContext.create(context).getContext().req;
 
-    return request.user !== undefined;
+    case 'http':
+      return context.switchToHttp().getRequest();
+    }
   }
 
 }
 
-export class IsNotAuthenticated implements CanActivate {
+@Injectable()
+export class IsAuthenticated extends AuthenticationGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
+    return this.getRequest(context).user !== undefined;
+  }
 
-    return request.user === undefined;
+}
+
+@Injectable()
+export class IsNotAuthenticated extends AuthenticationGuard implements CanActivate {
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    return this.getRequest(context).user === undefined;
   }
 
 }

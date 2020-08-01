@@ -21,8 +21,8 @@ export class UserService {
     private readonly emailService: EmailService,
   ) {}
 
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAll(limit: number, offset: number): Promise<User[]> {
+    return this.userRepository.find({ take: limit, skip: offset });
   }
 
   async findById(id: number): Promise<User | undefined> {

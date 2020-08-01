@@ -31,7 +31,7 @@ export class UserController {
 
   @Get()
   async findAll(): Promise<User[]> {
-    return this.userService.findAll();
+    return this.userService.findAll(0, 0);
   }
 
   @Get(':id')

@@ -43,7 +43,11 @@ const MemoryStore = memorystore(expressSession);
   imports: [
     TypeOrmModule.forRoot(),
     TypeOrmModule.forFeature([User]),
-    GraphQLModule.forRoot({ autoSchemaFile: true, useGlobalPrefix: true }),
+    GraphQLModule.forRoot({
+      autoSchemaFile: true,
+      useGlobalPrefix: true,
+      context: ({ req }) => ({ req }),
+    }),
     ConfigModule,
     HealthcheckModule,
     EmailModule,

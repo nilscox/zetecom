@@ -10,6 +10,7 @@ import { EmailModule } from '../email/email.module';
 import { UserController } from './user.controller';
 import { User } from './user.entity';
 import { UserFactory } from './user.factory';
+import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
 
 @Module({
@@ -24,6 +25,7 @@ import { UserService } from './user.service';
     UserController,
   ],
   providers: [
+    UserResolver,
     UserService,
     UserFactory,
   ],

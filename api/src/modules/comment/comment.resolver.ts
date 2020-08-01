@@ -3,7 +3,7 @@ import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { InformationService } from '../information/information.service';
 import { UserService } from '../user/user.service';
 
-import { CommentsQueryArgs } from './args/commentsQuery.args';
+import { CommentsQueryArgs } from './args/comments-query.args';
 import { Comment } from './comment.entity';
 import { CommentService } from './comment.service';
 import { CommentType } from './types/comment.type';

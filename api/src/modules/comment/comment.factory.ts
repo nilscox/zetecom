@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
+import { Factory } from '../../testing/factory';
 import { Information } from '../information/information.entity';
 import { InformationFactory } from '../information/information.factory';
 import { User } from '../user/user.entity';
