@@ -19,6 +19,6 @@ export class SignupUserInDto {
   @IsOptional()
   @IsString()
   @MaxLength(24)
-  readonly avatar: string;
+  readonly avatar?: string;
 
 }

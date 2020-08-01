@@ -10,6 +10,7 @@ const enviornmentVariables = [
 
   'REFLECT_ORIGIN',
   'BYPASS_AUTHORIZATIONS',
+  'ADMIN_USER',
 
   'APP_URL',
   'WEBSITE_URL',
