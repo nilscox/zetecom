@@ -36,6 +36,7 @@ deploy_api() {
     -p "$api_port:80" \
     --env $(sshenv REFLECT_ORIGIN) \
     --env $(sshenv BYPASS_AUTHORIZATIONS) \
+    --env $(sshenv ADMIN_USER) \
     --env $(sshenv APP_URL) \
     --env $(sshenv WEBSITE_URL) \
     --env $(sshenv DB_HOST) \

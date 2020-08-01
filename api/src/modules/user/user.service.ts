@@ -68,6 +68,12 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
+  async createAdmin(email: string, nick: string, password: string) {
+    const user = await this.create({ email, nick, password });
+
+    await this.userRepository.update(user.id, { roles: [...user.roles, Role.ADMIN]});
+  }
+
   async validateFromToken(token: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { emailValidationToken: token },
