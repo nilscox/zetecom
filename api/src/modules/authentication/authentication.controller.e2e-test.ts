@@ -10,7 +10,7 @@ import { AuthenticationModule } from './authentication.module';
 
 describe('authentification', () => {
 
-  const server = setupE2eTest({
+  const { server } = setupE2eTest({
     imports: [AuthenticationModule, EmailModule],
   });
 

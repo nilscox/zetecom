@@ -4,8 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { InformationModule } from '../information/information.module';
 import { ReportModule } from '../report/report.module';
 import { CommentSubscriptionModule } from '../subscription/subscription.module';
+import { UserModule } from '../user/user.module';
 
 import { CommentController } from './comment.controller';
+import { CommentFactory } from './comment.factory';
 import { CommentRepository } from './comment.repository';
 import { CommentService } from './comment.service';
 import { Message } from './message.entity';
@@ -21,6 +23,7 @@ const CommentPageSize: Provider = {
 @Module({
   imports: [
     TypeOrmModule.forFeature([CommentRepository, Message, Reaction]),
+    UserModule,
     forwardRef(() => InformationModule),
     ReportModule,
     CommentSubscriptionModule,
@@ -32,12 +35,14 @@ const CommentPageSize: Provider = {
     CommentPageSize,
     CommentService,
     PopulateComment,
+    CommentFactory,
   ],
   exports: [
     TypeOrmModule,
     CommentPageSize,
     CommentService,
     PopulateComment,
+    CommentFactory,
   ],
 })
 export class CommentModule {}

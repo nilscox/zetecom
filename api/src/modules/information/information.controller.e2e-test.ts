@@ -1,22 +1,19 @@
 import request from 'supertest';
-import { getCustomRepository, getRepository, Repository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 
-import { createComment } from '../../testing/factories/comment.factory';
-import { createInformation } from '../../testing/factories/information.factory';
-import { createMessage } from '../../testing/factories/message.factory';
 import { createAuthenticatedAdmin, createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { Comment } from '../comment/comment.entity';
-import { Message } from '../comment/message.entity';
-import { User } from '../user/user.entity';
+import { CommentFactory } from '../comment/comment.factory';
 
 import { Information } from './information.entity';
+import { InformationFactory } from './information.factory';
 import { InformationModule } from './information.module';
 import { InformationRepository } from './information.repository';
 
 describe('information controller', () => {
 
-  const server = setupE2eTest({
+  const { server, getTestingModule } = setupE2eTest({
     imports: [InformationModule, AuthenticationModule],
   }, moduleBuilder => {
     moduleBuilder
@@ -26,28 +23,20 @@ describe('information controller', () => {
       .useValue(2);
   });
 
+  let createInformation: InformationFactory['create'];
+  let createComment: CommentFactory['create'];
+
   let information1: Information;
   let information2: Information;
   let information3: Information;
 
-  let message1: Message;
   let comment1: Comment;
-
   let comment2: Comment;
-
-  let message3: Message;
   let comment3: Comment;
-
   let comment4: Comment;
-
-  let message5: Message;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let comment5: Comment;
 
-  let message6: Message;
-  let comment6: Comment;
-  let comment7: Comment;
-
-  let userRepository: Repository<User>;
   let informationRepository: InformationRepository;
 
   /*
@@ -64,27 +53,24 @@ describe('information controller', () => {
   */
 
   beforeAll(async () => {
-    userRepository = getRepository(User);
+    const module = getTestingModule();
+    const informationFactory = module.get<InformationFactory>(InformationFactory);
+    const commentFactory = module.get<CommentFactory>(CommentFactory);
+
+    createInformation = informationFactory.create.bind(informationFactory);
+    createComment = commentFactory.create.bind(commentFactory);
+
     informationRepository = getCustomRepository(InformationRepository);
 
     information1 = await createInformation({ title: 'title', url: 'url', imageUrl: 'imageUrl' });
     information2 = await createInformation({ title: 'search me' });
     information3 = await createInformation();
 
-    message1 = await createMessage({ text: 'message1 search wow' });
-    comment1 = await createComment({ information: information1, message: message1 });
-
+    comment1 = await createComment({ information: information1, text: 'message1 search wow' });
     comment2 = await createComment({ information: information1 });
-
-    message3 = await createMessage({ text: 'searching message3' });
-    comment3 = await createComment({ information: information1, message: message3, parent: comment2 });
-
+    comment3 = await createComment({ information: information1, text: 'searching message3', parent: comment2 });
     comment4 = await createComment({ information: information1 });
-
-    message5 = await createMessage({ text: 'message5 search' });
-    comment5 = await createComment({ information: information2, message: message5 });
-
-    message6 = await createMessage({ text: 'message6 search' });
+    comment5 = await createComment({ information: information2, text: 'message5 search' });
   });
 
   describe('list informations', () => {
@@ -250,7 +236,7 @@ describe('information controller', () => {
 
   describe('create information', () => {
     const [userRequest] = createAuthenticatedUser(server);
-    const [adminRequest, admin] = createAuthenticatedAdmin(server);
+    const [adminRequest] = createAuthenticatedAdmin(server);
 
     const info = {
       title: 'title',

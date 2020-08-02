@@ -9,7 +9,7 @@ import { NotificationModule } from './notification.module';
 
 describe('notifications', () => {
 
-  const server = setupE2eTest({
+  const { server } = setupE2eTest({
     imports: [AuthenticationModule, NotificationModule],
   });
 

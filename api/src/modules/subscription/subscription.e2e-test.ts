@@ -1,26 +1,44 @@
-import { getRepository, In, Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
-import { createComment } from '../../testing/factories/comment.factory';
-import { createInformation } from '../../testing/factories/information.factory';
-import { createCommentSubscription } from '../../testing/factories/subscription.factory';
-import { createUser } from '../../testing/factories/user.factory';
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
+import { CommentFactory } from '../comment/comment.factory';
 import { CommentModule } from '../comment/comment.module';
+import { InformationFactory } from '../information/information.factory';
 import { Notification, SubscriptionReplyNotification } from '../notification/notification.entity';
 import { NotificationModule } from '../notification/notification.module';
+import { UserFactory } from '../user/user.factory';
+
+import { CommentSubscriptionFactory } from './subscription.factory';
 
 describe('subscription', () => {
 
-  const server = setupE2eTest({
+  const { server, getTestingModule } = setupE2eTest({
     imports: [AuthenticationModule, CommentModule, NotificationModule],
   });
 
-  const [userRequest, user] = createAuthenticatedUser(server);
+  let createUser: UserFactory['create'];
+  let createInformation: InformationFactory['create'];
+  let createComment: CommentFactory['create'];
+  let createCommentSubscription: CommentSubscriptionFactory['create'];
 
   let notificationRepository: Repository<SubscriptionReplyNotification>;
 
+  const [userRequest, user] = createAuthenticatedUser(server);
+
   beforeAll(() => {
+    const module = getTestingModule();
+
+    const userFactory = module.get<CommentFactory>(CommentFactory);
+    const informationFactory = module.get<InformationFactory>(InformationFactory);
+    const commentFactory = module.get<CommentFactory>(CommentFactory);
+    const commentSubscriptionFactory = module.get<CommentFactory>(CommentFactory);
+
+    createUser = userFactory.create.bind(userFactory);
+    createInformation = informationFactory.create.bind(informationFactory);
+    createComment = commentFactory.create.bind(commentFactory);
+    createCommentSubscription = commentSubscriptionFactory.create.bind(commentSubscriptionFactory);
+
     notificationRepository = getRepository(Notification as any);
   });
 

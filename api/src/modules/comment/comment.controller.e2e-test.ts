@@ -1,32 +1,34 @@
-// tslint:disable no-shadowed-variable
-
 import request from 'supertest';
 import { getCustomRepository, getRepository, Repository } from 'typeorm';
 
-import { createComment } from '../../testing/factories/comment.factory';
-import { createInformation } from '../../testing/factories/information.factory';
-import { createMessage } from '../../testing/factories/message.factory';
-import { createCommentSubscription } from '../../testing/factories/subscription.factory';
-import { createUser } from '../../testing/factories/user.factory';
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { Information } from '../information/information.entity';
+import { InformationFactory } from '../information/information.factory';
 import { CommentSubscription } from '../subscription/subscription.entity';
+import { CommentSubscriptionFactory } from '../subscription/subscription.factory';
+import { UserFactory } from '../user/user.factory';
 
 import { Comment } from './comment.entity';
+import { CommentFactory } from './comment.factory';
 import { CommentModule } from './comment.module';
 import { CommentRepository } from './comment.repository';
 import { Reaction, ReactionType } from './reaction.entity';
 
 describe('comment controller', () => {
 
-  const server = setupE2eTest({
+  const { server, getTestingModule } = setupE2eTest({
     imports: [CommentModule, AuthenticationModule],
   }, moduleBuilder => {
     moduleBuilder
       .overrideProvider('COMMENT_PAGE_SIZE')
       .useValue(2);
   });
+
+  let createUser: UserFactory['create'];
+  let createInformation: InformationFactory['create'];
+  let createComment: CommentFactory['create'];
+  let createCommentSubscription: CommentSubscriptionFactory['create'];
 
   let commentRepository: CommentRepository;
   let reactionRepository: Repository<Reaction>;
@@ -41,6 +43,18 @@ describe('comment controller', () => {
   let reply3: Comment;
 
   beforeAll(async () => {
+    const module = getTestingModule();
+
+    const userFactory = module.get<CommentFactory>(CommentFactory);
+    const informationFactory = module.get<InformationFactory>(InformationFactory);
+    const commentFactory = module.get<CommentFactory>(CommentFactory);
+    const commentSubscriptionFactory = module.get<CommentFactory>(CommentFactory);
+
+    createUser = userFactory.create.bind(userFactory);
+    createInformation = informationFactory.create.bind(informationFactory);
+    createComment = commentFactory.create.bind(commentFactory);
+    createCommentSubscription = commentSubscriptionFactory.create.bind(commentSubscriptionFactory);
+
     commentRepository = getCustomRepository(CommentRepository);
     reactionRepository = getRepository(Reaction);
     subscriptionRepository = getRepository(CommentSubscription);
@@ -52,8 +66,8 @@ describe('comment controller', () => {
     comment = await createComment({
       author: user,
       information,
-      message: await createMessage({ text: 'message2' }),
-      history: [await createMessage({ text: 'message1' })],
+      text: 'message2',
+      history: ['message1'],
     });
 
     reply1 = await createComment({ information, parent: comment });
