@@ -30,73 +30,41 @@ export class CommentService {
 
   ) {}
 
-  async findById(id: number): Promise<Comment | undefined> {
-    return this.commentRepository.findOne(id);
+  async findById(id: number, opts?: { author: boolean; information: boolean; parent: boolean }): Promise<Comment | undefined> {
+    return this.commentRepository.findById(id, opts);
   }
 
-  async create(dto: CreateCommentDto, user: User, information: Information): Promise<Comment> {
-    let parent: Comment | undefined;
+  async create(user: User, information: Information, parent: Comment | null, text: string): Promise<Comment> {
+    const comment = await this.commentRepository.save({
+      author: user,
+      information,
+      parent,
+    });
 
-    if (dto.parentId) {
-      parent = await this.commentRepository.findOne({ id: dto.parentId });
+    await this.messageRepository.save({
+      comment,
+      text,
+    });
 
-      // TODO: error format
-      if (!parent) {
-        throw new BadRequestException(`standalone comment with id ${dto.parentId} not found`);
-      }
-    }
-
-    const comment = new Comment();
-    const message = new Message();
-
-    comment.author = user;
-    comment.information = information;
-
-    message.text = dto.text;
-    comment.message = message;
-
-    if (parent)
-      comment.parent = parent;
-
-    await this.messageRepository.save(message);
-    await this.commentRepository.save(comment);
-
-    message.comment = comment;
-    await this.messageRepository.save(message);
-
-    // code smell
-    comment.repliesCount = 0;
-    comment.reactionsCount = {
-      APPROVE: 0,
-      REFUTE: 0,
-      SKEPTIC: 0,
-    };
-
-    if (dto.parentId) {
-      await this.commentRepository.incrementScore(dto.parentId, 2);
+    if (parent) {
+      await this.commentRepository.incrementScore(parent.id, 2);
 
       // perform notification logic asynchronously (no await)
-      this.subscriptionService.notifyReply(comment);
+      this.subscriptionService.notifyReply(await this.findById(comment.id, { author: true, information: true, parent: true }));
     }
 
     await this.subscriptionService.subscribe(user, comment);
 
-    return comment;
+    return this.findById(comment.id);
   }
 
-  async update(comment: Comment, dto: UpdateCommentDto): Promise<Comment> {
-    if (dto.text) {
-      const message = new Message();
+  async update(comment: Comment, text: string): Promise<Comment> {
+    await this.messageRepository.save({
+      comment,
+      text,
+    });
 
-      message.text = dto.text;
-      message.comment = comment;
-      comment.message = message;
-      comment.updated = new Date();
-
-      await this.messageRepository.save(message);
-    }
-
-    return await this.commentRepository.save(comment);
+    return this.findById(comment.id);
   }
 
   async setReaction(comment: Comment, user: User, type: ReactionType | null) {

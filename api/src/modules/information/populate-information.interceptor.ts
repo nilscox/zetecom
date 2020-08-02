@@ -14,16 +14,15 @@ export class PopulateInformation extends PopulateInterceptor<InformationDto> {
     super();
   }
 
-  async populate(informations: InformationDto[], request: any) {
-    const dtos = informations.map(information => new InformationDto(information));
-
+  async populate(dtos: InformationDto[]) {
     await this.addCommentsCounts(dtos);
   }
 
   async addCommentsCounts(informations: InformationDto[]) {
     const counts = await this.informationService.getCommentsCounts(informations.map(i => i.id));
 
-    informations.forEach(i => i.commentsCount = counts[i.id]);
+    for (const information of informations)
+      information.commentsCount = counts[information.id];
   }
 
 }

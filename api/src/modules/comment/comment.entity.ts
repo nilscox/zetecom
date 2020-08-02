@@ -1,11 +1,10 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { Reaction } from 'src/modules/comment/reaction.entity';
-
 import { Information } from '../information/information.entity';
 import { User } from '../user/user.entity';
 
 import { Message } from './message.entity';
+import { Reaction } from './reaction.entity';
 
 @Entity({ name: 'comment', orderBy: { created: 'DESC' } })
 export class Comment {
@@ -31,7 +30,7 @@ export class Comment {
   @JoinColumn({ name: 'information_id' })
   information: Information;
 
-  @OneToMany(type => Message, message => message.comment)
+  @OneToMany(type => Message, message => message.comment, { eager: true })
   messages: Message[];
 
   @ManyToOne(type => Comment, comment => comment.replies, { nullable: true })

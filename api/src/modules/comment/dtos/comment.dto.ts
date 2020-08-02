@@ -18,9 +18,9 @@ export class ReactionsCountDto {
 
 }
 
-export class CommentHistoryDto {
+export class MessageDto {
 
-  constructor(partial: Partial<CommentHistoryDto>) {
+  constructor(partial: Partial<MessageDto>) {
     Object.assign(this, partial);
   }
 

@@ -14,7 +14,6 @@ type CommentFactoryData = {
   author?: User;
   parent?: Comment;
   text?: string;
-  history?: string[];
 };
 
 @Injectable()
@@ -35,19 +34,11 @@ export class CommentFactory implements Factory<CommentFactoryData, Comment> {
     };
 
     const comment = await this.commentService.create(
-      {
-        informationId: (await getInformation()).id,
-        parentId: data.parent?.id,
-        text: data.text || 'comment text',
-      },
       await getAuthor(),
-      await getInformation()
+      await getInformation(),
+      data.parent || null,
+      data.text || 'comment text',
     );
-
-    if (data.history) {
-      for (const text of data.history)
-        await this.commentService.update(comment, { text });
-    }
 
     return comment;
   }

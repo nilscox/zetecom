@@ -56,6 +56,7 @@ export class CommentRepository extends Repository<Comment> {
     return this.createQueryBuilder('comment')
       .leftJoinAndSelect('comment.author', 'author')
       .leftJoinAndSelect('comment.messages', 'messages')
+      .orderBy('messages.created', 'DESC')
       .skip((page - 1) * pageSize)
       .take(pageSize);
   }
@@ -70,11 +71,30 @@ export class CommentRepository extends Repository<Comment> {
         .addOrderBy('comment.created', 'DESC');
     }
 
-    qb.addOrderBy('messages.created', 'DESC');
+    // need?
+    // qb.addOrderBy('messages.created', 'DESC');
   }
 
   async exists(id: number): Promise<boolean> {
     return (await this.count({ id })) === 1;
+  }
+
+  async findById(id: number, opts = { author: true, information: false, parent: false }) {
+    const qb = this.createQueryBuilder('comment')
+      .where({ id })
+      .leftJoinAndSelect('comment.messages', 'messages')
+      .orderBy('messages.created', 'DESC');
+
+    if (opts.author)
+      qb.leftJoinAndSelect('comment.author', 'author');
+
+    if (opts.information)
+      qb.leftJoinAndSelect('comment.information', 'information');
+
+    if (opts.parent)
+      qb.leftJoinAndSelect('comment.parent', 'parent');
+
+    return qb.getOne();
   }
 
   async findRootComments(

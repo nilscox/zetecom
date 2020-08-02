@@ -34,10 +34,12 @@ import { User } from '../user/user.entity';
 import { Comment } from './comment.entity';
 import { CommentRepository } from './comment.repository';
 import { CommentService } from './comment.service';
-import { CommentDto, CommentHistoryDto } from './dtos/comment.dto';
+import { CommentDto } from './dtos/comment.dto';
 import { CreateCommentDto } from './dtos/create-comment.dto';
 import { CreateReactionDto } from './dtos/create-reaction.dto';
+import { MessageDto } from './dtos/message.dto';
 import { UpdateCommentDto } from './dtos/update-comment.dto';
+import { Message } from './message.entity';
 import { PopulateComment } from './populate-comment.interceptor';
 import { CreateReportDto } from './report/dtos/create-report.dto';
 import { ReportService } from './report/report.service';
@@ -87,6 +89,7 @@ export class CommentController {
   }
 
   @Get(':id')
+  @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
@@ -100,18 +103,20 @@ export class CommentController {
   }
 
   @Get(':id/history')
+  @CastToDto(MessageDto)
   async findHistory(
     @Param('id', new ParseIntPipe()) id: number,
-  ): Promise<CommentHistoryDto[]> {
+  ): Promise<Message[]> {
     const comment = await this.commentService.findById(id);
 
     if (!comment)
       throw new NotFoundException();
 
-    return comment.messages.map(comment => new CommentHistoryDto(comment));
+    return comment.messages;
   }
 
   @Get(':id/replies')
+  @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
   async findReplies(
     @Param('id', new ParseIntPipe()) id: number,
@@ -123,6 +128,7 @@ export class CommentController {
     return this.commentRepository.findReplies(id, page, this.commentPageSize);
   }
 
+  // TODO: return 204
   @Post(':id/subscribe')
   @UseGuards(IsAuthenticated)
   async subscribe(
@@ -165,21 +171,33 @@ export class CommentController {
 
   @Post()
   @UseGuards(IsAuthenticated)
+  @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
   async create(
     @AuthUser() user: User,
     @Body() dto: CreateCommentDto,
   ): Promise<Comment> {
     const information = await this.informationService.findById(dto.informationId);
+    let parent: Comment | null = null;
 
     if (!information)
       throw new BadRequestException(`information with id ${dto.informationId} does not exists`);
 
-    return this.commentService.create(dto, user, information);
+    if (dto.parentId) {
+      parent = await this.commentRepository.findOne({ id: dto.parentId });
+
+      // TODO: error format
+      if (!parent) {
+        throw new BadRequestException(`standalone comment with id ${dto.parentId} not found`);
+      }
+    }
+
+    return this.commentService.create(user, information, parent, dto.text);
   }
 
   @Put(':id')
   @UseGuards(IsAuthenticated, IsAuthor)
+  @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
   async update(
     @Body() dto: UpdateCommentDto,
@@ -190,11 +208,13 @@ export class CommentController {
     if (!comment)
       throw new NotFoundException();
 
-    return this.commentService.update(comment, dto);
+    return this.commentService.update(comment, dto.text);
   }
 
+  // TODO: return 204
   @Post(':id/reaction')
   @UseGuards(IsAuthenticated, IsNotAuthor)
+  @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
   async reaction(
     @AuthUser() user: User,
@@ -212,8 +232,10 @@ export class CommentController {
     return (await this.commentService.findById(comment.id))!;
   }
 
+  // TODO: return 204
   @Post(':id/report')
   @UseGuards(IsAuthenticated, IsNotAuthor)
+  @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
   async report(
     @AuthUser() user: User,

@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGenerat
 
 import { Comment } from './comment.entity';
 
-@Entity({ name: 'message', orderBy: { created: 'ASC' } })
+@Entity({ name: 'message', orderBy: { created: 'DESC' } })
 export class Message {
 
   @PrimaryGeneratedColumn()
@@ -14,7 +14,7 @@ export class Message {
   @CreateDateColumn()
   created: Date;
 
-  @ManyToOne(type => Comment, comment => comment.history, { nullable: true })
+  @ManyToOne(type => Comment, comment => comment.messages, { nullable: false })
   @JoinColumn({ name: 'comment_id' })
   comment: Comment;
 

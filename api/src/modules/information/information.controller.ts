@@ -113,6 +113,7 @@ export class InformationController {
 
   @Post()
   @UseGuards(IsAuthenticated)
+  @CastToDto(InformationDto)
   @UseInterceptors(PopulateInformation)
   @Roles(Role.ADMIN)
   async create(
@@ -127,6 +128,7 @@ export class InformationController {
 
   @Put(':id')
   @UseGuards(IsAuthenticated)
+  @CastToDto(InformationDto)
   @UseInterceptors(PopulateInformation)
   @Roles(Role.ADMIN)
   async update(
