@@ -34,7 +34,7 @@ import { Comment } from './comment.entity';
 import { CommentRepository } from './comment.repository';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dtos/create-comment.dto';
-import { ReactionInDto } from './dtos/reaction-in.dto';
+import { CreateReactionDto } from './dtos/create-reaction.dto';
 import { UpdateCommentDto } from './dtos/update-comment.dto';
 import { PopulateComment } from './populate-comment.interceptor';
 import { CreateReportDto } from './report/dtos/create-report.dto';
@@ -183,7 +183,7 @@ export class CommentController {
   async reaction(
     @AuthUser() user: User,
     @Param('id', new ParseIntPipe()) id: number,
-    @Body() dto: ReactionInDto,
+    @Body() dto: CreateReactionDto,
   ): Promise<Comment> {
     const comment = await this.commentService.findById(id);
 
