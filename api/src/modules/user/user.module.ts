@@ -42,10 +42,13 @@ export class UserModule implements OnModuleInit {
     if (!admin)
       return;
 
-    const [email, nick, password] = admin.split(':');
+    const [nick, email, password] = admin.split(':');
 
-    if (!email || !nick || !password)
+    if (!email || !nick || !password) {
+      // TODO: logger
+      console.warn('ADMIN_USER format must be nick:email:password');
       return;
+    }
 
     const existing = await this.userService.findByEmail(email);
 

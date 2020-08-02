@@ -10,16 +10,16 @@ import { User } from '../user/user.entity';
 
 import { PopulateSubscription } from './populate-subscription.interceptor';
 import { StripNullRelations } from './strip-null-relations.interceptor';
-import { ReactionSubscription } from './subscription.entity';
-import { ReactionSubscriptionService } from './subscription.service';
+import { CommentSubscription } from './subscription.entity';
+import { CommentSubscriptionService } from './subscription.service';
 
 @Controller('subscription')
 @UseInterceptors(ClassToPlainInterceptor)
 @UseInterceptors(StripNullRelations)
-export class ReactionSubscriptionController {
+export class CommentSubscriptionController {
 
   constructor(
-    private readonly subscriptionService: ReactionSubscriptionService,
+    private readonly subscriptionService: CommentSubscriptionService,
   ) {}
 
   @Get('me')
@@ -28,7 +28,7 @@ export class ReactionSubscriptionController {
   findForUser(
     @AuthUser() user: User,
     @PageQuery() page: number,
-  ): Promise<Paginated<ReactionSubscription>> {
+  ): Promise<Paginated<CommentSubscription>> {
     return this.subscriptionService.findAllForUser(user, page);
   }
 

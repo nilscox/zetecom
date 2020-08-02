@@ -1,16 +1,16 @@
 import { DeepPartial, getManager } from 'typeorm';
 
-import { ReactionSubscription } from '../../modules/subscription/subscription.entity';
+import { CommentSubscription } from '../../modules/subscription/subscription.entity';
 
 import { createUser } from './user.factory';
 
-export const createReactionSubscription = async (data: DeepPartial<ReactionSubscription> = {}) => {
+export const createCommentSubscription = async (data: DeepPartial<CommentSubscription> = {}) => {
   const manager = getManager();
 
   if (!data.user)
     data.user = await createUser();
 
-  const subscription = manager.create(ReactionSubscription, {
+  const subscription = manager.create(CommentSubscription, {
     ...data,
   });
 

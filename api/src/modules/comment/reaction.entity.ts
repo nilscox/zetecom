@@ -2,17 +2,17 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGenerat
 
 import { User } from '../user/user.entity';
 
-import { Reaction } from './reaction.entity';
+import { Comment } from './comment.entity';
 
-export enum QuickReactionType {
+export enum ReactionType {
   APPROVE = 'APPROVE',
   REFUTE = 'REFUTE',
   SKEPTIC = 'SKEPTIC',
 }
 
-@Entity({ name: 'quick_reaction' })
-@Unique(['user', 'reaction'])
-export class QuickReaction {
+@Entity({ name: 'reaction' })
+@Unique(['user', 'comment'])
+export class Reaction {
 
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,12 +21,12 @@ export class QuickReaction {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(type => Reaction, { nullable: false })
-  @JoinColumn({ name: 'reaction_id' })
-  reaction: Reaction;
+  @ManyToOne(type => Comment, { nullable: false })
+  @JoinColumn({ name: 'comment_id' })
+  comment: Comment;
 
-  @Column({ type: 'enum', enum: QuickReactionType, nullable: true })
-  type: QuickReactionType;
+  @Column({ type: 'enum', enum: ReactionType, nullable: true })
+  type: ReactionType;
 
   @CreateDateColumn()
   created: Date;

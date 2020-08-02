@@ -1,10 +1,10 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
-import { Reaction } from '../reaction/reaction.entity';
+import { Comment } from '../comment/comment.entity';
 import { User } from '../user/user.entity';
 
 @Entity({ name: 'report' })
-@Unique(['user', 'reaction'])
+@Unique(['user', 'comment'])
 export class Report {
 
   @PrimaryGeneratedColumn()
@@ -14,9 +14,9 @@ export class Report {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(type => Reaction, { nullable: false })
-  @JoinColumn({ name: 'reaction_id' })
-  reaction: Reaction;
+  @ManyToOne(type => Comment, { nullable: false })
+  @JoinColumn({ name: 'comment_id' })
+  comment: Comment;
 
   @Column({ type: 'text', nullable: true })
   message: string;

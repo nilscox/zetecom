@@ -1,19 +1,19 @@
 import { getRepository, In, Repository } from 'typeorm';
 
+import { createComment } from '../../testing/factories/comment.factory';
 import { createInformation } from '../../testing/factories/information.factory';
-import { createReaction } from '../../testing/factories/reaction.factory';
-import { createReactionSubscription } from '../../testing/factories/subscription.factory';
+import { createCommentSubscription } from '../../testing/factories/subscription.factory';
 import { createUser } from '../../testing/factories/user.factory';
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
+import { CommentModule } from '../comment/comment.module';
 import { Notification, SubscriptionReplyNotification } from '../notification/notification.entity';
 import { NotificationModule } from '../notification/notification.module';
-import { ReactionModule } from '../reaction/reaction.module';
 
 describe('subscription', () => {
 
   const server = setupE2eTest({
-    imports: [AuthenticationModule, ReactionModule, NotificationModule],
+    imports: [AuthenticationModule, CommentModule, NotificationModule],
   });
 
   const [userRequest, user] = createAuthenticatedUser(server);
@@ -24,22 +24,22 @@ describe('subscription', () => {
     notificationRepository = getRepository(Notification as any);
   });
 
-  it('should create a notification from a subscription to a reaction', async () => {
+  it('should create a notification from a subscription to a comment', async () => {
     const information = await createInformation();
-    const reaction = await createReaction({ information });
+    const comment = await createComment({ information });
     const otherUser = await createUser();
 
-    await createReactionSubscription({ reaction, user });
-    await createReactionSubscription({ reaction, user: otherUser });
+    await createCommentSubscription({ comment: comment, user });
+    await createCommentSubscription({ comment: comment, user: otherUser });
 
     const requestBody = {
-      parentId: reaction.id,
+      parentId: comment.id,
       informationId: information.id,
       text: 'text',
     };
 
     const { body } = await userRequest
-      .post('/api/reaction')
+      .post('/api/comment')
       .send(requestBody)
       .expect(201);
 
@@ -52,7 +52,7 @@ describe('subscription', () => {
       payload: {
         author: { id: user.id },
         informationId: information.id,
-        reactionId: reaction.id,
+        commentId: comment.id,
         replyId: body.id,
         text: 'text',
       },

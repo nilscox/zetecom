@@ -17,7 +17,7 @@ type CommentEditionFormProps = {
 const CommentEditionForm: React.FC<CommentEditionFormProps> = ({ comment, onEdited, closeForm }) => {
   const formRef = React.useRef(null);
 
-  const opts: AxiosRequestConfig = { method: 'PUT', url: '/api/reaction/' + comment.id };
+  const opts: AxiosRequestConfig = { method: 'PUT', url: '/api/comment/' + comment.id };
   const [{ data, loading, error }, postComment] = useAxios(opts, parseComment, { manual: true });
 
   if (error)

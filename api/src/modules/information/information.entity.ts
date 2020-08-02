@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { Reaction } from '../reaction/reaction.entity';
+import { Comment } from '../comment/comment.entity';
 import { User } from '../user/user.entity';
 
 @Entity({ name: 'information', orderBy: { created: 'ASC' } })
@@ -42,9 +42,9 @@ export class Information {
   creator: User;
 
   @Expose()
-  reactionsCount: number;
+  commentsCount: number;
 
   @Expose()
-  reactions?: Reaction[];
+  comments?: Comment[];
 
 }

@@ -1,25 +1,25 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 
-import { ReactionService } from '../modules/reaction/reaction.service';
+import { CommentService } from '../modules/comment/comment.service';
 
 @Injectable()
 export class IsAuthor implements CanActivate {
 
   constructor(
-    private readonly reactionService: ReactionService,
+    private readonly commentService: CommentService,
   ) {}
 
   async canActivate(
     context: ExecutionContext,
   ): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const reactionId = request.param('id');
-    const reaction = await this.reactionService.findById(reactionId);
+    const commentId = request.param('id');
+    const comment = await this.commentService.findById(commentId);
 
-    if (!reaction)
+    if (!comment)
       return true;
 
-    if (reaction.author.id !== request.user.id)
+    if (comment.author.id !== request.user.id)
       return false;
 
     return true;
@@ -31,7 +31,7 @@ export class IsAuthor implements CanActivate {
 export class IsNotAuthor implements CanActivate {
 
   constructor(
-    private readonly reactionService: ReactionService,
+    private readonly commentService: CommentService,
   ) {}
 
   async canActivate(
@@ -42,13 +42,13 @@ export class IsNotAuthor implements CanActivate {
     if (!request.user)
       return true;
 
-    const reactionId = request.param('id');
-    const reaction = await this.reactionService.findById(reactionId);
+    const commentId = request.param('id');
+    const comment = await this.commentService.findById(commentId);
 
-    if (!reaction)
+    if (!comment)
       return true;
 
-    if (reaction.author.id === request.user.id)
+    if (comment.author.id === request.user.id)
       return false;
 
     return true;

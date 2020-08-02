@@ -1,6 +1,6 @@
 import { IsOptional, IsString, MaxLength } from 'class-validator';
 
-export class UpdateReactionInDto {
+export class UpdateCommentDto {
 
   @IsString()
   @IsOptional()

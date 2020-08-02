@@ -50,7 +50,7 @@ const UserComments: React.FC = () => {
     { loading, data: informations, total, error },
     { search, setSearch },,
     { page, setPage },
-  ] = useAxiosPaginated('/api/reaction/me', parseInformationForUser);
+  ] = useAxiosPaginated('/api/comment/me', parseInformationForUser);
 
   if (error)
     throw error;

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
+import { createComment } from './comment';
 import { InformationDto } from './dtos/Information';
 import { FindUser } from './main';
-import { createReaction } from './reaction';
 
 const findInformation = async (information: InformationDto) => {
   const { data } = await axios.get('/api/information/by-identifier/' + encodeURIComponent(information.identifier));
@@ -35,8 +35,8 @@ export const findOrCreateInformation = async (information: InformationDto, findU
     const created = await createInformation(information, findUser);
 
     if (information.comments) {
-      for (const reaction of information.comments) {
-        await createReaction(reaction, created, null, findUser);
+      for (const comment of information.comments) {
+        await createComment(comment, created, null, findUser);
       }
     }
 

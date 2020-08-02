@@ -11,7 +11,7 @@ import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
 const useReplies = (parent: Comment) => {
   const [page, setPage] = useState(0);
 
-  const url = `/api/reaction/${parent.id}/replies`;
+  const url = `/api/comment/${parent.id}/replies`;
   // TODO
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const parse = useCallback(usePaginatedResults(parseComment), []);

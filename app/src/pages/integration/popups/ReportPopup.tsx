@@ -87,7 +87,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
   const [alreadyReported, setArleadyReported] = useState(false);
   const { colors: { border }, sizes: { big }, borderRadius } = useTheme();
 
-  const [{ data: comment, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseComment);
+  const [{ data: comment, loading, error }] = useAxios('/api/comment/' + match.params.id, parseComment);
 
   const requestConfig = { method: 'POST', validateStatus: (status: number) => [201, 400].includes(status) } as const;
   const [{
@@ -105,7 +105,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
 
   useEffect(() => {
     if (status(400)) {
-      if (rawReportData && rawReportData.message === 'REACTION_ALREADY_REPORTED')
+      if (rawReportData && rawReportData.message === 'COMMENT_ALREADY_REPORTED')
         setArleadyReported(true);
       else
         throw error;
@@ -123,7 +123,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
   const onSubmit = () => {
     if (comment) {
       report({
-        url: `/api/reaction/${comment.id}/report`,
+        url: `/api/comment/${comment.id}/report`,
         data: {
           commentId: comment.id,
           message: message !== '' ? message : undefined,

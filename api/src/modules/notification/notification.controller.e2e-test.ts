@@ -17,7 +17,7 @@ describe('notifications', () => {
 
   const subscriptionReplyPayload = {
     informationId: 1,
-    reactionId: 1,
+    commentId: 1,
     replyId: 3,
     author: { id: 69, nick: 'nick', avatar: null },
     text: 'text',

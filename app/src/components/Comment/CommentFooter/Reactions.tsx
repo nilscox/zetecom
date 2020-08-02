@@ -5,7 +5,7 @@ import { AxiosRequestConfig } from 'axios';
 import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
-import { parseComment, ReactionsCount, ReactionType, Comment } from 'src/types/Comment';
+import { Comment, parseComment, ReactionsCount, ReactionType } from 'src/types/Comment';
 import { trackSetReaction } from 'src/utils/track';
 
 import Reaction, { ReactionProps } from './Reaction';
@@ -36,7 +36,7 @@ const useReactions = (
 
   const opts: AxiosRequestConfig = {
     method: 'POST',
-    url: `/api/reaction/${commentId}/quick-reaction`,
+    url: `/api/comment/${commentId}/reaction`,
   };
 
   const [{ data: updated, error, status }, post] = useAxios(opts, parseComment, { manual: true });

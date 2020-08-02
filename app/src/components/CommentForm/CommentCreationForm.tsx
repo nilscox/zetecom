@@ -24,7 +24,7 @@ const CommentCreationForm: React.FC<CommentCreationFormProps> = ({
 
   const formRef = React.useRef(null);
 
-  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/reaction' };
+  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/comment' };
   const [{ data, loading, error }, postComment] = useAxios(opts, parseComment, { manual: true });
 
   if (error)

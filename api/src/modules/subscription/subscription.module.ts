@@ -3,23 +3,23 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { NotificationModule } from '../notification/notification.module';
 
-import { ReactionSubscriptionController } from './subscription.controller';
-import { ReactionSubscription } from './subscription.entity';
-import { ReactionSubscriptionService } from './subscription.service';
+import { CommentSubscriptionController as CommentSubscriptionController } from './subscription.controller';
+import { CommentSubscription } from './subscription.entity';
+import { CommentSubscriptionService as CommentSubscriptionService } from './subscription.service';
 
-const REACTION_SUBSCRIPTION_PAGE_SIZE = 'REACTION_SUBSCRIPTION_PAGE_SIZE';
-const ReactionSubscriptionPageSize: Provider = {
-  provide: REACTION_SUBSCRIPTION_PAGE_SIZE,
+const COMMENT_SUBSCRIPTION_PAGE_SIZE = 'COMMENT_SUBSCRIPTION_PAGE_SIZE';
+const CommentSubscriptionPageSize: Provider = {
+  provide: COMMENT_SUBSCRIPTION_PAGE_SIZE,
   useValue: 10,
 };
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ReactionSubscription]),
+    TypeOrmModule.forFeature([CommentSubscription]),
     NotificationModule,
   ],
-  controllers: [ReactionSubscriptionController],
-  providers: [ReactionSubscriptionPageSize, ReactionSubscriptionService],
-  exports: [ReactionSubscriptionService],
+  controllers: [CommentSubscriptionController],
+  providers: [CommentSubscriptionPageSize, CommentSubscriptionService],
+  exports: [CommentSubscriptionService],
 })
-export class ReactionSubscriptionModule {}
+export class CommentSubscriptionModule {}

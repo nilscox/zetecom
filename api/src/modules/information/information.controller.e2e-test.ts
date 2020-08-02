@@ -1,13 +1,13 @@
 import request from 'supertest';
 import { getCustomRepository, getRepository, Repository } from 'typeorm';
 
+import { createComment } from '../../testing/factories/comment.factory';
 import { createInformation } from '../../testing/factories/information.factory';
 import { createMessage } from '../../testing/factories/message.factory';
-import { createReaction } from '../../testing/factories/reaction.factory';
 import { createAuthenticatedAdmin, createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
-import { Message } from '../reaction/message.entity';
-import { Reaction } from '../reaction/reaction.entity';
+import { Comment } from '../comment/comment.entity';
+import { Message } from '../comment/message.entity';
 import { User } from '../user/user.entity';
 
 import { Information } from './information.entity';
@@ -22,7 +22,7 @@ describe('information controller', () => {
     moduleBuilder
       .overrideProvider('INFORMATION_PAGE_SIZE')
       .useValue(2)
-      .overrideProvider('REACTION_PAGE_SIZE')
+      .overrideProvider('COMMENT_PAGE_SIZE')
       .useValue(2);
   });
 
@@ -31,34 +31,34 @@ describe('information controller', () => {
   let information3: Information;
 
   let message1: Message;
-  let reaction1: Reaction;
+  let comment1: Comment;
 
-  let reaction2: Reaction;
+  let comment2: Comment;
 
   let message3: Message;
-  let reaction3: Reaction;
+  let comment3: Comment;
 
-  let reaction4: Reaction;
+  let comment4: Comment;
 
   let message5: Message;
-  let reaction5: Reaction;
+  let comment5: Comment;
 
   let message6: Message;
-  let reaction6: Reaction;
-  let reaction7: Reaction;
+  let comment6: Comment;
+  let comment7: Comment;
 
   let userRepository: Repository<User>;
   let informationRepository: InformationRepository;
 
   /*
     - information1
-      - reaction1 (message1 search wow)
-      - reaction2
-        - reaction3 (searching message3)
-      - reaction4
+      - comment1 (message1 search wow)
+      - comment2
+        - comment3 (searching message3)
+      - comment4
 
     - information2
-      - reaction5 (message5 search)
+      - comment5 (message5 search)
 
     - information3
   */
@@ -72,17 +72,17 @@ describe('information controller', () => {
     information3 = await createInformation();
 
     message1 = await createMessage({ text: 'message1 search wow' });
-    reaction1 = await createReaction({ information: information1, message: message1 });
+    comment1 = await createComment({ information: information1, message: message1 });
 
-    reaction2 = await createReaction({ information: information1 });
+    comment2 = await createComment({ information: information1 });
 
     message3 = await createMessage({ text: 'searching message3' });
-    reaction3 = await createReaction({ information: information1, message: message3, parent: reaction2 });
+    comment3 = await createComment({ information: information1, message: message3, parent: comment2 });
 
-    reaction4 = await createReaction({ information: information1 });
+    comment4 = await createComment({ information: information1 });
 
     message5 = await createMessage({ text: 'message5 search' });
-    reaction5 = await createReaction({ information: information2, message: message5 });
+    comment5 = await createComment({ information: information2, message: message5 });
 
     message6 = await createMessage({ text: 'message6 search' });
   });
@@ -96,8 +96,8 @@ describe('information controller', () => {
         .then(({ body }) => {
           expect(body).toMatchObject({
             items: [
-              { id: information1.id, reactionsCount: 4 },
-              { id: information2.id, reactionsCount: 1 },
+              { id: information1.id, commentsCount: 4 },
+              { id: information2.id, commentsCount: 1 },
             ],
             total: 3,
           });
@@ -112,7 +112,7 @@ describe('information controller', () => {
         .then(({ body }) => {
           expect(body).toMatchObject({
             items: [
-              { id: information3.id, reactionsCount: 0 },
+              { id: information3.id, commentsCount: 0 },
             ],
             total: 3,
           });
@@ -154,7 +154,7 @@ describe('information controller', () => {
             title: 'title',
             url: 'url',
             imageUrl: 'imageUrl',
-            reactionsCount: 4,
+            commentsCount: 4,
           });
         });
     });
@@ -178,68 +178,68 @@ describe('information controller', () => {
 
   });
 
-  describe('get root reactions', () => {
+  describe('get root comments', () => {
 
-    it('should not find reaction for an information that does not exist', () => {
+    it('should not find comments for an information that does not exist', () => {
       return request(server)
-        .get('/api/information/4/reactions')
+        .get('/api/information/4/comments')
         .expect(404);
     });
 
-    it('should fetch the root reactions', () => {
+    it('should fetch the root comments', () => {
       return request(server)
-        .get(`/api/information/${information1.id}/reactions`)
+        .get(`/api/information/${information1.id}/comments`)
         .expect(200)
         .then(({ body }) => {
           expect(body).toMatchObject({
             items: [
-              { id: reaction4.id },
-              { id: reaction2.id },
+              { id: comment4.id },
+              { id: comment2.id },
             ],
             total: 3,
           });
         });
     });
 
-    it('should fetch the root reactions on page 2', () => {
+    it('should fetch the root comments on page 2', () => {
       return request(server)
-        .get(`/api/information/${information1.id}/reactions`)
+        .get(`/api/information/${information1.id}/comments`)
         .query({ page: 2 })
         .expect(200)
         .then(({ body }) => {
           expect(body).toMatchObject({
             items: [
-              { id: reaction1.id },
+              { id: comment1.id },
             ],
             total: 3,
           });
         });
     });
 
-    it('should fetch the root reactions sorted by date asc', () => {
+    it('should fetch the root comments sorted by date asc', () => {
       return request(server)
-        .get(`/api/information/${information1.id}/reactions?sort=date-asc`)
+        .get(`/api/information/${information1.id}/comments?sort=date-asc`)
         .expect(200)
         .then(({ body }) => {
           expect(body).toMatchObject({
             items: [
-              { id: reaction1.id },
-              { id: reaction2.id },
+              { id: comment1.id },
+              { id: comment2.id },
             ],
             total: 3,
           });
         });
     });
 
-    it('should search from the reactions', () => {
+    it('should search from the comments', () => {
       return request(server)
-        .get(`/api/information/${information1.id}/reactions?search=search`)
+        .get(`/api/information/${information1.id}/comments?search=search`)
         .expect(200)
         .then(({ body }) => {
           expect(body).toMatchObject({
             items: [
-              { id: reaction3.id },
-              { id: reaction1.id },
+              { id: comment3.id },
+              { id: comment1.id },
             ],
             total: 2,
           });

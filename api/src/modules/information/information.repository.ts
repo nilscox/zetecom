@@ -23,11 +23,11 @@ export class InformationRepository extends Repository<Information> {
     return { items, total };
   }
 
-  async getReactionsCounts(informationIds: number[]): Promise<{ [informationId: number]: number }> {
+  async getCommentsCounts(informationIds: number[]): Promise<{ [informationId: number]: number }> {
     const counts = await this.createQueryBuilder('information')
       .select('information.id', 'information_id')
-      .addSelect('count(reaction.id)', 'count')
-      .leftJoin('reaction', 'reaction', 'reaction.information_id = information.id')
+      .addSelect('count(comment.id)', 'count')
+      .leftJoin('comment', 'comment', 'comment.information_id = information.id')
       .where('information.id IN (' + informationIds + ')')
       .groupBy('information.id')
       .getRawMany();

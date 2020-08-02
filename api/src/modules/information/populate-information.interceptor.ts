@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { getCustomRepository } from 'typeorm';
 
 import { TransformInterceptor } from '../../common/transform.interceptor';
-import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
-import { Reaction } from '../reaction/reaction.entity';
+import { Comment } from '../comment/comment.entity';
+import { PopulateComment } from '../comment/populate-comment.interceptor';
 
 import { Information } from './information.entity';
 import { InformationRepository } from './information.repository';
@@ -16,18 +16,18 @@ export class PopulateInformation extends TransformInterceptor<Information> {
   }
 
   async transform(information: Information[], request: any) {
-    const reactions: Reaction[] = [].concat(...information.map(info => info.reactions || []));
+    const comments: Comment[] = [].concat(...information.map(info => info.comments || []));
 
-    if (reactions.length > 0)
-      await new PopulateReaction().transform(reactions, request);
+    if (comments.length > 0)
+      await new PopulateComment().transform(comments, request);
 
-    await this.addReactionsCounts(information);
+    await this.addCommentsCounts(information);
   }
 
-  async addReactionsCounts(informations: Information[]): Promise<void> {
-    const counts = await this.informationRepository.getReactionsCounts(informations.map(i => i.id));
+  async addCommentsCounts(informations: Information[]): Promise<void> {
+    const counts = await this.informationRepository.getCommentsCounts(informations.map(i => i.id));
 
-    informations.forEach(i => i.reactionsCount = counts[i.id]);
+    informations.forEach(i => i.commentsCount = counts[i.id]);
   }
 
 }

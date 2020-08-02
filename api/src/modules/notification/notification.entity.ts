@@ -14,7 +14,7 @@ export type NotificationPayload = {
   };
   [NotificationType.SUBSCRIPTION_REPLY]: {
     informationId: number;
-    reactionId: number;
+    commentId: number;
     replyId: number;
     author: UserLight;
     text: string;
@@ -34,7 +34,7 @@ class SubscriptionReplyPayloadDto extends NotificationPayloadDto {
   informationId: number;
 
   @Expose()
-  reactionId: number;
+  commentId: number;
 
   @Expose()
   replyId: number;

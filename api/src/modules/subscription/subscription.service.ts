@@ -5,49 +5,49 @@ import { FindConditions, Not, Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
+import { Comment } from '../comment/comment.entity';
 import { Notification, NotificationType, SubscriptionReplyNotification } from '../notification/notification.entity';
-import { Reaction } from '../reaction/reaction.entity';
 import { User, UserLight } from '../user/user.entity';
 
-import { ReactionSubscription } from './subscription.entity';
+import { CommentSubscription } from './subscription.entity';
 
 @Injectable()
-export class ReactionSubscriptionService {
+export class CommentSubscriptionService {
 
-  @Inject('REACTION_SUBSCRIPTION_PAGE_SIZE')
+  @Inject('COMMENT_SUBSCRIPTION_PAGE_SIZE')
   private pageSize: number;
 
   constructor(
-    @InjectRepository(ReactionSubscription)
-    private readonly subscriptionRepository: Repository<ReactionSubscription>,
+    @InjectRepository(CommentSubscription)
+    private readonly subscriptionRepository: Repository<CommentSubscription>,
 
     @InjectRepository(Notification)
     private readonly notificationRepository: Repository<SubscriptionReplyNotification>,
   ) {}
 
-  public async subscribe(user: User, reaction: Reaction): Promise<ReactionSubscription> {
-    // typeorm has trouble handling circular references (reaction -> meassge -> reaction)
-    const subscription = this.subscriptionRepository.create({ user, reaction: { id: reaction.id } });
+  public async subscribe(user: User, comment: Comment): Promise<CommentSubscription> {
+    // typeorm has trouble handling circular references (comment -> meassge -> comment)
+    const subscription = this.subscriptionRepository.create({ user, comment: { id: comment.id } });
 
     return this.subscriptionRepository.save(subscription);
   }
 
-  public async unsubscribe(subscription: ReactionSubscription): Promise<void> {
+  public async unsubscribe(subscription: CommentSubscription): Promise<void> {
     await this.subscriptionRepository.remove(subscription);
   }
 
-  public async getSubscription(user: User, reaction: Reaction): Promise<ReactionSubscription | undefined> {
-    const where: FindConditions<ReactionSubscription> = { user, reaction };
+  public async getSubscription(user: User, comment: Comment): Promise<CommentSubscription | undefined> {
+    const where: FindConditions<CommentSubscription> = { user, comment };
 
     return this.subscriptionRepository.findOne(where);
   }
 
-  public async findAllForUser(user: User, page: number): Promise<Paginated<ReactionSubscription>> {
-    const qb = this.subscriptionRepository.createQueryBuilder('reaction_subscription')
-      .leftJoinAndSelect('reaction_subscription.reaction', 'reaction')
-      .leftJoinAndSelect('reaction.information', 'information')
-      .leftJoinAndSelect('reaction.author', 'author')
-      .leftJoinAndSelect('reaction.message', 'message')
+  public async findAllForUser(user: User, page: number): Promise<Paginated<CommentSubscription>> {
+    const qb = this.subscriptionRepository.createQueryBuilder('comment_subscription')
+      .leftJoinAndSelect('comment_subscription.comment', 'comment')
+      .leftJoinAndSelect('comment.information', 'information')
+      .leftJoinAndSelect('comment.author', 'author')
+      .leftJoinAndSelect('comment.message', 'message')
       .where('user_id = :userId', { userId: user.id })
       .skip((page - 1) * this.pageSize)
       .take(this.pageSize);
@@ -57,24 +57,24 @@ export class ReactionSubscriptionService {
     return { items, total };
   }
 
-  public async getSubscriptionsForUser(reactionIds: number[], userId: number): Promise<{ [reactionId: number]: boolean }> {
-    const subscriptions = await this.subscriptionRepository.createQueryBuilder('reaction_subscription')
-      .select('reaction_id', 'reactionId')
-      .leftJoin('reaction', 'reaction', 'reaction_subscription.reaction_id = reaction.id')
+  public async getSubscriptionsForUser(commentsIds: number[], userId: number): Promise<{ [commentId: number]: boolean }> {
+    const subscriptions = await this.subscriptionRepository.createQueryBuilder('comment_subscription')
+      .select('comment_id', 'commentId')
+      .leftJoin('comment', 'comment', 'comment_subscription.comment_id = comment.id')
       .where('user_id = :userId', { userId })
-      .andWhere('reaction.id IN (' + reactionIds + ')')
+      .andWhere('comment.id IN (' + commentsIds + ')')
       .getRawMany();
 
-    return reactionIds.reduce((acc, reactionId) => ({
+    return commentsIds.reduce((acc, commentId) => ({
       ...acc,
-      [reactionId]: !!subscriptions.find(s => s.reactionId === reactionId),
+      [commentId]: !!subscriptions.find(s => s.commentId === commentId),
     }), {});
   }
 
-  public async notifyReply(reply: Reaction): Promise<void> {
+  public async notifyReply(reply: Comment): Promise<void> {
     const subscriptions = await this.subscriptionRepository.find({
       where: {
-        reaction: reply.parent,
+        comment: reply.parent,
         user: Not(reply.author.id),
       },
       relations: ['user'],
@@ -82,7 +82,7 @@ export class ReactionSubscriptionService {
 
     const payload = {
       informationId: reply.information.id,
-      reactionId: reply.parent.id,
+      commentId: reply.parent.id,
       replyId: reply.id,
       author: classToPlain(plainToClass(UserLight, reply.author), { strategy: 'excludeAll' }),
       text: reply.message.text,

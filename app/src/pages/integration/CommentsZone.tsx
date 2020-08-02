@@ -1,10 +1,10 @@
 import React from 'react';
 
 import AsyncContent from 'src/components/AsyncContent';
-import Fallback from 'src/components/Fallback';
-import FiltersBar from 'src/components/FiltersBar';
 import { CommentCreationForm } from 'src/components/CommentForm';
 import CommentsList from 'src/components/CommentsList';
+import Fallback from 'src/components/Fallback';
+import FiltersBar from 'src/components/FiltersBar';
 import Text from 'src/components/Text';
 import { useInformation } from 'src/contexts/InformationContext';
 import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
@@ -25,7 +25,7 @@ const CommentsZone: React.FC = () => {
     { search, setSearch },
     { sort, setSort },
     { page, setPage },
-  ] = useAxiosPaginated(`/api/information/${information.id}/reactions`, parseComment);
+  ] = useAxiosPaginated(`/api/information/${information.id}/comments`, parseComment);
 
   const [comments, { prepend }] = useEditableDataset(data);
 

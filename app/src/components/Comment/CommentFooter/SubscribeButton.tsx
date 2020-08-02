@@ -28,7 +28,7 @@ const useSubscription = (comment: Comment) => {
     if (loading)
       return;
 
-    execute({ url: `/api/reaction/${comment.id}/${subscribed ? 'unsubscribe' : 'subscribe' }` });
+    execute({ url: `/api/comment/${comment.id}/${subscribed ? 'unsubscribe' : 'subscribe' }` });
 
     // optimist update
     setSubscribed(!subscribed);

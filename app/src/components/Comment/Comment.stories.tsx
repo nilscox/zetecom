@@ -145,7 +145,7 @@ export const list = () => (
 );
 
 export const withReplies = () => {
-  mockAxios.onGet('/api/reaction/1/replies').reply(200, {
+  mockAxios.onGet('/api/comment/1/replies').reply(200, {
     items: [
       { ...comment, ...comments[0], repliesCount: 1 },
       { ...comment, ...comments[1] },
@@ -153,7 +153,7 @@ export const withReplies = () => {
     total: 2,
   });
 
-  mockAxios.onGet('/api/reaction/2/replies').reply(200, {
+  mockAxios.onGet('/api/comment/2/replies').reply(200, {
     items: [{ ...comment, ...comments[2] }],
     total: 1,
   });
@@ -162,7 +162,7 @@ export const withReplies = () => {
 };
 
 export const listWithReplies = () => {
-  mockAxios.onGet('/api/reaction/1/replies').reply(200, {
+  mockAxios.onGet('/api/comment/1/replies').reply(200, {
     items: [
       { ...comment, ...comments[0], repliesCount: 1 },
       { ...comment, ...comments[1] },

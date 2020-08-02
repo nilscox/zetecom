@@ -5,9 +5,9 @@ import { Information } from '../information/information.entity';
 import { User, UserLight } from '../user/user.entity';
 
 import { Message } from './message.entity';
-import { QuickReaction, QuickReactionType } from './quick-reaction.entity';
+import { Reaction, ReactionType } from './reaction.entity';
 
-export class QuickReactionsCountDto {
+export class ReactionsCountDto {
 
   @Expose()
   APPROVE: number;
@@ -20,7 +20,7 @@ export class QuickReactionsCountDto {
 
 }
 
-export class ReactionEditionOutDto {
+export class CommentEditionOutDto {
 
   @Expose()
   text: string;
@@ -30,8 +30,8 @@ export class ReactionEditionOutDto {
 
 }
 
-@Entity({ name: 'reaction', orderBy: { created: 'DESC' } })
-export class Reaction {
+@Entity({ name: 'comment', orderBy: { created: 'DESC' } })
+export class Comment {
 
   @PrimaryGeneratedColumn()
   @Expose()
@@ -58,24 +58,24 @@ export class Reaction {
   @JoinColumn({ name: 'information_id' })
   information: Information;
 
-  @OneToMany(type => Message, message => message.reaction)
+  @OneToMany(type => Message, message => message.comment)
   @Expose()
-  @Type(() => ReactionEditionOutDto)
+  @Type(() => CommentEditionOutDto)
   history: Message[];
 
-  @OneToOne(type => Message, message => message.reaction, { eager: true })
+  @OneToOne(type => Message, message => message.comment, { eager: true })
   @JoinColumn({ name: 'message_id' })
   message: Message;
 
-  @ManyToOne(type => Reaction, reaction => reaction.replies, { nullable: true })
+  @ManyToOne(type => Comment, comment => comment.replies, { nullable: true })
   @JoinColumn({ name: 'parent_id' })
-  parent: Reaction;
+  parent: Comment;
 
-  @OneToMany(type => Reaction, reaction => reaction.parent)
-  replies: Reaction[];
+  @OneToMany(type => Comment, comment => comment.parent)
+  replies: Comment[];
 
-  @OneToMany(type => QuickReaction, sr => sr.reaction)
-  quickReactions: QuickReaction[];
+  @OneToMany(type => Reaction, sr => sr.comment)
+  reactions: Reaction[];
 
   @Expose()
   get edited(): Date | false {
@@ -97,11 +97,11 @@ export class Reaction {
   repliesCount?: number;
 
   @Expose()
-  @Type(() => QuickReactionsCountDto)
-  quickReactionsCount?: { [key in QuickReactionType]: number };
+  @Type(() => ReactionsCountDto)
+  reactionsCount?: { [key in ReactionType]: number };
 
   @Expose()
-  userQuickReaction?: QuickReactionType;
+  userReaction?: ReactionType;
 
   @Expose()
   subscribed?: boolean;

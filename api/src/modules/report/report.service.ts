@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Reaction } from '../reaction/reaction.entity';
+import { Comment } from '../comment/comment.entity';
 import { User } from '../user/user.entity';
 
 import { Report } from './report.entity';
@@ -15,22 +15,22 @@ export class ReportService {
     private readonly reportRepository: Repository<Report>,
   ) {}
 
-  async report(reaction: Reaction, user: User, message: string) {
+  async report(comment: Comment, user: User, message: string) {
     const report = new Report();
 
-    report.reaction = reaction;
+    report.comment = comment;
     report.user = user;
     report.message = message;
 
     await this.reportRepository.save(report);
   }
 
-  async didUserReportReaction(reaction: Reaction, user: User): Promise<boolean> {
-    return (await this.reportRepository.count({ reaction, user })) > 0;
+  async didUserReportComment(comment: Comment, user: User): Promise<boolean> {
+    return (await this.reportRepository.count({ comment: comment, user })) > 0;
   }
 
-  async findReport(reaction: Reaction, user: User): Promise<Report | undefined> {
-    return this.reportRepository.findOne({ reaction, user });
+  async findReport(comment: Comment, user: User): Promise<Report | undefined> {
+    return this.reportRepository.findOne({ comment: comment, user });
   }
 
 }

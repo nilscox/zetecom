@@ -50,14 +50,14 @@ export const parseComment = (data: any): Comment => {
     edited: !data.edited ? false : new Date(data.edited),
     author: data.author ? parseUser(data.author) : undefined,
     history: data.history ? data.history.map(parseCommentHistory) : null,
-    reactionsCount: data.quickReactionsCount
-      ? Object.keys(data.quickReactionsCount).reduce((obj, key) => {
-        obj[key] = data.quickReactionsCount[key];
+    reactionsCount: data.reactionsCount
+      ? Object.keys(data.reactionsCount).reduce((obj, key) => {
+        obj[key] = data.reactionsCount[key];
         return obj;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       }, {} as any)
       : null,
-    userReaction: data.userQuickReaction ? data.userQuickReaction : null,
+    userReaction: data.userreaction ? data.userreaction : null,
     information: data.information ? parseInformation(data.information) : undefined,
   };
 };

@@ -1,6 +1,6 @@
 import { IsInt, IsOptional, IsString, MaxLength } from 'class-validator';
 
-export class CreateReactionInDto {
+export class CreateCommentDto {
 
   @IsInt()
   readonly informationId: number;

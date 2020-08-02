@@ -115,7 +115,7 @@ const CommentHistoryPopup: React.FC<CommentHistoryPopupProps> = ({ match }) => {
   useTrackPageview();
 
   const { sizes: { big } } = useTheme();
-  const [{ data: comment, loading, error }] = useAxios('/api/reaction/' + match.params.id, parseComment);
+  const [{ data: comment, loading, error }] = useAxios('/api/comment/' + match.params.id, parseComment);
 
   if (error)
     throw error;

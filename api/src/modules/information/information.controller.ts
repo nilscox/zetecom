@@ -26,9 +26,9 @@ import { SortTypePipe } from 'Common/sort-type.pipe';
 
 import { PopulateInformation } from '../../modules/information/populate-information.interceptor';
 import { Role } from '../authorization/roles.enum';
-import { PopulateReaction } from '../reaction/populate-reaction.interceptor';
-import { Reaction } from '../reaction/reaction.entity';
-import { ReactionRepository } from '../reaction/reaction.repository';
+import { Comment } from '../comment/comment.entity';
+import { CommentRepository } from '../comment/comment.repository';
+import { PopulateComment } from '../comment/populate-comment.interceptor';
 import { User } from '../user/user.entity';
 
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
@@ -44,13 +44,13 @@ export class InformationController {
   @Inject('INFORMATION_PAGE_SIZE')
   private readonly informationPageSize: number;
 
-  @Inject('REACTION_PAGE_SIZE')
-  private readonly reactionPageSize: number;
+  @Inject('COMMENT_PAGE_SIZE')
+  private readonly commentPageSize: number;
 
   constructor(
     private readonly informationService: InformationService,
     private readonly informationRepository: InformationRepository,
-    private readonly reactionRepository: ReactionRepository,
+    private readonly commentRepository: CommentRepository,
   ) {}
 
   @Get()
@@ -88,20 +88,20 @@ export class InformationController {
     return info;
   }
 
-  @Get(':id/reactions')
-  @UseInterceptors(PopulateReaction)
-  async findReactions(
+  @Get(':id/comments')
+  @UseInterceptors(PopulateComment)
+  async findComments(
     @Param('id', new ParseIntPipe()) id: number,
     @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
     @SearchQuery() search: string,
     @PageQuery() page: number,
-  ): Promise<Paginated<Reaction>> {
+  ): Promise<Paginated<Comment>> {
     if (!(await this.informationService.exists(id)))
       throw new NotFoundException();
 
     return search
-      ? this.reactionRepository.search(id, search, sort, page, this.reactionPageSize)
-      : this.reactionRepository.findRootReactions(id, sort, page, this.reactionPageSize);
+      ? this.commentRepository.search(id, search, sort, page, this.commentPageSize)
+      : this.commentRepository.findRootComments(id, sort, page, this.commentPageSize);
   }
 
   @Post()
