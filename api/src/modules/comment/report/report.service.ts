@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Comment } from '../comment/comment.entity';
-import { User } from '../user/user.entity';
+import { User } from '../../user/user.entity';
+import { Comment } from '../comment.entity';
 
 import { Report } from './report.entity';
 

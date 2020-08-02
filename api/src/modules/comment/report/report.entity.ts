@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
-import { Comment } from '../comment/comment.entity';
-import { User } from '../user/user.entity';
+import { User } from '../../user/user.entity';
+import { Comment } from '../comment.entity';
 
 @Entity({ name: 'report' })
 @Unique(['user', 'comment'])

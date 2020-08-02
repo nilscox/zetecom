@@ -28,8 +28,6 @@ import { SearchQuery } from 'Common/search-query.decorator';
 import { Information } from '../information/information.entity';
 import { InformationService } from '../information/information.service';
 import { PopulateInformation } from '../information/populate-information.interceptor';
-import { ReportInDto } from '../report/dtos/report-in.dto';
-import { ReportService } from '../report/report.service';
 import { CommentSubscriptionService } from '../subscription/subscription.service';
 import { User } from '../user/user.entity';
 
@@ -40,6 +38,8 @@ import { CreateCommentDto } from './dtos/create-comment.dto';
 import { ReactionInDto } from './dtos/reaction-in.dto';
 import { UpdateCommentDto } from './dtos/update-comment.dto';
 import { PopulateComment } from './populate-comment.interceptor';
+import { CreateReportDto } from './report/dtos/create-report.dto';
+import { ReportService } from './report/report.service';
 
 @Controller('/comment')
 @UseInterceptors(ClassToPlainInterceptor)
@@ -202,7 +202,7 @@ export class CommentController {
   async report(
     @AuthUser() user: User,
     @Param('id', new ParseIntPipe()) id: number,
-    @Body() dto: ReportInDto,
+    @Body() dto: CreateReportDto,
   ): Promise<Comment> {
     const comment = await this.commentService.findById(id);
 

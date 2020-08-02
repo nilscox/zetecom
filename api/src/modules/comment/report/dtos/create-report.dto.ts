@@ -1,6 +1,6 @@
 import { IsOptional, MaxLength } from 'class-validator';
 
-export class ReportInDto {
+export class CreateReportDto {
 
   @IsOptional()
   @MaxLength(4000)
