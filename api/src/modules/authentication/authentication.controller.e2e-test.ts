@@ -1,24 +1,40 @@
 import request from 'supertest';
 import { getRepository, Repository } from 'typeorm';
 
-import { createUser } from '../../testing/factories/user.factory';
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { EmailModule } from '../email/email.module';
 import { User } from '../user/user.entity';
+import { UserFactory } from '../user/user.factory';
 
 import { AuthenticationModule } from './authentication.module';
 
 describe('authentification', () => {
 
-  const { server } = setupE2eTest({
+  const { server, getTestingModule } = setupE2eTest({
     imports: [AuthenticationModule, EmailModule],
   });
 
   let userRepository: Repository<User>;
 
+  let createUser: UserFactory['create'];
+
   beforeAll(async () => {
+    const module = getTestingModule();
+
+    const userFactory = module.get<UserFactory>(UserFactory);
+
+    createUser = userFactory.create.bind(userFactory);
+
     userRepository = getRepository(User);
   });
+
+  const unsetEmailValidated = async (user: User) => {
+    await userRepository.update(user.id, { emailValidated: false });
+  };
+
+  const setEmailLoginToken = async (user: User, token: string) => {
+    await userRepository.update(user.id, { emailLoginToken: token });
+  };
 
   describe('signup', () => {
     const [userRequest, authenticatedUser] = createAuthenticatedUser(server);
@@ -145,8 +161,10 @@ describe('authentification', () => {
     });
 
     it('should not login when the email is not validated', async () => {
-      const user = await createUser({ password: 'pa$$word', emailValidated: false });
+      const user = await createUser({ password: 'pa$$word' });
       const data = { email: user.email, password: 'pa$$word' };
+
+      await unsetEmailValidated(user);
 
       const { body } = await request(server)
         .post('/api/auth/login')
@@ -174,7 +192,8 @@ describe('authentification', () => {
     let user: User;
 
     beforeAll(async () => {
-      user = await createUser({ emailLoginToken: 'token' });
+      user = await createUser();
+      await setEmailLoginToken(user, 'token');
     });
 
     it('should not login with an invalid token', async () => {
@@ -198,7 +217,10 @@ describe('authentification', () => {
     });
 
     it('should validate the email address', async () => {
-      const user = await createUser({ emailValidated: false, emailLoginToken: 'token' });
+      const user = await createUser();
+
+      await unsetEmailValidated(user);
+      await setEmailLoginToken(user, 'token');
 
       await request(server)
         .post('/api/auth/email-login')
@@ -219,7 +241,8 @@ describe('authentification', () => {
     let user: User;
 
     beforeAll(async () => {
-      user = await createUser({ emailLoginToken: 'token' });
+      user = await createUser();
+      setEmailLoginToken(user, 'token');
     });
 
     it('should ask for a login token', async () => {

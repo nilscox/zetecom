@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
 import { User } from '../user/user.entity';
 
-import { Notification, NotificationType } from './notification.entity';
+import { Notification, NotificationPayload, NotificationType } from './notification.entity';
 
 @Injectable()
 export class NotificationService<T extends NotificationType> {
@@ -18,6 +18,11 @@ export class NotificationService<T extends NotificationType> {
     @InjectRepository(Notification)
     private readonly notificationRepository: Repository<Notification<T>>,
   ) {}
+
+  async create(type: T, user: User, payload: NotificationPayload[T]) {
+    // TODO: fix notification types
+    return this.notificationRepository.save({ type, payload, user } as unknown as DeepPartial<Notification<T>>);
+  }
 
   async findForUser(user: User, page: number): Promise<Paginated<Notification<T>>> {
     const [items, total] = await this.notificationRepository.createQueryBuilder('notification')
