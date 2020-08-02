@@ -1,12 +1,12 @@
 import { Expose, Type } from 'class-transformer';
 import { CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
-import { Comment } from '../comment/comment.entity';
-import { User } from '../user/user.entity';
+import { Comment } from '../../comment/comment.entity';
+import { User } from '../../user/user.entity';
 
-@Entity({ name: 'comment_subscription' })
+@Entity({ name: 'subscription' })
 @Unique(['user', 'comment'])
-export class CommentSubscription {
+export class Subscription {
 
   @PrimaryGeneratedColumn()
   @Expose()

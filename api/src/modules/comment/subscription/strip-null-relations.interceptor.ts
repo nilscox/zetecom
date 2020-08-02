@@ -2,20 +2,20 @@ import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { CommentSubscription } from './subscription.entity';
+import { Subscription } from './subscription.entity';
 
 export class StripNullRelations implements NestInterceptor {
 
   intercept(_context: ExecutionContext, next: CallHandler<any>): Observable<any> {
     return next.handle().pipe(
       map(res => {
-        res.items.forEach((i: CommentSubscription) => this.transform(i));
+        res.items.forEach((i: Subscription) => this.transform(i));
         return res;
       }),
     );
   }
 
-  transform(subscription: CommentSubscription) {
+  transform(subscription: Subscription) {
     if (subscription.comment === null)
       delete subscription.comment;
   }

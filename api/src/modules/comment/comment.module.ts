@@ -2,7 +2,6 @@ import { forwardRef, Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { InformationModule } from '../information/information.module';
-import { CommentSubscriptionModule } from '../subscription/subscription.module';
 import { UserModule } from '../user/user.module';
 
 import { CommentController } from './comment.controller';
@@ -13,6 +12,7 @@ import { Message } from './message.entity';
 import { PopulateComment } from './populate-comment.interceptor';
 import { Reaction } from './reaction.entity';
 import { ReportModule } from './report/report.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 
 const COMMENT_PAGE_SIZE = 'COMMENT_PAGE_SIZE';
 const CommentPageSize: Provider = {
@@ -26,7 +26,7 @@ const CommentPageSize: Provider = {
     UserModule,
     forwardRef(() => InformationModule),
     ReportModule,
-    CommentSubscriptionModule,
+    forwardRef(() => SubscriptionModule),
   ],
   controllers: [
     CommentController,

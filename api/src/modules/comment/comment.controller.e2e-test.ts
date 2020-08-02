@@ -5,8 +5,6 @@ import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-t
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { Information } from '../information/information.entity';
 import { InformationFactory } from '../information/information.factory';
-import { CommentSubscription } from '../subscription/subscription.entity';
-import { CommentSubscriptionFactory } from '../subscription/subscription.factory';
 import { UserFactory } from '../user/user.factory';
 
 import { Comment } from './comment.entity';
@@ -14,6 +12,8 @@ import { CommentFactory } from './comment.factory';
 import { CommentModule } from './comment.module';
 import { CommentRepository } from './comment.repository';
 import { Reaction, ReactionType } from './reaction.entity';
+import { Subscription } from './subscription/subscription.entity';
+import { SubscriptionFactory } from './subscription/subscription.factory';
 
 describe('comment controller', () => {
 
@@ -28,11 +28,11 @@ describe('comment controller', () => {
   let createUser: UserFactory['create'];
   let createInformation: InformationFactory['create'];
   let createComment: CommentFactory['create'];
-  let createCommentSubscription: CommentSubscriptionFactory['create'];
+  let createsubscription: SubscriptionFactory['create'];
 
   let commentRepository: CommentRepository;
   let reactionRepository: Repository<Reaction>;
-  let subscriptionRepository: Repository<CommentSubscription>;
+  let subscriptionRepository: Repository<Subscription>;
 
   let information: Information;
 
@@ -48,16 +48,16 @@ describe('comment controller', () => {
     const userFactory = module.get<CommentFactory>(CommentFactory);
     const informationFactory = module.get<InformationFactory>(InformationFactory);
     const commentFactory = module.get<CommentFactory>(CommentFactory);
-    const commentSubscriptionFactory = module.get<CommentFactory>(CommentFactory);
+    const subscriptionFactory = module.get<CommentFactory>(CommentFactory);
 
     createUser = userFactory.create.bind(userFactory);
     createInformation = informationFactory.create.bind(informationFactory);
     createComment = commentFactory.create.bind(commentFactory);
-    createCommentSubscription = commentSubscriptionFactory.create.bind(commentSubscriptionFactory);
+    createsubscription = subscriptionFactory.create.bind(subscriptionFactory);
 
     commentRepository = getCustomRepository(CommentRepository);
     reactionRepository = getRepository(Reaction);
-    subscriptionRepository = getRepository(CommentSubscription);
+    subscriptionRepository = getRepository(Subscription);
 
     const user = await createUser();
 
@@ -217,7 +217,7 @@ describe('comment controller', () => {
 
     it('should not subscribe to a comment twice', async () => {
       const comment = await createComment();
-      await createCommentSubscription({ comment, user });
+      await createsubscription({ comment, user });
 
       return userRequest
         .post(`/api/comment/${comment.id}/subscribe`)
@@ -254,7 +254,7 @@ describe('comment controller', () => {
 
     it('unsubscribe to a comment', async () => {
       const comment = await createComment();
-      await createCommentSubscription({ user, comment });
+      await createsubscription({ user, comment });
 
       await userRequest
         .post(`/api/comment/${comment.id}/unsubscribe`)
@@ -291,7 +291,7 @@ describe('comment controller', () => {
 
     it('should set the subscribed field to true when subscribed to a comment', async () => {
       const comment = await createComment();
-      await createCommentSubscription({ user, comment });
+      await createsubscription({ user, comment });
 
       const { body } = await userRequest
         .get(`/api/comment/${comment.id}`)

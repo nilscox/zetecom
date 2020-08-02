@@ -5,44 +5,44 @@ import { FindConditions, Not, Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
-import { Comment } from '../comment/comment.entity';
-import { Notification, NotificationType, SubscriptionReplyNotification } from '../notification/notification.entity';
-import { User, UserLight } from '../user/user.entity';
+import { Notification, NotificationType, SubscriptionReplyNotification } from '../../notification/notification.entity';
+import { User, UserLight } from '../../user/user.entity';
+import { Comment } from '../comment.entity';
 
-import { CommentSubscription } from './subscription.entity';
+import { Subscription } from './subscription.entity';
 
 @Injectable()
-export class CommentSubscriptionService {
+export class SubscriptionService {
 
-  @Inject('COMMENT_SUBSCRIPTION_PAGE_SIZE')
+  @Inject('SUBSCRIPTION_PAGE_SIZE')
   private pageSize: number;
 
   constructor(
-    @InjectRepository(CommentSubscription)
-    private readonly subscriptionRepository: Repository<CommentSubscription>,
+    @InjectRepository(Subscription)
+    private readonly subscriptionRepository: Repository<Subscription>,
 
     @InjectRepository(Notification)
     private readonly notificationRepository: Repository<SubscriptionReplyNotification>,
   ) {}
 
-  public async subscribe(user: User, comment: Comment): Promise<CommentSubscription> {
+  public async subscribe(user: User, comment: Comment): Promise<Subscription> {
     // typeorm has trouble handling circular references (comment -> meassge -> comment)
     const subscription = this.subscriptionRepository.create({ user, comment: { id: comment.id } });
 
     return this.subscriptionRepository.save(subscription);
   }
 
-  public async unsubscribe(subscription: CommentSubscription): Promise<void> {
+  public async unsubscribe(subscription: Subscription): Promise<void> {
     await this.subscriptionRepository.remove(subscription);
   }
 
-  public async getSubscription(user: User, comment: Comment): Promise<CommentSubscription | undefined> {
-    const where: FindConditions<CommentSubscription> = { user, comment };
+  public async getSubscription(user: User, comment: Comment): Promise<Subscription | undefined> {
+    const where: FindConditions<Subscription> = { user, comment };
 
     return this.subscriptionRepository.findOne(where);
   }
 
-  public async findAllForUser(user: User, page: number): Promise<Paginated<CommentSubscription>> {
+  public async findAllForUser(user: User, page: number): Promise<Paginated<Subscription>> {
     const qb = this.subscriptionRepository.createQueryBuilder('comment_subscription')
       .leftJoinAndSelect('comment_subscription.comment', 'comment')
       .leftJoinAndSelect('comment.information', 'information')

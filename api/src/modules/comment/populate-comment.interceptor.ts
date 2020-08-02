@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { getCustomRepository, getRepository } from 'typeorm';
 
 import { TransformInterceptor } from '../../common/transform.interceptor';
-import { CommentSubscription } from '../subscription/subscription.entity';
 import { User } from '../user/user.entity';
 
 import { Comment } from './comment.entity';
 import { CommentRepository } from './comment.repository';
 import { ReactionType } from './reaction.entity';
+import { Subscription } from './subscription/subscription.entity';
 
 @Injectable()
 export class PopulateComment extends TransformInterceptor<Comment> {
@@ -17,7 +17,7 @@ export class PopulateComment extends TransformInterceptor<Comment> {
   }
 
   get subscriptionRepository() {
-    return getRepository(CommentSubscription);
+    return getRepository(Subscription);
   }
 
   async transform(comments: Comment[], request: any) {

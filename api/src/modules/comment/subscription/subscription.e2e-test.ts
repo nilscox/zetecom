@@ -1,15 +1,15 @@
 import { getRepository, Repository } from 'typeorm';
 
-import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
-import { AuthenticationModule } from '../authentication/authentication.module';
-import { CommentFactory } from '../comment/comment.factory';
-import { CommentModule } from '../comment/comment.module';
-import { InformationFactory } from '../information/information.factory';
-import { Notification, SubscriptionReplyNotification } from '../notification/notification.entity';
-import { NotificationModule } from '../notification/notification.module';
-import { UserFactory } from '../user/user.factory';
+import { createAuthenticatedUser, setupE2eTest } from '../../../testing/setup-e2e-test';
+import { AuthenticationModule } from '../../authentication/authentication.module';
+import { CommentFactory } from '../../comment/comment.factory';
+import { CommentModule } from '../../comment/comment.module';
+import { InformationFactory } from '../../information/information.factory';
+import { Notification, SubscriptionReplyNotification } from '../../notification/notification.entity';
+import { NotificationModule } from '../../notification/notification.module';
+import { UserFactory } from '../../user/user.factory';
 
-import { CommentSubscriptionFactory } from './subscription.factory';
+import { SubscriptionFactory } from './subscription.factory';
 
 describe('subscription', () => {
 
@@ -20,7 +20,7 @@ describe('subscription', () => {
   let createUser: UserFactory['create'];
   let createInformation: InformationFactory['create'];
   let createComment: CommentFactory['create'];
-  let createCommentSubscription: CommentSubscriptionFactory['create'];
+  let createsubscription: SubscriptionFactory['create'];
 
   let notificationRepository: Repository<SubscriptionReplyNotification>;
 
@@ -29,15 +29,15 @@ describe('subscription', () => {
   beforeAll(() => {
     const module = getTestingModule();
 
-    const userFactory = module.get<CommentFactory>(CommentFactory);
+    const userFactory = module.get<UserFactory>(UserFactory);
     const informationFactory = module.get<InformationFactory>(InformationFactory);
     const commentFactory = module.get<CommentFactory>(CommentFactory);
-    const commentSubscriptionFactory = module.get<CommentFactory>(CommentFactory);
+    const subscriptionFactory = module.get<SubscriptionFactory>(SubscriptionFactory);
 
     createUser = userFactory.create.bind(userFactory);
     createInformation = informationFactory.create.bind(informationFactory);
     createComment = commentFactory.create.bind(commentFactory);
-    createCommentSubscription = commentSubscriptionFactory.create.bind(commentSubscriptionFactory);
+    createsubscription = subscriptionFactory.create.bind(subscriptionFactory);
 
     notificationRepository = getRepository(Notification as any);
   });
@@ -45,10 +45,10 @@ describe('subscription', () => {
   it('should create a notification from a subscription to a comment', async () => {
     const information = await createInformation();
     const comment = await createComment({ information });
-    const otherUser = await createUser();
+    const otherUser = await createUser({ nick: 'otherUser' });
 
-    await createCommentSubscription({ comment: comment, user });
-    await createCommentSubscription({ comment: comment, user: otherUser });
+    await createsubscription({ comment: comment, user });
+    await createsubscription({ comment: comment, user: otherUser });
 
     const requestBody = {
       parentId: comment.id,

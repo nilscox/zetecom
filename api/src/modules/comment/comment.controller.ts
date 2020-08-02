@@ -28,7 +28,6 @@ import { SearchQuery } from 'Common/search-query.decorator';
 import { Information } from '../information/information.entity';
 import { InformationService } from '../information/information.service';
 import { PopulateInformation } from '../information/populate-information.interceptor';
-import { CommentSubscriptionService } from '../subscription/subscription.service';
 import { User } from '../user/user.entity';
 
 import { Comment } from './comment.entity';
@@ -40,6 +39,7 @@ import { UpdateCommentDto } from './dtos/update-comment.dto';
 import { PopulateComment } from './populate-comment.interceptor';
 import { CreateReportDto } from './report/dtos/create-report.dto';
 import { ReportService } from './report/report.service';
+import { SubscriptionService } from './subscription/subscription.service';
 
 @Controller('/comment')
 @UseInterceptors(ClassToPlainInterceptor)
@@ -51,7 +51,7 @@ export class CommentController {
   constructor(
     private readonly informationService: InformationService,
     private readonly commentService: CommentService,
-    private readonly subscriptionService: CommentSubscriptionService,
+    private readonly subscriptionService: SubscriptionService,
     private readonly reportService: ReportService,
     private readonly commentRepository: CommentRepository,
   ) {}

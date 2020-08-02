@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Information } from '../information/information.entity';
-import { CommentSubscriptionService } from '../subscription/subscription.service';
 import { User } from '../user/user.entity';
 
 import { Comment } from './comment.entity';
@@ -12,6 +11,7 @@ import { CreateCommentDto } from './dtos/create-comment.dto';
 import { UpdateCommentDto } from './dtos/update-comment.dto';
 import { Message } from './message.entity';
 import { Reaction, ReactionType } from './reaction.entity';
+import { SubscriptionService } from './subscription/subscription.service';
 
 @Injectable()
 export class CommentService {
@@ -26,7 +26,7 @@ export class CommentService {
     @InjectRepository(Reaction)
     private readonly reactionRepository: Repository<Reaction>,
 
-    private readonly subscriptionService: CommentSubscriptionService,
+    private readonly subscriptionService: SubscriptionService,
 
   ) {}
 
