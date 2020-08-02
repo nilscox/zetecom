@@ -45,7 +45,7 @@ export class CommentRepository extends Repository<Comment> {
       qb.leftJoinAndSelect('comment.author', 'author');
 
     if (message)
-      qb.leftJoinAndSelect('comment.message', 'message');
+      qb.leftJoinAndSelect('comment.messages', 'messages');
 
     return qb.getMany();
   }
@@ -55,7 +55,7 @@ export class CommentRepository extends Repository<Comment> {
     // https://github.com/typeorm/typeorm/issues/747#issuecomment-349108902
     return this.createQueryBuilder('comment')
       .leftJoinAndSelect('comment.author', 'author')
-      .leftJoinAndSelect('comment.message', 'message')
+      .leftJoinAndSelect('comment.messages', 'messages')
       .skip((page - 1) * pageSize)
       .take(pageSize);
   }
@@ -70,7 +70,7 @@ export class CommentRepository extends Repository<Comment> {
         .addOrderBy('comment.created', 'DESC');
     }
 
-    qb.addOrderBy('message.created', 'ASC');
+    qb.addOrderBy('messages.created', 'DESC');
   }
 
   async exists(id: number): Promise<boolean> {
@@ -103,7 +103,7 @@ export class CommentRepository extends Repository<Comment> {
   ): Promise<Paginated<Comment>> {
     const qb = this.createDefaultQueryBuilder(page, pageSize)
       .where('comment.information_id = :informationId', { informationId })
-      .andWhere('message.text ILIKE :search', { search: `%${search}%` });
+      .andWhere('messages.text ILIKE :search', { search: `%${search}%` });
 
     this.orderBy(qb, sort);
 
@@ -115,7 +115,7 @@ export class CommentRepository extends Repository<Comment> {
   async findReplies(parentId: number, page: number, pageSize: number): Promise<Paginated<Comment>> {
     const [items, total] = await this.createQueryBuilder('comment')
       .leftJoinAndSelect('comment.author', 'author', 'comment.author_id = author.id')
-      .leftJoinAndSelect('comment.message', 'message', 'message.comment_id = comment.id')
+      .leftJoinAndSelect('comment.messages', 'messages', 'messages.comment_id = comment.id')
       .where('comment.parent_id = :parentId', { parentId })
       .orderBy('comment.created')
       .skip((page - 1) * pageSize)
@@ -152,8 +152,8 @@ export class CommentRepository extends Repository<Comment> {
 
           if (search) {
             subQuery
-              .leftJoin('comment.message', 'message')
-              .andWhere('message.text ILIKE :search', { search: `%${search}%` });
+              .leftJoin('comment.messages', 'messages')
+              .andWhere('messages.text ILIKE :search', { search: `%${search}%` });
           }
 
           return subQuery;
@@ -182,7 +182,7 @@ export class CommentRepository extends Repository<Comment> {
 
       if (search) {
         qb
-          .leftJoin('comment.message', 'message')
+          .leftJoin('comment.messages', 'messages')
           .andWhere('message.text ILIKE :search', { search: `%${search}%` });
       }
 

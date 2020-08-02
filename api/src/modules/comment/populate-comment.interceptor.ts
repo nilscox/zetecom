@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { getCustomRepository, getRepository } from 'typeorm';
 
-import { TransformInterceptor } from '../../common/transform.interceptor';
+import { PopulateInterceptor } from '../../common/populate.interceptor';
 import { User } from '../user/user.entity';
 
-import { Comment } from './comment.entity';
 import { CommentRepository } from './comment.repository';
+import { CommentDto } from './dtos/comment.dto';
 import { ReactionType } from './reaction.entity';
 import { Subscription } from './subscription/subscription.entity';
 
 @Injectable()
-export class PopulateComment extends TransformInterceptor<Comment> {
+export class PopulateComment extends PopulateInterceptor<CommentDto> {
 
   get commentRepository() {
     return getCustomRepository(CommentRepository);
@@ -20,10 +20,9 @@ export class PopulateComment extends TransformInterceptor<Comment> {
     return getRepository(Subscription);
   }
 
-  async transform(comments: Comment[], request: any) {
+  async populate(comments: CommentDto[], request: any) {
     const { user } = request;
 
-    await this.addHistories(comments);
     await this.addRepliesCounts(comments);
     await this.addReactionsCounts(comments);
 
@@ -33,22 +32,7 @@ export class PopulateComment extends TransformInterceptor<Comment> {
     }
   }
 
-  private async addHistories(comments: Comment[]): Promise<Comment[]> {
-    const commentsWithHistories = await this.commentRepository.createQueryBuilder('comment')
-      .leftJoinAndSelect('comment.history', 'history')
-      .where('comment.id IN (' + comments.map(r => r.id) + ')')
-      .orderBy('history.created', 'DESC')
-      .getMany();
-
-    comments.forEach(comment => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      comment.history = commentsWithHistories.find(r => r.id === comment.id)!.history;
-    });
-
-    return comments;
-  }
-
-  private async addRepliesCounts(comments: Comment[]): Promise<Comment[]> {
+  private async addRepliesCounts(comments: CommentDto[]): Promise<CommentDto[]> {
     const repliesCounts = await this.commentRepository.getRepliesCounts(comments.map(r => r.id));
 
     comments.forEach(comment => {
@@ -63,7 +47,7 @@ export class PopulateComment extends TransformInterceptor<Comment> {
     return comments;
   }
 
-  private async addReactionsCounts(comments: Comment[]): Promise<void> {
+  private async addReactionsCounts(comments: CommentDto[]): Promise<void> {
     const reactionsCounts = await this.commentRepository.getReactionsCounts(comments.map(r => r.id));
 
     const getReactionsCount = (commentId: number, type: ReactionType): number => {
@@ -80,7 +64,7 @@ export class PopulateComment extends TransformInterceptor<Comment> {
     });
   }
 
-  private async addUserReaction(comments: Comment[], user: User): Promise<void> {
+  private async addUserReaction(comments: CommentDto[], user: User): Promise<void> {
     const reactions = await this.commentRepository.getReactionForUser(comments.map(r => r.id), user.id);
 
     comments.forEach(comment => {
@@ -91,7 +75,7 @@ export class PopulateComment extends TransformInterceptor<Comment> {
     });
   }
 
-  private async addUserSubscriptions(comments: Comment[], user: User): Promise<void> {
+  private async addUserSubscriptions(comments: CommentDto[], user: User): Promise<void> {
     // TODO: handle this in subscription repository
     const results = await this.subscriptionRepository.createQueryBuilder('comment_subscription')
       .select('comment_id', 'commentId')

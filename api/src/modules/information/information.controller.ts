@@ -24,14 +24,17 @@ import { SearchQuery } from 'Common/search-query.decorator';
 import { SortType } from 'Common/sort-type';
 import { SortTypePipe } from 'Common/sort-type.pipe';
 
+import { CastToDto } from '../../common/cast-to-dto.interceptor';
 import { PopulateInformation } from '../../modules/information/populate-information.interceptor';
 import { Role } from '../authorization/roles.enum';
 import { Comment } from '../comment/comment.entity';
 import { CommentRepository } from '../comment/comment.repository';
+import { CommentDto } from '../comment/dtos/comment.dto';
 import { PopulateComment } from '../comment/populate-comment.interceptor';
 import { User } from '../user/user.entity';
 
 import { CreateInformationInDto } from './dtos/create-information-in.dto';
+import { InformationDto } from './dtos/information.dto';
 import { UpdateInformationInDto } from './dtos/update-information-in.dto';
 import { Information } from './information.entity';
 import { InformationRepository } from './information.repository';
@@ -54,6 +57,7 @@ export class InformationController {
   ) {}
 
   @Get()
+  @CastToDto(InformationDto)
   @UseInterceptors(PopulateInformation)
   async findAll(
     @OptionalQuery({ key: 'search', defaultValue: null }) search: string | null,
@@ -63,6 +67,7 @@ export class InformationController {
   }
 
   @Get(':id')
+  @CastToDto(InformationDto)
   @UseInterceptors(PopulateInformation)
   async findOneById(
     @Param('id', new ParseIntPipe()) id: number,
@@ -76,6 +81,7 @@ export class InformationController {
   }
 
   @Get('by-identifier/:identifier')
+  @CastToDto(InformationDto)
   @UseInterceptors(PopulateInformation)
   async findOneByIdentifier(
     @Param('identifier') identifier: string,
@@ -89,6 +95,7 @@ export class InformationController {
   }
 
   @Get(':id/comments')
+  @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
   async findComments(
     @Param('id', new ParseIntPipe()) id: number,

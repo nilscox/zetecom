@@ -17,6 +17,7 @@ import {
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
+import { CastToDto } from 'Common/cast-to-dto.interceptor';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { IsAuthor, IsNotAuthor } from 'Common/is-author.guard';
 import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
@@ -33,6 +34,7 @@ import { User } from '../user/user.entity';
 import { Comment } from './comment.entity';
 import { CommentRepository } from './comment.repository';
 import { CommentService } from './comment.service';
+import { CommentDto, CommentHistoryDto } from './dtos/comment.dto';
 import { CreateCommentDto } from './dtos/create-comment.dto';
 import { CreateReactionDto } from './dtos/create-reaction.dto';
 import { UpdateCommentDto } from './dtos/update-comment.dto';
@@ -74,6 +76,8 @@ export class CommentController {
     const comments = await this.commentRepository.findAll(results.items.map(({ commentId }) => commentId), { author: false });
 
     informations.forEach(info => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
       info.comments = results.items
         .filter(({ informationId }) => informationId === info.id)
         .map(({ commentId }) => comments.find(({ id }) => id === commentId));
@@ -93,6 +97,18 @@ export class CommentController {
       throw new NotFoundException();
 
     return comment;
+  }
+
+  @Get(':id/history')
+  async findHistory(
+    @Param('id', new ParseIntPipe()) id: number,
+  ): Promise<CommentHistoryDto[]> {
+    const comment = await this.commentService.findById(id);
+
+    if (!comment)
+      throw new NotFoundException();
+
+    return comment.messages.map(comment => new CommentHistoryDto(comment));
   }
 
   @Get(':id/replies')

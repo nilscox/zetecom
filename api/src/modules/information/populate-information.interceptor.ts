@@ -1,31 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { getCustomRepository } from 'typeorm';
 
-import { TransformInterceptor } from '../../common/transform.interceptor';
-import { Comment } from '../comment/comment.entity';
-import { PopulateComment } from '../comment/populate-comment.interceptor';
+import { PopulateInterceptor } from '../../common/populate.interceptor';
 
-import { Information } from './information.entity';
-import { InformationRepository } from './information.repository';
+import { InformationDto } from './dtos/information.dto';
+import { InformationService } from './information.service';
 
 @Injectable()
-export class PopulateInformation extends TransformInterceptor<Information> {
+export class PopulateInformation extends PopulateInterceptor<InformationDto> {
 
-  get informationRepository() {
-    return getCustomRepository(InformationRepository);
+  constructor(
+    private readonly informationService: InformationService,
+  ) {
+    super();
   }
 
-  async transform(information: Information[], request: any) {
-    const comments: Comment[] = [].concat(...information.map(info => info.comments || []));
+  async populate(informations: InformationDto[], request: any) {
+    const dtos = informations.map(information => new InformationDto(information));
 
-    if (comments.length > 0)
-      await new PopulateComment().transform(comments, request);
-
-    await this.addCommentsCounts(information);
+    await this.addCommentsCounts(dtos);
   }
 
-  async addCommentsCounts(informations: Information[]): Promise<void> {
-    const counts = await this.informationRepository.getCommentsCounts(informations.map(i => i.id));
+  async addCommentsCounts(informations: InformationDto[]) {
+    const counts = await this.informationService.getCommentsCounts(informations.map(i => i.id));
 
     informations.forEach(i => i.commentsCount = counts[i.id]);
   }

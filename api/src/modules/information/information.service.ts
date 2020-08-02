@@ -49,4 +49,8 @@ export class InformationService {
     return this.informationRepository.save(information);
   }
 
+  async getCommentsCounts(informationsIds: number[]) {
+    return this.informationRepository.getCommentsCounts(informationsIds);
+  }
+
 }
