@@ -33,13 +33,11 @@ export class CommentFactory implements Factory<CommentFactoryData, Comment> {
       return data.author || await this.userFactory.create();
     };
 
-    const comment = await this.commentService.create(
+    return this.commentService.create(
       await getAuthor(),
       await getInformation(),
       data.parent || null,
       data.text || 'comment text',
     );
-
-    return comment;
   }
 }

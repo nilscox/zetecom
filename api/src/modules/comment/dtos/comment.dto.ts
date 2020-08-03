@@ -1,6 +1,6 @@
 import { Expose, Type } from 'class-transformer';
 
-import { UserLight } from '../../user/user.entity';
+import { UserLightDto } from '../../user/dtos/user-ligth.dto';
 
 import { Message } from './../message.entity';
 import { ReactionType } from './../reaction.entity';
@@ -47,8 +47,8 @@ export class CommentDto {
   created: Date;
 
   @Expose()
-  @Type(() => UserLight)
-  author: UserLight;
+  @Type(() => UserLightDto)
+  author: UserLightDto;
 
   @Expose()
   get edited(): Date | false {

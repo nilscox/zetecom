@@ -20,9 +20,10 @@ export class AvatarService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  public async setUserAvatar(user: User, avatar: any): Promise<User> {
+  public async changeAvatar(user: User, avatar: any): Promise<User> {
     const { mimetype } = avatar;
 
+    // TODO: error format
     if (!ALLOWED_FORMATS.includes(mimetype))
       throw new Error('invalid image mime type');
 

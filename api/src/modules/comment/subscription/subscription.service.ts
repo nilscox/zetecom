@@ -6,7 +6,8 @@ import { FindConditions, Not, Repository } from 'typeorm';
 import { Paginated } from 'Common/paginated';
 
 import { Notification, NotificationType, SubscriptionReplyNotification } from '../../notification/notification.entity';
-import { User, UserLight } from '../../user/user.entity';
+import { UserLightDto } from '../../user/dtos/user-ligth.dto';
+import { UserDto } from '../../user/dtos/user.dto';
 import { Comment } from '../comment.entity';
 
 import { Subscription } from './subscription.entity';
@@ -25,7 +26,7 @@ export class SubscriptionService {
     private readonly notificationRepository: Repository<SubscriptionReplyNotification>,
   ) {}
 
-  public async subscribe(user: User, comment: Comment): Promise<Subscription> {
+  public async subscribe(user: UserDto, comment: Comment): Promise<Subscription> {
     // typeorm has trouble handling circular references (comment -> meassge -> comment)
     const subscription = this.subscriptionRepository.create({ user, comment: { id: comment.id } });
 
@@ -36,13 +37,13 @@ export class SubscriptionService {
     await this.subscriptionRepository.remove(subscription);
   }
 
-  public async getSubscription(user: User, comment: Comment): Promise<Subscription | undefined> {
+  public async getSubscription(user: UserDto, comment: Comment): Promise<Subscription | undefined> {
     const where: FindConditions<Subscription> = { user, comment };
 
     return this.subscriptionRepository.findOne(where);
   }
 
-  public async findAllForUser(user: User, page: number): Promise<Paginated<Subscription>> {
+  public async findAllForUser(user: UserDto, page: number): Promise<Paginated<Subscription>> {
     const qb = this.subscriptionRepository.createQueryBuilder('comment_subscription')
       .leftJoinAndSelect('comment_subscription.comment', 'comment')
       .leftJoinAndSelect('comment.information', 'information')
@@ -84,7 +85,7 @@ export class SubscriptionService {
       informationId: reply.information.id,
       commentId: reply.parent.id,
       replyId: reply.id,
-      author: classToPlain(plainToClass(UserLight, reply.author), { strategy: 'excludeAll' }),
+      author: classToPlain(plainToClass(UserLightDto, reply.author), { strategy: 'excludeAll' }),
       text: reply.messages[0].text,
     };
 

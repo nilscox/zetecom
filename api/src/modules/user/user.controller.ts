@@ -13,10 +13,14 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
+import { CastToDto } from 'Common/cast-to-dto.interceptor';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 
+import { Roles } from '../../common/roles.decorator';
+import { Role } from '../authorization/roles.enum';
 import { AvatarService } from '../avatar/avatar.service';
 
+import { UserLightDto } from './dtos/user-ligth.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -30,11 +34,15 @@ export class UserController {
   ) {}
 
   @Get()
+  @Roles(Role.ADMIN)
+  @CastToDto(UserLightDto)
   async findAll(): Promise<User[]> {
     return this.userService.findAll();
   }
 
   @Get(':id')
+  @Roles(Role.ADMIN)
+  @CastToDto(UserLightDto)
   async findOne(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<User> {
@@ -46,12 +54,12 @@ export class UserController {
     return user;
   }
 
-  // FIXME: any
   @Put('avatar')
   @UseGuards(IsAuthenticated)
   @UseInterceptors(FileInterceptor('image'))
+  @CastToDto(UserLightDto)
   async updateUserAvatar(@UploadedFile() file: any, @AuthUser() user: User): Promise<User> {
-    await this.avatarService.setUserAvatar(user, file);
+    await this.avatarService.changeAvatar(user, file);
 
     return user;
   }

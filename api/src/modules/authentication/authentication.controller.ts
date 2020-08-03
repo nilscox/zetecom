@@ -10,12 +10,13 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { plainToClass } from 'class-transformer';
 
 import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 
+import { CastToDto } from '../../common/cast-to-dto.interceptor';
+import { UserDto } from '../user/dtos/user.dto';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 
@@ -25,7 +26,7 @@ import { ChangePasswordInDto } from './dtos/change-password-in-dto';
 import { EmailLoginInDto } from './dtos/email-login-in.dto';
 import { LoginUserInDto } from './dtos/login-user-in.dto';
 import { SignupUserInDto } from './dtos/signup-user-in.dto';
-import { SignupUserOutDto } from './dtos/signup-user-out.dto';
+import { SignupUserDto } from './dtos/signup-user-out.dto';
 
 type SessionType = {
   userId?: number;
@@ -42,21 +43,19 @@ export class AuthenticationController {
 
   @Post('/signup')
   @UseGuards(IsNotAuthenticated)
-  async signup(@Body() signupUserDto: SignupUserInDto, @Session() session: SessionType): Promise<SignupUserOutDto> {
+  @CastToDto(SignupUserDto)
+  async signup(@Body() signupUserDto: SignupUserInDto, @Session() session: SessionType): Promise<User> {
     const user = await this.authService.signup(signupUserDto);
 
     if (user.emailValidated)
       session.userId = user.id;
 
-    return plainToClass(SignupUserOutDto, {
-      ...user,
-      requiresEmailValidation: !user.emailValidated,
-    });
+    return user;
   }
 
   @Post('/email-validation/:token')
   @UseGuards(IsNotAuthenticated)
-  @HttpCode(201)
+  @CastToDto(UserDto)
   async emailValidation(@Param('token') token: string, @Session() session: SessionType): Promise<User> {
     const user = await this.userService.validateFromToken(token);
 
@@ -66,8 +65,9 @@ export class AuthenticationController {
   }
 
   @Post('/login')
-  @UseGuards(IsNotAuthenticated)
   @HttpCode(200)
+  @UseGuards(IsNotAuthenticated)
+  @CastToDto(UserDto)
   async login(@Body() loginUserDto: LoginUserInDto, @Session() session: SessionType): Promise<User> {
     const { email, password } = loginUserDto;
     const user = await this.authService.login(email, password);
@@ -78,8 +78,9 @@ export class AuthenticationController {
   }
 
   @Post('/email-login')
-  @UseGuards(IsNotAuthenticated)
   @HttpCode(200)
+  @UseGuards(IsNotAuthenticated)
+  @CastToDto(UserDto)
   async emailLogin(@Body() emailLoginDto: EmailLoginInDto, @Session() session: SessionType): Promise<User> {
     const user = await this.authService.emailLogin(emailLoginDto.token);
 
@@ -89,14 +90,15 @@ export class AuthenticationController {
   }
 
   @Post('/ask-email-login')
-  @UseGuards(IsNotAuthenticated)
   @HttpCode(204)
+  @UseGuards(IsNotAuthenticated)
   async askEmailLogin(@Body() aksEmailLoginDto: AskEmailLoginInDto): Promise<void> {
     await this.authService.askEmailLogin(aksEmailLoginDto.email);
   }
 
   @Put('change-password')
   @UseGuards(IsAuthenticated)
+  @CastToDto(UserDto)
   async changeUserPassword(@Body() dto: ChangePasswordInDto, @AuthUser() user: User): Promise<User> {
     const { password } = dto;
     await this.authService.changeUserPassword(user, password);
@@ -113,6 +115,7 @@ export class AuthenticationController {
 
   @Get('/me')
   @UseGuards(IsAuthenticated)
+  @CastToDto(UserDto)
   me(@AuthUser() user: User): User {
     return user;
   }

@@ -13,12 +13,12 @@ import { UserMiddleware } from 'Common/user.middleware';
 import { AppController } from './app.controller';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { AuthorizationModule } from './modules/authorization/authorization.module';
+import { CommentModule } from './modules/comment/comment.module';
 import { ConfigModule } from './modules/config/config.module';
 import { ConfigService } from './modules/config/config.service';
 import { EmailModule } from './modules/email/email.module';
 import { HealthcheckModule } from './modules/healthcheck/healthcheck.module';
 import { InformationModule } from './modules/information/information.module';
-import { CommentModule } from './modules/comment/comment.module';
 import { User } from './modules/user/user.entity';
 import { UserModule } from './modules/user/user.module';
 

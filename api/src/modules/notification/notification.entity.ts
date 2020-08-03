@@ -1,7 +1,8 @@
 import { Expose, Type } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { User, UserLight } from '../user/user.entity';
+import { UserLightDto } from '../user/dtos/user-ligth.dto';
+import { User } from '../user/user.entity';
 
 export enum NotificationType {
   RULES_UPDATE = 'rulesUpdate',
@@ -16,7 +17,7 @@ export type NotificationPayload = {
     informationId: number;
     commentId: number;
     replyId: number;
-    author: UserLight;
+    author: UserLightDto;
     text: string;
   };
 };
@@ -40,8 +41,8 @@ class SubscriptionReplyPayloadDto extends NotificationPayloadDto {
   replyId: number;
 
   @Expose()
-  @Type(() => UserLight)
-  author: UserLight;
+  @Type(() => User)
+  author: User;
 
   @Expose()
   text: string;

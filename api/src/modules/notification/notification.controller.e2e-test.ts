@@ -3,7 +3,7 @@ import { getRepository, Repository } from 'typeorm';
 
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
-import { UserLight } from '../user/user.entity';
+import { UserLightDto } from '../user/dtos/user-ligth.dto';
 
 import { Notification, NotificationType } from './notification.entity';
 import { NotificationFactory } from './notification.factory';
@@ -35,7 +35,7 @@ describe('notifications', () => {
     informationId: 1,
     commentId: 1,
     replyId: 3,
-    author: { id: 69, nick: 'nick', avatar: null } as UserLight,
+    author: { id: 69, nick: 'nick', avatar: null } as UserLightDto,
     text: 'text',
   };
 

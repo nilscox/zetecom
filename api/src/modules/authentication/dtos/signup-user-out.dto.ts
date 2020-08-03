@@ -1,10 +1,11 @@
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 
-import { User } from '../../../modules/user/user.entity';
+import { UserDto } from '../../user/dtos/user.dto';
 
-export class SignupUserOutDto extends User {
+export class SignupUserDto extends UserDto {
 
-  @Expose()
-  requiresEmailValidation: boolean;
+  @Expose({ name: 'requiresEmailValidation' })
+  @Transform(value => !value)
+  emailValidated: boolean;
 
 }
