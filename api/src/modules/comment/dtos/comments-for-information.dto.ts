@@ -8,6 +8,8 @@ export class CommentsForInformationDto {
 
   constructor(partial: Partial<CommentsForInformationDto>) {
     Object.assign(this, partial);
+    this.information = new InformationDto(partial.information);
+    this.comments = partial.comments.map(comment => new CommentDto(comment));
   }
 
   @Expose()

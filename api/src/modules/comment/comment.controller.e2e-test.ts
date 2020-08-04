@@ -124,8 +124,8 @@ describe('comment controller', () => {
           {
             information: { id: information1.id },
             comments: [
-              { id: comment4.id },
-              { id: comment3.id },
+              { id: comment4.id, text: expect.any(String) },
+              { id: comment3.id, text: expect.any(String) },
             ],
           },
         ],
@@ -142,13 +142,13 @@ describe('comment controller', () => {
         total: 4,
         items: [
           {
-            information: { id: information1.id },
+            information: { id: information1.id, text: expect.any(String) },
             comments: [
               { id: comment1.id },
             ],
           },
           {
-            information: { id: information2.id },
+            information: { id: information2.id, text: expect.any(String) },
             comments: [
               { id: comment2.id },
             ],
