@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { EntityRepository, getConnection, getRepository, In, Repository, SelectQueryBuilder } from 'typeorm';
+import { EntityRepository, getRepository, In, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 import { SortType } from 'Common/sort-type';
@@ -147,79 +147,37 @@ export class CommentRepository extends Repository<Comment> {
 
   async findForUser(
     userId: number,
-    search: string,
+    search: string | null,
     page: number,
     pageSize: number,
-  ): Promise<Paginated<{ commentId: number; informationId: number }>> {
-
-    // select distinct information_id from (
-    //   select information_id from comment
-    //   where author_id = 1
-    //   group by information_id, created
-    //   order by created desc
-    // ) information_id;
-
-    const getInformationIds = async () => {
-      const qb = getConnection().createQueryBuilder()
-        .select('information_id')
-        .distinct(true)
-        .from(subQuery => {
-          subQuery.select('comment.information_id')
-            .from('comment', 'comment')
-            .where('comment.author_id = :userId', { userId })
-            .groupBy('comment.information_id, comment.created')
-            .orderBy('comment.created', 'DESC');
-
-          if (search) {
-            subQuery
-              .leftJoin('comment.messages', 'messages')
-              .andWhere('messages.text ILIKE :search', { search: `%${search}%` });
-          }
-
-          return subQuery;
-        }, 'information_id');
-
-      const result = await qb.getRawMany();
-
-      return result.map(({ information_id }: { information_id: number }) => information_id);
-    };
-
-    // select i.id iid, c.id cid, c.created from information i
-    // join comment c on c.information_id = i.id
-    // where r.author_id = 1
-    // order idx(array[XX, YY], i.id), c.created desc;
-
-    const getCommentsIds = async (informationIds: number[]) => {
+  ): Promise<Paginated<Comment>> {
+    const getInformationsIds = async () => {
       const qb = this.createQueryBuilder('comment')
-        .select('comment.id')
-        .addSelect('comment.information_id')
-        .leftJoin('comment.information', 'information')
-        .where('comment.author_id = :userId', { userId })
-        .orderBy(`idx(array[${informationIds.join(', ')}], information.id)`)
-        .addOrderBy('comment.created', 'DESC')
-        .offset((page - 1) * pageSize)
-        .limit(pageSize);
+        .select('comment.information_id')
+        .where('author_id = :userId', { userId })
+        .leftJoin('comment.messages', 'messages')
+        .groupBy('comment.information_id')
+        .addGroupBy('comment.created')
+        .addGroupBy('messages.created')
+        .orderBy('messages.created', 'DESC');
 
-      if (search) {
-        qb
-          .leftJoin('comment.messages', 'messages')
-          .andWhere('message.text ILIKE :search', { search: `%${search}%` });
-      }
+      if (search)
+        qb.andWhere('message.text ILIKE :search', { search: `%${search}%` });
 
-      const results = await qb.getRawMany();
-
-      return {
-        items: results.map(({ comment_id, information_id }) => ({ commentId: comment_id, informationId: information_id })),
-        total: await qb.getCount(),
-      };
+      return [...new Set((await qb.getRawMany()).map(({ information_id }) => information_id))];
     };
 
-    const informationIds = await getInformationIds();
+    const informationsIds = await getInformationsIds();
+    const qb = this.createDefaultQueryBuilder(page, pageSize)
+      .leftJoinAndSelect('comment.information', 'information')
+      .where(`information_id IN (${informationsIds.join(', ')})`);
 
-    if (informationIds.length === 0)
-      return { items: [], total: 0 };
+    if (search)
+      qb.andWhere('message.text ILIKE :search', { search: `%${search}%` });
 
-    return getCommentsIds(informationIds);
+    const [items, total] = await qb.getManyAndCount();
+
+    return { items, total };
   }
 
   private async findAncestors(id: number) {

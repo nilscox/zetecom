@@ -18,7 +18,7 @@ export class PopulateInformation extends PopulateInterceptor<InformationDto> {
     await this.addCommentsCounts(dtos);
   }
 
-  async addCommentsCounts(informations: InformationDto[]) {
+  private async addCommentsCounts(informations: InformationDto[]) {
     const counts = await this.informationService.getCommentsCounts(informations.map(i => i.id));
 
     for (const information of informations)

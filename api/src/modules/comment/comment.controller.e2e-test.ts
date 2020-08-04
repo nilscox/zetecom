@@ -83,7 +83,7 @@ describe('comment controller', () => {
     reply3 = await createComment({ information, parent: comment });
   });
 
-  describe.skip('get for user', () => {
+  describe('get for user', () => {
 
     const [userRequest, user] = createAuthenticatedUser(server);
 
@@ -118,11 +118,18 @@ describe('comment controller', () => {
         .get('/api/comment/me')
         .expect(200);
 
-      // .toMatchObject makes the output hard to debug
-      expect(body).toHaveProperty('total', 4);
-      expect(body).toHaveProperty('items.0.id', information1.id);
-      expect(body).toHaveProperty('items.0.comments.0.id', comment4.id);
-      expect(body).toHaveProperty('items.0.comments.1.id', comment3.id);
+      expect(body).toMatchObject({
+        total: 4,
+        items: [
+          {
+            information: { id: information1.id },
+            comments: [
+              { id: comment4.id },
+              { id: comment3.id },
+            ],
+          },
+        ],
+      });
     });
 
     it('should get comments created by a specific user on page 2', async () => {
@@ -131,13 +138,24 @@ describe('comment controller', () => {
         .query({ page: 2 })
         .expect(200);
 
-      expect(body).toHaveProperty('total', 4);
-      expect(body).toHaveProperty('items.0.id', information1.id);
-      expect(body).toHaveProperty('items.0.comments.0.id', comment1.id);
-      expect(body).toHaveProperty('items.1.id', information2.id);
-      expect(body).toHaveProperty('items.1.comments.0.id', comment2.id);
+      expect(body).toMatchObject({
+        total: 4,
+        items: [
+          {
+            information: { id: information1.id },
+            comments: [
+              { id: comment1.id },
+            ],
+          },
+          {
+            information: { id: information2.id },
+            comments: [
+              { id: comment2.id },
+            ],
+          },
+        ],
+      });
     });
-
   });
 
   describe('get by id', () => {

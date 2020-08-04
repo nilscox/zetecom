@@ -28,19 +28,20 @@ import { SearchQuery } from 'Common/search-query.decorator';
 
 import { Information } from '../information/information.entity';
 import { InformationService } from '../information/information.service';
-import { PopulateInformation } from '../information/populate-information.interceptor';
 import { User } from '../user/user.entity';
 
 import { Comment } from './comment.entity';
 import { CommentRepository } from './comment.repository';
 import { CommentService } from './comment.service';
 import { CommentDto } from './dtos/comment.dto';
+import { CommentsForInformationDto } from './dtos/comments-for-information.dto';
 import { CreateCommentDto } from './dtos/create-comment.dto';
 import { CreateReactionDto } from './dtos/create-reaction.dto';
 import { MessageDto } from './dtos/message.dto';
 import { UpdateCommentDto } from './dtos/update-comment.dto';
 import { Message } from './message.entity';
 import { PopulateComment } from './populate-comment.interceptor';
+import { PopulateCommentsForInformation } from './populate-comments-for-information.interceptor';
 import { CreateReportDto } from './report/dtos/create-report.dto';
 import { ReportService } from './report/report.service';
 import { SubscriptionService } from './subscription/subscription.service';
@@ -62,30 +63,28 @@ export class CommentController {
 
   @Get('me')
   @UseGuards(IsAuthenticated)
-  @UseInterceptors(PopulateInformation)
+  @CastToDto(CommentsForInformationDto)
+  @UseInterceptors(PopulateCommentsForInformation)
   async findForUser(
     @AuthUser() user: User,
+    // TODO?
     @OptionalQuery({ key: 'informationId' }, OptionalParseIntPipe) informationId: number | undefined,
     @SearchQuery() search: string,
     @PageQuery() page: number,
-  ): Promise<Paginated<Information>> {
-    const results = await this.commentRepository.findForUser(user.id, search, page, this.commentPageSize);
+  ): Promise<Paginated<{ information: Information; comments: Comment[] }>> {
+    const { items, total } = await this.commentRepository.findForUser(user.id, search, page, this.commentPageSize);
 
-    if (results.total === 0)
+    if (total === 0)
       return { items: [], total: 0 };
 
-    const informations = await this.informationService.findByIds([...new Set(results.items.map(({ informationId }) => informationId))]);
-    const comments = await this.commentRepository.findAll(results.items.map(({ commentId }) => commentId), { author: false });
+    const uniqueInformationsIds = [...new Set(items.map(comment => comment.information.id))];
 
-    informations.forEach(info => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      info.comments = results.items
-        .filter(({ informationId }) => informationId === info.id)
-        .map(({ commentId }) => comments.find(({ id }) => id === commentId));
-    });
+    const result = uniqueInformationsIds.map(informationId => ({
+      information: items.find(comment => comment.information.id === informationId).information,
+      comments: items.filter(comment => comment.information.id === informationId),
+    }));
 
-    return { items: informations, total: results.total };
+    return { items: result, total };
   }
 
   @Get(':id')

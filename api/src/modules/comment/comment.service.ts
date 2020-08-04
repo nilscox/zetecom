@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -7,8 +7,6 @@ import { User } from '../user/user.entity';
 
 import { Comment } from './comment.entity';
 import { CommentRepository } from './comment.repository';
-import { CreateCommentDto } from './dtos/create-comment.dto';
-import { UpdateCommentDto } from './dtos/update-comment.dto';
 import { Message } from './message.entity';
 import { Reaction, ReactionType } from './reaction.entity';
 import { SubscriptionService } from './subscription/subscription.service';
