@@ -5,7 +5,8 @@ import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-t
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { UserLightDto } from '../user/dtos/user-ligth.dto';
 
-import { Notification, NotificationType } from './notification.entity';
+import { NotificationType } from './notification-type';
+import { Notification } from './notification.entity';
 import { NotificationFactory } from './notification.factory';
 import { NotificationModule } from './notification.module';
 
@@ -17,7 +18,7 @@ describe('notifications', () => {
 
   let createNotification: NotificationFactory['create'];
 
-  let notificationRepository: Repository<Notification<any>>;
+  let notificationRepository: Repository<Notification>;
 
   beforeAll(() => {
     notificationRepository = getRepository(Notification);
@@ -39,7 +40,7 @@ describe('notifications', () => {
     text: 'text',
   };
 
-  const markAsSeen = async (notification: Notification<any>, date: Date) => {
+  const markAsSeen = async (notification: Notification, date: Date) => {
     await notificationRepository.update(notification.id, { seen: date });
   };
 

@@ -11,7 +11,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Expose } from 'class-transformer';
 import { Repository } from 'typeorm';
 
 import { AuthUser } from 'Common/auth-user.decorator';
@@ -20,47 +19,41 @@ import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
 
+import { CastToDto } from '../../common/cast-to-dto.interceptor';
 import { User } from '../user/user.entity';
 
-import { Notification, NotificationType } from './notification.entity';
+import { NotificationDto } from './dtos/notification.dto';
+import { NotificationsCountDto } from './dtos/notifications-count.dto';
+import { Notification } from './notification.entity';
 import { NotificationService } from './notification.service';
-
-type GenericNotification = Notification<NotificationType>;
-
-class NotificationOutDto {
-  constructor(private readonly _count: number) {}
-
-  @Expose()
-  get count() {
-    return this._count;
-  }
-}
 
 @Controller('notification')
 @UseInterceptors(ClassToPlainInterceptor)
 export class NotificationController {
 
   constructor(
-    private readonly notificationService: NotificationService<NotificationType.SUBSCRIPTION_REPLY>,
+    private readonly notificationService: NotificationService,
     @InjectRepository(Notification)
-    private readonly notificationRepository: Repository<GenericNotification>,
+    private readonly notificationRepository: Repository<Notification>,
   ) {}
 
   @Get('me')
   @UseGuards(IsAuthenticated)
-  findUnseenForUser(
+  @CastToDto(NotificationDto)
+  findForUser(
     @AuthUser() user: User,
     @PageQuery() page: number,
-  ): Promise<Paginated<GenericNotification>> {
+  ): Promise<Paginated<Notification>> {
     return this.notificationService.findForUser(user, page);
   }
 
   @Get('me/count')
   @UseGuards(IsAuthenticated)
+  @CastToDto(NotificationsCountDto)
   async countUnseenForUser(
     @AuthUser() user: User,
-  ): Promise<NotificationOutDto> {
-    return new NotificationOutDto(await this.notificationService.countUnseenForUser(user));
+  ): Promise<{ count: number }> {
+    return { count: await this.notificationService.countUnseenForUser(user) };
   }
 
   @Post(':id/seen')

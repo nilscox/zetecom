@@ -4,27 +4,30 @@ import { DeepPartial, Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
+import { NotificationPayload } from 'src/modules/notification/notification-payload';
+
 import { User } from '../user/user.entity';
 
-import { Notification, NotificationPayload, NotificationType } from './notification.entity';
+import { NotificationType } from './notification-type';
+import { Notification } from './notification.entity';
 
 @Injectable()
-export class NotificationService<T extends NotificationType> {
+export class NotificationService {
 
   @Inject('NOTIFICATION_PAGE_SIZE')
   private readonly pageSize: number;
 
   constructor(
     @InjectRepository(Notification)
-    private readonly notificationRepository: Repository<Notification<T>>,
+    private readonly notificationRepository: Repository<Notification>,
   ) {}
 
-  async create(type: T, user: User, payload: NotificationPayload[T]) {
+  async create(type: NotificationType, user: User, payload: NotificationPayload) {
     // TODO: fix notification types
-    return this.notificationRepository.save({ type, payload, user } as unknown as DeepPartial<Notification<T>>);
+    return this.notificationRepository.save({ type, payload, user } as unknown as DeepPartial<Notification>);
   }
 
-  async findForUser(user: User, page: number): Promise<Paginated<Notification<T>>> {
+  async findForUser(user: User, page: number): Promise<Paginated<Notification>> {
     const [items, total] = await this.notificationRepository.createQueryBuilder('notification')
       .where('notification.user.id = :userId', { userId: user.id })
       .orderBy('seen', 'DESC', 'NULLS FIRST')

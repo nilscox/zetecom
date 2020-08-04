@@ -5,7 +5,8 @@ import { FindConditions, Not, Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
-import { Notification, NotificationType, SubscriptionReplyNotification } from '../../notification/notification.entity';
+import { NotificationType } from '../../notification/notification-type';
+import { Notification } from '../../notification/notification.entity';
 import { UserLightDto } from '../../user/dtos/user-ligth.dto';
 import { UserDto } from '../../user/dtos/user.dto';
 import { Comment } from '../comment.entity';
@@ -23,7 +24,7 @@ export class SubscriptionService {
     private readonly subscriptionRepository: Repository<Subscription>,
 
     @InjectRepository(Notification)
-    private readonly notificationRepository: Repository<SubscriptionReplyNotification>,
+    private readonly notificationRepository: Repository<Notification>,
   ) {}
 
   public async subscribe(user: UserDto, comment: Comment): Promise<Subscription> {
@@ -94,7 +95,7 @@ export class SubscriptionService {
         type: NotificationType.SUBSCRIPTION_REPLY,
         user,
         payload,
-      });
+      } as unknown as Notification);
     });
 
     if (notifications.length > 0)
