@@ -1,45 +1,48 @@
 import React from 'react';
 
 import Authenticated from 'src/components/Authenticated';
+import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
 
 import AsyncContent from '../components/AsyncContent';
+import Indented from '../components/Comment/CommentContainer/Indented';
+import CommentsList from '../components/CommentsList';
 import FiltersBar from '../components/FiltersBar';
 import InformationOverview from '../components/InformationOverview';
 import RouterLink from '../components/Link';
 import Padding from '../components/Padding';
-import Indented from '../components/Comment/CommentContainer/Indented';
-import CommentsList from '../components/CommentsList';
 import { InformationProvider } from '../contexts/InformationContext';
-import { useCurrentUser } from '../contexts/UserContext';
 import useAxiosPaginated from '../hooks/use-axios-paginated';
+import { parseComment } from '../types/Comment';
 import { Information, parseInformation } from '../types/Information';
-import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
+
+import { Card, CardContent } from '@material-ui/core';
 
 const useParseInformationForUser = () => {
-  const user = useCurrentUser();
-
-  return (data: any) => {
-    const information = parseInformation(data);
-
-    information.comments.forEach(comment => comment.author = user);
-
-    return information;
-  };
+  return (data: any) => ({
+    information: parseInformation(data.information),
+    comments: data.comments.map(parseComment),
+  });
 };
 
 const UserCommentsInformation: React.FC<{ information: Information }> = ({ information }) => (
   <InformationProvider value={information}>
 
-    <Padding y>
-      <InformationOverview
-        title={<RouterLink to={`/information/${information.id}`}>{ information.title }</RouterLink>}
-        information={information}
-      />
-    </Padding>
+    <Card variant="outlined" elevation={2}>
+      <CardContent>
 
-    <Indented>
-      <CommentsList comments={information.comments} />
-    </Indented>
+        <InformationOverview
+          title={<RouterLink to={`/information/${information.id}`}>{ information.title }</RouterLink>}
+          information={information}
+        />
+
+        <Padding top>
+          <Indented>
+            <CommentsList comments={information.comments} />
+          </Indented>
+        </Padding>
+
+      </CardContent>
+    </Card>
 
   </InformationProvider>
 );
@@ -47,7 +50,7 @@ const UserCommentsInformation: React.FC<{ information: Information }> = ({ infor
 const UserComments: React.FC = () => {
   const parseInformationForUser = useParseInformationForUser();
   const [
-    { loading, data: informations, total, error },
+    { loading, data, total, error },
     { search, setSearch },,
     { page, setPage },
   ] = useAxiosPaginated('/api/comment/me', parseInformationForUser);
@@ -69,9 +72,9 @@ const UserComments: React.FC = () => {
               onPageChange={setPage}
             />
 
-            {informations.map((information, n) => (
-              <Padding key={information.id} top when={n > 0}>
-                <UserCommentsInformation information={information} />
+            {data.map(({ information, comments }, n) => (
+              <Padding key={information.id} top>
+                <UserCommentsInformation information={{ ...information, comments }} />
               </Padding>
             ))}
 
