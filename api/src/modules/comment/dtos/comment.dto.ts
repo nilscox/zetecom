@@ -38,6 +38,7 @@ export class CommentDto {
     Object.assign(this, partial);
   }
 
+  message: Message;
   messages: Message[];
 
   @Expose()
@@ -52,17 +53,15 @@ export class CommentDto {
 
   @Expose()
   get edited(): Date | false {
-    const l = this.messages.length;
-
-    if (l === 1)
+    if (this.messages.length === 1)
       return false;
 
-    return this.messages[0].created;
+    return this.message.created;
   }
 
   @Expose()
   get text(): string {
-    return this.messages[0].text;
+    return this.message.text;
   }
 
   @Expose()

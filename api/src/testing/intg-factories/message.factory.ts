@@ -5,10 +5,8 @@ import { Message } from '../../modules/comment/message.entity';
 export const createMessage = async (data: DeepPartial<Message> = {}) => {
   const manager = getManager();
 
-  const message = manager.create(Message, {
-    text: 'Text',
-    ...data,
-  });
+  if (!data.text)
+    data.text = 'text';
 
-  return manager.save(message);
+  return manager.save(Message, data);
 };

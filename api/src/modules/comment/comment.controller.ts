@@ -72,19 +72,7 @@ export class CommentController {
     @SearchQuery() search: string,
     @PageQuery() page: number,
   ): Promise<Paginated<{ information: Information; comments: Comment[] }>> {
-    const { items, total } = await this.commentRepository.findForUser(user.id, search, page, this.commentPageSize);
-
-    if (total === 0)
-      return { items: [], total: 0 };
-
-    const uniqueInformationsIds = [...new Set(items.map(comment => comment.information.id))];
-
-    const result = uniqueInformationsIds.map(informationId => ({
-      information: items.find(comment => comment.information.id === informationId).information,
-      comments: items.filter(comment => comment.information.id === informationId),
-    }));
-
-    return { items: result, total };
+    return this.commentService.findForUser(user.id, search, page, this.commentPageSize);
   }
 
   @Get(':id')
@@ -106,7 +94,7 @@ export class CommentController {
   async findHistory(
     @Param('id', new ParseIntPipe()) id: number,
   ): Promise<Message[]> {
-    const comment = await this.commentService.findById(id);
+    const comment = await this.commentService.findById(id, { messages: true });
 
     if (!comment)
       throw new NotFoundException();
@@ -121,10 +109,10 @@ export class CommentController {
     @Param('id', new ParseIntPipe()) id: number,
     @PageQuery() page: number,
   ): Promise<Paginated<Comment>> {
-    if (!(await this.commentRepository.exists(id)))
+    if (!await this.commentService.exists(id))
       throw new NotFoundException();
 
-    return this.commentRepository.findReplies(id, page, this.commentPageSize);
+    return this.commentService.findReplies(id, page, this.commentPageSize);
   }
 
   // TODO: return 204

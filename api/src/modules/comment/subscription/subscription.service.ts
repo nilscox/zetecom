@@ -87,7 +87,7 @@ export class SubscriptionService {
       commentId: reply.parent.id,
       replyId: reply.id,
       author: classToPlain(plainToClass(UserLightDto, reply.author), { strategy: 'excludeAll' }),
-      text: reply.messages[0].text,
+      text: reply.message.text,
     };
 
     const notifications = subscriptions.map(({ user }) => {

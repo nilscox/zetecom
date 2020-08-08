@@ -98,13 +98,13 @@ describe('comment controller', () => {
       information1 = await createInformation();
       information2 = await createInformation();
 
-      comment1 = await createComment({ information: information1, author: user });
+      comment1 = await createComment(1, { information: information1, author: user });
 
-      comment2 = await createComment({ information: information2, author: user });
+      comment2 = await createComment(2, { information: information2, author: user, text: 'comment2 search' });
       // await createComment({ information: information2 });
 
-      comment3 = await createComment({ information: information1, author: user });
-      comment4 = await createComment({ information: information1, author: user });
+      comment3 = await createComment(3, { information: information1, author: user });
+      comment4 = await createComment(4, { information: information1, author: user, text: 'comment4 you search me' });
     });
 
     it('should not get comments created by a specific user when unauthenticated', () => {
@@ -113,7 +113,7 @@ describe('comment controller', () => {
         .expect(403);
     });
 
-    it('should get comments created by a specific user', async () => {
+    it('should get comments for a user', async () => {
       const { body } = await userRequest
         .get('/api/comment/me')
         .expect(200);
@@ -132,7 +132,7 @@ describe('comment controller', () => {
       });
     });
 
-    it('should get comments created by a specific user on page 2', async () => {
+    it('should get comments for a user on page 2', async () => {
       const { body } = await userRequest
         .get('/api/comment/me')
         .query({ page: 2 })
@@ -142,13 +142,36 @@ describe('comment controller', () => {
         total: 4,
         items: [
           {
-            information: { id: information1.id, text: expect.any(String) },
+            information: { id: information2.id },
             comments: [
-              { id: comment1.id },
+              { id: comment2.id, text: expect.any(String) },
             ],
           },
           {
-            information: { id: information2.id, text: expect.any(String) },
+            information: { id: information1.id },
+            comments: [
+              { id: comment1.id, text: expect.any(String) },
+            ],
+          },
+        ],
+      });
+    });
+
+    it('should search comments for a user', async () => {
+      const { body } = await userRequest
+        .get('/api/comment/me')
+        .query({ search: 'search' })
+        .expect(200);
+
+      expect(body).toMatchObject({
+        total: 2,
+        items: [
+          {
+            comments: [
+              { id: comment4.id },
+            ],
+          },
+          {
             comments: [
               { id: comment2.id },
             ],

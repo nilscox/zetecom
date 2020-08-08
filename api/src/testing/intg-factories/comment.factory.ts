@@ -1,12 +1,13 @@
 import { DeepPartial, getManager } from 'typeorm';
 
 import { Comment } from '../../modules/comment/comment.entity';
+import { Message } from '../../modules/comment/message.entity';
 
 import { createInformation } from './information.factory';
 import { createMessage } from './message.factory';
 import { createUser } from './user.factory';
 
-export const createComment = async (data: DeepPartial<Comment> = {}) => {
+export const createComment = async (data: DeepPartial<Comment> = {}, text?: string) => {
   const manager = getManager();
 
   if (!data.information)
@@ -16,24 +17,12 @@ export const createComment = async (data: DeepPartial<Comment> = {}) => {
     data.author = await createUser();
 
   if (!data.message)
-    data.message = await createMessage();
+    data.message = await createMessage({ text });
 
-  const comment = manager.create(Comment, {
-    ...data,
-  });
-
-  const result = await manager.save(comment);
-
-  if (data.history) {
-    await Promise.all(data.history.map(message => {
-      message.comment = result;
-      return manager.save(message);
-    }));
-  }
+  const comment = await manager.save(Comment, data);
 
   data.message.comment = comment;
-  await manager.save(data.message);
-  await manager.query(`UPDATE message SET created = NOW() WHERE id = ${data.message.id}`);
+  await manager.save(Message, data.message);
 
-  return result;
+  return manager.findOne(Comment, comment.id);
 };

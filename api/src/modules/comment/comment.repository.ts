@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/camelcase */
-
 import { EntityRepository, getRepository, In, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 import { SortType } from 'Common/sort-type';
 
 import { Comment } from './comment.entity';
+import { Message } from './message.entity';
 import { Reaction, ReactionType } from './reaction.entity';
 
 type RepliesCount = {
@@ -25,6 +24,31 @@ type UserReaction = {
   type: ReactionType | null;
 };
 
+export type CommentJoinRelations = {
+  author?: boolean;
+  message?: boolean;
+  messages?: boolean;
+  information?: boolean;
+  parent?: boolean;
+};
+
+type Pagination = {
+  page: number;
+  pageSize: number;
+};
+
+type FindAllOptions = {
+  ids?: number[];
+  sort?: SortType;
+  relations?: CommentJoinRelations;
+  root?: boolean;
+  search?: string;
+  informationId?: number;
+  authorId?: number;
+  parentId?: number;
+  pagination?: Pagination;
+};
+
 @EntityRepository(Comment)
 export class CommentRepository extends Repository<Comment> {
 
@@ -37,147 +61,151 @@ export class CommentRepository extends Repository<Comment> {
     this.reactionRepository = getRepository(Reaction);
   }
 
-  public findAll(ids: number[], { author = true, message = true } = {}) {
+  async exists(id: number): Promise<boolean> {
+    return (await this.count({ id })) === 1;
+  }
+
+  async findAll(opts: FindAllOptions = {}): Promise<Paginated<Comment>> {
+    const qb = this.createQueryBuilder('comment');
+
+    if (typeof opts.ids !== 'undefined')
+      qb.whereInIds(opts.ids);
+
+    if (typeof opts.sort !== 'undefined')
+      this.orderBy(qb, opts.sort);
+
+    if (typeof opts.search !== 'undefined')
+      this.search(qb, opts.search);
+
+    if (typeof opts.authorId !== 'undefined')
+      qb.andWhere('comment.author_id = :authorId', { authorId: opts.authorId });
+
+    if (typeof opts.informationId !== 'undefined')
+      qb.andWhere('comment.information_id = :informationId', { informationId: opts.informationId });
+
+    if (typeof opts.root !== 'undefined')
+      qb.andWhere('comment.parent_id IS NULL');
+
+    if (typeof opts.parentId !== 'undefined')
+      qb.andWhere('comment.parent_id = :parentId', { parentId: opts.parentId });
+
+    if (typeof opts.pagination !== 'undefined')
+      this.paginate(qb, opts.pagination);
+
+    this.joinAndSelect(qb, opts?.relations);
+
+    // console.log(qb.getSql());
+    // console.log(qb.getParameters());
+
+    const [items, total] = await qb.getManyAndCount();
+
+    return { items, total };
+  }
+
+  async findById(id: number, relations?: CommentJoinRelations) {
     const qb = this.createQueryBuilder('comment')
-      .where(`comment.id IN (${ids.join(', ')})`);
+      .where({ id });
+
+    this.joinAndSelect(qb, relations);
+
+    // console.log(qb.getSql());
+    // console.log(qb.getParameters());
+
+    return qb.getOne();
+  }
+
+  private joinAndSelect(qb: SelectQueryBuilder<Comment>, relations?: CommentJoinRelations) {
+    const {
+      author = true,
+      message = true,
+      messages = false,
+      information = false,
+      parent = false,
+    } = { ...relations };
 
     if (author)
       qb.leftJoinAndSelect('comment.author', 'author');
 
     if (message)
-      qb.leftJoinAndSelect('comment.messages', 'messages');
+      qb.leftJoinAndSelect('comment.message', 'message');
 
-    return qb.getMany();
-  }
+    if (messages) {
+      qb.leftJoinAndSelect('comment.messages', 'messages')
+        .addOrderBy('messages.created', 'DESC');
+    }
 
-  private createDefaultQueryBuilder(page: number, pageSize: number) {
-    // take does not work well with orderBy
-    // https://github.com/typeorm/typeorm/issues/747#issuecomment-349108902
-    return this.createQueryBuilder('comment')
-      .leftJoinAndSelect('comment.author', 'author')
-      .leftJoinAndSelect('comment.messages', 'messages')
-      .orderBy('messages.created', 'DESC')
-      .skip((page - 1) * pageSize)
-      .take(pageSize);
+    if (information)
+      qb.leftJoinAndSelect('comment.information', 'information');
+
+    if (parent)
+      qb.leftJoinAndSelect('comment.parent', 'parent');
   }
 
   private orderBy(qb: SelectQueryBuilder<Comment>, sort: SortType) {
     if (sort === SortType.DATE_ASC)
-      qb.orderBy('comment.created', 'ASC');
+      qb.addOrderBy('comment.created', 'ASC');
     else if (sort === SortType.DATE_DESC)
-      qb.orderBy('comment.created', 'DESC');
+      qb.addOrderBy('comment.created', 'DESC');
     else if (sort === SortType.RELEVANCE) {
       qb.addOrderBy('comment.score', 'DESC')
         .addOrderBy('comment.created', 'DESC');
     }
-
-    // need?
-    // qb.addOrderBy('messages.created', 'DESC');
   }
 
-  async exists(id: number): Promise<boolean> {
-    return (await this.count({ id })) === 1;
+  private search(qb: SelectQueryBuilder<Comment>, search: string) {
+    qb.andWhere('message.text ILIKE :search', { search: `%${search}%` });
   }
 
-  async findById(id: number, opts = { author: true, information: false, parent: false }) {
-    const qb = this.createQueryBuilder('comment')
-      .where({ id })
-      .leftJoinAndSelect('comment.messages', 'messages')
-      .orderBy('messages.created', 'DESC');
-
-    if (opts.author)
-      qb.leftJoinAndSelect('comment.author', 'author');
-
-    if (opts.information)
-      qb.leftJoinAndSelect('comment.information', 'information');
-
-    if (opts.parent)
-      qb.leftJoinAndSelect('comment.parent', 'parent');
-
-    return qb.getOne();
-  }
-
-  async findRootComments(
-    informationId: number,
-    sort: SortType,
-    page: number,
-    pageSize: number,
-  ): Promise<Paginated<Comment>> {
-    const qb = this.createDefaultQueryBuilder(page, pageSize)
-      .where('comment.information_id = :informationId', { informationId })
-      .andWhere('comment.parent_id IS NULL');
-
-    this.orderBy(qb, sort);
-
-    const [items, total] = await qb.getManyAndCount();
-
-    return { items, total };
-  }
-
-  async search(
-    informationId: number,
-    search: string,
-    sort: SortType,
-    page: number,
-    pageSize: number,
-  ): Promise<Paginated<Comment>> {
-    const qb = this.createDefaultQueryBuilder(page, pageSize)
-      .where('comment.information_id = :informationId', { informationId })
-      .andWhere('messages.text ILIKE :search', { search: `%${search}%` });
-
-    this.orderBy(qb, sort);
-
-    const [items, total] = await qb.getManyAndCount();
-
-    return { items, total };
-  }
-
-  async findReplies(parentId: number, page: number, pageSize: number): Promise<Paginated<Comment>> {
-    const [items, total] = await this.createQueryBuilder('comment')
-      .leftJoinAndSelect('comment.author', 'author', 'comment.author_id = author.id')
-      .leftJoinAndSelect('comment.messages', 'messages', 'messages.comment_id = comment.id')
-      .where('comment.parent_id = :parentId', { parentId })
-      .orderBy('comment.created')
-      .skip((page - 1) * pageSize)
-      .take(pageSize)
-      .getManyAndCount();
-
-    return { items, total };
+  private paginate(qb: SelectQueryBuilder<Comment>, { page, pageSize }: FindAllOptions['pagination']) {
+    qb.limit(pageSize);
+    qb.offset(pageSize * (page - 1));
   }
 
   async findForUser(
     userId: number,
     search: string | null,
-    page: number,
-    pageSize: number,
+    pagination: Pagination,
   ): Promise<Paginated<Comment>> {
     const getInformationsIds = async () => {
       const qb = this.createQueryBuilder('comment')
         .select('comment.information_id')
         .where('author_id = :userId', { userId })
-        .leftJoin('comment.messages', 'messages')
         .groupBy('comment.information_id')
-        .addGroupBy('comment.created')
-        .addGroupBy('messages.created')
-        .orderBy('messages.created', 'DESC');
+        .addGroupBy('comment.created');
 
-      if (search)
-        qb.andWhere('message.text ILIKE :search', { search: `%${search}%` });
+      this.orderBy(qb, SortType.DATE_DESC);
 
-      return [...new Set((await qb.getRawMany()).map(({ information_id }) => information_id))];
+      if (search) {
+        this.joinAndSelect(qb);
+        this.search(qb, search);
+      }
+
+      const informationIds = await qb.getRawMany();
+
+      return [...new Set(informationIds.map(({ information_id }) => information_id))];
     };
 
     const informationsIds = await getInformationsIds();
-    const qb = this.createDefaultQueryBuilder(page, pageSize)
-      .leftJoinAndSelect('comment.information', 'information')
-      .where(`information_id IN (${informationsIds.join(', ')})`);
+    const qb = this.createQueryBuilder('comment')
+      .select('comment.id')
+      .addSelect('comment.information_id')
+      .where(`information_id IN (${informationsIds.join(', ')})`)
+      .andWhere('author_id = :userId', { userId })
+      .orderBy(`idx(array[${informationsIds.join(', ')}], comment.information_id)`);
 
-    if (search)
-      qb.andWhere('message.text ILIKE :search', { search: `%${search}%` });
+    if (search) {
+      this.joinAndSelect(qb);
+      this.search(qb, search);
+    }
 
-    const [items, total] = await qb.getManyAndCount();
+    this.paginate(qb, pagination);
 
-    return { items, total };
+    const comments = await qb.getMany();
+
+    return this.findAll({
+      ids: comments.map(comment => comment.id),
+      relations: { information: true },
+    });
   }
 
   private async findAncestors(id: number) {
@@ -201,6 +229,18 @@ export class CommentRepository extends Repository<Comment> {
 
   async decrementScore(id: number, by = 1) {
     return this.decrement({ id: In([id, ...await this.findAncestors(id)]) }, 'score', by);
+  }
+
+  async getMessages(commentsIds: number[]): Promise<{ commentId: number; messages: Message[] }[]> {
+    const comments = await this.createQueryBuilder('comment')
+      .where('comment.id IN (' + commentsIds + ')')
+      .leftJoinAndSelect('comment.messages', 'messages')
+      .getMany();
+
+    return comments.map(({ id, messages }) => ({
+      commentId: id,
+      messages,
+    }));
   }
 
   async getRepliesCounts(commentsIds: number[]): Promise<RepliesCount[]> {

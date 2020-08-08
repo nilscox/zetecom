@@ -24,7 +24,17 @@ export class CommentFactory implements Factory<CommentFactoryData, Comment> {
     private readonly informationFactory: InformationFactory
   ) {}
 
-  async create(data: CommentFactoryData = {}) {
+  async create(a: number | CommentFactoryData = {}, b: CommentFactoryData = {}) {
+    let n: number;
+    let data: CommentFactoryData;
+
+    if (typeof a === 'number') {
+      n = a;
+      data = b;
+    } else {
+      data = a;
+    }
+
     const getInformation = async () => {
       return data.information || await this.informationFactory.create();
     };
@@ -37,7 +47,7 @@ export class CommentFactory implements Factory<CommentFactoryData, Comment> {
       await getAuthor(),
       await getInformation(),
       data.parent || null,
-      data.text || 'comment text',
+      data.text || 'comment' + (n || ''),
     );
   }
 }

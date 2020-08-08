@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import util from 'util';
 
 import { Information } from '../information/information.entity';
 import { User } from '../user/user.entity';
@@ -25,13 +26,16 @@ export class Comment {
   @Column({ default: 0 })
   score: number;
 
-  // TODO: eager: false
-  @ManyToOne(type => Information, { nullable: false, eager: true })
+  @ManyToOne(type => Information, { nullable: false })
   @JoinColumn({ name: 'information_id' })
   information: Information;
 
-  @OneToMany(type => Message, message => message.comment, { eager: true })
+  @OneToMany(type => Message, message => message.comment)
   messages: Message[];
+
+  @OneToOne(type => Message, message => message.comment, { eager: true })
+  @JoinColumn({ name: 'message_id' })
+  message: Message;
 
   @ManyToOne(type => Comment, comment => comment.replies, { nullable: true })
   @JoinColumn({ name: 'parent_id' })
@@ -42,5 +46,16 @@ export class Comment {
 
   @OneToMany(type => Reaction, reaction => reaction.comment)
   reactions: Reaction[];
+
+  [util.inspect.custom]() {
+    let str = 'Comment#' + this.id;
+
+    if (this.messages)
+      str += ` ("${this.messages[0].text}")`;
+    else
+      str += ' -';
+
+    return str;
+  }
 
 }

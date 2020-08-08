@@ -28,7 +28,7 @@ import { CastToDto } from '../../common/cast-to-dto.interceptor';
 import { PopulateInformation } from '../../modules/information/populate-information.interceptor';
 import { Role } from '../authorization/roles.enum';
 import { Comment } from '../comment/comment.entity';
-import { CommentRepository } from '../comment/comment.repository';
+import { CommentService } from '../comment/comment.service';
 import { CommentDto } from '../comment/dtos/comment.dto';
 import { PopulateComment } from '../comment/populate-comment.interceptor';
 import { User } from '../user/user.entity';
@@ -53,7 +53,7 @@ export class InformationController {
   constructor(
     private readonly informationService: InformationService,
     private readonly informationRepository: InformationRepository,
-    private readonly commentRepository: CommentRepository,
+    private readonly commentService: CommentService,
   ) {}
 
   @Get()
@@ -107,8 +107,8 @@ export class InformationController {
       throw new NotFoundException();
 
     return search
-      ? this.commentRepository.search(id, search, sort, page, this.commentPageSize)
-      : this.commentRepository.findRootComments(id, sort, page, this.commentPageSize);
+      ? this.commentService.search(id, search, sort, page, this.commentPageSize)
+      : this.commentService.findRoot(id, sort, page, this.commentPageSize);
   }
 
   @Post()

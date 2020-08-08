@@ -23,6 +23,7 @@ export class PopulateComment extends PopulateInterceptor<CommentDto> {
   async populate(comments: CommentDto[], request: any) {
     const { user } = request;
 
+    await this.addMessages(comments);
     await this.addRepliesCounts(comments);
     await this.addReactionsCounts(comments);
 
@@ -32,8 +33,18 @@ export class PopulateComment extends PopulateInterceptor<CommentDto> {
     }
   }
 
+  private async addMessages(comments: CommentDto[]) {
+    const result = await this.commentRepository.getMessages(comments.map(({ id }) => id));
+
+    result.forEach(({ commentId, messages }) => {
+      const comment = comments.find(({ id }) => commentId === id);
+
+      comment.messages = messages;
+    });
+  }
+
   private async addRepliesCounts(comments: CommentDto[]): Promise<CommentDto[]> {
-    const repliesCounts = await this.commentRepository.getRepliesCounts(comments.map(r => r.id));
+    const repliesCounts = await this.commentRepository.getRepliesCounts(comments.map(({ id }) => id));
 
     comments.forEach(comment => {
       const reply = repliesCounts.find(r => r.commentId === comment.id);
@@ -48,7 +59,7 @@ export class PopulateComment extends PopulateInterceptor<CommentDto> {
   }
 
   private async addReactionsCounts(comments: CommentDto[]): Promise<void> {
-    const reactionsCounts = await this.commentRepository.getReactionsCounts(comments.map(r => r.id));
+    const reactionsCounts = await this.commentRepository.getReactionsCounts(comments.map(({ id }) => id));
 
     const getReactionsCount = (commentId: number, type: ReactionType): number => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -65,7 +76,7 @@ export class PopulateComment extends PopulateInterceptor<CommentDto> {
   }
 
   private async addUserReaction(comments: CommentDto[], user: User): Promise<void> {
-    const reactions = await this.commentRepository.getReactionForUser(comments.map(r => r.id), user.id);
+    const reactions = await this.commentRepository.getReactionForUser(comments.map(({ id }) => id), user.id);
 
     comments.forEach(comment => {
       const reaction = reactions.find(qr => qr.commentId === comment.id);
@@ -81,7 +92,7 @@ export class PopulateComment extends PopulateInterceptor<CommentDto> {
       .select('comment_id', 'commentId')
       .leftJoin('comment', 'comment', 'comment_subscription.comment_id = comment.id')
       .where('user_id = :userId', { userId: user.id })
-      .andWhere('comment.id IN (' + comments.map(r => r.id) + ')')
+      .andWhere('comment.id IN (' + comments.map(({ id }) => id) + ')')
       .getRawMany();
 
     const subscriptions = comments.reduce((acc, { id: commentId }) => ({
