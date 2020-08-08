@@ -9,21 +9,32 @@ import defaultInfo from './default-info.png';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
-  image: {
-    width: 240,
-    height: 160,
+type StylesProps = {
+  inline?: boolean;
+};
+
+const useStyles = makeStyles<Theme, StylesProps>(({ breakpoints, spacing }) => ({
+  container: ({ inline }) => ({
+    height: inline ? 30 : 140,
+    transition: 'height 180ms ease-in-out',
+  }),
+  image: ({ inline }) => ({
+    margin: spacing(0, inline ? 1 : 4),
+    height: '100%',
     objectFit: 'cover',
-  },
-  text: {
+  }),
+  text: ({ inline }) => ({
     flex: 1,
+    fontSize: inline ? '0.7rem' : '1rem',
     paddingLeft: spacing(4),
     [breakpoints.down('sm')]: {
       paddingLeft: spacing(2),
     },
-  },
-  title: {
-    fontSize: '1.6rem',
+  }),
+  title: ({ inline }) => ({
+    '&&': {
+      fontSize: inline ? '1rem' : '1.6rem',
+    },
     fontWeight: 'bold',
     [breakpoints.down('lg')]: {
       fontSize: '1.5rem',
@@ -34,19 +45,20 @@ const useStyles = makeStyles(({ breakpoints, spacing }: Theme) => ({
     [breakpoints.down('sm')]: {
       fontSize: '1.2rem',
     },
-  },
+  }),
 }));
 
 type InformationOverviewProps = {
   information: Information;
   title?: React.ReactNode;
+  inline?: boolean;
 };
 
-const InformationOverview: React.FC<InformationOverviewProps> = ({ information, title }) => {
-  const classes = useStyles({});
+const InformationOverview: React.FC<InformationOverviewProps> = ({ information, title, inline }) => {
+  const classes = useStyles({ inline });
 
   return (
-    <Grid container>
+    <Grid container className={classes.container}>
 
       <img className={classes.image} src={information.imageUrl || defaultInfo} />
 

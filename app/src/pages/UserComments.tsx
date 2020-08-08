@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import Authenticated from 'src/components/Authenticated';
 import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
 
 import AsyncContent from '../components/AsyncContent';
+import Collapse from '../components/Collapse';
 import Indented from '../components/Comment/CommentContainer/Indented';
 import CommentsList from '../components/CommentsList';
 import FiltersBar from '../components/FiltersBar';
@@ -15,37 +16,110 @@ import useAxiosPaginated from '../hooks/use-axios-paginated';
 import { parseComment } from '../types/Comment';
 import { Information, parseInformation } from '../types/Information';
 
-import { Card, CardContent } from '@material-ui/core';
+import { Card, CardContent, makeStyles } from '@material-ui/core';
+import ChevronDown from '@material-ui/icons/KeyboardArrowDown';
 
 const useParseInformationForUser = () => {
-  return (data: any) => ({
+  return useCallback((data: any) => ({
     information: parseInformation(data.information),
     comments: data.comments.map(parseComment),
-  });
+  }), []);
 };
 
-const UserCommentsInformation: React.FC<{ information: Information }> = ({ information }) => (
-  <InformationProvider value={information}>
+type StylesProps = {
+  collapsed: boolean;
+};
 
-    <Card variant="outlined" elevation={2}>
-      <CardContent>
+const useStyles = makeStyles(({ spacing, palette }) => ({
+  userCommentsInformation: {
+    position: 'relative',
+  },
+  cardContent: ({ collapsed }: StylesProps) => ({
+    '&, &:last-child': {
+      padding: collapsed ? spacing(2) : spacing(4),
+    },
+  }),
+  collapseButton: ({ collapsed }: StylesProps) => ({
+    position: 'absolute',
+    top: spacing(2),
+    right: spacing(2),
+    color: palette.secondary.light,
+    cursor: 'pointer',
+    transform: `rotate(${collapsed ? 90 : 0}deg)`,
+    transition: 'transform 180ms ease-in-out',
+  }),
+}));
 
-        <InformationOverview
-          title={<RouterLink to={`/information/${information.id}`}>{ information.title }</RouterLink>}
-          information={information}
-        />
+type UserCommentsInformationProps = {
+  information: Information;
+  collapsed: boolean;
+  toggleCollapsed: (ctrlKey: boolean) => void;
+};
 
-        <Padding top>
-          <Indented>
-            <CommentsList comments={information.comments} />
-          </Indented>
-        </Padding>
+const UserCommentsInformation: React.FC<UserCommentsInformationProps> = ({
+  information,
+  collapsed,
+  toggleCollapsed,
+}) => {
+  const classes = useStyles({ collapsed });
 
-      </CardContent>
-    </Card>
+  return (
+    <InformationProvider value={information}>
 
-  </InformationProvider>
-);
+      <Card variant="outlined" elevation={2} className={classes.userCommentsInformation}>
+        <CardContent classes={{ root: classes.cardContent }}>
+
+          <div
+            style={{ display: 'inline-flex' }}
+            className={classes.collapseButton}
+            onClick={e => toggleCollapsed(e.ctrlKey)}
+          >
+            <ChevronDown />
+          </div>
+
+          <InformationOverview
+            title={<RouterLink to={`/information/${information.id}`}>{ information.title }</RouterLink>}
+            information={information}
+            inline={collapsed}
+          />
+
+          <Collapse open={!collapsed}>
+            <Padding top>
+              <Indented>
+                <CommentsList comments={information.comments} />
+              </Indented>
+            </Padding>
+          </Collapse>
+
+        </CardContent>
+      </Card>
+
+    </InformationProvider>
+  );
+};
+
+const useCollapseInformation = (data: { information: Information }[]) => {
+  const [collapsed, setCollapsed] = useState<Map<Information, boolean>>(new Map());
+
+  useEffect(() => {
+    if (data)
+      setCollapsed(new Map(data.map(({ information }) => [information, false])))
+  }, [data]);
+
+  const toggle = (information: Information) => {
+    const copy = new Map(collapsed);
+
+    copy.set(information, !collapsed.get(information));
+
+    setCollapsed(copy);
+  };
+
+  const collapseAll = () => {
+    setCollapsed(new Map(data.map(({ information }) => [information, true])));
+  };
+
+  return [collapsed, toggle, collapseAll] as const;
+};
 
 const UserComments: React.FC = () => {
   const parseInformationForUser = useParseInformationForUser();
@@ -57,6 +131,15 @@ const UserComments: React.FC = () => {
 
   if (error)
     throw error;
+
+  const [collapsed, toggleCollapsed, collapseAll] = useCollapseInformation(data);
+
+  const handleToggleCollapse = (information: Information) => (ctrlKey: boolean) => {
+    if (ctrlKey)
+      collapseAll();
+    else
+      toggleCollapsed(information);
+  };
 
   return (
     <Authenticated>
@@ -72,9 +155,13 @@ const UserComments: React.FC = () => {
               onPageChange={setPage}
             />
 
-            {data.map(({ information, comments }, n) => (
+            {data.map(({ information, comments }) => (
               <Padding key={information.id} top>
-                <UserCommentsInformation information={{ ...information, comments }} />
+                <UserCommentsInformation
+                  information={{ ...information, comments }}
+                  collapsed={collapsed.get(information)}
+                  toggleCollapsed={handleToggleCollapse(information)}
+                />
               </Padding>
             ))}
 
