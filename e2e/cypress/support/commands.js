@@ -86,7 +86,7 @@ Cypress.Commands.add('didTrack', (event) => {
       });
 
       if (!found) {
-        console.log('GA events', events);
+        console.log('GA events', events, JSON.stringify(events));
         console.log('expected', event);
 
         // not working

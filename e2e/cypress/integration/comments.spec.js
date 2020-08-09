@@ -189,8 +189,7 @@ describe('comments', () => {
       cy.get('@windowOpen').should('be.calledWith', '/integration/comment/1/history');
     });
 
-    // TODO: fix test and assert the messages order
-    it.skip('should display comment history', () => {
+    it('should display comment history', () => {
       const data = {
         users: [user1],
         informations: [
@@ -291,7 +290,7 @@ describe('comments', () => {
       });
     });
 
-    it('should edit current user comment', () => {
+    it('should edit a comment', () => {
       const data = {
         users: [user1, user2],
         informations: [
