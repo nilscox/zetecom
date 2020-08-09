@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
 
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
@@ -20,6 +20,7 @@ const VBreak: React.FC = () => {
 };
 
 const useUpsertReaction = (commentId: number, onUpserted: (updatedComment: Comment) => void) => {
+  const [cancelToken, setCancelToken] = useState<CancelTokenSource>();
   const opts: AxiosRequestConfig = {
     method: 'POST',
     url: `/api/comment/${commentId}/reaction`,
@@ -36,11 +37,18 @@ const useUpsertReaction = (commentId: number, onUpserted: (updatedComment: Comme
   }, [status, data, onUpserted]);
 
   const onUpsert = (type: ReactionType | null) => {
+    if (cancelToken)
+      cancelToken.cancel();
+
+    const nextCancelToken = axios.CancelToken.source();
+    setCancelToken(nextCancelToken);
+
     post({
       data: {
         commentId,
         type: type ? type.toUpperCase() : null,
       },
+      cancelToken: nextCancelToken.token,
     });
   };
 
