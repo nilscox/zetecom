@@ -190,7 +190,8 @@ describe('comment controller', () => {
         .then(({ body }) => {
           expect(body).toMatchObject({
             id: comment.id,
-            // date: expect.any(String),
+            date: expect.any(String),
+            score: expect.any(Number),
           });
         });
     });

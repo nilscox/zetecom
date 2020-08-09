@@ -77,4 +77,7 @@ export class CommentDto {
   @Expose()
   subscribed?: boolean;
 
+  @Expose()
+  score?: number;
+
 }
