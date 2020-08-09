@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import { UserAvatarNick } from 'src/components/UserAvatar';
 import { useCurrentUser } from 'src/contexts/UserContext';
 import { Comment } from 'src/types/Comment';
+import env from 'src/utils/env';
 
+import CommentDevTool from './CommentDevTool';
 import EditButton from './EditButton';
 import EditionDate from './EditionDate';
 import ReportLink from './ReportLink';
@@ -29,15 +31,15 @@ const useStyles = makeStyles(({ palette: { border }, spacing, breakpoints }) => 
 }));
 
 type CommentHeaderProps = {
-  author: Comment['author'];
-  date: Comment['date'];
-  edited: Comment['edited'];
+  comment: Comment;
   onEdit?: () => void;
   onViewHistory: () => void;
   onReport: () => void;
 };
 
-const CommentHeader: React.FC<CommentHeaderProps> = ({ author, date, edited, onEdit, onViewHistory, onReport }) => {
+const CommentHeader: React.FC<CommentHeaderProps> = ({ comment, onEdit, onViewHistory, onReport }) => {
+  const { author, edited, date } = comment;
+
   const [displayReportLink, setDisplayReportLink] = useState(false);
   const [showReportLink, hideReportLink] = [true, false].map(v => () => setDisplayReportLink(v));
 
@@ -57,6 +59,8 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({ author, date, edited, onE
           </Grid>
 
           { onEdit && isCurrentUserAuthor && <EditButton onClick={onEdit} /> }
+
+          { env.NODE_ENV === 'development' && <Grid item><CommentDevTool comment={comment} /></Grid> }
 
         </Grid>
       </Grid>

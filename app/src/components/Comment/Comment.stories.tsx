@@ -35,6 +35,7 @@ export const comment: Comment = {
     SKEPTIC: 97,
   },
   subscribed: false,
+  score: 42,
 };
 
 /* eslint-disable max-len */

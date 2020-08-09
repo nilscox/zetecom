@@ -31,6 +31,7 @@ export type Comment = {
   userReaction?: ReactionType;
   subscribed?: boolean;
   information?: Information;
+  score: number;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -34,7 +34,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   return (
     <Paper elevation={small ? 1 : 2}>
 
-      <CommentHeader {...comment} onEdit={onEdit} onViewHistory={onViewHistory} onReport={onReport} />
+      <CommentHeader comment={comment} onEdit={onEdit} onViewHistory={onViewHistory} onReport={onReport} />
 
       <CommentBody {...comment} />
 
