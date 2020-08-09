@@ -5,9 +5,9 @@ module.exports = {
   notify: true,
   preset: 'ts-jest',
   moduleFileExtensions: ['js', 'json', 'ts'],
-  rootDir: './src',
+  rootDir: '../src',
   testEnvironment: 'node',
-  testMatch: ["**/*.e2e-test.ts"],
+  testMatch: ["**/*.spec.ts"],
   moduleNameMapper: {
     'Common/(.*)': '<rootDir>/common/$1',
   }

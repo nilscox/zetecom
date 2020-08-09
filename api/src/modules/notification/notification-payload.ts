@@ -10,4 +10,4 @@ export interface SubscriptionReplyNotificationPayload {
   text: string;
 }
 
-export type NotificationPayload = RulesUpdateNotificationPayload | RulesUpdateNotificationPayload;
+export type NotificationPayload = RulesUpdateNotificationPayload | SubscriptionReplyNotificationPayload;
