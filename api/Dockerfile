@@ -16,6 +16,6 @@ ADD . /app
 
 RUN yarn build
 RUN yarn lint
-RUN yarn test
+RUN yarn test:unit
 
 CMD yarn start:prod
