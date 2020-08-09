@@ -16,7 +16,7 @@ export default { title: 'Comment' };
 
 const mockAxios = new MockAdapter(axios);
 
-const comment: Comment = {
+export const comment: Comment = {
   id: 1,
   quote: null,
   text: 'Lorem ipsum dolor sit amet...',

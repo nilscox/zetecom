@@ -57,7 +57,7 @@ export const parseComment = (data: any): Comment => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       }, {} as any)
       : null,
-    userReaction: data.userreaction ? data.userreaction : null,
+    userReaction: data.userReaction ? data.userReaction : null,
     information: data.information ? parseInformation(data.information) : undefined,
   };
 };

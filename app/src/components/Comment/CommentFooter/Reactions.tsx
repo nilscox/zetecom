@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 
-import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
 import { Comment, parseComment, ReactionsCount, ReactionType } from 'src/types/Comment';
 import { trackSetReaction } from 'src/utils/track';
 
-import Reaction, { ReactionProps } from './Reaction';
-
-import approve from './images/approve.png';
-import refute from './images/refute.png';
-import skeptic from './images/skeptic.png';
+import Reaction from './Reaction';
 
 import { Grid } from '@material-ui/core';
 
@@ -24,86 +19,63 @@ const VBreak: React.FC = () => {
   );
 };
 
-const useReactions = (
-  commentId: number,
-  authorId: number,
-  qrc: ReactionsCount,
-  originalUserReaction: ReactionType,
-) => {
-  const user = useCurrentUser();
-  const [updatedReaction, setUpdatedReaction] = useState<ReactionType | null>();
-  const userReaction = user && (updatedReaction || originalUserReaction);
-
+const useUpsertReaction = (commentId: number, onUpserted: (updatedComment: Comment) => void) => {
   const opts: AxiosRequestConfig = {
     method: 'POST',
     url: `/api/comment/${commentId}/reaction`,
   };
 
-  const [{ data: updated, error, status }, post] = useAxios(opts, parseComment, { manual: true });
+  const [{ data, error, status }, post] = useAxios(opts, parseComment, { manual: true });
 
   if (error)
     throw error;
 
-  const updateUserReaction = (type: ReactionType) => {
+  useEffect(() => {
+    if (status(201))
+      onUpserted(data);
+  }, [status, data, onUpserted]);
+
+  const onUpsert = (type: ReactionType | null) => {
     post({
       data: {
         commentId,
         type: type ? type.toUpperCase() : null,
       },
     });
-
-    // optimist update
-    setUpdatedReaction(type);
   };
 
-  useEffect(() => {
-    if (status(201)) {
-      trackSetReaction();
-      setUpdatedReaction(updated.userReaction);
-    }
-  }, [status, updated, setUpdatedReaction]);
+  return onUpsert;
+};
 
-  const reactions: { [key in ReactionType]: ReactionProps } = {
-    APPROVE: {
-      icon: approve,
-      count: qrc.APPROVE,
-      type: ReactionType.APPROVE,
-    },
-    REFUTE: {
-      icon: refute,
-      count: qrc.REFUTE,
-      type: ReactionType.REFUTE,
-    },
-    SKEPTIC: {
-      icon: skeptic,
-      count: qrc.SKEPTIC,
-      type: ReactionType.SKEPTIC,
-    },
-  };
+const useReactionsCounts = (comment: Comment) => {
+  const [userReaction, setUserReaction] = useState<ReactionType | null>(comment.userReaction);
+  const [counts, setCounts] = useState<ReactionsCount>(comment.reactionsCount);
 
-  const getReactionProps = (type: ReactionType): ReactionProps => {
-    const props = reactions[type];
+  const onUpserted = useCallback((updatedComment: Comment) => {
+    setCounts(updatedComment.reactionsCount);
+    setUserReaction(updatedComment.userReaction);
+    trackSetReaction();
+  }, []);
 
-    if (type === userReaction)
-      props.userReaction = true;
+  const upsertReaction = useUpsertReaction(comment.id, onUpserted);
 
-    if (user?.id !== authorId)
-      props.onClick = () => updateUserReaction(type === userReaction ? null : type);
+  const isUserReaction = (type: ReactionType) => type === userReaction;
 
-    if (typeof updatedReaction !== 'undefined') {
-      if (originalUserReaction !== type && updatedReaction === type)
-        props.count++;
-      if (originalUserReaction === type && updatedReaction !== type)
-        props.count--;
-    }
+  const onUpdate = (type: ReactionType) => {
+    setCounts({
+      ...counts,
+      ...(userReaction && { [userReaction]: counts[userReaction] - 1 }),
+      ...(type && { [type]: counts[type] + (type !== null ? 1 : 0) }),
+    });
 
-    return props;
+    setUserReaction(type);
+    upsertReaction(type);
   };
 
   return {
-    APPROVE: getReactionProps(ReactionType.APPROVE),
-    REFUTE: getReactionProps(ReactionType.REFUTE),
-    SKEPTIC: getReactionProps(ReactionType.SKEPTIC),
+    counts,
+    isUserReaction,
+    onUpdate,
   };
 };
 
@@ -112,24 +84,22 @@ type ReactionsProps = {
 };
 
 const Reactions: React.FC<ReactionsProps> = ({ comment }) => {
-  const props = useReactions(
-    comment.id,
-    comment.author.id,
-    comment.reactionsCount,
-    comment.userReaction,
-  );
+  const { counts, isUserReaction, onUpdate } = useReactionsCounts(comment);
 
   return (
     <Grid container>
 
-      <Reaction {...props[ReactionType.APPROVE]} />
-      <VBreak />
-
-      <Reaction {...props[ReactionType.REFUTE]} />
-      <VBreak />
-
-      <Reaction {...props[ReactionType.SKEPTIC]} />
-      <VBreak />
+      {[ReactionType.APPROVE, ReactionType.REFUTE, ReactionType.SKEPTIC].map(type => (
+        <React.Fragment key={type}>
+          <Reaction
+            type={type}
+            count={counts[type]}
+            userReaction={isUserReaction(type)}
+            onUpdate={onUpdate}
+          />
+          <VBreak />
+        </React.Fragment>
+      ))}
 
     </Grid>
   );
