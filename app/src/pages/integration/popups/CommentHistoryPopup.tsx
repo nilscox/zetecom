@@ -15,6 +15,7 @@ import { useTheme } from 'src/theme/Theme';
 import { parseComment } from 'src/types/Comment';
 
 import { Paper } from '@material-ui/core';
+import { parseMessage } from '../../../types/Comment';
 
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
 
@@ -115,7 +116,8 @@ const CommentHistoryPopup: React.FC<CommentHistoryPopupProps> = ({ match }) => {
   useTrackPageview();
 
   const { sizes: { big } } = useTheme();
-  const [{ data: comment, loading, error }] = useAxios('/api/comment/' + match.params.id, parseComment);
+  const parseMessages = (data: any[]) => data.map(parseMessage);
+  const [{ data: history, loading, error }] = useAxios('/api/comment/' + match.params.id + '/history', parseMessages);
 
   if (error)
     throw error;
@@ -130,7 +132,7 @@ const CommentHistoryPopup: React.FC<CommentHistoryPopupProps> = ({ match }) => {
       data-e2e="history-list"
     >
 
-      <DiffMessages messages={comment.history} />
+      <DiffMessages messages={history} />
 
     </Box>
   );

@@ -13,7 +13,7 @@ export type ReactionsCount = {
   SKEPTIC: number;
 };
 
-export type CommentHistory = {
+export type Message = {
   date: Date;
   text: string;
 };
@@ -24,7 +24,6 @@ export type Comment = {
   text: string;
   date: Date;
   edited: false | Date;
-  history: CommentHistory[] | null;
   repliesCount: number;
   author: UserLight;
   reactionsCount?: ReactionsCount;
@@ -35,7 +34,7 @@ export type Comment = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseCommentHistory = (data: any): CommentHistory => {
+export const parseMessage = (data: any): Message => {
   return {
     ...data,
     date: new Date(data.date),
@@ -50,7 +49,6 @@ export const parseComment = (data: any): Comment => {
     date: new Date(data.date),
     edited: !data.edited ? false : new Date(data.edited),
     author: data.author ? parseUser(data.author) : undefined,
-    history: data.history ? data.history.map(parseCommentHistory) : null,
     reactionsCount: data.reactionsCount
       ? Object.keys(data.reactionsCount).reduce((obj, key) => {
         obj[key] = data.reactionsCount[key];

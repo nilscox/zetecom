@@ -22,7 +22,6 @@ export const comment: Comment = {
   text: 'Lorem ipsum dolor sit amet...',
   date: new Date('2020-01-01'),
   edited: false,
-  history: null,
   repliesCount: 0,
   author: parseUser({
     id: 1,
