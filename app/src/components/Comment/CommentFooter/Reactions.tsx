@@ -10,6 +10,7 @@ import { trackSetReaction } from 'src/utils/track';
 import Reaction from './Reaction';
 
 import { Grid } from '@material-ui/core';
+import { useCurrentUser } from '../../../contexts/UserContext';
 
 const VBreak: React.FC = () => {
   const { colors: { borderLight } } = useTheme();
@@ -92,6 +93,7 @@ type ReactionsProps = {
 };
 
 const Reactions: React.FC<ReactionsProps> = ({ comment }) => {
+  const user = useCurrentUser();
   const { counts, isUserReaction, onUpdate } = useReactionsCounts(comment);
 
   return (
@@ -103,7 +105,7 @@ const Reactions: React.FC<ReactionsProps> = ({ comment }) => {
             type={type}
             count={counts[type]}
             userReaction={isUserReaction(type)}
-            onUpdate={onUpdate}
+            onUpdate={comment.author.id !== user.id && onUpdate}
           />
           <VBreak />
         </React.Fragment>

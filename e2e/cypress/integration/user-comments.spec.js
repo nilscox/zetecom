@@ -22,7 +22,7 @@ const makeComment = comment => ({
   ...comment,
 });
 
-describe('comments', () => {
+describe.skip('user comments', () => {
 
   describe('authenticated', () => {
 
