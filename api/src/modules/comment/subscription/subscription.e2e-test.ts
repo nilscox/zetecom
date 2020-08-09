@@ -5,7 +5,7 @@ import { AuthenticationModule } from '../../authentication/authentication.module
 import { CommentFactory } from '../../comment/comment.factory';
 import { CommentModule } from '../../comment/comment.module';
 import { InformationFactory } from '../../information/information.factory';
-import { Notification, SubscriptionReplyNotification } from '../../notification/notification.entity';
+import { Notification } from '../../notification/notification.entity';
 import { NotificationModule } from '../../notification/notification.module';
 import { UserFactory } from '../../user/user.factory';
 
@@ -22,7 +22,7 @@ describe('subscription', () => {
   let createComment: CommentFactory['create'];
   let createsubscription: SubscriptionFactory['create'];
 
-  let notificationRepository: Repository<SubscriptionReplyNotification>;
+  let notificationRepository: Repository<Notification>;
 
   const [userRequest, user] = createAuthenticatedUser(server);
 

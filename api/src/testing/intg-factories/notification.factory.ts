@@ -1,8 +1,8 @@
 import { DeepPartial, getManager } from 'typeorm';
 
-import { Notification, NotificationType } from '../../modules/notification/notification.entity';
+import { Notification } from '../../modules/notification/notification.entity';
 
-export const createNotification = async (data: DeepPartial<Notification<NotificationType>> = {}) => {
+export const createNotification = async (data: DeepPartial<Notification> = {}) => {
   const manager = getManager();
 
   const notification = manager.create(Notification, {

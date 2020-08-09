@@ -85,9 +85,7 @@ const UserCommentsInformation: React.FC<UserCommentsInformationProps> = ({
 
           <Collapse open={!collapsed}>
             <Padding top>
-              <Indented>
-                <CommentsList comments={information.comments} />
-              </Indented>
+              <CommentsList comments={information.comments} />
             </Padding>
           </Collapse>
 
@@ -103,7 +101,7 @@ const useCollapseInformation = (data: { information: Information }[]) => {
 
   useEffect(() => {
     if (data)
-      setCollapsed(new Map(data.map(({ information }) => [information, false])))
+      setCollapsed(new Map(data.map(({ information }) => [information, false])));
   }, [data]);
 
   const toggle = (information: Information) => {
