@@ -1,11 +1,10 @@
 import React, { forwardRef, useRef } from 'react';
 
+import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
 
 import env from 'src/utils/env';
-
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(({ palette }) => ({
   link: {

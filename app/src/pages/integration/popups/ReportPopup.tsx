@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { makeStyles } from '@material-ui/core';
 import { RouteComponentProps } from 'react-router';
 
 import Box from 'src/components/Box';
@@ -18,8 +19,6 @@ import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
 import { parseComment } from 'src/types/Comment';
 import { trackReportComment } from 'src/utils/track';
-
-import { makeStyles } from '@material-ui/core';
 
 const POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT = 3000;
 

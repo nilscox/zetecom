@@ -1,12 +1,11 @@
 import React, { ReactNode, useMemo } from 'react';
 
+import { Grid, makeStyles } from '@material-ui/core';
 import { StateValues } from 'react-use-form-state';
 
 import Button from '../Button';
 
 import { Form, FormFields } from './types';
-
-import { Grid, makeStyles } from '@material-ui/core';
 
 const text: { [key in Form]: string } = {
   login: 'Connexion',

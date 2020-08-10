@@ -1,14 +1,14 @@
 import React from 'react';
 
+import { action } from '@storybook/addon-actions';
+import { boolean } from '@storybook/addon-knobs';
+
 import { ReactionType } from 'src/types/Comment';
 
 import { comment } from '../Comment.stories';
 
 import Reaction from './Reaction';
 import Reactions from './Reactions';
-
-import { action } from '@storybook/addon-actions';
-import { boolean } from '@storybook/addon-knobs';
 
 export default { title: 'Reactions' };
 

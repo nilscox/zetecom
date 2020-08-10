@@ -1,17 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { AxiosRequestConfig } from 'axios';
-import clsx from 'clsx';
-
-import { trackLogout } from 'src/utils/track';
-
-import { useNotifications } from '../../contexts/NotificationsContext';
-import { useUser } from '../../contexts/UserContext';
-import useAxios from '../../hooks/use-axios';
-import { User } from '../../types/User';
-import RouterLink from '../Link';
-import UserAvatar from '../UserAvatar';
-
 import {
   Badge,
   Grid,
@@ -26,6 +14,17 @@ import {
 import CommentIcon from '@material-ui/icons/Comment';
 import SignoutIcon from '@material-ui/icons/ExitToApp';
 import NotificationIcon from '@material-ui/icons/Notifications';
+import { AxiosRequestConfig } from 'axios';
+import clsx from 'clsx';
+
+import { trackLogout } from 'src/utils/track';
+
+import { useNotifications } from '../../contexts/NotificationsContext';
+import { useUser } from '../../contexts/UserContext';
+import useAxios from '../../hooks/use-axios';
+import { User } from '../../types/User';
+import RouterLink from '../Link';
+import UserAvatar from '../UserAvatar';
 
 const useStyles = makeStyles(({ palette }) => ({
   userMenuButton: {

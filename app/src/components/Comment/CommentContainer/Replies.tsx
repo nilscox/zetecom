@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Box } from '@material-ui/core';
+
 import Collapse from 'src/components/Collapse';
 import CommentsList from 'src/components/CommentsList';
 import Loader from 'src/components/Loader';
@@ -8,8 +10,6 @@ import { Comment } from 'src/types/Comment';
 
 import FetchMoreReplies from './FetchMoreReplies';
 import Indented from './Indented';
-
-import { Box } from '@material-ui/core';
 
 type RepliesProps = {
   replies: Comment[];

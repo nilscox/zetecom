@@ -1,10 +1,10 @@
 import React from 'react';
 
+import { Collapse } from '@material-ui/core';
+
 import TextField, { TextFieldProps } from 'src/components/TextField';
 
 import { Form } from '../types';
-
-import { Collapse } from '@material-ui/core';
 
 type PasswordFieldProps = TextFieldProps & {
   form: Form;

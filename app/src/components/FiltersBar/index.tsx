@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react';
 
+import { Grid } from '@material-ui/core';
+
 import { SortType } from 'src/types/SortType';
 
 import Pagination from './Pagination';
 import SearchField from './SearchField';
 import SortMenu from './SortMenu';
-
-import { Grid } from '@material-ui/core';
 
 type FiltersBarProps = {
   sort?: {

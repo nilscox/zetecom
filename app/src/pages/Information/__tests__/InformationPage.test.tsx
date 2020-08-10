@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { render } from '@testing-library/react';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { Route, Router } from 'react-router-dom';
 
@@ -10,7 +11,6 @@ import { User } from 'src/types/User';
 import InformationPage from '../index';
 
 import '@testing-library/jest-dom/extend-expect';
-import { render } from '@testing-library/react';
 
 const mockUser: User = { id: 1 } as User;
 

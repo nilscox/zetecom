@@ -1,12 +1,11 @@
 import React from 'react';
 
+import { Box, Grid } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
 
 import RouterLink from '../Link';
 
 import { Form } from './types';
-
-import { Box, Grid } from '@material-ui/core';
 
 type AuthenticationNavigationProps = {
   form: Form;

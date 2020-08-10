@@ -1,12 +1,11 @@
 import React from 'react';
 
+import { select, text } from '@storybook/addon-knobs';
 import { toast } from 'react-toastify';
 
 import ToastContainer from './index';
 
 import 'react-toastify/dist/ReactToastify.min.css';
-
-import { select, text } from '@storybook/addon-knobs';
 
 export default {
   title: 'Toast',

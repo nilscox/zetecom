@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { UserAvatarNick } from 'src/components/UserAvatar';
-import { useCurrentUser } from 'src/contexts/UserContext';
-
 import { Box, IconButton, makeStyles } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+
+import { UserAvatarNick } from 'src/components/UserAvatar';
+import { useCurrentUser } from 'src/contexts/UserContext';
 
 const useStyles = makeStyles(({ breakpoints, palette: { border }, spacing }) => ({
   container: {

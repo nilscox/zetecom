@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Container, Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { Route, Switch } from 'react-router';
 
 import HeaderLogo from 'src/components/HeaderLogo';
@@ -22,9 +24,6 @@ import MarkNotificationAsSeen from './Notifications/MarkNotificationAsSeet';
 import UserComments from './UserComments';
 
 import 'react-toastify/dist/ReactToastify.min.css';
-
-import { Container, Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 
 const Router: React.FC = () => (
   <Switch>

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { Grid, makeStyles } from '@material-ui/core';
+
 import { UserAvatarNick } from 'src/components/UserAvatar';
 import { useCurrentUser } from 'src/contexts/UserContext';
 import { Comment } from 'src/types/Comment';
@@ -9,8 +11,6 @@ import CommentDevTool from './CommentDevTool';
 import EditButton from './EditButton';
 import EditionDate from './EditionDate';
 import ReportLink from './ReportLink';
-
-import { Grid, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(({ palette: { border }, spacing, breakpoints }) => ({
   header: {

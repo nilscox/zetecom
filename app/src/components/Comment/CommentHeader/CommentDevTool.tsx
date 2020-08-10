@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Comment } from 'src/types/Comment';
-
 import { Grid, makeStyles } from '@material-ui/core';
+
+import { Comment } from 'src/types/Comment';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   container: {

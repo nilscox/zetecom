@@ -1,11 +1,11 @@
 import React from 'react';
 
+import { action } from '@storybook/addon-actions';
+import { number } from '@storybook/addon-knobs';
+
 import { SortType } from 'src/types/SortType';
 
 import PaginatedList from './index';
-
-import { action } from '@storybook/addon-actions';
-import { number } from '@storybook/addon-knobs';
 
 export default { title: 'PaginatedList' };
 

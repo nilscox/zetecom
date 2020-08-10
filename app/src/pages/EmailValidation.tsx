@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 
+import { Typography } from '@material-ui/core';
 import { AxiosError } from 'axios';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -9,8 +10,6 @@ import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import { parseUser } from 'src/types/User';
 import { trackEmailValidated } from 'src/utils/track';
-
-import { Typography } from '@material-ui/core';
 
 const useErrorMessage = (status: (s: number) => boolean, error?: AxiosError) => {
   if (status(403))

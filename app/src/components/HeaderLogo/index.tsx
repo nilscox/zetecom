@@ -1,10 +1,9 @@
 import React from 'react';
 
+import { makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 
 import logo from './logo.png';
-
-import { makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
   image: {

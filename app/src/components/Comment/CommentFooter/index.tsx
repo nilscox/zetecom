@@ -1,13 +1,13 @@
 import React from 'react';
 
+import { Grid, makeStyles } from '@material-ui/core';
+
 import { Comment } from 'src/types/Comment';
 
 import Reactions from './Reactions';
 import RepliesButton from './RepliesButton';
 import ReplyButton from './ReplyButton';
 import SubscribeButton from './SubscribeButton';
-
-import { Grid, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(({ palette: { border } }) => ({
   container: {

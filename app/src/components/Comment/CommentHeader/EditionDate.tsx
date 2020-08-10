@@ -1,8 +1,7 @@
 import React from 'react';
 
-import dayjs from 'dayjs';
-
 import { Typography } from '@material-ui/core';
+import dayjs from 'dayjs';
 
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
 

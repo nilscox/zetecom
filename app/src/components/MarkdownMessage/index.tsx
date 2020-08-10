@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
 
+import { Box, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 
 import converter from './markdown-converter';
-
-import { Box, Typography } from '@material-ui/core';
 
 type MarkdownMessageProps = {
   markdown: string;

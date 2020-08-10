@@ -1,14 +1,5 @@
 import React from 'react';
 
-import { LocationDescriptorObject } from 'history';
-import { useHistory } from 'react-router-dom';
-
-import Authenticated from 'src/components/Authenticated';
-import Loader from 'src/components/Loader';
-import { Notification } from 'src/types/Notification';
-
-import useNotifications from './hooks/useNotification';
-
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -17,6 +8,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import DoneIcon from '@material-ui/icons/Done';
+import { LocationDescriptorObject } from 'history';
+import { useHistory } from 'react-router-dom';
+
+import Authenticated from 'src/components/Authenticated';
+import Loader from 'src/components/Loader';
+import { Notification } from 'src/types/Notification';
+
+import useNotifications from './hooks/useNotification';
 
 type NotificationProps = { notification: Notification };
 

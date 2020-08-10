@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
+import { Box, Collapse } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import { AxiosRequestConfig } from 'axios';
 import dayjs from 'dayjs';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
@@ -13,10 +16,6 @@ import useAxios from 'src/hooks/use-axios';
 import { trackLogout } from 'src/utils/track';
 
 import useChangePassword from './useChangePassword';
-
-import { Box, Collapse } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(({ palette }) => ({
   changePassword: {

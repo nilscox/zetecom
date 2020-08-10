@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { Grid } from '@material-ui/core';
 import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
 
 import useAxios from 'src/hooks/use-axios';
@@ -10,8 +11,6 @@ import { trackSetReaction } from 'src/utils/track';
 import { useCurrentUser } from '../../../contexts/UserContext';
 
 import Reaction from './Reaction';
-
-import { Grid } from '@material-ui/core';
 
 const VBreak: React.FC = () => {
   const { colors: { borderLight } } = useTheme();

@@ -1,9 +1,9 @@
-import '@openfonts/noticia-text_all/index.css';
-import '@openfonts/nunito-sans_all/index.css';
-
 import amber from '@material-ui/core/colors/amber';
 import pink from '@material-ui/core/colors/pink';
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
+
+import '@openfonts/noticia-text_all/index.css';
+import '@openfonts/nunito-sans_all/index.css';
 
 const createTheme = (): Theme => {
   const theme = createMuiTheme({

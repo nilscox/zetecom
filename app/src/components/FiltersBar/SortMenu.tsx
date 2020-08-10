@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import { SortType } from 'src/types/SortType';
-
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import SortIcon from '@material-ui/icons/Sort';
+
+import { SortType } from 'src/types/SortType';
 
 type SortMenuProps = {
   sort: SortType;

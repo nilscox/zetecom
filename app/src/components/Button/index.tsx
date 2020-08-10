@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Loader from 'src/components/Loader';
-
 import { Button as MuiButton, ButtonProps as MuiButtonProps, makeStyles } from '@material-ui/core';
+
+import Loader from 'src/components/Loader';
 
 const useStyles = makeStyles(({ palette }) => ({
   buttonFocus: {

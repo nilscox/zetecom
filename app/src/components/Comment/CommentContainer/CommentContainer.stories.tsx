@@ -1,9 +1,9 @@
 import React from 'react';
 
-import FetchMoreReplies from './FetchMoreReplies';
-
 import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
+
+import FetchMoreReplies from './FetchMoreReplies';
 
 export default { title: 'CommentContainer' };
 

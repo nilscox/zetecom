@@ -1,12 +1,12 @@
 import React from 'react';
 
+import { Paper, Theme, useMediaQuery } from '@material-ui/core';
+
 import { Comment } from 'src/types/Comment';
 
 import CommentBody from './CommentBody';
 import CommentFooter from './CommentFooter';
 import CommentHeader from './CommentHeader';
-
-import { Paper, Theme, useMediaQuery } from '@material-ui/core';
 
 export type CommentComponentProps = {
   comment: Comment;

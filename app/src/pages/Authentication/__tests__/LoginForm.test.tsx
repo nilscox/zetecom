@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { act, fireEvent, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 
@@ -8,9 +10,6 @@ import mockAxios, { mockAxiosError, mockAxiosResponseFor } from 'src/testing/jes
 import { User } from 'src/types/User';
 
 import AuthenticationForm from '../index';
-
-import { act, fireEvent, render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 const mockUser: User = { id: 1 } as User;
 

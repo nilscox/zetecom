@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { ToastContainer as ReactToastifyContainer, Zoom } from 'react-toastify';
-
 import { makeStyles } from '@material-ui/core';
+import { ToastContainer as ReactToastifyContainer, Zoom } from 'react-toastify';
 
 const types = ['success', 'warning', 'error'] as const;
 

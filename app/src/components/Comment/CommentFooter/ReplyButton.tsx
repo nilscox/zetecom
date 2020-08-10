@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { useCurrentUser } from 'src/contexts/UserContext';
-
 import { Button, IconButton, makeStyles, useMediaQuery } from '@material-ui/core';
 import ReplyIcon from '@material-ui/icons/Reply';
+
+import { useCurrentUser } from 'src/contexts/UserContext';
 
 const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   button: {

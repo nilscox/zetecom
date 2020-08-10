@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 
 import { ReactionType } from 'src/types/Comment';
@@ -7,8 +8,6 @@ import { ReactionType } from 'src/types/Comment';
 import approveIcon from './images/approve.png';
 import refuteIcon from './images/refute.png';
 import skepticIcon from './images/skeptic.png';
-
-import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
 
 type StylesProps = {
   userReaction?: boolean;

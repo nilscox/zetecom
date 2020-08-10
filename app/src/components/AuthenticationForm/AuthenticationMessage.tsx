@@ -1,10 +1,10 @@
 import React from 'react';
 
+import { Box, Typography } from '@material-ui/core';
+
 import { WebsiteLink } from 'src/components/Link';
 
 import { Form } from './types';
-
-import { Box, Typography } from '@material-ui/core';
 
 /* eslint-disable max-len */
 const text: { [key in Form]: React.ReactNode } = {

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 
+import { Box, Typography } from '@material-ui/core';
+
 import AsyncContent from 'src/components/AsyncContent';
 import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
 import { parseUser } from 'src/types/User';
 import { trackEmailLogin } from 'src/utils/track';
-
-import { Box, Typography } from '@material-ui/core';
 
 const useErrorMessage = (status: (s: number) => boolean) => {
   if (status(403))

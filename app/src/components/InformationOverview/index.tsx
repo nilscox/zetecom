@@ -1,13 +1,12 @@
 import React from 'react';
 
+import { Grid, Typography } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import dayjs from 'dayjs';
 
 import { Information } from 'src/types/Information';
 
 import defaultInfo from './default-info.png';
-
-import { Grid, Typography } from '@material-ui/core';
-import { makeStyles, Theme } from '@material-ui/core/styles';
 
 type StylesProps = {
   inline?: boolean;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { makeStyles } from '@material-ui/core';
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
 import AsyncContent from 'src/components/AsyncContent';
@@ -15,8 +16,6 @@ import { parseInformation } from 'src/types/Information';
 import { trackViewIntegration } from 'src/utils/track';
 
 import CommentsZone from './CommentsZone';
-
-import { makeStyles } from '@material-ui/core';
 
 const IntegrationRouter = () => (
   <Router>

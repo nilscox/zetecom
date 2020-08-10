@@ -1,11 +1,11 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useState } from 'react';
 
+import { Grid, Paper, Theme, useMediaQuery } from '@material-ui/core';
+
 import MarkdownMessageEdition from 'src/components/MarkdownMessageEdition';
 
 import FormFooter from './FormFooter';
 import FormHeader from './FormHeader';
-
-import { Grid, Paper, Theme, useMediaQuery } from '@material-ui/core';
 
 type CommentFormProps = {
   placeholder: string;

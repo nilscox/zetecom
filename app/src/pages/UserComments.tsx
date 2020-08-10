@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { Card, CardContent, makeStyles } from '@material-ui/core';
+import ChevronDown from '@material-ui/icons/KeyboardArrowDown';
+
 import Authenticated from 'src/components/Authenticated';
 import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
 
@@ -14,9 +17,6 @@ import { InformationProvider } from '../contexts/InformationContext';
 import useAxiosPaginated from '../hooks/use-axios-paginated';
 import { parseComment } from '../types/Comment';
 import { Information, parseInformation } from '../types/Information';
-
-import { Card, CardContent, makeStyles } from '@material-ui/core';
-import ChevronDown from '@material-ui/icons/KeyboardArrowDown';
 
 const useParseInformationForUser = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

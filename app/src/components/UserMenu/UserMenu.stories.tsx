@@ -1,14 +1,14 @@
 import React from 'react';
 
+import { action } from '@storybook/addon-actions';
+import { number } from '@storybook/addon-knobs';
+import { addDecorator } from '@storybook/react';
+
 import { NotificationsContext } from 'src/contexts/NotificationsContext';
 
 import { useCurrentUser } from '../../contexts/UserContext';
 
 import UserMenu from './index';
-
-import { action } from '@storybook/addon-actions';
-import { number } from '@storybook/addon-knobs';
-import { addDecorator } from '@storybook/react';
 
 export default {
   title: 'UserMenu',

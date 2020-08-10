@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Box } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core/styles';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import AsyncContent from 'src/components/AsyncContent';
@@ -11,9 +13,6 @@ import createTheme from 'src/theme/createTheme';
 
 import AuthenticatedView from './views/AuthenticatedView';
 import AuthenticationView from './views/AuthenticationView';
-
-import { Box } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/core/styles';
 
 const theme = createTheme();
 

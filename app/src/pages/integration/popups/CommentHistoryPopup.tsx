@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { Paper } from '@material-ui/core';
 import dayjs from 'dayjs';
 import * as diff from 'diff';
 import { RouteComponentProps } from 'react-router';
@@ -14,8 +15,6 @@ import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
 
 import { parseMessage } from '../../../types/Comment';
-
-import { Paper } from '@material-ui/core';
 
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
 

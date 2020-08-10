@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Grid, Typography } from '@material-ui/core';
+
 import { User } from '../../types/User';
 import RouterLink from '../Link';
 import { CircleAvatarIwage } from '../UserAvatar/CircleAvatarImage';
@@ -7,8 +9,6 @@ import { CircleAvatarIwage } from '../UserAvatar/CircleAvatarImage';
 import AuthenticatedUserMenu from './AuthenticatedUserMenu';
 
 import defaultAvatar from '../UserAvatar/default-avatar.png';
-
-import { Grid, Typography } from '@material-ui/core';
 
 type UserMenuProps = {
   user: User | null;

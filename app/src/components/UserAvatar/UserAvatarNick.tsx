@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { Grid, makeStyles, Typography } from '@material-ui/core';
+
 import UserAvatar from 'src/components/UserAvatar';
 import { UserLight } from 'src/types/User';
-
-import { Grid, makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   nick: {

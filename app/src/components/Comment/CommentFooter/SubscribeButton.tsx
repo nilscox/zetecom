@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
+import { makeStyles } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import SubscribeIcon from '@material-ui/icons/Notifications';
+import SubscribeActiveIcon from '@material-ui/icons/NotificationsActive';
 import { AxiosRequestConfig } from 'axios';
 
 import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import { Comment } from 'src/types/Comment';
 import { trackSubscribeComment } from 'src/utils/track';
-
-import { makeStyles } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import SubscribeIcon from '@material-ui/icons/Notifications';
-import SubscribeActiveIcon from '@material-ui/icons/NotificationsActive';
 
 const useSubscription = (comment: Comment) => {
   const [subscribed, setSubscribed] = useState(comment.subscribed);
