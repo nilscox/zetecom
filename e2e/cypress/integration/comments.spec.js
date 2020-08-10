@@ -333,7 +333,7 @@ describe('comments', () => {
       });
     });
 
-    it.only('should add / remove / update reaction', () => {
+    it('should add / remove / update reaction', () => {
       const data = {
         users: [user1, user2],
         informations: [

@@ -88,6 +88,12 @@ describe('pagination', () => {
     cy.get('input[name="search"]').type('0');
 
     cy.contains('Aucun résultat ne correspond à cette recherche');
+
+    cy.get('input[name="search"]').clear();
+    cy.get('input[name="search"]').type('@user2');
+
+    cy.countComments(1);
+    cy.getComment(6).should('exist');
   });
 
   it('should display paginated replies', () => {

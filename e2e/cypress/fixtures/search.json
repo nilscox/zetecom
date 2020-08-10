@@ -1,7 +1,8 @@
 {
   "users": [
 
-    { "nick": "user1", "email": "user1@domain.tld", "password": "secure p4ssword" }
+    { "nick": "user1", "email": "user1@domain.tld", "password": "secure p4ssword" },
+    { "nick": "user2", "email": "user2@domain.tld", "password": "secure p4ssword" }
 
   ],
   "informations": [
@@ -80,7 +81,7 @@
         },
 
         {
-          "author": "user1",
+          "author": "user2",
           "reactions": {
             "approve": [],
             "refute": [],

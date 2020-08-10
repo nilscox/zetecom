@@ -12,11 +12,14 @@ import { CommentJoinRelations, CommentRepository } from './comment.repository';
 import { Message } from './message.entity';
 import { Reaction, ReactionType } from './reaction.entity';
 import { SubscriptionService } from './subscription/subscription.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class CommentService {
 
   constructor(
+
+    private readonly userService: UserService,
 
     private readonly commentRepository: CommentRepository,
 
@@ -153,10 +156,21 @@ export class CommentService {
   }
 
   async search(informationId: number, search: string, sort: SortType, page: number, pageSize: number) {
+    const match = search.match(/^@([-_a-zA-Z0-9]+)$/);
+    let author: User | undefined;
+
+    if (match) {
+      author = await this.userService.findByNick(match[1]);
+
+      if (author)
+        search = undefined;
+    }
+
     return this.commentRepository.findAll({
       informationId,
       pagination: { pageSize, page },
       sort,
+      authorId: author?.id,
       search,
     });
   }

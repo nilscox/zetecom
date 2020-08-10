@@ -67,8 +67,6 @@ export class CommentController {
   @UseInterceptors(PopulateCommentsForInformation)
   async findForUser(
     @AuthUser() user: User,
-    // TODO?
-    @OptionalQuery({ key: 'informationId' }, OptionalParseIntPipe) informationId: number | undefined,
     @SearchQuery() search: string,
     @PageQuery() page: number,
   ): Promise<Paginated<{ information: Information; comments: Comment[] }>> {
