@@ -105,7 +105,7 @@ const Reactions: React.FC<ReactionsProps> = ({ comment }) => {
             type={type}
             count={counts[type]}
             userReaction={isUserReaction(type)}
-            onUpdate={comment.author.id !== user?.id && onUpdate}
+            onUpdate={user && comment.author.id !== user?.id && onUpdate}
           />
           <VBreak />
         </React.Fragment>

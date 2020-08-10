@@ -333,7 +333,7 @@ describe('comments', () => {
       });
     });
 
-    it('should add / remove / update reaction', () => {
+    it.only('should add / remove / update reaction', () => {
       const data = {
         users: [user1, user2],
         informations: [
@@ -353,6 +353,9 @@ describe('comments', () => {
 
       cy.resetdb();
       cy.populatedb(data);
+
+      cy.visitIntegration('test:news1');
+      cy.get('[title="Approuver"]').should('be.disabled');
 
       cy.login({ email: 'user1@domain.tld', password: 'secure p4ssword' });
       cy.visitIntegration('test:news1');
