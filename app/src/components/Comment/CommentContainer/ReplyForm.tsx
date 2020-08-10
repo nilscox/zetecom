@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Collapse from 'src/components/Collapse';
-import Padding from 'src/components/Padding';
 import { CommentCreationForm } from 'src/components/CommentForm';
+import Padding from 'src/components/Padding';
 import { Comment } from 'src/types/Comment';
 
 import Indented from './Indented';

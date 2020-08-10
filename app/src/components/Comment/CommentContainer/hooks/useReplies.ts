@@ -5,7 +5,7 @@ import { AxiosRequestConfig } from 'axios';
 import useAxios from 'src/hooks/use-axios';
 import useEditableDataset from 'src/hooks/use-editable-dataset';
 import useUpdateEffect from 'src/hooks/use-update-effect';
-import { parseComment, Comment } from 'src/types/Comment';
+import { Comment, parseComment } from 'src/types/Comment';
 import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
 
 const useReplies = (parent: Comment) => {

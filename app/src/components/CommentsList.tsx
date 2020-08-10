@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Comment } from 'src/types/Comment';
 
-import Padding from './Padding';
 import CommentContainer from './Comment';
+import Padding from './Padding';
 
 type CommentsListProps = {
   comments: Comment[];

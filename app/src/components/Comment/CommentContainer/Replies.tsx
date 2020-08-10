@@ -1,9 +1,9 @@
 import React from 'react';
 
 import Collapse from 'src/components/Collapse';
+import CommentsList from 'src/components/CommentsList';
 import Loader from 'src/components/Loader';
 import Padding from 'src/components/Padding';
-import CommentsList from 'src/components/CommentsList';
 import { Comment } from 'src/types/Comment';
 
 import FetchMoreReplies from './FetchMoreReplies';

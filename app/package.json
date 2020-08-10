@@ -9,7 +9,7 @@
     "build": "webpack",
     "build:coverage": "NODE_ENV=test webpack",
     "clean": "rimraf dist",
-    "lint": "eslint 'src/**/*.ts{,x}'",
+    "lint": "eslint -f codeframe 'src/**/*.ts{,x}'",
     "test": "NODE_ENV=test jest --verbose",
     "storybook": "start-storybook --ci -p 6006",
     "deploy": "../scripts/deploy-app.sh"

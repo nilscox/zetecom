@@ -12,10 +12,10 @@ import Text from 'src/components/Text';
 import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
-import { parseComment } from 'src/types/Comment';
+
+import { parseMessage } from '../../../types/Comment';
 
 import { Paper } from '@material-ui/core';
-import { parseMessage } from '../../../types/Comment';
 
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
 
@@ -116,6 +116,7 @@ const CommentHistoryPopup: React.FC<CommentHistoryPopupProps> = ({ match }) => {
   useTrackPageview();
 
   const { sizes: { big } } = useTheme();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const parseMessages = (data: any[]) => data.map(parseMessage);
   const [{ data: history, loading, error }] = useAxios('/api/comment/' + match.params.id + '/history', parseMessages);
 

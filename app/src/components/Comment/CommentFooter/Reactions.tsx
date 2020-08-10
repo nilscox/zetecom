@@ -7,10 +7,11 @@ import { useTheme } from 'src/theme/Theme';
 import { Comment, parseComment, ReactionsCount, ReactionType } from 'src/types/Comment';
 import { trackSetReaction } from 'src/utils/track';
 
+import { useCurrentUser } from '../../../contexts/UserContext';
+
 import Reaction from './Reaction';
 
 import { Grid } from '@material-ui/core';
-import { useCurrentUser } from '../../../contexts/UserContext';
 
 const VBreak: React.FC = () => {
   const { colors: { borderLight } } = useTheme();

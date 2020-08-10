@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { AxiosRequestConfig } from 'axios';
 
 import useAxios from 'src/hooks/use-axios';
-import { parseComment, Comment } from 'src/types/Comment';
+import { Comment, parseComment } from 'src/types/Comment';
 import { trackEditComment } from 'src/utils/track';
 
 import CommentForm from './CommentForm';

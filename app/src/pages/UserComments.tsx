@@ -5,7 +5,6 @@ import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
 
 import AsyncContent from '../components/AsyncContent';
 import Collapse from '../components/Collapse';
-import Indented from '../components/Comment/CommentContainer/Indented';
 import CommentsList from '../components/CommentsList';
 import FiltersBar from '../components/FiltersBar';
 import InformationOverview from '../components/InformationOverview';
@@ -20,6 +19,7 @@ import { Card, CardContent, makeStyles } from '@material-ui/core';
 import ChevronDown from '@material-ui/icons/KeyboardArrowDown';
 
 const useParseInformationForUser = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return useCallback((data: any) => ({
     information: parseInformation(data.information),
     comments: data.comments.map(parseComment),

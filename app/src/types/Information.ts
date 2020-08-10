@@ -1,4 +1,4 @@
-import { parseComment, Comment } from './Comment';
+import { Comment, parseComment } from './Comment';
 import { parseUser, User } from './User';
 
 export type Information = {

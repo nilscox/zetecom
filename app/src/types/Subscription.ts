@@ -1,4 +1,4 @@
-import { parseComment, Comment } from './Comment';
+import { Comment, parseComment } from './Comment';
 
 export type CommentSubscription = {
   id: number;

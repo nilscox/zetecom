@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import { useInformation } from 'src/contexts/InformationContext';
 import useAxios from 'src/hooks/use-axios';
-import { parseComment, Comment } from 'src/types/Comment';
+import { Comment, parseComment } from 'src/types/Comment';
 import { trackCreateComment } from 'src/utils/track';
 
 import CommentForm from './CommentForm';
