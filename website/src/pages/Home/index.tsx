@@ -103,7 +103,7 @@ const Home: React.FC = () => (
         stopOnHover
         infiniteLoop
         transitionTime={620}
-        interval={5500}
+        interval={4200}
         showThumbs={false}
         showStatus={false}
         showArrows={false}

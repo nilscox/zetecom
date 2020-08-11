@@ -34,7 +34,7 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Comment créer un compte ?">
-        Les inscriptions ne sont pas encore ouvertes publiquement pour l'instant. Si vous souhaitez rejoindre les béta-testeurs, envoyez-nous un petit message pour que nous vous donnions toutes les informations nécessaires.
+        Les inscriptions ne sont pas encore ouvertes publiquement pour l'instant. Si vous souhaitez rejoindre les béta-testeurs, toutes les informations sont disponibles sur <Link href="/beta.html">la page bêta</Link>.
       </Question>
 
       {/*
@@ -54,7 +54,7 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Comment mettre en page un commentaire ?">
-        Les messages peuvent être rédigés en <Link href="https://fr.wikipedia.org/wiki/Markdown">markdown</Link>, une syntaxe de balisage permettant une mise en forme simple.
+        Les messages peuvent être rédigés en <Link openInNewTab href="https://fr.wikipedia.org/wiki/Markdown">markdown</Link>, une syntaxe de balisage permettant une mise en forme simple.
       </Question>
 
       <Question question="Comment indiquer son degré de croyance en exposant ?">
@@ -63,7 +63,7 @@ const FAQ: React.FC = () => {
       </Question>
 
       <Question question="Comment signaler un bug ou proposer de nouvelles fonctionnalités ?">
-        <Link href="#contact">Contactez</Link> directement l'équipe qui développe le projet.
+        <Link href="#contact">Contactez</Link> directement l'équipe qui développe le projet, nous sommes ouverts à vos remarques.
       </Question>
 
       <SubTitle id="compte">La modération</SubTitle>
@@ -80,8 +80,8 @@ const FAQ: React.FC = () => {
 
       <Question question="Est-ce légal de modifier les sites pour y ajouter des zones de commentaires ?">
         Oui. Lorsque vous installez l'extension sur votre navigateur, la permission de modifier certains sites web vous est demandée.
-        Avec cette autorisation, l'extension est en mesure de modifier le contenu de ces sites (sur votre navigateur, et ceux des autres utilisateurs disposant de l'extension).
-        C'est le même principe qu'avec les bloqueurs de publicité, ou les extensions ajoutant un "mode sombre".
+        Avec votre accord, l'extension sera en mesure de modifier les sites sur lequelles il existe des zones de commentaires (sur votre navigateur, et celui de chaque utilisateur disposant de l'extension).
+        C'est le même principe qu'un bloqueur de publicité, ou qu'une extension ajoutant un "mode sombre".
       </Question>
 
       <Question question="Comment le projet est-il financé ?">
@@ -94,7 +94,7 @@ const FAQ: React.FC = () => {
 
       <Question question="Peut-on participer au projet ?">
         Que ce soit pour donner vos impressions, proposer des axes d'amélioration, ou même plus généralement réfléchir au concept de Zétécom et imaginer ce que l'on peut construire ensemble, vous êtes chaleureusement invité.e à <Link href="#contact">nous envoyer un petit message</Link>.
-        Et si vous êtes développeu.r.se et que le projet vous intéresse techniquement, les source sont disponibles sur <Link openInNewTab href={useEnvironment('REPOSITORY_URL')} onClick={() => trackOpenRepositoryLink('faq')}>github</Link>.
+        Et si vous êtes développeu.r.se et que le projet vous intéresse techniquement, les source sont disponibles sur <Link openInNewTab href={useEnvironment('REPOSITORY_URL')} onClick={() => trackOpenRepositoryLink('faq')}>GitHub</Link>.
       </Question>
 
       <Question question="Votre question ne figure pas dans cette liste... ?">
