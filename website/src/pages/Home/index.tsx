@@ -23,6 +23,14 @@ import imageFormat from './images/format.png';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './Home.scss';
 
+const Slide: React.FC<{ legend: string, image: string, alt?: string }> = ({ legend, image, alt }) => (
+  <div className="carousel-slide">
+    <div className="carousel-slide-legend">{ legend }</div>
+    <img src={image} alt={alt} />
+    <div style={{ height: 40, background: 'white' }} />
+  </div>
+);
+
 const Home: React.FC = () => (
   <>
 
@@ -86,48 +94,48 @@ const Home: React.FC = () => (
 
     <div className="spacer" />
 
-    <Carousel
-      autoPlay
-      stopOnHover
-      infiniteLoop
-      transitionTime={640}
-      interval={5500}
-      showThumbs={false}
-      showStatus={false}
-      className="carousel"
-    >
-      <div className="carousel-slide">
-        <div className="carousel-slide-legend">Recherche</div>
-        <img src={imageSearch} alt="" />
-      </div>
-      <div className="carousel-slide">
-        <div className="carousel-slide-legend">Réponses imbriquées</div>
-        <img src={imageNestedReplies} alt="" />
-      </div>
-      <div className="carousel-slide">
-        <div className="carousel-slide-legend">Messages pertinents mis en avant</div>
-        <img src={imageSortRelevance} alt="" />
-      </div>
-      <div className="carousel-slide">
-        <div className="carousel-slide-legend">Notifications</div>
-        <img src={imageSubscription} alt="" />
-      </div>
-      <div className="carousel-slide">
-        <div className="carousel-slide-legend">Messages structurés</div>
-        <img src={imageFormat} alt="" />
-      </div>
-    </Carousel>
+    <div className="branding">
 
-    <DownloadExtensions disposition="row" />
+      <DownloadExtensions disposition="column" />
+
+      <Carousel
+        autoPlay
+        stopOnHover
+        infiniteLoop
+        transitionTime={620}
+        interval={5500}
+        showThumbs={false}
+        showStatus={false}
+        showArrows={false}
+        className="carousel"
+      >
+        <Slide legend="Recherche" image={imageSearch} alt="recherche" />
+        <Slide legend="Réponses imbriquées" image={imageNestedReplies} alt="réponses imbriquées" />
+        <Slide legend="Messages pertinents mis en avant" image={imageSortRelevance} alt="tri par pertinence" />
+        <Slide legend="Notifications" image={imageSubscription} alt="notifications" />
+        <Slide legend="Messages structurés" image={imageFormat} alt="messages structurés" />
+      </Carousel>
+
+    </div>
 
     <p>
-      L'extension peut être utilisée pour lire les messages présents sur la plateforme sans avoir besoin de créer un compte.
-      Pour en savoir plus, la page <Link href="/utilisation.html">utilisation</Link> présente quelques captures d'écran et explique comment fonctionne cet outil.
-      Si vous souhaitez mieux comprendre le contexte dans lequel se place Zétécom, et les objectifs du projet, rendez-vous sur la page <Link href="/motivations.html">motivations</Link>.
+      Pour en savoir plus, jetez un œil à la page <strong><Link href="/utilisation.html">utilisation</Link></strong>, qui explique un peu plus en détail ce que propose l'extension.
+      Et si vous souhaitez mieux comprendre le contexte dans lequel se place Zétécom et ses ambitions, rendez-vous sur la page <strong><Link href="/motivations.html">motivations</Link></strong>.
+    </p>
+
+    <Title id="Pour-qui">Pour qui ?</Title>
+
+    <p>
+      Les espaces de commentaires Zétécom sont mis à disposition de tous, publiquement pour lire les messages, et après inscription pour participer aux échanges.
+      Il n'est pas nécessaire de connaître par cœur les outils de la pensée critique, les biais ou la méthode scientifique pour s'inscrire.
+      Le but, c'est de rassembler des personnes qui « jouent le jeu », qui cherchent à <em>partager leurs opinions</em> et à <em>comprendre celles des autres</em>, avec bienveillance et humilité.
     </p>
 
     <p>
-      Cette plateforme tente de rassembler des personnes bienveillantes, attentives aux biais, qui savent écouter et partager leurs opinions, tout en gardant un œil critique face aux arguments qu'on leur présente. Prêt(e) à tenter l'expérience ?
+      Ah, un dernier mot : le projet est actuellement (août 2020) en phase de test, et il n'y a pas encore de zones de commentaires ouvertes sur l'extension.
+      Cependant, si vous appréciez la démarche et que vous avez envie de participer au lancement du projet, la page <strong><Link href="/beta.html">bêta</Link></strong> donne tout ce qu'il faut savoir pour devenir bêta-testeur !
+      Vos retours nous permettrons de mieux comprendre vos attentes, et donc de mieux répondre à vos besoins.<br />
+      À bientôt !
     </p>
 
   </>

@@ -3,8 +3,8 @@
 .download-extensions-container {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  margin: 20px 0;
+  justify-content: space-evenly;
+  margin: 20px;
 
   &.disposition-column {
     flex-direction: column;
@@ -14,11 +14,8 @@
     flex-direction: row;
   }
 
-  @media screen and (min-width: $break-large) {
-    margin: 80px 0;
-  }
-
   a.download-extension {
+    margin: 10px 0;
     &:hover {
       opacity: 0.85;
     }

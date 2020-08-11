@@ -42,7 +42,7 @@ const PageFooter: React.FC = () => (
     </div>
 
     <div className="footer-item join-us">
-      Vous souhaitez participer à la conception de <em>Zétécom</em> ? L'équipe qui met en place le projet est <Link href="/faq.html#contact">à l'écoute</Link> de vos retours pour améliorer l'extension, le site, ou même la charte. Tant sur les fonctionnalités que sur la forme, n'hésitez pas à partager vos avis et vos idées sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>featureupvote.com</Link> !
+      Vous souhaitez participer à la conception de <em>Zétécom</em> ? L'équipe qui met en place le projet est <Link href="/faq.html#contact">à l'écoute</Link> ! Tant sur les fonctionnalités que sur la forme, n'hésitez pas à partager vos avis et vos idées sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>featureupvote.com</Link> !
     </div>
 
   </div>

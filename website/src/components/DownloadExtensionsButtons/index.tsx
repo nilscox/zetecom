@@ -49,11 +49,10 @@ const DownloadExtension: React.FC<DownloadExtensionProps> = ({ staging, browser 
   return (
     <Link
       openInNewTab
-      /* @ts-ignore */
-      className={clsx(`download-extension browser-${browser}`, linkProps.className)}
       title={!linkProps.href ? notAvailableMessage : undefined}
       onClick={() => trackOpenExtensionDownloadLink(browser, staging)}
       {...linkProps}
+      className={clsx(`download-extension browser-${browser}`, linkProps.className)}
     >
       <Image {...imageProps} />
     </Link>

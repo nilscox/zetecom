@@ -6,13 +6,13 @@ import { SortType } from 'Common/sort-type';
 
 import { Information } from '../information/information.entity';
 import { User } from '../user/user.entity';
+import { UserService } from '../user/user.service';
 
 import { Comment } from './comment.entity';
 import { CommentJoinRelations, CommentRepository } from './comment.repository';
 import { Message } from './message.entity';
 import { Reaction, ReactionType } from './reaction.entity';
 import { SubscriptionService } from './subscription/subscription.service';
-import { UserService } from '../user/user.service';
 
 @Injectable()
 export class CommentService {
@@ -156,8 +156,8 @@ export class CommentService {
   }
 
   async search(informationId: number, search: string, sort: SortType, page: number, pageSize: number) {
-    const match = search.match(/^@([-_a-zA-Z0-9]+)$/);
     let author: User | undefined;
+    const match = /^@([-_a-zA-Z0-9]+)$/.exec(search);
 
     if (match) {
       author = await this.userService.findByNick(match[1]);

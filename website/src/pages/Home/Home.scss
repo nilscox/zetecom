@@ -123,23 +123,46 @@ $break-xxlarge: 1590px;
     border-bottom: 1px solid #CCC;
   }
 
-  .carousel {
-    margin: auto;
-    max-width: 520px;
+  .branding {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 
-    @media screen and (min-width: $break-medium) {
-      margin-top: 50px;
-      margin-bottom: 50px;
+    @media screen and (min-width: $break-xlarge) {
+      flex-direction: row;
     }
 
-    .carousel-slide-legend {
-      background-color: white;
-      border-bottom: 1px solid #DDD;
-    }
+    .carousel.carousel-root {
+      max-width: 520px;
+      margin: auto;
+      flex: 1;
 
-    ul.control-dots {
-      li.dot {
-        background-color: #446;
+      @media screen and (min-width: $break-xlarge) {
+        margin: 0;
+      }
+
+      @media screen and (min-width: $break-medium) {
+        margin-top: 25px;
+        margin-bottom: 25px;
+      }
+
+      .carousel-slide-legend {
+        background-color: white;
+        padding-bottom: 10px;
+        text-align: left;
+        font-family: "Noticia Text";
+        font-size: 20px;
+        color: #446;
+
+        @media screen and (min-width: $break-medium) {
+          font-size: 22px;
+        }
+      }
+
+      ul.control-dots {
+        li.dot {
+          background-color: #446;
+        }
       }
     }
   }
