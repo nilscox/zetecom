@@ -103,6 +103,11 @@ jobs:
         GIT_SHA: ${{ github.sha }}
     - uses: codecov/codecov-action@v1
       if: success()
+    - uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: e2e/cypress/screenshots
 
   # publish
 
