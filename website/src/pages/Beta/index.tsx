@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './Beta.scss';
 import Link from 'src/components/Link';
 import Image from 'src/components/Image';
-import { useEnvironment } from 'src/index';
+import { useEnvironment } from 'src/utils/env';
 import DownloadExtensionsButtons from 'src/components/DownloadExtensionsButtons';
 
 import hereWeAre from './images/here-we-are-infography.png';

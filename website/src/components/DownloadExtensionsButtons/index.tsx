@@ -2,7 +2,7 @@ import React from 'react';
 
 import clsx from 'clsx';
 
-import { useEnvironment } from 'src/index';
+import { useEnvironment } from 'src/utils/env';
 import Link from 'src/components/Link';
 import Image from 'src/components/Image';
 

@@ -1,5 +1,32 @@
 .page#page-faq {
-  .question {
-    margin: 12px 0 24px;
+  .faq-section {
+    margin-left: 0;
+    font-family: 'Nunito Sans', sans-serif;
+  }
+
+  .faq-item {
+    margin: 12px 0;
+
+    .collapse-arrow {
+      color: #666;
+      margin-right: 6px;
+      transition: transform 200ms ease-in-out;
+      display: inline-block;
+      font-size: 12px;
+
+      &.open {
+        transform: rotate(90deg);
+      }
+    }
+
+    .question {
+      cursor: pointer;
+      vertical-align: middle;
+    }
+
+    .answer {
+      overflow: hidden;
+      transition: opacity 200ms ease-in-out;
+    }
   }
 }

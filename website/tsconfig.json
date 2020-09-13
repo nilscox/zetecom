@@ -1,19 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "lib": [
-      "es5",
-      "es6",
-      "dom"
-    ],
-    "jsx": "react",
-    "sourceMap": true,
+    "esModuleInterop": true,
+    "jsx": "preserve",
     "strict": true,
+    "strictNullChecks": true,
     "noImplicitAny": true,
-    "moduleResolution": "node",
-    "baseUrl": "./",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
-  }
+    "downlevelIteration": true,
+    "baseUrl": ".",
+    "paths": {
+      "src": ["src"]
+    }
+  },
+  "include": [
+    "src"
+  ]
 }

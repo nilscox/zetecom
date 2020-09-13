@@ -31,7 +31,6 @@ setup_environment () {
 }
 
 build_website() {
-  execute yarn clean
   execute NODE_ENV='production' yarn build --silent
 }
 

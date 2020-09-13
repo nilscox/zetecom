@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Link from 'src/components/Link';
-import { useEnvironment } from 'src/index';
+import { useEnvironment } from 'src/utils/env';
 
 import logoFacebook from './facebook-logo.png';
 import logoTwitter from './twitter-logo.png';

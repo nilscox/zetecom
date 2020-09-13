@@ -1,11 +1,11 @@
 /* eslint-disable key-spacing, no-multi-spaces */
 
-import Home from './pages/Home';
-import Rules from './pages/Rules';
-import Usage from './pages/Usage';
-import Motivations from './pages/Motivations';
-import FAQ from './pages/FAQ';
-import Beta from './pages/Beta';
+import Home from './Home';
+import Rules from './Rules';
+import Usage from './Usage';
+import Motivations from './Motivations';
+import FAQ from './FAQ';
+import Beta from './Beta';
 
 export type Page = {
   id: string;

@@ -1,11 +1,12 @@
 import React from 'react';
 
-type SubTitleProps = {
+export type SubTitleProps = {
+  className?: string;
   id: string;
 };
 
-const SubTitle: React.FC<SubTitleProps> = ({ id, children }) => (
-  <h3 id={id.replace(' ', '_')}>
+const SubTitle: React.FC<SubTitleProps> = ({ className, id, children }) => (
+  <h3 id={id.replace(' ', '_')} className={className}>
     { children }
   </h3>
 );
