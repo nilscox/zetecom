@@ -4,15 +4,10 @@ import { Collapse as ReactCollapse, CollapseProps as ReactCollapseProps } from '
 
 type CollapseProps = Omit<ReactCollapseProps, 'isOpened' | 'springConfig'> & {
   open: boolean;
-  children: React.ReactNode;
 };
 
-const Collapse: React.FC<CollapseProps> = ({ open, children, ...props }) => {
-  return (
-    <ReactCollapse isOpened={open} {...props}>
-      { children }
-    </ReactCollapse>
-  );
+const Collapse: React.FC<CollapseProps> = ({ open, ...props }) => {
+  return <ReactCollapse isOpened={open} {...props} />;
 };
 
 export default Collapse;

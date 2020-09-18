@@ -29,7 +29,7 @@ const createTheme = (): Theme => {
       selected: { main: '#ffeeaa' },
       textLight: { main: '#666666', light: '#999999' },
       textLink: { main: '#44C', light: '#55A', dark: '#446' },
-      textWarning: { main: '#a36500' },
+      textWarning: { main: '#ee7700' },
       background: { default: 'white' },
       success: { main: '#81c784', light: '#a4d7a6' },
       warning: { main: '#decb81', light: '#e0d194' },
