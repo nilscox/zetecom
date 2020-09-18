@@ -10,6 +10,8 @@ import StaticSiteGeneratorPlugin from 'static-site-generator-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 // @ts-ignore
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+// @ts-ignore
+import CompressionWebpackPlugin from 'compression-webpack-plugin';
 
 const {
   NODE_ENV = 'development',
@@ -165,6 +167,7 @@ if (prod) {
 
     plugins: [
       ...config.plugins,
+      new CompressionWebpackPlugin(),
       new MiniCssExtractPlugin(),
       new StaticSiteGeneratorPlugin({
         globals: {
