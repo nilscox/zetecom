@@ -63,12 +63,20 @@ export class AppModule {
     const NODE_ENV = this.configService.get('NODE_ENV');
     const CI = this.configService.get('CI');
     const SESSION_SECRET = this.configService.get('SESSION_SECRET');
+    const SSL_CERTIFICATE = this.configService.get('SSL_CERTIFICATE');
+    const SSL_CERTIFICATE_KEY = this.configService.get('SSL_CERTIFICATE_KEY');
 
     const middlewares = [];
 
     ExpressSessionMiddleware.configure({
       // one year
-      cookie: { maxAge: Date.now() + (30 * 86400 * 1000) },
+      cookie: {
+        maxAge: Date.now() + (30 * 86400 * 1000),
+        ...(NODE_ENV === 'development' && SSL_CERTIFICATE && SSL_CERTIFICATE_KEY && {
+          sameSite: 'none',
+          secure: true,
+        }),
+      },
       store: new MemoryStore({
         // one day
         checkPeriod: 86400000,

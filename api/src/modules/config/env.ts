@@ -12,6 +12,9 @@ const enviornmentVariables = [
   'BYPASS_AUTHORIZATIONS',
   'ADMIN_USER',
 
+  'SSL_CERTIFICATE',
+  'SSL_CERTIFICATE_KEY',
+
   'APP_URL',
   'WEBSITE_URL',
 
