@@ -3,8 +3,9 @@ import { parseUser, User } from './User';
 
 export type Information = {
   id: number;
-  title: string;
   url: string;
+  title: string;
+  author: string;
   imageUrl: string | null;
   published?: Date;
   creator?: Partial<User>;

@@ -12,13 +12,13 @@ type StylesProps = {
   inline?: boolean;
 };
 
-const useStyles = makeStyles<Theme, StylesProps>(({ breakpoints, spacing }) => ({
+const useStyles = makeStyles<Theme, StylesProps>(({ breakpoints, spacing, palette }) => ({
   container: ({ inline }) => ({
     height: inline ? 30 : 140,
     transition: 'height 180ms ease-in-out',
   }),
   image: ({ inline }) => ({
-    margin: spacing(0, inline ? 1 : 4),
+    margin: spacing(0, inline ? 1 : 2),
     height: '100%',
     objectFit: 'cover',
   }),
@@ -26,25 +26,34 @@ const useStyles = makeStyles<Theme, StylesProps>(({ breakpoints, spacing }) => (
     flex: 1,
     fontSize: inline ? '0.7rem' : '1rem',
     paddingLeft: spacing(4),
+    Bottom: spacing(2),
     [breakpoints.down('sm')]: {
       paddingLeft: spacing(2),
     },
   }),
   title: ({ inline }) => ({
+    marginBottom: spacing(1),
     '&&': {
-      fontSize: inline ? '1rem' : '1.6rem',
+      fontSize: inline ? '1rem' : '1.4rem',
     },
     fontWeight: 'bold',
     [breakpoints.down('lg')]: {
-      fontSize: '1.5rem',
+      fontSize: '1.3rem',
     },
     [breakpoints.down('md')]: {
-      fontSize: '1.5rem',
+      fontSize: '1.3rem',
     },
     [breakpoints.down('sm')]: {
       fontSize: '1.2rem',
     },
   }),
+  dateAndCommentsCount: {
+    marginBottom: spacing(1),
+  },
+  author: {
+    fontWeight: 'bold',
+    color: palette.textLight.dark,
+  },
 }));
 
 type InformationOverviewProps = {
@@ -68,12 +77,17 @@ const InformationOverview: React.FC<InformationOverviewProps> = ({ information, 
             { title || information.title }
           </Typography>
 
-          <Typography>
-            { information.published && dayjs(information.published).format('[Publiée le] D MMMM YYYY') }
+          <Typography className={classes.dateAndCommentsCount}>
+            { information.published && dayjs(information.published).format('D MMMM YYYY') }
+            {' - '}
+            { information.commentsCount } commentaire{ information.commentsCount !== 1 && 's' }
+          </Typography>
+
+          <Typography className={classes.author}>
+            { information.author }
           </Typography>
 
           <div>
-            { information.commentsCount } commentaire{ information.commentsCount !== 1 && 's' }
           </div>
 
         </Grid>

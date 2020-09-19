@@ -12,16 +12,19 @@ export class Information {
   identifier: string;
 
   @Column()
+  url: string;
+
+  @Column()
   title: string;
 
   @Column()
-  url: string;
-
-  @Column({ name: 'image_url', nullable: true })
-  imageUrl: string;
+  author: string;
 
   @Column({ type: 'date', nullable: true })
   published: Date;
+
+  @Column({ name: 'image_url', nullable: true })
+  imageUrl: string;
 
   @CreateDateColumn()
   created: Date;

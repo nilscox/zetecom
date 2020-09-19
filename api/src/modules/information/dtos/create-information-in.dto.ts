@@ -6,10 +6,14 @@ export class CreateInformationInDto {
   readonly identifier: string;
 
   @IsString()
-  readonly title: string;
+  readonly url: string;
 
   @IsString()
-  readonly url?: string;
+  readonly title: string;
+
+  @IsOptional()
+  @IsString()
+  readonly author?: string;
 
   @IsString()
   @IsOptional()

@@ -13,10 +13,13 @@ export class InformationDto {
   identifier: string;
 
   @Expose()
+  url: string;
+
+  @Expose()
   title: string;
 
   @Expose()
-  url: string;
+  author: string;
 
   @Expose()
   imageUrl: string;
