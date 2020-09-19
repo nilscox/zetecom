@@ -23,7 +23,8 @@ RUN yarn --production=false
 COPY static /app/static
 COPY src /app/src
 COPY tsconfig.json /app
-COPY webpack.config.js /app
+COPY webpack.config.ts /app
+COPY babel.config.json /app
 
 RUN yarn build
 

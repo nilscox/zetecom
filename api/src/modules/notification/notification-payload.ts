@@ -3,7 +3,7 @@ export interface RulesUpdateNotificationPayload {
 }
 
 export interface SubscriptionReplyNotificationPayload {
-  informationId: number;
+  commentsAreaId: number;
   commentId: number;
   replyId: number;
   author: { id: number; nick: string; avatar?: string };

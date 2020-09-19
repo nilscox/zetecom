@@ -45,9 +45,13 @@ const createTheme = (): Theme => {
 
   });
 
-  theme.typography.h1.fontSize = '1rem';
+  theme.typography.h1.fontSize = '1.75rem';
   theme.typography.h2.fontSize = '1rem';
-  theme.typography.h3.fontSize = '1rem';
+
+  theme.typography.h3.fontSize = '1.25rem';
+  theme.typography.h3.fontWeight = 'bold';
+  theme.typography.h3.color = theme.palette.textLight.main;
+  theme.typography.h3.margin = theme.spacing(2, 0);
 
   theme.typography.body1 = {
     fontSize: '1rem',

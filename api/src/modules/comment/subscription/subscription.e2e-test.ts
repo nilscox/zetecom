@@ -4,7 +4,7 @@ import { createAuthenticatedUser, setupE2eTest } from '../../../testing/setup-e2
 import { AuthenticationModule } from '../../authentication/authentication.module';
 import { CommentFactory } from '../../comment/comment.factory';
 import { CommentModule } from '../../comment/comment.module';
-import { InformationFactory } from '../../information/information.factory';
+import { CommentsAreaFactory } from '../../comments-area/comments-area.factory';
 import { Notification } from '../../notification/notification.entity';
 import { NotificationModule } from '../../notification/notification.module';
 import { UserFactory } from '../../user/user.factory';
@@ -18,7 +18,7 @@ describe('subscription', () => {
   });
 
   let createUser: UserFactory['create'];
-  let createInformation: InformationFactory['create'];
+  let createCommentsArea: CommentsAreaFactory['create'];
   let createComment: CommentFactory['create'];
   let createsubscription: SubscriptionFactory['create'];
 
@@ -30,12 +30,12 @@ describe('subscription', () => {
     const module = getTestingModule();
 
     const userFactory = module.get<UserFactory>(UserFactory);
-    const informationFactory = module.get<InformationFactory>(InformationFactory);
+    const commentsAreaFactory = module.get<CommentsAreaFactory>(CommentsAreaFactory);
     const commentFactory = module.get<CommentFactory>(CommentFactory);
     const subscriptionFactory = module.get<SubscriptionFactory>(SubscriptionFactory);
 
     createUser = userFactory.create.bind(userFactory);
-    createInformation = informationFactory.create.bind(informationFactory);
+    createCommentsArea = commentsAreaFactory.create.bind(commentsAreaFactory);
     createComment = commentFactory.create.bind(commentFactory);
     createsubscription = subscriptionFactory.create.bind(subscriptionFactory);
 
@@ -43,8 +43,8 @@ describe('subscription', () => {
   });
 
   it('should create a notification from a subscription to a comment', async () => {
-    const information = await createInformation();
-    const comment = await createComment({ information });
+    const commentsArea = await createCommentsArea();
+    const comment = await createComment({ commentsArea });
     const otherUser = await createUser({ nick: 'otherUser' });
 
     await createsubscription({ comment: comment, user });
@@ -52,7 +52,7 @@ describe('subscription', () => {
 
     const requestBody = {
       parentId: comment.id,
-      informationId: information.id,
+      commentsAreaId: commentsArea.id,
       text: 'text',
     };
 
@@ -69,7 +69,7 @@ describe('subscription', () => {
     expect(notificationsDb[0]).toMatchObject({
       payload: {
         author: { id: user.id },
-        informationId: information.id,
+        commentsAreaId: commentsArea.id,
         commentId: comment.id,
         replyId: body.id,
         text: 'text',

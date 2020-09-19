@@ -8,20 +8,20 @@ import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
 
 import AsyncContent from '../components/AsyncContent';
 import Collapse from '../components/Collapse';
+import CommentsAreaOverview from '../components/CommentsAreaOverview';
 import CommentsList from '../components/CommentsList';
 import FiltersBar from '../components/FiltersBar';
-import InformationOverview from '../components/InformationOverview';
 import RouterLink from '../components/Link';
 import Padding from '../components/Padding';
-import { InformationProvider } from '../contexts/InformationContext';
+import { CommentsAreaProvider } from '../contexts/CommentsAreaContext';
 import useAxiosPaginated from '../hooks/use-axios-paginated';
 import { parseComment } from '../types/Comment';
-import { Information, parseInformation } from '../types/Information';
+import { CommentsArea, parseCommentsArea } from '../types/CommentsArea';
 
-const useParseInformationForUser = () => {
+const useParseCommentsAreaForUser = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return useCallback((data: any) => ({
-    information: parseInformation(data.information),
+    commentsArea: parseCommentsArea(data.commentsArea),
     comments: data.comments.map(parseComment),
   }), []);
 };
@@ -31,7 +31,7 @@ type StylesProps = {
 };
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
-  userCommentsInformation: {
+  userCommentsCommentsArea: {
     position: 'relative',
   },
   cardContent: ({ collapsed }: StylesProps) => ({
@@ -50,23 +50,23 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
   }),
 }));
 
-type UserCommentsInformationProps = {
-  information: Information;
+type UserCommentsCommentsAreaProps = {
+  commentsArea: CommentsArea;
   collapsed: boolean;
   toggleCollapsed: (ctrlKey: boolean) => void;
 };
 
-const UserCommentsInformation: React.FC<UserCommentsInformationProps> = ({
-  information,
+const UserCommentsCommentsArea: React.FC<UserCommentsCommentsAreaProps> = ({
+  commentsArea,
   collapsed,
   toggleCollapsed,
 }) => {
   const classes = useStyles({ collapsed });
 
   return (
-    <InformationProvider value={information}>
+    <CommentsAreaProvider value={commentsArea}>
 
-      <Card variant="outlined" elevation={2} className={classes.userCommentsInformation}>
+      <Card variant="outlined" elevation={2} className={classes.userCommentsCommentsArea}>
         <CardContent classes={{ root: classes.cardContent }}>
 
           <div
@@ -77,66 +77,66 @@ const UserCommentsInformation: React.FC<UserCommentsInformationProps> = ({
             <ChevronDown />
           </div>
 
-          <InformationOverview
-            title={<RouterLink to={`/information/${information.id}`}>{ information.title }</RouterLink>}
-            information={information}
+          <CommentsAreaOverview
+            title={<RouterLink to={`/commentaires/${commentsArea.id}`}>{ commentsArea.informationTitle }</RouterLink>}
+            commentsArea={commentsArea}
             inline={collapsed}
           />
 
           <Collapse open={!collapsed}>
             <Padding top>
-              <CommentsList comments={information.comments} />
+              <CommentsList comments={commentsArea.comments} />
             </Padding>
           </Collapse>
 
         </CardContent>
       </Card>
 
-    </InformationProvider>
+    </CommentsAreaProvider>
   );
 };
 
-const useCollapseInformation = (data: { information: Information }[]) => {
-  const [collapsed, setCollapsed] = useState<Map<Information, boolean>>(new Map());
+const useCollapseCommentsArea = (data: { commentsArea: CommentsArea }[]) => {
+  const [collapsed, setCollapsed] = useState<Map<CommentsArea, boolean>>(new Map());
 
   useEffect(() => {
     if (data)
-      setCollapsed(new Map(data.map(({ information }) => [information, false])));
+      setCollapsed(new Map(data.map(({ commentsArea }) => [commentsArea, false])));
   }, [data]);
 
-  const toggle = (information: Information) => {
+  const toggle = (commentsArea: CommentsArea) => {
     const copy = new Map(collapsed);
 
-    copy.set(information, !collapsed.get(information));
+    copy.set(commentsArea, !collapsed.get(commentsArea));
 
     setCollapsed(copy);
   };
 
   const collapseAll = () => {
-    setCollapsed(new Map(data.map(({ information }) => [information, true])));
+    setCollapsed(new Map(data.map(({ commentsArea }) => [commentsArea, true])));
   };
 
   return [collapsed, toggle, collapseAll] as const;
 };
 
 const UserComments: React.FC = () => {
-  const parseInformationForUser = useParseInformationForUser();
+  const parseCommentsAreaForUser = useParseCommentsAreaForUser();
   const [
     { loading, data, total, error },
     { search, setSearch },,
     { page, setPage },
-  ] = useAxiosPaginated('/api/comment/me', parseInformationForUser);
+  ] = useAxiosPaginated('/api/comment/me', parseCommentsAreaForUser);
 
   if (error)
     throw error;
 
-  const [collapsed, toggleCollapsed, collapseAll] = useCollapseInformation(data);
+  const [collapsed, toggleCollapsed, collapseAll] = useCollapseCommentsArea(data);
 
-  const handleToggleCollapse = (information: Information) => (ctrlKey: boolean) => {
+  const handleToggleCollapse = (commentsArea: CommentsArea) => (ctrlKey: boolean) => {
     if (ctrlKey)
       collapseAll();
     else
-      toggleCollapsed(information);
+      toggleCollapsed(commentsArea);
   };
 
   return (
@@ -153,12 +153,12 @@ const UserComments: React.FC = () => {
               onPageChange={setPage}
             />
 
-            {data.map(({ information, comments }) => (
-              <Padding key={information.id} top>
-                <UserCommentsInformation
-                  information={{ ...information, comments }}
-                  collapsed={collapsed.get(information)}
-                  toggleCollapsed={handleToggleCollapse(information)}
+            {data.map(({ commentsArea, comments }) => (
+              <Padding key={commentsArea.id} top>
+                <UserCommentsCommentsArea
+                  commentsArea={{ ...commentsArea, comments }}
+                  collapsed={collapsed.get(commentsArea)}
+                  toggleCollapsed={handleToggleCollapse(commentsArea)}
                 />
               </Padding>
             ))}

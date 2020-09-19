@@ -1,14 +1,14 @@
 import { Type } from 'class-transformer';
 import { ValidateNested } from 'class-validator';
 
-import { InformationDto } from './Information';
+import { CommentsAreaDto } from './CommentsArea';
 import { UserDto } from './User';
 
 export class Dataset {
 
   @ValidateNested()
-  @Type(() => InformationDto)
-  informations: InformationDto[];
+  @Type(() => CommentsAreaDto)
+  commentsAreas: CommentsAreaDto[];
 
   @ValidateNested()
   @Type(() => UserDto)

@@ -49,7 +49,7 @@ async function bootstrap() {
   if (NODE_ENV === 'development' && TRUST_PROXY === 'true')
     app.set('trust proxy', 1);
 
-  if (NODE_ENV === 'development' && REFLECT_ORIGIN === 'true')
+  if (REFLECT_ORIGIN === 'true')
     app.enableCors({ origin: true, credentials: true });
 
   await app.listen(parseInt(LISTEN_PORT || '3000', 10), LISTEN_IP || '0.0.0.0');

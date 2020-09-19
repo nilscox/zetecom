@@ -7,28 +7,27 @@ import AsyncContent from 'src/components/AsyncContent';
 import Fallback from 'src/components/Fallback';
 import HeaderLogo from 'src/components/HeaderLogo';
 import Padding from 'src/components/Padding';
-import Text from 'src/components/Text';
 import { useTrackPageview } from 'src/components/TrackPageView';
-import { InformationProvider } from 'src/contexts/InformationContext';
+import { CommentsAreaProvider } from 'src/contexts/CommentsAreaContext';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
-import { parseInformation } from 'src/types/Information';
+import { parseCommentsArea } from 'src/types/CommentsArea';
 import { trackViewIntegration } from 'src/utils/track';
 
-import CommentsZone from './CommentsZone';
+import CommentAreaClosed from './CommentAreaClosed';
+import CommentsArea from './CommentsArea';
 
 const IntegrationRouter = () => (
   <Router>
 
     <Route path="/" exact render={() => <Redirect to="/comment" />} />
-    <Route path="/comment" exact component={CommentsZone} />
+    <Route path="/comment" exact component={CommentsArea} />
 
   </Router>
 );
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
   container: {
-    minHeight: 400,
     backgroundColor: 'white',
     padding: spacing(2),
     border: `1px solid ${palette.grey[400]}`,
@@ -43,16 +42,16 @@ const Integration: React.FC = () => {
   const origin = decodeURIComponent(originParam as string);
 
   const opts = {
-    url: `/api/information/by-identifier/${identifier}`,
+    url: `/api/comments-area/by-identifier/${identifier}`,
     validateStatus: (s: number) => [200, 404].includes(s),
   };
 
-  const [{ data: information, loading, error }, fetchInfo] = useAxios(opts, parseInformation);
+  const [{ data: commentsArea, loading, error }, fetchInfo] = useAxios(opts, parseCommentsArea);
 
-  useTrackPageview(() => !!information);
+  useTrackPageview(() => !!commentsArea);
 
   useEffect(() => {
-    if (information)
+    if (commentsArea)
       trackViewIntegration(identifier);
   });
 
@@ -76,7 +75,7 @@ const Integration: React.FC = () => {
   }, [origin]);
 
   useEffect(() => {
-    if (information) {
+    if (commentsArea) {
       if (window.parent !== window) {
         window.parent.postMessage(
           { type: 'INTEGRATION_LOADED' },
@@ -84,7 +83,7 @@ const Integration: React.FC = () => {
         );
       }
     }
-  }, [information, origin]);
+  }, [commentsArea, origin]);
 
   return (
     <div className={classes.container}>
@@ -97,17 +96,13 @@ const Integration: React.FC = () => {
             </Padding>
 
             <Fallback
-              when={!information}
-              fallback={
-                <Text uppercase color="textLight">
-                  L'espace de commentaires n'est pas activé sur cette page.
-                </Text>
-              }
+              when={!commentsArea}
+              fallback={<CommentAreaClosed />}
             >
               {() => (
-                <InformationProvider value={information}>
+                <CommentsAreaProvider value={commentsArea}>
                   <IntegrationRouter />
-                </InformationProvider>
+                </CommentsAreaProvider>
               )}
             </Fallback>
 

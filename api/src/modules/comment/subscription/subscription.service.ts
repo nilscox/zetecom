@@ -47,7 +47,7 @@ export class SubscriptionService {
   public async findAllForUser(user: UserDto, page: number): Promise<Paginated<Subscription>> {
     const qb = this.subscriptionRepository.createQueryBuilder('comment_subscription')
       .leftJoinAndSelect('comment_subscription.comment', 'comment')
-      .leftJoinAndSelect('comment.information', 'information')
+      .leftJoinAndSelect('comment.commentsArea', 'commentsArea')
       .leftJoinAndSelect('comment.author', 'author')
       .leftJoinAndSelect('comment.message', 'message')
       .where('user_id = :userId', { userId: user.id })
@@ -83,7 +83,7 @@ export class SubscriptionService {
     });
 
     const payload = {
-      informationId: reply.information.id,
+      commentsAreaId: reply.commentsArea.id,
       commentId: reply.parent.id,
       replyId: reply.id,
       author: classToPlain(plainToClass(UserLightDto, reply.author), { strategy: 'excludeAll' }),

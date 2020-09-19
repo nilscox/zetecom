@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 import { Factory } from '../../testing/factory';
-import { Information } from '../information/information.entity';
-import { InformationFactory } from '../information/information.factory';
+import { CommentsArea } from '../comments-area/comments-area.entity';
+import { CommentsAreaFactory } from '../comments-area/comments-area.factory';
 import { User } from '../user/user.entity';
 import { UserFactory } from '../user/user.factory';
 
@@ -10,7 +10,7 @@ import { Comment } from './comment.entity';
 import { CommentService } from './comment.service';
 
 type CommentFactoryData = {
-  information?: Information;
+  commentsArea?: CommentsArea;
   author?: User;
   parent?: Comment;
   text?: string;
@@ -21,7 +21,7 @@ export class CommentFactory implements Factory<CommentFactoryData, Comment> {
   constructor(
     private readonly commentService: CommentService,
     private readonly userFactory: UserFactory,
-    private readonly informationFactory: InformationFactory
+    private readonly commentsAreaFactory: CommentsAreaFactory
   ) {}
 
   async create(a: number | CommentFactoryData = {}, b: CommentFactoryData = {}) {
@@ -35,8 +35,8 @@ export class CommentFactory implements Factory<CommentFactoryData, Comment> {
       data = a;
     }
 
-    const getInformation = async () => {
-      return data.information || await this.informationFactory.create();
+    const getCommentsArea = async () => {
+      return data.commentsArea || await this.commentsAreaFactory.create();
     };
 
     const getAuthor = async () => {
@@ -45,7 +45,7 @@ export class CommentFactory implements Factory<CommentFactoryData, Comment> {
 
     return this.commentService.create(
       await getAuthor(),
-      await getInformation(),
+      await getCommentsArea(),
       data.parent || null,
       data.text || 'comment' + (n || ''),
     );

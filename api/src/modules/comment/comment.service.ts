@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { SortType } from 'Common/sort-type';
 
-import { Information } from '../information/information.entity';
+import { CommentsArea } from '../comments-area/comments-area.entity';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 
@@ -41,14 +41,14 @@ export class CommentService {
     return this.commentRepository.findById(id, relations);
   }
 
-  async create(user: User, information: Information, parent: Comment | null, text: string): Promise<Comment> {
+  async create(user: User, commentsArea: CommentsArea, parent: Comment | null, text: string): Promise<Comment> {
     const message = await this.messageRepository.save({
       text,
     });
 
     const comment = await this.commentRepository.save({
       author: user,
-      information,
+      commentsArea,
       parent,
       message,
     });
@@ -60,7 +60,7 @@ export class CommentService {
       await this.commentRepository.incrementScore(parent.id, 2);
 
       // perform notification logic asynchronously (no await)
-      this.subscriptionService.notifyReply(await this.findById(comment.id, { author: true, information: true, parent: true, message: true }));
+      this.subscriptionService.notifyReply(await this.findById(comment.id, { author: true, commentsArea: true, parent: true, message: true }));
     }
 
     await this.subscriptionService.subscribe(user, comment);
@@ -121,18 +121,18 @@ export class CommentService {
       authorId: userId,
       search,
       pagination: { pageSize, page },
-      relations: { message: true, messages: true, author: true, information: true },
+      relations: { message: true, messages: true, author: true, commentsArea: true },
       sort: SortType.DATE_DESC,
     });
 
     if (total === 0)
       return { items: [], total: 0 };
 
-    const uniqueInformationsIds = [...new Set(items.map(comment => comment.information.id))];
+    const uniqueCommentsAreaIds = [...new Set(items.map(comment => comment.commentsArea.id))];
 
-    const result = uniqueInformationsIds.map(informationId => ({
-      information: items.find(comment => comment.information.id === informationId).information,
-      comments: items.filter(comment => comment.information.id === informationId),
+    const result = uniqueCommentsAreaIds.map(CommentsAreaId => ({
+      commentsArea: items.find(comment => comment.commentsArea.id === CommentsAreaId).commentsArea,
+      comments: items.filter(comment => comment.commentsArea.id === CommentsAreaId),
     }));
 
     return { items: result, total };
@@ -146,16 +146,16 @@ export class CommentService {
     });
   }
 
-  async findRoot(informationId: number, sort: SortType, page: number, pageSize: number) {
+  async findRoot(commentsAreaId: number, sort: SortType, page: number, pageSize: number) {
     return this.commentRepository.findAll({
-      informationId,
+      commentsAreaId,
       root: true,
       pagination: { pageSize, page },
       sort,
     });
   }
 
-  async search(informationId: number, search: string, sort: SortType, page: number, pageSize: number) {
+  async search(commentsAreaId: number, search: string, sort: SortType, page: number, pageSize: number) {
     let author: User | undefined;
     const match = /^@([-_a-zA-Z0-9]+)$/.exec(search);
 
@@ -167,7 +167,7 @@ export class CommentService {
     }
 
     return this.commentRepository.findAll({
-      informationId,
+      commentsAreaId,
       pagination: { pageSize, page },
       sort,
       authorId: author?.id,

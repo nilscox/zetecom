@@ -1,10 +1,11 @@
 const user1 = { nick: 'user1', email: 'user1@domain.tld', password: 'secure p4ssword' };
 const user2 = { nick: 'user2', email: 'user2@domain.tld', password: 'secure p4ssword' };
 
-const information = {
-  title: 'News',
+const commentsArea = {
   identifier: 'test:news1',
-  url: 'https://info.url',
+  informationTitle: 'News',
+  informationUrl: 'https://info.url',
+  informationAuthor: 'anyone',
   creator: 'user1',
   comments: [],
 };
@@ -25,17 +26,10 @@ describe('comments', () => {
 
   describe('not authentified', () => {
 
-    it('should display fallback message if comment zone is not enable', () => {
-      cy.resetdb();
-      cy.visitIntegration('test:news2');
-
-      cy.contains('L\'espace de commentaires n\'est pas activé sur cette page.');
-    });
-
     it('should display no comment message', () => {
       const data = {
         users: [user1],
-        informations: [information],
+        commentsAreas: [commentsArea],
       };
 
       cy.resetdb();
@@ -51,9 +45,9 @@ describe('comments', () => {
     it('should list comments', () => {
       const data = {
         users: [user1, user2],
-        informations: [
+        commentsAreas: [
           {
-            ...information,
+            ...commentsArea,
             comments: [
               {
                 ...comment,
@@ -87,9 +81,9 @@ describe('comments', () => {
       // KAMEHAMEHA
       const data = {
         users: [user1],
-        informations: [
+        commentsAreas: [
           {
-            ...information,
+            ...commentsArea,
             comments: [
               {
                 ...comment,
@@ -145,9 +139,9 @@ describe('comments', () => {
     it('should not have history', () => {
       const data = {
         users: [user1],
-        informations: [
+        commentsAreas: [
           {
-            ...information,
+            ...commentsArea,
             comments: [comment],
           },
         ],
@@ -164,9 +158,9 @@ describe('comments', () => {
     it('should open comment history popup', () => {
       const data = {
         users: [user1],
-        informations: [
+        commentsAreas: [
           {
-            ...information,
+            ...commentsArea,
             comments: [
               {
                 ...comment,
@@ -192,9 +186,9 @@ describe('comments', () => {
     it('should display comment history', () => {
       const data = {
         users: [user1],
-        informations: [
+        commentsAreas: [
           {
-            ...information,
+            ...commentsArea,
             comments: [
               {
                 ...comment,
@@ -222,7 +216,7 @@ describe('comments', () => {
     it('should add a comment', () => {
       const data = {
         users: [user1],
-        informations: [information],
+        commentsAreas: [commentsArea],
       };
 
       cy.resetdb();
@@ -256,9 +250,9 @@ describe('comments', () => {
     it('should add a reply', () => {
       const data = {
         users: [user1],
-        informations: [
+        commentsAreas: [
           {
-            ...information,
+            ...commentsArea,
             comments: [comment],
           },
         ],
@@ -293,9 +287,9 @@ describe('comments', () => {
     it('should edit a comment', () => {
       const data = {
         users: [user1, user2],
-        informations: [
+        commentsAreas: [
           {
-            ...information,
+            ...commentsArea,
             comments: [
               comment,
               {
@@ -336,9 +330,9 @@ describe('comments', () => {
     it('should add / remove / update reaction', () => {
       const data = {
         users: [user1, user2],
-        informations: [
+        commentsAreas: [
           {
-            ...information,
+            ...commentsArea,
             comments: [
               comment,
               {
@@ -403,9 +397,9 @@ describe('comments', () => {
     it('should open the comment report popup', () => {
       const data = {
         users: [user1, user2],
-        informations: [
+        commentsAreas: [
           {
-            ...information,
+            ...commentsArea,
             comments: [
               comment,
               {
@@ -442,9 +436,9 @@ describe('comments', () => {
     it('should report a comment', () => {
       const data = {
         users: [user1, user2],
-        informations: [
+        commentsAreas: [
           {
-            ...information,
+            ...commentsArea,
             comments: [
               {
                 ...comment,
@@ -479,9 +473,9 @@ describe('comments', () => {
     it('should unsubscribe and resubscribe to a comment', () => {
       const data = {
         users: [user1],
-        informations: [
+        commentsAreas: [
           {
-            ...information,
+            ...commentsArea,
             comments: [comment],
           },
         ],

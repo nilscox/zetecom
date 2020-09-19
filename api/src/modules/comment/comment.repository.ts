@@ -29,7 +29,7 @@ export type CommentJoinRelations = {
   author?: boolean;
   message?: boolean;
   messages?: boolean;
-  information?: boolean;
+  commentsArea?: boolean;
   parent?: boolean;
 };
 
@@ -44,7 +44,7 @@ type FindAllOptions = {
   relations?: CommentJoinRelations;
   root?: boolean;
   search?: string;
-  informationId?: number;
+  commentsAreaId?: number;
   authorId?: number;
   parentId?: number;
   pagination?: Pagination;
@@ -81,8 +81,8 @@ export class CommentRepository extends Repository<Comment> {
     if (typeof opts.authorId !== 'undefined')
       qb.andWhere('comment.author_id = :authorId', { authorId: opts.authorId });
 
-    if (typeof opts.informationId !== 'undefined')
-      qb.andWhere('comment.information_id = :informationId', { informationId: opts.informationId });
+    if (typeof opts.commentsAreaId !== 'undefined')
+      qb.andWhere('comment.comments_area_id = :commentsAreaId', { commentsAreaId: opts.commentsAreaId });
 
     if (typeof opts.root !== 'undefined')
       qb.andWhere('comment.parent_id IS NULL');
@@ -120,7 +120,7 @@ export class CommentRepository extends Repository<Comment> {
       author = true,
       message = true,
       messages = false,
-      information = false,
+      commentsArea = false,
       parent = false,
     } = { ...relations };
 
@@ -135,8 +135,8 @@ export class CommentRepository extends Repository<Comment> {
         .addOrderBy('messages.created', 'DESC');
     }
 
-    if (information)
-      qb.leftJoinAndSelect('comment.information', 'information');
+    if (commentsArea)
+      qb.leftJoinAndSelect('comment.commentsArea', 'commentsArea');
 
     if (parent)
       qb.leftJoinAndSelect('comment.parent', 'parent');
@@ -167,11 +167,11 @@ export class CommentRepository extends Repository<Comment> {
     search: string | null,
     pagination: Pagination,
   ): Promise<Paginated<Comment>> {
-    const getInformationsIds = async () => {
+    const getCommentsAreasIds = async () => {
       const qb = this.createQueryBuilder('comment')
-        .select('comment.information_id')
+        .select('comment.comments_area_id')
         .where('author_id = :userId', { userId })
-        .groupBy('comment.information_id')
+        .groupBy('comment.comments_area_id')
         .addGroupBy('comment.created');
 
       this.orderBy(qb, SortType.DATE_DESC);
@@ -181,18 +181,18 @@ export class CommentRepository extends Repository<Comment> {
         this.search(qb, search);
       }
 
-      const informationIds = await qb.getRawMany();
+      const commentsAreaIds = await qb.getRawMany();
 
-      return [...new Set(informationIds.map(({ information_id }) => information_id))];
+      return [...new Set(commentsAreaIds.map(({ comments_area_id }) => comments_area_id))];
     };
 
-    const informationsIds = await getInformationsIds();
+    const commentsAreasIds = await getCommentsAreasIds();
     const qb = this.createQueryBuilder('comment')
       .select('comment.id')
-      .addSelect('comment.information_id')
-      .where(`information_id IN (${informationsIds.join(', ')})`)
+      .addSelect('comment.comments_area_id')
+      .where(`comments_area_id IN (${commentsAreasIds.join(', ')})`)
       .andWhere('author_id = :userId', { userId })
-      .orderBy(`idx(array[${informationsIds.join(', ')}], comment.information_id)`);
+      .orderBy(`idx(array[${commentsAreasIds.join(', ')}], comment.comments_area_id)`);
 
     if (search) {
       this.joinAndSelect(qb);
@@ -205,7 +205,7 @@ export class CommentRepository extends Repository<Comment> {
 
     return this.findAll({
       ids: comments.map(comment => comment.id),
-      relations: { information: true },
+      relations: { commentsArea: true },
     });
   }
 

@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import util from 'util';
 
-import { Information } from '../information/information.entity';
+import { CommentsArea } from '../comments-area/comments-area.entity';
 import { User } from '../user/user.entity';
 
 import { Message } from './message.entity';
@@ -26,9 +26,9 @@ export class Comment {
   @Column({ default: 0 })
   score: number;
 
-  @ManyToOne(type => Information, { nullable: false })
-  @JoinColumn({ name: 'information_id' })
-  information: Information;
+  @ManyToOne(type => CommentsArea, { nullable: false })
+  @JoinColumn({ name: 'comments_area_id' })
+  commentsArea: CommentsArea;
 
   @OneToMany(type => Message, message => message.comment)
   messages: Message[];

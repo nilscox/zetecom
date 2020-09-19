@@ -6,12 +6,13 @@
     { "nick": "user3", "email": "user3@domain.tld", "password": "secure p4ssword" }
 
   ],
-  "informations": [
+  "commentsAreas": [
 
     {
-      "title": "Interesting news!",
-      "url": "https://info.url",
       "identifier": "test:news1",
+      "informationTitle": "Interesting news!",
+      "informationUrl": "https://info.url",
+      "informationAuthor": "anyone",
       "creator": "user1",
       "comments": [
 

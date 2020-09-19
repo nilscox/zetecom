@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
+import { findOrCreateCommentsArea } from './comments-area';
 import { Dataset } from './dtos/Dataset';
-import { findOrCreateInformation } from './information';
 import { AuthenticatedUser, loginOrSignup } from './user';
 
 const API_URL = process.env.API_URL || 'http://localhost:3000';
@@ -45,5 +45,5 @@ export const main = async (dataset: Dataset) => {
     return user;
   };
 
-  await Promise.all(dataset.informations.map(i => findOrCreateInformation(i, findUser)));
+  await Promise.all(dataset.commentsAreas.map(i => findOrCreateCommentsArea(i, findUser)));
 };

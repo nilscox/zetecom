@@ -3,7 +3,7 @@ import { IsInt, IsOptional, IsString, MaxLength } from 'class-validator';
 export class CreateCommentDto {
 
   @IsInt()
-  readonly informationId: number;
+  readonly commentsAreaId: number;
 
   @IsOptional()
   @IsInt()

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 
-import { useInformation } from 'src/contexts/InformationContext';
+import { useCommentsArea } from 'src/contexts/CommentsAreaContext';
 import useAxios from 'src/hooks/use-axios';
 import { Comment, parseComment } from 'src/types/Comment';
 import { trackCreateComment } from 'src/utils/track';
@@ -20,7 +20,7 @@ const CommentCreationForm: React.FC<CommentCreationFormProps> = ({
   closeForm,
   onCreated,
 }) => {
-  const information = useInformation();
+  const commentsArea = useCommentsArea();
 
   const formRef = React.useRef(null);
 
@@ -32,7 +32,7 @@ const CommentCreationForm: React.FC<CommentCreationFormProps> = ({
 
   const onSubmit = (text: string) => postComment({
     data: {
-      informationId: information.id,
+      commentsAreaId: commentsArea.id,
       parentId: parent ? parent.id : undefined,
       text,
     },

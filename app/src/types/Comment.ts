@@ -1,4 +1,4 @@
-import { Information, parseInformation } from './Information';
+import { CommentsArea, parseCommentsArea } from './CommentsArea';
 import { parseUser, UserLight } from './User';
 
 export enum ReactionType {
@@ -29,7 +29,7 @@ export type Comment = {
   reactionsCount?: ReactionsCount;
   userReaction?: ReactionType;
   subscribed?: boolean;
-  information?: Information;
+  commentsArea?: CommentsArea;
   score: number;
 };
 
@@ -57,6 +57,6 @@ export const parseComment = (data: any): Comment => {
       }, {} as any)
       : null,
     userReaction: data.userReaction ? data.userReaction : null,
-    information: data.information ? parseInformation(data.information) : undefined,
+    commentsArea: data.commentsArea ? parseCommentsArea(data.commentsArea) : undefined,
   };
 };

@@ -33,7 +33,7 @@ describe('notifications', () => {
   const [userRequest, user] = createAuthenticatedUser(server);
 
   const subscriptionReplyPayload = {
-    informationId: 1,
+    commentsAreaId: 1,
     commentId: 1,
     replyId: 3,
     author: { id: 69, nick: 'nick', avatar: null } as UserLightDto,

@@ -16,11 +16,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
 
+- Request to open new comments area
+- List open comments area requests
+- Reject a new comments area request
 
 ## [0.4.2] - 2020-07-21
 
-## Added
+### Added
 
 - Return email requires validation
 

@@ -27,7 +27,7 @@ export class Notification {
       return { href: env.WEBSITE_URL + '/charte.html', external: true };
 
     if (this.type === 'subscriptionReply')
-      return { href: '/information/' + this.payload.informationId, external: false };
+      return { href: '/commentaires/' + this.payload.commentsAreaId, external: false };
   }
 }
 

@@ -20,28 +20,26 @@ import { IsAuthenticated } from 'Common/auth.guard';
 import { CastToDto } from 'Common/cast-to-dto.interceptor';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { IsAuthor, IsNotAuthor } from 'Common/is-author.guard';
-import { OptionalParseIntPipe } from 'Common/optional-parse-int.pipe';
-import { OptionalQuery } from 'Common/optional-query.decorator';
 import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
 import { SearchQuery } from 'Common/search-query.decorator';
 
-import { Information } from '../information/information.entity';
-import { InformationService } from '../information/information.service';
+import { CommentsArea } from '../comments-area/comments-area.entity';
+import { CommentsAreaService } from '../comments-area/comments-area.service';
 import { User } from '../user/user.entity';
 
 import { Comment } from './comment.entity';
 import { CommentRepository } from './comment.repository';
 import { CommentService } from './comment.service';
 import { CommentDto } from './dtos/comment.dto';
-import { CommentsForInformationDto } from './dtos/comments-for-information.dto';
+import { CommentsForCommentsAreaDto } from './dtos/comments-for-comments-area.dto';
 import { CreateCommentDto } from './dtos/create-comment.dto';
 import { CreateReactionDto } from './dtos/create-reaction.dto';
 import { MessageDto } from './dtos/message.dto';
 import { UpdateCommentDto } from './dtos/update-comment.dto';
 import { Message } from './message.entity';
 import { PopulateComment } from './populate-comment.interceptor';
-import { PopulateCommentsForInformation } from './populate-comments-for-information.interceptor';
+import { PopulateCommentsForCommentsArea } from './populate-comments-for-comments-area.interceptor';
 import { CreateReportDto } from './report/dtos/create-report.dto';
 import { ReportService } from './report/report.service';
 import { SubscriptionService } from './subscription/subscription.service';
@@ -54,7 +52,7 @@ export class CommentController {
   private readonly commentPageSize: number;
 
   constructor(
-    private readonly informationService: InformationService,
+    private readonly commentsAreaService: CommentsAreaService,
     private readonly commentService: CommentService,
     private readonly subscriptionService: SubscriptionService,
     private readonly reportService: ReportService,
@@ -63,13 +61,13 @@ export class CommentController {
 
   @Get('me')
   @UseGuards(IsAuthenticated)
-  @CastToDto(CommentsForInformationDto)
-  @UseInterceptors(PopulateCommentsForInformation)
+  @CastToDto(CommentsForCommentsAreaDto)
+  @UseInterceptors(PopulateCommentsForCommentsArea)
   async findForUser(
     @AuthUser() user: User,
     @SearchQuery() search: string,
     @PageQuery() page: number,
-  ): Promise<Paginated<{ information: Information; comments: Comment[] }>> {
+  ): Promise<Paginated<{ commentsArea: CommentsArea; comments: Comment[] }>> {
     return this.commentService.findForUser(user.id, search, page, this.commentPageSize);
   }
 
@@ -162,11 +160,11 @@ export class CommentController {
     @AuthUser() user: User,
     @Body() dto: CreateCommentDto,
   ): Promise<Comment> {
-    const information = await this.informationService.findById(dto.informationId);
+    const commentsArea = await this.commentsAreaService.findById(dto.commentsAreaId);
     let parent: Comment | null = null;
 
-    if (!information)
-      throw new BadRequestException(`information with id ${dto.informationId} does not exists`);
+    if (!commentsArea)
+      throw new BadRequestException(`commentsArea with id ${dto.commentsAreaId} does not exists`);
 
     if (dto.parentId) {
       parent = await this.commentRepository.findOne({ id: dto.parentId });
@@ -177,7 +175,7 @@ export class CommentController {
       }
     }
 
-    return this.commentService.create(user, information, parent, dto.text);
+    return this.commentService.create(user, commentsArea, parent, dto.text);
   }
 
   @Put(':id')

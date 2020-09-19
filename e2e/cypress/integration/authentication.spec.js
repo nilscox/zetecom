@@ -48,7 +48,7 @@ describe('authentication', () => {
       users: [
         { nick: 'user1', email: 'user1@domain.tld', password: 'secure p4ssword' },
       ],
-      informations: [],
+      commentsAreas: [],
     };
 
     cy.resetdb();
@@ -85,7 +85,7 @@ describe('authentication', () => {
       users: [
         { nick: 'user1', email: 'user1@domain.tld', password: 'secure p4ssword' },
       ],
-      informations: [],
+      commentsAreas: [],
     };
 
     cy.resetdb();
@@ -121,7 +121,7 @@ describe('authentication', () => {
       users: [
         { nick: 'user1', email: 'user1@domain.tld', password: 'secure p4ssword' },
       ],
-      informations: [],
+      commentsAreas: [],
     };
 
     cy.resetdb();

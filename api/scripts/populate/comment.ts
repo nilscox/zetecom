@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { Comment } from '../../src/modules/comment/comment.entity';
 import { ReactionType } from '../../src/modules/comment/reaction.entity';
-import { Information } from '../../src/modules/information/information.entity';
+import { CommentsArea } from '../../src/modules/comments-area/comments-area.entity';
 
 import { CommentDto } from './dtos/Comment';
 import { FindUser } from './main';
@@ -33,13 +33,13 @@ const createReaction = async (comment: Comment, type: ReactionType, user: Authen
 
 export const createComment = async (
   comment: CommentDto,
-  information: Information,
+  commentsArea: CommentsArea,
   parent: Comment | null,
   findUser: FindUser,
 ) => {
   const author = findUser(comment.author);
   const payload = {
-    informationId: information.id,
+    commentsAreaId: commentsArea.id,
     parentId: parent?.id,
     text: comment.text,
   };
@@ -67,7 +67,7 @@ export const createComment = async (
 
   if (comment.replies) {
     for (const reply of comment.replies) {
-      await createComment(reply, information, created, findUser);
+      await createComment(reply, commentsArea, created, findUser);
     }
   }
 

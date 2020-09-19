@@ -13,7 +13,7 @@ class RulesUpdatePayloadDto {
 class SubscriptionReplyPayloadDto {
 
   @Expose()
-  informationId: number;
+  commentsAreaId: number;
 
   @Expose()
   commentId: number;

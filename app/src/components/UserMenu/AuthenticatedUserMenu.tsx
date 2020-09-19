@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
+import ModerationIcon from '@material-ui/icons/DoneAll';
 import SignoutIcon from '@material-ui/icons/ExitToApp';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import { AxiosRequestConfig } from 'axios';
@@ -106,6 +107,18 @@ const UserMenu: React.FC<UserMenuProps> = ({ onClose, ...props }) => {
           <CommentIcon fontSize="small" />
         </ListItemIcon>
         <ListItemText primary="Mes commentaires" />
+      </MenuItem>
+
+      <MenuItem
+        component={RouterLink}
+        focusColor={false}
+        to="/moderation"
+        onClick={onClose}
+      >
+        <ListItemIcon>
+          <ModerationIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText primary="Modération" />
       </MenuItem>
 
       <MenuItem onClick={handleLogout} className={classes.logout}>

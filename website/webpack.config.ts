@@ -82,9 +82,9 @@ let config: webpack.Configuration = {
     new CopyWebpackPlugin({
       patterns: [
         { from: 'static/robots.txt', to: './robots.txt' },
-        { from: 'static/extension', to: './extension' },
+        { from: 'static/extension', to: './extension', noErrorOnMissing: true },
         { from: 'static/favicon.ico', to: './favicon.ico' },
-        { from: 'static/updates.json', to: './updates.json' },
+        { from: 'static/updates.json', to: './updates.json', noErrorOnMissing: true },
       ],
     }),
   ],

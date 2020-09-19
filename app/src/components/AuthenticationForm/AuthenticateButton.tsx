@@ -60,7 +60,7 @@ const AuthenticateButton: React.FC<AuthenticateButtonProps> = ({
 
   return (
     <Grid container direction="row" justify="center">
-      <Button type="submit" disabled={!isValid} loading={loading} className={classes.button}>
+      <Button size="large" type="submit" disabled={!isValid} loading={loading} className={classes.button}>
         { text[form] }
       </Button>
     </Grid>

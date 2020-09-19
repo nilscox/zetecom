@@ -14,10 +14,11 @@ import { useCurrentUser } from 'src/contexts/UserContext';
 import ToastContainer from '../components/ToastContainer';
 
 import Authentication from './Authentication';
+import CommentsArea from './CommentsArea';
+import CommentsAreasList from './CommentsAreasList';
 import EmailLogin from './EmailLogin';
 import EmailValidation from './EmailValidation';
-import Information from './Information';
-import Informations from './InformationsList';
+import Moderation from './Moderation';
 import NotFound from './NotFound';
 import Notifications from './Notifications';
 import MarkNotificationAsSeen from './Notifications/MarkNotificationAsSeet';
@@ -27,13 +28,14 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 const Router: React.FC = () => (
   <Switch>
-    <Route path="/" exact component={Informations} />
-    <Route path="/information/:id" component={Information} />
+    <Route path="/" exact component={CommentsAreasList} />
+    <Route path="/commentaires/:id" component={CommentsArea} />
     <Route path="/mes-commentaires" component={UserComments} />
     <Route path="/:sign(connexion|inscription|connexion-par-email)" component={Authentication} />
     <Route path="/validation-email/:token" component={EmailValidation} />
     <Route path="/email-login" component={EmailLogin} />
     <Route path="/notifications" component={Notifications} />
+    <Route path="/moderation" component={Moderation} />
     <Route component={NotFound} />
   </Switch>
 );
