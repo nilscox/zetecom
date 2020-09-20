@@ -42,7 +42,6 @@ services:
       EMAIL_PASSWORD: password
       EMAIL_BYPASS: 'true'
       EMAIL_ACCOUNT_VERIFICATION: 'false'
-      EMAIL_ACCOUNT_AUTHORIZATION: 'false'
       SESSION_SECRET: sekret
       EMAIL_TEMPLATE_DIR: /app/email-templates
       USER_AVATAR_DESTINATION: /app/avatars

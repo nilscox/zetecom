@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reject a new comments area request
 - Update user roles
 
+### Removed
+
+- Email authorization
+
 ## [0.4.2] - 2020-07-21
 
 ### Added

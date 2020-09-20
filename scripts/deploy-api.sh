@@ -51,7 +51,6 @@ deploy_api() {
     --env $(sshenv EMAIL_PASSWORD) \
     --env $(sshenv EMAIL_BYPASS) \
     --env $(sshenv EMAIL_ACCOUNT_VERIFICATION) \
-    --env $(sshenv EMAIL_ACCOUNT_AUTHORIZATION) \
     --env $(sshenv SESSION_SECRET) \
     --env $(sshenv EMAIL_TEMPLATE_DIR) \
     --env $(sshenv USER_AVATAR_DESTINATION) \

@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Request to open new comments area
 - New comments area requests moderation
 
+### Removed
+
+- Email authorization
+
 ## [0.4.4] - 2020-07-21
 
 ### Fixed

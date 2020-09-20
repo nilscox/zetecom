@@ -37,7 +37,6 @@ const enviornmentVariables = [
   'EMAIL_PASSWORD',
   'EMAIL_BYPASS',
   'EMAIL_ACCOUNT_VERIFICATION',
-  'EMAIL_ACCOUNT_AUTHORIZATION',
 
   // Secret
 

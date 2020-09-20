@@ -38,13 +38,9 @@ export class UserService {
   }
 
   async create(dto: SignupUserInDto): Promise<User> {
-    const EMAIL_ACCOUNT_AUTHORIZATION = this.configService.get('EMAIL_ACCOUNT_AUTHORIZATION');
     const EMAIL_ACCOUNT_VERIFICATION = this.configService.get('EMAIL_ACCOUNT_VERIFICATION');
 
     const { email, password, nick, avatar } = dto;
-
-    if (EMAIL_ACCOUNT_AUTHORIZATION === 'true' && !await this.emailService.isAthorized(email))
-      throw new UnauthorizedException('EMAIL_NOT_AUTHORIZED');
 
     const existing = await this.userRepository.findOne({ where: { email } });
 

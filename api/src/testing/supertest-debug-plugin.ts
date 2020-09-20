@@ -8,12 +8,12 @@ interface Test extends supertest.Test {
     _header: string;
   };
   res: {
-    statusCode: string,
-    statusMessage: string,
-    httpVersion: string,
+    statusCode: string;
+    statusMessage: string;
+    httpVersion: string;
     headers: Record<string, string>;
     text: string;
-  },
+  };
 }
 
 const stringifyRequest = (request: Test) => {
@@ -32,11 +32,12 @@ const stringifyRequest = (request: Test) => {
   ].map(line => '< ' + line).join('\r\n');
 
   return [requestStr, responseStr];
-}
+};
 
 const plugin = (request: Test): void => {
   const _assertStatus = request._assertStatus.bind(request);
 
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   request._assertStatus = (status: number, res: Response) => {
     const result = _assertStatus(status, res);
 

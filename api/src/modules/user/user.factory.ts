@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 
 import { UserService } from '../../modules/user/user.service';
 import { Factory } from '../../testing/factory';
-import { EmailService } from '../email/email.service';
 
 import { User } from './user.entity';
 
@@ -16,7 +15,6 @@ type UserFactoryOptions = {
 export class UserFactory implements Factory<UserFactoryOptions, User> {
   constructor(
     private readonly userService: UserService,
-    private readonly emailService: EmailService,
   ) {}
 
   async create(opts: UserFactoryOptions = {}) {
@@ -28,8 +26,6 @@ export class UserFactory implements Factory<UserFactoryOptions, User> {
       password: `password_${rnd}`,
       ...opts,
     };
-
-    await this.emailService.authorize(data.email);
 
     return this.userService.create(data);
   }

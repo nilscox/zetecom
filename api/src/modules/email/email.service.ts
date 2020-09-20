@@ -1,12 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import email from 'emailjs';
-import { Repository } from 'typeorm';
 
 import { ConfigService } from '../config/config.service';
 import { User } from '../user/user.entity';
 
-import { AuthorizedEmail } from './authorized-email.entity';
 import EmailRendererService from './email-renderer.service';
 
 export type EmailTemplate = {
@@ -19,8 +16,6 @@ export class EmailService {
 
   constructor(
     private readonly configService: ConfigService,
-    @InjectRepository(AuthorizedEmail)
-    private readonly authorizedEmailRepository: Repository<AuthorizedEmail>,
     private readonly emailRendererService: EmailRendererService,
   ) {}
 
@@ -102,24 +97,6 @@ export class EmailService {
       template.text,
       template.html,
     );
-  }
-
-  // tslint:disable-next-line: no-shadowed-variable
-  async isAthorized(email: string): Promise<boolean> {
-    return (await this.authorizedEmailRepository.count({ email })) === 1;
-  }
-
-  findAllAuthorized(): Promise<AuthorizedEmail[]> {
-    return this.authorizedEmailRepository.find();
-  }
-
-  // tslint:disable-next-line: no-shadowed-variable
-  authorize(email: string): Promise<AuthorizedEmail> {
-    const authorizedEmail = new AuthorizedEmail();
-
-    authorizedEmail.email = email;
-
-    return this.authorizedEmailRepository.save(authorizedEmail);
   }
 
 }
