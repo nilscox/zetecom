@@ -93,4 +93,8 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
+  async updateRoles(user: User, roles: Role[]) {
+    await this.userRepository.update(user.id, { roles });
+  }
+
 }

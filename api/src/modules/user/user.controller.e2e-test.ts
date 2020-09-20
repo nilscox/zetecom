@@ -1,3 +1,6 @@
+import request from 'supertest';
+import { getRepository, Repository } from 'typeorm';
+
 import { createAuthenticatedAdmin, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
 
@@ -11,12 +14,15 @@ describe('user controller', () => {
     imports: [AuthenticationModule, UserModule],
   });
 
+  let userRepository: Repository<User>;
   let createUser: UserFactory['create'];
 
   let user: User;
 
   beforeAll(async () => {
     const module = getTestingModule();
+
+    userRepository = getRepository(User);
 
     const userFactory = module.get<UserFactory>(UserFactory);
 
@@ -51,4 +57,26 @@ describe('user controller', () => {
       avatar: null,
     });
   });
+
+  describe('update role', () => {
+
+    it('should not update a user\'s roles when not an admin', async () => {
+      await request(server)
+        .get(`/api/user/${user.id}`)
+        .expect(403);
+    });
+
+    it('should update a user\'s roles', async () => {
+      await adminRequest
+        .put(`/api/user/${user.id}/roles`)
+        .send({ roles: ['USER', 'ADMIN'] })
+        .expect(200);
+
+      const userDb = await userRepository.findOne(user.id);
+
+      expect(userDb).toHaveProperty('roles', ['USER', 'ADMIN']);
+    });
+
+  });
+
 });

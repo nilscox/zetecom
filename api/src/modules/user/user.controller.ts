@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   NotFoundException,
@@ -20,6 +21,7 @@ import { Roles } from '../../common/roles.decorator';
 import { Role } from '../authorization/roles.enum';
 import { AvatarService } from '../avatar/avatar.service';
 
+import { UpdateUserRoleInDto } from './dtos/update-user-role-in.dto';
 import { UserLightDto } from './dtos/user-ligth.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -62,6 +64,23 @@ export class UserController {
     await this.avatarService.changeAvatar(user, file);
 
     return user;
+  }
+
+  @Put(':id/roles')
+  @Roles(Role.ADMIN)
+  @CastToDto(UserLightDto)
+  async updateRoles(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() dto: UpdateUserRoleInDto,
+  ) {
+    const user = await this.userService.findById(id);
+
+    if (!user)
+      throw new NotFoundException();
+
+    await this.userService.updateRoles(user, dto.roles);
+
+    return this.userService.findById(user.id);
   }
 
 }

@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Request to open new comments area
 - List open comments area requests
 - Reject a new comments area request
+- Update user roles
 
 ## [0.4.2] - 2020-07-21
 

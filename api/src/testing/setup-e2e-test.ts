@@ -23,6 +23,8 @@ import { Role } from '../modules/authorization/roles.enum';
 import { ConfigModule } from '../modules/config/config.module';
 import { User } from '../modules/user/user.entity';
 
+import { debug } from './supertest-debug-plugin';
+
 const MemoryStore = memorystore(expressSession);
 
 @Module({
@@ -101,6 +103,8 @@ let createUsersCount = 0;
 export const createAuthenticatedUser = (server) => {
   const userRequest = request.agent(server);
   const user: User = {} as any;
+
+  userRequest.use(debug);
 
   beforeAll(async () => {
     const { body } = await userRequest
