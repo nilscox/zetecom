@@ -31,6 +31,10 @@ const APP_URL = Cypress.env('APP_URL');
 const RESETDB_URL = RESTOREDB_URL + '/reset';
 const POPULATEDB_URL = RESTOREDB_URL + '/populate';
 
+Cypress.Commands.add('getInput', (name) => {
+  return cy.get(`input[name="${name}"]`);
+});
+
 Cypress.Commands.add('resetdb', () => {
   cy.request({ method: 'POST', url: RESETDB_URL });
 });
@@ -48,6 +52,31 @@ Cypress.Commands.add('login', (body) => {
   cy.request({ method: 'POST', url: API_URL + '/api/auth/login', body });
 });
 
+Cypress.Commands.add('logout', () => {
+  cy.request({ method: 'POST', url: API_URL + '/api/auth/logout' });
+});
+
+Cypress.Commands.add('postComment', (body) => {
+  cy.request({ method: 'POST', url: API_URL + '/api/comment', body });
+});
+
+Cypress.Commands.add('getNotifications', () => {
+  cy.request({ method: 'GET', url: API_URL + '/api/notification/me' });
+});
+
+Cypress.Commands.add('getNotificationsCount', () => {
+  cy.getNotifications().then(({ body: { total } }) => total);
+});
+
+Cypress.Commands.add('getCommentId', (idx) => {
+  cy.getCommentAt(idx).within(() => {
+    cy.contains('#').then(elem => {
+      const match = elem.text().match(/^#(\d+) -/);
+      return Number(match[1]);
+    });
+  });
+});
+
 Cypress.Commands.add('visitPopup', (url = '') => {
   cy.viewport(380, 550);
   cy.visit(APP_URL + '/popup' + url);
@@ -63,6 +92,10 @@ Cypress.Commands.add('visitHistory', (commentId) => {
 
 Cypress.Commands.add('visitReport', (commentId) => {
   cy.visit(APP_URL + '/integration/comment/' + commentId + '/report');
+});
+
+Cypress.Commands.add('visitApp', (route) => {
+  cy.visit(APP_URL + route);
 });
 
 Cypress.Commands.add('getComments', () => cy.get('.comment'));

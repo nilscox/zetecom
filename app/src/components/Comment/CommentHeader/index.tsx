@@ -60,7 +60,7 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({ comment, onEdit, onViewHi
 
           { onEdit && isCurrentUserAuthor && <EditButton onClick={onEdit} /> }
 
-          { env.NODE_ENV === 'development' && <Grid item><CommentDevTool comment={comment} /></Grid> }
+          { env.DEBUG === 'true' && <Grid item><CommentDevTool comment={comment} /></Grid> }
 
         </Grid>
       </Grid>

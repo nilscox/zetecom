@@ -38,7 +38,7 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ form, onChange, ..
   return (
     <Collapse in={form === 'signup'}>
       <FormControlLabel
-        control={<Checkbox onChange={handleChange} {...props} />}
+        control={<Checkbox id="accept-rules-checkbox" onChange={handleChange} {...props} />}
         label={<>J'accepte <WebsiteLink color focusHighlightColor to="/charte.html">la charte</WebsiteLink>.</>}
         className={classes.checkbox}
       />

@@ -15,7 +15,7 @@ const AuthenticationView: React.FC = () => {
     if (!user.requiresEmailValidation)
       setUser(user);
 
-    history.push('/popup/login');
+    history.push('/popup');
   }, [setUser, history]);
 
   return (

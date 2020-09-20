@@ -106,8 +106,8 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: failure()
       with:
-        name: cypress-screenshots
-        path: e2e/cypress/screenshots
+        name: cypress-artifacts
+        path: e2e/artifacts
 
   # publish
 

@@ -69,6 +69,7 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
       WEBSITE_URL: 'http://localhost:8080',
       GOOGLE_ANALYTICS_ID: null,
       CYPRESS: null,
+      DEBUG: null,
     }),
 
     // new webpack.NamedModulesPlugin(),
