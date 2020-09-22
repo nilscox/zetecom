@@ -38,7 +38,7 @@ type Pagination = {
   pageSize: number;
 };
 
-type FindAllOptions = {
+export type FindAllOptions = {
   ids?: number[];
   sort?: SortType;
   relations?: CommentJoinRelations;

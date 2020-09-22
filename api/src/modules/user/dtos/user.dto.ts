@@ -1,5 +1,7 @@
 import { Expose } from 'class-transformer';
 
+import { Role } from '../../authorization/roles.enum';
+
 export class UserDto {
   constructor(partial: Partial<UserDto>) {
     Object.assign(this, partial);
@@ -19,4 +21,7 @@ export class UserDto {
 
   @Expose({ name: 'signupDate' })
   created: Date;
+
+  @Expose()
+  roles: Role[];
 }

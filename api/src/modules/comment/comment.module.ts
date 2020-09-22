@@ -24,8 +24,8 @@ const CommentPageSize: Provider = {
   imports: [
     TypeOrmModule.forFeature([CommentRepository, Message, Reaction]),
     UserModule,
+    forwardRef(() => ReportModule),
     forwardRef(() => CommentsAreaModule),
-    ReportModule,
     forwardRef(() => SubscriptionModule),
   ],
   controllers: [

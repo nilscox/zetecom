@@ -82,7 +82,7 @@ const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
       </Typography>
 
       <Typography>
-        Inscrit(e) depuis le : { dayjs(user.created).format('DD MM YYYY') }
+        Inscrit(e) depuis le : { dayjs(user.sinupDate).format('DD MM YYYY') }
       </Typography>
 
       <Box paddingY={2}>

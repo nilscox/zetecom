@@ -100,7 +100,7 @@ export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module
 
 let createUsersCount = 0;
 
-export const createAuthenticatedUser = (server) => {
+export const createAuthenticatedUser = (server, roles?: Role[]) => {
   const userRequest = request.agent(server);
   const user: User = {} as any;
 
@@ -118,17 +118,18 @@ export const createAuthenticatedUser = (server) => {
 
     Object.assign(user, body);
     createUsersCount++;
+
+    if (Array.isArray(roles))
+      await getRepository(User).update({ id: user.id }, { roles });
   });
 
   return [userRequest, user] as const;
 };
 
+export const createAuthenticatedModerator = (server) => {
+  return createAuthenticatedUser(server, [Role.USER, Role.MODERATOR]);
+};
+
 export const createAuthenticatedAdmin = (server) => {
-  const [adminRequest, admin] = createAuthenticatedUser(server);
-
-  beforeAll(async () => {
-    await getRepository(User).update({ id: admin.id }, { roles: [Role.USER, Role.ADMIN] });
-  });
-
-  return [adminRequest, admin] as const;
+  return createAuthenticatedUser(server, [Role.USER, Role.MODERATOR, Role.ADMIN]);
 };

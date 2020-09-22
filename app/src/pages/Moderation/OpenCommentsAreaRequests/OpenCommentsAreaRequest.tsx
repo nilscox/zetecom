@@ -14,8 +14,9 @@ import {
 import { ExpandMore, Launch } from '@material-ui/icons';
 import { useFormState } from 'react-use-form-state';
 
-import Button from 'src/components/Button';
 import useAxios from 'src/hooks/use-axios';
+
+import OpenCommentsAreaRequestActions from './OpenCommentsAreaRequestActions';
 
 const getDefaultValues = (identifier: string) => {
   const match = /^youtube:(.*)/.exec(identifier);
@@ -41,13 +42,6 @@ const useStyles = makeStyles<Theme, { processed: boolean }>(({ spacing, palette 
   },
   field: {
     margin: spacing(2, 0),
-  },
-  approveButton: {
-    margin: spacing(2, 0),
-  },
-  rejectButton: {
-    margin: spacing(2, 0),
-    color: palette.error.dark,
   },
 }));
 
@@ -95,36 +89,28 @@ const useCreateCommentsAreaForm = (identifier: string) => {
   };
 };
 
-const useRejectOpenCommentsArea = (requestId: number) => {
-  const [{ loading, status }, reject] = useAxios({
-    method: 'POST',
-    url: `/api/comments-area/requests/${requestId}/reject`,
-  }, undefined, { manual: true });
-
-  return {
-    loading,
-    rejected: status(200),
-    handleReject: () => reject(),
-  };
-};
-
-const OpenCommentsAreaRequest: React.FC<{ id: number; identifier: string }> = ({ id, identifier }) => {
+const OpenCommentsAreaRequest: React.FC<{ requestId: number; identifier: string }> = ({ requestId, identifier }) => {
+  const [processed, setProcessed] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
-  const { form: { text }, loading: createLoading, created, handleCreate } = useCreateCommentsAreaForm(identifier);
-  const { loading: rejectLoading, rejected, handleReject } = useRejectOpenCommentsArea(id);
+  const { form: { text }, loading, created, handleCreate } = useCreateCommentsAreaForm(identifier);
   const defaultValues = getDefaultValues(identifier);
 
-  const loading = createLoading || rejectLoading;
-  const classes = useStyles({ processed: created || rejected });
+  const classes = useStyles({ processed });
 
   useEffect(() => {
-    if (created || rejected)
+    if (created)
+      setProcessed(true);
+  }, [created]);
+
+  useEffect(() => {
+    if (processed)
       setExpanded(false);
-  }, [created, rejected]);
+  }, [processed]);
 
   return (
     <Accordion
+      variant="outlined"
       expanded={expanded}
       onChange={(_event, isExpanded) => setExpanded(isExpanded)}
     >
@@ -206,24 +192,13 @@ const OpenCommentsAreaRequest: React.FC<{ id: number; identifier: string }> = ({
             {...text('imageUrl')}
           />
 
-          <Grid item container dir="row" justify="space-evenly">
-            <Button
-              loading={loading}
-              size="large"
-              className={classes.approveButton}
-              onClick={handleCreate}
-            >
-              Ouvrir
-            </Button>
-
-            <Button
-              loading={loading}
-              size="large"
-              className={classes.rejectButton}
-              onClick={handleReject}
-            >
-              Refuser l'ouverture
-            </Button>
+          <Grid item container style={{ flex: 1, justifyContent: 'flex-end' }}>
+            <OpenCommentsAreaRequestActions
+              requestId={requestId}
+              createLoading={loading}
+              onCreate={handleCreate}
+              onRejected={() => setProcessed(true)}
+            />
           </Grid>
 
         </Grid>
