@@ -1,3 +1,9 @@
+export enum Role {
+  ADMIN = 'ADMIN',
+  MODERATOR = 'MODERATOR',
+  USER = 'USER',
+}
+
 export type UserLight = {
   id: number;
   nick: string;
@@ -7,15 +13,14 @@ export type UserLight = {
 export type User = UserLight & {
   email: string;
   requiresEmailValidation?: boolean;
-  created: Date;
-  updated: Date;
+  sinupDate: Date;
+  roles: Role[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseUser = (data: any): User => {
   return {
     ...data,
-    created: data.created ? new Date(data.created) : null,
-    updated: data.updated ? new Date(data.updated) : null,
+    signupDate: data.signupDate ? new Date(data.signupDate) : null,
   };
 };

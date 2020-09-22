@@ -19,6 +19,7 @@ import { ConfigModule } from './modules/config/config.module';
 import { ConfigService } from './modules/config/config.service';
 import { EmailModule } from './modules/email/email.module';
 import { HealthcheckModule } from './modules/healthcheck/healthcheck.module';
+import { ModerationModule } from './modules/moderation/moderation.module';
 import { User } from './modules/user/user.entity';
 import { UserModule } from './modules/user/user.module';
 
@@ -50,6 +51,7 @@ const MemoryStore = memorystore(expressSession);
     AuthorizationModule,
     CommentsAreaModule,
     CommentModule,
+    ModerationModule,
   ],
   controllers: [AppController],
 })

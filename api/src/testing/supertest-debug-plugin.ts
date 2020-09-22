@@ -18,10 +18,11 @@ interface Test extends supertest.Test {
 
 const stringifyRequest = (request: Test) => {
   const { req, res, _data } = request;
+  const body = typeof _data === 'object' ? JSON.stringify(_data) : _data;
 
   const requestStr = [
     ...req._header.split('\r\n').slice(0, -1),
-    ...JSON.stringify(_data).split('\n'),
+    ...(body ? body.split('\n') : []),
   ].map(line => '> ' + line).join('\r\n');
 
   const responseStr = [

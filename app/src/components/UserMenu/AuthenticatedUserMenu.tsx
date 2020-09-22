@@ -23,7 +23,7 @@ import { trackLogout } from 'src/utils/track';
 import { useNotifications } from '../../contexts/NotificationsContext';
 import { useUser } from '../../contexts/UserContext';
 import useAxios from '../../hooks/use-axios';
-import { User } from '../../types/User';
+import { User, Role } from '../../types/User';
 import RouterLink from '../Link';
 import UserAvatar from '../UserAvatar';
 
@@ -52,7 +52,7 @@ type UserMenuProps = MenuProps & {
 };
 
 const UserMenu: React.FC<UserMenuProps> = ({ onClose, ...props }) => {
-  const [, setUser] = useUser();
+  const [user, setUser] = useUser();
   const { count: notificationsCount } = useNotifications();
   const hasNotifications = notificationsCount > 0;
   const classes = useStyles();
@@ -109,17 +109,19 @@ const UserMenu: React.FC<UserMenuProps> = ({ onClose, ...props }) => {
         <ListItemText primary="Mes commentaires" />
       </MenuItem>
 
-      <MenuItem
-        component={RouterLink}
-        focusColor={false}
-        to="/moderation"
-        onClick={onClose}
-      >
-        <ListItemIcon>
-          <ModerationIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Modération" />
-      </MenuItem>
+      {user.roles.includes(Role.MODERATOR) && (
+        <MenuItem
+          component={RouterLink}
+          focusColor={false}
+          to="/moderation"
+          onClick={onClose}
+        >
+          <ListItemIcon>
+            <ModerationIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Modération" />
+        </MenuItem>
+      )}
 
       <MenuItem onClick={handleLogout} className={classes.logout}>
         <ListItemIcon>
