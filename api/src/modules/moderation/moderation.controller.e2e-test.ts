@@ -4,7 +4,7 @@ import { createAuthenticatedModerator, createAuthenticatedUser, setupE2eTest } f
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { CommentFactory } from '../comment/comment.factory';
 import { CommentModule } from '../comment/comment.module';
-import { Report } from '../comment/report/report.entity';
+import { Report, ReportModerationAction } from '../comment/report/report.entity';
 import { ReportFactory } from '../comment/report/report.factory';
 import { UserFactory } from '../user/user.factory';
 import { UserModule } from '../user/user.module';
@@ -24,7 +24,7 @@ describe('moderation', () => {
   let reportComment: ReportFactory['create'];
 
   const [asUser] = createAuthenticatedUser(server);
-  const [asModerator] = createAuthenticatedModerator(server);
+  const [asModerator, moderator] = createAuthenticatedModerator(server);
 
   beforeAll(() => {
     const module = getTestingModule();
@@ -40,53 +40,93 @@ describe('moderation', () => {
     reportRepository = getRepository(Report);
   });
 
-  it('should list reported comments waiting for review when not a moderator', async () => {
-    await asUser.get('/api/moderation/reports').expect(403);
+  describe('list reports', () => {
+
+    it('should not list reports when not a moderator', async () => {
+      await asUser.get('/api/moderation/reports').expect(403);
+    });
+
+    it('should list reports waiting for an action', async () => {
+      const comment1 = await createComment();
+      const user1 = await createUser();
+      const report1 = await reportComment({ reporter: user1, comment: comment1 });
+
+      const comment2 = await createComment();
+      const user2 = await createUser();
+      const report2 = await reportComment({ reporter: user2, comment: comment2 });
+
+      const user3 = await createUser();
+      const report3 = await reportComment({ reporter: user3, comment: comment2 });
+
+      const report4 = await reportComment({ reporter: await createUser(), comment: comment2 });
+      await reportRepository.update(report4.id, { moderatedBy: moderator, moderationAction: ReportModerationAction.IGNORED });
+
+      const report5 = await reportComment({ reporter: await createUser(), comment: await createComment() });
+      await reportRepository.update(report5.id, { moderatedBy: moderator, moderationAction: ReportModerationAction.IGNORED });
+
+      const { body } = await asModerator
+        .get('/api/moderation/reports')
+        .expect(200);
+
+      expect(body).toMatchObject({
+        total: 2,
+        items: [
+          {
+            id: comment2.id,
+            reports: [
+              { id: report3.id },
+              { id: report2.id },
+            ],
+          },
+          {
+            id: comment1.id,
+            reports: [
+              {
+                id: report1.id,
+                reportedBy: { id: user1.id },
+              },
+            ],
+          },
+        ],
+      });
+    });
+
   });
 
-  it('should list reported comments waiting for review', async () => {
-    const comment1 = await createComment();
-    const user1 = await createUser();
-    const report1 = await reportComment({ user: user1, comment: comment1 });
+  describe('ignore reported comment', () => {
 
-    const comment2 = await createComment();
-    const user2 = await createUser();
-    const report2 = await reportComment({ user: user2, comment: comment2 });
+    it('should not ignore reports when not a moderator', async () => {
+      const comment = await createComment();
+      await reportComment({ reporter: await createUser(), comment });
 
-    const user3 = await createUser();
-    const report3 = await reportComment({ user: user3, comment: comment2 });
-
-    const report4 = await reportComment({ user: await createUser(), comment: comment2 });
-    await reportRepository.update(report4.id, { waitingForReview: false });
-
-    const report5 = await reportComment({ user: await createUser(), comment: await createComment() });
-    await reportRepository.update(report5.id, { waitingForReview: false });
-
-    const { body } = await asModerator
-      .get('/api/moderation/reports')
-      .expect(200);
-
-    expect(body).toMatchObject({
-      total: 2,
-      items: [
-        {
-          id: comment2.id,
-          reports: [
-            { id: report3.id },
-            { id: report2.id },
-          ],
-        },
-        {
-          id: comment1.id,
-          reports: [
-            {
-              id: report1.id,
-              user: { id: user1.id },
-            },
-          ],
-        },
-      ],
+      await asUser.put('/api/moderation/ignore-reports')
+        .send({ commentId: comment.id })
+        .expect(403);
     });
+
+    it('should ignore reports', async () => {
+      const comment = await createComment();
+      const report1 = await reportComment({ reporter: await createUser(), comment });
+      const report2 = await reportComment({ reporter: await createUser(), comment });
+
+      await asModerator
+        .put('/api/moderation/ignore-reports')
+        .send({ commentId: comment.id })
+        .expect(204);
+
+      const [reportDb1, reportDb2] = await reportRepository.findByIds([report1.id, report2.id]);
+
+      expect(reportDb1).toMatchObject({
+        moderationAction: ReportModerationAction.IGNORED,
+        moderatedBy: expect.objectContaining({ id: moderator.id }),
+      });
+
+      expect(reportDb2).toMatchObject({
+        moderationAction: ReportModerationAction.IGNORED,
+        moderatedBy: expect.objectContaining({ id: moderator.id }),
+      });
+    });
+
   });
 
 });

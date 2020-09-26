@@ -4,8 +4,8 @@ import { Typography } from '@material-ui/core';
 
 import Authenticated from 'src/components/Authenticated';
 
-import ReportedComments from './ReportedComments';
 import OpenCommentsAreaRequests from './OpenCommentsAreaRequests';
+import ReportedComments from './ReportedComments';
 
 const Moderation: React.FC = () => {
 

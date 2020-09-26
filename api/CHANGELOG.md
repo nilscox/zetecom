@@ -16,10 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Addded
+### Added
 
-- List reported comments
 - Implement database seeds
+- List reported comments
+- Ignore reported comments
 
 ## [0.5.0] - 2020-09-22
 

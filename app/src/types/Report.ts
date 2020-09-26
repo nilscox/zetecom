@@ -3,7 +3,7 @@ import { parseUser, UserLight } from './User';
 
 export type Report = {
   id: number;
-  user: UserLight;
+  reportedBy: UserLight;
   message: string;
   created: Date;
 };
@@ -16,7 +16,7 @@ export type ReportedComment = Comment & {
 export const parseReport = (data: any): Report => {
   return {
     ...data,
-    user: parseUser(data.user),
+    reportedBy: parseUser(data.reportedBy),
     created: new Date(data.created),
   };
 };
