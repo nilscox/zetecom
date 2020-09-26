@@ -21,8 +21,7 @@ export class AuthenticationService {
   ) {}
 
   private ensurePasswordSecurity(email: string, nick: string, password: string) {
-    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
-    if (password.match(email) || email.match(password) || password.match(nick) || nick.match(password))
+    if (password.includes(email) || email.includes(password) || password.includes(nick) || nick.includes(password))
       throw new BadRequestException('PASSWORD_UNSECURE');
   }
 
