@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class initialSchema1600639737142 implements MigrationInterface {
-    name = 'initialSchema1600639737142'
+export class initialSchema1601148592825 implements MigrationInterface {
+    name = 'initialSchema1601148592825'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TYPE "user_roles_enum" AS ENUM('ADMIN', 'MODERATOR', 'USER')`);
@@ -17,6 +17,7 @@ export class initialSchema1600639737142 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "open_comments_area_request" ("id" SERIAL NOT NULL, "identifier" character varying NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP NOT NULL DEFAULT now(), "status" "open_comments_area_request_status_enum" NOT NULL, "requester_id" integer, CONSTRAINT "PK_e16852322c928ef40b4d5532be1" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "notification_type_enum" AS ENUM('rulesUpdate', 'subscriptionReply')`);
         await queryRunner.query(`CREATE TABLE "notification" ("id" SERIAL NOT NULL, "type" "notification_type_enum" NOT NULL, "payload" json NOT NULL, "seen" TIMESTAMP, "created" TIMESTAMP NOT NULL DEFAULT now(), "user_id" integer, CONSTRAINT "PK_705b6c7cdf9b2c2ff7ac7872cb7" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "seed" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, "run" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_e959d094217adb4d796a027d2c8" PRIMARY KEY ("id"))`);
         await queryRunner.query(`ALTER TABLE "comments_area" ADD CONSTRAINT "FK_55c26a032d29df4c5985de0b68c" FOREIGN KEY ("creator_id") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "message" ADD CONSTRAINT "FK_27e5936f937ea2c80b1b27a0498" FOREIGN KEY ("comment_id") REFERENCES "comment"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "reaction" ADD CONSTRAINT "FK_978c984f412d09b43304e41ae9a" FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -48,6 +49,7 @@ export class initialSchema1600639737142 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "reaction" DROP CONSTRAINT "FK_978c984f412d09b43304e41ae9a"`);
         await queryRunner.query(`ALTER TABLE "message" DROP CONSTRAINT "FK_27e5936f937ea2c80b1b27a0498"`);
         await queryRunner.query(`ALTER TABLE "comments_area" DROP CONSTRAINT "FK_55c26a032d29df4c5985de0b68c"`);
+        await queryRunner.query(`DROP TABLE "seed"`);
         await queryRunner.query(`DROP TABLE "notification"`);
         await queryRunner.query(`DROP TYPE "notification_type_enum"`);
         await queryRunner.query(`DROP TABLE "open_comments_area_request"`);
