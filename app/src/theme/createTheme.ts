@@ -80,6 +80,9 @@ const createTheme = (): Theme => {
       root: {
         minWidth: 0,
         transition: 'color 200ms ease-in-out',
+        '&.Mui-disabled': {
+          pointerEvents: 'auto',
+        },
       },
       text: {
         color: theme.palette.secondary.light,

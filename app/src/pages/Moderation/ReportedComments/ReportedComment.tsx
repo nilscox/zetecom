@@ -7,7 +7,7 @@ import CommentComponent from '../../../components/Comment/CommentComponent';
 import { Comment } from '../../../types/Comment';
 import { Report } from '../../../types/Report';
 
-import ReportCommentActions from './ReportCommentActions';
+import ReportedCommentActions from './ReportedCommentActions';
 
 const useStyles = makeStyles(({ spacing }) => ({
   container: {
@@ -22,9 +22,10 @@ const useStyles = makeStyles(({ spacing }) => ({
 type ReportedCommentProps = {
   comment: Comment;
   reports: Report[];
+  onModerated: () => void;
 };
 
-const ReportedComment: React.FC<ReportedCommentProps> = ({ comment, reports }) => {
+const ReportedComment: React.FC<ReportedCommentProps> = ({ comment, reports, onModerated }) => {
   const classes = useStyles();
 
   return (
@@ -43,7 +44,7 @@ const ReportedComment: React.FC<ReportedCommentProps> = ({ comment, reports }) =
         <ul>
           {reports.map(report => (
             <li key={report.id}>
-              <strong>{report.user.nick}</strong> le {format(report.created, 'dd MM yyyy')}
+              <strong>{report.reportedBy.nick}</strong> le {format(report.created, 'dd MM yyyy')}
               {report.message && (
                 <div style={{ marginTop: 6 }}>
                   <TextField fullWidth disabled variant="outlined" label="Message" value={report.message} />
@@ -54,7 +55,7 @@ const ReportedComment: React.FC<ReportedCommentProps> = ({ comment, reports }) =
         </ul>
       </div>
       <Grid container style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <ReportCommentActions comment={comment} />
+        <ReportedCommentActions comment={comment} onModerated={onModerated} />
       </Grid>
     </Card>
   );

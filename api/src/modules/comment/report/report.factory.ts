@@ -8,7 +8,7 @@ import { Report } from './report.entity';
 import { ReportService } from './report.service';
 
 type ReportFactoryData = {
-  user: User;
+  reporter: User;
   comment: Comment;
   message?: string;
   waitingForReiew?: boolean;
@@ -23,7 +23,7 @@ export class ReportFactory implements Factory<ReportFactoryData, Report> {
   async create(data: ReportFactoryData): Promise<Report> {
     return await this.reportService.report(
       data.comment,
-      data.user,
+      data.reporter,
       data.message || null,
     );
   }

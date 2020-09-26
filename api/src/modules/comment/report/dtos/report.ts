@@ -14,7 +14,7 @@ export class ReportDto {
 
   @Expose()
   @Type(() => UserLightDto)
-  user: User;
+  reportedBy: User;
 
   @Expose()
   message: string;

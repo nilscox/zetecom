@@ -59,8 +59,7 @@ const useEditableDataset = <T extends { id: number }>(
   }, [copy]);
 
   return [
-    // TODO: is this necessary?
-    copy !== null ? copy : dataset,
+    copy || [],
     {
       prepend,
       append,
