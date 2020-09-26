@@ -42,8 +42,8 @@ describe('user controller', () => {
       .get('/api/user')
       .expect(200);
 
-    expect(body).toHaveLength(3);
-    expect(body).toMatchObject([{}, { id: user.id }, {}]);
+    expect(body).toHaveLength(2);
+    expect(body).toMatchObject([{ id: user.id }, {}]);
   });
 
   it('should find a user by id', async () => {

@@ -11,5 +11,8 @@ export class UserLightDto extends UserDto {
   email;
 
   @Exclude()
+  roles;
+
+  @Exclude()
   created;
 }

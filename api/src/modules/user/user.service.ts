@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
@@ -62,12 +62,6 @@ export class UserService {
       user.emailValidated = true;
 
     return this.userRepository.save(user);
-  }
-
-  async createAdmin(email: string, nick: string, password: string) {
-    const user = await this.create({ email, nick, password });
-
-    await this.userRepository.update(user.id, { roles: [...user.roles, Role.ADMIN]});
   }
 
   async validateFromToken(token: string): Promise<User> {

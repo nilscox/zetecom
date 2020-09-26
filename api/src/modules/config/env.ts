@@ -10,7 +10,6 @@ const enviornmentVariables = [
 
   'REFLECT_ORIGIN',
   'BYPASS_AUTHORIZATIONS',
-  'ADMIN_USER',
 
   'SSL_CERTIFICATE',
   'SSL_CERTIFICATE_KEY',

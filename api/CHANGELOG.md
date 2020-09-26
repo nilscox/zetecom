@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Addded
 
 - List reported comments
+- Implement database seeds
 
 ## [0.5.0] - 2020-09-22
 

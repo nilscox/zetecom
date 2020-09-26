@@ -25,7 +25,8 @@
     "db:drop": "yarn typeorm schema:drop",
     "db:migrate": "yarn typeorm migration:run",
     "db:populate": "ts-node ./scripts/populate",
-    "db:reset": "yarn db:drop && yarn db:migrate",
+    "db:seed": "ts-node src/modules/seed",
+    "db:reset": "yarn db:drop && yarn db:migrate && yarn db:seed",
     "db:dump": "yarn db:drop && ../scripts/dump-database.sh",
     "deploy": "../scripts/deploy-api.sh"
   },
