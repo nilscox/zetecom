@@ -7,8 +7,8 @@ import { Role } from './roles.enum';
 @Injectable()
 export class AuthorizationService {
 
-  isAuthorized(user: User, role: Role): boolean {
-    return user.roles.includes(role);
+  isAuthorized(user: User, roles: Role[]): boolean {
+    return roles.some(role => user.roles.includes(role));
   }
 
 }
