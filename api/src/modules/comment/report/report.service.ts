@@ -30,10 +30,10 @@ export class ReportService {
     });
   }
 
-  async findReportsForComment(commentId: number, moderated: boolean) {
+  async findReportsForComment(comment: Comment, moderated: boolean) {
     return this.reportRepository.find({
       where: {
-        comment: { id: commentId },
+        comment,
         moderationAction: moderated ? Not(null) : null,
       },
     });

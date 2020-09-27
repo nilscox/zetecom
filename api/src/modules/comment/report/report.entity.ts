@@ -4,7 +4,8 @@ import { User } from '../../user/user.entity';
 import { Comment } from '../comment.entity';
 
 export enum ReportModerationAction {
-  IGNORED = 'IGNORE',
+  IGNORED = 'IGNORED',
+  DELETED = 'DELETED',
 }
 
 @Entity({ name: 'report' })

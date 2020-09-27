@@ -84,6 +84,10 @@ export class CommentService {
     return this.findById(comment.id, { message: true, messages: true });
   }
 
+  async delete(comment: Comment) {
+    await this.commentRepository.softDelete(comment.id);
+  }
+
   async setReaction(comment: Comment, user: User, type: ReactionType | null) {
     const existingReaction = await this.reactionRepository.findOne({
       where: {

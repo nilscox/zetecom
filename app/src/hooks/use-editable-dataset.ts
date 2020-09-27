@@ -59,7 +59,8 @@ const useEditableDataset = <T extends { id: number }>(
   }, [copy]);
 
   return [
-    copy || [],
+    // return the dataset when copy will be set in the useEffect
+    copy === undefined ? dataset : copy,
     {
       prepend,
       append,

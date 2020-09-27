@@ -62,6 +62,11 @@ export class CommentRepository extends Repository<Comment> {
     this.reactionRepository = getRepository(Reaction);
   }
 
+  createQueryBuilder(alias: string) {
+    return super.createQueryBuilder(alias)
+      .where(`${alias}.deleted IS NULL`);
+  }
+
   async exists(id: number): Promise<boolean> {
     return (await this.count({ id })) === 1;
   }
@@ -250,6 +255,7 @@ export class CommentRepository extends Repository<Comment> {
       .addSelect('count(replies.id)', 'comment_repliesCount')
       .leftJoin('comment.replies', 'replies')
       .where('replies.parent_id IN (' + commentsIds + ')')
+      .andWhere('replies.deleted IS NULL')
       .groupBy('comment.id')
       .getRawMany();
 

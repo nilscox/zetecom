@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
+import { Comment } from '../comment/comment.entity';
 import { CommentService } from '../comment/comment.service';
 import { Report, ReportModerationAction } from '../comment/report/report.entity';
 import { ReportService } from '../comment/report/report.service';
@@ -33,13 +34,22 @@ export class ModerationService {
     ];
   }
 
-  async ignoreReports(commentId: number, moderator: User) {
-    const reports = await this.reportService.findReportsForComment(commentId, false);
+  async ignoreReports(comment: Comment, moderator: User) {
+    const reports = await this.reportService.findReportsForComment(comment, false);
 
     if (!reports.length)
       return;
 
-    this.reportService.markAsModerated(reports, moderator, ReportModerationAction.IGNORED);
+    await this.reportService.markAsModerated(reports, moderator, ReportModerationAction.IGNORED);
+  }
+
+  async deleteComment(comment: Comment, moderator: User) {
+    const reports = await this.reportService.findReportsForComment(comment, false);
+
+    await this.commentService.delete(comment);
+
+    if (reports.length > 0)
+      await this.reportService.markAsModerated(reports, moderator, ReportModerationAction.DELETED);
   }
 
 }

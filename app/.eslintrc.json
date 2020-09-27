@@ -40,7 +40,7 @@
   ],
   "rules": {
     "no-console": "off",
-    "curly": ["error", "multi-or-nest"],
+    "curly": "error",
     "eqeqeq": "error",
     "no-multi-spaces": "error",
     "no-unused-expressions": "error",
