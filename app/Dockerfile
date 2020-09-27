@@ -24,7 +24,8 @@ COPY .eslintignore .eslintrc.json /app/
 
 COPY src /app/src
 
-RUN yarn concurrently "yarn build" "yarn build:coverage"
+RUN yarn build
+RUN yarn build:coverage
 RUN yarn lint
 RUN yarn test
 
