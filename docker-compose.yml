@@ -25,8 +25,8 @@ services:
     environment:
       REFLECT_ORIGIN: 'true'
       ADMIN_USER: 'admin:admin@zetecom.fr:admin42'
-      APP_URL: http://localhost:8000
-      WEBSITE_URL: http://localhost:8080
+      APP_URL: http://${LOCAL_IP:-localhost}:8000
+      WEBSITE_URL: http://${LOCAL_IP:-localhost}:8080
       DB_HOST: zc-postgres
       DB_PORT: 5432
       DB_USER: root
@@ -58,7 +58,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 80
-      API_URL: http://zc-api
+      API_URL: https://zc-api
       DB_HOST: zc-postgres
       DB_PORT: 5432
       DB_USER: root
@@ -78,6 +78,6 @@ services:
     volumes:
       - ./avatars:/var/www/avatars:ro
     environment:
-      API_URL: http://localhost:3000
-      WEBSITE_URL: http://localhost:8080
+      API_URL: https://${LOCAL_IP:-localhost}:3000
+      WEBSITE_URL: http://${LOCAL_IP:-localhost}:8080
       GOOGLE_ANALYTICS_ID: ''

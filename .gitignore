@@ -1,6 +1,3 @@
-.vscode/
-coverage/
-data/
-avatars/
-email-templates/
-certs
+/.vscode
+/data
+/.env
