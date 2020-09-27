@@ -24,13 +24,16 @@ setup_environment () {
 
 dump_database() {
   dumpfile="$repo/data/dumps/dump-$environment-$(date +%Y-%m-%d-%H:%M:%S).sql"
-  db_remote="zc-postgres-$environment"
-  db_local="zc-postgres"
+  container_remote="zc-postgres-$environment"
+  container_local="zc-postgres"
 
   mkdir -p $(dirname "$dumpfile")
 
-  dump=$(ssh -tt "$deploy_user@$deploy_host" docker exec "$db_remote" pg_dump "$DB_NAME")
-  echo "$dump" | tee "$dumpfile" | docker exec -i "$db_local" psql "$DB_NAME" >/dev/null
+  execute ssh-add "$deploy_key"
+  dump=$(ssh -i "$deploy_key" -tt "$deploy_user@$deploy_host" docker exec "$container_remote" pg_dump -U "$DB_USER" "$DB_NAME")
+  execute ssh-add -d "$deploy_key"
+
+  echo "$dump" | tee "$dumpfile" | docker exec -i "$container_local" psql db
   echo "Dump saved in $dumpfile"
 }
 
