@@ -1,10 +1,8 @@
 import {
-  BadRequestException,
   Body,
   ConflictException,
   Controller,
   Get,
-  HttpCode,
   Inject,
   NotFoundException,
   Param,
@@ -39,10 +37,7 @@ import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaService } from './comments-area.service';
 import { CommentsAreaDto } from './dtos/comments-area.dto';
 import { CreateCommentsAreaInDto } from './dtos/create-comments-area-in.dto';
-import { OpenCommentsAreaRequestInDto } from './dtos/open-comments-area-request-in.dto';
-import { OpenCommentsAreaRequestDto } from './dtos/open-comments-area.dto';
 import { UpdateCommentsAreaInDto } from './dtos/update-comments-area-in.dto';
-import { OpenCommentsAreaRequest, OpenCommentsAreaRequestStatus } from './open-comments-area-request.entity';
 import { PopulateCommentsArea } from './populate-comments-area.interceptor';
 
 @Controller('comments-area')
@@ -60,46 +55,6 @@ export class CommentsAreaController {
     private readonly commentsAreaRepository: CommentsAreaRepository,
     private readonly commentService: CommentService,
   ) {}
-
-  @Get('requests')
-  @UseGuards(IsAuthenticated)
-  @CastToDto(OpenCommentsAreaRequestDto)
-  async requests(
-    @PageQuery() page: number,
-  ): Promise<Paginated<OpenCommentsAreaRequest>> {
-    const [items, total] = await this.commentsAreaService.findRequestsPaginated(page, this.commentsAreaPageSize);
-
-    return { items, total };
-  }
-
-  @Post('request')
-  @UseGuards(IsAuthenticated)
-  @CastToDto(OpenCommentsAreaRequestDto)
-  async request(
-    @Body() dto: OpenCommentsAreaRequestInDto,
-    @AuthUser() user: User,
-  ): Promise<OpenCommentsAreaRequest> {
-    return this.commentsAreaService.request(dto, user);
-  }
-
-  @Post('requests/:id/reject')
-  @UseGuards(IsAuthenticated)
-  @CastToDto(OpenCommentsAreaRequestDto)
-  @Roles(Role.ADMIN)
-  @HttpCode(200)
-  async reject(
-    @Param('id', new ParseIntPipe()) id: number,
-  ): Promise<OpenCommentsAreaRequest> {
-    const request = await this.commentsAreaService.findRequest(id);
-
-    if (!request)
-      throw new NotFoundException();
-
-    if (request.status !== OpenCommentsAreaRequestStatus.PENDING)
-      throw new BadRequestException('REQUEST_IS_NOT_PENDING');
-
-    return this.commentsAreaService.reject(request);
-  }
 
   @Get()
   @CastToDto(CommentsAreaDto)
@@ -160,7 +115,7 @@ export class CommentsAreaController {
   @UseGuards(IsAuthenticated)
   @CastToDto(CommentsAreaDto)
   @UseInterceptors(PopulateCommentsArea)
-  @Roles(Role.ADMIN)
+  @Roles(Role.MODERATOR, Role.ADMIN)
   async create(
     @Body() dto: CreateCommentsAreaInDto,
     @AuthUser() user: User,
@@ -175,7 +130,7 @@ export class CommentsAreaController {
   @UseGuards(IsAuthenticated)
   @CastToDto(CommentsAreaDto)
   @UseInterceptors(PopulateCommentsArea)
-  @Roles(Role.ADMIN)
+  @Roles(Role.MODERATOR, Role.ADMIN)
   async update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateCommentsAreaInDto,

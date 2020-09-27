@@ -4,12 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentModule } from '../comment/comment.module';
 import { UserModule } from '../user/user.module';
 
+import { CommentsAreaRequestModule } from './comments-area-request/comments-area-request.module';
 import { CommentsAreaController } from './comments-area.controller';
 import { CommentsAreaFactory } from './comments-area.factory';
 import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaService } from './comments-area.service';
-import { OpenCommentsAreaRequest } from './open-comments-area-request.entity';
-import { OpenCommentsAreaRequestFactory } from './open-comments-area-request.factory';
 import { PopulateCommentsArea } from './populate-comments-area.interceptor';
 
 const COMMENTS_AREA_PAGE_SIZE = 'COMMENTS_AREA_PAGE_SIZE';
@@ -20,9 +19,10 @@ const CommentsAreaPageSize: Provider = {
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CommentsAreaRepository, OpenCommentsAreaRequest]),
+    TypeOrmModule.forFeature([CommentsAreaRepository]),
     UserModule,
     forwardRef(() => CommentModule),
+    forwardRef(() => CommentsAreaRequestModule),
   ],
   controllers: [
     CommentsAreaController,
@@ -32,14 +32,13 @@ const CommentsAreaPageSize: Provider = {
     CommentsAreaService,
     PopulateCommentsArea,
     CommentsAreaFactory,
-    OpenCommentsAreaRequestFactory,
   ],
   exports: [
     TypeOrmModule,
+    CommentsAreaPageSize,
     CommentsAreaService,
     PopulateCommentsArea,
     CommentsAreaFactory,
-    OpenCommentsAreaRequestFactory,
   ],
 })
 export class CommentsAreaModule {}

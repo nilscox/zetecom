@@ -25,7 +25,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   children,
 }) => {
   return (
-    <Dialog open={open} onClose={!confirmLoading && onCancel}>
+    <Dialog open={open} onClose={confirmLoading ? () => {} : onCancel}>
       <DialogTitle>{ title }</DialogTitle>
       <DialogContent>{ children }</DialogContent>
       <DialogActions>

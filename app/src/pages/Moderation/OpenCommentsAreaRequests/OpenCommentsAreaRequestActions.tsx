@@ -8,7 +8,7 @@ import useAxios from '../../../hooks/use-axios';
 const useRejectOpenCommentsArea = (requestId: number) => {
   const [{ loading, status }, reject] = useAxios({
     method: 'POST',
-    url: `/api/comments-area/requests/${requestId}/reject`,
+    url: `/api/comments-area-request/${requestId}/reject`,
   }, undefined, { manual: true });
 
   return {

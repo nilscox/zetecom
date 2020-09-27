@@ -1,7 +1,7 @@
 import request from 'supertest';
-import { getCustomRepository, getRepository, Repository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 
-import { createAuthenticatedAdmin, createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
+import { createAuthenticatedAdmin, createAuthenticatedModerator, createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { Comment } from '../comment/comment.entity';
 import { CommentFactory } from '../comment/comment.factory';
@@ -10,8 +10,6 @@ import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaFactory } from './comments-area.factory';
 import { CommentsAreaModule } from './comments-area.module';
 import { CommentsAreaRepository } from './comments-area.repository';
-import { OpenCommentsAreaRequest } from './open-comments-area-request.entity';
-import { OpenCommentsAreaRequestFactory } from './open-comments-area-request.factory';
 
 describe('comments area controller', () => {
 
@@ -26,7 +24,6 @@ describe('comments area controller', () => {
   });
 
   let createCommentsArea: CommentsAreaFactory['create'];
-  let createOpenCommentsAreaRequest: OpenCommentsAreaRequestFactory['create'];
   let createComment: CommentFactory['create'];
 
   let commentsArea1: CommentsArea;
@@ -40,10 +37,7 @@ describe('comments area controller', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let comment5: Comment;
 
-  let openCommentsAreaRequest: OpenCommentsAreaRequest;
-
   let commentsAreaRepository: CommentsAreaRepository;
-  let openCommentsAreaRequestRepository: Repository<OpenCommentsAreaRequest>;
 
   /*
     - commentsArea1
@@ -61,15 +55,12 @@ describe('comments area controller', () => {
   beforeAll(async () => {
     const module = getTestingModule();
     const commentsAreaFactory = module.get<CommentsAreaFactory>(CommentsAreaFactory);
-    const openCommentsAreaRequestFactory = module.get<OpenCommentsAreaRequestFactory>(OpenCommentsAreaRequestFactory);
     const commentFactory = module.get<CommentFactory>(CommentFactory);
 
     createCommentsArea = commentsAreaFactory.create.bind(commentsAreaFactory);
-    createOpenCommentsAreaRequest = openCommentsAreaRequestFactory.create.bind(commentsAreaFactory);
     createComment = commentFactory.create.bind(commentFactory);
 
     commentsAreaRepository = getCustomRepository(CommentsAreaRepository);
-    openCommentsAreaRequestRepository = getRepository(OpenCommentsAreaRequest);
 
     commentsArea1 = await createCommentsArea({ informationIitle: 'title', informationUrl: 'url', imageUrl: 'imageUrl' });
     commentsArea2 = await createCommentsArea({ informationIitle: 'search me' });
@@ -80,53 +71,6 @@ describe('comments area controller', () => {
     comment3 = await createComment({ commentsArea: commentsArea1, text: 'searching message3', parent: comment2 });
     comment4 = await createComment({ commentsArea: commentsArea1 });
     comment5 = await createComment({ commentsArea: commentsArea2, text: 'message5 search' });
-
-    openCommentsAreaRequest = await createOpenCommentsAreaRequest();
-  });
-
-  describe('request comment area', () => {
-
-    const [authRequest] = createAuthenticatedUser(server);
-
-    describe('list pending requests', () => {
-
-      it('should list pending requests', async () => {
-        const { body } = await authRequest
-          .get('/api/comments-area/requests')
-          .expect(200);
-
-        expect(body).toMatchObject({
-          total: 1,
-          items: [
-            { id: openCommentsAreaRequest.id },
-          ],
-        });
-      });
-
-    });
-
-    describe('request to open a new comments area', () => {
-
-      it('should request to create a new comment area', async () => {
-        const { body } = await authRequest
-          .post('/api/comments-area/request')
-          .send({ identifier: 'id:1'})
-          .expect(201);
-
-        expect(body).toMatchObject({
-          identifier: 'id:1',
-        });
-      });
-
-      it('should not be possible to request to create the same comment area twice', async () => {
-        await authRequest
-          .post('/api/comments-area/request')
-          .send({ identifier: 'id:1' })
-          .expect(400);
-      });
-
-    });
-
   });
 
   describe('list comment areas', () => {
@@ -292,7 +236,7 @@ describe('comments area controller', () => {
 
   describe('create comment area', () => {
     const [userRequest] = createAuthenticatedUser(server);
-    const [adminRequest] = createAuthenticatedAdmin(server);
+    const [asModerator] = createAuthenticatedModerator(server);
 
     const commentsArea = {
       identifier: 'id:someIdentifier',
@@ -321,7 +265,7 @@ describe('comments area controller', () => {
       const data = { ...commentsArea };
       delete data.informationTitle;
 
-      return adminRequest
+      return asModerator
         .post('/api/comments-area')
         .send(data)
         .expect(400);
@@ -331,14 +275,14 @@ describe('comments area controller', () => {
       const data = { ...commentsArea };
       delete data.identifier;
 
-      return adminRequest
+      return asModerator
         .post('/api/comments-area')
         .send(data)
         .expect(400);
     });
 
     it('should create a comment area', async () => {
-      const { body } = await adminRequest
+      const { body } = await asModerator
         .post('/api/comments-area')
         .send(commentsArea)
         .expect(201);
