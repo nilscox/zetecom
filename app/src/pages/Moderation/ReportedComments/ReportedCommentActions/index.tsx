@@ -6,7 +6,63 @@ import { toast } from 'react-toastify';
 import useAxios from '../../../../hooks/use-axios';
 import { Comment } from '../../../../types/Comment';
 
+import DeletCommentConfirmDialog from './DeleteCommentConfirmDialog';
 import IgnoreReportsConfirmDialog from './IgnoreReportsConfirmDialog';
+
+const useIgnoreReports = (comment: Comment, onModerated: () => void) => {
+  const [ignoreReportsDialogOpen, setIgnoreReportsDialogOpen] = useState(false);
+  const [{ status, loading: ignoreLoading }, ignoreReports] = useAxios(
+    {
+      method: 'PUT',
+      url: '/api/moderation/ignore-reports',
+      data: {
+        commentId: comment.id,
+      },
+    },
+    undefined,
+    {
+      manual: true,
+    },
+  );
+
+  useEffect(() => {
+    if (status(204)) {
+      toast.success('Les signalements ont bien été ignorés.');
+      setIgnoreReportsDialogOpen(false);
+      onModerated();
+    }
+  }, [status, onModerated]);
+
+  return { ignoreReportsDialogOpen, setIgnoreReportsDialogOpen, ignoreLoading, ignoreReports, ignored: status(204) };
+};
+
+const useDeleteComment = (comment: Comment, onModerated: () => void) => {
+  const [deleteCommentDialogOpen, setDeleteCommentDialogOpen] = useState(false);
+
+  const [{ status, loading: deleteLoading }, deleteComment] = useAxios(
+    {
+      method: 'PUT',
+      url: '/api/moderation/delete-comment',
+      data: {
+        commentId: comment.id,
+      },
+    },
+    undefined,
+    {
+      manual: true,
+    },
+  );
+
+  useEffect(() => {
+    if (status(204)) {
+      toast.success('Le commentaire a bien été supprimé.');
+      setDeleteCommentDialogOpen(false);
+      onModerated();
+    }
+  }, [status, onModerated]);
+
+  return { deleteCommentDialogOpen, setDeleteCommentDialogOpen, deleteLoading, deleteComment, deleted: status(204) };
+};
 
 const useStyles = makeStyles(({ palette }) => ({
   discard: {
@@ -26,31 +82,23 @@ type ReportCommentActionsProps = {
 };
 
 const ReportedCommentActions: React.FC<ReportCommentActionsProps> = ({ comment, onModerated }) => {
-  const [ignoreReportsDialogOpen, setIgnoreReportsDialogOpen] = useState(false);
-  const [{ status: ignoreStatus, loading: ignoreLoading }, executeIgnoreReports] = useAxios(
-    { method: 'PUT', url: '/api/moderation/ignore-reports' },
-    undefined,
-    {
-      manual: true,
-    },
-  );
+  const {
+    ignoreReportsDialogOpen,
+    setIgnoreReportsDialogOpen,
+    ignoreLoading,
+    ignoreReports,
+    ignored,
+  } = useIgnoreReports(comment, onModerated);
+
+  const {
+    deleteCommentDialogOpen,
+    setDeleteCommentDialogOpen,
+    deleteLoading,
+    deleteComment,
+    deleted,
+  } = useDeleteComment(comment, onModerated);
 
   const classes = useStyles();
-
-  useEffect(() => {
-    if (ignoreStatus(204)) {
-      toast.success('Les signalements ont bien été ignorés.');
-      onModerated();
-    }
-  }, [ignoreStatus, onModerated]);
-
-  const handleIgnoreReports = () => {
-    executeIgnoreReports({
-      data: {
-        commentId: comment.id,
-      },
-    });
-  };
 
   return (
     <>
@@ -58,16 +106,34 @@ const ReportedCommentActions: React.FC<ReportCommentActionsProps> = ({ comment, 
         open={ignoreReportsDialogOpen}
         comment={comment}
         loading={ignoreLoading}
-        onConfirm={handleIgnoreReports}
+        onConfirm={ignoreReports}
         onCancel={() => setIgnoreReportsDialogOpen(false)}
       />
 
+      <DeletCommentConfirmDialog
+        open={deleteCommentDialogOpen}
+        comment={comment}
+        loading={deleteLoading}
+        onConfirm={deleteComment}
+        onCancel={() => setDeleteCommentDialogOpen(false)}
+      />
+
       <ButtonGroup>
-        <Button size="large" className={classes.discard} onClick={() => setIgnoreReportsDialogOpen(true)}>
+        <Button
+          size="large"
+          variant={ignored ? 'contained' : undefined}
+          className={classes.discard}
+          onClick={() => setIgnoreReportsDialogOpen(true)}
+        >
           Ignorer
         </Button>
 
-        <Button size="large" className={classes.delete}>
+        <Button
+          size="large"
+          variant={deleted ? 'contained' : undefined}
+          className={classes.delete}
+          onClick={() => setDeleteCommentDialogOpen(true)}
+        >
           Supprimer le commentaire
         </Button>
 

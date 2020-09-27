@@ -52,7 +52,7 @@ const useStyles = makeStyles<Theme, StylesProps>(({ breakpoints, spacing, palett
   },
   author: {
     fontWeight: 'bold',
-    color: palette.textLight.dark,
+    color: palette.textLight.main,
   },
 }));
 

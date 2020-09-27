@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import util from 'util';
 
 import { CommentsArea } from '../comments-area/comments-area.entity';
@@ -18,6 +18,9 @@ export class Comment {
 
   @UpdateDateColumn()
   updated: Date;
+
+  @DeleteDateColumn()
+  deleted: Date;
 
   @ManyToOne(type => User, { nullable: false, eager: true })
   @JoinColumn({ name: 'author_id' })

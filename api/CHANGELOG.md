@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - List reported comments
 - Ignore reported comments
 - Add HTTPS support in development
+- Delete reported comments
 
 ### Changed
 

@@ -4,14 +4,11 @@ import { SortType } from 'Common/sort-type';
 
 import { createComment } from '../../testing/intg-factories/comment.factory';
 import { createCommentsArea } from '../../testing/intg-factories/comments-area.factory';
-import { createMessage } from '../../testing/intg-factories/message.factory';
-import { createReaction } from '../../testing/intg-factories/reaction.factory';
 import { createUser } from '../../testing/intg-factories/user.factory';
 import { setupIntgTest } from '../../testing/setup-intg-test';
 
 import { Comment } from './comment.entity';
 import { CommentRepository } from './comment.repository';
-import { ReactionType } from './reaction.entity';
 
 describe('comment repository', () => {
 
@@ -68,6 +65,22 @@ describe('comment repository', () => {
       items: [
         { id: comment1.id },
       ],
+      total: 1,
+    });
+  });
+
+  it('should not find soft deleted comments', async () => {
+    const { commentsAreaId, comments: [comment1, comment2] } = await createCommentsAreaAndComments([
+      { text: 'comment1' },
+      { text: 'comment2' },
+    ]);
+
+    await commentRepository.softDelete(comment1.id);
+
+    const result = await commentRepository.findAll({ commentsAreaId });
+
+    expect(result).toMatchObject({
+      items: [{ id: comment2.id }],
       total: 1,
     });
   });
