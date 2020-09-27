@@ -48,7 +48,10 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
 
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: 'file-loader',
+        loader: 'file-loader',
+        options: {
+          name: 'fonts/[name].[ext]',
+        },
       },
 
       {

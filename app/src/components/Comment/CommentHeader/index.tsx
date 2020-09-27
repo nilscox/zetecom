@@ -33,15 +33,15 @@ const useStyles = makeStyles(({ palette: { border }, spacing, breakpoints }) => 
 type CommentHeaderProps = {
   comment: Comment;
   onEdit?: () => void;
-  onViewHistory: () => void;
-  onReport: () => void;
+  onViewHistory?: () => void;
+  onReport?: () => void;
 };
 
 const CommentHeader: React.FC<CommentHeaderProps> = ({ comment, onEdit, onViewHistory, onReport }) => {
   const { author, edited, date } = comment;
 
   const [displayReportLink, setDisplayReportLink] = useState(false);
-  const [showReportLink, hideReportLink] = [true, false].map(v => () => setDisplayReportLink(v));
+  const [showReportLink, hideReportLink] = [true, false].map((v) => () => setDisplayReportLink(v));
 
   const user = useCurrentUser();
   const isCurrentUserAuthor = author.id === user?.id;
@@ -50,32 +50,28 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({ comment, onEdit, onViewHi
 
   return (
     <Grid container className={`MuiPaper-rounded ${classes.header}`}>
-
       <Grid item className={classes.left}>
         <Grid container>
-
           <Grid item>
             <UserAvatarNick small user={isCurrentUserAuthor ? user : author} />
           </Grid>
 
-          { onEdit && isCurrentUserAuthor && <EditButton onClick={onEdit} /> }
+          {onEdit && isCurrentUserAuthor && <EditButton onClick={onEdit} />}
 
-          { env.DEBUG === 'true' && <Grid item><CommentDevTool comment={comment} /></Grid> }
-
+          {env.DEBUG === 'true' && (
+            <Grid item>
+              <CommentDevTool comment={comment} />
+            </Grid>
+          )}
         </Grid>
       </Grid>
 
       <Grid item className={classes.right}>
         <Grid container onMouseEnter={showReportLink} onMouseLeave={hideReportLink}>
-
-          { user && !isCurrentUserAuthor && <ReportLink show={displayReportLink} onClick={onReport} /> }
-
+          {user && !isCurrentUserAuthor && onReport && <ReportLink show={displayReportLink} onClick={onReport} />}
           <EditionDate edited={!!edited} date={edited || date} onViewHistory={onViewHistory} />
-
         </Grid>
-
       </Grid>
-
     </Grid>
   );
 };

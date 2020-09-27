@@ -26,7 +26,7 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
 
 type ReplyButtonProps = {
   disabled: boolean;
-  onReply: () => void;
+  onReply?: () => void;
 };
 
 const ReplyButton: React.FC<ReplyButtonProps> = ({ disabled, onReply }) => {
@@ -35,8 +35,9 @@ const ReplyButton: React.FC<ReplyButtonProps> = ({ disabled, onReply }) => {
   const verySmall = useMediaQuery('(max-width: 360px)');
   const classes = useStyles();
 
-  if (!user)
+  if (!user || !onReply) {
     return null;
+  }
 
   if (verySmall) {
     return (

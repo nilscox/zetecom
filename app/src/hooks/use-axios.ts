@@ -16,32 +16,37 @@ export default function useAxios<T>(
   parse?: (data: ResponseData) => T,
   options: AxiosHooksOptions = {},
 ) {
-  if (typeof options.useCache === 'undefined')
+  if (typeof options.useCache === 'undefined') {
     options.useCache = false;
+  }
 
   const [{ data, loading, error, response: axiosResponse }, refetch] = useAxiosHook(config, options);
   const response = axiosResponse || error?.response;
 
   const parsed = useMemo(() => {
-    if (!parse)
+    if (!parse) {
       return undefined;
+    }
 
     if (response) {
-      if (data && !error && [200, 201].includes(response.status))
+      if (data && !error && [200, 201].includes(response.status)) {
         return parse(data);
-      else
+      } else {
         return undefined;
+      }
     }
 
     return null;
   }, [response, data, error, parse]);
 
   const status = useCallback((s: number | number[]): boolean => {
-    if (!response)
+    if (!response) {
       return false;
+    }
 
-    if (Array.isArray(s))
+    if (Array.isArray(s)) {
       return s.includes(response.status);
+    }
 
     return response.status === s;
   }, [response]);

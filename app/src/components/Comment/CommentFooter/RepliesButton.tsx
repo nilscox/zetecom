@@ -32,7 +32,7 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
 type RepliesButtonProps = {
   repliesCount: number;
   displayReplies: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayReplies, onClick }) => {
@@ -48,7 +48,7 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayRepl
         </Typography>
       ) }
 
-      { repliesCount > 0 && (
+      { repliesCount > 0 && onClick && (
         <ArrowRightIcon className={classes.arrow} />
       ) }
 

@@ -1,116 +1,41 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 
-import { Grid } from '@material-ui/core';
-import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
+import { Grid, makeStyles } from '@material-ui/core';
 
-import useAxios from 'src/hooks/use-axios';
-import { useTheme } from 'src/theme/Theme';
-import { Comment, parseComment, ReactionsCount, ReactionType } from 'src/types/Comment';
-import { trackSetReaction } from 'src/utils/track';
+import { Comment, ReactionType } from 'src/types/Comment';
 
 import { useCurrentUser } from '../../../contexts/UserContext';
 
 import Reaction from './Reaction';
 
-const VBreak: React.FC = () => {
-  const { colors: { borderLight } } = useTheme();
-
-  return (
-    <div style={{ borderRight: `1px solid ${borderLight}` }} />
-  );
-};
-
-const useUpsertReaction = (commentId: number, onUpserted: (updatedComment: Comment) => void) => {
-  const [cancelToken, setCancelToken] = useState<CancelTokenSource>();
-  const opts: AxiosRequestConfig = {
-    method: 'POST',
-    url: `/api/comment/${commentId}/reaction`,
-  };
-
-  const [{ data, error, status }, post] = useAxios(opts, parseComment, { manual: true });
-
-  if (error)
-    throw error;
-
-  useEffect(() => {
-    if (status(201))
-      onUpserted(data);
-  }, [status, data, onUpserted]);
-
-  const onUpsert = (type: ReactionType | null) => {
-    if (cancelToken)
-      cancelToken.cancel();
-
-    const nextCancelToken = axios.CancelToken.source();
-    setCancelToken(nextCancelToken);
-
-    post({
-      data: {
-        commentId,
-        type: type ? type.toUpperCase() : null,
-      },
-      cancelToken: nextCancelToken.token,
-    });
-  };
-
-  return onUpsert;
-};
-
-const useReactionsCounts = (comment: Comment) => {
-  const [userReaction, setUserReaction] = useState<ReactionType | null>(comment.userReaction);
-  const [counts, setCounts] = useState<ReactionsCount>(comment.reactionsCount);
-
-  const onUpserted = useCallback((updatedComment: Comment) => {
-    setCounts(updatedComment.reactionsCount);
-    setUserReaction(updatedComment.userReaction);
-    trackSetReaction();
-  }, []);
-
-  const upsertReaction = useUpsertReaction(comment.id, onUpserted);
-
-  const isUserReaction = (type: ReactionType) => type === userReaction;
-
-  const onUpdate = (type: ReactionType) => {
-    setCounts({
-      ...counts,
-      ...(userReaction && { [userReaction]: counts[userReaction] - 1 }),
-      ...(type && { [type]: counts[type] + (type !== null ? 1 : 0) }),
-    });
-
-    setUserReaction(type);
-    upsertReaction(type);
-  };
-
-  return {
-    counts,
-    isUserReaction,
-    onUpdate,
-  };
-};
+const useStyles = makeStyles(({ palette }) => ({
+  vbreak: {
+    borderRight: `1px solid ${palette.divider}`,
+  },
+}));
 
 type ReactionsProps = {
   comment: Comment;
+  onSetReaction?: (type: ReactionType | null) => void;
 };
 
-const Reactions: React.FC<ReactionsProps> = ({ comment }) => {
+const Reactions: React.FC<ReactionsProps> = ({ comment, onSetReaction }) => {
   const user = useCurrentUser();
-  const { counts, isUserReaction, onUpdate } = useReactionsCounts(comment);
+  const classes = useStyles();
 
   return (
     <Grid container>
-
-      {[ReactionType.APPROVE, ReactionType.REFUTE, ReactionType.SKEPTIC].map(type => (
+      {[ReactionType.APPROVE, ReactionType.REFUTE, ReactionType.SKEPTIC].map((type) => (
         <React.Fragment key={type}>
           <Reaction
             type={type}
-            count={counts[type]}
-            userReaction={isUserReaction(type)}
-            onUpdate={user && comment.author.id !== user?.id && onUpdate}
+            count={comment.reactionsCount[type]}
+            userReaction={comment.userReaction === type}
+            onUpdate={user && comment.author.id !== user?.id ? onSetReaction : undefined}
           />
-          <VBreak />
+          <div className={classes.vbreak} />
         </React.Fragment>
       ))}
-
     </Grid>
   );
 };

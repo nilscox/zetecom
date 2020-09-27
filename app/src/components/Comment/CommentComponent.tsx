@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Paper, Theme, useMediaQuery } from '@material-ui/core';
 
-import { Comment } from 'src/types/Comment';
+import { Comment, ReactionType } from 'src/types/Comment';
 
 import CommentBody from './CommentBody';
 import CommentFooter from './CommentFooter';
@@ -10,20 +10,24 @@ import CommentHeader from './CommentHeader';
 
 export type CommentComponentProps = {
   comment: Comment;
-  displayReplies: boolean;
-  displayReplyForm: boolean;
-  toggleReplies: () => void | null;
-  onReply: () => void;
+  displayReplies?: boolean;
+  displayReplyForm?: boolean;
+  onSetReaction?: (type: ReactionType | null) => void;
+  onToggleReplies?: () => void;
+  onToggleSubscription?: () => void;
   onEdit?: () => void;
-  onViewHistory: () => void;
-  onReport: () => void;
+  onReply?: () => void;
+  onViewHistory?: () => void;
+  onReport?: () => void;
 };
 
 const CommentComponent: React.FC<CommentComponentProps> = ({
   comment,
   displayReplies,
   displayReplyForm,
-  toggleReplies,
+  onSetReaction,
+  onToggleReplies,
+  onToggleSubscription,
   onReply,
   onEdit,
   onViewHistory,
@@ -33,7 +37,6 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
 
   return (
     <Paper elevation={small ? 1 : 2}>
-
       <CommentHeader comment={comment} onEdit={onEdit} onViewHistory={onViewHistory} onReport={onReport} />
 
       <CommentBody {...comment} />
@@ -42,10 +45,11 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
         comment={comment}
         displayReplies={displayReplies}
         displayReplyForm={displayReplyForm}
-        toggleReplies={toggleReplies}
+        onSetReaction={onSetReaction}
+        onToggleReplies={onToggleReplies}
+        onToggleSubscription={onToggleSubscription}
         onReply={onReply}
       />
-
     </Paper>
   );
 };
