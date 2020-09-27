@@ -13,8 +13,9 @@ describe('AuthorizationService', () => {
         roles: [Role.USER, Role.ADMIN],
       } as User;
 
-      expect(authorizationService.isAuthorized(user, Role.USER)).toBe(true);
-      expect(authorizationService.isAuthorized(user, Role.ADMIN)).toBe(true);
+      expect(authorizationService.isAuthorized(user, [Role.USER])).toBe(true);
+      expect(authorizationService.isAuthorized(user, [Role.ADMIN])).toBe(true);
+      expect(authorizationService.isAuthorized(user, [Role.MODERATOR, Role.ADMIN])).toBe(true);
     });
 
     it('should not authorize a user based on its roles', () => {
@@ -22,7 +23,8 @@ describe('AuthorizationService', () => {
         roles: [Role.USER],
       } as User;
 
-      expect(authorizationService.isAuthorized(user, Role.ADMIN)).toBe(false);
+      expect(authorizationService.isAuthorized(user, [Role.ADMIN])).toBe(false);
+      expect(authorizationService.isAuthorized(user, [Role.MODERATOR, Role.ADMIN])).toBe(false);
     });
 
   });

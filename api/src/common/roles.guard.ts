@@ -29,16 +29,13 @@ export class RolesGuard implements CanActivate {
     if (!roles)
       return true;
 
-    if (roles.length > 1)
-      throw new Error('Multiple roles authorization is not supported');
-
     const request = context.switchToHttp().getRequest();
     const user: User | undefined = request.user;
 
     if (!user)
       return Promise.resolve(false);
 
-    return this.authorizationService.isAuthorized(user, roles[0]);
+    return this.authorizationService.isAuthorized(user, roles);
   }
 
 }
