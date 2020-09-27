@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implement database seeds
 - List reported comments
 - Ignore reported comments
+- Add HTTPS support in development
 
 ### Changed
 

@@ -52,7 +52,7 @@ deploy_api() {
     --env $(sshenv EMAIL_BYPASS) \
     --env $(sshenv EMAIL_ACCOUNT_VERIFICATION) \
     --env $(sshenv SESSION_SECRET) \
-    --env $(sshenv EMAIL_TEMPLATE_DIR) \
+    --env $(sshenv SECURE_COOKIE) \
     --env $(sshenv USER_AVATAR_DESTINATION) \
     "$api_image"
 }

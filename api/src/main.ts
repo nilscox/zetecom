@@ -33,10 +33,10 @@ const {
 async function bootstrap() {
   const opts: NestApplicationOptions = {};
 
-  if (NODE_ENV === 'development' && SSL_CERTIFICATE && SSL_CERTIFICATE_KEY) {
+  if (SSL_CERTIFICATE && SSL_CERTIFICATE_KEY) {
     opts.httpsOptions = {
-      cert: fs.readFileSync(path.resolve(__dirname, '..', SSL_CERTIFICATE)),
-      key: fs.readFileSync(path.resolve(__dirname, '..', SSL_CERTIFICATE_KEY)),
+      cert: (await fs.promises.readFile(SSL_CERTIFICATE)).toString(),
+      key: (await fs.promises.readFile(SSL_CERTIFICATE_KEY)).toString(),
     };
   }
 

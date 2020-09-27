@@ -20,11 +20,13 @@ services:
       - 3000:80
     volumes:
       - ./data/avatars:/app/avatars
-      - ./data/email-templates:/app/email-templates:ro
+      - ./data/certs:/certs:ro
     command: bash -c "yarn wait-on tcp:zc-postgres:5432 && yarn start:prod"
     environment:
       REFLECT_ORIGIN: 'true'
       ADMIN_USER: 'admin:admin@zetecom.fr:admin42'
+      SSL_CERTIFICATE: '/certs/localhost.crt'
+      SSL_CERTIFICATE_KEY: '/certs/localhost.key'
       APP_URL: http://${LOCAL_IP:-localhost}:8000
       WEBSITE_URL: http://${LOCAL_IP:-localhost}:8080
       DB_HOST: zc-postgres
@@ -43,7 +45,7 @@ services:
       EMAIL_BYPASS: 'true'
       EMAIL_ACCOUNT_VERIFICATION: 'false'
       SESSION_SECRET: sekret
-      EMAIL_TEMPLATE_DIR: /app/email-templates
+      SECURE_COOKIE: 'true'
       USER_AVATAR_DESTINATION: /app/avatars
 
 
