@@ -93,7 +93,7 @@ const OpenCommentsAreaRequest: React.FC<{ requestId: number; identifier: string 
   const [processed, setProcessed] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
-  const { form: { text }, loading, created, handleCreate } = useCreateCommentsAreaForm(identifier);
+  const { form: { text, date }, loading, created, handleCreate } = useCreateCommentsAreaForm(identifier);
   const defaultValues = getDefaultValues(identifier);
 
   const classes = useStyles({ processed });
@@ -142,7 +142,7 @@ const OpenCommentsAreaRequest: React.FC<{ requestId: number; identifier: string 
                 className={classes.field}
                 label="date de publication"
                 InputLabelProps={{ shrink: true }}
-                {...text('published')}
+                {...date('published')}
               />
             </Grid>
           </Grid>
