@@ -21,16 +21,22 @@ const useReplies = (parent: Comment) => {
     { manual: true },
   );
 
+  if (error) {
+    throw error;
+  }
+
   const [replies, { prepend }] = useEditableDataset(data ? data.items : null, { appendOnUpdate: true });
 
   useUpdateEffect(() => {
     const opts: AxiosRequestConfig = { params: {} };
 
-    if (page !== 1)
+    if (page !== 1) {
       opts.params.page = page;
+    }
 
-    if (parent)
+    if (parent) {
       fetch(opts);
+    }
   // TODO
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
@@ -40,7 +46,6 @@ const useReplies = (parent: Comment) => {
       replies,
       remainingRepliesCount: data?.total - replies?.length,
       loading,
-      error,
     },
     {
       fetchMoreReplies: () => setPage(page + 1),

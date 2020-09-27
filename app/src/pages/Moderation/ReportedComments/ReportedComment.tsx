@@ -40,21 +40,13 @@ const ReportedComment: React.FC<ReportedCommentProps> = ({ comment, reports }) =
     <Card variant="outlined" className={classes.container}>
       <DisabledOverlay disabled={moderated} />
 
-      <CommentComponent
-        comment={comment}
-        displayReplies={false}
-        displayReplyForm={false}
-        toggleReplies={() => {}}
-        onReply={() => {}}
-        onViewHistory={() => {}}
-        onReport={() => {}}
-      />
+      <CommentComponent comment={comment} displayReplies={false} displayReplyForm={false} />
 
       <div style={{ margin: '24px 0 0 24px' }}>
         <Typography>Signalé par :</Typography>
 
         <ul>
-          {reports.map(report => (
+          {reports.map((report) => (
             <li key={report.id}>
               <strong>{report.reportedBy.nick}</strong> le {format(report.created, 'dd MM yyyy')}
               {report.message && (

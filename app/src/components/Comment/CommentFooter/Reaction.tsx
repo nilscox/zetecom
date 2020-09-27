@@ -74,7 +74,7 @@ const Reaction: React.FC<ReactionProps> = ({ count, type, userReaction, onUpdate
     <Button
       type="button"
       disabled={!onUpdate}
-      title={reactionTraduction[type]}
+      title={onUpdate && reactionTraduction[type]}
       className={clsx(
         'reaction',
         'reaction--' + type,

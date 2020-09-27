@@ -1,3 +1,5 @@
+import { ReactionType } from '../types/Comment';
+
 import ReactGA from './google-analytics';
 
 export type AuthenticateFrom = 'app' | 'popup';
@@ -84,10 +86,11 @@ export const trackEditComment = () => {
   });
 };
 
-export const trackSetReaction = () => {
+export const trackSetReaction = (type: ReactionType | null) => {
   ReactGA.event({
     category: 'Comment',
     action: 'SetReaction',
+    label: 'Set Reaction ' + type,
   });
 };
 
@@ -95,6 +98,13 @@ export const trackSubscribeComment = () => {
   ReactGA.event({
     category: 'Comment',
     action: 'Subscribe',
+  });
+};
+
+export const trackUnsubscribeComment = () => {
+  ReactGA.event({
+    category: 'Comment',
+    action: 'Unsubscribe',
   });
 };
 

@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - List reported comments
 - Ignore reported comments
 - Delete reported comments
+- Track unsubscribe events
 
 ## [0.5.0] - 2020-09-22
 

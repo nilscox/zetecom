@@ -3,36 +3,15 @@ import React, { useCallback, useReducer, useState } from 'react';
 import { CommentEditionForm } from 'src/components/CommentForm';
 import { Comment } from 'src/types/Comment';
 
-import CommentComponent, { CommentComponentProps } from '../CommentComponent';
+import CommentComponent from '../CommentComponent';
 
 import useReplies from './hooks/useReplies';
 import useReport from './hooks/useReport';
+import useSubscription from './hooks/useSubscription';
 import useViewHistory from './hooks/useViewHistory';
 import Replies from './Replies';
 import ReplyForm from './ReplyForm';
-
-type CreationOrEditionFormProps = CommentComponentProps & {
-  comment: Comment;
-  displayEditionForm: boolean;
-  onEdited: (comment: Comment) => void;
-  closeEditionForm: () => void;
-};
-
-const CreationOrEditionForm: React.FC<CreationOrEditionFormProps> = (props) => {
-  const { comment, displayEditionForm, onEdited, closeEditionForm } = props;
-
-  if (displayEditionForm) {
-    return (
-      <CommentEditionForm
-        comment={comment}
-        onEdited={onEdited}
-        closeForm={closeEditionForm}
-      />
-    );
-  }
-
-  return <CommentComponent {...props} />;
-};
+import useSetReaction from './hooks/useSetReaction';
 
 type CommentStates = {
   displayReplies: boolean;
@@ -76,44 +55,36 @@ type CommentContainerProps = {
 };
 
 const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalComment }) => {
-  const [
-    {
-      displayReplies,
-      displayReplyForm,
-      displayEditionForm,
-    },
-    {
-      toggleReplies: toggleDisplayReplies,
-      openReplyForm,
-      closeReplyForm,
-      openEditionForm,
-      closeEditionForm,
-    },
-  ] = useCommentStates();
-
   const [comment, setComment] = useState(originalComment);
 
+  const [ commentStates, commentStatesCallbacks ] = useCommentStates();
+  const { displayReplies, displayReplyForm, displayEditionForm } = commentStates;
+  const {
+    toggleReplies: toggleDisplayReplies,
+    openReplyForm, closeReplyForm,
+    openEditionForm, closeEditionForm,
+  } = commentStatesCallbacks;
+
   const [
-    { replies, remainingRepliesCount, loading, error },
+    { replies, remainingRepliesCount, loading: loadingReplies },
     { fetchMoreReplies, addReply },
   ] = useReplies(comment);
 
-  if (error)
-    throw error;
-
   const report = useReport(comment);
   const viewHistory = useViewHistory(comment);
+  const toggleSubscription = useSubscription(comment, setComment);
+  const setReaction = useSetReaction(comment, setComment);
 
   const toggleReplies = useCallback(() => {
-    if (!replies && !error)
+    if (!replies) {
       fetchMoreReplies();
+    }
 
     toggleDisplayReplies();
-  }, [replies, error, fetchMoreReplies, toggleDisplayReplies]);
+  }, [replies, fetchMoreReplies, toggleDisplayReplies]);
 
   const onReply = () => {
     if (!displayReplies) {
-      // fetch replies if opened for the first time using the reply button
       toggleReplies();
     }
 
@@ -134,22 +105,37 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalCo
     closeEditionForm();
   };
 
+  const renderComment = () => {
+    if (displayEditionForm) {
+      return (
+        <CommentEditionForm
+          comment={comment}
+          onEdited={onEdited}
+          closeForm={closeEditionForm}
+        />
+      );
+    }
+
+    return (
+      <CommentComponent
+        comment={comment}
+        displayReplies={displayReplies}
+        displayReplyForm={displayReplyForm}
+        onSetReaction={setReaction}
+        onToggleReplies={!displayReplyForm ? toggleReplies : undefined}
+        onToggleSubscription={toggleSubscription}
+        onEdit={openEditionForm}
+        onReply={onReply}
+        onViewHistory={viewHistory}
+        onReport={report}
+      />
+    );
+  };
+
   return (
     <div className="comment" id={`comment-${comment.id}`}>
 
-      <CreationOrEditionForm
-        comment={comment}
-        displayReplies={displayReplies}
-        toggleReplies={!displayReplyForm ? toggleReplies : null}
-        displayReplyForm={displayReplyForm}
-        onReply={onReply}
-        onEdit={openEditionForm}
-        onViewHistory={viewHistory}
-        onReport={report}
-        displayEditionForm={displayEditionForm}
-        onEdited={onEdited}
-        closeEditionForm={closeEditionForm}
-      />
+      {renderComment()}
 
       <ReplyForm
         comment={comment}
@@ -161,7 +147,7 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalCo
       <Replies
         replies={replies}
         displayReplies={displayReplies}
-        loading={loading}
+        loading={loadingReplies}
         remainingRepliesCount={remainingRepliesCount}
         fetchMoreReplies={fetchMoreReplies}
       />
