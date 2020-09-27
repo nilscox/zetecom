@@ -37,13 +37,13 @@ const enviornmentVariables = [
   'EMAIL_BYPASS',
   'EMAIL_ACCOUNT_VERIFICATION',
 
-  // Secret
+  // Session
 
   'SESSION_SECRET',
+  'SECURE_COOKIE',
 
   // Paths
 
-  'EMAIL_TEMPLATE_DIR',
   'USER_AVATAR_DESTINATION',
 
 ] as const;
