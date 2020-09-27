@@ -20,6 +20,7 @@
     "test:debug": "NODE_ENV=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:intg": "yarn test --config ./jest/jest-intg.config.js --runInBand",
     "test:e2e": "yarn test --config ./jest/jest-e2e.config.js --runInBand",
+    "test:createdb": "yarn typeorm query 'CREATE DATABASE test'",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "start:restoredb": "ep2cmd /reset 'yarn db:reset' /populate 'yarn db:populate'",
     "db:drop": "yarn typeorm schema:drop",

@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class OpenCommentsAreaRequestInDto {
+export class CommentsAreaRequestInDto {
 
   @IsString()
   readonly identifier: string;

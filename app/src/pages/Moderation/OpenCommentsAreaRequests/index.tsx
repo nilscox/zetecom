@@ -9,10 +9,13 @@ import Section from '../Section';
 import OpenCommentsAreaRequest from './OpenCommentsAreaRequest';
 
 const OpenCommentsAreaRequests: React.FC = () => {
-  const [{ loading, data: pendingRequests }] = useAxiosPaginated(
-    '/api/comments-area/requests',
+  const [{ loading, data: pendingRequests, error }] = useAxiosPaginated(
+    '/api/comments-area-request',
     parseOpenCommentsAreaRequest,
   );
+
+  if (error)
+    throw error;
 
   return (
     <Section title="Ouverture de nouvelles zones de commentaires">
