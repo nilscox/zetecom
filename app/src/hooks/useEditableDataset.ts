@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { Reducer, useReducer } from 'react';
 
 import useUpdateEffect from './use-update-effect';
 
@@ -9,89 +9,92 @@ type EditableDataset<T> = [
     prepend: (...items: T[]) => void;
     append: (...items: T[]) => void;
     remove: (item: T) => void;
-    replace: (previous: T, next: T) => void;
+    replace: (prev: T, next: T) => void;
   },
 ];
 
-function useEditableDataset<T>(input?: T[], onUpdate?: 'append' | 'prepend'): EditableDataset<T> {
-  const [data, setData] = useState(input);
+type Set<T> = {
+  type: 'set';
+  items: T[];
+};
 
-  const prepend = useCallback(
-    (...items: T[]) => {
-      if (items.length > 0) {
-        setData(data => [...items, ...(data || [])]);
-      }
-    },
-    [],
-  );
+type Prepend<T> = {
+  type: 'prepend';
+  items: T[];
+};
 
-  const append = useCallback(
-    (...items: T[]) => {
-      if (items.length > 0) {
-        setData(data => [...(data || []), ...items]);
-      }
-    },
-    [],
-  );
+type Append<T> = {
+  type: 'append';
+  items: T[];
+};
 
-  const remove = useCallback(
-    (item: T) => {
-      setData((data) => {
-        if (!data) {
-          return data;
-        }
+type Remove<T> = {
+  type: 'remove';
+  items: T[];
+};
 
-        const idx = data.indexOf(item);
+type Replace<T> = {
+  type: 'replace';
+  prev: T;
+  next: T;
+};
 
-        if (idx !== -1) {
-          return [...data.slice(0, idx), ...data.slice(idx + 1)];
-        }
+type Action<T> = Set<T> | Prepend<T> | Append<T> | Remove<T> | Replace<T>;
 
-        return data;
-      });
-    },
-    [],
-  );
+const reducer = <T>(data: T[] | undefined, action: Action<T>) => {
+  switch (action.type) {
+  case 'set':
+    return [...action.items];
 
-  const replace = useCallback(
-    (previous: T, next: T) => {
-      setData(data => {
-        if (!data) {
-          return data;
-        }
+  case 'prepend':
+    return [...action.items, ...(data || [])];
 
-        const idx = data.indexOf(previous);
+  case 'append':
+    return [...(data || []), ...action.items];
 
-        if (idx !== -1) {
-          return [...data.slice(0, idx - 1), next, ...data.slice(idx + 1)];
-        }
+  case 'remove': {
+    if (!data) {
+      return;
+    }
 
-        return data;
-      });
-    },
-    [],
-  );
+    return data.filter(item => !action.items.includes(item));
+  }
+
+  case 'replace': {
+    if (!data) {
+      return;
+    }
+
+    const idx = data.indexOf(action.prev);
+
+    if (idx !== -1) {
+      return [...data.slice(0, idx - 1), action.next, ...data.slice(idx + 1)];
+    }
+
+    return data;
+  }
+  }
+};
+
+const useEditableDataset = <T>(input?: T[], onUpdate?: 'append' | 'prepend'): EditableDataset<T> => {
+  const [data, dispatch] = useReducer<Reducer<T[], Action<T>>>(reducer, input);
 
   useUpdateEffect(() => {
-    if (input) {
-      if (onUpdate === 'prepend') {
-        prepend(...input);
-      } else if (onUpdate === 'append') {
-        append(...input);
-      }
+    if (input && onUpdate) {
+      dispatch({ type: onUpdate, items: input });
     }
   }, [input]);
 
   return [
     data,
     {
-      set: setData,
-      prepend,
-      append,
-      remove,
-      replace,
+      set: (items: T[]) => dispatch({ type: 'set', items }),
+      prepend: (...items: T[]) => dispatch({ type: 'prepend', items }),
+      append: (...items: T[]) => dispatch({ type: 'append', items }),
+      remove: (...items: T[]) => dispatch({ type: 'remove', items }),
+      replace: (prev: T, next: T) => dispatch({ type: 'replace', prev, next }),
     },
   ];
-}
+};
 
 export default useEditableDataset;
