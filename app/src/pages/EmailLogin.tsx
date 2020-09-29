@@ -10,24 +10,29 @@ import { parseUser } from 'src/types/User';
 import { trackEmailLogin } from 'src/utils/track';
 
 const useErrorMessage = (status: (s: number) => boolean) => {
-  if (status(403))
+  if (status(403)) {
     return 'Vous êtes déjà connecté.';
+  }
 
-  if (status(401))
-    return 'Le lien que vous avez utilisé n\'est pas valide.';
+  if (status(401)) {
+    return "Le lien que vous avez utilisé n'est pas valide.";
+  }
 
-  return 'Quelque chose s\'est mal passé, veuillez réessayer.';
+  return "Quelque chose s'est mal passé, veuillez réessayer.";
 };
 
 const EmailLogin: React.FC = () => {
   const { token } = useQueryString();
   const [, setUser] = useUser();
 
-  const [{ loading, error, status, data: user }] = useAxios({
-    method: 'POST',
-    url: '/api/auth/email-login',
-    data: { token },
-  }, parseUser);
+  const [{ loading, error, status, data: user }] = useAxios(
+    {
+      method: 'POST',
+      url: '/api/auth/email-login',
+      data: { token },
+    },
+    parseUser,
+  );
 
   const errorMessage = useErrorMessage(status);
 
@@ -39,21 +44,20 @@ const EmailLogin: React.FC = () => {
   }, [status, user, setUser]);
 
   return (
-    <AsyncContent loading={loading}>
-      {() => (
+    <AsyncContent
+      loading={loading}
+      render={() => (
         <Box mt={16}>
-
-          { status(200) && (
+          {status(200) && (
             <Typography>
               Vous êtes maintenant connecté.e. Vous pouvez changer votre mot de passe depuis la popup de l'extension.
             </Typography>
-          ) }
+          )}
 
-          { error && <Typography color="error">{ errorMessage }</Typography> }
-
+          {error && <Typography color="error">{errorMessage}</Typography>}
         </Box>
       )}
-    </AsyncContent>
+    />
   );
 };
 

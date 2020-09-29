@@ -9,34 +9,27 @@ import RouterLink from '../components/Link';
 import Padding from '../components/Padding';
 
 const CommentsAreasList: React.FC = () => {
-  const [
-    { loading, data: commentsAreas, total, error },
-    { setSearch },,
-    { page, setPage },
-  ] = useAxiosPaginated('/api/comments-area', parseCommentsArea);
+  const [{ loading, data: commentsAreas, total, error }, { setSearch },, { page, setPage }] = useAxiosPaginated(
+    '/api/comments-area',
+    parseCommentsArea,
+  );
 
-  if (error)
+  if (error) {
     throw error;
+  }
 
   return (
     <>
+      <FiltersBar onSearch={setSearch} page={page} pageSize={10} total={total} onPageChange={setPage} />
 
-      <FiltersBar
-        onSearch={setSearch}
-        page={page}
-        pageSize={10}
-        total={total}
-        onPageChange={setPage}
-      />
-
-      { !loading && commentsAreas.map(commentsArea => (
-        <Padding top key={commentsArea.id}>
-          <RouterLink to={`/commentaires/${commentsArea.id}`}>
-            <CommentsAreaOverview commentsArea={commentsArea} />
-          </RouterLink>
-        </Padding>
-      )) }
-
+      {!loading &&
+        commentsAreas?.map(commentsArea => (
+          <Padding top key={commentsArea.id}>
+            <RouterLink to={`/commentaires/${commentsArea.id}`}>
+              <CommentsAreaOverview commentsArea={commentsArea} />
+            </RouterLink>
+          </Padding>
+        ))}
     </>
   );
 };

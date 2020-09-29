@@ -1,26 +1,48 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import Flex from './Flex';
 
-type FallbackProps = {
-  when?: boolean;
+class Not<T> {
+  constructor(public readonly value: T | null | undefined) {}
+
+  eval() {
+    return this.value !== null && this.value !== undefined;
+  }
+}
+
+export function not<T>(value: T | null | undefined): Not<T> {
+  return new Not(value);
+}
+
+type FallbackProps<T> = {
+  when?: boolean | Not<T>;
   fallback: React.ReactNode;
   minHeight?: number;
+  render: (value: T) => React.ReactNode;
 };
 
-const Fallback: React.FC<FallbackProps> = ({ when, fallback, minHeight = 200, children }) => {
-  if (when) {
+function Fallback<T>({ when, fallback, minHeight = 200, render }: FallbackProps<T>) {
+  const [shouldRender, value] = useMemo<[boolean, T | undefined]>(() => {
+    if (typeof when === 'boolean') {
+      return [!when, undefined];
+    }
+
+    if (when instanceof Not) {
+      return [when.eval(), when.value];
+    }
+
+    return [false, undefined];
+  }, [when]);
+
+  if (!shouldRender) {
     return (
       <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight }}>
-        { fallback }
+        {fallback}
       </Flex>
     );
   }
 
-  if (typeof children !== 'function')
-    throw new Error('Fallback: children must be a function');
-
-  return children();
-};
+  return <>{render(value as T)}</>;
+}
 
 export default Fallback;

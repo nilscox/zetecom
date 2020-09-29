@@ -12,23 +12,25 @@ import { parseUser } from 'src/types/User';
 import { trackEmailValidated } from 'src/utils/track';
 
 const useErrorMessage = (status: (s: number) => boolean, error?: AxiosError) => {
-  if (status(403))
+  if (status(403)) {
     return 'Votre adresse email est déjà validée.';
+  }
 
-  if (status(400) && error?.response.data.message === 'USER_EMAIL_TOKEN_NOT_FOUND')
+  if (status(400) && error?.response.data.message === 'USER_EMAIL_TOKEN_NOT_FOUND') {
     return 'Le lien que vous avez utilisé n\'est pas valide.';
+  }
 
   return 'Quelque chose s\'est mal passé, veuillez réessayer plus tard.';
 };
 
 const EmailValidation: React.FC = () => {
-  const { token } = useParams();
+  const { token } = useParams<{ token: string }>();
   const [, setUser] = useUser();
   const history = useHistory();
 
   const [{ loading, error, status, data: user }] = useAxios({
     method: 'POST',
-    url: '/api/auth/email-validation/' + token,
+    url: `/api/auth/email-validation/${token}`,
   }, parseUser);
 
   const errorMessage = useErrorMessage(status, error);
@@ -43,9 +45,10 @@ const EmailValidation: React.FC = () => {
   }, [status, user, setUser, history]);
 
   return (
-    <AsyncContent loading={loading}>
-      {() => error && <Typography color="error">{ errorMessage }</Typography>}
-    </AsyncContent>
+    <AsyncContent
+      loading={loading}
+      render={() => error && <Typography color="error">{ errorMessage }</Typography>}
+    />
   );
 };
 

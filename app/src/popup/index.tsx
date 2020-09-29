@@ -26,11 +26,11 @@ const Popup: React.FC = () => {
   const user = useCurrentUser();
 
   return (
-    <AsyncContent loading={typeof user === 'undefined'}>
-      {() => (
+    <AsyncContent
+      loading={typeof user === 'undefined'}
+      render={() => (
         <ThemeProvider theme={theme}>
           <Box padding={3}>
-
             <ToastContainer />
 
             <RouterLink to="/popup">
@@ -38,18 +38,14 @@ const Popup: React.FC = () => {
             </RouterLink>
 
             <Switch>
-
               <Route path="/popup/:sign(connexion|inscription|connexion-par-email)" component={AuthenticationView} />
               <Route path="/popup" component={AuthenticatedView} />
-
               <Route render={() => <Redirect to="/popup" />} />
-
             </Switch>
-
           </Box>
         </ThemeProvider>
       )}
-    </AsyncContent>
+    />
   );
 };
 

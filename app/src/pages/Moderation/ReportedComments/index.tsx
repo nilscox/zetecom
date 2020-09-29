@@ -9,31 +9,34 @@ import Section from '../Section';
 import ReportedComment from './ReportedComment';
 
 const ReportedComments: React.FC = () => {
-  const [{ data: reportedComments, loading }] = useAxiosPaginated('/api/moderation/reports', parseReportedComment);
+  const [{ data: reportedComments, loading, error }] = useAxiosPaginated(
+    '/api/moderation/reports',
+    parseReportedComment,
+  );
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <Section title="Commentaires signalés">
-      <AsyncContent loading={loading}>
-        {() => (
+      <AsyncContent
+        loading={loading}
+        render={() => (
           <Fallback
             minHeight={100}
-            when={reportedComments.length === 0}
+            when={reportedComments?.length === 0}
             fallback="Aucun commentaire n'est en attente de modération."
-          >
-            {() => (
+            render={() => (
               <>
-                {reportedComments.map((comment) => (
-                  <ReportedComment
-                    key={comment.id}
-                    comment={comment}
-                    reports={comment.reports}
-                  />
+                {reportedComments?.map(comment => (
+                  <ReportedComment key={comment.id} comment={comment} reports={comment.reports} />
                 ))}
               </>
             )}
-          </Fallback>
+          />
         )}
-      </AsyncContent>
+      />
     </Section>
   );
 };
