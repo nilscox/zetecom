@@ -7,11 +7,11 @@ import CommentComponent from '../CommentComponent';
 
 import useReplies from './hooks/useReplies';
 import useReport from './hooks/useReport';
+import useSetReaction from './hooks/useSetReaction';
 import useSubscription from './hooks/useSubscription';
 import useViewHistory from './hooks/useViewHistory';
 import Replies from './Replies';
 import ReplyForm from './ReplyForm';
-import useSetReaction from './hooks/useSetReaction';
 
 type CommentStates = {
   displayReplies: boolean;

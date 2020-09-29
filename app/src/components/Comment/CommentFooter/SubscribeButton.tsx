@@ -22,7 +22,7 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
 
 type SubscribeButtonProps = {
   comment: Comment;
-  toggleSubscription: () => void;
+  toggleSubscription?: () => void;
 };
 
 const SubscribeButton: React.FC<SubscribeButtonProps> = ({ comment, toggleSubscription }) => {

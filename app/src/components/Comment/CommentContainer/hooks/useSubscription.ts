@@ -6,7 +6,7 @@ import useAxios from '../../../../hooks/use-axios';
 import { Comment } from '../../../../types/Comment';
 import { trackSubscribeComment, trackUnsubscribeComment } from '../../../../utils/track';
 
-const useSubscription = (comment: Comment, setComment: (comment: Comment) => void) => {
+const useSubscription = (comment: Comment | null, setComment: (comment: Comment) => void) => {
   const opts: AxiosRequestConfig = {
     method: 'POST',
   };

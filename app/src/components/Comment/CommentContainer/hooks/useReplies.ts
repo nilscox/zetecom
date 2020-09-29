@@ -3,8 +3,8 @@ import { useCallback, useState } from 'react';
 import { AxiosRequestConfig } from 'axios';
 
 import useAxios from 'src/hooks/use-axios';
-import useEditableDataset from 'src/hooks/use-editable-dataset';
 import useUpdateEffect from 'src/hooks/use-update-effect';
+import useEditableDataset from 'src/hooks/useEditableDataset';
 import { Comment, parseComment } from 'src/types/Comment';
 import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
 
@@ -25,7 +25,7 @@ const useReplies = (parent: Comment) => {
     throw error;
   }
 
-  const [replies, { prepend }] = useEditableDataset(data ? data.items : null, { appendOnUpdate: true });
+  const [replies, { prepend }] = useEditableDataset(data?.items, 'append');
 
   useUpdateEffect(() => {
     const opts: AxiosRequestConfig = { params: {} };
@@ -44,7 +44,7 @@ const useReplies = (parent: Comment) => {
   return [
     {
       replies,
-      remainingRepliesCount: data?.total - replies?.length,
+      remainingRepliesCount: data && replies ? (data.total - replies.length) : undefined,
       loading,
     },
     {
