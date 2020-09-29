@@ -29,10 +29,11 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ form, onChange, ..
   const classes = useStyles();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-    if (!showWarning)
+    if (!showWarning) {
       setShowWarning(true);
-    else
-      onChange(e, checked);
+    } else {
+      onChange?.(e, checked);
+    }
   };
 
   return (

@@ -43,8 +43,8 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
 
       <CommentFooter
         comment={comment}
-        displayReplies={displayReplies}
-        displayReplyForm={displayReplyForm}
+        displayReplies={Boolean(displayReplies)}
+        displayReplyForm={Boolean(displayReplyForm)}
         onSetReaction={onSetReaction}
         onToggleReplies={onToggleReplies}
         onToggleSubscription={onToggleSubscription}

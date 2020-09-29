@@ -18,13 +18,14 @@ const useLogin = (onAuthenticated: (user: User) => void) => {
   useEffect(() => {
     const from = /popup/.exec(location.pathname) ? 'popup' : 'app';
 
-    if (status(200)) {
+    if (status(200) && user) {
       onAuthenticated(user);
       trackLogin(from);
     }
 
-    if (status(401))
+    if (status(401)) {
       trackLoginFailed(from);
+    }
   }, [status, user, onAuthenticated, location.pathname]);
 
   const handleLogin = (email: string, password: string) => {
@@ -42,18 +43,22 @@ export default useLogin;
 export const loginErrorsHandlers: FormErrorsHandlers<AxiosError, FormFields> = [
   {
     email: ({ response: { status, data } }) => {
-      if (status === 401 && data.message === 'EMAIL_NOT_VALIDATED')
+      if (status === 401 && data.message === 'EMAIL_NOT_VALIDATED') {
         return 'Votre adresse email n\'a pas été validée, verifiez dans vos spams !';
+      }
 
-      if (data.email?.isEmail)
+      if (data.email?.isEmail) {
         return 'Format d\'adresse email non valide';
+      }
     },
   },
   ({ response: { status, data } }) => {
-    if (status === 403)
+    if (status === 403) {
       return 'Vous êtes déjà connecté.e';
+    }
 
-    if (status === 401 && data.message === 'INVALID_CREDENTIALS')
+    if (status === 401 && data.message === 'INVALID_CREDENTIALS') {
       return 'Combinaison email / mot de passe non valide';
+    }
   },
 ];

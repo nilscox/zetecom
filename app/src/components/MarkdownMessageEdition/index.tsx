@@ -15,20 +15,24 @@ type MarkdownMessageFieldProps = {
 const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, placeholder, setMessage }) => {
   const rows = 4;
   const { sizes: { big } } = useTheme();
-  const ref = useRef<HTMLTextAreaElement>();
+  const ref = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    ref.current.rows = ref.current.scrollHeight / 16;
+    if (ref.current) {
+      ref.current.rows = ref.current.scrollHeight / 16;
+    }
   }, []);
 
   useEffect(() => {
-    if (message.length === 0)
+    if (ref.current && message.length === 0) {
       ref.current.style.height = `${rows * 16}px`;
+    }
   }, [message]);
 
   useEffect(() => {
-    if (!message)
+    if (!message) {
       return;
+    }
 
     const listener = (e: BeforeUnloadEvent) => {
       e.preventDefault();
