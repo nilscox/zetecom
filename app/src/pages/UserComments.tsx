@@ -20,10 +20,13 @@ import { CommentsArea, parseCommentsArea } from '../types/CommentsArea';
 
 const useParseCommentsAreaForUser = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return useCallback((data: any) => ({
-    commentsArea: parseCommentsArea(data.commentsArea),
-    comments: data.comments.map(parseComment),
-  }), []);
+  return useCallback(
+    (data: any) => ({
+      commentsArea: parseCommentsArea(data.commentsArea),
+      comments: data.comments.map(parseComment),
+    }),
+    [],
+  );
 };
 
 type StylesProps = {
@@ -65,10 +68,8 @@ const UserCommentsCommentsArea: React.FC<UserCommentsCommentsAreaProps> = ({
 
   return (
     <CommentsAreaProvider value={commentsArea}>
-
       <Card variant="outlined" elevation={2} className={classes.userCommentsCommentsArea}>
         <CardContent classes={{ root: classes.cardContent }}>
-
           <div
             style={{ display: 'inline-flex' }}
             className={classes.collapseButton}
@@ -78,7 +79,7 @@ const UserCommentsCommentsArea: React.FC<UserCommentsCommentsAreaProps> = ({
           </div>
 
           <CommentsAreaOverview
-            title={<RouterLink to={`/commentaires/${commentsArea.id}`}>{ commentsArea.informationTitle }</RouterLink>}
+            title={<RouterLink to={`/commentaires/${commentsArea.id}`}>{commentsArea.informationTitle}</RouterLink>}
             commentsArea={commentsArea}
             inline={collapsed}
           />
@@ -88,10 +89,8 @@ const UserCommentsCommentsArea: React.FC<UserCommentsCommentsAreaProps> = ({
               <CommentsList comments={commentsArea.comments} />
             </Padding>
           </Collapse>
-
         </CardContent>
       </Card>
-
     </CommentsAreaProvider>
   );
 };
@@ -100,8 +99,9 @@ const useCollapseCommentsArea = (data: { commentsArea: CommentsArea }[]) => {
   const [collapsed, setCollapsed] = useState<Map<CommentsArea, boolean>>(new Map());
 
   useEffect(() => {
-    if (data)
+    if (data) {
       setCollapsed(new Map(data.map(({ commentsArea }) => [commentsArea, false])));
+    }
   }, [data]);
 
   const toggle = (commentsArea: CommentsArea) => {
@@ -121,38 +121,32 @@ const useCollapseCommentsArea = (data: { commentsArea: CommentsArea }[]) => {
 
 const UserComments: React.FC = () => {
   const parseCommentsAreaForUser = useParseCommentsAreaForUser();
-  const [
-    { loading, data, total, error },
-    { search, setSearch },,
-    { page, setPage },
-  ] = useAxiosPaginated('/api/comment/me', parseCommentsAreaForUser);
+  const [{ loading, data, total, error }, { search, setSearch }, , { page, setPage }] = useAxiosPaginated(
+    '/api/comment/me',
+    parseCommentsAreaForUser,
+  );
 
-  if (error)
+  if (error) {
     throw error;
+  }
 
   const [collapsed, toggleCollapsed, collapseAll] = useCollapseCommentsArea(data);
 
   const handleToggleCollapse = (commentsArea: CommentsArea) => (ctrlKey: boolean) => {
-    if (ctrlKey)
+    if (ctrlKey) {
       collapseAll();
-    else
+    } else {
       toggleCollapsed(commentsArea);
+    }
   };
 
   return (
     <Authenticated>
-      <AsyncContent loading={loading}>
-        {() => (
+      <AsyncContent
+        loading={loading}
+        render={() => (
           <SearchQueryProvider value={search}>
-
-            <FiltersBar
-              onSearch={setSearch}
-              page={page}
-              pageSize={10}
-              total={total}
-              onPageChange={setPage}
-            />
-
+            <FiltersBar onSearch={setSearch} page={page} pageSize={10} total={total} onPageChange={setPage} />
             {data.map(({ commentsArea, comments }) => (
               <Padding key={commentsArea.id} top>
                 <UserCommentsCommentsArea
@@ -162,10 +156,9 @@ const UserComments: React.FC = () => {
                 />
               </Padding>
             ))}
-
           </SearchQueryProvider>
         )}
-      </AsyncContent>
+      />
     </Authenticated>
   );
 };

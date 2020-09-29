@@ -14,24 +14,29 @@ const OpenCommentsAreaRequests: React.FC = () => {
     parseOpenCommentsAreaRequest,
   );
 
-  if (error)
+  if (error) {
     throw error;
+  }
 
   return (
     <Section title="Ouverture de nouvelles zones de commentaires">
-      <AsyncContent loading={loading}>
-        {() => (
+      <AsyncContent
+        loading={loading}
+        render={() => (
           <Fallback
             minHeight={100}
             when={pendingRequests?.length === 0}
             fallback="Toutes les demandes d'ouvertures de zones de commentaires ont été traitées."
-          >
-            {() => pendingRequests.map(({ id, identifier }, n) => (
-              <OpenCommentsAreaRequest key={n} requestId={id} identifier={identifier} />
-            ))}
-          </Fallback>
+            render={() => (
+              <>
+                {pendingRequests?.map(({ id, identifier }, n) => (
+                  <OpenCommentsAreaRequest key={n} requestId={id} identifier={identifier} />
+                ))}
+              </>
+            )}
+          />
         )}
-      </AsyncContent>
+      ></AsyncContent>
     </Section>
   );
 };

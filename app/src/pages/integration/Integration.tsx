@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core';
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
 import AsyncContent from 'src/components/AsyncContent';
-import Fallback from 'src/components/Fallback';
+import Fallback, { not } from 'src/components/Fallback';
 import HeaderLogo from 'src/components/HeaderLogo';
 import Padding from 'src/components/Padding';
 import { useTrackPageview } from 'src/components/TrackPageView';
@@ -51,22 +51,26 @@ const Integration: React.FC = () => {
   useTrackPageview(() => !!commentsArea);
 
   useEffect(() => {
-    if (commentsArea)
+    if (commentsArea) {
       trackViewIntegration(identifier);
+    }
   });
 
-  if (error)
+  if (error) {
     throw error;
+  }
 
   useEffect(() => void identifier && fetchInfo(), [identifier, fetchInfo]);
 
   useEffect(() => {
     const identifierChangedListener = (evt: MessageEvent) => {
-      if (evt.origin !== origin)
+      if (evt.origin !== origin) {
         return;
+      }
 
-      if (evt.data.type === 'IDENTIFIER_CHANGED')
+      if (evt.data.type === 'IDENTIFIER_CHANGED') {
         setIdentifier(evt.data.identifier);
+      }
     };
 
     window.addEventListener('message', identifierChangedListener);
@@ -87,27 +91,26 @@ const Integration: React.FC = () => {
 
   return (
     <div className={classes.container}>
-      <AsyncContent loading={loading}>
-        {() => (
+      <AsyncContent
+        loading={loading}
+        render={() => (
           <>
-
             <Padding bottom>
               <HeaderLogo />
             </Padding>
 
             <Fallback
-              when={!commentsArea}
+              when={not(commentsArea)}
               fallback={<CommentAreaClosed />}
-            >
-              {() => (
+              render={(commentsArea) => (
                 <CommentsAreaProvider value={commentsArea}>
                   <IntegrationRouter />
                 </CommentsAreaProvider>
               )}
-            </Fallback>
-
+            />
           </>
         )}
+      >
       </AsyncContent>
     </div>
   );

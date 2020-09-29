@@ -47,8 +47,9 @@ const CommentsArea: React.FC = () => {
       ) }
 
       <SearchQueryProvider value={search || undefined}>
-        <AsyncContent loading={loading || !comments}>
-          {() => (
+        <AsyncContent
+          loading={loading || !comments}
+          render={() => (
             <Fallback
               when={comments.length === 0}
               fallback={
@@ -57,14 +58,14 @@ const CommentsArea: React.FC = () => {
                   { search && !loading && <>Aucun résultat ne correspond à cette recherche</> }
                 </Text>
               }
-            >
-              {() => (
+              render={() => (
                 <Padding top>
                   <CommentsList comments={comments} />
                 </Padding>
               )}
-            </Fallback>
+            />
           )}
+        >
         </AsyncContent>
       </SearchQueryProvider>
 

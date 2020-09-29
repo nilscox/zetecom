@@ -5,12 +5,11 @@ import Loader from './Loader';
 
 type AsyncContentProps = {
   loading: boolean;
-  children: () => React.ReactNode;
+  render: () => React.ReactNode;
 };
 
-const AsyncContent: React.FC<AsyncContentProps> = ({ loading, children }) => {
-  // eslint-disable-next-line react/no-children-prop
-  return <Fallback when={loading} fallback={<Loader />} children={children} />;
-};
+const AsyncContent: React.FC<AsyncContentProps> = ({ loading, render }) => (
+  <Fallback when={loading} fallback={<Loader />} render={render} />
+);
 
 export default AsyncContent;
