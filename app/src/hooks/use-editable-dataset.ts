@@ -1,73 +1,73 @@
 import { useCallback, useEffect, useState } from 'react';
 
+type EditableDataset<T> = {
+  prepend: (data: T) => void,
+  append: (data: T) => void,
+  replace: (data: T) => void,
+  remove: (data: T) => void,
+}
+
 const findById = <T extends { id: number }>(dataset: T[]) => (data: T) => {
   return dataset.find((element: T) => element.id === data.id);
 };
 
 const useEditableDataset = <T extends { id: number }>(
-  dataset: T[] | null,
-  {
-    find = findById,
-    appendOnUpdate = false,
-  } = {},
-) => {
-  const [copy, setCopy] = useState(dataset);
-  // TODO
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  dataset?: T[],
+  { find = findById, appendOnUpdate = false } = {},
+): [T[], EditableDataset<T>] => {
+  const [copy, setCopy] = useState(dataset || []);
   const findElement = useCallback(find(copy), [find, copy]);
 
   useEffect(() => {
-    if (appendOnUpdate && copy)
+    if (!dataset) {
+      return;
+    }
+
+    if (appendOnUpdate && copy) {
       setCopy([...copy, ...dataset]);
-    else
+    } else {
       setCopy(dataset);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dataset, appendOnUpdate]);
 
-  const prepend = useCallback((newData: T) => {
-    setCopy([newData, ...copy]);
-  }, [copy]);
+  const prepend = useCallback((newData: T) => void setCopy([newData, ...copy]), [copy]);
+  const append = useCallback((newData: T) => void setCopy([...copy, newData]), [copy]);
 
-  const append = useCallback((newData: T) => {
-    setCopy([...copy, newData]);
-  }, [copy]);
+  const replace = useCallback(
+    (newData: T) => {
+      const oldData = findElement(newData);
+      const idx = oldData && copy.indexOf(oldData);
 
-  const replace = useCallback((newData: T) => {
-    const oldData = findElement(newData);
-    const idx = copy.indexOf(oldData);
+      if (idx && idx !== -1) {
+        setCopy([...copy.slice(0, idx), newData, ...copy.slice(idx + 1)]);
+      }
+    },
+    [copy, findElement],
+  );
 
-    if (idx === -1)
-      return;
+  const remove = useCallback(
+    (item: T) => {
+      const idx = copy.indexOf(item);
 
-    setCopy([
-      ...copy.slice(0, idx),
-      newData,
-      ...copy.slice(idx + 1),
-    ]);
-  }, [copy, findElement]);
+      if (idx === -1) {
+        return;
+      }
 
-  const remove = useCallback((item: T) => {
-    const idx = copy.indexOf(item);
-
-    if (idx === -1)
-      return;
-
-    setCopy([
-      ...copy.slice(0, idx),
-      ...copy.slice(idx + 1),
-    ]);
-  }, [copy]);
+      setCopy([...copy.slice(0, idx), ...copy.slice(idx + 1)]);
+    },
+    [copy],
+  );
 
   return [
-    // return the dataset when copy will be set in the useEffect
-    copy === undefined ? dataset : copy,
+    copy,
     {
       prepend,
       append,
       replace,
       remove,
     },
-  ] as const;
+  ];
 };
 
 export default useEditableDataset;
