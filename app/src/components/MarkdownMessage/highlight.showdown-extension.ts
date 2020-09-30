@@ -5,8 +5,9 @@ const sup: ShowdownExtension = {
   filter: (text, _converter, options) => {
     const { highlight } = options;
 
-    if (!highlight)
+    if (!highlight) {
       return text;
+    }
 
     return text
       // surround matches with the .highlighted selector
@@ -17,6 +18,7 @@ const sup: ShowdownExtension = {
       // undo replaced matches when it's inside a link's href
       .replace(
         /href="([^"]*)<span class="highlighted">([^"]*)<\/span>([^"]*)"/g,
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         (_match, p1, p2, p3) => `href="${p1}${p2}${p3}"`,
       );
   },

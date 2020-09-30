@@ -15,13 +15,15 @@ type CommentEditionFormProps = {
 };
 
 const CommentEditionForm: React.FC<CommentEditionFormProps> = ({ comment, onEdited, closeForm }) => {
-  const formRef = React.useRef(null);
+  // eslint-disable-next-line func-call-spacing
+  const formRef = React.useRef<{ clear: () => void }>(null);
 
-  const opts: AxiosRequestConfig = { method: 'PUT', url: '/api/comment/' + comment.id };
+  const opts: AxiosRequestConfig = { method: 'PUT', url: `/api/comment/${comment.id}` };
   const [{ data, loading, error }, postComment] = useAxios(opts, parseComment, { manual: true });
 
-  if (error)
+  if (error) {
     throw error;
+  }
 
   const onSubmit = (text: string) => postComment({ data: { text } });
 
@@ -30,11 +32,12 @@ const CommentEditionForm: React.FC<CommentEditionFormProps> = ({ comment, onEdit
       trackEditComment();
       onEdited(data);
 
-      if (formRef.current)
+      if (formRef.current) {
         formRef.current.clear();
+      }
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, onEdited, formRef]);
 
   return (
