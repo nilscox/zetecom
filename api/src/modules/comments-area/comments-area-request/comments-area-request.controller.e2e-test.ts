@@ -32,13 +32,13 @@ describe('comments area request controller', () => {
     const [asModerator] = createAuthenticatedModerator(server);
 
     it('should not list pending requests when not a moderator', async () => {
-      await request(server).get('/api/comments-area/request').expect(403);
-      await asUser.get('/api/comments-area/request').expect(403);
+      await request(server).get('/api/comments-area-request').expect(403);
+      await asUser.get('/api/comments-area-request').expect(403);
     });
 
     it('should list pending requests', async () => {
       const { body } = await asModerator
-        .get('/api/comments-area/request')
+        .get('/api/comments-area-request')
         .expect(200);
 
       expect(body).toMatchObject({
@@ -56,12 +56,12 @@ describe('comments area request controller', () => {
     const [asUser2] = createAuthenticatedUser(server);
 
     it('should not request to open a new comments area when not authenticated', async () => {
-      await request(server).get('/api/comments-area/request').expect(403);
+      await request(server).get('/api/comments-area-request').expect(403);
     });
 
     it('should request to create a new comment area', async () => {
       const { body } = await asUser1
-        .post('/api/comments-area/request')
+        .post('/api/comments-area-request')
         .send({ identifier: 'id:1'})
         .expect(201);
 
@@ -70,14 +70,14 @@ describe('comments area request controller', () => {
       });
 
       await asUser2
-        .post('/api/comments-area/request')
+        .post('/api/comments-area-request')
         .send({ identifier: 'id:1'})
         .expect(201);
     });
 
     it('should not be possible to request to create the same comment area twice', async () => {
       await asUser1
-        .post('/api/comments-area/request')
+        .post('/api/comments-area-request')
         .send({ identifier: 'id:1' })
         .expect(400);
     });

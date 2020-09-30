@@ -510,11 +510,11 @@ describe('comment controller', () => {
 
       expect(body).toMatchObject({
         reactionsCount: {
-          APPROVE: 1,
-          REFUTE: 0,
-          SKEPTIC: 0,
+          [ReactionType.APPROVE]: 1,
+          [ReactionType.REFUTE]: 0,
+          [ReactionType.SKEPTIC]: 0,
         },
-        userReaction: 'APPROVE',
+        userReaction: ReactionType.APPROVE,
       });
 
       const reactionDb = await reactionRepository.findOne(body.id);
@@ -530,11 +530,11 @@ describe('comment controller', () => {
 
       expect(body).toMatchObject({
         reactionsCount: {
-          APPROVE: 0,
-          REFUTE: 0,
-          SKEPTIC: 1,
+          [ReactionType.APPROVE]: 0,
+          [ReactionType.REFUTE]: 0,
+          [ReactionType.SKEPTIC]: 1,
         },
-        userReaction: 'SKEPTIC',
+        userReaction: ReactionType.SKEPTIC,
       });
 
       const reactionDb = await reactionRepository.findOne(body.id);
@@ -550,9 +550,9 @@ describe('comment controller', () => {
 
       expect(body).toMatchObject({
         reactionsCount: {
-          APPROVE: 0,
-          REFUTE: 0,
-          SKEPTIC: 0,
+          [ReactionType.APPROVE]: 0,
+          [ReactionType.REFUTE]: 0,
+          [ReactionType.SKEPTIC]: 0,
         },
       });
 
