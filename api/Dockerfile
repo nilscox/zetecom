@@ -18,4 +18,4 @@ RUN yarn build
 RUN yarn lint
 RUN yarn test:unit
 
-CMD yarn start:prod
+CMD yarn db:migrate && node dist/src/main.js

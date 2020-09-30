@@ -5,21 +5,26 @@ import { CommentDto } from './Comment';
 
 export class CommentsAreaDto {
 
+  @IsOptional()
   @IsString()
-  identifier: string;
+  identifier?: string;
 
+  @IsOptional()
   @IsString()
-  informationTitle: string;
+  creator?: string;
 
+  @IsOptional()
+  @IsString()
+  informationTitle?: string;
+
+  @IsOptional()
   @IsString()
   @IsUrl()
-  informationUrl: string;
+  informationUrl?: string;
 
+  @IsOptional()
   @IsString()
-  informationAuthor: string;
-
-  @IsString()
-  creator: string;
+  informationAuthor?: string;
 
   @IsOptional()
   @ValidateNested()

@@ -29,6 +29,7 @@ describe('comment controller', () => {
   let createUser: UserFactory['create'];
   let createCommentsArea: CommentsAreaFactory['create'];
   let createComment: CommentFactory['create'];
+  let editComment: CommentFactory['edit'];
   let createsubscription: SubscriptionFactory['create'];
 
   let commentRepository: CommentRepository;
@@ -43,12 +44,6 @@ describe('comment controller', () => {
   let reply2: Comment;
   let reply3: Comment;
 
-  const updateComment = async (comment: Comment, text: string) => {
-    const commentService = getTestingModule().get<CommentService>(CommentService);
-
-    comment = await commentService.update(comment, text);
-  };
-
   beforeAll(async () => {
     const module = getTestingModule();
 
@@ -60,6 +55,7 @@ describe('comment controller', () => {
     createUser = userFactory.create.bind(userFactory);
     createCommentsArea = commentsAreaFactory.create.bind(commentsAreaFactory);
     createComment = commentFactory.create.bind(commentFactory);
+    editComment = commentFactory.edit.bind(commentFactory);
     createsubscription = subscriptionFactory.create.bind(subscriptionFactory);
 
     commentRepository = getCustomRepository(CommentRepository);
@@ -76,7 +72,7 @@ describe('comment controller', () => {
       text: 'message1',
     });
 
-    await updateComment(comment, 'message2' );
+    await editComment(comment, 'message2' );
 
     reply1 = await createComment({ commentsArea, parent: comment });
     reply2 = await createComment({ commentsArea, parent: comment });

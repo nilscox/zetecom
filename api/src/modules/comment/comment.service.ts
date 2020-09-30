@@ -88,7 +88,7 @@ export class CommentService {
     await this.commentRepository.softDelete(comment.id);
   }
 
-  async setReaction(comment: Comment, user: User, type: ReactionType | null) {
+  async setReaction(comment: Comment, user: User, type: ReactionType | null): Promise<Reaction | null> {
     const existingReaction = await this.reactionRepository.findOne({
       where: {
         comment,
@@ -108,19 +108,21 @@ export class CommentService {
 
       if (existingReaction.type !== null && type === null)
         await this.commentRepository.decrementScore(comment.id);
+
+      return existingReaction;
     } else {
       if (type === null)
-        return;
+        return null;
 
-      const reaction = new Reaction();
-
-      reaction.comment = comment;
-      reaction.user = user;
-      reaction.type = type;
-
-      await this.reactionRepository.save(reaction);
+      const reaction = await this.reactionRepository.save({
+        comment,
+        user,
+        type,
+      });
 
       await this.commentRepository.incrementScore(comment.id);
+
+      return reaction;
     }
   }
 

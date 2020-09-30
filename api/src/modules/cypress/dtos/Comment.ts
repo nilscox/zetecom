@@ -2,26 +2,28 @@ import { Type } from 'class-transformer';
 import { IsOptional, IsString, ValidateNested } from 'class-validator';
 
 class ReactionsDto {
-  @IsString({ each: true })
   @IsOptional()
+  @IsString({ each: true })
   approve?: string[];
 
-  @IsString({ each: true })
   @IsOptional()
+  @IsString({ each: true })
   refute?: string[];
 
-  @IsString({ each: true })
   @IsOptional()
+  @IsString({ each: true })
   skeptic?: string[];
 }
 
 export class CommentDto {
 
+  @IsOptional()
   @IsString()
-  author: string;
+  author?: string;
 
+  @IsOptional()
   @IsString()
-  text: string;
+  text?: string;
 
   @IsOptional()
   @ValidateNested()

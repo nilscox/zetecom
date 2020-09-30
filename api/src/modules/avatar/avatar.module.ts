@@ -27,7 +27,10 @@ export class AvatarModule implements OnApplicationBootstrap {
     const NODE_ENV = this.configService.get('NODE_ENV');
     const USER_AVATAR_DESTINATION = this.configService.get('USER_AVATAR_DESTINATION');
 
-    if (NODE_ENV !== 'test') {
+    if (NODE_ENV !== 'test')
+      return;
+
+    if (USER_AVATAR_DESTINATION !== undefined) {
       if (!existsSync(USER_AVATAR_DESTINATION))
         await fs.mkdir(USER_AVATAR_DESTINATION);
     }

@@ -40,7 +40,7 @@ const useSetReaction = (comment: Comment, setComment: (comment: Comment) => void
     post({
       data: {
         commentId: comment.id,
-        type: type ? type.toUpperCase() : null,
+        type: type || null,
       },
       cancelToken: nextCancelToken.token,
     });

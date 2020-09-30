@@ -8,13 +8,13 @@ import { ReactionType } from './../reaction.entity';
 export class ReactionsCountDto {
 
   @Expose()
-  APPROVE: number;
+  approve: number;
 
   @Expose()
-  REFUTE: number;
+  refute: number;
 
   @Expose()
-  SKEPTIC: number;
+  skeptic: number;
 
 }
 

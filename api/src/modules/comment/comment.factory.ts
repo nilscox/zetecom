@@ -50,4 +50,8 @@ export class CommentFactory implements Factory<CommentFactoryData, Comment> {
       data.text || 'comment' + (n || ''),
     );
   }
+
+  async edit(comment: Comment, text: string) {
+    return this.commentService.update(comment, text);
+  }
 }

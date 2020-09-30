@@ -8,9 +8,11 @@ import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaService } from './comments-area.service';
 
 type CommentsAreaFactoryData = {
+  identifier?: string;
   creator?: User;
   informationIitle?: string;
   informationUrl?: string;
+  informationAuthor?: string;
   imageUrl?: string;
 };
 
@@ -29,10 +31,11 @@ export class CommentsAreaFactory implements Factory<CommentsAreaFactoryData, Com
     return this.commentsAreaService.create(
       {
         identifier: `id:${Math.random().toString(36).slice(6)}`,
-        informationUrl: data.informationUrl || 'https://information.url',
-        informationTitle: data.informationIitle || 'Fake News!',
+        informationUrl: 'https://information.url',
+        informationTitle: 'Fake News!',
         informationAuthor: 'anyone',
-        imageUrl: data.imageUrl,
+        imageUrl: null,
+        ...data,
       },
       await getCreator(),
     );

@@ -4,8 +4,7 @@ describe.skip('website screenshots', () => {
   });
 
   it('search', () => {
-    cy.resetdb();
-    cy.populatedbFromFixture('screenshot/search.json');
+    cy.seedFromFixture('screenshot/search.json');
 
     cy.visitIntegration('https://news.fake/article/1');
 
@@ -17,8 +16,7 @@ describe.skip('website screenshots', () => {
   });
 
   it('nested replies', () => {
-    cy.resetdb();
-    cy.populatedbFromFixture('screenshot/nested-replies.json');
+    cy.seedFromFixture('screenshot/nested-replies.json');
 
     cy.visitIntegration('https://news.fake/article/1');
 
@@ -29,8 +27,7 @@ describe.skip('website screenshots', () => {
   });
 
   it('sort relevance', () => {
-    cy.resetdb();
-    cy.populatedbFromFixture('screenshot/sort-relevance.json');
+    cy.seedFromFixture('screenshot/sort-relevance.json');
 
     cy.visitIntegration('https://news.fake/article/1');
 
@@ -38,8 +35,7 @@ describe.skip('website screenshots', () => {
   });
 
   it('subscription', () => {
-    cy.resetdb();
-    cy.populatedbFromFixture('screenshot/subscription.json');
+    cy.seedFromFixture('screenshot/subscription.json');
     cy.login({ email: 'user03@domain.tld', password: 'secure p4ssword' });
 
     cy.visitIntegration('https://news.fake/article/1');
@@ -51,8 +47,7 @@ describe.skip('website screenshots', () => {
   });
 
   it('format', () => {
-    cy.resetdb();
-    cy.populatedbFromFixture('screenshot/format.json');
+    cy.seedFromFixture('screenshot/format.json');
     cy.login({ email: 'user01@domain.tld', password: 'secure p4ssword' });
 
     cy.visitIntegration('https://news.fake/article/1');
