@@ -32,6 +32,7 @@ services:
       DB_USER: root
       DB_PASS: root
       DB_NAME: cypress
+      DB_NAME_ROOT: postgres
       DB_SYNC: 'false'
       DB_ENTITIES: ./dist/src/**/*.entity.js
       DB_MIGRATIONS_DIR: ./dist/migrations/*.js

@@ -1,0 +1,173 @@
+[
+  {
+    "identifier": "test:news1",
+    "informationTitle": "Empty",
+    "informationUrl": "https://info.url/1",
+    "informationAuthor": "anyone",
+    "creator": "user1",
+    "comments": []
+  },
+  {
+    "identifier": "test:news2",
+    "informationTitle": "One comment",
+    "informationUrl": "https://info.url/2",
+    "informationAuthor": "anyone",
+    "creator": "user1",
+    "comments": [
+      {
+        "author": "user2",
+        "reactions": {
+          "approve": [],
+          "refute": [],
+          "skeptic": []
+        },
+        "text": "edit",
+        "history": [
+          "text"
+        ],
+        "replies": []
+      }
+    ]
+  },
+  {
+    "identifier": "test:news3",
+    "informationTitle": "Score",
+    "informationUrl": "https://info.url/3",
+    "informationAuthor": "anyone",
+    "creator": "user1",
+    "comments": [
+      {
+        "author": "user1",
+        "reactions": {
+          "approve": [],
+          "refute": [],
+          "skeptic": []
+        },
+        "text": "comment 1 text - score = 3",
+        "history": [],
+        "replies": [
+          {
+            "author": "user2",
+            "reactions": {
+              "approve": [
+                "user3"
+              ],
+              "refute": [],
+              "skeptic": []
+            },
+            "text": "comment 1.1 text - score = 1",
+            "history": [],
+            "replies": []
+          }
+        ]
+      },
+      {
+        "author": "user2",
+        "reactions": {
+          "approve": [],
+          "refute": [],
+          "skeptic": []
+        },
+        "text": "comment 2 text - score = 6",
+        "history": [],
+        "replies": [
+          {
+            "author": "user2",
+            "reactions": {
+              "approve": [],
+              "refute": [],
+              "skeptic": []
+            },
+            "text": "comment 2.1 text - score = 0",
+            "history": [],
+            "replies": []
+          },
+          {
+            "author": "user3",
+            "reactions": {
+              "approve": [],
+              "refute": [],
+              "skeptic": []
+            },
+            "text": "comment 2.2 text - score = 2",
+            "history": [],
+            "replies": [
+              {
+                "author": "user1",
+                "reactions": {
+                  "approve": [],
+                  "refute": [],
+                  "skeptic": []
+                },
+                "text": "comment 2.2.1 text - score = 0",
+                "history": [],
+                "replies": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "author": "user1",
+        "reactions": {
+          "approve": [
+            "user2",
+            "user3"
+          ],
+          "refute": [],
+          "skeptic": []
+        },
+        "text": "comment 3 text - score = 2",
+        "history": [],
+        "replies": []
+      },
+      {
+        "author": "user3",
+        "reactions": {
+          "approve": [],
+          "refute": [],
+          "skeptic": []
+        },
+        "text": "comment 4 text - score = 0",
+        "history": [],
+        "replies": []
+      }
+    ]
+  },
+  {
+    "identifier": "test:news4",
+    "informationTitle": "Pagination",
+    "informationUrl": "https://info.url/4",
+    "informationAuthor": "anyone",
+    "creator": "user1",
+    "comments": [
+      {
+        "author": "user1",
+        "reactions": {
+          "approve": [],
+          "refute": [],
+          "skeptic": []
+        },
+        "text": "comment",
+        "history": []
+      }
+    ]
+  },
+  {
+    "identifier": "test:news5",
+    "informationTitle": "News",
+    "informationUrl": "https://info.url/5",
+    "informationAuthor": "anyone",
+    "creator": "user1",
+    "comments": [
+      {
+        "author": "user1",
+        "text": "text"
+      },
+      {
+        "author": "myself",
+        "text": "text"
+      }
+    ]
+  }
+]
