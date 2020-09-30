@@ -5,7 +5,7 @@ import React from 'react';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-import { Comment } from 'src/types/Comment';
+import { Comment, ReactionType } from 'src/types/Comment';
 import { parseUser } from 'src/types/User';
 
 import CommentsList from '../CommentsList';
@@ -29,9 +29,9 @@ export const comment: Comment = {
     avatar: null,
   }),
   reactionsCount: {
-    APPROVE: 182,
-    REFUTE: 23,
-    SKEPTIC: 97,
+    [ReactionType.APPROVE]: 182,
+    [ReactionType.REFUTE]: 23,
+    [ReactionType.SKEPTIC]: 97,
   },
   subscribed: false,
   score: 42,
@@ -104,27 +104,47 @@ const comments = [
   {
     id: 2,
     text: lorem[0],
-    reactionsCount: { APPROVE: 123, REFUTE: 52, SKEPTIC: 61 },
+    reactionsCount: {
+      [ReactionType.APPROVE]: 123,
+      [ReactionType.REFUTE]: 52,
+      [ReactionType.SKEPTIC]: 61,
+    },
   },
   {
     id: 3,
     text: lorem[1],
-    reactionsCount: { APPROVE: 14, REFUTE: 8, SKEPTIC: 17 },
+    reactionsCount: {
+      [ReactionType.APPROVE]: 14,
+      [ReactionType.REFUTE]: 8,
+      [ReactionType.SKEPTIC]: 17,
+    },
   },
   {
     id: 4,
     text: lorem[2],
-    reactionsCount: { APPROVE: 41, REFUTE: 3, SKEPTIC: 66 },
+    reactionsCount: {
+      [ReactionType.APPROVE]: 41,
+      [ReactionType.REFUTE]: 3,
+      [ReactionType.SKEPTIC]: 66,
+    },
   },
   {
     id: 5,
     text: lorem[3],
-    reactionsCount: { APPROVE: 9, REFUTE: 0, SKEPTIC: 0 },
+    reactionsCount: {
+      [ReactionType.APPROVE]: 9,
+      [ReactionType.REFUTE]: 0,
+      [ReactionType.SKEPTIC]: 0,
+    },
   },
   {
     id: 6,
     text: lorem[4],
-    reactionsCount: { APPROVE: 241, REFUTE: 111, SKEPTIC: 103 },
+    reactionsCount: {
+      [ReactionType.APPROVE]: 241,
+      [ReactionType.REFUTE]: 111,
+      [ReactionType.SKEPTIC]: 103,
+    },
   },
 ];
 

@@ -11,6 +11,7 @@ import { CommentService } from './comment.service';
 import { Message } from './message.entity';
 import { PopulateComment } from './populate-comment.interceptor';
 import { Reaction } from './reaction.entity';
+import { ReactionFactory } from './reaction.factory';
 import { ReportModule } from './report/report.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 
@@ -36,6 +37,7 @@ const CommentPageSize: Provider = {
     CommentService,
     PopulateComment,
     CommentFactory,
+    ReactionFactory,
   ],
   exports: [
     TypeOrmModule,
@@ -43,6 +45,7 @@ const CommentPageSize: Provider = {
     CommentService,
     PopulateComment,
     CommentFactory,
+    ReactionFactory,
   ],
 })
 export class CommentModule {}

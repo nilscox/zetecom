@@ -2,15 +2,15 @@ import { CommentsArea, parseCommentsArea } from './CommentsArea';
 import { parseUser, UserLight } from './User';
 
 export enum ReactionType {
-  APPROVE = 'APPROVE',
-  REFUTE = 'REFUTE',
-  SKEPTIC = 'SKEPTIC',
+  APPROVE = 'approve',
+  REFUTE = 'refute',
+  SKEPTIC = 'skeptic',
 }
 
 export type ReactionsCount = {
-  APPROVE: number;
-  REFUTE: number;
-  SKEPTIC: number;
+  [ReactionType.APPROVE]: number;
+  [ReactionType.REFUTE]: number;
+  [ReactionType.SKEPTIC]: number;
 };
 
 export type Message = {
@@ -38,7 +38,7 @@ export const parseMessage = (data: any): Message => {
   return {
     ...data,
     date: new Date(data.date),
-  };
+  } as Message;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,14 +49,8 @@ export const parseComment = (data: any): Comment => {
     date: new Date(data.date),
     edited: !data.edited ? false : new Date(data.edited),
     author: data.author ? parseUser(data.author) : undefined,
-    reactionsCount: data.reactionsCount
-      ? Object.keys(data.reactionsCount).reduce((obj, key) => {
-        obj[key] = data.reactionsCount[key];
-        return obj;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      }, {} as any)
-      : null,
+    reactionsCount: data.reactionsCount ? data.reactionsCount : null,
     userReaction: data.userReaction ? data.userReaction : null,
     commentsArea: data.commentsArea ? parseCommentsArea(data.commentsArea) : undefined,
-  };
+  } as Comment;
 };

@@ -5,9 +5,9 @@ import { User } from '../user/user.entity';
 import { Comment } from './comment.entity';
 
 export enum ReactionType {
-  APPROVE = 'APPROVE',
-  REFUTE = 'REFUTE',
-  SKEPTIC = 'SKEPTIC',
+  APPROVE = 'approve',
+  REFUTE = 'refute',
+  SKEPTIC = 'skeptic',
 }
 
 @Entity({ name: 'reaction' })

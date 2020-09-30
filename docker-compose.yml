@@ -17,16 +17,16 @@ services:
     container_name: zc-api
     hostname: zc-api
     ports:
-      - 3000:80
+      - 3000:3000
     volumes:
       - ./data/avatars:/app/avatars
       - ./data/certs:/certs:ro
-    command: bash -c "yarn wait-on tcp:zc-postgres:5432 && yarn start:prod"
+    command: bash -c "yarn wait-on tcp:zc-postgres:5432 && yarn db:migrate && node dist/src/main.js"
     environment:
+      LISTEN_PORT: 3000
+      LISTEN_IP: 0.0.0.0
       REFLECT_ORIGIN: 'true'
       ADMIN_USER: 'admin:admin@zetecom.fr:admin42'
-      SSL_CERTIFICATE: '/certs/localhost.crt'
-      SSL_CERTIFICATE_KEY: '/certs/localhost.key'
       APP_URL: http://${LOCAL_IP:-localhost}:8000
       WEBSITE_URL: http://${LOCAL_IP:-localhost}:8080
       DB_HOST: zc-postgres
@@ -34,7 +34,7 @@ services:
       DB_USER: root
       DB_PASS: root
       DB_NAME: db
-      DB_SYNC: 'true'
+      DB_SYNC: 'false'
       DB_ENTITIES: ./dist/src/**/*.entity.js
       DB_MIGRATIONS_DIR: ./dist/migrations/*.js
       DB_MIGRATIONS_RUN: 'false'
@@ -45,31 +45,8 @@ services:
       EMAIL_BYPASS: 'true'
       EMAIL_ACCOUNT_VERIFICATION: 'false'
       SESSION_SECRET: sekret
-      SECURE_COOKIE: 'true'
+      SECURE_COOKIE: 'false'
       USER_AVATAR_DESTINATION: /app/avatars
-
-
-  restoredb:
-    container_name: zc-restoredb
-    hostname: zc-restoredb
-    ports:
-      - 4242:80
-    volumes:
-      - ./api/scripts:/app/scripts
-    command: bash -c "yarn start:restoredb"
-    environment:
-      NODE_ENV: production
-      PORT: 80
-      API_URL: https://zc-api
-      DB_HOST: zc-postgres
-      DB_PORT: 5432
-      DB_USER: root
-      DB_PASS: root
-      DB_NAME: db
-      DB_SYNC: 'true'
-      DB_ENTITIES: ./dist/src/**/*.entity.js
-      DB_MIGRATIONS_DIR: ./dist/migrations/*.js
-      DB_DEBUG: 'false'
 
 
   app:

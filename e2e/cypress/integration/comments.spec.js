@@ -204,8 +204,7 @@ describe('comments', () => {
   describe('view comments', () => {
 
     before(() => {
-      cy.resetdb();
-      cy.populatedb({
+      cy.seed({
         users: [user1, user2, user3, user4],
         commentsAreas: [commentsAreaEmpty, commentsAreaOneComment, commentsArea, commentsAreaPagination],
       });
@@ -396,8 +395,7 @@ describe('comments', () => {
   describe('create / edit comments', () => {
 
     before(() => {
-      cy.resetdb();
-      cy.populatedb({
+      cy.seed({
         users: [user1, me],
         commentsAreas: [commentsAreaEmpty],
       });
@@ -477,8 +475,7 @@ describe('comments', () => {
   describe('reactions', () => {
 
     before(() => {
-      cy.resetdb();
-      cy.populatedb({
+      cy.seed({
         users: [user1, me],
         commentsAreas: [commentsAreaWithMyself],
       });
@@ -486,48 +483,48 @@ describe('comments', () => {
 
     it('create / update / delete reaction', () => {
       cy.visitIntegration('test:news5');
-      cy.get('[title="Approuver"]').should('be.disabled');
+      cy.get('.reaction--approve').should('be.disabled');
 
       cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
       cy.visitIntegration('test:news5');
 
       // user's own comment
       cy.getCommentAt(0).within(() => {
-        cy.get('[title="Approuver"]').should('be.disabled');
+        cy.get('.reaction--approve').should('be.disabled');
       });
 
       cy.getCommentAt(1).within(() => {
         // add
-        cy.get('[title="Approuver"]').click();
+        cy.get('.reaction--approve').click();
 
-        cy.didTrack({ category: 'Comment', action: 'SetReaction' });
+        cy.didTrack({ category: 'Comment', action: 'SetReaction', label: 'Set Reaction approve' });
 
-        cy.get('[title="Approuver"]').contains('1');
-        cy.get('[title="Approuver"]').should('have.class', 'user-reaction');
-        cy.get('[title="Réfuter"]').contains('0');
-        cy.get('[title="Réfuter"]').should('not.have.class', 'user-reaction');
-        cy.get('[title="Sceptique"]').contains('0');
-        cy.get('[title="Sceptique"]').should('not.have.class', 'user-reaction');
+        cy.get('.reaction--approve').contains('1');
+        cy.get('.reaction--approve').should('have.class', 'user-reaction');
+        cy.get('.reaction--refute').contains('0');
+        cy.get('.reaction--refute').should('not.have.class', 'user-reaction');
+        cy.get('.reaction--skeptic').contains('0');
+        cy.get('.reaction--skeptic').should('not.have.class', 'user-reaction');
 
         // update
-        cy.get('[title="Sceptique"]').click();
+        cy.get('.reaction--skeptic').click();
 
-        cy.get('[title="Approuver"]').contains('0');
-        cy.get('[title="Approuver"]').should('not.have.class', 'user-reaction');
-        cy.get('[title="Réfuter"]').contains('0');
-        cy.get('[title="Réfuter"]').should('not.have.class', 'user-reaction');
-        cy.get('[title="Sceptique"]').contains('1');
-        cy.get('[title="Sceptique"]').should('have.class', 'user-reaction');
+        cy.get('.reaction--approve').contains('0');
+        cy.get('.reaction--approve').should('not.have.class', 'user-reaction');
+        cy.get('.reaction--refute').contains('0');
+        cy.get('.reaction--refute').should('not.have.class', 'user-reaction');
+        cy.get('.reaction--skeptic').contains('1');
+        cy.get('.reaction--skeptic').should('have.class', 'user-reaction');
 
         // remove
-        cy.get('[title="Sceptique"]').click();
+        cy.get('.reaction--skeptic').click();
 
-        cy.get('[title="Approuver"]').contains('0');
-        cy.get('[title="Approuver"]').should('not.have.class', 'user-reaction');
-        cy.get('[title="Réfuter"]').contains('0');
-        cy.get('[title="Réfuter"]').should('not.have.class', 'user-reaction');
-        cy.get('[title="Sceptique"]').contains('0');
-        cy.get('[title="Sceptique"]').should('not.have.class', 'user-reaction');
+        cy.get('.reaction--approve').contains('0');
+        cy.get('.reaction--approve').should('not.have.class', 'user-reaction');
+        cy.get('.reaction--refute').contains('0');
+        cy.get('.reaction--refute').should('not.have.class', 'user-reaction');
+        cy.get('.reaction--skeptic').contains('0');
+        cy.get('.reaction--skeptic').should('not.have.class', 'user-reaction');
       });
 
     });
@@ -537,8 +534,7 @@ describe('comments', () => {
   describe('report', () => {
 
     before(() => {
-      cy.resetdb();
-      cy.populatedb({
+      cy.seed({
         users: [user1, me],
         commentsAreas: [commentsAreaWithMyself],
       });
@@ -593,8 +589,7 @@ describe('comments', () => {
   describe('subscription', () => {
 
     before(() => {
-      cy.resetdb();
-      cy.populatedb({
+      cy.seed({
         users: [user1, user2, me],
         commentsAreas: [commentsAreaOneComment],
       });

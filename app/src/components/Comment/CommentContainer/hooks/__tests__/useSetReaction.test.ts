@@ -22,9 +22,9 @@ const makeComment = (): Comment => ({
     nick: 'author',
   },
   reactionsCount: {
-    APPROVE: 1,
-    REFUTE: 2,
-    SKEPTIC: 3,
+    [ReactionType.APPROVE]: 1,
+    [ReactionType.REFUTE]: 2,
+    [ReactionType.SKEPTIC]: 3,
   },
   userReaction: null,
   subscribed: false,
@@ -90,7 +90,11 @@ describe('useReactions', () => {
     expect(setComment).toHaveBeenCalledWith(
       expect.objectContaining({
         userReaction: ReactionType.APPROVE,
-        reactionsCount: { APPROVE: 2, REFUTE: 2, SKEPTIC: 3 },
+        reactionsCount: {
+          [ReactionType.APPROVE]: 2,
+          [ReactionType.REFUTE]: 2,
+          [ReactionType.SKEPTIC]: 3,
+        },
       }),
     );
   });
@@ -111,7 +115,11 @@ describe('useReactions', () => {
     expect(setComment).toHaveBeenCalledWith(
       expect.objectContaining({
         userReaction: ReactionType.REFUTE,
-        reactionsCount: { APPROVE: 1, REFUTE: 3, SKEPTIC: 2 },
+        reactionsCount: {
+          [ReactionType.APPROVE]: 1,
+          [ReactionType.REFUTE]: 3,
+          [ReactionType.SKEPTIC]: 2,
+        },
       }),
     );
   });
@@ -132,7 +140,11 @@ describe('useReactions', () => {
     expect(setComment).toHaveBeenCalledWith(
       expect.objectContaining({
         userReaction: null,
-        reactionsCount: { APPROVE: 1, REFUTE: 1, SKEPTIC: 3 },
+        reactionsCount: {
+          [ReactionType.APPROVE]: 1,
+          [ReactionType.REFUTE]: 1,
+          [ReactionType.SKEPTIC]: 3,
+        },
       }),
     );
   });

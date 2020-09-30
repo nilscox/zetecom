@@ -1,14 +1,44 @@
 version: '3.4'
 services:
 
+  postgresql:
+    environment:
+      POSTGRES_DB: cypress
+
   api:
-    command: bash -c "yarn wait-on tcp:zc-postgres:5432 && yarn typeorm migration:run && yarn start:coverage"
+    command: bash -c "yarn wait-on tcp:zc-postgres:5432 && yarn db:migrate && env && yarn nyc --silent node dist/src/main"
     environment:
       CI: 'true'
       BYPASS_AUTHORIZATIONS: 'true'
+      DB_NAME: cypress
+
+  seed:
+    build:
+      context: ./api
+      network: host
+    container_name: zc-seed
+    hostname: zc-seed
+    ports:
+      - 4242:4242
+    volumes:
+      - ./api/scripts:/app/scripts
+    command: bash -c "yarn start:cypress"
+    # command: env
+    environment:
+      LISTEN_PORT: 4242
+      LISTEN_IP: 0.0.0.0
+      DB_HOST: zc-postgres
+      DB_PORT: 5432
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: cypress
       DB_SYNC: 'false'
-      DB_ENTITIES: ./src/**/*.entity.ts
-      DB_MIGRATIONS_DIR: ./migrations/*.ts
+      DB_ENTITIES: ./dist/src/**/*.entity.js
+      DB_MIGRATIONS_DIR: ./dist/migrations/*.js
+      DB_MIGRATIONS_RUN: 'false'
+      DB_DEBUG: 'false'
+      SESSION_SECRET: sekret
+
 
   app:
     command: /start.sh

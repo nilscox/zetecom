@@ -1,14 +1,14 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class initialSchema1601204926957 implements MigrationInterface {
-    name = 'initialSchema1601204926957'
+export class initialSchema1601420527077 implements MigrationInterface {
+    name = 'initialSchema1601420527077'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TYPE "user_roles_enum" AS ENUM('ADMIN', 'MODERATOR', 'USER')`);
         await queryRunner.query(`CREATE TABLE "user" ("id" SERIAL NOT NULL, "email" character varying NOT NULL, "password" character varying NOT NULL, "nick" character varying NOT NULL, "avatar" character varying, "emailValidationToken" character varying NOT NULL, "emailValidated" boolean NOT NULL DEFAULT false, "emailLoginToken" character varying, "roles" "user_roles_enum" array NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "UQ_66dcc4532b5334c01ec92f8ceee" UNIQUE ("nick"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "comments_area" ("id" SERIAL NOT NULL, "identifier" character varying NOT NULL, "information_url" character varying NOT NULL, "information_title" character varying NOT NULL, "information_author" character varying NOT NULL, "published" date, "image_url" character varying, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP NOT NULL DEFAULT now(), "creator_id" integer NOT NULL, CONSTRAINT "UQ_61c504d5b89db6ae455ec6f5d5a" UNIQUE ("identifier"), CONSTRAINT "PK_662046fe2f0d1795d672837f885" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "message" ("id" SERIAL NOT NULL, "text" text NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "comment_id" integer, CONSTRAINT "PK_ba01f0a3e0123651915008bc578" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TYPE "reaction_type_enum" AS ENUM('APPROVE', 'REFUTE', 'SKEPTIC')`);
+        await queryRunner.query(`CREATE TYPE "reaction_type_enum" AS ENUM('approve', 'refute', 'skeptic')`);
         await queryRunner.query(`CREATE TABLE "reaction" ("id" SERIAL NOT NULL, "type" "reaction_type_enum", "created" TIMESTAMP NOT NULL DEFAULT now(), "user_id" integer NOT NULL, "comment_id" integer NOT NULL, CONSTRAINT "UQ_19601094466e474ac560d4fc9db" UNIQUE ("user_id", "comment_id"), CONSTRAINT "PK_41fbb346da22da4df129f14b11e" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "comment" ("id" SERIAL NOT NULL, "created" TIMESTAMP NOT NULL DEFAULT now(), "updated" TIMESTAMP NOT NULL DEFAULT now(), "deleted" TIMESTAMP, "score" integer NOT NULL DEFAULT 0, "author_id" integer NOT NULL, "comments_area_id" integer NOT NULL, "message_id" integer, "parent_id" integer, CONSTRAINT "REL_a982661c7375f3b20e0eb9ed19" UNIQUE ("message_id"), CONSTRAINT "PK_0b0e4bbc8415ec426f87f3a88e2" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "report_moderationaction_enum" AS ENUM('IGNORED', 'DELETED')`);

@@ -68,9 +68,9 @@ export class PopulateComment extends PopulateInterceptor<CommentDto> {
 
     comments.forEach(comment => {
       comment.reactionsCount = {
-        APPROVE: getReactionsCount(comment.id, ReactionType.APPROVE),
-        REFUTE: getReactionsCount(comment.id, ReactionType.REFUTE),
-        SKEPTIC: getReactionsCount(comment.id, ReactionType.SKEPTIC),
+        [ReactionType.APPROVE]: getReactionsCount(comment.id, ReactionType.APPROVE),
+        [ReactionType.REFUTE]: getReactionsCount(comment.id, ReactionType.REFUTE),
+        [ReactionType.SKEPTIC]: getReactionsCount(comment.id, ReactionType.SKEPTIC),
       };
     });
   }

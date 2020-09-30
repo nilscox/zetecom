@@ -25,27 +25,21 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 const API_URL = Cypress.env('API_URL');
-const RESTOREDB_URL = Cypress.env('RESTOREDB_URL');
 const APP_URL = Cypress.env('APP_URL');
-
-const RESETDB_URL = RESTOREDB_URL + '/reset';
-const POPULATEDB_URL = RESTOREDB_URL + '/populate';
+const API_SEED_URL = Cypress.env('API_SEED_URL');
 
 Cypress.Commands.add('getInput', (name) => {
   return cy.get(`input[name="${name}"]`);
 });
 
-Cypress.Commands.add('resetdb', () => {
-  cy.request({ method: 'POST', url: RESETDB_URL });
+Cypress.Commands.add('seed', (body) => {
+  cy.request({ method: 'POST', url: API_SEED_URL + '/seed', body })
+    .then(({ status }) => expect(status).to.eq(204));
 });
 
-Cypress.Commands.add('populatedb', (data) => {
-  cy.request({ method: 'POST', url: POPULATEDB_URL, body: data });
-});
-
-Cypress.Commands.add('populatedbFromFixture', (fixtureName) => {
+Cypress.Commands.add('seedFromFixture', (fixtureName) => {
   return cy.fixture(fixtureName)
-    .then((data) => cy.populatedb(data));
+    .then((data) => cy.seed(data));
 });
 
 Cypress.Commands.add('login', (body) => {

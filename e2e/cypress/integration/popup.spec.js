@@ -1,4 +1,8 @@
 describe('popup', () => {
+  before(() => {
+    cy.seed();
+  });
+
   it('navigation', () => {
     cy.visitPopup();
 
@@ -24,7 +28,6 @@ describe('popup', () => {
   });
 
   it('signup', () => {
-    cy.resetdb();
     cy.visitPopup();
 
     cy.contains('Créer un compte').click();
