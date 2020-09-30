@@ -17,7 +17,7 @@ type CommentFormProps = {
 
 const CommentForm = forwardRef((
   { placeholder, preloadedMessage = '', loading, closeForm, onSubmit }: CommentFormProps,
-  ref: React.Ref<{}>,
+  ref: React.Ref<{ clear: () => void }>,
 ) => {
   const small = useMediaQuery<Theme>(theme => theme.breakpoints.down('xs'));
 

@@ -23,11 +23,14 @@ export class Notification {
   }
 
   getLink() {
-    if (this.type === 'rulesUpdate')
+    if (this.type === 'rulesUpdate') {
       return { href: env.WEBSITE_URL + '/charte.html', external: true };
+    }
 
-    if (this.type === 'subscriptionReply')
-      return { href: '/commentaires/' + this.payload.commentsAreaId, external: false };
+    if (this.type === 'subscriptionReply') {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      return { href: `/commentaires/${this.payload.commentsAreaId}`, external: false };
+    }
   }
 }
 

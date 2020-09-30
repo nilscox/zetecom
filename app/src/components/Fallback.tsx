@@ -42,7 +42,7 @@ function Fallback<T>({ when, fallback, minHeight = 200, render }: FallbackProps<
     );
   }
 
-  return <>{render(value as T)}</>;
+  return <>{render(value)}</>;
 }
 
 export default Fallback;

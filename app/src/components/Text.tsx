@@ -70,7 +70,7 @@ const Text: React.FC<TextProps> = ({
 }) => {
   const theme = useTheme();
   const variantStyles = useMemo(() => getStyles(theme), [theme]);
-  const fontSize = typeof size === 'string' ? theme.fontSizes[size] : size + 'px';
+  const fontSize = typeof size === 'string' ? theme.fontSizes[size] : `${size}px`;
 
   if (ellipsis && typeof children === 'string' && children.length > ellipsis)
     children = children.substr(0, ellipsis) + '...';
