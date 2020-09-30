@@ -1,149 +1,13 @@
-const user1 = { nick: 'user1', email: 'user1@domain.tld', password: 'p4ssword' };
-const user2 = { nick: 'user2', email: 'user2@domain.tld', password: 'p4ssword' };
-const user3 = { nick: 'user3', email: 'user3@domain.tld', password: 'p4ssword' };
-const user4 = { nick: 'user4', email: 'user4@domain.tld', password: 'p4ssword' };
-const me = { nick: 'myself', email: 'me@domain.tld', password: 'p4ssword' };
+const users = require('../fixtures/users.json');
+const commentsAreas = require('../fixtures/comments-areas.json');
 
-const commentsAreaEmpty = {
-  identifier: 'test:news1',
-  informationTitle: 'News',
-  informationUrl: 'https://info.url/1',
-  informationAuthor: 'anyone',
-  creator: 'user1',
-  comments: [],
-};
-
-const commentsAreaOneComment = {
-  identifier: 'test:news2',
-  informationTitle: 'News',
-  informationUrl: 'https://info.url/2',
-  informationAuthor: 'anyone',
-  creator: 'user1',
-  comments: [
-    {
-      author: 'user2',
-      reactions: {
-        approve: [],
-        refute: [],
-        skeptic: []
-      },
-      text: 'edit',
-      history: ['text'],
-      replies: [],
-    },
-  ],
-};
-
-const commentsArea = {
-  identifier: 'test:news3',
-  informationTitle: 'News',
-  informationUrl: 'https://info.url/3',
-  informationAuthor: 'anyone',
-  creator: 'user1',
-  comments: [
-
-    { // score = 3
-      author: "user1",
-      reactions: {
-        approve: [],
-        refute: [],
-        skeptic: [],
-      },
-      text: "comment 1 text",
-      history: [],
-      replies: [
-        { // score = 1
-          author: "user2",
-          reactions: {
-            approve: ["user3"],
-            refute: [],
-            skeptic: [],
-          },
-          text: "comment 1.1 text",
-          history: [],
-          replies: [],
-        },
-      ],
-    },
-
-    { // score = 6
-      author: "user2",
-      reactions: {
-        approve: [],
-        refute: [],
-        skeptic: [],
-      },
-      text: "comment 2 text",
-      history: [],
-      replies: [
-
-        { // score = 0
-          author: "user2",
-          reactions: {
-            approve: [],
-            refute: [],
-            skeptic: [],
-          },
-          text: "comment 2.1 text",
-          history: [],
-          replies: [],
-        },
-
-        { // score = 2
-          author: "user3",
-          reactions: {
-            approve: [],
-            refute: [],
-            skeptic: [],
-          },
-          text: "comment 2.2 text",
-          history: [],
-          replies: [
-
-            { // score = 0
-              author: "user1",
-              reactions: {
-                approve: [],
-                refute: [],
-                skeptic: [],
-              },
-              text: "comment 2.2.1 text",
-              history: [],
-              replies: [],
-            }
-
-          ],
-        },
-
-      ],
-    },
-
-    { // score = 2
-      author: "user1",
-      reactions: {
-        approve: ["user2", "user3"],
-        refute: [],
-        skeptic: [],
-      },
-      text: "comment 3 text",
-      history: [],
-      replies: [],
-    },
-
-    { // score = 0
-      author: "user3",
-      reactions: {
-        approve: [],
-        refute: [],
-        skeptic: [],
-      },
-      text: "comment 4 text",
-      history: [],
-      replies: [],
-    },
-
-  ],
-};
+const [user1, user2, user3, user4, me] = users;
+const [commentsAreaEmpty,
+  commentsAreaOneComment,
+  commentsAreaScore,
+  commentsAreaPaginationImported,
+  commentsAreaWithMyself,
+] = commentsAreas;
 
 const createComments = (num) => {
   return new Array(num).fill(null).map(() => ({
@@ -160,44 +24,20 @@ const createComments = (num) => {
 };
 
 const commentsAreaPagination = {
-  identifier: 'test:news4',
-  informationTitle: 'News',
-  informationUrl: 'https://info.url/4',
-  informationAuthor: 'anyone',
-  creator: 'user1',
+  ...commentsAreaPaginationImported,
   comments: [
-    ...createComments(20),
     {
-      author: 'user1',
-      reactions: {
-        approve: [],
-        refute: [],
-        skeptic: [],
-      },
-      text: 'comment',
-      history: [],
+      ...commentsAreaPaginationImported.comments[0],
+      ...createComments(20),
+    },
+    {
+      ...commentsAreaPaginationImported.comments[0],
       replies: createComments(11),
     },
   ],
 };
 
-const commentsAreaWithMyself = {
-  identifier: 'test:news5',
-  informationTitle: 'News',
-  informationUrl: 'https://info.url/5',
-  informationAuthor: 'anyone',
-  creator: 'user1',
-  comments: [
-    {
-      author: 'user1',
-      text: 'text',
-    },
-    {
-      author: 'myself',
-      text: 'text',
-    },
-  ],
-};
+const debugWait = 500;
 
 describe('comments', () => {
 
@@ -206,7 +46,7 @@ describe('comments', () => {
     before(() => {
       cy.seed({
         users: [user1, user2, user3, user4],
-        commentsAreas: [commentsAreaEmpty, commentsAreaOneComment, commentsArea, commentsAreaPagination],
+        commentsAreas: [commentsAreaEmpty, commentsAreaOneComment, commentsAreaScore, commentsAreaPagination],
       });
     });
 
@@ -247,7 +87,7 @@ describe('comments', () => {
       cy.contains('comment 2.2.1').should('not.be.visible');
     });
 
-    it('sort', () => {
+    it.only('sort', () => {
       cy.visitIntegration('test:news3');
 
       // SORT ASC
@@ -259,6 +99,7 @@ describe('comments', () => {
       // SORT DESC
       cy.get('[title=Tri]').click();
       cy.contains('Les plus anciens en premier').click();
+      cy.wait(debugWait);
 
       cy.getCommentAt(0).should('contain', 'comment 1');
       cy.getCommentAt(1).should('contain', 'comment 2');
@@ -268,7 +109,7 @@ describe('comments', () => {
       // SORT RELEVANCE
       cy.get('[title=Tri]').click();
       cy.contains('Les plus pertinents en premier').click();
-      cy.wait(500); // fix ci
+      cy.wait(debugWait);
 
       cy.getCommentAt(0).should('contain', 'comment 2');
       cy.getCommentAt(1).should('contain', 'comment 1');
@@ -277,8 +118,6 @@ describe('comments', () => {
     });
 
     it('search', () => {
-      const debugWait = 500;
-
       const search = (query) => {
         cy.get('input[name="search"]').clear();
         cy.get('input[name="search"]').type(query);
