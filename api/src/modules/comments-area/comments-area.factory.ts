@@ -10,7 +10,7 @@ import { CommentsAreaService } from './comments-area.service';
 type CommentsAreaFactoryData = {
   identifier?: string;
   creator?: User;
-  informationIitle?: string;
+  informationTitle?: string;
   informationUrl?: string;
   informationAuthor?: string;
   imageUrl?: string;

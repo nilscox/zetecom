@@ -4,7 +4,7 @@ services:
   api:
     image: nilscox/zetecom-api:${GIT_SHA}
 
-  restoredb:
+  seed:
     image: nilscox/zetecom-api:${GIT_SHA}
 
   app:

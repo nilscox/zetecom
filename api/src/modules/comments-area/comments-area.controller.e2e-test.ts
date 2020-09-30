@@ -62,8 +62,8 @@ describe('comments area controller', () => {
 
     commentsAreaRepository = getCustomRepository(CommentsAreaRepository);
 
-    commentsArea1 = await createCommentsArea({ informationIitle: 'title', informationUrl: 'url', imageUrl: 'imageUrl' });
-    commentsArea2 = await createCommentsArea({ informationIitle: 'search me' });
+    commentsArea1 = await createCommentsArea({ informationTitle: 'title', informationUrl: 'url', imageUrl: 'imageUrl' });
+    commentsArea2 = await createCommentsArea({ informationTitle: 'search me' });
     commentsArea3 = await createCommentsArea();
 
     comment1 = await createComment({ commentsArea: commentsArea1, text: 'message1 search wow' });
