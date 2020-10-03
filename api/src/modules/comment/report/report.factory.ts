@@ -4,14 +4,13 @@ import { Factory } from '../../../testing/factory';
 import { User } from '../../user/user.entity';
 import { Comment } from '../comment.entity';
 
-import { Report } from './report.entity';
+import { Report, ReportModerationAction } from './report.entity';
 import { ReportService } from './report.service';
 
 type ReportFactoryData = {
   reporter: User;
   comment: Comment;
   message?: string;
-  waitingForReiew?: boolean;
 };
 
 @Injectable()
@@ -21,10 +20,14 @@ export class ReportFactory implements Factory<ReportFactoryData, Report> {
   ) {}
 
   async create(data: ReportFactoryData): Promise<Report> {
-    return await this.reportService.report(
+    return this.reportService.report(
       data.comment,
       data.reporter,
       data.message || null,
     );
+  }
+
+  async markAsModerated(report: Report, moderator: User, action: ReportModerationAction): Promise<void> {
+    return this.reportService.markAsModerated([report], moderator, action);
   }
 }

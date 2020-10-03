@@ -7,6 +7,8 @@ import MarkdownMessageEdition from 'src/components/MarkdownMessageEdition';
 import FormFooter from './FormFooter';
 import FormHeader from './FormHeader';
 
+export type ClearFormRef = { clear: () => void };
+
 type CommentFormProps = {
   placeholder: string;
   preloadedMessage?: string;
@@ -17,7 +19,7 @@ type CommentFormProps = {
 
 const CommentForm = forwardRef((
   { placeholder, preloadedMessage = '', loading, closeForm, onSubmit }: CommentFormProps,
-  ref: React.Ref<{ clear: () => void }>,
+  ref: React.Ref<ClearFormRef>,
 ) => {
   const small = useMediaQuery<Theme>(theme => theme.breakpoints.down('xs'));
 

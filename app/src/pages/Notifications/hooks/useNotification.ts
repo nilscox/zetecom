@@ -1,5 +1,5 @@
 import useAxiosPaginated from '../../../hooks/use-axios-paginated';
-import useEditableDataset from '../../../hooks/use-editable-dataset';
+import useEditableDataset from '../../../hooks/useEditableDataset';
 import { Notification, parseNotification } from '../../../types/Notification';
 
 import useMarkNotificationAsSeen from './useMarkNotificationAsSeen';
@@ -18,7 +18,10 @@ const useNotifications = () => {
     loading,
     markAsSeen: (notification: Notification) => {
       markAsSeen(notification.id);
-      replace(new Notification({ ...notification, seen: new Date() }));
+
+      const old = notifications.find(({ id }) => id === notification.id);
+
+      replace(old, new Notification({ ...notification, seen: new Date() }));
     },
   };
 };

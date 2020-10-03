@@ -5,16 +5,21 @@ import { ButtonGroup, makeStyles } from '@material-ui/core';
 import Button from '../../../components/Button';
 import useAxios from '../../../hooks/use-axios';
 
-const useRejectOpenCommentsArea = (requestId: number) => {
+const useRejectOpenCommentsArea = (requestId: number, onRejected: () => void) => {
   const [{ loading, status }, reject] = useAxios({
     method: 'POST',
     url: `/api/comments-area-request/${requestId}/reject`,
   }, undefined, { manual: true });
 
+  useEffect(() => {
+    if (status(200)) {
+      onRejected();
+    }
+  }, [onRejected, status]);
+
   return {
     loading,
-    rejected: status(200),
-    handleReject: () => reject(),
+    onReject: () => reject(),
   };
 };
 
@@ -45,13 +50,8 @@ const OpenCommentsAreaRequestActions: React.FC<OpenCommentsAreaRequestActionsPro
   onCreate,
   onRejected,
 }) => {
-  const { loading, rejected, handleReject } = useRejectOpenCommentsArea(requestId);
+  const { loading, onReject } = useRejectOpenCommentsArea(requestId, onRejected);
   const classes = useStyles();
-
-  useEffect(() => {
-    if (rejected)
-      onRejected();
-  }, [onRejected, rejected]);
 
   return (
     <ButtonGroup className={classes.actions}>
@@ -68,7 +68,7 @@ const OpenCommentsAreaRequestActions: React.FC<OpenCommentsAreaRequestActionsPro
         loading={loading}
         size="large"
         className={classes.reject}
-        onClick={handleReject}
+        onClick={onReject}
       >
         Refuser l'ouverture
       </Button>
