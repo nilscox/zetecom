@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 
-import { Box, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 import AsyncContent from 'src/components/AsyncContent';
+import Padding from 'src/components/Padding';
 import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
@@ -47,7 +48,7 @@ const EmailLogin: React.FC = () => {
     <AsyncContent
       loading={loading}
       render={() => (
-        <Box mt={16}>
+        <Padding top>
           {status(200) && (
             <Typography>
               Vous êtes maintenant connecté.e. Vous pouvez changer votre mot de passe depuis la popup de l'extension.
@@ -55,7 +56,7 @@ const EmailLogin: React.FC = () => {
           )}
 
           {error && <Typography color="error">{errorMessage}</Typography>}
-        </Box>
+        </Padding>
       )}
     />
   );

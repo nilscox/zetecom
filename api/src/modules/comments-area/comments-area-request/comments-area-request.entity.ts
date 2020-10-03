@@ -9,6 +9,7 @@ export enum CommentsAreaRequestStatus {
   REFUSED = 'REFUSED',
 }
 
+// TODO: add moderator
 @Entity({ name: 'comments_area_request', orderBy: { created: 'ASC' } })
 export class CommentsAreaRequest {
 

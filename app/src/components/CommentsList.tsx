@@ -10,16 +10,17 @@ type CommentsListProps = {
 };
 
 const CommentsList: React.FC<CommentsListProps> = ({ comments }) => {
-  if (!comments.length)
+  if (!comments.length) {
     return null;
+  }
 
   return (
     <div className="comments-list">
-      { comments.map((comment, n) => (
+      {comments.map((comment, n) => (
         <Padding key={comment.id} top when={n > 0}>
           <CommentContainer comment={comment} />
         </Padding>
-      )) }
+      ))}
     </div>
   );
 };

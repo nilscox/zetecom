@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 type DisabledOverlayProps = {
   disabled?: boolean;
 };
 
 const DisabledOverlay: React.FC<DisabledOverlayProps> = ({ disabled }) => {
+  const [opacity, setOpacity] = useState(0);
+
+  useEffect(() => {
+    if (disabled) {
+      setOpacity(0.5);
+    }
+  }, [disabled]);
+
   if (!disabled) {
     return null;
   }
@@ -19,7 +27,8 @@ const DisabledOverlay: React.FC<DisabledOverlayProps> = ({ disabled }) => {
         left: 0,
         zIndex: 1,
         background: 'white',
-        opacity: 0.5,
+        opacity,
+        transition: 'opacity 260ms ease-in-out',
       }}
     />
   );

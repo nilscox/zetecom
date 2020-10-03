@@ -24,6 +24,7 @@ describe('moderation', () => {
   let createUser: UserFactory['create'];
   let createComment: CommentFactory['create'];
   let reportComment: ReportFactory['create'];
+  let moderateReport: ReportFactory['markAsModerated'];
 
   const [asUser] = createAuthenticatedUser(server);
   const [asModerator, moderator] = createAuthenticatedModerator(server);
@@ -38,6 +39,7 @@ describe('moderation', () => {
     createUser = userFactory.create.bind(userFactory);
     createComment = commentFactory.create.bind(commentFactory);
     reportComment = reportFactory.create.bind(reportFactory);
+    moderateReport = reportFactory.markAsModerated.bind(reportFactory);
 
     commentRepository = getRepository(Comment);
     reportRepository = getRepository(Report);
@@ -62,10 +64,10 @@ describe('moderation', () => {
       const report3 = await reportComment({ reporter: user3, comment: comment2 });
 
       const report4 = await reportComment({ reporter: await createUser(), comment: comment2 });
-      await reportRepository.update(report4.id, { moderatedBy: moderator, moderationAction: ReportModerationAction.IGNORED });
+      await moderateReport(report4, moderator, ReportModerationAction.IGNORED);
 
       const report5 = await reportComment({ reporter: await createUser(), comment: await createComment() });
-      await reportRepository.update(report5.id, { moderatedBy: moderator, moderationAction: ReportModerationAction.IGNORED });
+      await moderateReport(report5, moderator, ReportModerationAction.IGNORED);
 
       const { body } = await asModerator
         .get('/api/moderation/reports')

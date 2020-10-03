@@ -5,16 +5,15 @@ import { CommentCreationForm } from 'src/components/CommentForm';
 import CommentsList from 'src/components/CommentsList';
 import Fallback from 'src/components/Fallback';
 import FiltersBar from 'src/components/FiltersBar';
+import Padding from 'src/components/Padding';
 import Text from 'src/components/Text';
 import { useCommentsArea } from 'src/contexts/CommentsAreaContext';
 import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
 import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
-import useEditableDataset from 'src/hooks/use-editable-dataset';
+import useEditableDataset from 'src/hooks/useEditableDataset';
 import { parseComment } from 'src/types/Comment';
 import { SortType } from 'src/types/SortType';
-
-import Padding from '../../components/Padding';
 
 const CommentsArea: React.FC = () => {
   const user = useCurrentUser();
@@ -27,7 +26,7 @@ const CommentsArea: React.FC = () => {
     { page, setPage },
   ] = useAxiosPaginated(`/api/comments-area/${commentsArea.id}/comments`, parseComment);
 
-  const [comments, { prepend }] = useEditableDataset(data);
+  const [comments, { prepend }] = useEditableDataset(data, 'set');
 
   return (
     <>
@@ -42,7 +41,7 @@ const CommentsArea: React.FC = () => {
 
       { user && (
         <Padding top>
-          <CommentCreationForm onCreated={comment => prepend(comment)} />
+          <CommentCreationForm onCreated={prepend} />
         </Padding>
       ) }
 

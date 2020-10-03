@@ -6,7 +6,7 @@ import useAxios from 'src/hooks/use-axios';
 import { Comment, parseComment } from 'src/types/Comment';
 import { trackEditComment } from 'src/utils/track';
 
-import CommentForm from './CommentForm';
+import CommentForm, { ClearFormRef } from './CommentForm';
 
 type CommentEditionFormProps = {
   comment: Comment;
@@ -15,8 +15,7 @@ type CommentEditionFormProps = {
 };
 
 const CommentEditionForm: React.FC<CommentEditionFormProps> = ({ comment, onEdited, closeForm }) => {
-  // eslint-disable-next-line func-call-spacing
-  const formRef = React.useRef<{ clear: () => void }>(null);
+  const formRef = React.useRef<ClearFormRef>(null);
 
   const opts: AxiosRequestConfig = { method: 'PUT', url: `/api/comment/${comment.id}` };
   const [{ data, loading, error }, postComment] = useAxios(opts, parseComment, { manual: true });
@@ -36,8 +35,6 @@ const CommentEditionForm: React.FC<CommentEditionFormProps> = ({ comment, onEdit
         formRef.current.clear();
       }
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, onEdited, formRef]);
 
   return (

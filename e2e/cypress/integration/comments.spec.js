@@ -87,7 +87,7 @@ describe('comments', () => {
       cy.contains('comment 2.2.1').should('not.be.visible');
     });
 
-    it.only('sort', () => {
+    it('sort', () => {
       cy.visitIntegration('test:news3');
 
       // SORT ASC

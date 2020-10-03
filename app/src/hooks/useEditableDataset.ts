@@ -76,7 +76,7 @@ const reducer = <T>(data: T[] | undefined, action: Action<T>) => {
   }
 };
 
-const useEditableDataset = <T>(input?: T[], onUpdate?: 'append' | 'prepend'): EditableDataset<T> => {
+const useEditableDataset = <T>(input?: T[], onUpdate?: 'set' | 'append' | 'prepend'): EditableDataset<T> => {
   const [data, dispatch] = useReducer<Reducer<T[], Action<T>>>(reducer, input);
 
   useUpdateEffect(() => {

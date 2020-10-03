@@ -26,7 +26,7 @@ const NotificationsProviderKnobs: React.FC = ({ children }) => {
   );
 };
 
-addDecorator((StoryFn: any) => <NotificationsProviderKnobs><StoryFn /></NotificationsProviderKnobs>);
+// addDecorator((StoryFn: any) => <NotificationsProviderKnobs><StoryFn /></NotificationsProviderKnobs>);
 
 export const Demo = () => {
   const user = useCurrentUser();
