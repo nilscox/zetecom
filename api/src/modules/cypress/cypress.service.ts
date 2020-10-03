@@ -18,6 +18,8 @@ import { UserDto } from './dtos/User';
 
 const DB_NAME = 'cypress';
 
+const wait = (ms: number) => new Promise(r => setTimeout(r, ms)); wait;
+
 type GetUser = (nick: string) => User;
 
 @Injectable()
@@ -40,7 +42,9 @@ export class CypressService {
       throw new Error(`database name is not "${DB_NAME}", aborting drop databse`);
     }
 
-    await this.testConnection.close();
+    if (this.testConnection.isConnected) {
+      await this.testConnection.close();
+    }
 
     const queryRunner = this.postgresConnection.createQueryRunner();
 
@@ -54,7 +58,6 @@ export class CypressService {
     await queryRunner.query(`CREATE DATABASE ${DB_NAME}`);
 
     await this.testConnection.connect();
-
     await this.testConnection.runMigrations();
   }
 

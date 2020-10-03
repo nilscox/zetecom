@@ -26,10 +26,10 @@ const createComments = (num) => {
 const commentsAreaPagination = {
   ...commentsAreaPaginationImported,
   comments: [
-    {
+    ...createComments(20).map(comment => ({
       ...commentsAreaPaginationImported.comments[0],
-      ...createComments(20),
-    },
+      ...comment
+    })),
     {
       ...commentsAreaPaginationImported.comments[0],
       replies: createComments(11),
@@ -126,22 +126,22 @@ describe('comments', () => {
 
       cy.visitIntegration('test:news3');
 
-      search('1');
+      search('1 text');
       cy.countComments(4);
       cy.getCommentAt(0).should('contain', 'comment 2.2.1 text');
       cy.getCommentAt(1).should('contain', 'comment 2.1 text');
       cy.getCommentAt(2).should('contain', 'comment 1.1 text');
       cy.getCommentAt(3).should('contain', 'comment 1 text');
 
-      search('1.1');
+      search('1.1 text');
       cy.countComments(1);
       cy.getCommentAt(0).should('contain', 'comment 1.1 text');
 
-      search('3');
+      search('3 text');
       cy.countComments(1);
       cy.getCommentAt(0).should('contain', 'comment 3 text');
 
-      search('0');
+      search('Gullible');
       cy.contains('Aucun résultat ne correspond à cette recherche');
 
       search('@user1');
