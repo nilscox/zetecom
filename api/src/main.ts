@@ -12,46 +12,56 @@ addAlias('Utils', path.join(__dirname, 'utils'));
 
 dotenv.config();
 
-import { NestApplicationOptions, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, NestApplicationOptions, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 import { ErrorsInterceptor } from 'Common/errors.interceptor';
 
 import { AppModule } from './app.module';
+import { LoggerService } from './modules/logger/logger.service';
 
 const {
-  LISTEN_PORT,
-  LISTEN_IP,
+  LISTEN_PORT = '3000',
+  LISTEN_IP = '0.0.0.0',
   REFLECT_ORIGIN,
-  SSL_CERTIFICATE,
-  SSL_CERTIFICATE_KEY,
   TRUST_PROXY,
 } = process.env;
 
-async function bootstrap() {
-  const opts: NestApplicationOptions = {};
+const LOG_TAG = 'Bootstrap';
 
-  if (SSL_CERTIFICATE && SSL_CERTIFICATE_KEY) {
-    opts.httpsOptions = {
-      cert: (await fs.promises.readFile(SSL_CERTIFICATE)).toString(),
-      key: (await fs.promises.readFile(SSL_CERTIFICATE_KEY)).toString(),
-    };
+async function bootstrap() {
+  const logger = new LoggerService();
+  const appOpts: NestApplicationOptions = { logger };
+
+  logger.verbose('creating nest application', LOG_TAG);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, appOpts);
+
+  app.useLogger(logger);
+  app.setGlobalPrefix('api');
+  app.useGlobalInterceptors(new ErrorsInterceptor());
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    exceptionFactory: errors => new BadRequestException(errors),
+  }));
+
+  if (TRUST_PROXY === 'true') {
+    logger.verbose('setting trust proxy', 'Bootstrap');
+    app.set('trust proxy', true);
   }
 
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, opts);
-
-  app.setGlobalPrefix('api');
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  app.useGlobalInterceptors(new ErrorsInterceptor());
-
-  if (TRUST_PROXY === 'true')
-    app.set('trust proxy', 1);
-
-  if (REFLECT_ORIGIN === 'true')
+  if (REFLECT_ORIGIN === 'true') {
+    logger.verbose('enabling cors', 'Bootstrap');
     app.enableCors({ origin: true, credentials: true });
+  }
 
-  await app.listen(parseInt(LISTEN_PORT || '3000', 10), LISTEN_IP || '0.0.0.0');
+  const ip = LISTEN_IP;
+  const port = parseInt(LISTEN_PORT, 10);
+
+  logger.verbose(`starting server on ${ip}:${port}`, 'Bootstrap');
+  await app.listen(port, ip);
+
+  logger.verbose('application started', 'Bootstrap');
 }
 
 bootstrap();

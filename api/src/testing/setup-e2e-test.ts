@@ -1,4 +1,3 @@
-import { ExpressSessionMiddleware } from '@nest-middlewares/express-session';
 import { Module, ValidationPipe } from '@nestjs/common';
 import { MiddlewareConsumer, ModuleMetadata } from '@nestjs/common/interfaces';
 import { APP_GUARD } from '@nestjs/core';
@@ -49,14 +48,13 @@ export class TestModule {
   configure(consumer: MiddlewareConsumer) {
     const middlewares = [];
 
-    ExpressSessionMiddleware.configure({
+    middlewares.push(expressSession({
       store: new MemoryStore(),
       secret: 'SESSION_SECRET',
-      resave: true,
-      saveUninitialized: true,
-    });
+      resave: false,
+      saveUninitialized: false,
+    }));
 
-    middlewares.push(ExpressSessionMiddleware);
     middlewares.push(UserMiddleware);
 
     consumer

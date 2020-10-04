@@ -35,6 +35,8 @@ deploy_api() {
     --network "zc-network-$environment" \
     --volume "$base_dir/avatars:/app/avatars:rw" \
     -p "$api_port:80" \
+    --env $(sshenv LOG_LEVEL) \
+    --env $(sshenv TRUST_PROXY) \
     --env $(sshenv REFLECT_ORIGIN) \
     --env $(sshenv BYPASS_AUTHORIZATIONS) \
     --env $(sshenv ADMIN_USER) \

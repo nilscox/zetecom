@@ -1,7 +1,8 @@
-import { createParamDecorator } from '@nestjs/common';
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-export const PageQuery = createParamDecorator((_data: any, req): number => {
-  const page = parseInt(req.query.page, 10);
+export const PageQuery = createParamDecorator((_data: unknown, ctx: ExecutionContext) => {
+  const request = ctx.switchToHttp().getRequest();
+  const page = parseInt(request.query?.page, 10);
 
   return !page || page <= 0 ? 1 : page;
 });

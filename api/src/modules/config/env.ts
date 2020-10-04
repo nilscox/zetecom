@@ -8,6 +8,7 @@ const enviornmentVariables = [
   'LISTEN_IP',
   'LISTEN_PORT',
 
+  'LOG_LEVEL',
   'REFLECT_ORIGIN',
   'BYPASS_AUTHORIZATIONS',
 

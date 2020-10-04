@@ -25,6 +25,7 @@ services:
     environment:
       LISTEN_PORT: 3000
       LISTEN_IP: 0.0.0.0
+      LOG_LEVEL: 'log'
       REFLECT_ORIGIN: 'true'
       ADMIN_USER: 'admin:admin@zetecom.fr:admin42'
       APP_URL: http://${LOCAL_IP:-localhost}:8000

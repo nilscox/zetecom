@@ -43,7 +43,7 @@
     "import/order": "off",
     "simple-import-sort/sort": ["warn", {
       "groups": [
-        ["^(path|fs|util)$"],
+        ["^(path|fs|stream|util)$"],
         ["^@nest", "^[a-z]"],
         ["^[A-Z]"],
         ["^src/"],
