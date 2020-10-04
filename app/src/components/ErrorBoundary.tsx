@@ -73,7 +73,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
     if (NODE_ENV === 'production') {
       Sentry.withScope(scope => {
-        scope.setExtras(errorInfo);
+        // scope.setExtras(errorInfo);
         Sentry.captureException(error);
       });
     }

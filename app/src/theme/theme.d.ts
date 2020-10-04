@@ -1,13 +1,15 @@
-declare module '@material-ui/core/styles/createBreakpoints' {
-  interface BreakpointOverrides {
-    xxs: true;
-    xs: true;
-    sm: true;
-    md: true;
-    lg: true;
-    xl: true;
-  }
-}
+import { PaletteColor } from '@material-ui/core/styles/createPalette';
+
+// declare module '@material-ui/core/styles/createBreakpoints' {
+//   interface BreakpointOverrides {
+//     xxs: true;
+//     xs: true;
+//     sm: true;
+//     md: true;
+//     lg: true;
+//     xl: true;
+//   }
+// }
 
 declare module '@material-ui/core/styles/createPalette' {
   interface Palette {
@@ -19,7 +21,6 @@ declare module '@material-ui/core/styles/createPalette' {
     textWarning: PaletteColor;
   }
 
-  // allow configuration using `createMuiTheme`
   interface PaletteOptions {
     highlight: PaletteColorOptions;
     border: PaletteColorOptions & { veryLight: string };
@@ -29,5 +30,3 @@ declare module '@material-ui/core/styles/createPalette' {
     textWarning: PaletteColorOptions;
   }
 }
-
-export {};

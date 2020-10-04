@@ -2,18 +2,16 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, TextField } from '@material-ui/core';
 import { RouteComponentProps } from 'react-router';
 
 import Box from 'src/components/Box';
-import Break from 'src/components/Break';
 import Button, { ButtonProps } from 'src/components/Button';
 import CommentBody from 'src/components/Comment/CommentBody';
 import Flex from 'src/components/Flex';
 import { WebsiteLink } from 'src/components/Link';
 import Loader from 'src/components/Loader';
 import Text from 'src/components/Text';
-import TextArea from 'src/components/TextArea';
 import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
 import { useTheme } from 'src/theme/Theme';
@@ -147,7 +145,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
         Signaler le commentaire de {comment.author.nick}
       </Text>
 
-      <Break size={10} />
+      <div style={{ minHeight: 10 }} />
 
       <Text bold color="textWarning">
         <p style={{ margin: `${big}px 0` }}>
@@ -163,7 +161,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
         </p>
       </Text>
 
-      <Break size={30} />
+      <div style={{ minHeight: 30 }} />
 
       <Box
         p={big}
@@ -174,10 +172,12 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
         <CommentBody text={comment.text} />
       </Box>
 
-      <Break size={30} />
+      <div style={{ minHeight: 30 }} />
 
-      <TextArea
+      <TextField
+        multiline
         fullWidth
+        variant="outlined"
         rows={4}
         placeholder="Précisez en quelques mots le motif du signalement si nécessaire"
         style={{ resize: 'vertical' }}

@@ -6,13 +6,11 @@ import * as diff from 'diff';
 import { RouteComponentProps } from 'react-router';
 
 import Box from 'src/components/Box';
-import Break from 'src/components/Break';
 import DiffMessage from 'src/components/DiffMessage';
 import Loader from 'src/components/Loader';
 import Text from 'src/components/Text';
 import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
-import { useTheme } from 'src/theme/Theme';
 
 import { parseMessage } from '../../../types/Comment';
 
@@ -26,11 +24,11 @@ const useDiff = (messages: string[], mouseOver?: number) => {
     const [before, after]: Diff.Change[][] = [[], []];
 
     for (const { value, added, removed } of result) {
-      if (added)
+      if (added) {
         after.push({ value, added: true });
-      else if (removed)
+      } else if (removed) {
         before.push({ value, removed: true });
-      else {
+      } else {
         after.push({ value });
         before.push({ value });
       }
@@ -43,21 +41,24 @@ const useDiff = (messages: string[], mouseOver?: number) => {
     const noChange = [{ value: messages[n] }];
 
     if (mouseOver !== undefined) {
-      if (mouseOver === messages.length - 1 || (n !== mouseOver && n !== mouseOver + 1))
+      if (mouseOver === messages.length - 1 || (n !== mouseOver && n !== mouseOver + 1)) {
         return noChange;
+      }
 
       const [before, after] = makeDiff(messages[mouseOver], messages[mouseOver + 1]);
 
-      if (n === mouseOver)
+      if (n === mouseOver) {
         return before;
-      else if (n === mouseOver + 1)
+      } else if (n === mouseOver + 1) {
         return after;
+      }
 
       return noChange;
     }
 
-    if (n === messages.length - 1)
+    if (n === messages.length - 1) {
       return noChange;
+    }
 
     return diffFunc(messages[n], messages[n + 1]);
   };
@@ -68,7 +69,6 @@ type DiffMessagesProps = {
 };
 
 const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
-  const { sizes: { big } } = useTheme();
   const [mouseOver, setMouseOver] = useState<number>();
   const getDiff = useDiff(messages.map(message => message.text), mouseOver);
 
@@ -87,7 +87,7 @@ const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
           onMouseLeave={() => setMouseOver(undefined)}
         >
 
-          { n > 0 && <Break size={30} /> }
+          { n > 0 && <div style={{ minHeight: 30 }} /> }
 
           <Text
             style={{ display: 'block' }}
@@ -97,7 +97,7 @@ const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
             { dayjs(date as Date).format(DATE_FORMAT) }
           </Text>
 
-          <Break size={big} />
+          <div style={{ minHeight: 10 }} />
 
           <Paper elevation={3} style={{ background: 'transparent' }}>
             <DiffMessage diff={getDiff(n)} />
@@ -114,20 +114,22 @@ type CommentHistoryPopupProps = RouteComponentProps<{ id: string }>;
 const CommentHistoryPopup: React.FC<CommentHistoryPopupProps> = ({ match }) => {
   useTrackPageview();
 
-  const { sizes: { big } } = useTheme();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const parseMessages = (data: any[]) => data.map(parseMessage);
   const [{ data: history, loading, error }] = useAxios('/api/comment/' + match.params.id + '/history', parseMessages);
 
-  if (error)
+  if (error) {
     throw error;
+  }
 
-  if (loading)
+  // TODO: use <AsyncContent />
+  if (loading) {
     return <Loader size="big" />;
+  }
 
   return (
     <Box
-      p={4 * big}
+      p={40}
       style={{ height: '100%', boxSizing: 'border-box' }}
       data-e2e="history-list"
     >
