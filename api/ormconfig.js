@@ -6,10 +6,10 @@ module.exports = {
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   entities: [process.env.DB_ENTITIES],
-  synchronize: process.env.DB_SYNC === 'true',
+  synchronize: process.env.DB_SYNCHRONIZE === 'true',
   dropSchema: process.env.DB_DROP_SCHEMA === 'true',
   logging: process.env.DB_DEBUG === 'true',
-  migrations: [process.env.DB_MIGRATIONS_DIR],
+  migrations: [process.env.DB_MIGRATIONS],
   migrationsRun: process.env.DB_MIGRATIONS_RUN === 'true',
   cli: {
     migrationsDir: 'migrations'

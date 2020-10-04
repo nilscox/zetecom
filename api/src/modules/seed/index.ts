@@ -1,6 +1,10 @@
 import { NestFactory } from '@nestjs/core';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 import { SeedModule } from './seed.module';
+
 
 async function main() {
   const context = await NestFactory.createApplicationContext(SeedModule);

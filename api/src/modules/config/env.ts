@@ -24,9 +24,11 @@ const enviornmentVariables = [
   'DB_USER',
   'DB_PASS',
   'DB_NAME',
-  'DB_SYNC',
+
   'DB_ENTITIES',
-  'DB_MIGRATIONS_DIR',
+  'DB_MIGRATIONS',
+  'DB_SEEDS',
+
   'DB_DEBUG',
 
   // Email

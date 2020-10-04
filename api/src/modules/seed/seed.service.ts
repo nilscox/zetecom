@@ -1,33 +1,39 @@
-import fs from 'fs';
 import path from 'path';
+import { promisify } from 'util';
 
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import glob from 'glob';
 import { Connection, Repository } from 'typeorm';
+
+import { ConfigService } from '../config/config.service';
 
 import { Seed } from './seed.entity';
 import { Seed as ISeed } from './seed.interface';
 
-const SEEDS_DIR = path.resolve(__dirname, '..', '..', '..', 'seeds');
-
 @Injectable()
 export class SeedService {
   constructor(
+    private readonly configService: ConfigService,
     private readonly connection: Connection,
     @InjectRepository(Seed)
     private readonly seedRepository: Repository<Seed>,
   ) {}
 
   private async getSeeds() {
-    const files = await fs.promises.readdir(SEEDS_DIR);
+    const DB_SEEDS = this.configService.get('DB_SEEDS');
+
+    const files = await promisify(glob)(DB_SEEDS);
     const seeds: ISeed[] = [];
 
     for (const file of files) {
-      const module = await import(path.join(SEEDS_DIR, file));
+      const module = await import(path.join(process.cwd(), file));
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       for (const seed of Object.values<any>(module)) {
-        if ('name' in seed)
+        if ('name' in seed) {
           seeds.push(new seed());
+        }
       }
     }
 
@@ -39,10 +45,11 @@ export class SeedService {
     const seeds = await this.getSeeds();
 
     for (const seed of seeds) {
-      const existing = await this.seedRepository.count({ where: { name: seed.name } }) !== 0;
+      const existing = (await this.seedRepository.count({ where: { name: seed.name } })) !== 0;
 
-      if (existing)
+      if (existing) {
         continue;
+      }
 
       await seed.run(queryRunner);
       await this.seedRepository.save({ name: seed.name });

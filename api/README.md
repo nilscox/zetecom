@@ -6,7 +6,7 @@ Environment variables locations:
 ../scripts/env/*/api.env
 ../scripts/deploy-api.sh
 ../docker-compose.yml
-./.env.example
+./.env.*
 ./.env
 ./src/modules/config/env.ts
 ```

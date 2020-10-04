@@ -20,7 +20,6 @@ services:
     volumes:
       - ./api/scripts:/app/scripts
     command: bash -c "yarn start:cypress"
-    # command: env
     environment:
       LISTEN_PORT: 4242
       LISTEN_IP: 0.0.0.0
@@ -30,11 +29,8 @@ services:
       DB_PASS: root
       DB_NAME: cypress
       DB_NAME_ROOT: postgres
-      DB_SYNC: 'false'
       DB_ENTITIES: ./dist/src/**/*.entity.js
-      DB_MIGRATIONS_DIR: ./dist/migrations/*.js
-      DB_MIGRATIONS_RUN: 'false'
-      DB_DEBUG: 'false'
+      DB_MIGRATIONS: ./dist/migrations/*.js
 
 
   app:

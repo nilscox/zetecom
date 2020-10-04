@@ -22,7 +22,9 @@ setup_environment () {
   echo
 
   echo "Deployment variables:"
-  echo_vars deploy_user deploy_host base_dir api_image api_port
+  echo_vars deploy_user deploy_host deploy_key base_dir api_image api_port
+
+  execute ssh-add "$deploy_key"
 }
 
 deploy_api() {
@@ -32,7 +34,6 @@ deploy_api() {
     --name "zc-api-$environment" \
     --network "zc-network-$environment" \
     --volume "$base_dir/avatars:/app/avatars:rw" \
-    --volume "$base_dir/email-templates:/app/email-templates:ro" \
     -p "$api_port:80" \
     --env $(sshenv REFLECT_ORIGIN) \
     --env $(sshenv BYPASS_AUTHORIZATIONS) \
@@ -45,7 +46,8 @@ deploy_api() {
     --env $(sshenv DB_PASS) \
     --env $(sshenv DB_NAME) \
     --env $(sshenv DB_ENTITIES) \
-    --env $(sshenv DB_MIGRATIONS_DIR) \
+    --env $(sshenv DB_MIGRATIONS) \
+    --env $(sshenv DB_SEEDS) \
     --env $(sshenv EMAIL_HOST) \
     --env $(sshenv EMAIL_USER) \
     --env $(sshenv EMAIL_PASSWORD) \
@@ -57,11 +59,16 @@ deploy_api() {
     "$api_image"
 }
 
+cleanup_environment() {
+  execute ssh-add -d "$deploy_key"
+}
+
 main() {
   echo_title "Deploy API"
   step "Prepare deployment" prepare_deployment
   step "Setup environment" setup_environment
   step "Deploy API" deploy_api
+  step "Cleanup environment" cleanup_environment
   echo "Deployment success"
 }
 

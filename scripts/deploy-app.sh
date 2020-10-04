@@ -22,7 +22,9 @@ setup_environment () {
   echo
 
   echo "Deployment variables:"
-  echo_vars deploy_user deploy_host app_image app_port
+  echo_vars deploy_user deploy_host deploy_key app_image app_port
+
+  execute ssh-add "$deploy_key"
 }
 
 deploy_app() {
@@ -43,11 +45,16 @@ deploy_app() {
     "$app_image"
 }
 
+cleanup_environment() {
+  execute ssh-add -d "$deploy_key"
+}
+
 main() {
   echo_title "Deploy app"
   step "Prepare deployment" prepare_deployment
   step "Setup environment" setup_environment
   step "Deploy app" deploy_app
+  step "Cleanup environment" cleanup_environment
   echo "Deployment success"
 }
 
