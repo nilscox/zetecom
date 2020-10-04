@@ -153,7 +153,7 @@ const OpenCommentsAreaRequest: React.FC<{ requestId: number; identifier: string 
                 fullWidth
                 disabled={loading}
                 className={classes.field}
-                label="title de l'information"
+                label="titre de l'information"
                 {...text('informationTitle')}
               />
             </Grid>

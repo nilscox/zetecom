@@ -18,8 +18,9 @@ const useStyles = makeStyles<Theme, StylesProps>(({ breakpoints, spacing, palett
     transition: 'height 180ms ease-in-out',
   }),
   image: ({ inline }) => ({
-    margin: spacing(0, inline ? 1 : 2),
+    width: 180,
     height: '100%',
+    margin: spacing(0, inline ? 1 : 2),
     objectFit: 'cover',
   }),
   text: ({ inline }) => ({
