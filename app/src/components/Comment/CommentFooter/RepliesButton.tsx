@@ -1,14 +1,19 @@
 import React from 'react';
 
-import { Button, makeStyles, Typography, useMediaQuery } from '@material-ui/core';
+import { makeStyles, useMediaQuery } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
-const useStyles = makeStyles(({ breakpoints, spacing }) => ({
-  buttonText: {
+import Button from 'src/components/Button';
+
+const useStyles = makeStyles(({ palette, breakpoints, spacing }) => ({
+  button: {
     padding: spacing(0, 2),
-    [breakpoints.down('xs')]: {
-      padding: spacing(0, 1),
-    },
+    color: palette.text.secondary,
+  },
+  buttonLabel: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   repliesCount: {
     fontWeight: 'bold',
@@ -40,18 +45,19 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayRepl
   const verySmall = useMediaQuery('(max-width: 320px)');
 
   return (
-    <Button disabled={!onClick || repliesCount === 0} classes={{ text: classes.buttonText }} onClick={onClick}>
+    <Button
+      disabled={!onClick || repliesCount === 0}
+      className={classes.button}
+      classes={{ label: classes.buttonLabel }}
+      onClick={onClick}
+    >
+      {(repliesCount > 0 || !verySmall) && (
+        <>
+          {repliesCount} {!verySmall && <>réponse{repliesCount > 1 ? 's' : ''}</>}
+        </>
+      )}
 
-      { (repliesCount > 0 || !verySmall) && (
-        <Typography variant="button" className={classes.repliesCount}>
-          { repliesCount } {!verySmall && <>réponse{ repliesCount > 1 ? 's' : '' }</>}
-        </Typography>
-      ) }
-
-      { repliesCount > 0 && onClick && (
-        <ArrowRightIcon className={classes.arrow} />
-      ) }
-
+      {repliesCount > 0 && onClick && <ArrowRightIcon className={classes.arrow} />}
     </Button>
   );
 };

@@ -413,7 +413,7 @@ describe('comments', () => {
 
       cy.get('[placeholder="Précisez en quelques mots le motif du signalement si nécessaire"]').type('blah');
       cy.get('button[type="button"]').contains('Signaler').click();
-      cy.contains('Le commentaire a été signalée, merci pour votre contribution ! 💪');
+      cy.contains('Le commentaire a été signalé, merci pour votre contribution ! 💪');
 
       cy.didTrack({ category: 'Comment', action: 'Report' });
 

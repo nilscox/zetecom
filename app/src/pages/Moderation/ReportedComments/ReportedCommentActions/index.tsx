@@ -66,10 +66,10 @@ const useDeleteComment = (comment: Comment, onModerated: () => void) => {
 
 const useStyles = makeStyles(({ palette }) => ({
   discard: {
-    color: palette.textLight.main,
+    color: palette.text.secondary,
   },
   contact: {
-    color: palette.textLight.main,
+    color: palette.text.secondary,
   },
   delete: {
     color: palette.error.dark,

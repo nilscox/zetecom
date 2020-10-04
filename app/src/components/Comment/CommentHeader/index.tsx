@@ -14,8 +14,8 @@ import ReportLink from './ReportLink';
 
 const useStyles = makeStyles(({ palette: { border }, spacing, breakpoints }) => ({
   header: {
-    borderTop: `1px solid ${border.veryLight}`,
-    borderBottom: `1px solid ${border.light}`,
+    borderTop: '1px solid #eee',
+    borderBottom: `1px solid ${border.main}`,
     background: 'rgba(0, 0, 0, 0.02)',
   },
   left: {
@@ -41,7 +41,7 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({ comment, onEdit, onViewHi
   const { author, edited, date } = comment;
 
   const [displayReportLink, setDisplayReportLink] = useState(false);
-  const [showReportLink, hideReportLink] = [true, false].map((v) => () => setDisplayReportLink(v));
+  const [showReportLink, hideReportLink] = [true, false].map(v => () => setDisplayReportLink(v));
 
   const user = useCurrentUser();
   const isCurrentUserAuthor = author.id === user?.id;

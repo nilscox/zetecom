@@ -6,14 +6,14 @@ type StylesProps = {
   show: boolean;
 }
 
-const useStyles = makeStyles(({ spacing, palette: { textWarning }, typography }) => ({
+const useStyles = makeStyles(({ spacing, palette }) => ({
   link: ({ show }: StylesProps) => ({
     opacity: show ? 1 : 0,
     transition: 'opacity 160ms ease',
     marginRight: spacing(2),
     cursor: 'pointer',
-    fontWeight: typography.fontWeightBold,
-    color: textWarning.main,
+    fontWeight: 'bold',
+    color: palette.text.warning,
   }),
 }));
 

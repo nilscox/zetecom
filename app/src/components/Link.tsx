@@ -13,14 +13,14 @@ const useStyles = makeStyles(({ palette }) => ({
     transition: 'color 200ms ease-in-out',
   },
   color: {
-    color: palette.textLink.main,
+    color: palette.text.link,
     '&:hover': {
-      color: palette.textLink.light,
+      color: palette.text.linkFocus,
     },
   },
   focusColor: {
     '&:focus': {
-      color: palette.secondary.light,
+      color: palette.text.linkFocus,
     },
   },
   focusHighlightColor: {

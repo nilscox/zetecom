@@ -38,7 +38,7 @@ describe('popup', () => {
 
     cy.get('#accept-rules-checkbox').click();
     cy.get('#accept-rules-checkbox').should('not.be.checked');
-    cy.contains('La charte est composée de quelques règles simples. Accordez 5 minutes à sa lecture avant de vous inscrire.');
+    cy.contains("Il est important que chaque membre ait pris connaissance de la charte. Si ce n'est pas encore fait, accordez 5 minutes à sa lecture avant de vous inscrire.");
 
     cy.get('#accept-rules-checkbox').click();
     cy.get('#accept-rules-checkbox').should('be.checked');

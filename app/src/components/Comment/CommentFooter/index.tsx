@@ -11,7 +11,7 @@ import SubscribeButton from './SubscribeButton';
 
 const useStyles = makeStyles(({ palette: { border } }) => ({
   container: {
-    borderTop: `1px solid ${border.light}`,
+    borderTop: `1px solid ${border.main}`,
     background: 'rgba(0, 0, 0, 0.03)',
   },
 }));

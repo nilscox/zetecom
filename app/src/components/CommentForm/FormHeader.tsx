@@ -8,8 +8,8 @@ import { useCurrentUser } from 'src/contexts/UserContext';
 
 const useStyles = makeStyles(({ breakpoints, palette: { border }, spacing }) => ({
   container: {
-    borderTop: `1px solid ${border.veryLight}`,
-    borderBottom: `1px solid ${border.light}`,
+    borderTop: '1px solid #eee',
+    borderBottom: `1px solid ${border.main}`,
     position: 'relative',
     background: 'rgba(0, 0, 0, 0.02)',
     padding: spacing(2),
@@ -36,12 +36,13 @@ const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
   const classes = useStyles();
   const user = useCurrentUser();
 
-  if (!user)
+  if (!user) {
     return null;
+  }
 
   return (
     <div className={`MuiPaper-rounded ${classes.container}`}>
-      { closeForm && (
+      {closeForm && (
         <Box position="absolute" top={0} right={0}>
           <IconButton
             size="small"
@@ -52,7 +53,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({ closeForm }) => {
             <CloseIcon />
           </IconButton>
         </Box>
-      ) }
+      )}
       <UserAvatarNick small user={user} />
     </div>
   );

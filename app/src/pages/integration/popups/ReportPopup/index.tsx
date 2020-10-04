@@ -24,12 +24,13 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
   container: {
     padding: spacing(12),
   },
-  warningMessage: {
-    color: palette.textWarning.main,
+  textWarning: {
+    color: palette.text.warning,
     fontWeight: 'bold',
-    '& > p': {
-      margin: spacing(4, 0),
-    },
+  },
+  warningMessage: {
+    color: palette.text.warning,
+    margin: spacing(4, 0),
   },
   commentBody: {
     margin: spacing(8, 0, 8),
@@ -116,20 +117,20 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
       </Typography>
 
       <div className={classes.warningMessage}>
-        <Typography>
+        <Typography className={classes.textWarning}>
             Vous êtes sur le point de signaler un commentaire.
         </Typography>
-
-        <Typography>
-          {/* eslint-disable-next-line max-len */}
-          Il est important de signaler les commentaires qui dérogent à <WebsiteLink to="/charte.html">la charte</WebsiteLink> : cela en informera les modérateurs qui pourront entreprendre une action en fonction de la situation.
-        </Typography>
-
-        <Typography>
-          {/* eslint-disable-next-line max-len */}
-          Cependant, être en désaccord avec un message n'est pas un motif valable pour la signaler, et abuser de la fonction de signalement de manière répété et sans raison valable peut entrainer une suspension de votre compte.
-        </Typography>
       </div>
+
+      <Typography className={classes.warningMessage}>
+        {/* eslint-disable-next-line max-len */}
+        Il est important de signaler les commentaires qui dérogent à <WebsiteLink to="/charte.html">la charte</WebsiteLink> : cela en informera les modérateurs qui pourront entreprendre une action en fonction de la situation.
+      </Typography>
+
+      <Typography className={classes.warningMessage}>
+        {/* eslint-disable-next-line max-len */}
+        Cependant, être en désaccord avec un message n'est pas un motif valable pour la signaler, et abuser de la fonction de signalement de manière répété et sans raison valable peut entrainer une suspension de votre compte.
+      </Typography>
 
       <Indented className={classes.commentBody}>
         <CommentBody text={comment.text} />
@@ -147,7 +148,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
 
       { alreadyReported && (
         <Grid container justify="center" className={classes.alreadyReported}>
-          <Typography>Vous avez déjà signalé ce commentaire</Typography>
+          <Typography color="error">Vous avez déjà signalé ce commentaire</Typography>
         </Grid>
       ) }
 

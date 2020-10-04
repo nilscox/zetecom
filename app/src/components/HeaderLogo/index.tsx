@@ -40,7 +40,7 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
     marginLeft: spacing(4),
   },
   subTitle: {
-    color: palette.textLight.main,
+    color: palette.text.secondary,
     fontSize: 18,
     lineHeight: 1,
     [breakpoints.down('xs')]: {

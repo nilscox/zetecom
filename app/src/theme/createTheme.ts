@@ -1,5 +1,7 @@
 import amber from '@material-ui/core/colors/amber';
-import pink from '@material-ui/core/colors/pink';
+import blueGrey from '@material-ui/core/colors/blueGrey';
+import grey from '@material-ui/core/colors/grey';
+import orange from '@material-ui/core/colors/orange';
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
 
 import '@openfonts/noticia-text_all/index.css';
@@ -24,16 +26,17 @@ const createTheme = (): Theme => {
     palette: {
       primary: { main: amber[800] },
       secondary: { main: '#446' },
-      highlight: { main: pink[500] },
-      border: { main: '#ccc', light: '#ddd', veryLight: '#eee' },
-      selected: { main: '#ffeeaa' },
-      textLight: { main: 'rgba(0, 0, 0, 0.7)', light: 'rgba(0, 0, 0, 0.6)', dark: 'rgba(0, 0, 0, 0.8)' },
-      textLink: { main: '#44C', light: '#55A', dark: '#446' },
-      textWarning: { main: '#ee7700' },
+      border: { main: blueGrey[100] },
+      selected: { main: amber[200] },
       background: { default: 'white' },
-      success: { main: '#81c784', light: '#a4d7a6' },
-      warning: { main: '#decb81', light: '#e0d194' },
-      error: { main: '#de8c5d', light: '#e3ae8f' },
+      text: {
+        primary: '#222',
+        secondary: '#556',
+        disabled: grey[500],
+        link: '#44C',
+        linkFocus: '#55A',
+        warning: orange[900],
+      },
     },
 
     typography: {
@@ -45,14 +48,32 @@ const createTheme = (): Theme => {
 
   });
 
-  theme.typography.h1.fontSize = '1.75rem';
-  theme.typography.h2.fontSize = '1rem';
+  theme.typography.h1 = {
+    color: theme.palette.text.primary,
+    fontFamily: theme.typography.fontFamily,
+    fontSize: '1.75rem',
+    fontWeight: 'normal',
+  };
 
-  theme.typography.h3.fontSize = '1.25rem';
-  theme.typography.h3.fontWeight = 'bold';
-  theme.typography.h3.color = theme.palette.textLight.main;
+  theme.typography.h2 = {
+    color: theme.palette.text.primary,
+    fontFamily: theme.typography.fontFamily,
+    fontSize: '1.25rem',
+    fontWeight: 'normal',
+  };
 
   theme.typography.body1 = {
+    color: theme.palette.text.primary,
+    fontFamily: theme.typography.fontFamily,
+    fontSize: '1rem',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '0.8rem',
+    },
+  };
+
+  theme.typography.body2 = {
+    color: theme.palette.text.secondary,
+    fontFamily: theme.typography.fontFamily,
     fontSize: '1rem',
     [theme.breakpoints.down('xs')]: {
       fontSize: '0.8rem',
@@ -60,14 +81,17 @@ const createTheme = (): Theme => {
   };
 
   theme.typography.caption = {
+    color: theme.palette.text.secondary,
+    fontFamily: theme.typography.fontFamily,
     fontSize: '0.7rem',
-    color: theme.palette.secondary.light,
     [theme.breakpoints.down('xs')]: {
       fontSize: '0.6rem',
     },
   };
 
   theme.typography.button = {
+    color: theme.palette.text.primary,
+    fontFamily: theme.typography.fontFamily,
     textTransform: 'uppercase',
     fontWeight: 'bold',
     [theme.breakpoints.down('xs')]: {
@@ -78,15 +102,10 @@ const createTheme = (): Theme => {
   theme.overrides = {
     MuiButton: {
       root: {
-        minWidth: 0,
         transition: 'color 200ms ease-in-out',
         '&.Mui-disabled': {
           pointerEvents: 'auto',
         },
-      },
-      text: {
-        color: theme.palette.secondary.light,
-        padding: 0,
       },
     },
     MuiMenuItem: {

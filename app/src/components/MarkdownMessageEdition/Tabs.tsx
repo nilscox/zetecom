@@ -4,23 +4,23 @@ import { Button, Grid, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(({ breakpoints, spacing, palette: { border, ...palette } }) => ({
   tab: ({ active }: { active: boolean }) => ({
-    borderTop: `1px solid ${border.light}`,
-    borderRight: `1px solid ${border.light}`,
-    borderLeft: `1px solid ${border.light}`,
+    borderTop: `1px solid ${border.main}`,
+    borderRight: `1px solid ${border.main}`,
+    borderLeft: `1px solid ${border.main}`,
     ...(!active && {
-      borderBottom: `1px solid ${border.light}`,
+      borderBottom: `1px solid ${border.main}`,
     }),
   }),
   separator: {
     width: spacing(4),
-    borderBottom: `1px solid ${border.light}`,
+    borderBottom: `1px solid ${border.main}`,
     [breakpoints.down('xs')]: {
       width: spacing(2),
     },
   },
   filler: {
     flex: 1,
-    borderBottom: `1px solid ${border.light}`,
+    borderBottom: `1px solid ${border.main}`,
   },
   tabButton: {
     padding: spacing(2, 4),

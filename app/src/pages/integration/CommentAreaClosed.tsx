@@ -10,15 +10,11 @@ import useQueryString from 'src/hooks/use-query-string';
 const useStyles = makeStyles(({ palette, spacing }) => ({
   message: {
     fontSize: '1.6em',
-    color: palette.textLight.main,
+    color: palette.text.secondary,
     marginBottom: spacing(4),
   },
   requestSuccess: {
     color: palette.success.dark,
-    fontWeight: 'bold',
-  },
-  alreadyRequested: {
-    color: palette.textWarning.main,
     fontWeight: 'bold',
   },
 }));
@@ -37,8 +33,10 @@ const CommentAreaClosed: React.FC = () => {
   }, undefined, { manual: true });
 
   useEffect(() => {
-    if (status(201))
+    if (status(201)) {
       setRequested(true);
+    }
+
     if (status(400) && error.response.data.message === 'REQUEST_ALREADY_REGISTERED') {
       setRequested(true);
       setAlreadyRequested(true);

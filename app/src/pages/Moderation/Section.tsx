@@ -21,7 +21,7 @@ const Section: React.FC<SectionProps> = ({ title, children }) => {
 
   return (
     <div className={classes.section}>
-      <Typography variant="h3" className={classes.sectionTitle}>{title}</Typography>
+      <Typography variant="h2" className={classes.sectionTitle}>{title}</Typography>
       { children }
     </div>
   );

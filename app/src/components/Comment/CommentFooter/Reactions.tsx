@@ -10,7 +10,7 @@ import Reaction from './Reaction';
 
 const useStyles = makeStyles(({ palette }) => ({
   vbreak: {
-    borderRight: `1px solid ${palette.divider}`,
+    borderRight: `1px solid ${palette.border.main}`,
   },
 }));
 

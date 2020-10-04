@@ -10,7 +10,7 @@ type StylesProps = {
 
 const useStyles = makeStyles(({ palette }) => ({
   submitButton: ({ hover }: StylesProps) => ({
-    color: hover ? palette.textWarning.main : undefined,
+    color: hover ? palette.text.warning : undefined,
     transition: 'color 160ms ease',
   }),
 }));

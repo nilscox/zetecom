@@ -10,18 +10,17 @@ import { WebsiteLink } from 'src/components/Link';
 
 import { Form } from '../types';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(({ palette, spacing }) => ({
   checkbox: {
-    marginTop: theme.spacing(2),
+    marginTop: spacing(2),
   },
   warning: {
-    color: theme.palette.textWarning.main,
+    color: palette.text.warning,
   },
 }));
 
 type AcceptRulesCheckbox = CheckboxProps & {
   form: Form;
-  checked: boolean;
 };
 
 const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ form, onChange, ...props }) => {
@@ -45,7 +44,8 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ form, onChange, ..
       />
       { showWarning && (
         <Typography className={classes.warning}>
-          La charte est composée de quelques règles simples. Accordez 5 minutes à sa lecture avant de vous inscrire.
+          Il est important que chaque membre ait pris connaissance de la charte.
+          Si ce n'est pas encore fait, accordez <strong>5 minutes</strong> à sa lecture avant de vous inscrire.
         </Typography>
       ) }
     </Collapse>

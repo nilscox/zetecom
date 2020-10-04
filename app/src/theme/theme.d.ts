@@ -1,4 +1,4 @@
-import { PaletteColor } from '@material-ui/core/styles/createPalette';
+import {} from '@material-ui/core/styles/createPalette';
 
 // declare module '@material-ui/core/styles/createBreakpoints' {
 //   interface BreakpointOverrides {
@@ -12,21 +12,20 @@ import { PaletteColor } from '@material-ui/core/styles/createPalette';
 // }
 
 declare module '@material-ui/core/styles/createPalette' {
+  interface TypeText {
+    link: string;
+    linkFocus: string;
+    warning: string;
+  }
+
   interface Palette {
-    highlight: PaletteColor;
-    border: PaletteColor & { veryLight: string };
-    selected: PaletteColor;
-    textLight: PaletteColor;
-    textLink: PaletteColor;
-    textWarning: PaletteColor;
+    border: Pick<PaletteColor, 'main'>;
+    selected: Pick<PaletteColor, 'main'>;
   }
 
   interface PaletteOptions {
-    highlight: PaletteColorOptions;
-    border: PaletteColorOptions & { veryLight: string };
-    selected: PaletteColorOptions;
-    textLight: PaletteColorOptions;
-    textLink: PaletteColorOptions;
-    textWarning: PaletteColorOptions;
+    border: Pick<PaletteColor, 'main'>;
+    selected: Pick<PaletteColor, 'main'>;
+    // textWarning: TypeText;
   }
 }

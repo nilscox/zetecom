@@ -3,14 +3,13 @@ import React from 'react';
 import { IconButton, makeStyles } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 
-const useStyles = makeStyles(({ breakpoints, spacing, palette: { textLight } }) => ({
+const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
   button: {
-    color: textLight.main,
+    color: palette.grey[600],
   },
   sizeSmall: {
     marginLeft: spacing(2),
     fontSize: spacing(4),
-    color: textLight.light,
     '& svg': {
       fontSize: 'inherit',
     },

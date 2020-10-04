@@ -1,15 +1,17 @@
 import React from 'react';
 
-import { Button, Grid, makeStyles } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles(({ breakpoints, spacing, palette: { border } }) => ({
+import Button from 'src/components/Button';
+
+const useStyles = makeStyles(({ spacing, palette }) => ({
   container: {
-    borderTop: `1px solid ${border.light}`,
-    padding: spacing(2),
+    borderTop: `1px solid ${palette.border.main}`,
     background: 'rgba(0, 0, 0, 0.03)',
-    [breakpoints.down('xs')]: {
-      padding: spacing(1),
-    },
+  },
+  sendButton: {
+    color: palette.text.secondary,
+    padding: spacing(2),
   },
 }));
 
@@ -22,7 +24,7 @@ const FormFooter: React.FC<FormFooterProps> = ({ disabled }) => {
 
   return (
     <Grid container justify="flex-end" className={classes.container}>
-      <Button type="submit" disabled={disabled}>
+      <Button type="submit" disabled={disabled} className={classes.sendButton}>
         Envoyer
       </Button>
     </Grid>

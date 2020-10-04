@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 
+import Button from 'src/components/Button';
 import { ReactionType } from 'src/types/Comment';
 
 import approveIcon from './images/approve.png';
@@ -11,12 +12,13 @@ import skepticIcon from './images/skeptic.png';
 
 type StylesProps = {
   userReaction?: boolean;
-}
+};
 
 const useStyles = makeStyles(({ breakpoints, spacing, palette: { selected, text } }) => ({
   button: ({ userReaction }: StylesProps) => ({
-    padding: spacing(1, 2),
+    padding: spacing(1),
     fontWeight: 'normal',
+    fontSize: '1rem',
     ...(userReaction && {
       fontWeight: 'bold',
       backgroundColor: selected.main,
@@ -27,7 +29,7 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette: { selected, text 
   }),
   buttonRoot: {
     '&$disabled': {
-      color: text.secondary,
+      color: text.disabled,
     },
   },
   disabled: {},
@@ -40,7 +42,6 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette: { selected, text 
     },
   },
   count: {
-    fontWeight: 'bold',
     marginLeft: spacing(2),
     [breakpoints.down('xs')]: {
       marginLeft: spacing(1),
@@ -75,21 +76,12 @@ const Reaction: React.FC<ReactionProps> = ({ count, type, userReaction, onUpdate
       type="button"
       disabled={!onUpdate}
       title={onUpdate && reactionTraduction[type]}
-      className={clsx(
-        'reaction',
-        'reaction--' + type,
-        userReaction && 'user-reaction',
-        classes.button,
-      )}
+      className={clsx('reaction', 'reaction--' + type, userReaction && 'user-reaction', classes.button)}
       classes={{ root: classes.buttonRoot, disabled: classes.disabled }}
       onClick={() => onUpdate(userReaction ? null : type)}
     >
-
-      <Grid container alignItems="center">
-        <img src={reactionIcon[type]} className={classes.image} />
-        <Typography className={classes.count}>{ count }</Typography>
-      </Grid>
-
+      <img src={reactionIcon[type]} className={classes.image} />
+      <span className={classes.count}>{count}</span>
     </Button>
   );
 };
