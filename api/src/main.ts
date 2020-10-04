@@ -24,7 +24,6 @@ const {
   LISTEN_PORT,
   LISTEN_IP,
   REFLECT_ORIGIN,
-  NODE_ENV,
   SSL_CERTIFICATE,
   SSL_CERTIFICATE_KEY,
   TRUST_PROXY,
@@ -46,7 +45,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalInterceptors(new ErrorsInterceptor());
 
-  if (NODE_ENV === 'development' && TRUST_PROXY === 'true')
+  if (TRUST_PROXY === 'true')
     app.set('trust proxy', 1);
 
   if (REFLECT_ORIGIN === 'true')
