@@ -85,8 +85,9 @@ export const Link: React.FC<LinkProps> = ({
   const classes = useStyles({});
   const other: React.HTMLProps<HTMLAnchorElement> = {};
 
-  if (openInNewTab)
+  if (openInNewTab) {
     other.target = '_blank';
+  }
 
   return (
     <a

@@ -1,12 +1,9 @@
 import React, { ErrorInfo } from 'react';
 
+import { Box, Typography } from '@material-ui/core';
 import * as Sentry from '@sentry/browser';
 
 import env from 'src/utils/env';
-
-import Box from './Box';
-import Flex from './Flex';
-import Text from './Text';
 
 const { NODE_ENV } = env;
 
@@ -15,28 +12,26 @@ const { NODE_ENV } = env;
 
 const GenericErrorView: React.FC = () => (
   <>
-    <div style={{ display: 'relative', minHeight: 200 }} />
-    <Flex
+    <Box
+      display="flex"
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      style={{
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0,
-      }}
+      position="absolute"
+      top={0}
+      bottom={0}
+      left={0}
+      right={0}
     >
-      <Text variant="title" align="center">
+      <Typography variant="h1" align="center">
         Une erreur s'est produite... x(
-      </Text>
-      <Box my={42}>
-        <Text align="center">
+      </Typography>
+      <Box my={10}>
+        <Typography align="center">
           Réessayez plus tard !
-        </Text>
+        </Typography>
       </Box>
-    </Flex>
+    </Box>
   </>
 );
 
@@ -84,10 +79,11 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     const { error, errorInfo } = this.state;
 
     if (error !== null) {
-      if (NODE_ENV === 'development')
+      if (NODE_ENV === 'development') {
         return <DevErrorView error={error} errorInfo={errorInfo} />;
-      else
+      } else {
         return <GenericErrorView />;
+      }
     }
 
     return children;

@@ -2,77 +2,45 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { makeStyles, TextField } from '@material-ui/core';
+import { Box, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 import { RouteComponentProps } from 'react-router';
 
-import Box from 'src/components/Box';
-import Button, { ButtonProps } from 'src/components/Button';
 import CommentBody from 'src/components/Comment/CommentBody';
-import Flex from 'src/components/Flex';
 import { WebsiteLink } from 'src/components/Link';
 import Loader from 'src/components/Loader';
-import Text from 'src/components/Text';
 import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
-import { useTheme } from 'src/theme/Theme';
 import { parseComment } from 'src/types/Comment';
 import { trackReportComment } from 'src/utils/track';
 
+import Indented from '../../../../components/Comment/CommentContainer/Indented';
+
+import ReportButton from './ReportButton';
+import ReportSuccess from './ReportSuccess';
+
 const POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT = 3000;
 
-type StylesProps = {
-  hover: boolean;
-}
-
-const useStyles = makeStyles(({ palette }) => ({
-  submitButton: ({ hover }: StylesProps) => ({
-    color: hover ? palette.textWarning.main : undefined,
-    transition: 'color 160ms ease',
-  }),
+const useStyles = makeStyles(({ spacing, palette }) => ({
+  container: {
+    padding: spacing(12),
+  },
+  warningMessage: {
+    color: palette.textWarning.main,
+    fontWeight: 'bold',
+    '& > p': {
+      margin: spacing(4, 0),
+    },
+  },
+  commentBody: {
+    margin: spacing(8, 0, 8),
+  },
+  reportButtonContainer: {
+    marginTop: spacing(8),
+  },
+  alreadyReported: {
+    marginTop: spacing(4),
+  },
 }));
-
-const ReportButton: React.FC<ButtonProps> = (props) => {
-  const [hover, setHover] = useState(false);
-  const classes = useStyles({ hover });
-
-  return (
-    <Button
-      size="large"
-      className={classes.submitButton}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      {...props}
-    >
-      Signaler
-    </Button>
-  );
-};
-
-const ReportSuccess: React.FC = () => {
-  const { sizes: { big } } = useTheme();
-
-  return (
-    <div
-      style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
-    >
-      <Flex
-        p={12 * big}
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        style={{ height: '100%', boxSizing: 'border-box' }}
-      >
-        <Text
-          uppercase
-          color="textLight"
-          align="center"
-        >
-          Le commentaire a été signalée, merci pour votre contribution ! 💪
-        </Text>
-      </Flex>
-    </div>
-  );
-};
 
 type ReportPopupProps = RouteComponentProps<{ id: string }>;
 
@@ -82,7 +50,7 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
   const [message, setMessage] = useState('');
   const [success, setSuccess] = useState(false);
   const [alreadyReported, setArleadyReported] = useState(false);
-  const { colors: { border }, sizes: { big }, borderRadius } = useTheme();
+  const classes = useStyles();
 
   const [{ data: comment, loading, error }] = useAxios('/api/comment/' + match.params.id, parseComment);
 
@@ -94,18 +62,21 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
     status,
   }, report] = useAxios(requestConfig, () => undefined, { manual: true });
 
-  if (error)
+  if (error) {
     throw error;
+  }
 
-  if (reportError)
+  if (reportError) {
     throw reportError;
+  }
 
   useEffect(() => {
     if (status(400)) {
-      if (rawReportData && rawReportData.message === 'COMMENT_ALREADY_REPORTED')
+      if (rawReportData && rawReportData.message === 'COMMENT_ALREADY_REPORTED') {
         setArleadyReported(true);
-      else
+      } else {
         throw error;
+      }
     }
   }, [status, setArleadyReported, error, rawReportData]);
 
@@ -129,50 +100,40 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
     }
   };
 
-  if (loading)
+  if (loading) {
     return <Loader size="big" />;
+  }
 
-  if (success)
+  if (success) {
     return <ReportSuccess />;
+  }
 
   return (
-    <Box
-      p={4 * big}
-      style={{ height: '100%', boxSizing: 'border-box' }}
-    >
+    <div className={classes.container}>
 
-      <Text variant="subtitle">
+      <Typography variant="h1">
         Signaler le commentaire de {comment.author.nick}
-      </Text>
+      </Typography>
 
-      <div style={{ minHeight: 10 }} />
+      <div className={classes.warningMessage}>
+        <Typography>
+            Vous êtes sur le point de signaler un commentaire.
+        </Typography>
 
-      <Text bold color="textWarning">
-        <p style={{ margin: `${big}px 0` }}>
-          Vous êtes sur le point de signaler un commentaire.
-        </p>
-        <p style={{ margin: `${big}px 0` }}>
+        <Typography>
           {/* eslint-disable-next-line max-len */}
           Il est important de signaler les commentaires qui dérogent à <WebsiteLink to="/charte.html">la charte</WebsiteLink> : cela en informera les modérateurs qui pourront entreprendre une action en fonction de la situation.
-        </p>
-        <p style={{ margin: `${big}px 0` }}>
+        </Typography>
+
+        <Typography>
           {/* eslint-disable-next-line max-len */}
           Cependant, être en désaccord avec un message n'est pas un motif valable pour la signaler, et abuser de la fonction de signalement de manière répété et sans raison valable peut entrainer une suspension de votre compte.
-        </p>
-      </Text>
+        </Typography>
+      </div>
 
-      <div style={{ minHeight: 30 }} />
-
-      <Box
-        p={big}
-        border={`1px solid ${border}`}
-        borderRadius={borderRadius}
-        style={{ width: '100%', boxSizing: 'border-box' }}
-      >
+      <Indented className={classes.commentBody}>
         <CommentBody text={comment.text} />
-      </Box>
-
-      <div style={{ minHeight: 30 }} />
+      </Indented>
 
       <TextField
         multiline
@@ -185,16 +146,16 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
       />
 
       { alreadyReported && (
-        <Box mt={30} style={{ textAlign: 'center' }}>
-          <Text bold color="textWarning" >Vous avez déjà signalé ce commentaire</Text>
-        </Box>
+        <Grid container justify="center" className={classes.alreadyReported}>
+          <Typography>Vous avez déjà signalé ce commentaire</Typography>
+        </Grid>
       ) }
 
-      <Flex mt={4 * big} flexDirection="row" justifyContent="center">
+      <Grid container justify="center" className={classes.reportButtonContainer}>
         <ReportButton loading={reportLoading} onClick={onSubmit} />
-      </Flex>
+      </Grid>
 
-    </Box>
+    </div>
   );
 };
 

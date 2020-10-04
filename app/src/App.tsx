@@ -35,14 +35,14 @@ const theme = createTheme();
 
 const App: React.FC = () => {
   return (
-    <ErrorBoundary>
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <ErrorBoundary>
         <UserProvider>
           <CssBaseline />
           <Router />
         </UserProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </ThemeProvider>
   );
 };
 

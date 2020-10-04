@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Paper } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 import dayjs from 'dayjs';
 import * as diff from 'diff';
 import { RouteComponentProps } from 'react-router';
@@ -8,7 +8,6 @@ import { RouteComponentProps } from 'react-router';
 import Box from 'src/components/Box';
 import DiffMessage from 'src/components/DiffMessage';
 import Loader from 'src/components/Loader';
-import Text from 'src/components/Text';
 import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
 
@@ -89,13 +88,9 @@ const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
 
           { n > 0 && <div style={{ minHeight: 30 }} /> }
 
-          <Text
-            style={{ display: 'block' }}
-            align="center"
-            color="textLight"
-          >
+          <Typography component="div" align="center" color="textSecondary" >
             { dayjs(date as Date).format(DATE_FORMAT) }
-          </Text>
+          </Typography>
 
           <div style={{ minHeight: 10 }} />
 

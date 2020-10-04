@@ -13,11 +13,11 @@ const useIndentedStyles = makeStyles(({ breakpoints, spacing, palette: { border 
   },
 }));
 
-const Indented: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Indented: React.FC<{ className?: string; children: React.ReactNode }> = ({ className, children }) => {
   const classes = useIndentedStyles();
 
   return (
-    <Grid container>
+    <Grid container className={className}>
       <div className={classes.bar} />
       <div style={{ flex: 1 }}>
         { children }

@@ -1,12 +1,13 @@
 import React from 'react';
 
+import { Typography } from '@material-ui/core';
+
 import AsyncContent from 'src/components/AsyncContent';
 import { CommentCreationForm } from 'src/components/CommentForm';
 import CommentsList from 'src/components/CommentsList';
 import Fallback from 'src/components/Fallback';
 import FiltersBar from 'src/components/FiltersBar';
 import Padding from 'src/components/Padding';
-import Text from 'src/components/Text';
 import { useCommentsArea } from 'src/contexts/CommentsAreaContext';
 import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
 import { useCurrentUser } from 'src/contexts/UserContext';
@@ -19,12 +20,10 @@ const CommentsArea: React.FC = () => {
   const user = useCurrentUser();
   const commentsArea = useCommentsArea();
 
-  const [
-    { loading, data, total },
-    { search, setSearch },
-    { sort, setSort },
-    { page, setPage },
-  ] = useAxiosPaginated(`/api/comments-area/${commentsArea.id}/comments`, parseComment);
+  const [{ loading, data, total }, { search, setSearch }, { sort, setSort }, { page, setPage }] = useAxiosPaginated(
+    `/api/comments-area/${commentsArea.id}/comments`,
+    parseComment,
+  );
 
   const [comments, { prepend }] = useEditableDataset(data, 'set');
 
@@ -39,11 +38,11 @@ const CommentsArea: React.FC = () => {
         onPageChange={setPage}
       />
 
-      { user && (
+      {user && (
         <Padding top>
           <CommentCreationForm onCreated={prepend} />
         </Padding>
-      ) }
+      )}
 
       <SearchQueryProvider value={search || undefined}>
         <AsyncContent
@@ -52,10 +51,10 @@ const CommentsArea: React.FC = () => {
             <Fallback
               when={comments.length === 0}
               fallback={
-                <Text uppercase color="textLight">
-                  { !search && <>Aucun commentaire n'a été publié pour le moment.</> }
-                  { search && !loading && <>Aucun résultat ne correspond à cette recherche</> }
-                </Text>
+                <Typography color="textSecondary">
+                  {!search && <>Aucun commentaire n'a été publié pour le moment.</>}
+                  {search && !loading && <>Aucun résultat ne correspond à cette recherche</>}
+                </Typography>
               }
               render={() => (
                 <Padding top>
@@ -64,10 +63,8 @@ const CommentsArea: React.FC = () => {
               )}
             />
           )}
-        >
-        </AsyncContent>
+        ></AsyncContent>
       </SearchQueryProvider>
-
     </>
   );
 };
