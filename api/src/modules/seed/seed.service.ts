@@ -7,6 +7,7 @@ import glob from 'glob';
 import { Connection, Repository } from 'typeorm';
 
 import { ConfigService } from '../config/config.service';
+import { LoggerService } from '../logger/logger.service';
 
 import { Seed } from './seed.entity';
 import { Seed as ISeed } from './seed.interface';
@@ -14,11 +15,14 @@ import { Seed as ISeed } from './seed.interface';
 @Injectable()
 export class SeedService {
   constructor(
+    private logger: LoggerService,
     private readonly configService: ConfigService,
     private readonly connection: Connection,
     @InjectRepository(Seed)
     private readonly seedRepository: Repository<Seed>,
-  ) {}
+  ) {
+    this.logger.setContext('SeedService');
+  }
 
   private async getSeeds() {
     const DB_SEEDS = this.configService.get('DB_SEEDS');
@@ -41,18 +45,29 @@ export class SeedService {
   }
 
   async seed() {
+    this.logger.verbose('executing seeds');
+
     const queryRunner = this.connection.createQueryRunner();
     const seeds = await this.getSeeds();
 
+    this.logger.verbose(`${seeds.length} seed${seeds.length >= 2 ? 's' : ''} loaded`);
+
     for (const seed of seeds) {
+      this.logger.verbose(`loading seed ${seed.name}`);
+
       const existing = (await this.seedRepository.count({ where: { name: seed.name } })) !== 0;
 
       if (existing) {
+        this.logger.verbose(`${seed.name} was already executed, skipping`);
         continue;
       }
 
-      await seed.run(queryRunner);
+      this.logger.verbose(`executing ${seed.name}`);
+
+      await seed.run(queryRunner, this.logger);
       await this.seedRepository.save({ name: seed.name });
+
+      this.logger.verbose(`${seed.name} executed successfully`);
     }
   }
 }
