@@ -4,24 +4,27 @@ import { makeStyles } from '@material-ui/core';
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
 import AsyncContent from 'src/components/AsyncContent';
+import CommentsArea from 'src/components/CommentsArea';
 import Fallback, { not } from 'src/components/Fallback';
 import HeaderLogo from 'src/components/HeaderLogo';
 import Padding from 'src/components/Padding';
 import { useTrackPageview } from 'src/components/TrackPageView';
-import { CommentsAreaProvider } from 'src/contexts/CommentsAreaContext';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
-import { parseCommentsArea } from 'src/types/CommentsArea';
+import { CommentsArea as CommentsAreaType, parseCommentsArea } from 'src/types/CommentsArea';
 import { trackViewIntegration } from 'src/utils/track';
 
 import CommentAreaClosed from './CommentAreaClosed';
-import CommentsArea from './CommentsArea';
 
-const IntegrationRouter = () => (
+type IntegrationRouterProps = {
+  commentsArea: CommentsAreaType;
+};
+
+const IntegrationRouter: React.FC<IntegrationRouterProps> = ({ commentsArea }) => (
   <Router>
 
     <Route path="/" exact render={() => <Redirect to="/comment" />} />
-    <Route path="/comment" exact component={CommentsArea} />
+    <Route path="/comment" exact render={() => <CommentsArea commentsArea={commentsArea} />} />
 
   </Router>
 );
@@ -46,7 +49,8 @@ const Integration: React.FC = () => {
     validateStatus: (s: number) => [200, 404].includes(s),
   };
 
-  const [{ data: commentsArea, loading, error }, fetchInfo] = useAxios(opts, parseCommentsArea);
+  // TODO: use fetchCommentsArea
+  const [{ data: commentsArea, loading, error }, fetchCommentsArea] = useAxios(opts, parseCommentsArea);
 
   useTrackPageview(() => !!commentsArea);
 
@@ -60,7 +64,7 @@ const Integration: React.FC = () => {
     throw error;
   }
 
-  useEffect(() => void identifier && fetchInfo(), [identifier, fetchInfo]);
+  useEffect(() => void identifier && fetchCommentsArea(), [identifier, fetchCommentsArea]);
 
   useEffect(() => {
     const identifierChangedListener = (evt: MessageEvent) => {
@@ -102,11 +106,7 @@ const Integration: React.FC = () => {
             <Fallback
               when={not(commentsArea)}
               fallback={<CommentAreaClosed />}
-              render={(commentsArea) => (
-                <CommentsAreaProvider value={commentsArea}>
-                  <IntegrationRouter />
-                </CommentsAreaProvider>
-              )}
+              render={() => <IntegrationRouter commentsArea={commentsArea} />}
             />
           </>
         )}

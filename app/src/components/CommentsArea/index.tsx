@@ -1,29 +1,20 @@
 import React, { useEffect } from 'react';
 
-import AsyncContent from 'src/components/AsyncContent';
 import Padding from 'src/components/Padding';
 import { CommentsAreaProvider } from 'src/contexts/CommentsAreaContext';
-import useAxios from 'src/hooks/use-axios';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import useEditableDataset from 'src/hooks/useEditableDataset';
 import { parseComment } from 'src/types/Comment';
-import { CommentsArea as CommentsAreaType, parseCommentsArea } from 'src/types/CommentsArea';
+import { CommentsArea } from 'src/types/CommentsArea';
 
 import CommentsAreaComponent from './CommentsAreaComponent';
 
-const useFetchCommentsArea = (id: number) => {
-  const result = useAxios<CommentsAreaType>(`/api/comments-area/${id}`, parseCommentsArea);
-  const [{ error }] = result;
-
-  if (error) {
-    throw error;
-  }
-
-  return result;
+type CommentsAreaContainerProps = {
+  commentsArea: CommentsArea;
 };
 
-const CommentsAreaContainer: React.FC<{ commentsAreaId: number }> = ({ commentsAreaId }) => {
-  const [{ loading: loadingCommentsArea, data: commentsArea }] = useFetchCommentsArea(commentsAreaId);
+const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ commentsArea }) => {
+  const commentsUrl = `/api/comments-area/${commentsArea?.id}/comments`;
 
   const [
     { loading: loadingComments, data, total },
@@ -31,35 +22,30 @@ const CommentsAreaContainer: React.FC<{ commentsAreaId: number }> = ({ commentsA
     { sort, setSort },
     { page, setPage },
     fetchComments,
-  ] = useAxiosPaginated(`/api/comments-area/${commentsArea?.id}/comments`, parseComment, { manual: true });
+  ] = useAxiosPaginated(commentsUrl, parseComment, { manual: true });
 
   useEffect(() => {
     if (commentsArea) {
-      fetchComments({ url: `/api/comments-area/${commentsArea.id}/comments` });
+      fetchComments({ url: commentsUrl });
     }
-  }, [commentsArea]);
+  }, [commentsArea, fetchComments, commentsUrl]);
 
   const [comments, { prepend }] = useEditableDataset(data, 'set');
 
   const filters = { sort, setSort, search, setSearch, page, setPage, total };
 
   return (
-    <AsyncContent
-      loading={loadingCommentsArea}
-      render={() => (
-        <CommentsAreaProvider value={commentsArea}>
-          <Padding bottom>
-            <CommentsAreaComponent
-              commentsArea={commentsArea}
-              comments={comments}
-              loadingComments={loadingComments}
-              filters={filters}
-              onRootCommentCreated={prepend}
-            />
-          </Padding>
-        </CommentsAreaProvider>
-      )}
-    />
+    <CommentsAreaProvider value={commentsArea}>
+      <Padding bottom>
+        <CommentsAreaComponent
+          commentsArea={commentsArea}
+          comments={comments}
+          loadingComments={loadingComments}
+          filters={filters}
+          onRootCommentCreated={prepend}
+        />
+      </Padding>
+    </CommentsAreaProvider>
   );
 };
 
