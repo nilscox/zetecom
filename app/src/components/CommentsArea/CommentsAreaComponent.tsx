@@ -10,6 +10,7 @@ import { useCurrentUser } from '../../contexts/UserContext';
 import { Comment } from '../../types/Comment';
 import { SortType } from '../../types/SortType';
 import AsyncContent from '../AsyncContent';
+import { CommentAction } from '../Comment/CommentContainer';
 import CommentCreationForm from '../CommentForm/CommentCreationForm';
 import CommentsList from '../CommentsList';
 import FiltersBar from '../FiltersBar';
@@ -27,6 +28,7 @@ type CommentsAreaComponentProps = {
   commentsArea: CommentsAreaType;
   comments?: Comment[];
   loadingComments?: boolean;
+  commentsActions?: CommentAction[],
   folded?: boolean;
   toggleFolded?: (ctrlKey: boolean) => void;
   filters?: {
@@ -44,6 +46,7 @@ type CommentsAreaComponentProps = {
 const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
   commentsArea,
   comments,
+  commentsActions,
   loadingComments,
   folded,
   toggleFolded,
@@ -59,12 +62,12 @@ const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
 
   const getComments = () => {
     if (!filters?.search) {
-      return <CommentsList comments={comments} />;
+      return <CommentsList comments={comments} commentActions={commentsActions} />;
     }
 
     return (
       <SearchQueryProvider value={filters.search}>
-        <CommentsList comments={comments} />
+        <CommentsList comments={comments} commentActions={commentsActions} />
       </SearchQueryProvider>
     );
   };

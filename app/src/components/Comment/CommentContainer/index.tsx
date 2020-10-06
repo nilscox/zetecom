@@ -13,6 +13,15 @@ import useViewHistory from './hooks/useViewHistory';
 import Replies from './Replies';
 import ReplyForm from './ReplyForm';
 
+export type CommentAction =
+  | 'setReaction'
+  | 'toggleReplies'
+  | 'toggleSubscription'
+  | 'edit'
+  | 'reply'
+  | 'viewHistory'
+  | 'report';
+
 type CommentStates = {
   displayReplies: boolean;
   displayReplyForm: boolean;
@@ -52,23 +61,25 @@ const useCommentStates = () => {
 
 type CommentContainerProps = {
   comment: Comment;
+  actions?: CommentAction[];
 };
 
-const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalComment }) => {
+const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalComment, actions }) => {
   const [comment, setComment] = useState(originalComment);
 
-  const [ commentStates, commentStatesCallbacks ] = useCommentStates();
+  const [commentStates, commentStatesCallbacks] = useCommentStates();
   const { displayReplies, displayReplyForm, displayEditionForm } = commentStates;
   const {
     toggleReplies: toggleDisplayReplies,
-    openReplyForm, closeReplyForm,
-    openEditionForm, closeEditionForm,
+    openReplyForm,
+    closeReplyForm,
+    openEditionForm,
+    closeEditionForm,
   } = commentStatesCallbacks;
 
-  const [
-    { replies, remainingRepliesCount, loading: loadingReplies },
-    { fetchMoreReplies, addReply },
-  ] = useReplies(comment);
+  const [{ replies, remainingRepliesCount, loading: loadingReplies }, { fetchMoreReplies, addReply }] = useReplies(
+    comment,
+  );
 
   const report = useReport(comment);
   const viewHistory = useViewHistory(comment);
@@ -105,15 +116,17 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalCo
     closeEditionForm();
   };
 
+  const can = (action: CommentAction) => {
+    if (!actions) {
+      return true;
+    }
+
+    return actions.includes(action);
+  };
+
   const renderComment = () => {
     if (displayEditionForm) {
-      return (
-        <CommentEditionForm
-          comment={comment}
-          onEdited={onEdited}
-          closeForm={closeEditionForm}
-        />
-      );
+      return <CommentEditionForm comment={comment} onEdited={onEdited} closeForm={closeEditionForm} />;
     }
 
     return (
@@ -121,20 +134,19 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalCo
         comment={comment}
         displayReplies={displayReplies}
         displayReplyForm={displayReplyForm}
-        onSetReaction={setReaction}
-        onToggleReplies={!displayReplyForm ? toggleReplies : undefined}
-        onToggleSubscription={toggleSubscription}
-        onEdit={openEditionForm}
-        onReply={onReply}
-        onViewHistory={viewHistory}
-        onReport={report}
+        onSetReaction={can('setReaction') && setReaction}
+        onToggleReplies={can('toggleReplies') && !displayReplyForm ? toggleReplies : undefined}
+        onToggleSubscription={can('toggleSubscription') && toggleSubscription}
+        onEdit={can('edit') && openEditionForm}
+        onReply={can('reply') && onReply}
+        onViewHistory={can('viewHistory') && viewHistory}
+        onReport={can('report') && report}
       />
     );
   };
 
   return (
     <div className="comment" id={`comment-${comment.id}`}>
-
       {renderComment()}
 
       <ReplyForm
@@ -151,7 +163,6 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalCo
         remainingRepliesCount={remainingRepliesCount}
         fetchMoreReplies={fetchMoreReplies}
       />
-
     </div>
   );
 };

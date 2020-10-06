@@ -76,6 +76,7 @@ const UserComments: React.FC = () => {
                 <CommentsAreaComponent
                   commentsArea={commentsArea}
                   comments={comments}
+                  commentsActions={['edit', 'toggleSubscription', 'viewHistory']}
                   loadingComments={false}
                   folded={isFolded(commentsArea)}
                   toggleFolded={handleToggleFold(commentsArea)}
