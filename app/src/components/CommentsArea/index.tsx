@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 
-import Padding from 'src/components/Padding';
-import { CommentsAreaProvider } from 'src/contexts/CommentsAreaContext';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import useEditableDataset from 'src/hooks/useEditableDataset';
 import { parseComment } from 'src/types/Comment';
@@ -35,17 +33,13 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ commentsA
   const filters = { sort, setSort, search, setSearch, page, setPage, total };
 
   return (
-    <CommentsAreaProvider value={commentsArea}>
-      <Padding bottom>
-        <CommentsAreaComponent
-          commentsArea={commentsArea}
-          comments={comments}
-          loadingComments={loadingComments}
-          filters={filters}
-          onRootCommentCreated={prepend}
-        />
-      </Padding>
-    </CommentsAreaProvider>
+    <CommentsAreaComponent
+      commentsArea={commentsArea}
+      comments={comments}
+      loadingComments={loadingComments}
+      filters={filters}
+      onRootCommentCreated={prepend}
+    />
   );
 };
 

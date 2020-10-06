@@ -4,6 +4,7 @@ import { Grid, makeStyles, Paper } from '@material-ui/core';
 
 import { CommentsArea as CommentsAreaType } from 'src/types/CommentsArea';
 
+import { CommentsAreaProvider } from '../../contexts/CommentsAreaContext';
 import { SearchQueryProvider } from '../../contexts/SearchQueryContext';
 import { useCurrentUser } from '../../contexts/UserContext';
 import { Comment } from '../../types/Comment';
@@ -69,34 +70,36 @@ const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
   };
 
   return (
-    <Grid container direction="column" component={Paper} variant="outlined">
-      <CommentsAreaDescription commentsArea={commentsArea} folded={folded} toggleFolded={toggleFolded} />
+    <CommentsAreaProvider value={commentsArea}>
+      <Grid container direction="column" component={Paper} variant="outlined">
+        <CommentsAreaDescription commentsArea={commentsArea} folded={folded} toggleFolded={toggleFolded} />
 
-      {[renderFilters, renderRootCommentCreationForm, renderComments].some(Boolean) && (
-        <Grid item className={classes.comments}>
-          {renderFilters && (
-            <FiltersBar
-              sort={{ type: filters.sort || SortType.DATE_DESC, onChange: filters.setSort }}
-              onSearch={filters.setSearch}
-              page={filters.page}
-              pageSize={10}
-              total={filters.total}
-              onPageChange={filters.setPage}
-            />
-          )}
+        {[renderFilters, renderRootCommentCreationForm, renderComments].some(Boolean) && (
+          <Grid item className={classes.comments}>
+            {renderFilters && (
+              <FiltersBar
+                sort={{ type: filters.sort || SortType.DATE_DESC, onChange: filters.setSort }}
+                onSearch={filters.setSearch}
+                page={filters.page}
+                pageSize={10}
+                total={filters.total}
+                onPageChange={filters.setPage}
+              />
+            )}
 
-          {renderRootCommentCreationForm && (
-            <Padding top bottom>
-              <CommentCreationForm onCreated={onRootCommentCreated} />
-            </Padding>
-          )}
+            {renderRootCommentCreationForm && (
+              <Padding top bottom>
+                <CommentCreationForm onCreated={onRootCommentCreated} />
+              </Padding>
+            )}
 
-          {renderComments && (
-            <AsyncContent loading={loadingComments} render={getComments} />
-          )}
-        </Grid>
-      )}
-    </Grid>
+            {renderComments && (
+              <AsyncContent loading={loadingComments} render={getComments} />
+            )}
+          </Grid>
+        )}
+      </Grid>
+    </CommentsAreaProvider>
   );
 };
 

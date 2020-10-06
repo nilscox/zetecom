@@ -7,7 +7,6 @@ import AsyncContent from '../components/AsyncContent';
 import CommentsAreaComponent from '../components/CommentsArea/CommentsAreaComponent';
 import FiltersBar from '../components/FiltersBar';
 import Padding from '../components/Padding';
-import { CommentsAreaProvider } from '../contexts/CommentsAreaContext';
 import useAxiosPaginated from '../hooks/use-axios-paginated';
 import { Comment, parseComment } from '../types/Comment';
 import { CommentsArea, parseCommentsArea } from '../types/CommentsArea';
@@ -74,15 +73,13 @@ const UserComments: React.FC = () => {
             <FiltersBar onSearch={setSearch} page={page} pageSize={10} total={total} onPageChange={setPage} />
             {data.map(({ commentsArea, comments }) => (
               <Padding key={commentsArea.id} top>
-                <CommentsAreaProvider value={commentsArea}>
-                  <CommentsAreaComponent
-                    commentsArea={commentsArea}
-                    comments={comments}
-                    loadingComments={false}
-                    folded={isFolded(commentsArea)}
-                    toggleFolded={handleToggleFold(commentsArea)}
-                  />
-                </CommentsAreaProvider>
+                <CommentsAreaComponent
+                  commentsArea={commentsArea}
+                  comments={comments}
+                  loadingComments={false}
+                  folded={isFolded(commentsArea)}
+                  toggleFolded={handleToggleFold(commentsArea)}
+                />
               </Padding>
             ))}
           </SearchQueryProvider>
