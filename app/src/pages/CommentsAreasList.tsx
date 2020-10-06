@@ -4,9 +4,8 @@ import FiltersBar from 'src/components/FiltersBar';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { parseCommentsArea } from 'src/types/CommentsArea';
 
-import CommentsAreaOverview from '../components/CommentsAreaOverview';
-import RouterLink from '../components/Link';
 import Padding from '../components/Padding';
+import CommentsAreaComponent from '../components/CommentsArea/CommentsAreaComponent';
 
 const CommentsAreasList: React.FC = () => {
   const [{ loading, data: commentsAreas, total, error }, { setSearch },, { page, setPage }] = useAxiosPaginated(
@@ -25,9 +24,7 @@ const CommentsAreasList: React.FC = () => {
       {!loading &&
         commentsAreas?.map(commentsArea => (
           <Padding top key={commentsArea.id}>
-            <RouterLink to={`/commentaires/${commentsArea.id}`}>
-              <CommentsAreaOverview commentsArea={commentsArea} />
-            </RouterLink>
+            <CommentsAreaComponent commentsArea={commentsArea} />
           </Padding>
         ))}
     </>

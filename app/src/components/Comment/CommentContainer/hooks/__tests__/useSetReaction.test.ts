@@ -3,33 +3,12 @@ import { AxiosResponse } from 'axios';
 import { mocked } from 'ts-jest';
 
 import useAxios from '../../../../../hooks/use-axios';
-import { Comment, ReactionType } from '../../../../../types/Comment';
+import makeComment from '../../../../../test/makeComment';
+import { ReactionType } from '../../../../../types/Comment';
 import useSetReaction from '../useSetReaction';
 
 jest.mock('../../../../../hooks/use-axios');
 const mockUseAxios = mocked(useAxios);
-
-const makeComment = (): Comment => ({
-  id: 1,
-  quote: null,
-  text: 'text',
-  date: new Date(),
-  edited: false,
-  repliesCount: 0,
-  author: {
-    id: 1,
-    avatar: null,
-    nick: 'author',
-  },
-  reactionsCount: {
-    [ReactionType.APPROVE]: 1,
-    [ReactionType.REFUTE]: 2,
-    [ReactionType.SKEPTIC]: 3,
-  },
-  userReaction: null,
-  subscribed: false,
-  score: 0,
-});
 
 describe('useReactions', () => {
   const comment = makeComment();

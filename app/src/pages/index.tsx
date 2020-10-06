@@ -14,7 +14,7 @@ import { useCurrentUser } from 'src/contexts/UserContext';
 import ToastContainer from '../components/ToastContainer';
 
 import Authentication from './Authentication';
-import CommentsArea from './CommentsArea';
+import CommentsAreaPage from './CommentsAreaPage';
 import CommentsAreasList from './CommentsAreasList';
 import EmailLogin from './EmailLogin';
 import EmailValidation from './EmailValidation';
@@ -29,7 +29,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 const Router: React.FC = () => (
   <Switch>
     <Route path="/" exact component={CommentsAreasList} />
-    <Route path="/commentaires/:id" component={CommentsArea} />
+    <Route path="/commentaires/:id" component={CommentsAreaPage} />
     <Route path="/mes-commentaires" component={UserComments} />
     <Route path="/:sign(connexion|inscription|connexion-par-email)" component={Authentication} />
     <Route path="/validation-email/:token" component={EmailValidation} />
@@ -47,7 +47,7 @@ const Footer: React.FC = () => (
 const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   container: {
     [breakpoints.up('sm')]: {
-      padding: spacing(0, 6),
+      padding: spacing(0),
     },
     [breakpoints.up('md')]: {
       padding: spacing(0, 12),
@@ -72,13 +72,23 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   },
 }));
 
+const PageContainer: React.FC = ({ children }) => {
+  const classes = useStyles();
+
+  return (
+    <Container fixed component="main" className={classes.container}>
+      {children}
+    </Container>
+  );
+};
+
 const Pages: React.FC = () => {
   const user = useCurrentUser();
   const classes = useStyles();
 
   return (
     <NotificationsProvider>
-      <Container fixed component="main" className={classes.container}>
+      <PageContainer>
 
         <ToastContainer />
         <MarkNotificationAsSeen />
@@ -99,7 +109,7 @@ const Pages: React.FC = () => {
 
         <Footer />
 
-      </Container>
+      </PageContainer>
     </NotificationsProvider>
   );
 };
