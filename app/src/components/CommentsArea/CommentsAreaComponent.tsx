@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Grid, makeStyles, Paper } from '@material-ui/core';
+import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 
 import { CommentsArea as CommentsAreaType } from 'src/types/CommentsArea';
 
@@ -13,6 +13,7 @@ import AsyncContent from '../AsyncContent';
 import { CommentAction } from '../Comment/CommentContainer';
 import CommentCreationForm from '../CommentForm/CommentCreationForm';
 import CommentsList from '../CommentsList';
+import Fallback from '../Fallback';
 import FiltersBar from '../FiltersBar';
 import Padding from '../Padding';
 
@@ -28,7 +29,7 @@ type CommentsAreaComponentProps = {
   commentsArea: CommentsAreaType;
   comments?: Comment[];
   loadingComments?: boolean;
-  commentsActions?: CommentAction[],
+  commentsActions?: CommentAction[];
   folded?: boolean;
   toggleFolded?: (ctrlKey: boolean) => void;
   filters?: {
@@ -59,6 +60,14 @@ const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
   const renderFilters = !!filters;
   const renderRootCommentCreationForm = user && onRootCommentCreated;
   const renderComments = !folded && comments;
+
+  const getFallbackMessage = () => {
+    if (filters?.search) {
+      return 'Aucun résultat ne correspond à cette recherche.';
+    }
+
+    return "Aucun commentaire n'a été publié pour le moment.";
+  };
 
   const getComments = () => {
     if (!filters?.search) {
@@ -97,7 +106,11 @@ const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
             )}
 
             {renderComments && (
-              <AsyncContent loading={loadingComments} render={getComments} />
+              <Fallback
+                when={!comments.length}
+                fallback={<Typography variant="body2">{getFallbackMessage()}</Typography>}
+                render={() => <AsyncContent loading={loadingComments} render={getComments} />}
+              />
             )}
           </Grid>
         )}
