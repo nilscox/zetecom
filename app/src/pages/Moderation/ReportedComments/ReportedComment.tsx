@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import { Card, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
-import { format } from 'date-fns';
+import dayjs from 'dayjs';
 
 import CommentComponent from '../../../components/Comment/CommentComponent';
 import DisabledOverlay from '../../../components/DisabledOverlay';
@@ -48,7 +48,7 @@ const ReportedComment: React.FC<ReportedCommentProps> = ({ comment, reports }) =
         <ul>
           {reports.map((report) => (
             <li key={report.id}>
-              <strong>{report.reportedBy.nick}</strong> le {format(report.created, 'dd MM yyyy')}
+              <strong>{report.reportedBy.nick}</strong> le {dayjs(report.created).format('DD MM YYYY')}
               {report.message && (
                 <div style={{ marginTop: 6 }}>
                   <TextField fullWidth disabled variant="outlined" label="Message" value={report.message} />

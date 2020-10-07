@@ -1,16 +1,13 @@
 import React from 'react';
 
-import { Collapse as ReactCollapse, CollapseProps as ReactCollapseProps } from 'react-collapse';
+import { Collapse as MuiCollapse, CollapseProps as MuiCollapseProps } from '@material-ui/core';
 
-type CollapseProps = Omit<ReactCollapseProps, 'isOpened' | 'springConfig'> & {
+type CollapseProps = Omit<MuiCollapseProps, 'isOpened' | 'springConfig'> & {
   open: boolean;
 };
 
 const Collapse: React.FC<CollapseProps> = ({ open, ...props }) => {
-  return <ReactCollapse isOpened={open} {...props} />;
+  return <MuiCollapse in={open} {...props} />;
 };
 
 export default Collapse;
-
-// wanna bypass collapse?
-// export default ({ open, children }: any) => open ? children : null;
