@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 
+import { Typography } from '@material-ui/core';
+
 import Flex from './Flex';
 
 class Not<T> {
@@ -16,7 +18,7 @@ export function not<T>(value: T | null | undefined): Not<T> {
 
 type FallbackProps<T> = {
   when?: boolean | Not<T>;
-  fallback: React.ReactNode;
+  fallback: string | React.ReactNode;
   minHeight?: number;
   render: (value: T) => React.ReactNode;
 };
@@ -37,7 +39,7 @@ function Fallback<T>({ when, fallback, minHeight = 200, render }: FallbackProps<
   if (!shouldRender) {
     return (
       <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight }}>
-        {fallback}
+        {typeof fallback === 'string' ? <Typography variant="body2">{fallback}</Typography> : fallback}
       </Flex>
     );
   }

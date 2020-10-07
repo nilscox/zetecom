@@ -108,7 +108,7 @@ const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
             {renderComments && (
               <Fallback
                 when={!comments.length}
-                fallback={<Typography variant="body2">{getFallbackMessage()}</Typography>}
+                fallback={getFallbackMessage()}
                 render={() => <AsyncContent loading={loadingComments} render={getComments} />}
               />
             )}

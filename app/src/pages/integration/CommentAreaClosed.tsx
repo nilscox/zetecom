@@ -9,7 +9,7 @@ import useQueryString from 'src/hooks/use-query-string';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   message: {
-    fontSize: '1.6em',
+    fontSize: '1.4em',
     color: palette.text.secondary,
     marginBottom: spacing(4),
   },
@@ -45,12 +45,12 @@ const CommentAreaClosed: React.FC = () => {
 
   return (
     <>
-      <Typography className={classes.message}>
+      <Typography variant="body2" className={classes.message}>
         L'espace de commentaires n'est pas ouvert sur cette page.
       </Typography>
 
       {!user && (
-        <Typography>
+        <Typography variant="body2">
           Connectez-vous pour demander l'ouverture d'une nouvelle zone de commentaire.
         </Typography>
       )}
@@ -63,7 +63,7 @@ const CommentAreaClosed: React.FC = () => {
 
       {requested && (
         <>
-          <Typography className={classes.requestSuccess}>
+          <Typography variant="body2" className={classes.requestSuccess}>
             L'ouverture a bien été prise en compte !
           </Typography>
           <>

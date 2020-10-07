@@ -40,7 +40,7 @@ const CommentsAreasList: React.FC = () => {
         render={() => (
           <Fallback
             when={!commentsAreas.length}
-            fallback={<Typography variant="body2">{getFallbackMessage()}</Typography>}
+            fallback={getFallbackMessage()}
             render={() => (
               <>
                 {commentsAreas?.map(commentsArea => (

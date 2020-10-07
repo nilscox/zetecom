@@ -102,6 +102,7 @@ const createTheme = (): Theme => {
   theme.overrides = {
     MuiButton: {
       root: {
+        color: theme.palette.text.secondary,
         transition: 'color 200ms ease-in-out',
         '&.Mui-disabled': {
           pointerEvents: 'auto',

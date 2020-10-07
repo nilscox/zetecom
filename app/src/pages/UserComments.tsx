@@ -5,6 +5,7 @@ import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
 
 import AsyncContent from '../components/AsyncContent';
 import CommentsAreaComponent from '../components/CommentsArea/CommentsAreaComponent';
+import Fallback from '../components/Fallback';
 import FiltersBar from '../components/FiltersBar';
 import Padding from '../components/Padding';
 import useAxiosPaginated from '../hooks/use-axios-paginated';
@@ -64,28 +65,45 @@ const UserComments: React.FC = () => {
     }
   };
 
+  const getFallbackMessage = () => {
+    if (search) {
+      return 'Aucun résultat ne correspond à cette recherche.';
+    }
+
+    return "Vous n'avez pas encore publié de commentaire.";
+  };
+
   return (
     <Authenticated>
-      <AsyncContent
-        loading={loading}
-        render={() => (
-          <SearchQueryProvider value={search}>
-            <FiltersBar onSearch={setSearch} page={page} pageSize={10} total={total} onPageChange={setPage} />
-            {data.map(({ commentsArea, comments }) => (
-              <Padding key={commentsArea.id} top>
-                <CommentsAreaComponent
-                  commentsArea={commentsArea}
-                  comments={comments}
-                  commentsActions={['edit', 'toggleSubscription', 'viewHistory']}
-                  loadingComments={false}
-                  folded={isFolded(commentsArea)}
-                  toggleFolded={handleToggleFold(commentsArea)}
-                />
-              </Padding>
-            ))}
-          </SearchQueryProvider>
-        )}
-      />
+      <FiltersBar onSearch={setSearch} page={page} pageSize={10} total={total} onPageChange={setPage} />
+
+      <SearchQueryProvider value={search}>
+        <AsyncContent
+          loading={loading}
+          render={() => (
+            <Fallback
+              when={!data.length}
+              fallback={getFallbackMessage()}
+              render={() => (
+                <>
+                  {data.map(({ commentsArea, comments }) => (
+                    <Padding key={commentsArea.id} top>
+                      <CommentsAreaComponent
+                        commentsArea={commentsArea}
+                        comments={comments}
+                        commentsActions={['edit', 'toggleSubscription', 'viewHistory']}
+                        loadingComments={false}
+                        folded={isFolded(commentsArea)}
+                        toggleFolded={handleToggleFold(commentsArea)}
+                      />
+                    </Padding>
+                  ))}
+                </>
+              )}
+            />
+          )}
+        />
+      </SearchQueryProvider>
     </Authenticated>
   );
 };
