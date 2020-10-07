@@ -6,6 +6,8 @@ export type GAEvent = { category: string; action: string; label?: string };
 
 const noop = () => {};
 
+/* eslint-disable no-console */
+
 const logGa = () => ({
   initialize() {
     console.log('ReactGA initialized');
@@ -17,6 +19,8 @@ const logGa = () => ({
     console.log('ReactGA pageview', page);
   },
 });
+
+/* eslint-enable no-console */
 
 const mockGa = () => {
   window.zetecom.mockGa = {

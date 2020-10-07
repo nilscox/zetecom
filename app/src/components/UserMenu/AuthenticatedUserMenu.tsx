@@ -23,7 +23,7 @@ import { trackLogout } from 'src/utils/track';
 import { useNotifications } from '../../contexts/NotificationsContext';
 import { useUser } from '../../contexts/UserContext';
 import useAxios from '../../hooks/use-axios';
-import { User, Role } from '../../types/User';
+import { Role, User } from '../../types/User';
 import RouterLink from '../Link';
 import UserAvatar from '../UserAvatar';
 

@@ -8,7 +8,7 @@ import makeComment from '../../test/makeComment';
 import withUser from '../../utils/storybook/withUser';
 
 import data from './__mocks__/lorem.json';
-import CommentComponent, { CommentComponentProps } from './CommentComponent';
+import CommentComponent from './CommentComponent';
 
 export default {
   component: CommentComponent,

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Box, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 import { RouteComponentProps } from 'react-router';
 
 import CommentBody from 'src/components/Comment/CommentBody';

@@ -31,7 +31,7 @@ const getDefaultValues = (identifier: string) => {
   }
 };
 
-const useStyles = makeStyles<Theme, { processed: boolean }>(({ spacing, palette }) => ({
+const useStyles = makeStyles<Theme, { processed: boolean }>(({ spacing }) => ({
   accordionSummary: ({ processed }) => ({
     ...(processed && {
       opacity: 0.5,

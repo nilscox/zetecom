@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Typography } from '@material-ui/core';
-
 import FiltersBar from 'src/components/FiltersBar';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { parseCommentsArea } from 'src/types/CommentsArea';

@@ -22,7 +22,7 @@ const useStyles = makeStyles(({ palette, spacing }) => ({
 const CommentAreaClosed: React.FC = () => {
   const classes = useStyles();
   const [requested, setRequested] = useState(false);
-  const [alreadyRequested, setAlreadyRequested] = useState(false);
+  const [, setAlreadyRequested] = useState(false);
   const { identifier } = useQueryString();
   const user = useCurrentUser();
 

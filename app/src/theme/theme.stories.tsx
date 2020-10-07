@@ -1,8 +1,8 @@
 import React, { CSSProperties } from 'react';
 
 import { Theme, Typography, useTheme } from '@material-ui/core';
-import { boolean, number, select } from '@storybook/addon-knobs';
 import { Variant } from '@material-ui/core/styles/createTypography';
+import { boolean, number, select } from '@storybook/addon-knobs';
 
 export default {
   title: 'Theme',
