@@ -29,6 +29,13 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
     rules: [
 
       {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+
+      {
         test: /\.(j|t)sx?$/,
         include: SOURCES_PATH,
         use: [
