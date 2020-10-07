@@ -1,6 +1,5 @@
 import React from 'react';
 
-import centered from '@storybook/addon-centered/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { addDecorator } from '@storybook/react';
 import { ThemeProvider } from '@material-ui/core';
@@ -18,6 +17,5 @@ const withTheme = (Story) => (
   </ThemeProvider>
 );
 
-addDecorator(centered);
 addDecorator(withKnobs);
 addDecorator(withTheme);

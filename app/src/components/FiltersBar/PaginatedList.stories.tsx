@@ -13,12 +13,12 @@ export const paginatedList = () => (
   <PaginatedList
     sort={{
       type: SortType.DATE_ASC,
-      onChange: () => {},
+      onChange: action('sort change'),
     }}
     onSearch={action('search')}
-    page={number('page', 2)}
+    page={number('page', 3)}
     pageSize={10}
-    total={number('total', 35)}
+    total={number('total', 45)}
     onPageChange={action('page change')}
   />
 );

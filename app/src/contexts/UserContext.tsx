@@ -11,22 +11,32 @@ export type UserContextType = [
 export const UserContext = createContext<UserContextType>(null);
 
 export const useUser = () => useContext(UserContext);
-export const useCurrentUser = () => useUser()[0];
+export const useCurrentUser = () => {
+  const user = useUser();
+
+  if (!user) {
+    throw new Error('user should not be null');
+  }
+
+  return user[0];
+};
 
 export const UserProvider: React.FC = ({ children }) => {
   const opts = { url: '/api/auth/me', validateStatus: (s: number) => [200, 403].includes(s) };
   const [{ response, data, error, status }] = useAxios(opts, parseUser);
   const [user, setUser] = useState<undefined | null | User>();
 
-  if (error)
+  if (error) {
     throw error;
+  }
 
   useEffect(() => {
     if (response) {
-      if (status([200, 304]))
+      if (status([200, 304])) {
         setUser(data);
-      else
+      } else {
         setUser(null);
+      }
     }
   }, [response, status, data]);
 

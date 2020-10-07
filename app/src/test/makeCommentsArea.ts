@@ -1,7 +1,6 @@
 import { CommentsArea } from '../types/CommentsArea';
 
 const makeCommentsArea = (partial?: Partial<CommentsArea>): CommentsArea => ({
-  ...partial,
   id: 1,
   informationUrl: 'https://info.url',
   informationTitle: 'Les premiers pas de l\'Homme sur Mars !',
@@ -12,6 +11,7 @@ const makeCommentsArea = (partial?: Partial<CommentsArea>): CommentsArea => ({
     id: 1,
   },
   commentsCount: 42,
+  ...partial,
 });
 
 export default makeCommentsArea;

@@ -2,37 +2,35 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import { number } from '@storybook/addon-knobs';
-import { addDecorator } from '@storybook/react';
 
-import { NotificationsContext } from 'src/contexts/NotificationsContext';
-
+import { NotificationsContext } from '../../contexts/NotificationsContext';
 import { useCurrentUser } from '../../contexts/UserContext';
+import withMemoryRouter from '../../utils/storybook/withMemoryRouter';
+import withUser from '../../utils/storybook/withUser';
 
 import UserMenu from './index';
 
-export default {
-  title: 'UserMenu',
-};
-
-const NotificationsProvider = NotificationsContext.Provider;
-
-const NotificationsProviderKnobs: React.FC = ({ children }) => {
+const withNotificationsProvider = (Story: React.FC) => {
   const count = number('notifications count', 2);
 
   return (
-    <NotificationsProvider value={{ count, refetch: action('refetch notifications') }}>
-      { children }
-    </NotificationsProvider>
+    <NotificationsContext.Provider value={{ count, refetch: action('refetch notifications') }}>
+      <Story />
+    </NotificationsContext.Provider>
   );
 };
 
-// addDecorator((StoryFn: any) => <NotificationsProviderKnobs><StoryFn /></NotificationsProviderKnobs>);
+export default {
+  title: 'UserMenu',
+  decorators: [withMemoryRouter, withUser, withNotificationsProvider],
+};
 
 export const Demo = () => {
   const user = useCurrentUser();
 
-  if (user)
+  if (user) {
     return <UserMenu user={user} />;
+  }
 
   return null;
 };

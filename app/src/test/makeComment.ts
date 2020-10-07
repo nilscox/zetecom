@@ -1,7 +1,6 @@
 import { Comment, ReactionType } from '../types/Comment';
 
 const makeComment = (partial?: Partial<Comment>): Comment => ({
-  ...partial,
   id: 1,
   quote: null,
   text: 'text',
@@ -21,6 +20,7 @@ const makeComment = (partial?: Partial<Comment>): Comment => ({
   userReaction: null,
   subscribed: false,
   score: 0,
+  ...partial,
 });
 
 export default makeComment;

@@ -28,11 +28,11 @@ const useStyles = makeStyles<Theme, { folded?: boolean }>(({ breakpoints, spacin
     paddingLeft: spacing(4),
   },
   image: ({ folded }) => ({
-    width: spacing((folded ? 20 : 40) * imageRatio),
+    width: spacing((folded ? 16 : 36) * imageRatio),
     height: '100%',
     objectFit: 'cover',
     [breakpoints.down('md')]: {
-      width: ({ folded }) => spacing((folded ? 20 : 30) * imageRatio),
+      width: ({ folded }) => spacing((folded ? 16 : 26) * imageRatio),
     },
   }),
   title: {

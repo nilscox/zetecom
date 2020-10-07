@@ -5,12 +5,16 @@ import { boolean } from '@storybook/addon-knobs';
 
 import { ReactionType } from 'src/types/Comment';
 
-import { comment } from '../Comment.stories';
+import makeComment from '../../../test/makeComment';
+import withUser from '../../../utils/storybook/withUser';
 
 import Reaction from './Reaction';
 import Reactions from './Reactions';
 
-export default { title: 'Reactions' };
+export default {
+  title: 'Reactions',
+  decorators: [withUser],
+};
 
 export const reaction = () => (
   <Reaction
@@ -21,4 +25,4 @@ export const reaction = () => (
   />
 );
 
-export const reactions = () => <Reactions comment={comment} />;
+export const reactions = () => <Reactions comment={makeComment()} />;

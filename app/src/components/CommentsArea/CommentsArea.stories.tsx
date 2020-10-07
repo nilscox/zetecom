@@ -1,34 +1,14 @@
 import React, { useState } from 'react';
 
-import { boolean } from '@storybook/addon-knobs';
-import { MemoryRouter } from 'react-router-dom';
-
-import { UserContext } from '../../contexts/UserContext';
 import makeCommentsArea from '../../test/makeCommentsArea';
-import makeUser from '../../test/makeUser';
+import withMemoryRouter from '../../utils/storybook/withMemoryRouter';
+import withUser from '../../utils/storybook/withUser';
 
 import CommentsAreaComponent from './CommentsAreaComponent';
 
-const withMemoryRouter = (Story: React.FC) => (
-  <MemoryRouter>
-    <Story />
-  </MemoryRouter>
-);
-
-const withUserContext = (Story: React.FC) => {
-  const user = makeUser({ nick: 'Doug Forcett' });
-  const loggedIn = boolean('logged in', true);
-
-  return (
-    <UserContext.Provider value={[loggedIn ? user : null, () => {}]}>
-      <Story />
-    </UserContext.Provider>
-  );
-};
-
 export default {
   title: 'CommentsAreaComponent',
-  decorators: [withMemoryRouter, withUserContext],
+  decorators: [withMemoryRouter, withUser],
 };
 
 const commentsArea = makeCommentsArea();
