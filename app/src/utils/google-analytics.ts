@@ -2,9 +2,9 @@ import ReactGA from 'react-ga';
 
 import env from './env';
 
-export type GAEvent = { category: string; action: string; label?: string };
-
 const noop = () => {};
+
+export type GAEvent = { category: string; action: string; label?: string };
 
 /* eslint-disable no-console */
 
@@ -23,15 +23,13 @@ const logGa = () => ({
 /* eslint-enable no-console */
 
 const mockGa = () => {
-  window.zetecom.mockGa = {
-    initialized: false,
-    events: [] as GAEvent[],
-    pageviews: [] as string[],
-  };
-
   return {
     initialize() {
-      window.zetecom.mockGa.initialized = true;
+      window.zetecom.mockGa = {
+        initialized: true,
+        events: [] as GAEvent[],
+        pageviews: [] as string[],
+      };
     },
     event(event: GAEvent) {
       window.zetecom.mockGa.events.push(event);
@@ -43,14 +41,17 @@ const mockGa = () => {
 };
 
 const ga = () => {
-  if (env.CYPRESS === 'true')
+  if (env.CYPRESS === 'true') {
     return mockGa();
+  }
 
-  if (!env.GOOGLE_ANALYTICS_ID)
+  if (!env.GOOGLE_ANALYTICS_ID) {
     return { initialize: noop, event: noop, pageview: noop };
+  }
 
-  if (env.GOOGLE_ANALYTICS_ID === 'testing')
+  if (env.GOOGLE_ANALYTICS_ID === 'testing') {
     return logGa();
+  }
 
   return ReactGA;
 };

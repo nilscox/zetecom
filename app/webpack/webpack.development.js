@@ -1,4 +1,5 @@
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const HOST = process.env.WDS_HOST || 'localhost';
 const PORT = process.env.WDS_PORT || '8000';
@@ -12,13 +13,14 @@ module.exports = ({ PUBLIC_PATH, SOURCES_PATH }) => ({
   plugins: [
     new ReactRefreshWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
-      async: false,
-      // eslint: true,
-      formatter: 'codeframe',
-      formatterOptions: {
-        linesAbove: 5,
-        linesBelow: 5,
-        highlightCode: true,
+      async: true,
+      formatter: {
+        type: 'codeframe',
+        options: {
+          linesAbove: 5,
+          linesBelow: 5,
+          highlightCode: true,
+        },
       },
     }),
   ],

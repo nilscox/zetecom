@@ -1,10 +1,7 @@
-import { AxiosStatic } from 'axios';
-
 import { GAEvent } from './google-analytics';
 
 type Zetecom = {
   appVersion: string;
-  axios: AxiosStatic;
   mockGa: {
     initialized: boolean;
     events: GAEvent[];
@@ -18,6 +15,4 @@ declare global {
   }
 }
 
-const zetecom: Zetecom = window.zetecom = {} as Zetecom;
-
-export default zetecom;
+window.zetecom = {} as Zetecom;

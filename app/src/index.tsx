@@ -1,3 +1,5 @@
+/* eslint-disable simple-import-sort/sort */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -6,23 +8,18 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import queryString from 'query-string';
 
-// keep this import first, as it defines window.zetecom
+import 'dayjs/locale/fr';
+
+// keep this import first
 import './utils/zetecom-global';
-import pkg from '../package.json';
 
 import App from './App';
 import env from './utils/env';
 import ReactGA from './utils/google-analytics';
 
-import 'dayjs/locale/fr';
-
-window.zetecom.appVersion = pkg.version;
-
 if (env.NODE_ENV === 'production') {
   Sentry.init({ dsn: 'https://51c4eddbbeee4643a355e27533be2891@sentry.io/1536528' });
 }
-
-const root = document.getElementById('app');
 
 const getApiRootUrl = () => {
   return [
@@ -31,7 +28,7 @@ const getApiRootUrl = () => {
   ].filter(u => !!u)[0];
 };
 
-const setup = () => {
+const main = () => {
   if (env.GOOGLE_ANALYTICS_ID) {
     ReactGA.initialize(env.GOOGLE_ANALYTICS_ID);
   }
@@ -41,10 +38,7 @@ const setup = () => {
   axios.defaults.baseURL = getApiRootUrl();
   axios.defaults.withCredentials = true;
 
-  if (env.NODE_ENV === 'devlopment') {
-    window.zetecom.axios = axios;
-  }
+  ReactDOM.render(<App />, document.getElementById('app'));
 };
 
-setup();
-ReactDOM.render(<App />, root);
+main();
