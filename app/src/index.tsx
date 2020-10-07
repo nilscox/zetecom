@@ -1,30 +1,22 @@
-/* eslint-disable simple-import-sort/sort */
-
-import { setConfig } from 'react-hot-loader';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import * as Sentry from '@sentry/browser';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import 'dayjs/locale/fr';
 import queryString from 'query-string';
 
 // keep this import first, as it defines window.zetecom
 import './utils/zetecom-global';
-
 import pkg from '../package.json';
 
 import App from './App';
 import env from './utils/env';
 import ReactGA from './utils/google-analytics';
 
-window.zetecom.appVersion = pkg.version;
+import 'dayjs/locale/fr';
 
-setConfig({
-  reloadHooks: false,
-});
+window.zetecom.appVersion = pkg.version;
 
 if (env.NODE_ENV === 'production') {
   Sentry.init({ dsn: 'https://51c4eddbbeee4643a355e27533be2891@sentry.io/1536528' });

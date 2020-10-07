@@ -16,8 +16,7 @@
         ["@babel/preset-react", { "development": true }]
       ],
       "plugins": [
-        "@babel/plugin-transform-runtime",
-        "react-hot-loader/babel"
+        "react-refresh/babel"
       ]
     }
   }

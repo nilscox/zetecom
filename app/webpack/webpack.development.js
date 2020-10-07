@@ -1,4 +1,4 @@
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const HOST = process.env.WDS_HOST || 'localhost';
 const PORT = process.env.WDS_PORT || '8000';
@@ -7,16 +7,10 @@ const HTTPS = process.env.WDS_HTTPS === 'true';
 module.exports = ({ PUBLIC_PATH, SOURCES_PATH }) => ({
 
   mode: 'development',
-  devtool: 'cheap-module-source-map',
-
-  resolve: {
-    alias: {
-      'react-dom': '@hot-loader/react-dom',
-    },
-  },
+  devtool: 'source-map',
 
   plugins: [
-
+    new ReactRefreshWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
       async: false,
       // eslint: true,
@@ -27,7 +21,6 @@ module.exports = ({ PUBLIC_PATH, SOURCES_PATH }) => ({
         highlightCode: true,
       },
     }),
-
   ],
 
   devServer: {
