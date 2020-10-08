@@ -13,11 +13,7 @@ module.exports = ({ OUTPUT_PATH }) => ({
   },
 
   plugins: [
-
-    new ForkTsCheckerWebpackPlugin({
-      measureCompilationTime: true,
-    }),
-
+    new ForkTsCheckerWebpackPlugin(),
   ],
 
 });

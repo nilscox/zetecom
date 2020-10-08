@@ -17,8 +17,8 @@ import App from './App';
 import env from './utils/env';
 import ReactGA from './utils/google-analytics';
 
-if (env.NODE_ENV === 'production') {
-  Sentry.init({ dsn: 'https://51c4eddbbeee4643a355e27533be2891@sentry.io/1536528' });
+if (env.SENTRY_DSN) {
+  Sentry.init({ dsn: env.SENTRY_DSN });
 }
 
 const getApiRootUrl = () => {

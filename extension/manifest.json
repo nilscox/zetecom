@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "version": "0.6.2",
-  "name": "Zétécom (testing)",
+  "name": "Zétécom (dev)",
   "description": "L'information sur internet, avec esprit critique",
   "browser_specific_settings": {
     "gecko": {

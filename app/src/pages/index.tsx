@@ -10,6 +10,7 @@ import Loader from 'src/components/Loader';
 import UserMenu from 'src/components/UserMenu';
 import { NotificationsProvider } from 'src/contexts/NotificationsContext';
 import { useCurrentUser } from 'src/contexts/UserContext';
+import ErrorBoundary from 'src/components/ErrorBoundary';
 
 import ToastContainer from '../components/ToastContainer';
 
@@ -27,17 +28,19 @@ import UserComments from './UserComments';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 const Router: React.FC = () => (
-  <Switch>
-    <Route path="/" exact component={CommentsAreasList} />
-    <Route path="/commentaires/:id" component={CommentsAreaPage} />
-    <Route path="/mes-commentaires" component={UserComments} />
-    <Route path="/:sign(connexion|inscription|connexion-par-email)" component={Authentication} />
-    <Route path="/validation-email/:token" component={EmailValidation} />
-    <Route path="/email-login" component={EmailLogin} />
-    <Route path="/notifications" component={Notifications} />
-    <Route path="/moderation" component={Moderation} />
-    <Route component={NotFound} />
-  </Switch>
+  <ErrorBoundary>
+    <Switch>
+      <Route path="/" exact component={CommentsAreasList} />
+      <Route path="/commentaires/:id" component={CommentsAreaPage} />
+      <Route path="/mes-commentaires" component={UserComments} />
+      <Route path="/:sign(connexion|inscription|connexion-par-email)" component={Authentication} />
+      <Route path="/validation-email/:token" component={EmailValidation} />
+      <Route path="/email-login" component={EmailLogin} />
+      <Route path="/notifications" component={Notifications} />
+      <Route path="/moderation" component={Moderation} />
+      <Route component={NotFound} />
+    </Switch>
+  </ErrorBoundary>
 );
 
 const Footer: React.FC = () => (

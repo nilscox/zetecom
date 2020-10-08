@@ -10,17 +10,12 @@ module.exports = ({ OUTPUT_PATH_INSTRUMENTED }) => ({
   },
 
   plugins: [
-
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'test',
       API_URL: 'http://localhost:3000',
       WEBSITE_URL: 'http://localhost:8080',
     }),
-
-    new ForkTsCheckerWebpackPlugin({
-      measureCompilationTime: true,
-    }),
-
+    new ForkTsCheckerWebpackPlugin(),
   ],
 
 });

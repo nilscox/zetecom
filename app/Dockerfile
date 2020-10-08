@@ -19,14 +19,15 @@ RUN yarn --production=false --frozen-lockfile
 COPY public /app/public
 COPY webpack /app/webpack
 COPY webpack.config.js tsconfig.json babel.config.json /app/
-COPY jest.config.js jest.setup.ts /app/
-COPY .eslintignore .eslintrc.json /app/
-
 COPY src /app/src
 
 RUN yarn build
 RUN yarn build:coverage
+
+COPY .eslintignore .eslintrc.json .eslintrc.ci.json /app/
 RUN yarn lint
+
+COPY jest.config.js jest.setup.ts /app/
 RUN yarn test
 
 FROM nginx

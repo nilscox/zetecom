@@ -10,14 +10,6 @@
     "process": "readonly"
   },
   "settings": {
-    "import/resolver": {
-      "alias": {
-        "map": [
-          ["src", "./src"]
-        ],
-        "extensions": [".js", ".jsx", ".ts", ".tsx", ".json"]
-      }
-    },
     "react": {
       "version": "detect"
     }
@@ -29,7 +21,6 @@
   ],
   "extends": [
     "eslint:recommended",
-    "plugin:import/typescript",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended"
