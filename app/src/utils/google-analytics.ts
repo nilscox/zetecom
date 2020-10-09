@@ -6,6 +6,12 @@ const noop = () => {};
 
 export type GAEvent = { category: string; action: string; label?: string };
 
+const noopGa = () => ({
+  initialize: noop,
+  event: noop,
+  pageview: noop,
+});
+
 /* eslint-disable no-console */
 
 const logGa = () => ({
@@ -41,16 +47,16 @@ const mockGa = () => {
 };
 
 const ga = () => {
-  if (env.CYPRESS === 'true') {
-    return mockGa();
-  }
-
   if (!env.GOOGLE_ANALYTICS_ID) {
-    return { initialize: noop, event: noop, pageview: noop };
+    return noopGa();
   }
 
-  if (env.GOOGLE_ANALYTICS_ID === 'testing') {
+  if (env.GOOGLE_ANALYTICS_ID === 'dev') {
     return logGa();
+  }
+
+  if (env.GOOGLE_ANALYTICS_ID === 'mock') {
+    return mockGa();
   }
 
   return ReactGA;

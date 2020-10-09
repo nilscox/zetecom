@@ -5,7 +5,6 @@ ENV NODE_ENV 'production'
 ENV API_URL '__API_URL__'
 ENV WEBSITE_URL '__WEBSITE_URL__'
 ENV GOOGLE_ANALYTICS_ID '__GOOGLE_ANALYTICS_ID__'
-ENV CYPRESS '__CYPRESS__'
 ENV DEBUG '__DEBUG__'
 
 RUN mkdir /app
@@ -17,12 +16,12 @@ COPY yarn.lock /app
 RUN yarn --production=false --frozen-lockfile
 
 COPY public /app/public
-COPY webpack /app/webpack
-COPY webpack.config.js tsconfig.json babel.config.json /app/
 COPY src /app/src
 
+COPY webpack /app/webpack
+COPY webpack.config.js tsconfig.json babel.config.json /app/
 RUN yarn build
-RUN yarn build:coverage
+RUN cp -r dist instrumented && yarn nyc instrument --in-place instrumented
 
 COPY .eslintignore .eslintrc.json .eslintrc.ci.json /app/
 RUN yarn lint

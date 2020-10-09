@@ -6,7 +6,6 @@ const merge = require('webpack-merge');
 const common = require('./webpack/webpack.common');
 const development = require('./webpack/webpack.development');
 const production = require('./webpack/webpack.production');
-const test = require('./webpack/webpack.test');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -26,7 +25,6 @@ const mergeConfig = merge.smartStrategy({
 const config = {
   development,
   production,
-  test,
 };
 
 module.exports = mergeConfig(common(paths), config[NODE_ENV](paths));

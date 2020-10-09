@@ -7,8 +7,7 @@
   "env": {
     "test": {
       "plugins": [
-        "@babel/plugin-transform-runtime",
-        "istanbul"
+        "@babel/plugin-transform-runtime"
       ]
     },
     "development": {

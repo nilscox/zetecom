@@ -32,10 +32,9 @@ services:
       DB_ENTITIES: ./dist/src/**/*.entity.js
       DB_MIGRATIONS: ./dist/migrations/*.js
 
-
   app:
-    command: /start.sh
+    command: /start.sh --coverage
     environment:
       API_URL: http://localhost:3000
-      CYPRESS: 'true'
+      GOOGLE_ANALYTICS_ID: mock
       DEBUG: 'true'

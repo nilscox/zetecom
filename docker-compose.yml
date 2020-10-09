@@ -56,6 +56,6 @@ services:
     volumes:
       - ./avatars:/var/www/avatars:ro
     environment:
-      API_URL: https://${LOCAL_IP:-localhost}:3000
+      API_URL: http://${LOCAL_IP:-localhost}:3000
       WEBSITE_URL: http://${LOCAL_IP:-localhost}:8080
       GOOGLE_ANALYTICS_ID: ''
