@@ -1,9 +1,11 @@
 import pkg from '../../package.json';
 
+import env from './env';
 import { GAEvent } from './google-analytics';
 
 type Zetecom = {
   appVersion: string;
+  env: Record<string, string | undefined>,
   mockGa?: {
     initialized: boolean;
     events: GAEvent[];
@@ -19,4 +21,5 @@ declare global {
 
 window.zetecom = {
   appVersion: pkg.version,
+  env,
 };
