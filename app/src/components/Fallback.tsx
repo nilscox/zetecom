@@ -25,6 +25,10 @@ type FallbackProps<T> = {
 
 function Fallback<T>({ when, fallback, minHeight = 200, render }: FallbackProps<T>) {
   const [shouldRender, value] = useMemo<[boolean, T | undefined]>(() => {
+    if (typeof when === 'undefined') {
+      return [false, undefined];
+    }
+
     if (typeof when === 'boolean') {
       return [!when, undefined];
     }

@@ -24,12 +24,13 @@ const useAuthenticationForm = (form: Form, onAuthenticated: (user: User) => void
   const askEmailLoginErrors = useFormErrors(askEmailLoginErrorsHandlers, askEmailLoginResult.error);
 
   const [{ loading }, errors] = useMemo(() => {
-    if (form === 'login')
+    if (form === 'login') {
       return [loginResult, loginErrors];
-    else if (form ==='signup')
+    } else if (form === 'signup') {
       return [signupResult, signupErrors];
-    else
+    } else {
       return [askEmailLoginResult, askEmailLoginErrors];
+    }
   }, [form, loginResult, loginErrors, signupResult, signupErrors, askEmailLoginResult, askEmailLoginErrors]);
 
   useEffect(() => {
@@ -44,20 +45,16 @@ const useAuthenticationForm = (form: Form, onAuthenticated: (user: User) => void
   }, [form, formState]);
 
   const authenticate = () => {
-    if (form === 'login')
+    if (form === 'login') {
       login(formState.values.email, formState.values.password);
-    else if (form === 'signup')
+    } else if (form === 'signup') {
       signup(formState.values.email, formState.values.password, formState.values.nick);
-    else
+    } else {
       askEmailLogin(formState.values.email);
+    }
   };
 
-  return [
-    inputs,
-    { loading, errors },
-    formState,
-    authenticate,
-  ] as const;
+  return [inputs, { loading, errors }, formState, authenticate] as const;
 };
 
 export default useAuthenticationForm;

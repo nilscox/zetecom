@@ -4,13 +4,13 @@ import { Container, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Route, Switch } from 'react-router';
 
+import ErrorBoundary from 'src/components/ErrorBoundary';
 import HeaderLogo from 'src/components/HeaderLogo';
 import RouterLink from 'src/components/Link';
 import Loader from 'src/components/Loader';
 import UserMenu from 'src/components/UserMenu';
 import { NotificationsProvider } from 'src/contexts/NotificationsContext';
 import { useCurrentUser } from 'src/contexts/UserContext';
-import ErrorBoundary from 'src/components/ErrorBoundary';
 
 import ToastContainer from '../components/ToastContainer';
 
@@ -31,7 +31,7 @@ const Router: React.FC = () => (
   <ErrorBoundary>
     <Switch>
       <Route path="/" exact component={CommentsAreasList} />
-      <Route path="/commentaires/:id" component={CommentsAreaPage} />
+      <Route path="/commentaires/:id(\d+)" component={CommentsAreaPage} />
       <Route path="/mes-commentaires" component={UserComments} />
       <Route path="/:sign(connexion|inscription|connexion-par-email)" component={Authentication} />
       <Route path="/validation-email/:token" component={EmailValidation} />
@@ -43,9 +43,7 @@ const Router: React.FC = () => (
   </ErrorBoundary>
 );
 
-const Footer: React.FC = () => (
-  <div style={{ minHeight: 69 }} />
-);
+const Footer: React.FC = () => <div style={{ minHeight: 69 }} />;
 
 const useStyles = makeStyles(({ breakpoints, spacing }) => ({
   container: {
@@ -92,12 +90,10 @@ const Pages: React.FC = () => {
   return (
     <NotificationsProvider>
       <PageContainer>
-
         <ToastContainer />
         <MarkNotificationAsSeen />
 
         <Grid container className={classes.header}>
-
           <RouterLink to="/" className={classes.headerLink}>
             <HeaderLogo />
           </RouterLink>
@@ -105,13 +101,11 @@ const Pages: React.FC = () => {
           <Grid item className={classes.userMenu}>
             <UserMenu user={user} />
           </Grid>
-
         </Grid>
 
-        { user === undefined ? <Loader /> : <Router />}
+        {user === undefined ? <Loader /> : <Router />}
 
         <Footer />
-
       </PageContainer>
     </NotificationsProvider>
   );
