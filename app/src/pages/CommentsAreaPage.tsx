@@ -13,7 +13,7 @@ const CommentsAreaPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match
   return (
     <AsyncContent
       loading={loading}
-      render={() => <CommentsArea commentsArea={commentsArea} />}
+      render={() => <CommentsArea commentsArea={commentsArea} linkToInformation />}
     />
   );
 };

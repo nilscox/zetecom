@@ -42,6 +42,7 @@ type CommentsAreaComponentProps = {
     total?: number;
   };
   onRootCommentCreated?: (comment: Comment) => void;
+  linkToInformation?: boolean;
 };
 
 const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
@@ -53,6 +54,7 @@ const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
   toggleFolded,
   filters,
   onRootCommentCreated,
+  linkToInformation,
 }) => {
   const classes = useStyles();
   const user = useCurrentUser();
@@ -84,7 +86,12 @@ const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
   return (
     <CommentsAreaProvider value={commentsArea}>
       <Grid container direction="column" component={Paper} variant="outlined">
-        <CommentsAreaDescription commentsArea={commentsArea} folded={folded} toggleFolded={toggleFolded} />
+        <CommentsAreaDescription
+          commentsArea={commentsArea}
+          folded={folded}
+          toggleFolded={toggleFolded}
+          linkToInformation={linkToInformation}
+        />
 
         {[renderFilters, renderRootCommentCreationForm, renderComments].some(Boolean) && (
           <Grid item className={classes.comments}>

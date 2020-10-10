@@ -9,9 +9,10 @@ import CommentsAreaComponent from './CommentsAreaComponent';
 
 type CommentsAreaContainerProps = {
   commentsArea: CommentsArea;
+  linkToInformation?: boolean;
 };
 
-const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ commentsArea }) => {
+const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ commentsArea, linkToInformation }) => {
   const commentsUrl = `/api/comments-area/${commentsArea?.id}/comments`;
 
   const [
@@ -39,6 +40,7 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ commentsA
       loadingComments={loadingComments}
       filters={filters}
       onRootCommentCreated={prepend}
+      linkToInformation={linkToInformation}
     />
   );
 };

@@ -4,7 +4,7 @@ import { Grid, IconButton, makeStyles, Theme, Typography } from '@material-ui/co
 import ChevronDown from '@material-ui/icons/KeyboardArrowDown';
 import dayjs from 'dayjs';
 
-import RouterLink from 'src/components/Link';
+import RouterLink, { Link } from 'src/components/Link';
 import { CommentsArea } from 'src/types/CommentsArea';
 
 import defaultCommentsAreaImage from './default-comments-area.png';
@@ -17,7 +17,7 @@ const useStyles = makeStyles<Theme, { folded?: boolean }>(({ breakpoints, spacin
     height: spacing(folded ? 20 : 40),
     padding: spacing(2),
     [breakpoints.down('md')]: {
-      height: ({ folded }) => spacing((folded ? 20 : 30)),
+      height: ({ folded }) => spacing(folded ? 20 : 30),
     },
   }),
   left: {
@@ -53,7 +53,7 @@ const useStyles = makeStyles<Theme, { folded?: boolean }>(({ breakpoints, spacin
   foldButton: ({ folded }) => ({
     padding: 0,
     cursor: 'pointer',
-    transform: `rotate(${folded ? 90 : 0 }deg)`,
+    transform: `rotate(${folded ? 90 : 0}deg)`,
     transition: 'transform 180ms ease-in-out',
   }),
   comments: {
@@ -61,13 +61,32 @@ const useStyles = makeStyles<Theme, { folded?: boolean }>(({ breakpoints, spacin
   },
 }));
 
+type LinkComponentProps = {
+  commentsArea: CommentsArea;
+  linkToInformation?: boolean;
+};
+
+const LinkComponent: React.FC<LinkComponentProps> = ({ commentsArea, linkToInformation, children }) => {
+  if (linkToInformation) {
+    return <Link href={commentsArea.informationUrl}>{children}</Link>;
+  }
+
+  return <RouterLink to={`/commentaires/${commentsArea.id}`}>{children}</RouterLink>;
+};
+
 type CommentsAreaDescriptionProps = {
   commentsArea: CommentsArea;
   folded?: boolean;
   toggleFolded?: (ctrlKey: boolean) => void;
+  linkToInformation?: boolean;
 };
 
-const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({ commentsArea, folded, toggleFolded }) => {
+const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({
+  commentsArea,
+  folded,
+  toggleFolded,
+  linkToInformation,
+}) => {
   const classes = useStyles({ folded });
 
   const handleToggleFolded = (e: React.MouseEvent) => {
@@ -77,30 +96,30 @@ const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({ comme
   return (
     <Grid container className={classes.description}>
       <Grid item className={classes.left}>
-        <RouterLink to={`/commentaires/${commentsArea.id}`}>
+        <LinkComponent commentsArea={commentsArea} linkToInformation={linkToInformation}>
           <img src={commentsArea.imageUrl || defaultCommentsAreaImage} className={classes.image} />
-        </RouterLink>
+        </LinkComponent>
       </Grid>
 
       <Grid item className={classes.right}>
-
-        <RouterLink to={`/commentaires/${commentsArea.id}`}>
+        <LinkComponent commentsArea={commentsArea} linkToInformation={linkToInformation}>
           <Typography className={classes.title}>{commentsArea.informationTitle}</Typography>
-        </RouterLink>
+        </LinkComponent>
 
         <Grid container direction={folded ? 'row' : 'column'}>
           <Grid item>
-            <Typography variant="body2" className={classes.author}>{commentsArea.informationAuthor}</Typography>
+            <Typography variant="body2" className={classes.author}>
+              {commentsArea.informationAuthor}
+            </Typography>
           </Grid>
           <Grid item>
             <Typography className={classes.dateAndCommentsCount}>
-              { commentsArea.published && dayjs(commentsArea.published).format('D MMMM YYYY') }
+              {commentsArea.published && dayjs(commentsArea.published).format('D MMMM YYYY')}
               {' - '}
-              { commentsArea.commentsCount } commentaire{ commentsArea.commentsCount !== 1 && 's' }
+              {commentsArea.commentsCount} commentaire{commentsArea.commentsCount !== 1 && 's'}
             </Typography>
           </Grid>
         </Grid>
-
       </Grid>
 
       {toggleFolded && (
