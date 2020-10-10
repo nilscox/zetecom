@@ -67,10 +67,12 @@ describe('user controller', () => {
     });
 
     it('should update a user\'s roles', async () => {
-      await adminRequest
+      const { body } = await adminRequest
         .put(`/api/user/${user.id}/roles`)
         .send({ roles: ['USER', 'ADMIN'] })
         .expect(200);
+
+      expect(body).toHaveProperty('roles', ['USER', 'ADMIN']);
 
       const userDb = await userRepository.findOne(user.id);
 

@@ -63,11 +63,12 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ small = false, editable = false
 
   const avatarImg = <CircleAvatarIwage loading={loading} small={small} src={getAvatarUrl(user)} />;
 
-  if (!editable || !currentUser || user.id !== currentUser.id)
+  if (!editable || !currentUser || user.id !== currentUser.id) {
     return avatarImg;
+  }
 
   return (
-    <ImageUpload allowedTypes={['png', 'jpg', 'bmp', 'svg']} onUpload={onUpload}>
+    <ImageUpload allowedTypes={['png', 'jpeg', 'bmp']} onUpload={onUpload}>
       {avatarImg}
     </ImageUpload>
   );

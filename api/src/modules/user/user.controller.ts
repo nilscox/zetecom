@@ -23,6 +23,7 @@ import { AvatarService } from '../avatar/avatar.service';
 
 import { UpdateUserRoleInDto } from './dtos/update-user-role-in.dto';
 import { UserLightDto } from './dtos/user-ligth.dto';
+import { UserDto } from './dtos/user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -59,7 +60,7 @@ export class UserController {
   @Put('avatar')
   @UseGuards(IsAuthenticated)
   @UseInterceptors(FileInterceptor('image'))
-  @CastToDto(UserLightDto)
+  @CastToDto(UserDto)
   async updateUserAvatar(@UploadedFile() file: any, @AuthUser() user: User): Promise<User> {
     await this.avatarService.changeAvatar(user, file);
 
@@ -68,7 +69,7 @@ export class UserController {
 
   @Put(':id/roles')
   @Roles(Role.ADMIN)
-  @CastToDto(UserLightDto)
+  @CastToDto(UserDto)
   async updateRoles(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateUserRoleInDto,
