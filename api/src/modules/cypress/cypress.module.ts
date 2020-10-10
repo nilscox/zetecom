@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CommentModule } from '../comment/comment.module';
 import { CommentsAreaModule } from '../comments-area/comments-area.module';
+import { LoggerModule } from '../logger/logger.module';
 import { UserModule } from '../user/user.module';
 
 import { CypressController } from './cypress.controller';
@@ -27,6 +28,7 @@ const {
       database: DB_NAME_ROOT,
       logging: true,
     }),
+    LoggerModule,
     UserModule,
     CommentsAreaModule,
     CommentModule,

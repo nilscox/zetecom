@@ -32,6 +32,11 @@ const enviornmentVariables = [
 
   'DB_DEBUG',
 
+  // Redis
+
+  'REDIS_HOST',
+  'REDIS_PORT',
+
   // Email
 
   'EMAIL_HOST',

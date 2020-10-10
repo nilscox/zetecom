@@ -8,6 +8,7 @@ import { ReactionType } from '../comment/reaction.entity';
 import { ReactionFactory } from '../comment/reaction.factory';
 import { CommentsArea } from '../comments-area/comments-area.entity';
 import { CommentsAreaFactory } from '../comments-area/comments-area.factory';
+import { LoggerService } from '../logger/logger.service';
 import { User } from '../user/user.entity';
 import { UserFactory } from '../user/user.factory';
 
@@ -33,10 +34,15 @@ export class CypressService {
     private readonly commentsAreaFactory: CommentsAreaFactory,
     private readonly commentsFactory: CommentFactory,
     private readonly reactionFactory: ReactionFactory,
-  ) {}
+    private readonly logger: LoggerService,
+  ) {
+    this.logger.setContext('CypressService');
+  }
 
   async dropDatabase() {
     const connectionOptions = await getConnectionOptions('default');
+
+    this.logger.log('drop database');
 
     if (connectionOptions.database !== DB_NAME) {
       throw new Error(`database name is not "${DB_NAME}", aborting drop databse`);
@@ -55,14 +61,20 @@ export class CypressService {
     `);
 
     await queryRunner.query(`DROP DATABASE ${DB_NAME}`);
+
+    this.logger.log('create database');
     await queryRunner.query(`CREATE DATABASE ${DB_NAME}`);
 
     await this.testConnection.connect();
+
+    this.logger.log('run migrations');
     await this.testConnection.runMigrations();
   }
 
   async seed(data: Dataset) {
     const users = await this.createUsers(data.users || []);
+
+    this.logger.log('seed database');
 
     const getUser = (nick: string) => {
       if (!users[nick]) {

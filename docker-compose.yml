@@ -13,6 +13,17 @@ services:
       POSTGRES_DB: db
 
 
+  redis:
+    image: redis
+    container_name: zc-redis
+    hostname: zc-redis
+    command: redis-server --appendonly yes
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data/redis:/data
+
+
   api:
     container_name: zc-api
     hostname: zc-api
@@ -38,6 +49,8 @@ services:
       DB_ENTITIES: ./dist/src/**/*.entity.js
       DB_MIGRATIONS: ./dist/migrations/*.js
       DB_SEEDS: ./dist/migrations/*.js
+      REDIS_HOST: zc-redis
+      REDIS_PORT: 6379
       EMAIL_HOST: domain.tld
       EMAIL_USER: username
       EMAIL_PASSWORD: password

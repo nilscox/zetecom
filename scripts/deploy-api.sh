@@ -50,6 +50,8 @@ deploy_api() {
     --env $(sshenv DB_ENTITIES) \
     --env $(sshenv DB_MIGRATIONS) \
     --env $(sshenv DB_SEEDS) \
+    --env $(sshenv REDIS_HOST) \
+    --env $(sshenv REDIS_PORT) \
     --env $(sshenv EMAIL_HOST) \
     --env $(sshenv EMAIL_USER) \
     --env $(sshenv EMAIL_PASSWORD) \

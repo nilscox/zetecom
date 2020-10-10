@@ -3,9 +3,11 @@ import { Writable } from 'stream';
 import { MiddlewareConsumer, Module, Provider } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import connectRedis from 'connect-redis';
 import expressSession from 'express-session';
 import memorystore from 'memorystore';
 import morgan from 'morgan';
+import redis from 'redis';
 
 import { LagMiddleware } from 'Common/lag.middleware';
 import { RolesGuard } from 'Common/roles.guard';
@@ -62,63 +64,15 @@ export class AppModule {
   }
 
   configure(consumer: MiddlewareConsumer) {
-    const { logger } = this;
-
     const NODE_ENV = this.configService.get('NODE_ENV');
-    const SESSION_SECRET = this.configService.get('SESSION_SECRET');
-    const SECURE_COOKIE = this.configService.get('SECURE_COOKIE');
     const CI = this.configService.get('CI');
 
     const middlewares = [];
 
-    logger.verbose(`configure express-session with SECURE_COOKIE = ${SECURE_COOKIE}`);
-
-    middlewares.push(expressSession({
-      cookie: {
-        // one year
-        maxAge: Date.now() + 30 * 86400 * 1000,
-        ...(SECURE_COOKIE === 'true' && {
-          sameSite: 'none',
-          secure: true,
-        }),
-      },
-      // TODO: use a real store in production
-      store: new MemoryStore({
-        // one day
-        checkPeriod: 86400000,
-      }),
-      secret: SESSION_SECRET,
-      resave: false,
-      saveUninitialized: false,
-    }));
+    middlewares.push(this.configureSession());
 
     if (CI !== 'true') {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const log = (chunks: any[]) => {
-        logger.log(
-          chunks
-            .map(({ chunk }) => chunk)
-            .map(String)
-            .join('')
-            .replace(/\n$/, ''),
-          'Request',
-        );
-      };
-
-      const stream = new Writable({
-        writev(chunks, cb) {
-          log(chunks);
-          cb();
-        },
-        write(chunk, encoding, cb) {
-          log([{ chunk }]);
-          cb();
-        },
-      });
-
-      logger.verbose('configure morgan middleware');
-
-      middlewares.push(morgan(':method :url :status - :remote-addr - :response-time ms', { stream }));
+      middlewares.push(this.configureMorgan());
     }
 
     middlewares.push(UserMiddleware);
@@ -128,5 +82,76 @@ export class AppModule {
     if (NODE_ENV === 'development') {
       consumer.apply(LagMiddleware).forRoutes('*');
     }
+  }
+
+  private configureSession() {
+    const NODE_ENV = this.configService.get('NODE_ENV');
+    const SESSION_SECRET = this.configService.get('SESSION_SECRET');
+    const SECURE_COOKIE = this.configService.get('SECURE_COOKIE');
+    const REDIS_HOST = this.configService.get('REDIS_HOST');
+    const REDIS_PORT = this.configService.get('REDIS_PORT');
+
+    const getStore = () => {
+      if (NODE_ENV === 'production') {
+        const RedisStore = connectRedis(expressSession);
+        const redisClient = redis.createClient({
+          host: REDIS_HOST,
+          port: Number(REDIS_PORT),
+        });
+
+        return new RedisStore({ client: redisClient });
+      }
+
+      return new MemoryStore({
+        // one day
+        checkPeriod: 86400000,
+      });
+    };
+
+    this.logger.verbose(`configure express-session with SECURE_COOKIE = ${SECURE_COOKIE}`);
+
+    return expressSession({
+      cookie: {
+        // one year
+        maxAge: Date.now() + 30 * 86400 * 1000,
+        ...(SECURE_COOKIE === 'true' && {
+          sameSite: 'none',
+          secure: true,
+        }),
+      },
+      store: getStore(),
+      secret: SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+    });
+  }
+
+  private configureMorgan() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const log = (chunks: any[]) => {
+      this.logger.log(
+        chunks
+          .map(({ chunk }) => chunk)
+          .map(String)
+          .join('')
+          .replace(/\n$/, ''),
+        'Request',
+      );
+    };
+
+    const stream = new Writable({
+      writev(chunks, cb) {
+        log(chunks);
+        cb();
+      },
+      write(chunk, encoding, cb) {
+        log([{ chunk }]);
+        cb();
+      },
+    });
+
+    this.logger.verbose('configure morgan middleware');
+
+    return morgan(':method :url :status - :remote-addr - :response-time ms', { stream });
   }
 }

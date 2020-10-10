@@ -10,6 +10,8 @@ dotenv.config();
 
 import { NestFactory } from '@nestjs/core';
 
+import { LoggerService } from '../logger/logger.service';
+
 import { CypressModule } from './cypress.module';
 
 const {
@@ -18,7 +20,8 @@ const {
 } = process.env;
 
 async function bootstrap() {
-  const app = await NestFactory.create(CypressModule);
+  const logger = new LoggerService();
+  const app = await NestFactory.create(CypressModule, { logger });
 
   await app.listen(parseInt(LISTEN_PORT, 10), LISTEN_IP);
 }
