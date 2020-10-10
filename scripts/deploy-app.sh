@@ -42,6 +42,7 @@ deploy_app() {
     --env $(sshenv API_URL) \
     --env $(sshenv WEBSITE_URL) \
     --env $(sshenv GOOGLE_ANALYTICS_ID) \
+    --env $(sshenv SENTRY_DSN) \
     "$app_image"
 }
 
