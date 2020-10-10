@@ -3,10 +3,9 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import useAxios from 'src/hooks/use-axios';
 import { parseUser, User } from 'src/types/User';
 
-export type UserContextType = [
-  undefined | null | User,
-  (user: User) => void,
-];
+import AsyncContent from '../components/AsyncContent';
+
+export type UserContextType = [undefined | null | User, (user: User) => void];
 
 export const UserContext = createContext<UserContextType>(null);
 
@@ -40,5 +39,12 @@ export const UserProvider: React.FC = ({ children }) => {
     }
   }, [response, status, data]);
 
-  return <UserContext.Provider value={[user, setUser]}>{ children }</UserContext.Provider>;
+  return (
+    <AsyncContent
+      loading={user === undefined}
+      render={() => (
+        <UserContext.Provider value={[user, setUser]}>{children}</UserContext.Provider>
+      )}
+    />
+  );
 };
