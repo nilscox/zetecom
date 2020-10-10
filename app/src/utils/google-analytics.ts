@@ -38,10 +38,10 @@ const mockGa = () => {
       };
     },
     event(event: GAEvent) {
-      window.zetecom.mockGa.events.push(event);
+      window.zetecom.mockGa?.events.push(event);
     },
     pageview(page: string) {
-      window.zetecom.mockGa.pageviews.push(page);
+      window.zetecom.mockGa?.pageviews.push(page);
     },
   };
 };
