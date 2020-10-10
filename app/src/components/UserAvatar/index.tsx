@@ -17,8 +17,9 @@ import defaultAvatar from './default-avatar.png';
 export const UserAvatarNick = UserAvatarNickImport;
 
 const getAvatarUrl = (user: UserLight) => {
-  if (user.avatar)
+  if (user.avatar) {
     return '/avatars/' + user.avatar;
+  }
 
   return defaultAvatar;
 };
@@ -45,12 +46,14 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ small = false, editable = false
     status,
   }, upload] = useAxios(opts, parseUser, { manual: true });
 
-  if (error)
+  if (error) {
     throw error;
+  }
 
   useEffect(() => {
-    if (status(200))
+    if (status(200)) {
       setUser(updatedUser);
+    }
   }, [status, setUser, updatedUser]);
 
   const onUpload = useCallback((file: File) => {
