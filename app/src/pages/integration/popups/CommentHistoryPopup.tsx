@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { Paper, Typography } from '@material-ui/core';
+import { plainToClass } from 'class-transformer';
 import dayjs from 'dayjs';
 import * as diff from 'diff';
 import { RouteComponentProps } from 'react-router';
@@ -10,8 +11,7 @@ import DiffMessage from 'src/components/DiffMessage';
 import Loader from 'src/components/Loader';
 import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
-
-import { parseMessage } from '../../../types/Comment';
+import { Message } from 'src/types/Comment';
 
 const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
 
@@ -69,27 +69,31 @@ type DiffMessagesProps = {
 
 const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
   const [mouseOver, setMouseOver] = useState<number>();
-  const getDiff = useDiff(messages.map(message => message.text), mouseOver);
+  const getDiff = useDiff(
+    messages.map(message => message.text),
+    mouseOver,
+  );
 
   return (
     <>
-      { messages.map(({ date }, n) => (
+      {messages.map(({ date }, n) => (
         <div
           key={n}
           style={{
             transition: 'opacity 300ms ease-in-out',
-            ...(mouseOver !== undefined && n !== mouseOver && n !== mouseOver + 1 && {
-              opacity: 0.5,
-            }),
+            ...(mouseOver !== undefined &&
+              n !== mouseOver &&
+              n !== mouseOver + 1 && {
+                opacity: 0.5,
+              }),
           }}
           onMouseEnter={() => setMouseOver(n)}
           onMouseLeave={() => setMouseOver(undefined)}
         >
+          {n > 0 && <div style={{ minHeight: 30 }} />}
 
-          { n > 0 && <div style={{ minHeight: 30 }} /> }
-
-          <Typography component="div" align="center" color="textSecondary" >
-            { dayjs(date as Date).format(DATE_FORMAT) }
+          <Typography component="div" align="center" color="textSecondary">
+            {dayjs(date as Date).format(DATE_FORMAT)}
           </Typography>
 
           <div style={{ minHeight: 10 }} />
@@ -97,9 +101,8 @@ const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
           <Paper elevation={3} style={{ background: 'transparent' }}>
             <DiffMessage diff={getDiff(n)} />
           </Paper>
-
         </div>
-      )) }
+      ))}
     </>
   );
 };
@@ -109,9 +112,10 @@ type CommentHistoryPopupProps = RouteComponentProps<{ id: string }>;
 const CommentHistoryPopup: React.FC<CommentHistoryPopupProps> = ({ match }) => {
   useTrackPageview();
 
+  const [{ raw, loading, error }] = useAxios('/api/comment/' + match.params.id + '/history', undefined);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const parseMessages = (data: any[]) => data.map(parseMessage);
-  const [{ data: history, loading, error }] = useAxios('/api/comment/' + match.params.id + '/history', parseMessages);
+  const history = raw?.map((data: any) => plainToClass(Message, data));
 
   if (error) {
     throw error;
@@ -123,14 +127,8 @@ const CommentHistoryPopup: React.FC<CommentHistoryPopupProps> = ({ match }) => {
   }
 
   return (
-    <Box
-      p={40}
-      style={{ height: '100%', boxSizing: 'border-box' }}
-      data-e2e="history-list"
-    >
-
+    <Box p={40} style={{ height: '100%', boxSizing: 'border-box' }} data-e2e="history-list">
       <DiffMessages messages={history} />
-
     </Box>
   );
 };

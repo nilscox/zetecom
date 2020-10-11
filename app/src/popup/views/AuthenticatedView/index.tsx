@@ -1,129 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { Box, Collapse } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { AxiosRequestConfig } from 'axios';
 import dayjs from 'dayjs';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import Button from 'src/components/Button';
-import FormError from 'src/components/FormError';
-import TextField from 'src/components/TextField';
 import { UserAvatarNick } from 'src/components/UserAvatar';
-import { useUser } from 'src/contexts/UserContext';
-import useAxios from 'src/hooks/use-axios';
-import { trackLogout } from 'src/utils/track';
+import { useCurrentUser } from 'src/contexts/UserContext';
+import ChangePasswordField from 'src/popup/views/AuthenticatedView/ChangePasswordField';
 
-import useChangePassword from './useChangePassword';
+import useLogout from './useLogout';
 
-const useStyles = makeStyles(({ palette }) => ({
-  changePassword: {
-    textDecoration: 'underline',
-    cursor: 'pointer',
-  },
+const useStyles = makeStyles({
   logoutButton: {
     fontSize: 18,
   },
-  passwordChanged: {
-    color: palette.success.dark,
-  },
-}));
+});
 
-const AuthenticatedView: React.FC<RouteComponentProps> = ({ history }) => {
-  const [user, setUser] = useUser();
-  const [changePassword, { errors, passwordChanged }] = useChangePassword();
-  const { fieldErrors, globalError, unhandledError } = errors || {};
-  const [password, setPassword] = useState('');
-  const [displayChangePasswordForm, setDisplayChangePasswordForm] = useState(false);
+const AuthenticatedView: React.FC = () => {
+  const user = useCurrentUser();
+  const [{ loading }, logout] = useLogout();
   const classes = useStyles();
 
-  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/logout' };
-  const [{ error, loading, status }, logout] = useAxios(opts, () => undefined, { manual: true });
-
-  if (error)
-    throw error;
-
-  if (unhandledError)
-    throw unhandledError;
-
-  useEffect(() => {
-    if (status(204)) {
-      setUser(null);
-      history.push('/popup');
-      trackLogout('popup');
-    }
-  }, [status, setUser, history]);
-
-  useEffect(() => {
-    if (passwordChanged) {
-      setPassword('');
-      setDisplayChangePasswordForm(false);
-    }
-  }, [passwordChanged, setPassword]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    changePassword(password);
-  };
-
-  if (!user)
+  // TODO: <Authenticated />
+  if (!user) {
     return <Redirect to="/popup/connexion" />;
+  }
 
   return (
     <>
-
       <Box marginTop={2} paddingY={2}>
         <UserAvatarNick user={user} />
       </Box>
 
-      <Typography>
-        Email : { user.email }
-      </Typography>
-
-      <Typography>
-        Inscrit(e) depuis le : { dayjs(user.sinupDate).format('DD MM YYYY') }
-      </Typography>
+      <Typography>Email : {user.email}</Typography>
 
       <Box paddingY={2}>
-        <Collapse in={displayChangePasswordForm}>
-          <form onSubmit={handleSubmit}>
-
-            <TextField
-              type="password"
-              id="password"
-              name="password"
-              label="Nouveau mot de passe"
-              error={fieldErrors?.password}
-              value={password}
-              onTextChange={setPassword}
-            />
-
-            <FormError error={globalError} />
-
-          </form>
-        </Collapse>
-
-        { passwordChanged ? (
-          <Typography className={classes.passwordChanged}>
-            Votre mot de passe a bien été mis à jour !
-          </Typography>
-        ) : (
-          <Typography
-            className={classes.changePassword}
-            onClick={() => setDisplayChangePasswordForm(d => !d)}
-          >
-            Changer de mot de passe
-          </Typography>
-        ) }
+        <Typography>Inscrit(e) depuis le : {dayjs(user.signupDate).format('DD MM YYYY')}</Typography>z
       </Box>
+
+      <ChangePasswordField />
 
       <Box paddingTop={4} display="flex" justifyContent="center">
         <Button loading={loading} className={classes.logoutButton} onClick={() => logout()}>
           Déconnexion
         </Button>
       </Box>
-
     </>
   );
 };

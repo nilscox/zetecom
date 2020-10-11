@@ -11,7 +11,7 @@ import Padding from 'src/components/Padding';
 import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
-import { CommentsArea as CommentsAreaType, parseCommentsArea } from 'src/types/CommentsArea';
+import { CommentsArea as CommentsAreaType } from 'src/types/CommentsArea';
 import { trackViewIntegration } from 'src/utils/track';
 
 import CommentAreaClosed from './CommentAreaClosed';
@@ -22,10 +22,8 @@ type IntegrationRouterProps = {
 
 const IntegrationRouter: React.FC<IntegrationRouterProps> = ({ commentsArea }) => (
   <Router>
-
     <Route path="/" exact render={() => <Redirect to="/comment" />} />
     <Route path="/comment" exact render={() => <CommentsArea commentsArea={commentsArea} />} />
-
   </Router>
 );
 
@@ -50,7 +48,11 @@ const Integration: React.FC = () => {
   };
 
   // TODO: use fetchCommentsArea
-  const [{ data: commentsArea, loading, error }, fetchCommentsArea] = useAxios(opts, parseCommentsArea);
+  const [{ data: commentsArea, loading, error, status }, fetchCommentsArea] = useAxios(
+    opts,
+    undefined,
+    CommentsAreaType,
+  );
 
   useTrackPageview(() => !!commentsArea);
 
@@ -85,10 +87,7 @@ const Integration: React.FC = () => {
   useEffect(() => {
     if (commentsArea) {
       if (window.parent !== window) {
-        window.parent.postMessage(
-          { type: 'INTEGRATION_LOADED' },
-          origin,
-        );
+        window.parent.postMessage({ type: 'INTEGRATION_LOADED' }, origin);
       }
     }
   }, [commentsArea, origin]);
@@ -104,14 +103,13 @@ const Integration: React.FC = () => {
             </Padding>
 
             <Fallback
-              when={not(commentsArea)}
+              when={status(404)}
               fallback={<CommentAreaClosed />}
               render={() => <IntegrationRouter commentsArea={commentsArea} />}
             />
           </>
         )}
-      >
-      </AsyncContent>
+      ></AsyncContent>
     </div>
   );
 };

@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { Type } from 'class-transformer';
 
 import Authenticated from 'src/components/Authenticated';
 import { SearchQueryProvider } from 'src/contexts/SearchQueryContext';
@@ -9,18 +11,16 @@ import Fallback from '../components/Fallback';
 import FiltersBar from '../components/FiltersBar';
 import Padding from '../components/Padding';
 import useAxiosPaginated from '../hooks/use-axios-paginated';
-import { Comment, parseComment } from '../types/Comment';
-import { CommentsArea, parseCommentsArea } from '../types/CommentsArea';
+import { Comment } from '../types/Comment';
+import { CommentsArea } from '../types/CommentsArea';
 
-const useParseCommentsAreaForUser = () => {
-  return useCallback(
-    (data: any) => ({
-      commentsArea: parseCommentsArea(data.commentsArea),
-      comments: data.comments.map(parseComment) as Comment[],
-    }),
-    [],
-  );
-};
+class CommentsAreaForUser {
+  @Type(() => CommentsArea)
+  commentsArea: CommentsArea;
+
+  @Type(() => Comment)
+  comments: Comment[];
+}
 
 const useFoldCommentsArea = (data: { commentsArea: CommentsArea }[]) => {
   const [folded, setFolded] = useState<Record<number, boolean>>({});
@@ -45,17 +45,17 @@ const useFoldCommentsArea = (data: { commentsArea: CommentsArea }[]) => {
 };
 
 const UserComments: React.FC = () => {
-  const parseCommentsAreaForUser = useParseCommentsAreaForUser();
   const [{ loading, data, total, error }, { search, setSearch }, , { page, setPage }] = useAxiosPaginated(
     '/api/comment/me',
-    parseCommentsAreaForUser,
+    undefined,
+    CommentsAreaForUser,
   );
 
   if (error) {
     throw error;
   }
 
-  const [isFolded, toggleFolded, foldAll] = useFoldCommentsArea(data);
+  const [isFolded, toggleFolded, foldAll] = useFoldCommentsArea(data || []);
 
   const handleToggleFold = (commentsArea: CommentsArea) => (ctrlKey: boolean) => {
     if (ctrlKey) {
@@ -82,11 +82,11 @@ const UserComments: React.FC = () => {
           loading={loading}
           render={() => (
             <Fallback
-              when={!data.length}
+              when={!data?.length}
               fallback={getFallbackMessage()}
               render={() => (
                 <>
-                  {data.map(({ commentsArea, comments }) => (
+                  {data?.map(({ commentsArea, comments }) => (
                     <Padding key={commentsArea.id} top>
                       <CommentsAreaComponent
                         commentsArea={commentsArea}

@@ -12,6 +12,7 @@ export type CommentComponentProps = {
   comment: Comment;
   displayReplies?: boolean;
   displayReplyForm?: boolean;
+  loadingReplies?: boolean;
   onSetReaction?: (type: ReactionType | null) => void;
   onToggleReplies?: () => void;
   onToggleSubscription?: () => void;
@@ -25,6 +26,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   comment,
   displayReplies,
   displayReplyForm,
+  loadingReplies,
   onSetReaction,
   onToggleReplies,
   onToggleSubscription,
@@ -45,6 +47,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
         comment={comment}
         displayReplies={Boolean(displayReplies)}
         displayReplyForm={Boolean(displayReplyForm)}
+        loadingReplies={Boolean(loadingReplies)}
         onSetReaction={onSetReaction}
         onToggleReplies={onToggleReplies}
         onToggleSubscription={onToggleSubscription}

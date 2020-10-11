@@ -35,18 +35,20 @@ const useStyles = makeStyles(({ palette, breakpoints, spacing }) => ({
 }));
 
 type RepliesButtonProps = {
+  loading?: boolean;
   repliesCount: number;
   displayReplies: boolean;
   onClick?: () => void;
 };
 
-const RepliesButton: React.FC<RepliesButtonProps> = ({ repliesCount, displayReplies, onClick }) => {
+const RepliesButton: React.FC<RepliesButtonProps> = ({ loading, repliesCount, displayReplies, onClick }) => {
   const classes = useStyles(displayReplies);
   const verySmall = useMediaQuery('(max-width: 320px)');
 
   return (
     <Button
-      disabled={!onClick || repliesCount === 0}
+      disabled={loading || !onClick || repliesCount === 0}
+      loading={loading}
       className={classes.button}
       classes={{ label: classes.buttonLabel }}
       onClick={onClick}

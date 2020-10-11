@@ -26,18 +26,21 @@ const CommentAreaClosed: React.FC = () => {
   const { identifier } = useQueryString();
   const user = useCurrentUser();
 
-  const [{ status, loading, error }, request] = useAxios({
-    method: 'POST',
-    url: '/api/comments-area-request',
-    data: { identifier: decodeURIComponent(identifier as string) },
-  }, undefined, { manual: true });
+  const [{ status, loading, error }, request] = useAxios(
+    {
+      method: 'POST',
+      url: '/api/comments-area-request',
+      data: { identifier: decodeURIComponent(identifier as string) },
+    },
+    { manual: true },
+  );
 
   useEffect(() => {
     if (status(201)) {
       setRequested(true);
     }
 
-    if (status(400) && error.response.data.message === 'REQUEST_ALREADY_REGISTERED') {
+    if (status(400) && error?.response?.data.message === 'REQUEST_ALREADY_REGISTERED') {
       setRequested(true);
       setAlreadyRequested(true);
     }
@@ -66,9 +69,7 @@ const CommentAreaClosed: React.FC = () => {
           <Typography variant="body2" className={classes.requestSuccess}>
             L'ouverture a bien été prise en compte !
           </Typography>
-          <>
-            Les modérateurs traiteront votre demande au plus vite.
-          </>
+          <>Les modérateurs traiteront votre demande au plus vite.</>
         </>
       )}
     </>

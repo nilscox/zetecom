@@ -11,7 +11,7 @@ import { FormFields } from '../types';
 
 const useAskEmailLogin = () => {
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/ask-email-login' };
-  const [{ loading, error, status }, askEmailLogin] = useAxios(opts, undefined, { manual: true });
+  const [{ loading, error, status }, askEmailLogin] = useAxios(opts, { manual: true });
   const [email, setEmail] = useState<string>();
 
   useEffect(() => {
@@ -26,10 +26,7 @@ const useAskEmailLogin = () => {
     askEmailLogin({ data: { email } });
   };
 
-  return [
-    handleAskEmailLogin,
-    { loading, error },
-  ] as const;
+  return [handleAskEmailLogin, { loading, error }] as const;
 };
 
 export default useAskEmailLogin;
@@ -38,7 +35,7 @@ export const askEmailLoginErrorsHandlers: FormErrorsHandlers<AxiosError, FormFie
   {
     email: ({ response: { status, data } }) => {
       if (status === 400 && data.email?.isEmail) {
-        return 'Format d\'adresse email non valide';
+        return "Format d'adresse email non valide";
       }
     },
   },

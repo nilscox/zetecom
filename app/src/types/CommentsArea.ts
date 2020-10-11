@@ -1,36 +1,33 @@
-import { Comment, parseComment } from './Comment';
-import { parseUser, User } from './User';
+import { Type } from 'class-transformer';
 
-export type CommentsArea = {
+import { Comment } from './Comment';
+import { UserLight } from './User';
+
+export class CommentsArea {
   id: number;
+
   informationUrl: string;
+
   informationTitle: string;
+
   informationAuthor: string;
+
   imageUrl: string | null;
+
+  @Type(() => Date)
   published?: Date;
-  creator?: Partial<User>;
+
+  @Type(() => UserLight)
+  creator?: UserLight;
+
   commentsCount: number;
+
+  @Type(() => Comment)
   comments?: Comment[];
-};
+}
 
-export type OpenCommentsAreaRequest = {
+export class CommentsAreaRequest {
   id: number;
+
   identifier: string;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseCommentsArea = (data: any): CommentsArea => {
-  return {
-    ...data,
-    published: data.published ? new Date(data.published) : undefined,
-    creator: data.creator ? parseUser(data.creator) : undefined,
-    comments: Array.isArray(data.comments) ? data.comments.map(parseComment) : undefined,
-  };
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseOpenCommentsAreaRequest = (data: any): OpenCommentsAreaRequest => {
-  return {
-    ...data,
-  };
-};
+}

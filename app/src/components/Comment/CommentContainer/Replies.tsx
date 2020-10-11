@@ -1,10 +1,7 @@
 import React from 'react';
 
-import { Box } from '@material-ui/core';
-
 import Collapse from 'src/components/Collapse';
 import CommentsList from 'src/components/CommentsList';
-import Loader from 'src/components/Loader';
 import Padding from 'src/components/Padding';
 import { Comment } from 'src/types/Comment';
 
@@ -14,13 +11,12 @@ import Indented from './Indented';
 type RepliesProps = {
   replies: Comment[];
   displayReplies: boolean;
-  loading: boolean;
   remainingRepliesCount: number;
   fetchMoreReplies: () => void;
 };
 
 const Replies: React.FC<RepliesProps> = (props) => {
-  const { replies, displayReplies, loading, remainingRepliesCount, fetchMoreReplies } = props;
+  const { replies, displayReplies, remainingRepliesCount, fetchMoreReplies } = props;
 
   return (
     <Collapse open={displayReplies}>
@@ -33,13 +29,7 @@ const Replies: React.FC<RepliesProps> = (props) => {
         </Padding>
       ) }
 
-      { loading && (
-        <Box paddingTop={6}>
-          <Loader />
-        </Box>
-      ) }
-
-      { remainingRepliesCount > 0 && !loading && (
+      { remainingRepliesCount > 0 && (
         <FetchMoreReplies
           remainingRepliesCount={remainingRepliesCount}
           fetchMoreReplies={fetchMoreReplies}

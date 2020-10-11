@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
 
 import useAxios from '../../../../hooks/use-axios';
-import { Comment, parseComment, ReactionType } from '../../../../types/Comment';
+import { Comment, ReactionType } from '../../../../types/Comment';
 import { trackSetReaction } from '../../../../utils/track';
 
 const useSetReaction = (comment: Comment, setComment: (comment: Comment) => void) => {
@@ -13,14 +13,14 @@ const useSetReaction = (comment: Comment, setComment: (comment: Comment) => void
     url: `/api/comment/${comment.id}/reaction`,
   };
 
-  const [{ error, data, status }, post] = useAxios(opts, parseComment, { manual: true });
+  const [{ error, data, status }, post] = useAxios(opts, { manual: true }, Comment);
 
   if (error) {
     throw error;
   }
 
   useEffect(() => {
-    if (status(201)) {
+    if (status(201) && data?.userReaction !== undefined) {
       trackSetReaction(data.userReaction);
     }
   }, [status, data]);
@@ -62,10 +62,13 @@ const useSetReaction = (comment: Comment, setComment: (comment: Comment) => void
     setComment({
       ...comment,
       userReaction: type,
-      reactionsCount: Object.keys(comment.reactionsCount).reduce((obj, key: ReactionType) => ({
-        ...obj,
-        [key]: getReactionsCount(key),
-      }), {} as Record<ReactionType, number>),
+      reactionsCount: Object.keys(comment.reactionsCount).reduce(
+        (obj, key: ReactionType) => ({
+          ...obj,
+          [key]: getReactionsCount(key),
+        }),
+        {} as Record<ReactionType, number>,
+      ),
     });
   };
 };

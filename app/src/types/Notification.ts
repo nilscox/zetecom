@@ -1,45 +1,74 @@
-import env from '../utils/env';
+import { plainToClass, Transform, Type } from 'class-transformer';
+import { TransformationType } from 'class-transformer/enums';
 
-type NotificationType = 'rulesUpdate' | 'subscriptionReply';
+import { UserLight } from './User';
 
-export class Notification {
+class RulesUpdatePayload {
+  version: string;
+}
 
+class SubscriptionReplyPayload {
+  commentsAreaId: number;
+
+  commentId: number;
+
+  replyId: number;
+
+  @Type(() => UserLight)
+  author: UserLight;
+
+  text: string;
+}
+
+export type NotificationType = 'rulesUpdate' | 'subscriptionReply';
+
+const transformNotificationPayload = (
+  value: unknown,
+  { type }: Notification<NotificationType>,
+  transform: TransformationType,
+) => {
+  if (transform !== TransformationType.PLAIN_TO_CLASS) {
+    throw new Error('cannot handle transform');
+  }
+
+  if (type === 'rulesUpdate') {
+    return plainToClass(RulesUpdatePayload, value);
+  }
+
+  if (type === 'subscriptionReply') {
+    return plainToClass(SubscriptionReplyPayload, value);
+  }
+};
+
+type MapNotificationPayload = {
+  rulesUpdate: RulesUpdatePayload;
+  subscriptionReply: SubscriptionReplyPayload;
+};
+
+export class Notification<T extends NotificationType> {
   id: number;
 
-  type: NotificationType;
+  type: T;
 
   created: Date;
 
+  @Transform(value => value !== false && new Date(value))
   seen: Date | false;
 
-  payload: any;
-
-  constructor(data: any) {
-    Object.assign(this, {
-      ...data,
-      created: new Date(data.created),
-      seen: data.seen ? new Date(data.seen) : false,
-    });
-  }
+  @Transform(transformNotificationPayload)
+  payload: MapNotificationPayload[T];
 
   getLink() {
-    if (this.type === 'rulesUpdate') {
-      return { href: env.WEBSITE_URL + '/charte.html', external: true };
-    }
-
-    if (this.type === 'subscriptionReply') {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      return { href: `/commentaires/${this.payload.commentsAreaId}`, external: false };
-    }
+    // if (this.type === 'rulesUpdate') {
+    //   return { href: env.WEBSITE_URL + '/charte.html', external: true };
+    // }
+    // if (this.type === 'subscriptionReply') {
+    //   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    //   return { href: `/commentaires/${this.payload.commentsAreaId}`, external: false };
+    // }
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseNotification = (data: any) => {
-  return new Notification(data);
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseNotificationsCount = (data: any) => {
-  return data.count;
-};
+export class NotificationsCount {
+  count: number;
+}

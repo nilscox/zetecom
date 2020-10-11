@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import { useCommentsArea } from 'src/contexts/CommentsAreaContext';
 import useAxios from 'src/hooks/use-axios';
-import { Comment, parseComment } from 'src/types/Comment';
+import { Comment } from 'src/types/Comment';
 import { trackCreateComment } from 'src/utils/track';
 
 import CommentForm from './CommentForm';
@@ -18,10 +18,11 @@ type CommentCreationFormProps = {
 const CommentCreationForm: React.FC<CommentCreationFormProps> = ({ parent, closeForm, onCreated }) => {
   const commentsArea = useCommentsArea();
 
-  const formRef = React.useRef<{ clear:() => void } | null>(null);
+  // eslint-disable-next-line func-call-spacing
+  const formRef = React.useRef<{ clear: () => void } | null>(null);
 
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/comment' };
-  const [{ data, loading, error }, postComment] = useAxios(opts, parseComment, { manual: true });
+  const [{ data, loading, error }, postComment] = useAxios(opts, { manual: true }, Comment);
 
   if (error) {
     throw error;

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { AxiosRequestConfig } from 'axios';
 
 import useAxios from 'src/hooks/use-axios';
-import { Comment, parseComment } from 'src/types/Comment';
+import { Comment } from 'src/types/Comment';
 import { trackEditComment } from 'src/utils/track';
 
 import CommentForm, { ClearFormRef } from './CommentForm';
@@ -18,7 +18,7 @@ const CommentEditionForm: React.FC<CommentEditionFormProps> = ({ comment, onEdit
   const formRef = React.useRef<ClearFormRef>(null);
 
   const opts: AxiosRequestConfig = { method: 'PUT', url: `/api/comment/${comment.id}` };
-  const [{ data, loading, error }, postComment] = useAxios(opts, parseComment, { manual: true });
+  const [{ data, loading, error }, postComment] = useAxios(opts, { manual: true }, Comment);
 
   if (error) {
     throw error;

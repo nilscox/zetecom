@@ -7,7 +7,7 @@ import Padding from 'src/components/Padding';
 import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
-import { parseUser } from 'src/types/User';
+import { User } from 'src/types/User';
 import { trackEmailLogin } from 'src/utils/track';
 
 const useErrorMessage = (status: (s: number) => boolean) => {
@@ -32,7 +32,8 @@ const EmailLogin: React.FC = () => {
       url: '/api/auth/email-login',
       data: { token },
     },
-    parseUser,
+    undefined,
+    User,
   );
 
   const errorMessage = useErrorMessage(status);

@@ -7,25 +7,31 @@ import { trackChangePassword } from 'src/utils/track';
 
 import { createFormErrorsHandler } from '../../utils/createFormErrorsHandler';
 
+const SUCCESS_MESSAGE_TIMEOUT = 3000;
+
 const useChangePasswordErrors = createFormErrorsHandler({
   password: ({ response: { status, data } }) => {
-    if (status !== 400)
+    if (status !== 400) {
       return;
+    }
 
-    if (data.password?.minLength)
+    if (data.password?.minLength) {
       return 'Ce mot de passe est trop court.';
+    }
 
-    if (data.password?.maxLength)
+    if (data.password?.maxLength) {
       return 'Ce mot de passe est trop long... :o';
+    }
 
-    if (data.message === 'PASSWORD_UNSECURE')
+    if (data.message === 'PASSWORD_UNSECURE') {
       return 'Ce mot de passe n\'est pas assez sécurisé.';
+    }
   },
 });
 
 const useChangePassword = () => {
   const opts: AxiosRequestConfig = { method: 'PUT', url: '/api/auth/change-password' };
-  const [{ error, loading, status }, changePassword] = useAxios(opts, () => undefined, { manual: true });
+  const [{ error, loading, status }, changePassword] = useAxios(opts, { manual: true });
   const errors = useChangePasswordErrors(error);
 
   const [passwordChanged, setPasswordChanged] = useState(false);
@@ -39,8 +45,7 @@ const useChangePassword = () => {
 
   useEffect(() => {
     if (passwordChanged) {
-      const timeout = setTimeout(() => setPasswordChanged(false), 3000);
-
+      const timeout = setTimeout(() => setPasswordChanged(false), SUCCESS_MESSAGE_TIMEOUT);
       return () => clearTimeout(timeout);
     }
   }, [passwordChanged]);

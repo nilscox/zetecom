@@ -1,27 +1,32 @@
+import { classToClass } from 'class-transformer';
+
 import useAxiosPaginated from '../../../hooks/use-axios-paginated';
 import useEditableDataset from '../../../hooks/useEditableDataset';
-import { Notification, parseNotification } from '../../../types/Notification';
+import { Notification, NotificationType } from '../../../types/Notification';
 
 import useMarkNotificationAsSeen from './useMarkNotificationAsSeen';
 
 const useNotifications = () => {
-  const [{ data, loading }] = useAxiosPaginated(
+  const [{ data, loading }] = useAxiosPaginated<Notification<NotificationType>>(
     '/api/notification/me',
-    parseNotification,
+    undefined,
+    Notification,
   );
 
   const markAsSeen = useMarkNotificationAsSeen();
-  const [notifications, { replace }] = useEditableDataset(data);
+  const [notifications, { replace }] = useEditableDataset(data, 'set');
 
   return {
     notifications,
     loading,
-    markAsSeen: (notification: Notification) => {
+    markAsSeen: (notification: Notification<NotificationType>) => {
       markAsSeen(notification.id);
 
-      const old = notifications.find(({ id }) => id === notification.id);
+      const seen = classToClass(notification);
 
-      replace(old, new Notification({ ...notification, seen: new Date() }));
+      seen.seen = new Date();
+
+      replace(notification, seen);
     },
   };
 };

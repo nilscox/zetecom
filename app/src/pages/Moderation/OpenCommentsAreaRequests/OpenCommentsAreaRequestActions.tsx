@@ -9,7 +9,7 @@ const useRejectOpenCommentsArea = (requestId: number, onRejected: () => void) =>
   const [{ loading, status }, reject] = useAxios({
     method: 'POST',
     url: `/api/comments-area-request/${requestId}/reject`,
-  }, undefined, { manual: true });
+  }, { manual: true });
 
   useEffect(() => {
     if (status(200)) {

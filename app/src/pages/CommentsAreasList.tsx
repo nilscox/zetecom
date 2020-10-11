@@ -2,7 +2,7 @@ import React from 'react';
 
 import FiltersBar from 'src/components/FiltersBar';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
-import { parseCommentsArea } from 'src/types/CommentsArea';
+import { CommentsArea } from 'src/types/CommentsArea';
 
 import AsyncContent from '../components/AsyncContent';
 import CommentsAreaComponent from '../components/CommentsArea/CommentsAreaComponent';
@@ -15,7 +15,7 @@ const CommentsAreasList: React.FC = () => {
     { search, setSearch },
     ,
     { page, setPage },
-  ] = useAxiosPaginated('/api/comments-area', parseCommentsArea);
+  ] = useAxiosPaginated('/api/comments-area', undefined, CommentsArea);
 
   if (error) {
     throw error;
@@ -37,7 +37,7 @@ const CommentsAreasList: React.FC = () => {
         loading={loading}
         render={() => (
           <Fallback
-            when={!commentsAreas.length}
+            when={!commentsAreas?.length}
             fallback={getFallbackMessage()}
             render={() => (
               <>

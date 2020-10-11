@@ -5,14 +5,14 @@ import { useLocation } from 'react-router-dom';
 
 import useAxios from 'src/hooks/use-axios';
 import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
-import { parseUser, User } from 'src/types/User';
+import { User } from 'src/types/User';
 import { trackLogin, trackLoginFailed } from 'src/utils/track';
 
 import { FormFields } from '../types';
 
 const useLogin = (onAuthenticated: (user: User) => void) => {
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/login' };
-  const [{ data: user, loading, error, status }, login] = useAxios(opts, parseUser, { manual: true });
+  const [{ data: user, loading, error, status }, login] = useAxios(opts, { manual: true }, User);
   const location = useLocation();
 
   useEffect(() => {
@@ -32,10 +32,7 @@ const useLogin = (onAuthenticated: (user: User) => void) => {
     login({ data: { email, password } });
   };
 
-  return [
-    handleLogin,
-    { loading, error },
-  ] as const;
+  return [handleLogin, { loading, error }] as const;
 };
 
 export default useLogin;
@@ -44,11 +41,11 @@ export const loginErrorsHandlers: FormErrorsHandlers<AxiosError, FormFields> = [
   {
     email: ({ response: { status, data } }) => {
       if (status === 401 && data.message === 'EMAIL_NOT_VALIDATED') {
-        return 'Votre adresse email n\'a pas été validée, verifiez dans vos spams !';
+        return "Votre adresse email n'a pas été validée, verifiez dans vos spams !";
       }
 
       if (data.email?.isEmail) {
-        return 'Format d\'adresse email non valide';
+        return "Format d'adresse email non valide";
       }
     },
   },

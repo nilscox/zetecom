@@ -2,62 +2,52 @@ import { useCallback, useMemo } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 import useAxiosHook from 'axios-hooks';
+import { plainToClass } from 'class-transformer';
+import { ClassType } from 'class-transformer/ClassTransformer';
 
-type AxiosHooksOptions = {
+export type AxiosHooksOptions = {
   manual?: boolean;
   useCache?: boolean;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ResponseData = any;
-
 export default function useAxios<T>(
   config: AxiosRequestConfig | string,
-  parse?: (data: ResponseData) => T,
   options: AxiosHooksOptions = {},
+  cls?: ClassType<T>,
 ) {
   if (typeof options.useCache === 'undefined') {
     options.useCache = false;
   }
 
-  const [{ data, loading, error, response: axiosResponse }, refetch] = useAxiosHook(config, options);
-  const response = axiosResponse || error?.response;
+  const [result, refetch] = useAxiosHook(config, options);
+  const response = useMemo(() => result.response || result.error?.response, [result]);
 
-  const parsed = useMemo(() => {
-    if (!parse) {
-      return undefined;
+  const data = useMemo(() => {
+    if (response?.data && cls) {
+      return plainToClass(cls, response.data);
     }
+  }, [response, cls]);
 
-    if (response) {
-      if (data && !error && [200, 201].includes(response.status)) {
-        return parse(data);
-      } else {
-        return undefined;
+  const status = useCallback(
+    (expected: number | number[]): boolean => {
+      if (!response) {
+        return false;
       }
-    }
 
-    return null;
-  }, [response, data, error, parse]);
+      if (Array.isArray(expected)) {
+        return expected.includes(response.status);
+      }
 
-  const status = useCallback((s: number | number[]): boolean => {
-    if (!response) {
-      return false;
-    }
-
-    if (Array.isArray(s)) {
-      return s.includes(response.status);
-    }
-
-    return response.status === s;
-  }, [response]);
+      return response.status === expected;
+    },
+    [response],
+  );
 
   return [
     {
-      data: parsed,
-      raw: data,
-      loading: loading || (data && parsed === null),
-      error,
-      response,
+      ...result,
+      data,
+      raw: response?.data,
       status,
     },
     refetch,

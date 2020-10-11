@@ -19,7 +19,6 @@ const useIgnoreReports = (comment: Comment, onModerated: () => void) => {
         commentId: comment.id,
       },
     },
-    undefined,
     {
       manual: true,
     },
@@ -47,7 +46,6 @@ const useDeleteComment = (comment: Comment, onModerated: () => void) => {
         commentId: comment.id,
       },
     },
-    undefined,
     {
       manual: true,
     },

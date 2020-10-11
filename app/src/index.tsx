@@ -1,5 +1,7 @@
 /* eslint-disable simple-import-sort/sort */
 
+import 'reflect-metadata';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 

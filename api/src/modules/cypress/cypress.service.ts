@@ -123,7 +123,6 @@ export class CypressService {
     if (comment.reactions) {
       for (const type of [ReactionType.APPROVE, ReactionType.REFUTE, ReactionType.SKEPTIC]) {
         for (const nick of comment.reactions[type] || []) {
-          console.log(comment.reactions[type]);
           await this.reactionFactory.create({ comment: created, user: getUser(nick), type });
         }
       }

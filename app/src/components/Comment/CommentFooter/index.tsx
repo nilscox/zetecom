@@ -20,6 +20,7 @@ type CommentFooterProps = {
   comment: Comment;
   displayReplies: boolean;
   displayReplyForm: boolean;
+  loadingReplies: boolean;
   onSetReaction?: (type: ReactionType | null) => void;
   onToggleReplies?: () => void;
   onToggleSubscription?: () => void;
@@ -30,6 +31,7 @@ const CommentFooter: React.FC<CommentFooterProps> = ({
   comment,
   displayReplies,
   displayReplyForm,
+  loadingReplies,
   onSetReaction,
   onToggleReplies,
   onReply,
@@ -46,6 +48,7 @@ const CommentFooter: React.FC<CommentFooterProps> = ({
           </Grid>
 
           <RepliesButton
+            loading={loadingReplies}
             repliesCount={comment.repliesCount}
             displayReplies={displayReplies}
             onClick={onToggleReplies}

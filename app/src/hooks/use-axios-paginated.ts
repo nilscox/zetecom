@@ -1,27 +1,41 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
+import { Type } from 'class-transformer';
+import { ClassType } from 'class-transformer/ClassTransformer';
 
-import useAxios, { ResponseData } from 'src/hooks/use-axios';
+import useAxios, { AxiosHooksOptions } from 'src/hooks/use-axios';
 import useUpdateEffect from 'src/hooks/use-update-effect';
 import { SortType } from 'src/types/SortType';
-import { Paginated, usePaginatedResults } from 'src/utils/parse-paginated';
 
-type AxiosHooksOptions = {
-  manual?: boolean;
-  useCache?: boolean;
+type Paginated<T> = {
+  items: T[];
+  total: number;
 };
 
-export default function useAxiosPaginated<T>(
-  url: string,
-  parseItem: (data: ResponseData) => T,
-  options?: AxiosHooksOptions,
-) {
+const usePaginatedClass = <T>(cls?: ClassType<T>) => {
+  return useMemo(() => {
+    if (!cls) {
+      return;
+    }
+
+    class PaginatedClass {
+      @Type(() => cls)
+      items: T[];
+
+      total: number;
+    }
+
+    return PaginatedClass;
+  }, [cls]);
+};
+
+export default function useAxiosPaginated<T>(url: string, options?: AxiosHooksOptions, cls?: ClassType<T>) {
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortType | undefined>();
   const [page, setPage] = useState(1);
 
-  const [result, refetch] = useAxios<Paginated<T>>(url, usePaginatedResults(parseItem), options);
+  const [result, refetch] = useAxios<Paginated<T>>(url, options, usePaginatedClass(cls));
 
   useUpdateEffect(() => {
     const opts: AxiosRequestConfig = { params: {} };
@@ -46,8 +60,8 @@ export default function useAxiosPaginated<T>(
   return [
     {
       ...result,
-      data: result.data ? result.data.items : undefined,
-      total: result.data ? result.data.total : undefined,
+      data: useMemo(() => result.data?.items, [result.data]),
+      total: useMemo(() => result.data?.total, [result.data]),
     },
     { search, setSearch },
     { sort, setSort },

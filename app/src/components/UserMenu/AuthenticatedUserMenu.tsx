@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 
 import {
   Badge,
@@ -8,24 +8,20 @@ import {
   makeStyles,
   Menu,
   MenuItem,
-  MenuProps,
   Typography,
 } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 import ModerationIcon from '@material-ui/icons/DoneAll';
 import SignoutIcon from '@material-ui/icons/ExitToApp';
 import NotificationIcon from '@material-ui/icons/Notifications';
-import { AxiosRequestConfig } from 'axios';
 import clsx from 'clsx';
 
-import { trackLogout } from 'src/utils/track';
-
 import { useNotifications } from '../../contexts/NotificationsContext';
-import { useUser } from '../../contexts/UserContext';
-import useAxios from '../../hooks/use-axios';
 import { Role, User } from '../../types/User';
 import RouterLink from '../Link';
 import UserAvatar from '../UserAvatar';
+
+import useLogout from './useLogout';
 
 const useStyles = makeStyles(({ palette }) => ({
   userMenuButton: {
@@ -47,106 +43,87 @@ const useStyles = makeStyles(({ palette }) => ({
   },
 }));
 
-type UserMenuProps = MenuProps & {
+type MenuItemProps = {
   onClose: () => void;
 };
 
-const UserMenu: React.FC<UserMenuProps> = ({ onClose, ...props }) => {
-  const [user, setUser] = useUser();
+const NotificationsMenuItem = forwardRef<HTMLAnchorElement, MenuItemProps>(({ onClose }, ref) => {
   const { count: notificationsCount } = useNotifications();
-  const hasNotifications = notificationsCount > 0;
   const classes = useStyles();
 
-  const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/logout' };
-  const [{ error, loading, status }, logout] = useAxios(opts, () => undefined, { manual: true });
-
-  if (error)
-    throw error;
-
-  useEffect(() => {
-    if (status(204)) {
-      setUser(null);
-      trackLogout('app');
-    }
-  }, [status, setUser]);
-
-  const handleLogout = () => {
-    logout();
-    onClose();
-  };
+  const hasNotifications = notificationsCount > 0;
 
   return (
-    <Menu
-      getContentAnchorEl={null}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      onClose={onClose}
-      {...props}
+    <MenuItem
+      ref={ref}
+      component={RouterLink}
+      focusColor={false}
+      to="/notifications"
+      className={clsx(hasNotifications && classes.notificationsActive)}
+      onClick={onClose}
     >
-
-      <MenuItem
-        component={RouterLink}
-        focusColor={false}
-        to="/notifications"
-        className={clsx(hasNotifications && classes.notificationsActive)}
-        onClick={onClose}
-      >
-        <ListItemIcon>
-          <NotificationIcon fontSize="small" color={hasNotifications ? 'primary' : 'inherit'} />
-        </ListItemIcon>
-        <ListItemText primary="Notifications" />
-      </MenuItem>
-
-      <MenuItem
-        component={RouterLink}
-        focusColor={false}
-        to="/mes-commentaires"
-        onClick={onClose}
-      >
-        <ListItemIcon>
-          <CommentIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Mes commentaires" />
-      </MenuItem>
-
-      {user.roles.includes(Role.MODERATOR) && (
-        <MenuItem
-          component={RouterLink}
-          focusColor={false}
-          to="/moderation"
-          onClick={onClose}
-        >
-          <ListItemIcon>
-            <ModerationIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Modération" />
-        </MenuItem>
-      )}
-
-      <MenuItem onClick={handleLogout} className={classes.logout}>
-        <ListItemIcon>
-          <SignoutIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Déconnexion" />
-      </MenuItem>
-
-    </Menu>
+      <ListItemIcon>
+        <NotificationIcon fontSize="small" color={hasNotifications ? 'primary' : 'inherit'} />
+      </ListItemIcon>
+      <ListItemText primary="Notifications" />
+    </MenuItem>
   );
-};
+});
+
+NotificationsMenuItem.displayName = 'NotificationsMenuItem';
+
+const UserCommentsMenuItem = forwardRef<HTMLAnchorElement, MenuItemProps>(({ onClose }, ref) => (
+  <MenuItem ref={ref} component={RouterLink} focusColor={false} to="/mes-commentaires" onClick={onClose}>
+    <ListItemIcon>
+      <CommentIcon fontSize="small" />
+    </ListItemIcon>
+    <ListItemText primary="Mes commentaires" />
+  </MenuItem>
+));
+
+UserCommentsMenuItem.displayName = 'UserCommentsMenuItem';
+
+const ModerationMenuItem = forwardRef<HTMLAnchorElement, MenuItemProps>(({ onClose }, ref) => (
+  <MenuItem ref={ref} component={RouterLink} focusColor={false} to="/moderation" onClick={onClose}>
+    <ListItemIcon>
+      <ModerationIcon fontSize="small" />
+    </ListItemIcon>
+    <ListItemText primary="Modération" />
+  </MenuItem>
+));
+
+ModerationMenuItem.displayName = 'ModerationMenuItem';
+
+const LogoutMenuItem = forwardRef<HTMLLIElement, MenuItemProps>(({ onClose }, ref) => {
+  const logout = useLogout(onClose);
+  const classes = useStyles();
+
+  return (
+    <MenuItem ref={ref} onClick={() => logout()} className={classes.logout}>
+      <ListItemIcon>
+        <SignoutIcon fontSize="small" />
+      </ListItemIcon>
+      <ListItemText primary="Déconnexion" />
+    </MenuItem>
+  );
+});
+
+LogoutMenuItem.displayName = 'LogoutMenuItem';
 
 type AuthenticatedUserMenuProps = {
-  user: User | null;
+  user: User;
 };
 
 const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const userMenuAnchor = useRef<HTMLDivElement>(null);
   const { count: notificationsCount } = useNotifications();
+  const userMenuAnchor = useRef<HTMLDivElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const classes = useStyles();
+
+  const handleClose = () => setMenuOpen(false);
 
   return (
     <>
-
       <Grid container justify="flex-end">
         <Grid item>
           <Grid
@@ -157,23 +134,27 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
             className={classes.userMenuButton}
             onClick={() => setMenuOpen(true)}
           >
-
-            <Badge badgeContent={notificationsCount} color="primary">
+            <Badge badgeContent={notificationsCount || 0} color="primary">
               <UserAvatar user={user} />
             </Badge>
-
-            <Typography className={classes.nick}>{ user.nick }</Typography>
-
+            <Typography className={classes.nick}>{user.nick}</Typography>
           </Grid>
         </Grid>
       </Grid>
 
-      <UserMenu
+      <Menu
         open={menuOpen}
         anchorEl={userMenuAnchor.current}
-        onClose={() => setMenuOpen(false)}
-      />
-
+        getContentAnchorEl={null}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        onClose={handleClose}
+      >
+        <NotificationsMenuItem onClose={handleClose} />
+        <UserCommentsMenuItem onClose={handleClose} />
+        {user.roles.includes(Role.MODERATOR) && <ModerationMenuItem onClose={handleClose} />}
+        <LogoutMenuItem onClose={handleClose} />
+      </Menu>
     </>
   );
 };

@@ -1,16 +1,13 @@
-import { Comment, parseComment } from './Comment';
+import { Type } from 'class-transformer';
 
-export type CommentSubscription = {
+import { Comment } from './Comment';
+
+export class CommentSubscription {
   id: number;
-  created: Date;
-  comment: Comment;
-};
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseCommentSubscription = (data: any): CommentSubscription => {
-  return {
-    ...data,
-    date: new Date(data.date),
-    comment: parseComment(data.comment),
-  };
-};
+  @Type(() => Date)
+  created: Date;
+
+  @Type(() => Comment)
+  comment: Comment;
+}

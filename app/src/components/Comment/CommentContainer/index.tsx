@@ -1,6 +1,8 @@
-import React, { useCallback, useReducer, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 
+import AsyncContent from 'src/components/AsyncContent';
 import { CommentEditionForm } from 'src/components/CommentForm';
+import usePrevious from 'src/hooks/use-previous';
 import { Comment } from 'src/types/Comment';
 
 import CommentComponent from '../CommentComponent';
@@ -81,6 +83,8 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalCo
     comment,
   );
 
+  const prevReplies = usePrevious(replies);
+
   const report = useReport(comment);
   const viewHistory = useViewHistory(comment);
   const toggleSubscription = useSubscription(comment, setComment);
@@ -89,10 +93,16 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalCo
   const toggleReplies = useCallback(() => {
     if (!replies) {
       fetchMoreReplies();
+    } else {
+      toggleDisplayReplies();
     }
-
-    toggleDisplayReplies();
   }, [replies, fetchMoreReplies, toggleDisplayReplies]);
+
+  useEffect(() => {
+    if (prevReplies === undefined && replies !== undefined) {
+      toggleDisplayReplies();
+    }
+  }, [prevReplies, replies, toggleDisplayReplies]);
 
   const onReply = () => {
     if (!displayReplies) {
@@ -134,13 +144,14 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalCo
         comment={comment}
         displayReplies={displayReplies}
         displayReplyForm={displayReplyForm}
-        onSetReaction={can('setReaction') && setReaction}
+        loadingReplies={loadingReplies}
+        onSetReaction={can('setReaction') ? setReaction : undefined}
         onToggleReplies={can('toggleReplies') && !displayReplyForm ? toggleReplies : undefined}
-        onToggleSubscription={can('toggleSubscription') && toggleSubscription}
-        onEdit={can('edit') && openEditionForm}
-        onReply={can('reply') && onReply}
-        onViewHistory={can('viewHistory') && viewHistory}
-        onReport={can('report') && report}
+        onToggleSubscription={can('toggleSubscription') ? toggleSubscription : undefined}
+        onEdit={can('edit') ? openEditionForm : undefined}
+        onReply={can('reply') ? onReply : undefined}
+        onViewHistory={can('viewHistory') ? viewHistory : undefined}
+        onReport={can('report') ? report : undefined}
       />
     );
   };
@@ -156,13 +167,14 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalCo
         onCreated={onReplyCreated}
       />
 
-      <Replies
-        replies={replies}
-        displayReplies={displayReplies}
-        loading={loadingReplies}
-        remainingRepliesCount={remainingRepliesCount}
-        fetchMoreReplies={fetchMoreReplies}
-      />
+      {replies && remainingRepliesCount !== undefined && (
+        <Replies
+          replies={replies}
+          displayReplies={displayReplies}
+          remainingRepliesCount={remainingRepliesCount}
+          fetchMoreReplies={fetchMoreReplies}
+        />
+      )}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import useEditableDataset from 'src/hooks/useEditableDataset';
-import { parseComment } from 'src/types/Comment';
+import { Comment } from 'src/types/Comment';
 import { CommentsArea } from 'src/types/CommentsArea';
 
 import useUpdateEffect from '../../hooks/use-update-effect';
@@ -24,7 +24,7 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ commentsA
     { sort, setSort },
     { page, setPage },
     fetchComments,
-  ] = useAxiosPaginated(commentsUrl, parseComment, { manual: true });
+  ] = useAxiosPaginated(commentsUrl, { manual: true }, Comment);
 
   useEffect(() => {
     if (commentsArea) {

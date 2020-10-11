@@ -1,49 +1,60 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
 import useAxios from 'src/hooks/use-axios';
-import { parseNotificationsCount } from 'src/types/Notification';
+import { NotificationsCount } from 'src/types/Notification';
+import env from 'src/utils/env';
 
 import { useCurrentUser } from './UserContext';
+
+// every minute
+const POLL_INTERVAL = 60 * 1000;
 
 export type NotificationsContextType = {
   count: number;
   refetch: () => void;
 };
 
-export const NotificationsContext = createContext<NotificationsContextType | null>(null);
+export const NotificationsContext = createContext<NotificationsContextType>({ count: NaN, refetch: () => {} });
 
 export const useNotifications = () => useContext(NotificationsContext);
 
-export const NotificationsProvider: React.FC = ({ children }) => {
+const useFetchNotifications = () => {
   const user = useCurrentUser();
-
-  const [{ data }, refetch] = useAxios('/api/notification/me/count', parseNotificationsCount, { manual: true });
-  const [count, setCount] = useState();
+  const [result, refetch] = useAxios('/api/notification/me/count', { manual: true }, NotificationsCount);
 
   useEffect(() => {
-    if (user)
+    if (user) {
       refetch();
+    }
   }, [user, refetch]);
 
-  useEffect(() => {
-    if (typeof data !== 'undefined')
-      setCount(data);
-  }, [data]);
+  return [result, refetch] as const;
+};
+
+const useLongPolling = (fetch: () => void, ms: number) => {
+  const user = useCurrentUser();
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (user)
-        refetch();
-    }, 60 * 1000);
+      if (fetch) {
+        fetch();
+      }
+    }, ms);
 
     return () => clearInterval(interval);
-  }, [user, refetch]);
+  }, [user, fetch, ms]);
+};
 
-  const value = { count, refetch };
+export const NotificationsProvider: React.FC = ({ children }) => {
+  const [{ data }, refetch] = useFetchNotifications();
 
-  return (
-    <NotificationsContext.Provider value={value}>
-      { children }
-    </NotificationsContext.Provider>
-  );
+  // resolved to a constant value after webpack's transform
+  if (env.NODE_ENV === 'development') {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useLongPolling(() => void refetch(), POLL_INTERVAL);
+  }
+
+  const value = { count: data?.count || NaN, refetch };
+
+  return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;
 };

@@ -1,9 +1,10 @@
 import React from 'react';
 
-import AsyncContent from '../../../components/AsyncContent';
-import Fallback from '../../../components/Fallback';
-import useAxiosPaginated from '../../../hooks/use-axios-paginated';
-import { parseReportedComment } from '../../../types/Report';
+import AsyncContent from 'src/components/AsyncContent';
+import Fallback from 'src/components/Fallback';
+import useAxiosPaginated from 'src/hooks/use-axios-paginated';
+import { ReportedComment as ReportedCommentType } from 'src/types/Report';
+
 import Section from '../Section';
 
 import ReportedComment from './ReportedComment';
@@ -11,7 +12,8 @@ import ReportedComment from './ReportedComment';
 const ReportedComments: React.FC = () => {
   const [{ data: reportedComments, loading, error }] = useAxiosPaginated(
     '/api/moderation/reports',
-    parseReportedComment,
+    undefined,
+    ReportedCommentType,
   );
 
   if (error) {

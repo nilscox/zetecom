@@ -23,6 +23,7 @@
     "@types/diff": "^4.0.2",
     "axios": "^0.19.2",
     "axios-hooks": "1.10.0",
+    "class-transformer": "^0.3.1",
     "clsx": "^1.1.0",
     "date-fns": "^2.16.1",
     "dayjs": "^1.9.1",
@@ -35,11 +36,14 @@
     "react-router-dom": "^5.2.0",
     "react-toastify": "^6.0.5",
     "react-use-form-state": "^0.13.1",
+    "reflect-metadata": "^0.1.13",
     "showdown": "^1.9.0",
     "use-debounce": "^3.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
     "@babel/plugin-transform-runtime": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",

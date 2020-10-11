@@ -1,5 +1,7 @@
-import { CommentsArea, parseCommentsArea } from './CommentsArea';
-import { parseUser, UserLight } from './User';
+import { Transform, Type } from 'class-transformer';
+
+import { CommentsArea } from './CommentsArea';
+import { UserLight } from './User';
 
 export enum ReactionType {
   APPROVE = 'approve',
@@ -13,44 +15,39 @@ export type ReactionsCount = {
   [ReactionType.SKEPTIC]: number;
 };
 
-export type Message = {
+export class Message {
   date: Date;
-  text: string;
-};
 
-export type Comment = {
+  text: string;
+}
+
+export class Comment {
   id: number;
+
   quote: string | null;
+
   text: string;
+
+  @Type(() => Date)
   date: Date;
+
+  @Transform(value => value !== false && new Date(value))
   edited: false | Date;
+
   repliesCount: number;
+
+  @Type(() => UserLight)
   author: UserLight;
-  reactionsCount?: ReactionsCount;
-  userReaction?: ReactionType;
+
+  // TODO: the api allows this to be undefined: why?
+  reactionsCount: ReactionsCount;
+
+  userReaction?: ReactionType | null;
+
   subscribed?: boolean;
+
+  @Type(() => CommentsArea)
   commentsArea?: CommentsArea;
+
   score: number;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseMessage = (data: any): Message => {
-  return {
-    ...data,
-    date: new Date(data.date),
-  } as Message;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseComment = (data: any): Comment => {
-  // code smell (as any)
-  return {
-    ...data,
-    date: new Date(data.date),
-    edited: !data.edited ? false : new Date(data.edited),
-    author: data.author ? parseUser(data.author) : undefined,
-    reactionsCount: data.reactionsCount ? data.reactionsCount : null,
-    userReaction: data.userReaction ? data.userReaction : null,
-    commentsArea: data.commentsArea ? parseCommentsArea(data.commentsArea) : undefined,
-  } as Comment;
-};
+}

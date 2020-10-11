@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from 'axios';
 
 import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
-import { parseUser, UserLight } from 'src/types/User';
+import { User, UserLight } from 'src/types/User';
 
 import ImageUpload from '../ImageUpload';
 
@@ -39,30 +39,28 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ small = false, editable = false
     headers: { 'Content-Type': 'multipart/form-data' },
   };
 
-  const [{
-    data: updatedUser,
-    loading,
-    error,
-    status,
-  }, upload] = useAxios(opts, parseUser, { manual: true });
+  const [{ data: updatedUser, loading, error, status }, upload] = useAxios(opts, { manual: true }, User);
 
   if (error) {
     throw error;
   }
 
   useEffect(() => {
-    if (status(200)) {
+    if (status(200) && updatedUser) {
       setUser(updatedUser);
     }
   }, [status, setUser, updatedUser]);
 
-  const onUpload = useCallback((file: File) => {
-    const formData = new FormData();
+  const onUpload = useCallback(
+    (file: File) => {
+      const formData = new FormData();
 
-    formData.append('image', file);
+      formData.append('image', file);
 
-    upload({ data: formData });
-  }, [upload]);
+      upload({ data: formData });
+    },
+    [upload],
+  );
 
   const avatarImg = <CircleAvatarIwage loading={loading} small={small} src={getAvatarUrl(user)} />;
 

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 import { RouteComponentProps } from 'react-router';
@@ -10,8 +10,8 @@ import { WebsiteLink } from 'src/components/Link';
 import Loader from 'src/components/Loader';
 import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
-import { parseComment } from 'src/types/Comment';
-import { trackReportComment } from 'src/utils/track';
+import useReportComment from 'src/pages/integration/popups/ReportPopup/useReportComment';
+import { Comment } from 'src/types/Comment';
 
 import Indented from '../../../../components/Comment/CommentContainer/Indented';
 
@@ -49,87 +49,50 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
   useTrackPageview();
 
   const [message, setMessage] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [alreadyReported, setArleadyReported] = useState(false);
   const classes = useStyles();
 
-  const [{ data: comment, loading, error }] = useAxios('/api/comment/' + match.params.id, parseComment);
-
-  const requestConfig = { method: 'POST', validateStatus: (status: number) => [201, 400].includes(status) } as const;
-  const [{
-    loading: reportLoading,
-    error: reportError,
-    raw: rawReportData,
-    status,
-  }, report] = useAxios(requestConfig, () => undefined, { manual: true });
+  const [{ data: comment, loading, error }] = useAxios('/api/comment/' + match.params.id, undefined, Comment);
 
   if (error) {
     throw error;
   }
 
-  if (reportError) {
-    throw reportError;
-  }
+  const [{ reported, alreadyReported }, { loading: reportLoading }, report] = useReportComment(() =>
+    setTimeout(window.close, POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT),
+  );
 
-  useEffect(() => {
-    if (status(400)) {
-      if (rawReportData && rawReportData.message === 'COMMENT_ALREADY_REPORTED') {
-        setArleadyReported(true);
-      } else {
-        throw error;
-      }
-    }
-  }, [status, setArleadyReported, error, rawReportData]);
-
-  useEffect(() => {
-    if (status(201)) {
-      trackReportComment();
-      setSuccess(true);
-      setTimeout(window.close, POPUP_CLOSE_AFTER_SUCCESS_TIMEOUT);
-    }
-  }, [status, setSuccess]);
-
-  const onSubmit = () => {
-    if (comment) {
-      report({
-        url: `/api/comment/${comment.id}/report`,
-        data: {
-          commentId: comment.id,
-          message: message !== '' ? message : undefined,
-        },
-      });
-    }
-  };
-
-  if (loading) {
+  // TODO: use <AsyncContent />
+  if (loading || !comment) {
     return <Loader size="big" />;
   }
 
-  if (success) {
+  if (reported) {
     return <ReportSuccess />;
   }
 
+  const onSubmit = () => {
+    if (comment) {
+      report(comment, message || undefined);
+    }
+  };
+
   return (
     <div className={classes.container}>
-
-      <Typography variant="h1">
-        Signaler le commentaire de {comment.author.nick}
-      </Typography>
+      <Typography variant="h1">Signaler le commentaire de {comment.author.nick}</Typography>
 
       <div className={classes.warningMessage}>
-        <Typography className={classes.textWarning}>
-            Vous êtes sur le point de signaler un commentaire.
-        </Typography>
+        <Typography className={classes.textWarning}>Vous êtes sur le point de signaler un commentaire.</Typography>
       </div>
 
       <Typography className={classes.warningMessage}>
-        {/* eslint-disable-next-line max-len */}
-        Il est important de signaler les commentaires qui dérogent à <WebsiteLink to="/charte.html">la charte</WebsiteLink> : cela en informera les modérateurs qui pourront entreprendre une action en fonction de la situation.
+        Il est important de signaler les commentaires qui dérogent à{' '}
+        <WebsiteLink to="/charte.html">la charte</WebsiteLink> : cela en informera les modérateurs qui pourront
+        entreprendre une action en fonction de la situation.
       </Typography>
 
       <Typography className={classes.warningMessage}>
-        {/* eslint-disable-next-line max-len */}
-        Cependant, être en désaccord avec un message n'est pas un motif valable pour la signaler, et abuser de la fonction de signalement de manière répété et sans raison valable peut entrainer une suspension de votre compte.
+        Cependant, être en désaccord avec un message n'est pas un motif valable pour la signaler, et abuser de la
+        fonction de signalement de manière répété et sans raison valable peut entrainer une suspension de votre compte.
       </Typography>
 
       <Indented className={classes.commentBody}>
@@ -146,16 +109,15 @@ const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
         onChange={e => setMessage(e.currentTarget.value)}
       />
 
-      { alreadyReported && (
+      {alreadyReported && (
         <Grid container justify="center" className={classes.alreadyReported}>
           <Typography color="error">Vous avez déjà signalé ce commentaire</Typography>
         </Grid>
-      ) }
+      )}
 
       <Grid container justify="center" className={classes.reportButtonContainer}>
         <ReportButton loading={reportLoading} onClick={onSubmit} />
       </Grid>
-
     </div>
   );
 };

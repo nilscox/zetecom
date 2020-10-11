@@ -1,9 +1,10 @@
 import React from 'react';
 
+import { CommentsAreaRequest } from 'src/types/CommentsArea';
+
 import AsyncContent from '../../../components/AsyncContent';
 import Fallback from '../../../components/Fallback';
 import useAxiosPaginated from '../../../hooks/use-axios-paginated';
-import { parseOpenCommentsAreaRequest } from '../../../types/CommentsArea';
 import Section from '../Section';
 
 import OpenCommentsAreaRequest from './OpenCommentsAreaRequest';
@@ -11,7 +12,8 @@ import OpenCommentsAreaRequest from './OpenCommentsAreaRequest';
 const OpenCommentsAreaRequests: React.FC = () => {
   const [{ loading, data: pendingRequests, error }] = useAxiosPaginated(
     '/api/comments-area-request',
-    parseOpenCommentsAreaRequest,
+    undefined,
+    CommentsAreaRequest,
   );
 
   if (error) {

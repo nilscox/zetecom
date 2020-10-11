@@ -6,14 +6,14 @@ import { toast } from 'react-toastify';
 
 import useAxios from 'src/hooks/use-axios';
 import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
-import { parseUser, User } from 'src/types/User';
+import { User } from 'src/types/User';
 import { trackSignup } from 'src/utils/track';
 
 import { FormFields } from '../types';
 
 const useSignup = (onAuthenticated: (user: User) => void) => {
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/signup' };
-  const [{ data: user, loading, error, status }, signup] = useAxios(opts, parseUser, { manual: true });
+  const [{ data: user, loading, error, status }, signup] = useAxios(opts, { manual: true }, User);
   const location = useLocation();
 
   useEffect(() => {
@@ -33,10 +33,7 @@ const useSignup = (onAuthenticated: (user: User) => void) => {
     signup({ data: { email, password, nick } });
   };
 
-  return [
-    handleSignup,
-    { loading, error },
-  ] as const;
+  return [handleSignup, { loading, error }] as const;
 };
 
 export default useSignup;
@@ -66,7 +63,7 @@ export const signupErrorsHandlers: FormErrorsHandlers<AxiosError, FormFields> = 
       }
 
       if (data.email?.isEmail) {
-        return 'Format d\'adresse email invalide.';
+        return "Format d'adresse email invalide.";
       }
 
       if (data.message === 'EMAIL_ALREADY_EXISTS') {
@@ -87,7 +84,7 @@ export const signupErrorsHandlers: FormErrorsHandlers<AxiosError, FormFields> = 
       }
 
       if (data.message === 'PASSWORD_UNSECURE') {
-        return 'Ce mot de passe n\'est pas assez sécurisé.';
+        return "Ce mot de passe n'est pas assez sécurisé.";
       }
     },
   },

@@ -15,8 +15,9 @@ type UserMenuProps = {
 };
 
 const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
-  if (user)
+  if (user) {
     return <AuthenticatedUserMenu user={user} />;
+  }
 
   return (
     <RouterLink focusColor={false} to="/connexion">

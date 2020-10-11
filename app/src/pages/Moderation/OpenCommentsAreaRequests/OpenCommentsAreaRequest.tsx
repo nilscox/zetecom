@@ -63,10 +63,13 @@ const useCreateCommentsAreaForm = (identifier: string) => {
     ...getDefaultValues(identifier),
   });
 
-  const [{ loading, status }, create] = useAxios({
-    method: 'POST',
-    url: '/api/comments-area',
-  }, undefined, { manual: true });
+  const [{ loading, status }, create] = useAxios(
+    {
+      method: 'POST',
+      url: '/api/comments-area',
+    },
+    { manual: true },
+  );
 
   const handleCreate = () => {
     create({
@@ -93,52 +96,44 @@ const OpenCommentsAreaRequest: React.FC<{ requestId: number; identifier: string 
   const [processed, setProcessed] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
-  const { form: { text, date }, loading, created, handleCreate } = useCreateCommentsAreaForm(identifier);
+  const {
+    form: { text, date },
+    loading,
+    created,
+    handleCreate,
+  } = useCreateCommentsAreaForm(identifier);
   const defaultValues = getDefaultValues(identifier);
 
   const classes = useStyles({ processed });
 
   useEffect(() => {
-    if (created)
+    if (created) {
       setProcessed(true);
+    }
   }, [created]);
 
   useEffect(() => {
-    if (processed)
+    if (processed) {
       setExpanded(false);
+    }
   }, [processed]);
 
   return (
-    <Accordion
-      variant="outlined"
-      expanded={expanded}
-      onChange={(_event, isExpanded) => setExpanded(isExpanded)}
-    >
-      <AccordionSummary
-        expandIcon={<ExpandMore />}
-        className={classes.accordionSummary}
-      >
+    <Accordion variant="outlined" expanded={expanded} onChange={(_event, isExpanded) => setExpanded(isExpanded)}>
+      <AccordionSummary expandIcon={<ExpandMore />} className={classes.accordionSummary}>
         <Typography className={classes.identifierLabel}>{identifier}</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Grid container dir="column">
-
           <Grid container direction="row">
             <Grid item style={{ flex: 2, marginRight: 6 }}>
-              <TextField
-                fullWidth
-                disabled
-                className={classes.field}
-                label="identifiant"
-                value={identifier}
-              />
+              <TextField fullWidth disabled className={classes.field} label="identifiant" value={identifier} />
             </Grid>
 
             <Grid item style={{ flex: 1, marginLeft: 6 }}>
               <TextField
                 fullWidth
                 disabled={loading}
-                type="date"
                 className={classes.field}
                 label="date de publication"
                 InputLabelProps={{ shrink: true }}
@@ -176,7 +171,7 @@ const OpenCommentsAreaRequest: React.FC<{ requestId: number; identifier: string 
             label="URL de l'information"
             InputProps={{
               endAdornment: (
-                <a href={defaultValues.informationUrl} style={{ color: 'inherit' }}>
+                <a href={defaultValues?.informationUrl} style={{ color: 'inherit' }}>
                   <Launch />
                 </a>
               ),
@@ -200,7 +195,6 @@ const OpenCommentsAreaRequest: React.FC<{ requestId: number; identifier: string 
               onRejected={() => setProcessed(true)}
             />
           </Grid>
-
         </Grid>
       </AccordionDetails>
     </Accordion>
