@@ -102,8 +102,12 @@ Cypress.Commands.add('countComments', (expected) => cy.getComments().should('hav
 
 Cypress.Commands.add('zetecom', () => cy.window().then(win => win.zetecom));
 
-Cypress.Commands.add('didTrack', (event) => {
+Cypress.Commands.add('fixCI', () => {
   cy.wait(500);
+});
+
+Cypress.Commands.add('didTrack', (event) => {
+  cy.fixCI();
 
   return cy.zetecom()
     .then(zc => zc.mockGa.events)
@@ -126,7 +130,7 @@ Cypress.Commands.add('didTrack', (event) => {
 });
 
 Cypress.Commands.add('websiteScreenshot', (name, scroll = 1) => {
-  cy.wait(500);
+  cy.fixCI();
   cy.scrollTo(0, scroll);
   cy.screenshot(name, {
     clip: {

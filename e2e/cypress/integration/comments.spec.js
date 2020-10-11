@@ -37,8 +37,6 @@ const commentsAreaPagination = {
   ],
 };
 
-const debugWait = 500;
-
 describe('comments', () => {
 
   describe('view comments', () => {
@@ -99,7 +97,7 @@ describe('comments', () => {
       // SORT DESC
       cy.get('[title=Tri]').click();
       cy.contains('Les plus anciens en premier').click();
-      cy.wait(debugWait);
+      cy.fixCI();
 
       cy.getCommentAt(0).should('contain', 'comment 1');
       cy.getCommentAt(1).should('contain', 'comment 2');
@@ -109,7 +107,7 @@ describe('comments', () => {
       // SORT RELEVANCE
       cy.get('[title=Tri]').click();
       cy.contains('Les plus pertinents en premier').click();
-      cy.wait(debugWait);
+      cy.fixCI();
 
       cy.getCommentAt(0).should('contain', 'comment 2');
       cy.getCommentAt(1).should('contain', 'comment 1');
@@ -121,7 +119,7 @@ describe('comments', () => {
       const search = (query) => {
         cy.get('input[name="search"]').clear();
         cy.get('input[name="search"]').type(query);
-        cy.wait(debugWait);
+        cy.fixCI();
       };
 
       cy.visitIntegration('test:news3');
