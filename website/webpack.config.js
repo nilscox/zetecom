@@ -1,17 +1,13 @@
-import path from 'path';
-import webpack, { EnvironmentPlugin } from 'webpack';
-import {} from 'webpack-dev-server';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-// @ts-ignore
-import StaticSiteGeneratorPlugin from 'static-site-generator-webpack-plugin';
-// @ts-ignore
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-// @ts-ignore
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-// @ts-ignore
-import CompressionWebpackPlugin from 'compression-webpack-plugin';
+const path = require('path');
+const { EnvironmentPlugin } = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const { merge } = require('webpack-merge');
 
 const {
   NODE_ENV = 'development',
@@ -22,7 +18,7 @@ const {
 const dev = NODE_ENV === 'development';
 const prod = NODE_ENV === 'production';
 
-let config: webpack.Configuration = {
+const commonConfig = {
 
   mode: prod ? 'production' : 'development',
   devtool: dev ? 'source-map' : false,
@@ -91,92 +87,70 @@ let config: webpack.Configuration = {
 
 };
 
-if (dev) {
-  config = {
-    ...config,
+const devConfig = {
+  output: {
+    publicPath: '/',
+  },
 
-    output: {
-      ...config.output,
-      publicPath: '/',
-    },
-
-    // mini-css-extract-plugin is not yet compatible with webpack 5
-    // https://github.com/webpack/webpack-dev-server/issues/1485
-    module: {
-      ...config.module,
-      rules: [
-        ...config.module?.rules,
-
-        {
-          test: /\.s?css$/,
-          use: [
-            'style-loader',
-            'css-loader',
-            'sass-loader',
-          ],
-        },
-
-      ],
-    },
-
-    plugins: [
-      ...config.plugins,
-      new HtmlWebpackPlugin(),
-      new ReactRefreshWebpackPlugin(),
-    ],
-
-    devServer: {
-      host: HOST,
-      port: Number(PORT),
-      hot: true,
-      historyApiFallback: {
-        rewrites: [
-          { from: /\.html$/, to: '/index.html' },
+  // mini-css-extract-plugin is not yet compatible with webpack 5
+  // https://github.com/webpack/webpack-dev-server/issues/1485
+  module: {
+    rules: [
+      {
+        test: /\.s?css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
         ],
       },
-    },
+    ],
+  },
 
-  };
-}
+  plugins: [
+    new HtmlWebpackPlugin(),
+    new ReactRefreshWebpackPlugin(),
+  ],
 
-if (prod) {
-  config = {
-    ...config,
-
-    output: {
-      ...config.output,
-      libraryTarget: 'umd',
-    },
-
-    module: {
-      ...config.module,
-      rules: [
-        ...config.module?.rules,
-
-        {
-          test: /\.s?css$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-            'sass-loader',
-          ],
-        },
-
+  devServer: {
+    host: HOST,
+    port: Number(PORT),
+    hot: true,
+    historyApiFallback: {
+      rewrites: [
+        { from: /\.html$/, to: '/index.html' },
       ],
     },
+  },
+};
 
-    plugins: [
-      ...config.plugins,
-      new CompressionWebpackPlugin(),
-      new MiniCssExtractPlugin(),
-      new StaticSiteGeneratorPlugin({
-        globals: {
-          self: {},
-        },
-      }),
+const prodConfig = {
+  output: {
+    libraryTarget: 'umd',
+  },
+
+  module: {
+    rules: [
+      {
+        test: /\.s?css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader',
+        ],
+      },
     ],
+  },
 
-  };
-}
+  plugins: [
+    new CompressionWebpackPlugin(),
+    new MiniCssExtractPlugin(),
+    new StaticSiteGeneratorPlugin({
+      globals: {
+        self: {},
+      },
+    }),
+  ],
+};
 
-export default config;
+module.exports = merge(commonConfig, dev && devConfig, prod && prodConfig);
