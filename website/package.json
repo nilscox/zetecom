@@ -12,9 +12,9 @@
     "deploy": "../scripts/deploy-website.sh"
   },
   "dependencies": {
-    "@openfonts/noticia-text_all": "^1.44.2",
-    "@openfonts/nunito-sans_all": "^1.44.1",
     "clsx": "^1.1.1",
+    "fontsource-montserrat": "^3.0.9",
+    "fontsource-noticia-text": "^3.0.9",
     "history": "^5.0.0",
     "query-string": "^6.13.1",
     "react": "^16.13.1",

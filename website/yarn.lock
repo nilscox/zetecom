@@ -1231,16 +1231,6 @@
   dependencies:
     mkdirp "^1.0.4"
 
-"@openfonts/noticia-text_all@^1.44.2":
-  version "1.44.2"
-  resolved "https://registry.yarnpkg.com/@openfonts/noticia-text_all/-/noticia-text_all-1.44.2.tgz#1f842458ee69366e69272ca36fb9af5c910f8b1f"
-  integrity sha512-0VZyLAQwlHKovD6GdVspz59fhvMzBUYaHGrn6ljUsO1oKKKROZQLY/c/l+U44BbflU0mzpJkkB8qyqrEuafHUA==
-
-"@openfonts/nunito-sans_all@^1.44.1":
-  version "1.44.1"
-  resolved "https://registry.yarnpkg.com/@openfonts/nunito-sans_all/-/nunito-sans_all-1.44.1.tgz#5f0eebb605e532c9c45fbd1bc4ec6af73dbadcd0"
-  integrity sha512-aBhW5rtIKcdFiuPozzFlERB//m+IwgiTQPTamJ+A24x0uAN+P/ZRl5CRo89AGdu5V+f3v5jWLHk9U7shRC1PAw==
-
 "@pmmmwh/react-refresh-webpack-plugin@^0.4.2":
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.4.2.tgz#1f9741e0bde9790a0e13272082ed7272a083620d"
@@ -3846,6 +3836,16 @@ follow-redirects@^1.0.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
   integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
+
+fontsource-montserrat@^3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/fontsource-montserrat/-/fontsource-montserrat-3.0.9.tgz#ff614725c420839c4aefbca6f2b49c6224050991"
+  integrity sha512-kSE4GwWoEKJlIp0UyuoYtBvjKv5kwOTK7EvCwdQ7ukvKvgIK1LR5+GpZC5c/juonasNtFTKav67Zd7/C7m+a5w==
+
+fontsource-noticia-text@^3.0.9:
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/fontsource-noticia-text/-/fontsource-noticia-text-3.0.9.tgz#1ad91d705ac49838ebe547f5e77852a1d8bf2683"
+  integrity sha512-jkI4QHxcFUc1vyOSD0zx49dIoB7sQA1b5wLhnsbtr07ne8f06jBPKSRdUcHmUDDEplRse+ao0zv5+V+s9JKaUQ==
 
 for-in@^1.0.2:
   version "1.0.2"

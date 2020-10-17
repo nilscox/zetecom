@@ -35,7 +35,7 @@ const Home: React.FC = () => (
   <>
 
     <div className="heading">
-      <Link href="/"><em>Zétécom</em></Link>, c'est un <strong>espace d'échange collaboratif</strong>, pour discuter de l'information diffusée par les médias sur internet.
+      <Link href="/"><em>Zétécom</em></Link>, ce sont des <strong>espaces d'échange collaboratifs</strong>, pour discuter de l'information diffusée par les médias sur internet, tout en cultivant son esprit critique.
     </div>
 
     <Title id="Les objectifs">Les objectifs ?</Title>
@@ -43,15 +43,15 @@ const Home: React.FC = () => (
     <div className="objectives">
 
       <Card text="Réunir une communauté de personnes pour réfléchir ensemble" image={imageCommunity}>
-        Parce que les informations telles que présentées par les médias méritent d'être creusées
+        Parce qu'il est nécessaire de construire une vrai réflexion pour mieux comprendre l'information
       </Card>
 
       <Card text="Lutter contre la propagation des fausses informations" image={imageFakeNews}>
-        Parce que volontairement ou non, certaines informations ne reflètent pas la réalité
+        Parce que les faits telles que présentés par les médias ne reflètent pas toujours la réalité
       </Card>
 
       <Card text="Offrir une place aux débats dans un climat de confiance sur la toile" image={imageTrust}>
-        Parce qu'il n'est pas toujours facile de communiquer dans un contexte coopératif à travers un écran
+        Parce qu'il n'est pas évident de communiquer dans un contexte coopératif à travers un écran
       </Card>
 
     </div>
@@ -83,7 +83,7 @@ const Home: React.FC = () => (
 
       <div className="integration-text">
         <div>
-          Une extension permet à votre navigateur d'<strong>intégrer</strong> des zones de commentaires Zétécom sur les sites que vous visitez.
+          Une extension permet à votre navigateur d'<strong>intégrer</strong> les zones de commentaires Zétécom sur les sites que vous visitez.
         </div>
         <div>
           Ces commentaires doivent respecter <Link href="/charte.html">une charte</Link>, construite dans le but de favoriser des échanges argumentatifs et respectueux.
@@ -127,12 +127,12 @@ const Home: React.FC = () => (
 
     <p>
       Les espaces de commentaires Zétécom sont mis à disposition de tous, publiquement pour lire les messages, et après inscription pour participer aux échanges.
-      Il n'est pas nécessaire de connaître par cœur les outils de la pensée critique, les biais ou la méthode scientifique pour s'inscrire.
+      Il n'est pas nécessaire de connaître par cœur les outils de la pensée critique, les biais cognitifs ou la méthode scientifique pour s'inscrire.
       Le but, c'est de rassembler des personnes qui « jouent le jeu », qui cherchent à <em>partager leurs opinions</em> et à <em>comprendre celles des autres</em>, avec bienveillance et humilité.
     </p>
 
     <p>
-      Ah, un dernier mot : le projet est actuellement (août 2020) en phase de test, et il n'y a pas encore de zones de commentaires ouvertes sur l'extension.
+      Ah, un dernier mot : le projet est actuellement (octobre 2020) en phase de test, et il n'y a pas encore de zones de commentaires ouvertes sur l'extension.
       Cependant, si vous appréciez la démarche et que vous avez envie de participer au lancement du projet, la page <strong><Link href="/beta.html">bêta</Link></strong> donne tout ce qu'il faut savoir pour devenir bêta-testeur !
       Vos retours nous permettrons de mieux comprendre vos attentes, et donc de mieux répondre à vos besoins.<br />
       À bientôt !

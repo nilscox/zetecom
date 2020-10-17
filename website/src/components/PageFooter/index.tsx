@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Link from 'src/components/Link';
-import { useEnvironment } from 'src/utils/env';
+import { useEnvironment, withEnv } from 'src/utils/env';
 
 import logoFacebook from './facebook-logo.png';
 import logoTwitter from './twitter-logo.png';
@@ -9,24 +9,24 @@ import logoTwitter from './twitter-logo.png';
 import { trackOpenFeatureUpvoteLink, trackOpenRepositoryLink } from '../../utils/track';
 import './PageFooter.scss';
 
-const PageFooter: React.FC = () => (
+const PageFooter: React.FC = withEnv(({ FACEBOOK_PAGE, TWITTER_ACCOUNT }) => (
   <div className="page-footer">
 
     <div className="footer-item social">
 
       Retrouvez-nous sur les réseaux !
 
-      {useEnvironment('FACEBOOK_PAGE') && (
-        <Link openInNewTab className="social-item" href={`https://facebook.com/${useEnvironment('FACEBOOK_PAGE')}`}>
-          <img src={logoFacebook} />
-          {useEnvironment('FACEBOOK_PAGE')}
+      {TWITTER_ACCOUNT && (
+        <Link openInNewTab className="social-item" href={`https://twitter.com/${TWITTER_ACCOUNT}`}>
+          <img src={logoTwitter} />
+          @{TWITTER_ACCOUNT}
         </Link>
       )}
 
-      {useEnvironment('TWITTER_ACCOUNT') && (
-        <Link openInNewTab className="social-item" href={`https://twitter.com/${useEnvironment('TWITTER_ACCOUNT')}`}>
-          <img src={logoTwitter} />
-          @{useEnvironment('TWITTER_ACCOUNT')}
+      {FACEBOOK_PAGE && (
+        <Link openInNewTab className="social-item" href={`https://facebook.com/${FACEBOOK_PAGE}`}>
+          <img src={logoFacebook} />
+          {FACEBOOK_PAGE}
         </Link>
       )}
 
@@ -42,10 +42,12 @@ const PageFooter: React.FC = () => (
     </div>
 
     <div className="footer-item join-us">
-      Vous souhaitez participer à la conception de <em>Zétécom</em> ? L'équipe qui met en place le projet est <Link href="/faq.html#contact">à l'écoute</Link> ! Tant sur les fonctionnalités que sur la forme, n'hésitez pas à partager vos avis et vos idées sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>featureupvote.com</Link> !
+      Vous souhaitez participer à la conception de <em>Zétécom</em> ?
+      L'équipe qui met en place le projet serait ravie <Link href="/faq.html#contact">d'entendre vos remarques</Link> !
+      Tant sur les fonctionnalités que sur la forme, n'hésitez pas à partager vos idées sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>featureupvote.com</Link>, où à regjoindre la <Link href="/beta.html">bêta</Link> :)
     </div>
 
   </div>
-);
+));
 
 export default PageFooter;

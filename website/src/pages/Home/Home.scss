@@ -11,6 +11,10 @@ $break-xxlarge: 1590px;
     padding: 15px;
     margin: 10px 0;
 
+    a {
+      text-decoration: none;
+    }
+
     @media screen and (min-width: $break-medium) {
       font-size: 22px;
       line-height: 32px;

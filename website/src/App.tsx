@@ -9,8 +9,8 @@ import Navigation from './components/Navigation';
 import PageFooter from './components/PageFooter';
 import usePageViewTracking from './utils/usePageViewTracking';
 
-import '@openfonts/noticia-text_all/index.css';
-import '@openfonts/nunito-sans_all/index.css';
+import 'fontsource-noticia-text/index.css';
+import 'fontsource-montserrat/index.css';
 
 import 'reset-css';
 import './styles.scss';

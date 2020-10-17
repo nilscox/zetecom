@@ -1,5 +1,3 @@
-/* eslint-disable max-lines, react/no-unescaped-entities */
-
 import React, { useState } from 'react';
 
 import clsx from 'clsx';
@@ -9,7 +7,7 @@ import SubTitle, { SubTitleProps } from 'src/components/SubTitle';
 import Link from 'src/components/Link';
 import { useEnvironment } from 'src/utils/env';
 
-import { trackOpenRepositoryLink } from '../../utils/track';
+import { trackOpenRepositoryLink, trackOpenFeatureUpvoteLink } from '../../utils/track';
 
 import './FAQ.scss';
 
@@ -142,6 +140,10 @@ const Question: React.FC<QuestionProps> = ({ open, question, children, onToggle 
 );
 
 const FAQ: React.FC = () => {
+  const CONTACT_EMAIL = useEnvironment('CONTACT_EMAIL');
+  const TWITTER_ACCOUNT = useEnvironment('TWITTER_ACCOUNT');
+  const FACEBOOK_PAGE = useEnvironment('FACEBOOK_PAGE');
+
   const questionId = (sectionIdx: number, questionIdx: number) => [sectionIdx, questionIdx].join(':');
 
   const sections = useSections();
@@ -215,12 +217,16 @@ const FAQ: React.FC = () => {
 
       <Title id="contact">Une idée à proposer ? Un bug à signaler ?</Title>
 
-      <p>L'équipe à l'origine de Zétécom est à l'écoute via ces différents canaux de communication :</p>
+      <p>
+        Venez partager vos idées d'améliorations et voter pour les idées qui vous semblent être pertinentes sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>FeatureUpvote</Link> !
+      </p>
+
+      <p>Nous sommes également à l'écoute de vos remarques via ces différents canaux de communication :</p>
 
       <ul>
-        {useEnvironment('CONTACT_EMAIL') && <li>Par e-mail : <Link openInNewTab href={`mailto:${useEnvironment('CONTACT_EMAIL')}`}>{useEnvironment('CONTACT_EMAIL')}</Link></li>}
-        {useEnvironment('TWITTER_ACCOUNT') && <li>Sur twitter : <Link openInNewTab href={`https://twitter.com/${useEnvironment('TWITTER_ACCOUNT')}`}>twitter.com/{useEnvironment('TWITTER_ACCOUNT')}</Link></li>}
-        {useEnvironment('FACEBOOK_PAGE') && <li>Sur facebook : <Link openInNewTab href={`https://facebook.com/${useEnvironment('FACEBOOK_PAGE')}`}>facebook.com/{useEnvironment('FACEBOOK_PAGE')}</Link></li>}
+        {TWITTER_ACCOUNT && <li>Sur twitter : <Link openInNewTab href={`https://twitter.com/${TWITTER_ACCOUNT}`}>twitter.com/{TWITTER_ACCOUNT}</Link></li>}
+        {FACEBOOK_PAGE && <li>Sur facebook : <Link openInNewTab href={`https://facebook.com/${FACEBOOK_PAGE}`}>facebook.com/{FACEBOOK_PAGE}</Link></li>}
+        {CONTACT_EMAIL && <li>Par e-mail : <Link openInNewTab href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</Link></li>}
       </ul>
 
     </>
