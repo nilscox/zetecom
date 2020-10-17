@@ -35,23 +35,23 @@ const Home: React.FC = () => (
   <>
 
     <div className="heading">
-      <Link href="/"><em>Zétécom</em></Link>, ce sont des <strong>espaces d'échange collaboratifs</strong>, pour discuter de l'information diffusée par les médias sur internet, tout en cultivant son esprit critique.
+      <Link href="/"><em>Zétécom</em></Link>, ce sont des <strong>espaces d'échange collaboratifs</strong>, pour discuter de l'information diffusée par les médias sur internet, tout en cultivant son autodéfense intellectuelle.
     </div>
 
     <Title id="Les objectifs">Les objectifs ?</Title>
 
     <div className="objectives">
 
-      <Card text="Réunir une communauté de personnes pour réfléchir ensemble" image={imageCommunity}>
-        Parce qu'il est nécessaire de construire une vrai réflexion pour mieux comprendre l'information
+      <Card text="Donner la possibilité d'entretenir des échanges constructifs" image={imageCommunity}>
+        Car mieux comprendre un sujet, c'est aussi savoir écouter les idées des autres pour mettre les siennes en perspective
       </Card>
 
       <Card text="Lutter contre la propagation des fausses informations" image={imageFakeNews}>
-        Parce que les faits telles que présentés par les médias ne reflètent pas toujours la réalité
+        Car les faits tells que présentés par les médias ne reflètent pas toujours la réalité et méritent d'être nuancés
       </Card>
 
       <Card text="Offrir une place aux débats dans un climat de confiance sur la toile" image={imageTrust}>
-        Parce qu'il n'est pas évident de communiquer dans un contexte coopératif à travers un écran
+        Car qu'il n'est pas évident de communiquer dans un contexte coopératif si les espaces d'échange laissent la place aux trolls
       </Card>
 
     </div>
