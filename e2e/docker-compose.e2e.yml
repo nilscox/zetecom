@@ -6,31 +6,14 @@ services:
       POSTGRES_DB: cypress
 
   api:
-    command: bash -c "yarn wait-on tcp:zc-postgres:5432 && yarn db:migrate && yarn nyc --silent node dist/src/main"
+    command: bash -c "
+      yarn wait-on tcp:zc-postgres:5432 &&
+      yarn db:migrate &&
+      yarn nyc --silent node dist/src/main"
     environment:
       CI: 'true'
       BYPASS_AUTHORIZATIONS: 'true'
       DB_NAME: cypress
-
-  seed:
-    container_name: zc-seed
-    hostname: zc-seed
-    ports:
-      - 4242:4242
-    volumes:
-      - ./api/scripts:/app/scripts
-    command: bash -c "yarn start:cypress"
-    environment:
-      LISTEN_PORT: 4242
-      LISTEN_IP: 0.0.0.0
-      DB_HOST: zc-postgres
-      DB_PORT: 5432
-      DB_USER: root
-      DB_PASS: root
-      DB_NAME: cypress
-      DB_NAME_ROOT: postgres
-      DB_ENTITIES: ./dist/src/**/*.entity.js
-      DB_MIGRATIONS: ./dist/migrations/*.js
 
   app:
     command: /start.sh --coverage
