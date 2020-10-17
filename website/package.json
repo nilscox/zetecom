@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "clsx": "^1.1.1",
+    "dotenv": "^8.2.0",
     "fontsource-montserrat": "^3.0.9",
     "fontsource-noticia-text": "^3.0.9",
     "history": "^5.0.0",

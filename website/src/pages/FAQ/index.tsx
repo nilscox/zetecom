@@ -218,7 +218,7 @@ const FAQ: React.FC = () => {
       <Title id="contact">Une idée à proposer ? Un bug à signaler ?</Title>
 
       <p>
-        Venez partager vos idées d'améliorations et voter pour les idées qui vous semblent être pertinentes sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>FeatureUpvote</Link> !
+        Venez partager vos idées d'améliorations et voter pour les idées qui vous semblent pouvoir apporter de la valeur au projet sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>FeatureUpvote</Link> !
       </p>
 
       <p>Nous sommes également à l'écoute de vos remarques via ces différents canaux de communication :</p>
