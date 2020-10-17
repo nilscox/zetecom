@@ -42,18 +42,18 @@ jobs:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
     - uses: actions/checkout@v1
-    - run: if [ '${{ github.ref }}' = 'refs/heads/master' ]; then echo "::set-env name=environment::production"; fi
-    - run: if [ '${{ github.ref }}' = 'refs/heads/dev' ]; then echo "::set-env name=environment::staging"; fi
-    - run: echo "::set-env name=extension_version::$(node -e $'console.log(require(\'./extension/package.json\').version)')"
+    - run: if [ '${{ github.ref }}' = 'refs/heads/master' ]; then echo "environment=production" >> $GITHUB_ENV; fi
+    - run: if [ '${{ github.ref }}' = 'refs/heads/dev' ]; then echo "environment=staging" >> $GITHUB_ENV; fi
+    - run: echo "extension_version=$(node -e $'console.log(require(\'./extension/package.json\').version)')" >> $GITHUB_ENV
     - run: yarn zip "$environment"
       working-directory: ./extension
-    - run: echo "::set-env name=extension_zip::zetecom-extension-${{ env.environment }}-${{ env.extension_version }}"
+    - run: echo "extension_zip=zetecom-extension-${{ env.environment }}-${{ env.extension_version }}" >> $GITHUB_ENV
     - run: mkdir -p artifacts/build && cd artifacts/build && unzip "../../extension/$extension_zip"
     - uses: actions/upload-artifact@v2
       with:
         name: ${{ env.extension_zip }}
         path: artifacts/build
-    - run: echo "::set-env name=extension_sources_zip::zetecom-extension-${{ env.environment }}-sources-${{ env.extension_version }}"
+    - run: echo "extension_sources_zip=zetecom-extension-${{ env.environment }}-sources-${{ env.extension_version }}" >> $GITHUB_ENV
     - run: mkdir -p artifacts/sources && cd artifacts/sources && unzip "../../extension/$extension_sources_zip"
     - uses: actions/upload-artifact@v2
       with:
@@ -117,7 +117,7 @@ jobs:
     needs: [api-e2e, e2e]
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
-      - run: ref=${{ github.ref }}; echo "::set-env name=tag::${ref#refs/heads/}"
+      - run: ref=${{ github.ref }}; echo "tag=${ref#refs/heads/}" >> $GITHUB_ENV
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - run: docker pull $API_IMAGE:${{ github.sha }}
       - run: docker tag $API_IMAGE:${{ github.sha }} "$API_IMAGE:$tag"
@@ -129,7 +129,7 @@ jobs:
     needs: [e2e]
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
-      - run: ref=${{ github.ref }}; echo "::set-env name=tag::${ref#refs/heads/}"
+      - run: ref=${{ github.ref }}; echo "tag=${ref#refs/heads/}" >> $GITHUB_ENV
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - run: docker pull $APP_IMAGE:${{ github.sha }}
       - run: docker tag $APP_IMAGE:${{ github.sha }} "$APP_IMAGE:$tag"
