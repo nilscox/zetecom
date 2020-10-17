@@ -20,13 +20,14 @@ COPY yarn.lock /app
 
 RUN yarn --production=false
 
-COPY static /app/static
 COPY src /app/src
-COPY tsconfig.json /app
-COPY webpack.config.ts /app
-COPY babel.config.json /app
+COPY static /app/static
 
+COPY webpack.config.js tsconfig.json babel.config.json /app/
 RUN yarn build
+
+COPY .eslintrc .eslintignore /app/
+RUN yarn lint
 
 FROM nginx
 
