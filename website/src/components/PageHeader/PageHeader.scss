@@ -33,6 +33,14 @@
     color: #446;
     line-height: 1;
 
+    a {
+      text-decoration: none;
+
+      &:hover {
+        color: inherit;
+      }
+    }
+
     @media screen and (min-width: $break-small) {
       font-size: 24px;
     }

@@ -63,29 +63,22 @@ const Beta: React.FC = withEnv(({ FIREFOX_ADDON_STAGING_URL, CHROME_EXTENSION_ST
     </p>
 
     <p>
-      Pour mieux comprendre vos besoins et développer un outil qui vous sera vraiment utile, nous avons besoin d'avoir une vision assez nette de l'impact que ce projet peut vous apporter.
-      Cela se fait en deux temps :
-    </p>
-
-    <ul>
-      <li>une phase d'expérimentation, où vous pouvez tester l'extension dans tous les sens</li>
-      <li>une étape de retours, où vous nous expliquer ce qui n'a pas fonctionné comme attendu ou ce qui peut être amélioré</li>
-    </ul>
-
-    <p>
-      Les inscriptions sur l'extension sont ouvertes à tous, mais faire des tests tout en respectant la charte n'est certainement pas idéal.
-      Pour palier ce problème, une autre version de l'extension est disponible, une version "bac-à-sable", ou "staging", permettant de tester le système sans affecter la version "officielle".
+      Pour vous permettre de tirer un maximum de bénéfices de ce projet, il nous faut avoir une vision assez précise de vos besoins et de vos attentes, vous consomateurs de l'information.
     </p>
 
     <p>
-      <a href={FIREFOX_ADDON_STAGING_URL}>Installer l'addon Firefox "Zétécom (staging)"</a>
+      C'est pourquoi nous vous proposons de rejoindre les bêta-testeurs, ce qui vous permettra de tester le système et de nous faire des retours sur les points d'amélioration possibles.
+      Pour participer à la bêta, rien de plus simple : installez l'extension <strong>staging</strong> (parfois appelée version "sandbox", "bêta", ou encore "pre-release").
+    </p>
+
+    <p className="download-extensions-staging">
+      <a href={FIREFOX_ADDON_STAGING_URL}>Addon Firefox "Zétécom (staging)"</a><br />
+      <a href={CHROME_EXTENSION_STAGING_URL}>Extension Chrome "Zétécom (staging)"</a>
     </p>
 
     <p>
-      <a href={CHROME_EXTENSION_STAGING_URL}>Installer l'extension Chrome "Zétécom (staging)"</a>
+      Et voilà, vous faites déjà partie des bêta-testeurs ! Nous attendons alors vos retours avec impatience 😃 !
     </p>
-
-    Dès que l'installation est terminée, vous faite partie des bêta-testeurs ! Nous attendons alors vos retours avec impatience 😃 !
 
     <SeeMore>
       <More />
@@ -119,7 +112,8 @@ const More: React.FC = withEnv(({ TWITTER_ACCOUNT, FACEBOOK_PAGE, CONTACT_EMAIL 
     <h3>A propos de l'extension staging</h3>
 
     <p>
-      Le but de la version staging est de pouvoir faire tester le système et les nouvelles fonctionnalités aux bêta-testeurs avant de les rendre disponible sur la version de production.
+      Les données créées sur l'extension staging n'affectent pas la version de production (les comptes utilisateurs ne sont pas partagés par exemple).
+      Le but de cet environnement séparé est de permettre aux bêta-testeurs de tester le système et les nouvelles fonctionnalités avant de les rendre disponible sur la version de production.
     </p>
 
     <p>
@@ -129,7 +123,7 @@ const More: React.FC = withEnv(({ TWITTER_ACCOUNT, FACEBOOK_PAGE, CONTACT_EMAIL 
     <ul className="nobullet">
       <li>il n'est pas nécessaire de respecter la charte ;</li>
       <li>aucun email n'est envoyé (pas de validation d'adresse email par exemple) ;</li>
-      <li>n'installez pas les deux extensions simultanément, sinon les zonnes de commentaires apparaîtront deux fois 😬 ;</li>
+      <li>si vous installez les deux extensions simultanément, les zones de commentaires apparaîtront deux fois 😬 ;</li>
       <li>des zones de commentaires de test sont ouvertes sur certaines pages seulement :</li>
     </ul>
 
@@ -139,7 +133,7 @@ const More: React.FC = withEnv(({ TWITTER_ACCOUNT, FACEBOOK_PAGE, CONTACT_EMAIL 
     </ul>
 
     <small>
-      Les commentaires présents sur la vidéo de la Tronche en Biais sont majoritairement repris de la zone de commentaires originale.
+      Les commentaires présents sur la vidéo de la Tronche en Biais sont majoritairement repris des commentaires YouTube.<br />
       Vous pouvez également demander l'ouverture de nouvelles zones de commentaires de test.
     </small>
 
@@ -165,7 +159,7 @@ const More: React.FC = withEnv(({ TWITTER_ACCOUNT, FACEBOOK_PAGE, CONTACT_EMAIL 
     </p>
 
     <p>
-      Nous sommes disponibles pour échanger par message sur twitter, par mail, ou même pour en parler de vive voix via Skype ou "IRL" 🙂.
+      Nous sommes disponibles pour échanger par message sur les réseaux, ou même pour en parler de vive voix via Skype ou "IRL" 🙂.
     </p>
 
     <div className="contacts">
