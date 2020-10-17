@@ -9,6 +9,7 @@ const environmentVariables = {
   REPOSITORY_URL: process.env.REPOSITORY_URL,
   GOOGLE_ANALYTICS_ID: process.env.GOOGLE_ANALYTICS_ID,
   CONTACT_EMAIL: process.env.CONTACT_EMAIL,
+  DISCORD_ID: process.env.DISCORD_ID,
   FACEBOOK_PAGE: process.env.FACEBOOK_PAGE,
   TWITTER_ACCOUNT: process.env.TWITTER_ACCOUNT,
 };

@@ -8,6 +8,7 @@ import Image from 'src/components/Image';
 
 import hereWeAre from './images/here-we-are-infography.png';
 import logoFacebook from './images/logo-facebook.png';
+import logoDiscord from './images/logo-discord.png';
 import logoTwitter from './images/logo-twitter.png';
 import imageEmail from './images/email.png';
 import { withEnv } from 'src/utils/env';
@@ -54,7 +55,7 @@ const SeeMore: React.FC = ({ children }) => {
 
 const Beta: React.FC = withEnv(({ FIREFOX_ADDON_STAGING_URL, CHROME_EXTENSION_STAGING_URL }) => (
   <>
-    <Image src="https://i.imgflip.com/45st4i.jpg" className="we-need-you" alt="we need you" style={{ marginLeft: 80 }}></Image>
+    <Image src="https://i.imgflip.com/45st4i.jpg" className="we-need-you" alt="we need you" />
 
     <h2>Zétécom bêta</h2>
 
@@ -86,7 +87,7 @@ const Beta: React.FC = withEnv(({ FIREFOX_ADDON_STAGING_URL, CHROME_EXTENSION_ST
   </>
 ));
 
-const More: React.FC = withEnv(({ TWITTER_ACCOUNT, FACEBOOK_PAGE, CONTACT_EMAIL }) => (
+const More: React.FC = withEnv(({ DISCORD_ID, TWITTER_ACCOUNT, FACEBOOK_PAGE, CONTACT_EMAIL }) => (
   <>
     <p>
       Notre objectif est avant tout de proposer un outil qui pourra servir à une communauté en quête d'esprit critique par rapport aux informations présentes sur internet.
@@ -121,10 +122,10 @@ const More: React.FC = withEnv(({ TWITTER_ACCOUNT, FACEBOOK_PAGE, CONTACT_EMAIL 
     </p>
 
     <ul className="nobullet">
-      <li>il n'est pas nécessaire de respecter la charte ;</li>
-      <li>aucun email n'est envoyé (pas de validation d'adresse email par exemple) ;</li>
-      <li>si vous installez les deux extensions simultanément, les zones de commentaires apparaîtront deux fois 😬 ;</li>
-      <li>des zones de commentaires de test sont ouvertes sur certaines pages seulement :</li>
+      <li>- il n'est pas nécessaire de respecter la charte ;</li>
+      <li>- aucun email n'est envoyé (pas de validation d'adresse email par exemple) ;</li>
+      <li>- si vous installez les deux extensions simultanément, les zones de commentaires apparaîtront deux fois 😬 ;</li>
+      <li>- des zones de commentaires de test sont ouvertes sur certaines pages seulement :</li>
     </ul>
 
     <ul className="comments-zones-links">
@@ -159,10 +160,17 @@ const More: React.FC = withEnv(({ TWITTER_ACCOUNT, FACEBOOK_PAGE, CONTACT_EMAIL 
     </p>
 
     <p>
-      Nous sommes disponibles pour échanger par message sur les réseaux, ou même pour en parler de vive voix via Skype ou "IRL" 🙂.
+      Nous sommes disponibles pour échanger par message sur les réseaux, sur discord, ou même pour en parler de vive voix via Skype ou "IRL" 🙂🍺.
     </p>
 
     <div className="contacts">
+
+      {DISCORD_ID && (
+        <Link openInNewTab href={`https://discord.gg//${DISCORD_ID}`} className="discord-link">
+          <Image src={logoDiscord} alt="logo discord" />
+          <strong>Zétécom</strong>
+        </Link>
+      )}
 
       {TWITTER_ACCOUNT && (
         <Link openInNewTab href={`https://twitter.com/${TWITTER_ACCOUNT}`} className="twitter-link">

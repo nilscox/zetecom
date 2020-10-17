@@ -74,6 +74,7 @@ const commonConfig = {
       REPOSITORY_URL: null,
       GOOGLE_ANALYTICS_ID: null,
       CONTACT_EMAIL: null,
+      DISCORD_ID: null,
       FACEBOOK_PAGE: null,
       TWITTER_ACCOUNT: null,
     }),
