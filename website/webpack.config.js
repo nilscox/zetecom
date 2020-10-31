@@ -57,6 +57,9 @@ const commonConfig = {
         test: /\.(png|gif|ttf|woff|woff2)$/,
         use: {
           loader: 'file-loader',
+          options: {
+            name: '[path][name].[hash].[ext]',
+          },
         },
       },
 

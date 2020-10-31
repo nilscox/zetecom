@@ -22,148 +22,148 @@ body {
     font-size: 16px;
     line-height: 24px;
   }
+}
 
-  em {
-    font-style: italic;
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: bold;
+  color: #555;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: #999;
+
+  &:hover {
+    color: #666;
+  }
+}
+
+p {
+  margin: 10px 0;
+}
+
+ul {
+  margin: 10px 0;
+  padding-left: 15px;
+  list-style-type: initial;
+
+  @media screen and (min-width: $break-small) {
+    padding-left: 35px;
+  }
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 24px;
+  font-weight: bold;
+  font-family: "Noticia Text";
+  margin: 30px 0 20px;
+  color: #446;
+
+  @media screen and (min-width: $break-small) {
+    margin: 45px 0 20px;
+    font-size: 28px;
+    line-height: 28px;
   }
 
-  strong {
-    font-weight: bold;
-    color: #555;
+  @media screen and (min-width: $break-desktop) {
+    margin-left: 30px;
   }
+}
 
-  a {
-    color: inherit;
-    text-decoration: underline;
-    text-decoration-color: #999;
+h3 {
+  font-size: 22px;
+  line-height: 22px;
+  font-weight: bold;
+  margin: 25px 0 20px 10px;
+  font-family: "Noticia Text";
+  color: #446;
 
-    &:hover {
-      color: #666;
-    }
-  }
-
-  p {
-    margin: 10px 0;
-  }
-
-  ul {
-    margin: 10px 0;
-    padding-left: 15px;
-    list-style-type: initial;
-
-    @media screen and (min-width: $break-small) {
-      padding-left: 35px;
-    }
-  }
-
-  h2 {
+  @media screen and (min-width: $break-small) {
+    margin: 35px 25px 15px;
     font-size: 24px;
     line-height: 24px;
-    font-weight: bold;
-    font-family: "Noticia Text";
-    margin: 30px 0 20px;
-    color: #446;
+  }
 
-    @media screen and (min-width: $break-small) {
-      margin: 45px 0 20px;
-      font-size: 28px;
-      line-height: 28px;
+  @media screen and (min-width: $break-desktop) {
+    margin-left: 50px;
+  }
+}
+
+code {
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+sup {
+  vertical-align: super;
+  font-size: smaller;
+}
+
+.hide {
+  display: none;
+}
+
+.clear {
+  clear: both;
+}
+
+.note {
+  border-left: 5px solid #CCC;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+
+.wording {
+  background: #FFE;
+}
+
+.page {
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media screen and (min-width: $break-small) {
+    padding: 20px;
+  }
+
+  @media screen and (min-width: $break-medium) {
+    padding: 15px;
+    padding-top: 20px;
+  }
+
+  @media screen and (min-width: $break-large) {
+    padding: 30px 24px 0;
+  }
+
+  @media screen and (min-width: $break-xlarge) {
+    padding: 30px 10%;
+  }
+
+  .page-content {
+    display: flex;
+    flex-direction: column;
+
+    main {
+      margin-bottom: 40px;
     }
 
     @media screen and (min-width: $break-desktop) {
-      margin-left: 30px;
-    }
-  }
+      flex-direction: row;
+      border-top: 1px solid #CCC;
 
-  h3 {
-    font-size: 22px;
-    line-height: 22px;
-    font-weight: bold;
-    margin: 25px 0 20px 10px;
-    font-family: "Noticia Text";
-    color: #446;
-
-    @media screen and (min-width: $break-small) {
-      margin: 35px 25px 15px;
-      font-size: 24px;
-      line-height: 24px;
-    }
-
-    @media screen and (min-width: $break-desktop) {
-      margin-left: 50px;
-    }
-  }
-
-  code {
-    font-family: monospace;
-    font-size: 1rem;
-  }
-
-  sup {
-    vertical-align: super;
-    font-size: smaller;
-  }
-
-  .hide {
-    display: none;
-  }
-
-  .clear {
-    clear: both;
-  }
-
-  .note {
-    border-left: 5px solid #CCC;
-    margin: 10px 0;
-    padding-left: 10px;
-  }
-
-  .wording {
-    background: #FFE;
-  }
-
-  .page {
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-
-    @media screen and (min-width: $break-small) {
-      padding: 20px;
-    }
-
-    @media screen and (min-width: $break-medium) {
-      padding: 15px;
-      padding-top: 20px;
-    }
-
-    @media screen and (min-width: $break-large) {
-      padding: 30px 24px 0;
-    }
-
-    @media screen and (min-width: $break-xlarge) {
-      padding: 30px 10%;
-    }
-
-    .page-content {
-      display: flex;
-      flex-direction: column;
-
-      main {
-        margin-bottom: 40px;
+      nav {
+        flex: 1;
       }
 
-      @media screen and (min-width: $break-desktop) {
-        flex-direction: row;
-        border-top: 1px solid #CCC;
-
-        nav {
-          flex: 1;
-        }
-
-        main {
-          flex: 4;
-          padding: 10px 10px 10px 20px;
-        }
+      main {
+        flex: 4;
+        padding: 10px 10px 10px 20px;
       }
     }
   }
