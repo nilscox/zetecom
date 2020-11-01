@@ -116,7 +116,7 @@ $break-xxlarge: 1590px;
         }
 
         @media screen and (min-width: $break-medium) {
-          font-size: 24px;
+          font-size: 22px;
         }
       }
     }
@@ -148,6 +148,11 @@ $break-xxlarge: 1590px;
       @media screen and (min-width: $break-medium) {
         margin-top: 25px;
         margin-bottom: 25px;
+      }
+
+      img {
+        border-top: 1px solid #CCC;
+        border-bottom: 1px solid #CCC;
       }
 
       .carousel-slide-legend {

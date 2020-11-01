@@ -1,20 +1,19 @@
 {
   "users": [
-
     { "nick": "nilscox", "email": "nils@nils.cx", "password": "secure p4ssword" },
-    { "nick": "Jeremy F", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "avatar01.png" }
-
+    { "nick": "Jeremy F", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "yoda.png" }
   ],
-  "informations": [
-
+  "commentsAreas": [
     {
-      "title": "Fake news!",
+      "informationTitle": "Manifestations des militants contre l'installation des antennes 5G",
+      "informationAuthor": "Jean-claude Bicha",
+      "imageUrl": "data:image/jpeg;base64,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",
+      "published": "2020-09-18T11:50:00.000Z",
       "url": "https://news.fake/article/1",
+      "identifier": "id:1",
       "creator": "nilscox",
       "subjects": [],
-
       "comments": [
-
         {
           "author": "Jeremy F",
           "reactions": {
@@ -22,12 +21,41 @@
             "refute": [],
             "skeptic": []
           },
-          "text": "Sur le commentaire de la journaliste scientifique à la fin qui a refusé de signer nofakescience, si vous passez l'essentiel de votre temps à démonter les mauvais arguments sans jamais développer les bons il ne faut pas vous étonner si les gens qui ont le plus intérêt à écouter votre message se braquent. Après le problème c'est que assez souvent les bons arguments sont politiques pas techniques (financement et choix des axes de recherche, influence du marketing, capture du régulateur … ), ce qui sort un peu de votre zone de confort pour entrer dans le domaine des sciences sociales. Même sur les sujets comme l'homéopathie où il n'y a pas grand chose à ajouter, détailler les problèmes de l'industrie pharmaceutique est toujours bienvenu si vous voulez gagner des points de sympathie auprès de ceux qui rejettent la médecine conventionnelle. Pas pour dire que c'est le mal absolu, mais pour recentrer le rejet de ces personnes sur les vrais problèmes, en expliquer la portée ainsi que ce qui est fait pour tenter de les résoudre. Enfin, c'est plus facile à écrire qu'à faire mais ce serait dommage que votre travail soit gâché par un manque de diplomatie."
-        }
-
+          "text": "La remarque du journaliste scientifique à la fin de la vidéo est, selon moi, très révélateur. Il dit avoir refusé de signer la tribune nofakescience, mais sans réellement préciser quelles sont ses raisons. Si j'ai bien compris, il ne voit pas d'intérêt à limiter la diffusion des pseudo-sciences. Après le problème c'est que assez souvent les bons arguments sont politiques pas techniques (financement et choix des axes de recherche, influence du marketing, capture du régulateur…), ce qui sort un peu de votre zone de confort pour entrer dans le domaine des sciences sociales."
+        },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" },
+        { "author": "Jeremy F", "text": "" }
       ]
-
     }
-
   ]
 }

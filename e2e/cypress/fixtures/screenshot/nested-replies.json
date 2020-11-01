@@ -1,32 +1,28 @@
 {
   "users": [
-
     { "nick": "nilscox", "email": "nils@nils.cx", "password": "secure p4ssword" },
-    { "nick": "KimWex", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "avatar02.png" },
-    { "nick": "Jimmy", "email": "user02@domain.tld", "password": "secure p4ssword", "avatar": "avatar03.png" },
-    { "nick": "De Guzman", "email": "user03@domain.tld", "password": "secure p4ssword" }
-
+    { "nick": "KimWex", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "tree.png" },
+    { "nick": "Jimmy", "email": "user02@domain.tld", "password": "secure p4ssword", "avatar": "pink-floyd.png" },
+    { "nick": "TonSanto", "email": "user03@domain.tld", "password": "secure p4ssword" }
   ],
-  "informations": [
-
+  "commentsAreas": [
     {
-      "title": "Fake news!",
-      "url": "https://news.fake/article/1",
+      "informationTitle": "Fake news!",
+      "informationUrl": "https://news.fake/article/1",
+      "published": "2020-11-01T13:07:00.000Z",
+      "identifier": "id:1",
       "creator": "nilscox",
       "subjects": [],
-
       "comments": [
-
         {
           "author": "KimWex",
           "reactions": {
-            "approve": ["Jimmy", "De Guzman"],
+            "approve": ["Jimmy", "TonSanto"],
             "refute": [],
             "skeptic": []
           },
           "text": "02:03:00 Désolé Thomas je ne te rejoint pas, OUI il y a une critique systemique a faire, OUI, il y a a coup sur des journalistes scientifiques qui veulent \"bien faire\" mais qui ne peuvent pas a cause du système médiatique en place, et OUI il y en a probablement qui arrivent a bien faire, du moins j'en suis convaincu.\n\nPar contre les noms que tu as cité (Foucart et Waleckx) sont critiquable en eux meme de par la maniere dont ils transmettent l'information, et je ne pense pas que ce soit seulement le systeme mediatique qui fasse ça. Ce sont des journaliste \"stars\" (un peu plus Foucart que Waleckx) si ils voulaient proposer de \"nouveaux\" angles ils pourraient. D'autant plus qu'on ne leur demande pas grand chose, juste de savoir se corriger quand c'est nécessaire. L'information est aujourd'hui largement disponible, les preuves qu'ils se sont trompés ont fait plusieurs fois le tour des réseaux sociaux, et ils les ont vu. Ils peuvent tout a fait ne pas vouloir les prendre en compte, mais avant de se rééxprimer sur le sujet en annonçant que leurs détracteurs sont payés par de gros lobbies ils auraient juste du s'interesser a ces fameuses preuves.",
           "replies": [
-
             {
               "author": "Jimmy",
               "reactions": {
@@ -36,7 +32,6 @@
               },
               "text": "Il semblerait que Foucard a fabriqué lui même les preuves : il fait partie de ceux qui ont analysé les e-mail de Monsanto mais il refuse de dire dans lequel et personne n'a réussi à retrouver l'email en cause.",
               "replies": [
-
                 {
                   "author": "KimWex",
                   "reactions": {
@@ -45,13 +40,15 @@
                     "skeptic": []
                   },
                   "text": "@Jimmy Yup je sais bien je me suis amusé a lire l'entiereté des Monsantos Papers disponible sur USRTK, ceci dit, vu le nombre de documents, il est tout a fait possible que j'ai pu en rater un, du coup je prefere ne pas affirmer avec trop d'aplomb qu'il a fabriqué ses preuves, disons qu'il a échoué a prouver plutot…"
-                }
-
+                },
+                { "author": "TonSanto" },
+                { "author": "TonSanto" },
+                { "author": "TonSanto" },
+                { "author": "TonSanto" }
               ]
             },
-
             {
-              "author": "De Guzman",
+              "author": "TonSanto",
               "reactions": {
                 "approve": [],
                 "refute": [],
@@ -59,13 +56,9 @@
               },
               "text": ""
             }
-
           ]
         }
-
       ]
-
     }
-
   ]
 }

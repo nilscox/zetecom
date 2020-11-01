@@ -129,13 +129,13 @@ Cypress.Commands.add('didTrack', (event) => {
     });
 });
 
-Cypress.Commands.add('websiteScreenshot', (name, scroll = 1) => {
+Cypress.Commands.add('websiteScreenshot', (name, { x = 0, y = 1} = {}) => {
   cy.fixCI();
-  cy.scrollTo(0, scroll);
+  cy.scrollTo(0, y);
   cy.screenshot(name, {
     clip: {
-      x: 16,
-      y: scroll,
+      x,
+      y,
       width: 640,
       height: 480,
     },

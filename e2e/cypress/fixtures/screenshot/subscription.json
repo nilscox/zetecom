@@ -1,28 +1,22 @@
 {
   "users": [
-
     { "nick": "nilscox", "email": "nils@nils.cx", "password": "secure p4ssword" },
-    { "nick": "Eddie Pulaski", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "avatar06.png" },
-    { "nick": "Frank Tenpenny", "email": "user02@domain.tld", "password": "secure p4ssword" , "avatar": "avatar07.png"},
-    { "nick": "Carl", "email": "user03@domain.tld", "password": "secure p4ssword", "avatar": "avatar08.png" },
+    { "nick": "Eddie Pulaski", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "cat.png" },
+    { "nick": "Frank Tenpenny", "email": "user02@domain.tld", "password": "secure p4ssword" },
+    { "nick": "Carl", "email": "user03@domain.tld", "password": "secure p4ssword", "avatar": "coffe.png" },
     { "nick": "user04", "email": "user04@domain.tld", "password": "secure p4ssword" },
     { "nick": "user05", "email": "user05@domain.tld", "password": "secure p4ssword" },
     { "nick": "user06", "email": "user06@domain.tld", "password": "secure p4ssword" },
     { "nick": "user07", "email": "user07@domain.tld", "password": "secure p4ssword" },
     { "nick": "user08", "email": "user08@domain.tld", "password": "secure p4ssword" },
     { "nick": "user09", "email": "user09@domain.tld", "password": "secure p4ssword" }
-
   ],
-  "informations": [
-
+  "commentsAreas": [
     {
-      "title": "Fake news!",
-      "url": "https://news.fake/article/1",
+      "identifier": "id:1",
       "creator": "nilscox",
       "subjects": [],
-
       "comments": [
-
         {
           "author": "Eddie Pulaski",
           "reactions": {
@@ -32,7 +26,6 @@
           },
           "text": "Je reprends souvent l'exemple du journal télévisé. Quand j'avais la télévision, à chaque fois que j'ai vu, au journal, traîter un sujet que je maîtrise un tant soit peu, ils ont fait, au mieux, des énormes approximations qui laissaient croire des choses fausses aux téléspectateurs, et , au pire, les journalistes mentaient de façon éhontée. Et cela, absolument à chaques fois. Pour ceux qui ont la télévision, faites l'expérience, regardez les infos quand ça traite d'un sujet que vous connaissez."
         },
-
         {
           "author": "Frank Tenpenny",
           "reactions": {
@@ -42,7 +35,6 @@
           },
           "text": "J'ai fait les mêmes expériences, mais aussi avec la presse écrite. Du coup puisque les médias disent n'importe quoi sur les sujets que je maîtrise, je suis fondé à penser qu'ils disent n'importe quoi sur les sujets que je ne maîtrise pas.",
           "replies": [
-
             {
               "author": "Carl",
               "reactions": {
@@ -52,14 +44,9 @@
               },
               "text": "Entièrement d'accord, c'est une bonne méthode pour se faire une idée de la fiabilité d'une source d'informations. Même si idéalement on analyse donnée par donnée."
             }
-
           ]
-
         }
-
       ]
-
     }
-
   ]
 }
