@@ -9,10 +9,11 @@ import Navigation from './components/Navigation';
 import PageFooter from './components/PageFooter';
 import usePageViewTracking from './utils/usePageViewTracking';
 
-import 'fontsource-noticia-text/index.css';
-import 'fontsource-noticia-text/700.css';
-import 'fontsource-montserrat/index.css';
-import 'fontsource-montserrat/600.css';
+import 'fontsource-noticia-text/latin-400.css';
+import 'fontsource-noticia-text/latin-700.css';
+
+import 'fontsource-montserrat/latin-400.css';
+import 'fontsource-montserrat/latin-600.css';
 
 import 'reset-css';
 import './styles.scss';

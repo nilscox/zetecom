@@ -1,28 +1,28 @@
 @import "../variables.scss";
 
 .page#page-home nav.navigation .navigation-link {
-  @media screen and (max-width: $break-small) { transform: translateY(0 * -30px) }
-  @media screen and (min-width: $break-small) { transform: translateY(0 * -40px) }
+  @media screen and (max-width: $break-small) { transform: translate3d(0, 0 * -30px, 0) }
+  @media screen and (min-width: $break-small) { transform: translate3d(0, 0 * -40px, 0) }
 }
 
 .page#page-usage nav.navigation .navigation-link {
-  @media screen and (max-width: $break-small) { transform: translateY(1 * -30px) }
-  @media screen and (min-width: $break-small) { transform: translateY(1 * -40px) }
+  @media screen and (max-width: $break-small) { transform: translate3d(0, 1 * -30px, 0) }
+  @media screen and (min-width: $break-small) { transform: translate3d(0, 1 * -40px, 0) }
 }
 
 .page#page-rules nav.navigation .navigation-link {
-  @media screen and (max-width: $break-small) { transform: translateY(2 * -30px) }
-  @media screen and (min-width: $break-small) { transform: translateY(2 * -40px) }
+  @media screen and (max-width: $break-small) { transform: translate3d(0, 2 * -30px, 0) }
+  @media screen and (min-width: $break-small) { transform: translate3d(0, 2 * -40px, 0) }
 }
 
 .page#page-motivations nav.navigation .navigation-link {
-  @media screen and (max-width: $break-small) { transform: translateY(3 * -30px) }
-  @media screen and (min-width: $break-small) { transform: translateY(3 * -40px) }
+  @media screen and (max-width: $break-small) { transform: translate3d(0, 3 * -30px, 0) }
+  @media screen and (min-width: $break-small) { transform: translate3d(0, 3 * -40px, 0) }
 }
 
 .page#page-faq nav.navigation .navigation-link {
-  @media screen and (max-width: $break-small) { transform: translateY(4 * -30px) }
-  @media screen and (min-width: $break-small) { transform: translateY(4 * -40px) }
+  @media screen and (max-width: $break-small) { transform: translate3d(0, 4 * -30px, 0) }
+  @media screen and (min-width: $break-small) { transform: translate3d(0, 4 * -40px, 0) }
 }
 
 nav.navigation {
@@ -66,14 +66,17 @@ nav.navigation {
       }
 
       .navigation-link {
-        transform: translateY(0) !important;
+        transform: translate3d(0, 0, 0) !important;
       }
     }
   }
 
   .navigation-burger {
     font-size: 30px;
-    line-height: 30px;
+    height: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin-right: 10px;
     cursor: pointer;
 
@@ -88,8 +91,6 @@ nav.navigation {
 
   .navigation-links {
     flex: 1;
-    height: 30px;
-    line-height: 30px;
 
     @media screen and (min-width: $break-small) {
       line-height: 40px;
@@ -104,9 +105,12 @@ nav.navigation {
     }
 
     a.navigation-link {
-      display: block;
-      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 30px;
       font-size: 20px;
+      text-decoration: none;
       transition: transform 220ms ease-in-out;
 
       @media screen and (min-width: $break-small) {
@@ -117,7 +121,7 @@ nav.navigation {
         color: #666;
         margin-bottom: 10px;
         transition: transform 0s;
-        transform: translateY(0) !important;
+        transform: translate3d(0, 0, 0) !important;
       }
 
       &.active {
