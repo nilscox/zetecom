@@ -45,12 +45,12 @@ const useSections = () => [
 
       {
         question: 'Comment ouvrir une nouvelle zone de commentaire sur un article ou une vidéo ?',
-        answer: <>Pour le moment, c'est une action manuelle réservée aux administrateurs.</>,
+        answer: <>Pour le moment, c'est une action manuelle réservée aux administrateurs. Vous pouvez cependant demander l'ouverture d'une zone de commentaires sur la page de l'information en question.</>,
       },
 
       {
         question: 'Comment mettre en page un commentaire ?',
-        answer: <>Les messages peuvent être rédigés en <Link openInNewTab href="https://fr.wikipedia.org/wiki/Markdown">markdown</Link>, une syntaxe de balisage permettant une mise en forme simple.</>,
+        answer: <>Les messages supportent la syntaxe <Link openInNewTab href="https://fr.wikipedia.org/wiki/Markdown">markdown</Link>, qui permet une mise en forme simple : utilisez par exemple des étoiles pour mettre du texte <strong>*en gras*</strong>. Plus de détails ici : <Link openInNewTab href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">https://learnxinyminutes.com/docs/fr-fr/markdown-fr/</Link></>,
       },
 
       {
@@ -91,13 +91,13 @@ const useSections = () => [
       {
         question: 'Est-ce légal de modifier les sites pour y ajouter des zones de commentaires ?',
         answer: <>Oui. Lorsque vous installez l'extension sur votre navigateur, la permission de modifier certains sites web vous est demandée.
-        Avec votre accord, l'extension sera en mesure de modifier les sites sur lequelles il existe des zones de commentaires (sur votre navigateur, et celui de chaque utilisateur disposant de l'extension).
-        C'est le même principe qu'un bloqueur de publicité, ou qu'une extension ajoutant un "mode sombre".</>,
+        Avec votre accord, l'extension sera en mesure de modifier les pages sur lequelles des zones de commentaires sont ouvertes (sur votre navigateur, et celui de chaque utilisateur disposant de l'extension).
+        C'est le même principe qu'un bloqueur de publicité, ou qu'une extension ajoutant un mode sombre sur tous les sites.</>,
       },
 
       {
         question: 'Comment le projet est-il financé ?',
-        answer: <>Le but du projet n'est pas de faire du profit, et aucun financement n'est en jeu.</>,
+        answer: <>Le but du projet n'est pas de faire du profit, et aucun financement n'est en jeu. Les seuls coûts nécessaires au fonctionnement de Zétécom sont un serveur et un nom de domaine, environ 100 euros par an, pris en charge par les développeurs du projet.</>,
       },
 
       {
