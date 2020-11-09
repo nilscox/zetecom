@@ -29,6 +29,9 @@ const createTheme = (): Theme => {
       border: { main: blueGrey[100] },
       selected: { main: amber[200] },
       background: { default: 'white' },
+      success: { main: '#9fd6a1' },
+      error: { main: '#f2766d' },
+      warning: { main: '#ffc97a' },
       text: {
         primary: '#222',
         secondary: '#556',
