@@ -1,7 +1,7 @@
 <mj-section padding="25px 0 10px 0" border-bottom="1px solid #CCC">
 
   <mj-column vertical-align="bottom" width="10%">
-    <mj-image css-class="logo" src="https://zetecom.fr/assets/images/logo.png" />
+    <mj-image css-class="logo" src="https://zetecom.fr/logo.png" />
   </mj-column>
 
   <mj-column vertical-align="bottom" width="50%">

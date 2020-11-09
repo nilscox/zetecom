@@ -85,6 +85,7 @@ const commonConfig = {
       patterns: [
         { from: 'static/robots.txt', to: './robots.txt' },
         { from: 'static/extension', to: './extension', noErrorOnMissing: true },
+        { from: 'static/logo.png', to: './logo.png' },
         { from: 'static/favicon.ico', to: './favicon.ico' },
         { from: 'static/updates.json', to: './updates.json', noErrorOnMissing: true },
       ],
