@@ -17,6 +17,7 @@ const makeEntry = (filepath, filename) => ({
 
 const loadIntegrationsEntries = () => {
   return fs.readdirSync(INTEGRATIONS_PATH)
+    .filter(entry => !entry.endsWith('__tests__'))
     .reduce((obj, filename) => ({
       ...obj,
       [path.parse(filename).name]: makeEntry('integrations', filename),

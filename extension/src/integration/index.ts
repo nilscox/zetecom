@@ -94,7 +94,7 @@ export default (integration: Integration) => {
   });
 
   setInterval(() => {
-    const identifier = integration.getIdentifier();
+    const identifier = integration.getIdentifier(window.location.href);
     log('getIdentifier', identifier);
 
     const iframe = getIframe();
