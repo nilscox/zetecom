@@ -6,8 +6,8 @@ const getElement = () =>
   document.getElementById('comments') ||
   document.getElementsByTagName('ytm-comment-section-renderer')[0] as HTMLElement;
 
-const getIdentifier = () => {
-  const { v } = queryString.parse(window.location.search);
+const getIdentifier = (url: string) => {
+  const { v } = queryString.parse(url);
 
   if (!v)
     return null;

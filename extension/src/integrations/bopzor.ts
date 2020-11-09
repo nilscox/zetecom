@@ -2,8 +2,8 @@ import setupIntegration from '../integration';
 
 const getElement = () => document.getElementsByClassName('pagination')[0] as HTMLElement || null;
 
-const getIdentifier = () => {
-  const match = /project\/([0-9]+)/.exec(window.location.href);
+const getIdentifier = (url: string) => {
+  const match = /project\/([0-9]+)/.exec(url);
 
   if (!match)
     return null;

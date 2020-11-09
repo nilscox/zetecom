@@ -18,7 +18,7 @@ type IntegrationType = 'insert' | 'switch';
 
 type Integration = {
   getElement: () => HTMLElement | null;
-  getIdentifier: () => string | null;
+  getIdentifier: (url: string) => string | null;
   healthcheck: () => boolean;
   type: IntegrationType;
   originalText?: string;
@@ -27,7 +27,7 @@ type Integration = {
 };
 
 const setupIntegration = (integration: Integration, element: HTMLElement, initialTab: 'left' | 'right'): void => {
-  const identifier = integration.getIdentifier();
+  const identifier = integration.getIdentifier(window.location.href);
 
   if (!identifier)
     return;

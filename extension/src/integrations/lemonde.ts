@@ -2,10 +2,10 @@ import setupIntegration from '../integration';
 
 const getElement = () => document.getElementsByClassName('article__content')[0] as HTMLElement;
 
-const LEMONDE_REGEXP = /lemonde\.fr\/([a-z]+)\/[a-z]+\/(\d{4}\/\d{2}\/\d{2})\/[-a-z0-9]+_([0-9_]+)\.html/;
+const LEMONDE_REGEXP = /lemonde\.fr\/([-a-z]+)\/[a-z]+\/(\d{4}\/\d{2}\/\d{2})\/[-a-z0-9]+_([0-9_]+)\.html/;
 
-const getIdentifier = () => {
-  const match = LEMONDE_REGEXP.exec(window.location.href);
+export const getIdentifier = (url: string) => {
+  const match = LEMONDE_REGEXP.exec(url);
 
   if (!match)
     return null;

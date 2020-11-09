@@ -15,14 +15,19 @@
     "query-string": "^6.12.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
     "@types/chrome": "^0.0.108",
     "@types/iframe-resizer": "^3.5.8",
+    "@types/jest": "^26.0.15",
     "@types/node": "^13.13.5",
     "clean-webpack-plugin": "^3.0.0",
     "concurrently": "^4.1.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.5.3",
     "dotenv": "^8.0.0",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.3",
     "style-loader": "^1.2.1",
     "ts-loader": "^7.0.4",
@@ -31,5 +36,11 @@
     "watch": "^1.0.2",
     "webpack": "^5.0.0-beta.16",
     "webpack-cli": "^3.3.2"
+  },
+  "jest": {
+    "rootDir": "./src",
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/__mocks__/styleMock.js"
+    }
   }
 }
