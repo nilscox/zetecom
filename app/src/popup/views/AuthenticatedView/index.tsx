@@ -38,7 +38,7 @@ const AuthenticatedView: React.FC = () => {
       <Typography>Email : {user.email}</Typography>
 
       <Box paddingY={2}>
-        <Typography>Inscrit(e) depuis le : {dayjs(user.signupDate).format('DD MM YYYY')}</Typography>z
+        <Typography>Inscrit(e) depuis le : {dayjs(user.signupDate).format('DD MM YYYY')}</Typography>
       </Box>
 
       <ChangePasswordField />
