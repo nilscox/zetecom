@@ -35,6 +35,8 @@ deploy_api() {
     --network "zc-network-$environment" \
     --volume "$base_dir/avatars:/app/avatars:rw" \
     -p "$api_port:80" \
+    --env LISTEN_IP='0.0.0.0' \
+    --env LISTEN_PORT='80' \
     --env $(sshenv LOG_LEVEL) \
     --env $(sshenv TRUST_PROXY) \
     --env $(sshenv REFLECT_ORIGIN) \
