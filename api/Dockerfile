@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:14 as build
 
 ENV NODE_ENV='production'
 
@@ -18,4 +18,14 @@ RUN yarn build
 RUN yarn lint
 RUN yarn test:unit
 
-CMD yarn db:migrate && node dist/src/main.js
+FROM node:14-alpine as runtime
+
+RUN apk update && apk add git
+
+WORKDIR /app
+COPY --from=build /app/dist /app
+COPY --from=build /app/ormconfig.js /app
+
+RUN yarn --frozen-lockfile
+
+CMD yarn db:migrate && node src/main.js

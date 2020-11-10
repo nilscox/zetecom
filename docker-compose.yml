@@ -32,11 +32,11 @@ services:
     volumes:
       - ./data/avatars:/app/avatars
       - ./data/certs:/certs:ro
-    command: bash -c "
+    command: sh -c "
       yarn wait-on tcp:zc-postgres:5432 &&
       yarn db:migrate &&
-      node dist/src/modules/seed &&
-      node dist/src/main.js"
+      node src/modules/seed &&
+      node src/main.js"
     environment:
       LISTEN_PORT: 3000
       LISTEN_IP: 0.0.0.0
@@ -50,9 +50,9 @@ services:
       DB_USER: root
       DB_PASS: root
       DB_NAME: db
-      DB_ENTITIES: ./dist/src/**/*.entity.js
-      DB_MIGRATIONS: ./dist/migrations/*.js
-      DB_SEEDS: ./dist/seeds/*.js
+      DB_ENTITIES: src/**/*.entity.js
+      DB_MIGRATIONS: migrations/*.js
+      DB_SEEDS: seeds/*.js
       REDIS_HOST: zc-redis
       REDIS_PORT: 6379
       EMAIL_HOST: domain.tld
@@ -70,10 +70,10 @@ services:
     hostname: zc-seed
     ports:
       - 4242:4242
-    command: bash -c "
+    command: sh -c "
       yarn typeorm query 'DROP DATABASE cypress' > /dev/null 2>&1;
       DB_NAME="$DB_NAME_ROOT" yarn typeorm query 'CREATE DATABASE cypress' > /dev/null 2>&1;
-      yarn start:cypress"
+      node src/modules/cypress"
     environment:
       LISTEN_PORT: 4242
       LISTEN_IP: 0.0.0.0
@@ -83,8 +83,8 @@ services:
       DB_PASS: root
       DB_NAME: cypress
       DB_NAME_ROOT: postgres
-      DB_ENTITIES: ./dist/src/**/*.entity.js
-      DB_MIGRATIONS: ./dist/migrations/*.js
+      DB_ENTITIES: src/**/*.entity.js
+      DB_MIGRATIONS: migrations/*.js
 
 
   app:

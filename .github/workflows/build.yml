@@ -86,8 +86,13 @@ jobs:
         postgresql db: 'test'
         postgresql user: 'root'
         postgresql password: 'root'
-    - run: docker run --network=host nilscox/zetecom-api:${{ github.sha }} yarn test:intg
-    - run: docker run --network=host nilscox/zetecom-api:${{ github.sha }} yarn test:e2e
+    - uses: actions/checkout@v1
+    - run: yarn
+      working-directory: ./api
+    - run: yarn test:intg
+      working-directory: ./api
+    - run: yarn test:e2e
+      working-directory: ./api
 
   e2e:
     name: end-to-end tests
@@ -97,10 +102,13 @@ jobs:
     - uses: actions/checkout@v1
     - run: yarn
       working-directory: ./e2e
-    - run: yarn start:ci
+    - run: yarn docker-compose:ci up -d
       working-directory: ./e2e
       env:
         GIT_SHA: ${{ github.sha }}
+    - run: mkdir -p e2e/artifacts && docker-compose logs -f > e2e/artifacts/e2e.log &
+    - run: yarn start:ci
+      working-directory: ./e2e
     - uses: codecov/codecov-action@v1
       if: success()
     - uses: actions/upload-artifact@v2
