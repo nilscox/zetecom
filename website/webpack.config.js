@@ -15,6 +15,7 @@ const {
   NODE_ENV = 'development',
   HOST = '0.0.0.0',
   PORT = '8000',
+  BETA = 'false',
 } = process.env;
 
 const dev = NODE_ENV === 'development';
@@ -25,7 +26,7 @@ const commonConfig = {
   mode: prod ? 'production' : 'development',
   devtool: dev ? 'source-map' : false,
 
-  entry: './src/index.tsx',
+  entry: BETA === 'true' ? './src/HowToBeta/index.tsx' : './src/index.tsx',
 
   output: {
     filename: '[name].js',
