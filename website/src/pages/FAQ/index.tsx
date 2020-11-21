@@ -108,6 +108,7 @@ const useSections = () => [
       {
         question: 'Peut-on participer au projet ?',
         answer: <>Que ce soit pour donner vos impressions, proposer des axes d'amélioration, ou même plus généralement réfléchir au concept de Zétécom et imaginer ce que l'on peut construire ensemble, vous êtes chaleureusement invité.e à <Link href="#contact">nous envoyer un petit message</Link>.
+        Pour suivre l'avancement du projet et des développements, un [board tello](https://trello.com/b/CfC8aQ80/tasks) est accessible publiquement, n'hésitez pas à y jeter un oeil !
         Et si vous êtes développeu.r.se et que le projet vous intéresse techniquement, les source sont disponibles sur <Link openInNewTab href={useEnvironment('REPOSITORY_URL')} onClick={() => trackOpenRepositoryLink('faq')}>GitHub</Link>.</>,
       },
 

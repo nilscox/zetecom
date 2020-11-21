@@ -2,7 +2,7 @@ import React from 'react';
 
 import Link from 'src/components/Link';
 
-import Logo from '../images/logo.png';
+import Logo from '../../images/logo.png';
 
 import './PageHeader.scss';
 
