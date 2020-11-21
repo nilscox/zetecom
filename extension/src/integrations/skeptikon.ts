@@ -1,4 +1,4 @@
-import setupIntegration from '../integration';
+import setupIntegration, { Integration } from '../integration';
 
 const getElement = () => document.querySelector<HTMLElement>('my-video-comments');
 
@@ -11,7 +11,7 @@ const getIdentifier = (url: string) => {
   return ['skeptikon', match[1]].join(':');
 };
 
-setupIntegration({
+const skeptkon: Integration = {
   getElement,
   getIdentifier,
   healthcheck: () => true,
@@ -19,4 +19,6 @@ setupIntegration({
   originalText: 'Commentaires Skepitkón',
   integrationText: 'Commentaires Zétécom',
   darkMode: true,
-});
+};
+
+export default skeptkon;

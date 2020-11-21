@@ -24,11 +24,13 @@ const healthcheck = () => {
   return true;
 };
 
-setupIntegration({
+const youtube = {
   getElement,
   getIdentifier,
   healthcheck,
   type: 'switch',
   originalText: 'Commentaires YouTube',
   integrationText: 'Commentaires Zétécom',
-});
+};
+
+export default youtube;

@@ -1,4 +1,4 @@
-import setupIntegration from '../integration';
+import setupIntegration, { Integration } from '../integration';
 
 const getElement = () => document.getElementById('comments');
 
@@ -11,11 +11,13 @@ const getIdentifier = () => {
   return ['test', match[1]].join(':');
 };
 
-setupIntegration({
+const test: Integration = {
   getElement,
   getIdentifier,
   healthcheck: () => true,
   type: 'switch',
   originalText: 'Commentaires Test',
   integrationText: 'Commentaires Zétécom',
-});
+};
+
+export default test;

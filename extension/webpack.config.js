@@ -8,30 +8,17 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 require('dotenv').config();
 
-const INTEGRATIONS_PATH = path.resolve(__dirname, 'src', 'integrations');
-
-const makeEntry = (filepath, filename) => ({
-  import: './' + path.join('src', filepath, filename),
-  filename: filepath + '/[name].js',
-});
-
-const loadIntegrationsEntries = () => {
-  return fs.readdirSync(INTEGRATIONS_PATH)
-    .filter(entry => !entry.endsWith('__tests__'))
-    .reduce((obj, filename) => ({
-      ...obj,
-      [path.parse(filename).name]: makeEntry('integrations', filename),
-    }), {});
-};
-
 module.exports = {
 
   mode: process.env.NODE_ENV,
 
   entry: {
-    popup: makeEntry('popup', 'popup.ts'),
+    popup: {
+      import: './' + path.join('src', 'popup', 'popup.ts'),
+      filename: 'popup/[name].js',
+    },
     background: './src/background.ts',
-    ...loadIntegrationsEntries(),
+    content_script: './src/content_script.ts',
   },
 
   devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : false,

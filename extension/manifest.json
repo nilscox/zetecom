@@ -33,16 +33,8 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*"],
-      "js": ["integrations/youtube.js"]
-    },
-    {
-      "matches": ["*://*.skeptikon.fr/*"],
-      "js": ["integrations/skeptikon.js"]
-    },
-    {
-      "matches": ["*://*.lemonde.fr/*"],
-      "js": ["integrations/lemonde.js"]
+      "matches": ["<all_urls>"],
+      "js": ["content_script.js"]
     }
   ]
 }

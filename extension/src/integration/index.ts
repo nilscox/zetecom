@@ -16,7 +16,7 @@ declare global {
 
 type IntegrationType = 'insert' | 'switch';
 
-type Integration = {
+export type Integration = {
   getElement: () => HTMLElement | null;
   getIdentifier: (url: string) => string | null;
   healthcheck: () => boolean;

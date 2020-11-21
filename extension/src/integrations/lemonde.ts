@@ -1,4 +1,4 @@
-import setupIntegration from '../integration';
+import setupIntegration, { Integration } from '../integration';
 
 const getElement = () => document.getElementsByClassName('article__content')[0] as HTMLElement;
 
@@ -15,9 +15,11 @@ export const getIdentifier = (url: string) => {
   return ['lemonde', topic, date.replace(/\//g, '-'), id].join(':');
 };
 
-setupIntegration({
+const lemonde: Integration = {
   getElement,
   getIdentifier,
   healthcheck: () => true,
   type: 'insert',
-});
+};
+
+export default lemonde;
