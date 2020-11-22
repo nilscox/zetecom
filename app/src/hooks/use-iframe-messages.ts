@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { useIFrameOrigin } from 'src/contexts/IFrameOriginContext';
 
 export type Message = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
   type: string;
 };
@@ -12,6 +13,7 @@ const useIFrameMessages = () => {
 
   const sendMessage = useCallback((message: Message) => {
     if (!origin) {
+      // eslint-disable-next-line no-console
       console.warn('cannot send message: origin is not set');
       return;
     }
