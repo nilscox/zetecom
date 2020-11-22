@@ -18,17 +18,19 @@
 const { useState, useEffect } = React;
 const { BrowserRouter, Switch, Route, Link } = ReactRouterDOM;
 
+const Comments = () => <div id="comments">Comment 1, comment 2, ...</div>;
+
 const Article = ({ title, children }) => (
   <article>
     <h2>{title}</h2>
     {children}
-    <div id="comments">Comment 1, comment 2, ...</div>
   </article>
 );
 
 const Article1 = () => (
   <Article title="This is the article 1">
     blah... blah... <Link to="/article/2">Link to article 2</Link>
+    <Comments />
   </Article>
 );
 
@@ -48,6 +50,21 @@ const Article2 = () => {
   return (
     <Article title="This is the article 2">
       bluh... bluh...  <Link to="/article/1">Link to article 1</Link>
+      <Comments />
+    </Article>
+  );
+};
+
+const Article3 = () => {
+  const text = ['blah', 'bleh', 'blih', 'bloh', 'bluh'];
+  const before = new Array(3500).fill(null).map(() => text[~~(Math.random() * text.length)]).join(' ');
+  const after = new Array(2200).fill(null).map(() => text[~~(Math.random() * text.length)]).join(' ');
+
+  return (
+    <Article title="This is the article 2">
+      {before}
+      <Comments />
+      {after}
     </Article>
   );
 };
@@ -55,6 +72,7 @@ const Article2 = () => {
 const Articles = {
   '1': Article1,
   '2': Article2,
+  '3': Article3,
 };
 
 const App = () => (
@@ -72,6 +90,7 @@ const App = () => (
           <div>Home page</div>
           <div><Link to="/article/1">Go to article 1</Link></div>
           <div><Link to="/article/2">Go to article 2</Link></div>
+          <div><Link to="/article/3">Go to article 3</Link></div>
         </Route>
 
         <Route

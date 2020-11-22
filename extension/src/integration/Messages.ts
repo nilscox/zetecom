@@ -5,15 +5,18 @@ export type Message = {
   type: string;
 };
 
-type Actor = 'iframe' | 'contentScript' | 'backgroundScript';
+type Actor = 'iframe' | 'contentScript' | 'runtime';
+
+const runtimeMessages = ['GET_INTEGRATION_STATE', 'SCROLL_IFRAME_INTO_VIEW'];
+const iframeMessages = ['INTEGRATION_LOADED'];
 
 export class Messages {
   public static iframe?: HTMLIFrameElement;
 
   static send(to: Actor, message: Message) {
-    log(`send message to ${to}`, message)
+    log('content script send', message, to);
 
-    if (to === 'backgroundScript') {
+    if (to === 'runtime') {
       chrome.runtime.sendMessage(message);
     } else if (to === 'iframe') {
       Messages.iframe?.contentWindow?.postMessage(message, process.env.APP_URL!);
@@ -22,14 +25,25 @@ export class Messages {
     }
   };
 
-  static listen(cb: (message: Message) => void) {
-    window.addEventListener('message', ({ data }) => {
-      if (data.type !== 'INTEGRATION_LOADED') {
-        return;
-      }
+  static listen(from: Actor, cb: (message: Message) => void) {
+    if (from === 'runtime') {
+      chrome.runtime.onMessage.addListener((data) => {
+        if (!runtimeMessages.includes(data.type)) {
+          return;
+        }
 
-      log('message', data);
-      cb(data);
-    });
+        log('content script recv from runtime', data);
+        cb(data);
+      });
+    } else if (from === 'iframe') {
+      window.addEventListener('message', ({ data }) => {
+        if (!iframeMessages.includes(data.type)) {
+          return;
+        }
+
+        log('content script recv from iframe', data);
+        cb(data);
+      });
+    }
   };
 }

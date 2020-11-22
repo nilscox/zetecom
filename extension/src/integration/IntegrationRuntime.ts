@@ -2,13 +2,13 @@ import { Integration } from './IntegrationHost';
 import IFrame from './iframe';
 import Switcher from './switcher';
 import log from './log';
-import { Message, Messages } from './Messages';
 
 export interface IntegrationRuntime {
   readonly integration: Integration;
   readonly identifier: string | null;
   mount(): void;
   unmount(): void;
+  scrollIntoView(): void;
 }
 
 abstract class BaseIntegrationRuntime implements IntegrationRuntime {
@@ -26,6 +26,10 @@ abstract class BaseIntegrationRuntime implements IntegrationRuntime {
 
   abstract mount(): void;
   abstract unmount(): void;
+
+  scrollIntoView() {
+    this.iframe?.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 }
 
 export class AppendIntegrationRuntime extends BaseIntegrationRuntime {
@@ -52,8 +56,6 @@ export class AppendIntegrationRuntime extends BaseIntegrationRuntime {
   }
 
   unmount() {
-    Messages.send('backgroundScript', { type: 'UNSET_EXTENSION_ACTIVE' });
-
     log('unmounting iframe');
     this.iframe?.unmount();
   }
@@ -61,6 +63,10 @@ export class AppendIntegrationRuntime extends BaseIntegrationRuntime {
 
 export class SwitcherIntegrationRuntime extends BaseIntegrationRuntime {
   private switcher?: Switcher;
+
+  focusTab(tab: 'left' | 'right') {
+    this.switcher?.focus(tab);
+  }
 
   mount() {
     const { integration, identifier, element } = this;
@@ -71,6 +77,10 @@ export class SwitcherIntegrationRuntime extends BaseIntegrationRuntime {
 
     if (!element) {
       throw new Error('cannot get element');
+    }
+
+    if (document.querySelector('iframe#zc-iframe')) {
+      throw new Error('zc-iframe already exists in the document');
     }
 
     log('creating iframe');
@@ -85,15 +95,13 @@ export class SwitcherIntegrationRuntime extends BaseIntegrationRuntime {
     switcher.left = element;
     switcher.right = iframe.element;
 
-    switcher.focus('left');
+    this.focusTab('left');
 
     log('loading iframe resizer');
     iframe.loadIframeResizer();
   }
 
   unmount() {
-    Messages.send('backgroundScript', { type: 'UNSET_EXTENSION_ACTIVE' });
-
     log('unmounting switcher');
     this.switcher?.unmount();
 

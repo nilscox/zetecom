@@ -33,6 +33,7 @@ export class IntegrationHost {
   private integrations: Integration[] = [];
   private runtime?: IntegrationRuntime;
   private identifier?: string;
+  private loaded = false;
 
   register(integration: Integration) {
     this.integrations.push(integration);
@@ -47,16 +48,33 @@ export class IntegrationHost {
     log('registering location change handler');
     watchPageUrl(() => this.handleLocationChange());
 
-    log('registering messages handler');
-    Messages.listen((message) => this.handleMessage(message));
+    log('registering iframe messages handler');
+    Messages.listen('iframe', (message) => this.handleIframeMessage(message));
+
+    log('registering runtime messages handler');
+    Messages.listen('runtime', (message) => this.handleRuntimeMessage(message));
 
     log('initializing integration');
     this.initialize();
   }
 
-  handleMessage(message: Message) {
+  handleIframeMessage(message: Message) {
     if (message.type === 'INTEGRATION_LOADED') {
-      Messages.send('backgroundScript', { type: 'SET_EXTENSION_ACTIVE' });
+      this.loaded = true;
+      Messages.send('runtime', { type: 'SET_EXTENSION_ACTIVE' });
+    }
+  }
+
+  handleRuntimeMessage(message: Message) {
+    if (message.type === 'SCROLL_IFRAME_INTO_VIEW') {
+      this.scrollIntoView();
+    }  else if (message.type === 'GET_INTEGRATION_STATE') {
+      const state = {
+        available: !!this.runtime,
+        loaded: this.loaded,
+      };
+
+      Messages.send('runtime', { type: 'INTEGRATION_STATE', state });
     }
   }
 
@@ -78,10 +96,13 @@ export class IntegrationHost {
     log('unmounting integration');
     this.runtime.unmount();
     this.runtime = undefined;
+    this.loaded = false;
+
+    Messages.send('runtime', { type: 'UNSET_EXTENSION_ACTIVE' });
 
     if (identifier) {
       setTimeout(() => {
-        log('creating runtime');
+        log('reinitializing integration');
         this.initialize();
       }, 0);
     }
@@ -137,7 +158,7 @@ export class IntegrationHost {
       return;
     }
 
-    log(`element: "${element}"`);
+    log('element: ', element);
     log(`identifier: "${identifier}"`);
 
     this.runtime = this.getRuntime(integration);
@@ -148,5 +169,17 @@ export class IntegrationHost {
     log('integration mounted');
 
     this.identifier = identifier;
+  }
+
+  scrollIntoView() {
+    if (!this.runtime) {
+      return;
+    }
+
+    if ('focusTab' in this.runtime) {
+      (this.runtime as SwitcherIntegrationRuntime).focusTab('right');
+    }
+
+    this.runtime.scrollIntoView();
   }
 }
