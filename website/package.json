@@ -5,7 +5,7 @@
   "license": "GPL-3.0-only",
   "author": "nilscox <nils@zetecom.fr>",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack serve",
     "build": "NODE_ENV=production webpack",
     "test": "NODE_ENV=test jest",
     "lint": "eslint src --ext .ts,.tsx",
