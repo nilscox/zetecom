@@ -5,6 +5,7 @@
     "noImplicitAny": false,
     "removeComments": true,
     "noLib": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
@@ -19,6 +20,7 @@
       "Common/*": ["src/common/*"]
     }
   },
+  "exclude": ["node_modules/*"],
   "include": [
     "src/**/*",
     "migrations/*",

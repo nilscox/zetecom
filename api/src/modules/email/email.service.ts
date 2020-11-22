@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import email from 'emailjs';
+import { Message, SMTPClient } from 'emailjs';
 
 import { ConfigService } from '../config/config.service';
 import { User } from '../user/user.entity';
@@ -25,11 +25,12 @@ export class EmailService {
     const EMAIL_USER = this.configService.get('EMAIL_USER');
     const EMAIL_PASSWORD = this.configService.get('EMAIL_PASSWORD');
 
-    if (EMAIL_BYPASS === 'true')
+    if (EMAIL_BYPASS === 'true') {
       return Promise.resolve();
+    }
 
     return new Promise((resolve, reject) => {
-      const conn = email.server.connect({
+      const client = new SMTPClient({
         host: EMAIL_HOST,
         user: EMAIL_USER,
         password: EMAIL_PASSWORD,
@@ -43,13 +44,15 @@ export class EmailService {
         subject,
       };
 
-      if (text)
+      if (text) {
         opts.text = text;
+      }
 
-      if (html)
+      if (html) {
         opts.attachment = [{ data: html, alternative: true }];
+      }
 
-      conn.send(opts, (err: unknown, message: unknown) => {
+      client.send(opts as Message, (err: unknown, message: unknown) => {
         if (err)
           reject(err);
         else

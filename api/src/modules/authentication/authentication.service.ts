@@ -2,7 +2,7 @@ import { BadRequestException, Injectable,  UnauthorizedException } from '@nestjs
 import { InjectRepository } from '@nestjs/typeorm';
 import bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 
 import { EmailService } from '../email/email.service';
 import { User } from '../user/user.entity';
