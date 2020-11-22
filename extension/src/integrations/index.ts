@@ -10,6 +10,6 @@ export default [
   LeMonde,
   Liberation,
   Skeptikon,
-  Test,
+  // Test,
   YouTube,
 ];

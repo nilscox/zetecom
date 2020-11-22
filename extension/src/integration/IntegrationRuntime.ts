@@ -26,10 +26,7 @@ abstract class BaseIntegrationRuntime implements IntegrationRuntime {
 
   abstract mount(): void;
   abstract unmount(): void;
-
-  scrollIntoView() {
-    this.iframe?.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
+  abstract scrollIntoView(): void;
 }
 
 export class AppendIntegrationRuntime extends BaseIntegrationRuntime {
@@ -58,6 +55,10 @@ export class AppendIntegrationRuntime extends BaseIntegrationRuntime {
   unmount() {
     log('unmounting iframe');
     this.iframe?.unmount();
+  }
+
+  scrollIntoView() {
+    this.iframe?.element.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 
@@ -107,5 +108,9 @@ export class SwitcherIntegrationRuntime extends BaseIntegrationRuntime {
 
     log('unmounting iframe');
     this.iframe?.unmount();
+  }
+
+  scrollIntoView() {
+    this.switcher?.tabsElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
