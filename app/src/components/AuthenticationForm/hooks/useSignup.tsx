@@ -30,7 +30,7 @@ const useSignup = (onAuthenticated: (user: User) => void) => {
   }, [status, user, onAuthenticated, location.pathname]);
 
   const handleSignup = (email: string, password: string, nick: string) => {
-    signup({ data: { email, password, nick } });
+    signup({ data: { email, password, nick } }).catch(() => {});
   };
 
   return [handleSignup, { loading, error }] as const;

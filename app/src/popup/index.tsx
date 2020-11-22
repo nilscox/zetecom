@@ -8,12 +8,14 @@ import AsyncContent from 'src/components/AsyncContent';
 import HeaderLogo from 'src/components/HeaderLogo';
 import RouterLink from 'src/components/Link';
 import ToastContainer from 'src/components/ToastContainer';
+import { IFrameOriginProvider } from 'src/contexts/IFrameOriginContext';
 import { useCurrentUser } from 'src/contexts/UserContext';
+import Separator from 'src/popup/views/Separator';
 import createTheme from 'src/theme/createTheme';
 
+import IntegrationState from './IntegrationState';
 import AuthenticatedView from './views/AuthenticatedView';
 import AuthenticationView from './views/AuthenticationView';
-import { IFrameOriginProvider } from 'src/contexts/IFrameOriginContext';
 
 const theme = createTheme();
 
@@ -38,6 +40,12 @@ const Popup: React.FC = () => {
               <RouterLink to="/popup">
                 <HeaderLogo />
               </RouterLink>
+
+              <Separator />
+
+              <IntegrationState />
+
+              <Separator />
 
               <Switch>
                 <Route path="/popup/:sign(connexion|inscription|connexion-par-email)" component={AuthenticationView} />

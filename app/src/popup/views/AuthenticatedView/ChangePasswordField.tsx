@@ -3,16 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Collapse, makeStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 
+import Button from 'src/components/Button';
 import FormError from 'src/components/FormError';
 import TextField from 'src/components/TextField';
 
 import useChangePassword from './useChangePassword';
 
 const useStyles = makeStyles(({ palette }) => ({
-  changePassword: {
-    textDecoration: 'underline',
-    cursor: 'pointer',
-  },
   passwordChanged: {
     color: palette.success.dark,
   },
@@ -63,9 +60,9 @@ const ChangePasswordField = () => {
       {passwordChanged ? (
         <Typography className={classes.passwordChanged}>Votre mot de passe a bien été mis à jour !</Typography>
       ) : (
-        <Typography className={classes.changePassword} onClick={() => setDisplayForm(d => !d)}>
+        <Button onClick={() => setDisplayForm(d => !d)}>
           Changer de mot de passe
-        </Typography>
+        </Button>
       )}
     </>
   );

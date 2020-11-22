@@ -13,6 +13,7 @@ import { FormFields } from '../types';
 const useLogin = (onAuthenticated: (user: User) => void) => {
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/login' };
   const [{ data: user, loading, error, status }, login] = useAxios(opts, { manual: true }, User);
+
   const location = useLocation();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const useLogin = (onAuthenticated: (user: User) => void) => {
   }, [status, user, onAuthenticated, location.pathname]);
 
   const handleLogin = (email: string, password: string) => {
-    login({ data: { email, password } });
+    login({ data: { email, password } }).catch(() => {});
   };
 
   return [handleLogin, { loading, error }] as const;

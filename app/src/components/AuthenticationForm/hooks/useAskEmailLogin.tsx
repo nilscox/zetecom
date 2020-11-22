@@ -23,7 +23,7 @@ const useAskEmailLogin = () => {
 
   const handleAskEmailLogin = (email: string) => {
     setEmail(email);
-    askEmailLogin({ data: { email } });
+    askEmailLogin({ data: { email } }).catch(() => {});
   };
 
   return [handleAskEmailLogin, { loading, error }] as const;

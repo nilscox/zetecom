@@ -10,8 +10,9 @@ const AuthenticationView: React.FC = () => {
   const [, setUser] = useUser();
 
   const onAuthenticated = useCallback((user: User) => {
-    if (!user.requiresEmailValidation)
+    if (!user.requiresEmailValidation) {
       setUser(user);
+    }
   }, [setUser]);
 
   return (
