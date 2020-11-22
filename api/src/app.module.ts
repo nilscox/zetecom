@@ -5,7 +5,6 @@ import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import connectRedis from 'connect-redis';
 import expressSession from 'express-session';
-import memorystore from 'memorystore';
 import morgan from 'morgan';
 import redis from 'redis';
 
@@ -37,8 +36,6 @@ const fakeLagProvider: Provider = {
   provide: 'FAKE_LAG',
   useValue: 230,
 };
-
-const MemoryStore = memorystore(expressSession);
 
 @Module({
   providers: [AppGuardProvider, fakeLagProvider],
@@ -85,27 +82,19 @@ export class AppModule {
   }
 
   private configureSession() {
-    const NODE_ENV = this.configService.get('NODE_ENV');
     const SESSION_SECRET = this.configService.get('SESSION_SECRET');
     const SECURE_COOKIE = this.configService.get('SECURE_COOKIE');
     const REDIS_HOST = this.configService.get('REDIS_HOST');
     const REDIS_PORT = this.configService.get('REDIS_PORT');
 
     const getStore = () => {
-      if (NODE_ENV === 'production') {
-        const RedisStore = connectRedis(expressSession);
-        const redisClient = redis.createClient({
-          host: REDIS_HOST,
-          port: Number(REDIS_PORT),
-        });
-
-        return new RedisStore({ client: redisClient });
-      }
-
-      return new MemoryStore({
-        // one day
-        checkPeriod: 86400000,
+      const RedisStore = connectRedis(expressSession);
+      const redisClient = redis.createClient({
+        host: REDIS_HOST,
+        port: Number(REDIS_PORT),
       });
+
+      return new RedisStore({ client: redisClient });
     };
 
     this.logger.verbose(`configure express-session with SECURE_COOKIE = ${SECURE_COOKIE}`);
