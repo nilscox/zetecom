@@ -10,11 +10,12 @@ import useUpdateEffect from '../../hooks/use-update-effect';
 import CommentsAreaComponent from './CommentsAreaComponent';
 
 type CommentsAreaContainerProps = {
+  showDescription?: boolean;
   commentsArea: CommentsArea;
   linkToInformation?: boolean;
 };
 
-const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ commentsArea, linkToInformation }) => {
+const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ showDescription, commentsArea, linkToInformation }) => {
   const commentsUrl = `/api/comments-area/${commentsArea?.id}/comments`;
   const [loading, setLoading] = useState(false);
 
@@ -47,6 +48,7 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ commentsA
     <CommentsAreaComponent
       commentsArea={commentsArea}
       comments={comments}
+      showDescription={showDescription}
       loadingComments={loading}
       filters={filters}
       onRootCommentCreated={prepend}

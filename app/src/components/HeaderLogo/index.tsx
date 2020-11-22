@@ -1,66 +1,67 @@
 import React from 'react';
 
-import { makeStyles, Typography } from '@material-ui/core';
+import { makeStyles, Theme, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 
 import logo from './logo.png';
 
-const useStyles = makeStyles(({ breakpoints, spacing, palette }) => ({
-  image: {
-    width: 54,
+const useStyles = makeStyles<Theme, { small?: boolean }>(({ breakpoints, spacing, palette }) => ({
+  image: ({ small }) => ({
+    width: small ? 42 : 54,
     marginRight: spacing(6),
     [breakpoints.down('xs')]: {
-      width: 42,
+      width: small ? 36 : 42,
       marginRight: spacing(4),
     },
     [breakpoints.down(360)]: {
       width: 36,
       marginRight: spacing(2),
     },
-  },
-  title: {
+  }),
+  title: ({ small }) => ({
     fontFamily: '"Noticia Text", serif',
     fontWeight: 'bold',
-    fontSize: 28,
+    fontSize: small ? 22 : 28,
     letterSpacing: 3,
     lineHeight: 1,
     color: palette.secondary.main,
     [breakpoints.down('xs')]: {
-      fontSize: 20,
+      fontSize: small ? 18 : 20,
       letterSpacing: 2,
     },
     [breakpoints.down(360)]: {
       fontSize: 16,
       letterSpacing: 1,
     },
-  },
+  }),
   subtitleContainer: {
     display: 'flex',
     flexDirection: 'column',
     marginLeft: spacing(4),
   },
-  subTitle: {
+  subTitle: ({ small }) => ({
     color: palette.text.secondary,
-    fontSize: 18,
+    fontSize: small ? 14 : 18,
     lineHeight: 1,
     [breakpoints.down('xs')]: {
-      fontSize: 16,
+      fontSize: small ? 14 : 16,
     },
     [breakpoints.down(360)]: {
       fontSize: 14,
     },
-  },
+  }),
   subtitleTop: {
     alignSelf: 'flex-end',
   },
 }));
 
 type HeaderLogoProps = {
+  small?: boolean;
   className?: string;
 };
 
-const HeaderLogo: React.FC<HeaderLogoProps> = ({ className }) => {
-  const classes = useStyles();
+const HeaderLogo: React.FC<HeaderLogoProps> = ({ small, className }) => {
+  const classes = useStyles({ small });
 
   return (
     <div

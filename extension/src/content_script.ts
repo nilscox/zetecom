@@ -1,10 +1,9 @@
-import setupIntegration from './integration';
+import { IntegrationHost } from './integration/IntegrationHost';
 import integrations from './integrations';
 
-for (const integration of integrations) {
-  const identifier = integration.getIdentifier(location.href);
+import './integration/integration.css';
 
-  if (identifier) {
-    setupIntegration(integration);
-  }
-}
+const host = new IntegrationHost();
+
+integrations.forEach(IntegrationClass => host.register(new IntegrationClass()));
+host.run();

@@ -15,7 +15,47 @@
 
     <script type="text/babel">
 
+const { useState, useEffect } = React;
 const { BrowserRouter, Switch, Route, Link } = ReactRouterDOM;
+
+const Article = ({ title, children }) => (
+  <article>
+    <h2>{title}</h2>
+    {children}
+    <div id="comments">Comment 1, comment 2, ...</div>
+  </article>
+);
+
+const Article1 = () => (
+  <Article title="This is the article 1">
+    blah... blah... <Link to="/article/2">Link to article 2</Link>
+  </Article>
+);
+
+const Article2 = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  if (loading) {
+    return <React.Fragment>Loading...</React.Fragment>;
+  }
+
+  return (
+    <Article title="This is the article 2">
+      bluh... bluh...  <Link to="/article/1">Link to article 1</Link>
+    </Article>
+  );
+};
+
+const Articles = {
+  '1': Article1,
+  '2': Article2,
+};
 
 const App = () => (
   <div>
@@ -36,12 +76,15 @@ const App = () => (
 
         <Route
           path="/article/:id"
-          render={({ match }) => (
-            <div>
-              <h2>This is the article {match.params.id}</h2>
-              <div id="comments">Comment 1, comment 2, ...</div>
-            </div>
-          )}
+          render={({ match }) => {
+            const Component = Articles[match.params.id];
+
+            if (Component) {
+              return <Component />;
+            }
+
+            return null;
+          }}
         />
 
       </Switch>

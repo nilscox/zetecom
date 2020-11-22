@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { makeStyles } from '@material-ui/core';
 import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
 import AsyncContent from 'src/components/AsyncContent';
 import CommentsArea from 'src/components/CommentsArea';
-import Fallback, { not } from 'src/components/Fallback';
+import Fallback from 'src/components/Fallback';
 import HeaderLogo from 'src/components/HeaderLogo';
 import Padding from 'src/components/Padding';
 import { useTrackPageview } from 'src/components/TrackPageView';
-import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
 import { CommentsArea as CommentsAreaType } from 'src/types/CommentsArea';
 import { trackViewIntegration } from 'src/utils/track';
 
 import CommentAreaClosed from './CommentAreaClosed';
+import useFetchCommentsArea from 'src/components/CommentsArea/useFetchCommentsArea';
 
 type IntegrationRouterProps = {
   commentsArea: CommentsAreaType;
@@ -23,7 +23,7 @@ type IntegrationRouterProps = {
 const IntegrationRouter: React.FC<IntegrationRouterProps> = ({ commentsArea }) => (
   <Router>
     <Route path="/" exact render={() => <Redirect to="/comment" />} />
-    <Route path="/comment" exact render={() => <CommentsArea commentsArea={commentsArea} />} />
+    <Route path="/comment" exact render={() => <CommentsArea showDescription={false} commentsArea={commentsArea} />} />
   </Router>
 );
 
@@ -39,20 +39,10 @@ const Integration: React.FC = () => {
   const classes = useStyles();
 
   const { identifier: identifierParam, origin: originParam } = useQueryString();
-  const [identifier, setIdentifier] = useState(identifierParam as string);
+  const identifier = decodeURIComponent(identifierParam as string);
   const origin = decodeURIComponent(originParam as string);
 
-  const opts = {
-    url: `/api/comments-area/by-identifier/${identifier}`,
-    validateStatus: (s: number) => [200, 404].includes(s),
-  };
-
-  // TODO: use fetchCommentsArea
-  const [{ data: commentsArea, loading, error, status }, fetchCommentsArea] = useAxios(
-    opts,
-    undefined,
-    CommentsAreaType,
-  );
+  const [{ data: commentsArea, loading, status }] = useFetchCommentsArea({ identifier });
 
   useTrackPageview(() => !!commentsArea);
 
@@ -60,29 +50,7 @@ const Integration: React.FC = () => {
     if (commentsArea) {
       trackViewIntegration(identifier);
     }
-  });
-
-  if (error) {
-    throw error;
-  }
-
-  useEffect(() => void identifier && fetchCommentsArea(), [identifier, fetchCommentsArea]);
-
-  useEffect(() => {
-    const identifierChangedListener = (evt: MessageEvent) => {
-      if (evt.origin !== origin) {
-        return;
-      }
-
-      if (evt.data.type === 'IDENTIFIER_CHANGED') {
-        setIdentifier(evt.data.identifier);
-      }
-    };
-
-    window.addEventListener('message', identifierChangedListener);
-
-    return () => window.removeEventListener('message', identifierChangedListener);
-  }, [origin]);
+  }, [commentsArea, identifier]);
 
   useEffect(() => {
     if (commentsArea) {
@@ -99,7 +67,7 @@ const Integration: React.FC = () => {
         render={() => (
           <>
             <Padding bottom>
-              <HeaderLogo />
+              <HeaderLogo small />
             </Padding>
 
             <Fallback

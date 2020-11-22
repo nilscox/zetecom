@@ -97,6 +97,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 }));
 
 type CommentsAreaComponentProps = {
+  showDescription?: boolean;
   commentsArea: CommentsAreaType;
   comments?: Comment[];
   loadingComments?: boolean;
@@ -109,6 +110,7 @@ type CommentsAreaComponentProps = {
 };
 
 const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
+  showDescription = true,
   commentsArea,
   comments,
   commentsActions,
@@ -128,13 +130,15 @@ const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
 
   return (
     <CommentsAreaProvider value={commentsArea}>
-      <Grid container direction="column" component={Paper} variant="outlined">
-        <CommentsAreaDescription
-          commentsArea={commentsArea}
-          folded={folded}
-          toggleFolded={toggleFolded}
-          linkToInformation={linkToInformation}
-        />
+      <Grid container direction="column">
+        {showDescription && (
+          <CommentsAreaDescription
+            commentsArea={commentsArea}
+            folded={folded}
+            toggleFolded={toggleFolded}
+            linkToInformation={linkToInformation}
+          />
+        )}
 
         {[renderFilters, renderRootCommentCreationForm, renderComments].some(Boolean) && (
           <Grid item className={classes.comments}>

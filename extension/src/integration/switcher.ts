@@ -1,61 +1,87 @@
-import { sendMessageToContentScript } from "./messages";
+import log from './log';
 
-const createTabs = (darkMode: boolean, leftText: string, rightText: string) => {
-  const left = document.createElement('button');
-  const right = document.createElement('button');
+export default class Switcher {
+  private leftTab: HTMLButtonElement;
+  private rightTab: HTMLButtonElement;
+  private tabs: HTMLDivElement;
 
-  left.classList.add('button');
-  left.innerText = leftText;
+  private leftElement?: HTMLElement;
+  private rightElement?: HTMLElement;
 
-  right.classList.add('button');
-  right.innerText = rightText;
+  constructor(leftText: string, rightText: string, darkMode: boolean) {
+    this.leftTab = this.createTab('left', leftText);
+    this.rightTab = this.createTab('right', rightText);
+    this.tabs = this.createTabsContainer(this.leftTab, this.rightTab, darkMode);
+  }
 
-  const container = document.createElement('div');
+  set left(element: HTMLElement) {
+    this.leftElement = element;
+    element.style.display = 'none';
+  }
 
-  container.id = 'zc-switcher';
+  set right(element: HTMLElement) {
+    this.rightElement = element;
+    element.style.display = 'none';
+  }
 
-  if (darkMode)
-    container.classList.add('dark');
+  get tabsElement() {
+    return this.tabs;
+  }
 
-  container.appendChild(left);
-  container.appendChild(right);
+  unmount() {
+    this.leftTab.remove();
+    this.rightTab.remove();
+    this.tabs.remove();
+  }
 
-  return [container, [left, right]] as const;
-};
+  focus(tab: 'left' | 'right') {
+    log('focus tab ' + tab);
 
-const setSelectedStyles = (
-  selectedTab: HTMLElement,
-  selectedElement: HTMLElement,
-  unselectedTab: HTMLElement,
-  unselectedElement: HTMLElement,
-) => {
-  selectedTab.classList.add('selected');
-  selectedElement.style.display = 'block';
+    const [oldTab, oldElement] = this.getElements(tab === 'left' ? 'right' : 'left');
+    const [newTab, newElement] = this.getElements(tab);
 
-  unselectedTab.classList.remove('selected');
-  unselectedElement.style.display = 'none';
-};
+    if (!oldElement || !newElement) {
+      throw new Error('left or right element is not set');
+    }
 
-type Tab = {
-  text: string;
-  element: HTMLElement;
+    oldTab.classList.remove('active');
+    oldElement.style.display = 'none';
+
+    newTab.classList.add('active');
+    newElement.style.display = 'block';
+  }
+
+  private getElements(tab: 'left' | 'right') {
+    const left = [this.leftTab, this.leftElement] as const;
+    const right = [this.rightTab, this.rightElement] as const;
+
+    return tab === 'left' ? left : right;
+  }
+
+  private createTabsContainer(left: HTMLButtonElement, right: HTMLButtonElement, darkMode: boolean) {
+    const tabs = document.createElement('div');
+
+    tabs.classList.add('zc-tabs');
+
+    if (darkMode) {
+      tabs.classList.add('dark');
+    }
+
+    tabs.appendChild(left);
+    tabs.appendChild(right);
+
+    return tabs;
+  }
+
+  private createTab(which: 'left' | 'right', text: string) {
+    const tab = document.createElement('button');
+
+    tab.classList.add('zc-tab');
+    tab.classList.add('tab-' + which);
+    tab.textContent = text;
+
+    tab.addEventListener('click', () => this.focus(which));
+
+    return tab;
+  }
 }
-
-const createSwitcher = (darkMode: boolean, left: Tab, right: Tab) => {
-  const [tabs, [leftTab, rightTab]] = createTabs(darkMode, left.text, right.text);
-
-  const setTabSelected = (selected: 'left' | 'right') => {
-    const [selectedTab, selectedElement] = selected === 'left' ? [leftTab, left.element] : [rightTab, right.element];
-    const [unselectedTab, unselectedElement] = selected === 'left' ? [rightTab, right.element] : [leftTab, left.element];
-
-    setSelectedStyles(selectedTab, selectedElement, unselectedTab, unselectedElement);
-    sendMessageToContentScript({ type: 'TAB_CHANGED', tab: selected });
-  };
-
-  leftTab.addEventListener('click', () => setTabSelected('left'));
-  rightTab.addEventListener('click', () => setTabSelected('right'));
-
-  return [tabs, setTabSelected] as const;
-};
-
-export default createSwitcher;

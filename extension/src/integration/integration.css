@@ -10,17 +10,17 @@
   margin-bottom: 15px;
 }
 
-#zc-switcher {
+.zc-tabs {
   display: flex;
   flex-direction: row;
   justify-content: center;
 
   margin: 20px 0;
   text-align : center;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
-#zc-switcher .button {
+.zc-tabs button {
   margin: 0 10px;
   padding: 5px;
 
@@ -43,27 +43,27 @@
   font-family: inherit;
 }
 
-#zc-switech.dark .button {
+.zc-tabs.dark button {
   color: #99A;
 }
 
-#zc-switcher .button.selected {
+.zc-tabs button.active {
   color: #334;
   border-bottom-color: #CCC;
   cursor: initial;
 }
 
-#zc-switcher.dark .button.selected {
+.zc-tabs.dark button.active {
   color: #CCD;
 }
 
 @media screen and (max-width: 700px) {
-  #zc-switcher {
+  .zc-tabs {
     flex-direction: column;
     margin-left: 20px;
   }
 
-  #zc-switcher .button {
+  .zc-tabs button {
     margin: 0;
     padding: 5px 0;
     text-align: left;

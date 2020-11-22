@@ -1,36 +1,24 @@
 import queryString from 'query-string';
 
-import setupIntegration from '../integration';
+import { Integration } from '../integration/IntegrationHost';
 
-const getElement = () =>
-  document.getElementById('comments') ||
-  document.getElementsByTagName('ytm-comment-section-renderer')[0] as HTMLElement;
+export class YouTube implements Integration {
+  name = 'youtube';
+  domains = ['www.youtube.com', 'm.youtube.com'];
+  type = 'switch' as const;
+  externalElementTabText = 'Commentaires YouTube';
 
-const getIdentifier = (url: string) => {
-  const { v } = queryString.parse(url);
+  getElement() {
+    return document.getElementById('comments') ||
+      document.getElementsByTagName('ytm-comment-section-renderer')[0] as HTMLElement;
+  }
 
-  if (!v)
-    return null;
+  getIdentifier(url: string) {
+    const { query: { v } } = queryString.parseUrl(url);
 
-  return ['youtube', v].join(':');
-};
+    if (!v)
+      return null;
 
-const healthcheck = () => {
-  const comments = getElement();
-
-  if (comments?.previousElementSibling?.getAttribute('id') === 'related')
-    return false;
-
-  return true;
-};
-
-const youtube = {
-  getElement,
-  getIdentifier,
-  healthcheck,
-  type: 'switch',
-  originalText: 'Commentaires YouTube',
-  integrationText: 'Commentaires Zétécom',
-};
-
-export default youtube;
+    return ['youtube', v].join(':');
+  }
+}

@@ -1,23 +1,21 @@
-import setupIntegration, { Integration } from '../integration';
+import { Integration } from '../integration/IntegrationHost';
 
-const getElement = () => document.getElementById('comments');
+export class Test implements Integration {
+  name = 'test';
+  domains = ['localhost:8080'];
+  type = 'switch' as const;
+  externalElementTabText = 'Commentaires Test';
 
-const getIdentifier = () => {
-  const match = /article\/([0-9]+)/.exec(window.location.href);
+  getElement() {
+    return document.getElementById('comments');
+  }
 
-  if (!match)
-    return null;
+  getIdentifier(url: string) {
+    const match = /article\/([0-9]+)/.exec(url);
 
-  return ['test', match[1]].join(':');
+    if (!match)
+      return null;
+
+    return ['test', match[1]].join(':');
+  }
 };
-
-const test: Integration = {
-  getElement,
-  getIdentifier,
-  healthcheck: () => true,
-  type: 'switch',
-  originalText: 'Commentaires Test',
-  integrationText: 'Commentaires Zétécom',
-};
-
-export default test;

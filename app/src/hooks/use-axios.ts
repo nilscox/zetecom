@@ -22,12 +22,6 @@ export default function useAxios<T>(
   const [result, refetch] = useAxiosHook(config, options);
   const response = useMemo(() => result.response || result.error?.response, [result]);
 
-  const data = useMemo(() => {
-    if (response?.data && cls) {
-      return plainToClass(cls, response.data);
-    }
-  }, [response, cls]);
-
   const status = useCallback(
     (expected: number | number[]): boolean => {
       if (!response) {
@@ -42,6 +36,12 @@ export default function useAxios<T>(
     },
     [response],
   );
+
+  const data = useMemo(() => {
+    if (status([200, 201]) && response?.data && cls) {
+      return plainToClass(cls, response.data);
+    }
+  }, [status, response, cls]);
 
   return [
     {

@@ -1,12 +1,11 @@
-import { Integration } from '../integration';
-import lemonde from './lemonde';
-import skeptikon from './skeptikon';
-import test from './test';
-import youtube from './youtube';
+import { LeMonde } from './lemonde';
+import { Skeptikon } from './skeptikon';
+import { Test } from './test';
+import { YouTube } from './youtube';
 
 export default [
-  lemonde,
-  skeptikon,
-  test,
-  youtube,
-] as Integration[];
+  LeMonde,
+  Skeptikon,
+  Test,
+  YouTube,
+];

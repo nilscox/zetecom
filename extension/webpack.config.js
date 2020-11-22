@@ -8,9 +8,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 require('dotenv').config();
 
+const {
+  NODE_ENV = 'development',
+} = process.env;
+
 module.exports = {
 
-  mode: process.env.NODE_ENV,
+  mode: NODE_ENV,
 
   entry: {
     popup: {
@@ -21,7 +25,7 @@ module.exports = {
     content_script: './src/content_script.ts',
   },
 
-  devtool: process.env.NODE_ENV === 'development' ? 'inline-source-map' : false,
+  devtool: NODE_ENV === 'development' ? 'source-map' : false,
 
   output: {
     filename: '[name].js',

@@ -1,25 +1,24 @@
-import setupIntegration, { Integration } from '../integration';
+import { Integration } from '../integration/IntegrationHost';
 
-const getElement = () => document.getElementsByClassName('article__content')[0] as HTMLElement;
+export class LeMonde implements Integration {
+  static LEMONDE_REGEXP = /lemonde\.fr\/([-a-z]+)\/[a-z]+\/(\d{4}\/\d{2}\/\d{2})\/[-a-z0-9]+_([0-9_]+)\.html/;
 
-const LEMONDE_REGEXP = /lemonde\.fr\/([-a-z]+)\/[a-z]+\/(\d{4}\/\d{2}\/\d{2})\/[-a-z0-9]+_([0-9_]+)\.html/;
+  name = 'lemonde';
+  domains = ['www.lemonde.fr'];
+  type = 'append' as const;
 
-export const getIdentifier = (url: string) => {
-  const match = LEMONDE_REGEXP.exec(url);
+  getElement() {
+    return document.getElementsByClassName('article__content')[0] as HTMLElement;
+  }
 
-  if (!match)
-    return null;
+  getIdentifier(url: string) {
+    const match = LeMonde.LEMONDE_REGEXP.exec(url);
 
-  const [, topic, date, id] = match;
+    if (!match)
+      return null;
 
-  return ['lemonde', topic, date.replace(/\//g, '-'), id].join(':');
+    const [, topic, date, id] = match;
+
+    return ['lemonde', topic, date.replace(/\//g, '-'), id].join(':');
+  }
 };
-
-const lemonde: Integration = {
-  getElement,
-  getIdentifier,
-  healthcheck: () => true,
-  type: 'insert',
-};
-
-export default lemonde;

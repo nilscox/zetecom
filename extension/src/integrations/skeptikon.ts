@@ -1,24 +1,22 @@
-import setupIntegration, { Integration } from '../integration';
+import { Integration } from '../integration/IntegrationHost';
 
-const getElement = () => document.querySelector<HTMLElement>('my-video-comments');
+export class Skeptikon implements Integration {
+  name = 'skeptikon';
+  domains = ['skeptikon.fr'];
+  type = 'switch' as const;
+  externalElementTabText = 'Commentaires Skepitkón';
+  darkMode = true;
 
-const getIdentifier = (url: string) => {
-  const match = /watch\/([-a-z0-9]+)/.exec(url);
+  getElement() {
+    return document.querySelector<HTMLElement>('my-video-comments');
+  }
 
-  if (!match)
-    return null;
+  getIdentifier(url: string) {
+    const match = /watch\/([-a-z0-9]+)/.exec(url);
 
-  return ['skeptikon', match[1]].join(':');
-};
+    if (!match)
+      return null;
 
-const skeptkon: Integration = {
-  getElement,
-  getIdentifier,
-  healthcheck: () => true,
-  type: 'switch',
-  originalText: 'Commentaires Skepitkón',
-  integrationText: 'Commentaires Zétécom',
-  darkMode: true,
-};
-
-export default skeptkon;
+    return ['skeptikon', match[1]].join(':');
+  };
+}
