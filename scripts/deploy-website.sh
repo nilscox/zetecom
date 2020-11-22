@@ -31,7 +31,7 @@ setup_environment () {
 }
 
 build_website() {
-  execute NODE_ENV='production' yarn build --silent
+  execute NODE_ENV='production' yarn build
 }
 
 deploy_website() {
