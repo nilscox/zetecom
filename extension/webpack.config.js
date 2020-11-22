@@ -1,6 +1,3 @@
-/* eslint-disable */
-
-const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -55,11 +52,13 @@ module.exports = {
       NODE_ENV: 'development',
       APP_URL: 'http://localhost:8000',
     }),
-    new CopyWebpackPlugin([
-      'manifest.json',
-      { from: 'src/popup/popup.html', to: 'popup/popup.html' },
-      { from: 'icons', to: 'icons' },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        'manifest.json',
+        { from: 'src/popup/popup.html', to: 'popup/popup.html' },
+        { from: 'icons', to: 'icons' },
+      ],
+    }),
   ],
 
 };

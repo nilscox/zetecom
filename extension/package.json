@@ -11,31 +11,31 @@
     "zip": "../scripts/build-extension.ci.sh"
   },
   "dependencies": {
-    "iframe-resizer": "^4.1.1",
-    "query-string": "^6.12.1"
+    "iframe-resizer": "^4.2.11",
+    "query-string": "^6.13.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1",
-    "@babel/preset-typescript": "^7.12.1",
-    "@types/chrome": "^0.0.108",
+    "@babel/core": "^7.12.7",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-typescript": "^7.12.7",
+    "@types/chrome": "^0.0.126",
     "@types/iframe-resizer": "^3.5.8",
     "@types/jest": "^26.0.15",
-    "@types/node": "^13.13.5",
+    "@types/node": "^14.14.9",
     "clean-webpack-plugin": "^3.0.0",
-    "concurrently": "^4.1.0",
-    "copy-webpack-plugin": "^5.1.1",
-    "css-loader": "^3.5.3",
-    "dotenv": "^8.0.0",
+    "concurrently": "^5.3.0",
+    "copy-webpack-plugin": "^6.3.2",
+    "css-loader": "^5.0.1",
+    "dotenv": "^8.2.0",
     "jest": "^26.6.3",
-    "nodemon": "^2.0.3",
-    "style-loader": "^1.2.1",
-    "ts-loader": "^7.0.4",
+    "nodemon": "^2.0.6",
+    "style-loader": "^2.0.0",
+    "ts-loader": "^8.0.11",
     "tsc": "^1.20150623.0",
     "typescript": "^4.0.0",
     "watch": "^1.0.2",
-    "webpack": "^5.0.0-beta.16",
-    "webpack-cli": "^3.3.2"
+    "webpack": "^5.6.0",
+    "webpack-cli": "^4.2.0"
   },
   "jest": {
     "rootDir": "./src",
