@@ -47,6 +47,8 @@ export class AppendIntegrationRuntime extends BaseIntegrationRuntime {
 
     log('loading iframe resizer');
     iframe.loadIframeResizer();
+
+    this.integration.onIFrameLoaded?.(iframe.element);
   }
 
   unmount() {

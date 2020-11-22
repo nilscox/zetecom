@@ -11,6 +11,7 @@ export interface Integration {
   darkMode?: boolean;
   getElement: () => HTMLElement | null;
   getIdentifier: (url: string) => string | null;
+  onIFrameLoaded?: (iframe: HTMLIFrameElement) => void;
 }
 
 const watchPageUrl = (cb: () => void) => {
