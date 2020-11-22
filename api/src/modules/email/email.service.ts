@@ -19,7 +19,7 @@ export class EmailService {
     private readonly emailRendererService: EmailRendererService,
   ) {}
 
-  private sendEmail(to: string, subject: string, text: string, html: string): Promise<any> {
+  private sendEmail(to: string, subject: string, text: string, html: string): Promise<unknown> {
     const EMAIL_BYPASS = this.configService.get('EMAIL_BYPASS');
     const EMAIL_HOST = this.configService.get('EMAIL_HOST');
     const EMAIL_USER = this.configService.get('EMAIL_USER');
@@ -36,7 +36,8 @@ export class EmailService {
         ssl: true,
       });
 
-      const opts: any = {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const opts: Record<string, any> = {
         from: 'Zétécom <contact@zetecom.fr>',
         to,
         subject,
@@ -48,8 +49,7 @@ export class EmailService {
       if (html)
         opts.attachment = [{ data: html, alternative: true }];
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      conn.send(opts, (err: any, message: any) => {
+      conn.send(opts, (err: unknown, message: unknown) => {
         if (err)
           reject(err);
         else
@@ -58,7 +58,7 @@ export class EmailService {
     });
   }
 
-  sendTestEmail(to: string, subject: string, value: string): Promise<any> {
+  sendTestEmail(to: string, subject: string, value: string): Promise<unknown> {
     const template = this.emailRendererService.renderTestEmail({ value });
 
     return this.sendEmail(
@@ -69,7 +69,7 @@ export class EmailService {
     );
   }
 
-  sendEmailValidationEmail(user: User): Promise<any> {
+  sendEmailValidationEmail(user: User): Promise<unknown> {
     const APP_URL = this.configService.get('APP_URL');
 
     const template = this.emailRendererService.renderWelcomeEmail({
@@ -84,7 +84,7 @@ export class EmailService {
     );
   }
 
-  sendEmailLoginEmail(user: User): Promise<any> {
+  sendEmailLoginEmail(user: User): Promise<unknown> {
     const APP_URL = this.configService.get('APP_URL');
 
     const template = this.emailRendererService.renderEmailLoginEmail({

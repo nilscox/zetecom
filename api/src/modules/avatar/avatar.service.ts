@@ -20,7 +20,7 @@ export class AvatarService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  public async changeAvatar(user: User, avatar: any): Promise<User> {
+  public async changeAvatar(user: User, avatar: Express.Multer.File): Promise<User> {
     const { mimetype } = avatar;
 
     // TODO: error format

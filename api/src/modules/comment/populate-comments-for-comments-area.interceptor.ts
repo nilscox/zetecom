@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
+import { ZCRequest } from 'Common/zc-request.type';
+
 import { PopulateInterceptor } from '../../common/populate.interceptor';
 import { PopulateCommentsArea } from '../comments-area/populate-comments-area.interceptor';
 
@@ -15,7 +17,7 @@ export class PopulateCommentsForCommentsArea extends PopulateInterceptor<Comment
     super();
   }
 
-  async populate(commentsForCommentsArea: CommentsForCommentsAreaDto[], request: unknown) {
+  async populate(commentsForCommentsArea: CommentsForCommentsAreaDto[], request: ZCRequest) {
     const commentsAreas = commentsForCommentsArea.map(({ commentsArea }) => commentsArea);
     // eslint-disable-next-line prefer-spread
     const comments = [].concat.apply([], commentsForCommentsArea.map(({ comments }) => comments));

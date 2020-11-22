@@ -35,6 +35,9 @@ const dim = (text: string) => color(text, 'Dim');
 // TODO: inject configService
 const { LOG_LEVEL } = process.env;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Message = any;
+
 @Injectable({ scope: Scope.TRANSIENT })
 export class LoggerService extends Logger {
   private static _logLevels: LogLevel[] = ['error', 'warn', 'verbose', 'log', 'debug'];
@@ -67,27 +70,27 @@ export class LoggerService extends Logger {
     return this._logLevels.includes(level as LogLevel);
   }
 
-  error(message: any, trace?: string, context?: string) {
+  error(message: Message, trace?: string, context?: string) {
     this._log('error', message, trace, context);
   }
 
-  warn(message: any, context?: string) {
+  warn(message: Message, context?: string) {
     this._log('warn', message, undefined, context);
   }
 
-  verbose(message: any, context?: string) {
+  verbose(message: Message, context?: string) {
     this._log('verbose', message, undefined, context);
   }
 
-  log(message: any, context?: string) {
+  log(message: Message, context?: string) {
     this._log('log', message, undefined, context);
   }
 
-  debug(message: any, context?: string) {
+  debug(message: Message, context?: string) {
     this._log('debug', message, undefined, context);
   }
 
-  private _log(level: LogLevel, message: any, trace?: string, context: string = this.context) {
+  private _log(level: LogLevel, message: Message, trace?: string, context: string = this.context) {
     if (!this.levels.includes(level)) {
       return;
     }

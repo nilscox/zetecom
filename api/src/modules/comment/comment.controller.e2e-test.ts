@@ -11,7 +11,6 @@ import { Comment } from './comment.entity';
 import { CommentFactory } from './comment.factory';
 import { CommentModule } from './comment.module';
 import { CommentRepository } from './comment.repository';
-import { CommentService } from './comment.service';
 import { Reaction, ReactionType } from './reaction.entity';
 import { Subscription } from './subscription/subscription.entity';
 import { SubscriptionFactory } from './subscription/subscription.factory';

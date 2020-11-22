@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import util from 'util';
+
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { CommentsArea } from '../comments-area/comments-area.entity';
 import { User } from '../user/user.entity';
@@ -22,32 +23,32 @@ export class Comment {
   @DeleteDateColumn()
   deleted: Date;
 
-  @ManyToOne(type => User, { nullable: false, eager: true })
+  @ManyToOne(() => User, { nullable: false, eager: true })
   @JoinColumn({ name: 'author_id' })
   author: User;
 
   @Column({ default: 0 })
   score: number;
 
-  @ManyToOne(type => CommentsArea, { nullable: false })
+  @ManyToOne(() => CommentsArea, { nullable: false })
   @JoinColumn({ name: 'comments_area_id' })
   commentsArea: CommentsArea;
 
-  @OneToMany(type => Message, message => message.comment)
+  @OneToMany(() => Message, message => message.comment)
   messages: Message[];
 
-  @OneToOne(type => Message, message => message.comment, { eager: true })
+  @OneToOne(() => Message, message => message.comment, { eager: true })
   @JoinColumn({ name: 'message_id' })
   message: Message;
 
-  @ManyToOne(type => Comment, comment => comment.replies, { nullable: true })
+  @ManyToOne(() => Comment, comment => comment.replies, { nullable: true })
   @JoinColumn({ name: 'parent_id' })
   parent: Comment;
 
-  @OneToMany(type => Comment, comment => comment.parent)
+  @OneToMany(() => Comment, comment => comment.parent)
   replies: Comment[];
 
-  @OneToMany(type => Reaction, reaction => reaction.comment)
+  @OneToMany(() => Reaction, reaction => reaction.comment)
   reactions: Reaction[];
 
   [util.inspect.custom]() {

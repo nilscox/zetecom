@@ -32,7 +32,7 @@ export class CommentsArea {
   @UpdateDateColumn()
   updated: Date;
 
-  @ManyToOne(type => User, { nullable: false, eager: true })
+  @ManyToOne(() => User, { nullable: false, eager: true })
   @JoinColumn({ name: 'creator_id' })
   creator: User;
 

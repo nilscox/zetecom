@@ -15,18 +15,18 @@ export class Report {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type => User, { eager: true })
+  @ManyToOne(() => User, { eager: true })
   @JoinColumn({ name: 'reporter_id' })
   reportedBy: User;
 
-  @ManyToOne(type => Comment, { eager: true })
+  @ManyToOne(() => Comment, { eager: true })
   @JoinColumn({ name: 'comment_id' })
   comment: Comment;
 
   @Column({ type: 'text', nullable: true })
   message: string;
 
-  @ManyToOne(type => User, { nullable: true, eager: true })
+  @ManyToOne(() => User, { nullable: true, eager: true })
   @JoinColumn({ name: 'moderator_id' })
   moderatedBy: User;
 

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { getCustomRepository, getRepository } from 'typeorm';
 
+import { ZCRequest } from 'Common/zc-request.type';
+
 import { PopulateInterceptor } from '../../common/populate.interceptor';
 import { User } from '../user/user.entity';
 
@@ -20,7 +22,7 @@ export class PopulateComment extends PopulateInterceptor<CommentDto> {
     return getRepository(Subscription);
   }
 
-  async populate(comments: CommentDto[], request: any) {
+  async populate(comments: CommentDto[], request: ZCRequest) {
     const { user } = request;
 
     await this.addMessages(comments);

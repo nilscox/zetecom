@@ -39,7 +39,7 @@ describe('subscription', () => {
     createComment = commentFactory.create.bind(commentFactory);
     createsubscription = subscriptionFactory.create.bind(subscriptionFactory);
 
-    notificationRepository = getRepository(Notification as any);
+    notificationRepository = getRepository(Notification);
   });
 
   it('should create a notification from a subscription to a comment', async () => {

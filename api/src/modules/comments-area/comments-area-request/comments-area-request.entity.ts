@@ -19,11 +19,11 @@ export class CommentsAreaRequest {
   @Column()
   identifier: string;
 
-  @ManyToOne(type => CommentsArea, { nullable: true })
+  @ManyToOne(() => CommentsArea, { nullable: true })
   @JoinColumn({ name: 'comments_area_id' })
   commentsArea: CommentsArea;
 
-  @ManyToOne(type => User, { eager: true })
+  @ManyToOne(() => User, { eager: true })
   @JoinColumn({ name: 'requester_id' })
   requester: User;
 

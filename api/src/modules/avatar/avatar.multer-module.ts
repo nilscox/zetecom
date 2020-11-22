@@ -3,6 +3,8 @@ import path from 'path';
 import { MulterModule } from '@nestjs/platform-express';
 import multer from 'multer';
 
+import { ZCRequest } from 'Common/zc-request.type';
+
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
 
@@ -15,8 +17,7 @@ export const AvatarMulterModule = MulterModule.registerAsync({
       destination(req, file, cb) {
         cb(null, USER_AVATAR_DESTINATION);
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      filename(req: any, file, cb) {
+      filename(req: ZCRequest, file, cb) {
         if (!req.user)
           return cb(new Error('avatar module: req.user must exist'), '');
 

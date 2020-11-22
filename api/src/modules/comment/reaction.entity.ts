@@ -17,11 +17,11 @@ export class Reaction {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(type => User, { nullable: false })
+  @ManyToOne(() => User, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(type => Comment, { nullable: false })
+  @ManyToOne(() => Comment, { nullable: false })
   @JoinColumn({ name: 'comment_id' })
   comment: Comment;
 

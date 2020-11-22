@@ -64,7 +64,7 @@ export class TestModule {
 
 }
 
-export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module: TestingModuleBuilder) => any) => {
+export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module: TestingModuleBuilder) => void) => {
 
   const server = express();
   let module: TestingModule;
@@ -100,7 +100,7 @@ let createUsersCount = 0;
 
 export const createAuthenticatedUser = (server, roles?: Role[]) => {
   const userRequest = request.agent(server);
-  const user: User = {} as any;
+  const user = {} as User;
 
   userRequest.use(debug);
 

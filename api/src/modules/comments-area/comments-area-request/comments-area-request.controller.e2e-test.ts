@@ -3,7 +3,6 @@ import { getRepository, Repository } from 'typeorm';
 
 import { createAuthenticatedModerator, createAuthenticatedUser, setupE2eTest } from '../../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../../authentication/authentication.module';
-import { CommentsArea } from '../comments-area.entity';
 
 import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request.entity';
 import { CommentsAreaRequestFactory } from './comments-area-request.factory';
@@ -15,7 +14,6 @@ describe('comments area request controller', () => {
     imports: [AuthenticationModule, CommentsAreaRequestModule],
   });
 
-  let commentsAreaRepository: Repository<CommentsArea>;
   let commentsAreaRequestRepository: Repository<CommentsAreaRequest>;
 
   let createCommentsAreaRequest: CommentsAreaRequestFactory['create'];
@@ -25,7 +23,6 @@ describe('comments area request controller', () => {
   beforeAll(async () => {
     const module = getTestingModule();
 
-    commentsAreaRepository = getRepository(CommentsArea);
     commentsAreaRequestRepository = getRepository(CommentsAreaRequest);
 
     const commentsAreaRequestFactory = module.get<CommentsAreaRequestFactory>(CommentsAreaRequestFactory);
@@ -60,8 +57,8 @@ describe('comments area request controller', () => {
   });
 
   describe('create a new request', () => {
-    const [asUser1, user1] = createAuthenticatedUser(server);
-    const [asUser2, user2] = createAuthenticatedUser(server);
+    const [asUser1] = createAuthenticatedUser(server);
+    const [asUser2] = createAuthenticatedUser(server);
 
     it('should not request to open a new comments area when not authenticated', async () => {
       await request(server).get('/api/comments-area-request').expect(403);

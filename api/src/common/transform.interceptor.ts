@@ -1,16 +1,17 @@
 import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
+import { Request } from 'express';
 import { from, Observable } from 'rxjs';
 
-export abstract class TransformInterceptor<In, Out> implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> {
-    const request = context.switchToHttp().getRequest();
+export abstract class TransformInterceptor<In, Out> implements NestInterceptor<In, Out> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<Out> {
+    const request = context.switchToHttp().getRequest<Request>();
 
     return from(
       next.handle()
         .toPromise()
-        .then((res: any) => this.transform(res, request))
+        .then((res: In) => this.transform(res, request))
     );
   }
 
-  abstract transform(data: In, request: any): Out | Promise<Out>;
+  abstract transform(data: In, request: Request): Out | Promise<Out>;
 }

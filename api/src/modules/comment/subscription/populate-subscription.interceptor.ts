@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Request } from 'express';
 
 import { PopulateInterceptor } from '../../../common/populate.interceptor';
 import { PopulateComment } from '../../comment/populate-comment.interceptor';
@@ -14,7 +15,7 @@ export class PopulateSubscription extends PopulateInterceptor<SubscriptionDto> {
     super();
   }
 
-  async populate(subscriptions: SubscriptionDto[], request: any) {
+  async populate(subscriptions: SubscriptionDto[], request: Request) {
     await this.populateComment.transform(subscriptions.map(s => s.comment), request);
   }
 

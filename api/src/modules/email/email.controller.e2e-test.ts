@@ -6,7 +6,7 @@ import { EmailModule } from './email.module';
 
 describe('email controller', () => {
 
-  const { server } = setupE2eTest({
+  setupE2eTest({
     imports: [EmailModule, AuthenticationModule, AuthorizationModule],
   });
 

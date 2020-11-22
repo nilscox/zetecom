@@ -6,7 +6,7 @@ import { Subscription } from './subscription.entity';
 
 export class StripNullRelations implements NestInterceptor {
 
-  intercept(_context: ExecutionContext, next: CallHandler<any>): Observable<any> {
+  intercept(_context: ExecutionContext, next: CallHandler): Observable<unknown> {
     return next.handle().pipe(
       map(res => {
         res.items.forEach((i: Subscription) => this.transform(i));

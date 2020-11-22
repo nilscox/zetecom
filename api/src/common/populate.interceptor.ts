@@ -1,10 +1,12 @@
+import { Request } from 'express';
+
 import { TransformInterceptor } from 'Common/transform.interceptor';
 
 import { Paginated } from './paginated';
 
 export abstract class PopulateInterceptor<T> extends TransformInterceptor<T | T[] | Paginated<T>, T | T[] | Paginated<T>> {
 
-  async transform(data: T | T[] | Paginated<T>, request: any) {
+  async transform(data: T | T[] | Paginated<T>, request: Request) {
     const items = 'items' in data ? data.items : Array.isArray(data) ? data : [data];
 
     if (items.length > 0)
@@ -19,6 +21,6 @@ export abstract class PopulateInterceptor<T> extends TransformInterceptor<T | T[
     return items[0];
   }
 
-  abstract populate(data: T[], request: any): void | Promise<void>;
+  abstract populate(data: T[], request: Request): void | Promise<void>;
 
 }

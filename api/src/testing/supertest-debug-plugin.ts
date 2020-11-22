@@ -3,6 +3,7 @@ import supertest from 'supertest';
 
 interface Test extends supertest.Test {
   _assertStatus(status: number, res: Response): Error | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _data: any;
   req: {
     _header: string;

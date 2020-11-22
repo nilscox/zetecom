@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { SortType } from 'Common/sort-type';
 
@@ -9,7 +9,7 @@ import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 
 import { Comment } from './comment.entity';
-import { CommentJoinRelations, CommentRepository, FindAllOptions } from './comment.repository';
+import { CommentJoinRelations, CommentRepository } from './comment.repository';
 import { Message } from './message.entity';
 import { Reaction, ReactionType } from './reaction.entity';
 import { SubscriptionService } from './subscription/subscription.service';

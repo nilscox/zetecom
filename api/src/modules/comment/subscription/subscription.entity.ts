@@ -12,11 +12,11 @@ export class Subscription {
   @Expose()
   id: number;
 
-  @ManyToOne(type => User, { nullable: false })
+  @ManyToOne(() => User, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(type => Comment, { nullable: true })
+  @ManyToOne(() => Comment, { nullable: true })
   @JoinColumn({ name: 'comment_id' })
   @Expose()
   @Type(() => Comment)
