@@ -41,38 +41,33 @@ const Rules: React.FC = () => {
         Sur Zétécom, vous êtes tenus de :
       </p>
 
-      <Rule rule={<>1. Respecter les limites de <Link openInNewTab href="https://eduscol.education.fr/internet-responsable/ressources/legamedia/liberte-d-expression-et-ses-limites.html">la liberté d'expression</Link>.</>}>
-        Les commentaires sont publiés publiquement sur internet, et sont soumis à la loi française.
-        Les propos diffamatoires, sexistes, racistes, injurieux, l'atteinte à la vie privée ou encore l'appel à la haine sont formellement interdits.
-      </Rule>
-
-      <Rule rule="2. Maintenir les échanges courtois, sans attaque personnelle.">
+      <Rule rule="1. Maintenir les échanges courtois, sans attaque personnelle.">
         Lorsque vous répondez à un commentaire, notamment si vous n'êtes pas d'accord avec celui-ci, attaquez-vous aux idées et non aux personnes.
         Dans tous les cas, veillez à garder un ton respectueux, car la colère et l'énervement ne feront qu'entraver votre crédibilité.
       </Rule>
 
-      <Rule rule="3. Nourrir le débat.">
+      <Rule rule="2. Nourrir le débat.">
         Chaque commentaire doit avoir un sens au sein de la discussion.
         Cela peut être une source, un argument, un raisonnement logique, une opinion, une question... du moment qu'il apporte une plus-value.
       </Rule>
 
-      <Rule rule="4. Décrire chaque point de vue objectivement.">
+      <Rule rule="3. Décrire chaque point de vue objectivement.">
         Lorsque vous donnez votre opinion sur un sujet, votre but doit être d'expliquer ce que vous pensez et pourquoi vous pensez cela.
         Le prosélytisme ou toute forme de publicité sont donc proscrits.
         Si vous le souhaitez, indiquez <Link href="/faq.html#utilisation">en exposant</Link> le <Link openInNewTab href="https://twitter.com/HygieneMentale/status/1230849591534407685">degré de croyance</Link> (ou degré de certitude) de ce que vous avancez.
       </Rule>
 
-      <Rule rule="5. Apporter les sources nécessaires à la vérification des faits énoncés.">
+      <Rule rule="4. Apporter les sources nécessaires à la vérification des faits énoncés.">
         En particulier lorsque vos affirmations sortent de l'ordinaire, il est important d'expliciter leurs sources.
         De même prenez le temps de vérifier le messages sourcés, car une affirmation sans preuve peut être rejetée sans preuve.
       </Rule>
 
-      <Rule rule="6. Rédiger en français correct.">
+      <Rule rule="5. Rédiger en français correct.">
         Votre message sera toujours mieux reçu s'il est bien écrit et lisible.
         Veillez à éviter le registre familier, les abréviations, le style "texto", et les <Link openInNewTab href="https://languagetool.org/fr">fautes d'orthographe</Link> autant que possible.
       </Rule>
 
-      <Rule rule="7. Faire preuve de bienveillance.">
+      <Rule rule="6. Faire preuve de bienveillance.">
         Quelle que soit la situation, gardez un état d'esprit coopératif.
         Mettez-vous à la place des personnes qui liront vos commentaires, et montrez-vous capable de <Link openInNewTab href="https://fr.wikipedia.org/wiki/Principe_de_charit%C3%A9">charité interprétative</Link> en lisant ceux des autres utilisateurs.
       </Rule>

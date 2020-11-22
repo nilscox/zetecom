@@ -60,6 +60,7 @@ const commonConfig = {
           loader: 'file-loader',
           options: {
             name: 'assets/[name].[hash].[ext]',
+            publicPath: '/',
           },
         },
       },
@@ -142,7 +143,12 @@ const prodConfig = {
       {
         test: /\.s?css$/,
         use: [
-          MiniCssExtractPlugin.loader,
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '/',
+            },
+          },
           'css-loader',
           'sass-loader',
         ],
