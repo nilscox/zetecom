@@ -9,6 +9,8 @@ const makeCommentsArea = (partial?: Partial<CommentsArea>): CommentsArea => ({
   published: new Date(2020, 0, 1),
   creator: {
     id: 1,
+    nick: 'user',
+    avatar: null,
   },
   commentsCount: 42,
   ...partial,

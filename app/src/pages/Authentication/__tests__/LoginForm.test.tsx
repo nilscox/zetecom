@@ -36,9 +36,9 @@ describe.skip('AuthenticationForm', () => {
       </Router>,
     );
 
-    await act(async () => {
-      await userEvent.type(getByLabelText('Email *'), 'user@domain.tld');
-      await userEvent.type(getByLabelText('Mot de passe *'), 'secure p4ssword');
+    act(() => {
+      userEvent.type(getByLabelText('Email *'), 'user@domain.tld');
+      userEvent.type(getByLabelText('Mot de passe *'), 'secure p4ssword');
     });
 
     act(() => {
@@ -72,9 +72,9 @@ describe.skip('AuthenticationForm', () => {
       </Router>,
     );
 
-    await act(async () => {
-      await userEvent.type(getByLabelText('Email *'), 'user@domain.tld');
-      await userEvent.type(getByLabelText('Mot de passe *'), 'secure p4ssword');
+    act(() => {
+      userEvent.type(getByLabelText('Email *'), 'user@domain.tld');
+      userEvent.type(getByLabelText('Mot de passe *'), 'secure p4ssword');
     });
 
     act(() => {
