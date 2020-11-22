@@ -3,6 +3,9 @@
 source $(dirname "$0")/functions.sh
 environment=$1
 
+shift
+command="$1"
+
 prepare_deployment() {
   if [ "$environment" != 'production' ] && [ "$environment" != 'staging' ]; then
     echo 'usage: deploy-app.sh [staging|production]' >&2
@@ -30,10 +33,19 @@ setup_environment () {
 deploy_app() {
   execute ssh "$deploy_user@$deploy_host" docker pull "$app_image"
   execute ssh "$deploy_user@$deploy_host" docker rm -f "zc-app-$environment" || true
-  execute ssh "$deploy_user@$deploy_host" docker run -dt \
+
+  ssh_args=""
+  docker_args="-dt"
+
+  if [ -n "$command" ]; then
+    ssh_args="-tt"
+    docker_args="-it"
+  fi
+
+  execute ssh "$ssh_args" "$deploy_user@$deploy_host" docker run "$docker_args" \
     --name "zc-app-$environment" \
     --network "zc-network-$environment" \
-    -p "$app_port:80" \
+    -p "127.0.0.1:$app_port:80" \
     --volume "$base_dir/logs:/logs:rw" \
     --volume "$base_dir/avatars:/var/www/zc-app/avatars:ro" \
     --env NODE_ENV='production' \
@@ -43,7 +55,8 @@ deploy_app() {
     --env $(sshenv WEBSITE_URL) \
     --env $(sshenv GOOGLE_ANALYTICS_ID) \
     --env $(sshenv SENTRY_DSN) \
-    "$app_image"
+    "$app_image" \
+    "$command"
 }
 
 cleanup_environment() {

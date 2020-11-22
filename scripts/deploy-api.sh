@@ -3,6 +3,9 @@
 source $(dirname "$0")/functions.sh
 environment=$1
 
+shift
+command="$1"
+
 prepare_deployment() {
   if [ "$environment" != 'production' ] && [ "$environment" != 'staging' ]; then
     echo 'usage: deploy-api.sh [staging|production]' >&2
@@ -29,12 +32,21 @@ setup_environment () {
 
 deploy_api() {
   execute ssh "$deploy_user@$deploy_host" docker pull "$api_image"
-  execute ssh "$deploy_user@$deploy_host" docker rm -f "zc-api-$environment" || true
-  execute ssh "$deploy_user@$deploy_host" docker run -dt \
+  ssh "$deploy_user@$deploy_host" docker rm -f "zc-api-$environment" || true
+
+  ssh_args=""
+  docker_args="-dt"
+
+  if [ -n "$command" ]; then
+    ssh_args="-tt"
+    docker_args="-it"
+  fi
+
+  execute ssh "$ssh_args" "$deploy_user@$deploy_host" docker run "$docker_args" \
     --name "zc-api-$environment" \
     --network "zc-network-$environment" \
     --volume "$base_dir/avatars:/app/avatars:rw" \
-    -p "$api_port:80" \
+    -p "127.0.0.1:$api_port:80" \
     --env LISTEN_IP='0.0.0.0' \
     --env LISTEN_PORT='80' \
     --env $(sshenv LOG_LEVEL) \
@@ -62,7 +74,8 @@ deploy_api() {
     --env $(sshenv SESSION_SECRET) \
     --env $(sshenv SECURE_COOKIE) \
     --env $(sshenv USER_AVATAR_DESTINATION) \
-    "$api_image"
+    "$api_image" \
+    "$command"
 }
 
 cleanup_environment() {
