@@ -13,6 +13,7 @@ import createTheme from 'src/theme/createTheme';
 
 import AuthenticatedView from './views/AuthenticatedView';
 import AuthenticationView from './views/AuthenticationView';
+import { IFrameOriginProvider } from 'src/contexts/IFrameOriginContext';
 
 const theme = createTheme();
 
@@ -26,26 +27,28 @@ const Popup: React.FC = () => {
   const user = useCurrentUser();
 
   return (
-    <AsyncContent
-      loading={typeof user === 'undefined'}
-      render={() => (
-        <ThemeProvider theme={theme}>
-          <Box padding={3}>
-            <ToastContainer />
+    <IFrameOriginProvider>
+      <AsyncContent
+        loading={typeof user === 'undefined'}
+        render={() => (
+          <ThemeProvider theme={theme}>
+            <Box padding={3}>
+              <ToastContainer />
 
-            <RouterLink to="/popup">
-              <HeaderLogo />
-            </RouterLink>
+              <RouterLink to="/popup">
+                <HeaderLogo />
+              </RouterLink>
 
-            <Switch>
-              <Route path="/popup/:sign(connexion|inscription|connexion-par-email)" component={AuthenticationView} />
-              <Route path="/popup" component={AuthenticatedView} />
-              <Route render={() => <Redirect to="/popup" />} />
-            </Switch>
-          </Box>
-        </ThemeProvider>
-      )}
-    />
+              <Switch>
+                <Route path="/popup/:sign(connexion|inscription|connexion-par-email)" component={AuthenticationView} />
+                <Route path="/popup" component={AuthenticatedView} />
+                <Route render={() => <Redirect to="/popup" />} />
+              </Switch>
+            </Box>
+          </ThemeProvider>
+        )}
+      />
+    </IFrameOriginProvider>
   );
 };
 

@@ -15,6 +15,7 @@ import { trackViewIntegration } from 'src/utils/track';
 
 import CommentAreaClosed from './CommentAreaClosed';
 import useFetchCommentsArea from 'src/components/CommentsArea/useFetchCommentsArea';
+import useIFrameMessages from 'src/hooks/use-iframe-messages';
 
 type IntegrationRouterProps = {
   commentsArea: CommentsAreaType;
@@ -38,9 +39,10 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 const Integration: React.FC = () => {
   const classes = useStyles();
 
-  const { identifier: identifierParam, origin: originParam } = useQueryString();
+  const { identifier: identifierParam } = useQueryString();
   const identifier = decodeURIComponent(identifierParam as string);
-  const origin = decodeURIComponent(originParam as string);
+
+  const [sendMessage] = useIFrameMessages();
 
   const [{ data: commentsArea, loading, status }] = useFetchCommentsArea({ identifier });
 
@@ -54,11 +56,9 @@ const Integration: React.FC = () => {
 
   useEffect(() => {
     if (commentsArea) {
-      if (window.parent !== window) {
-        window.parent.postMessage({ type: 'INTEGRATION_LOADED' }, origin);
-      }
+      sendMessage({ type: 'INTEGRATION_LOADED' });
     }
-  }, [commentsArea, origin]);
+  }, [commentsArea, sendMessage]);
 
   return (
     <div className={classes.container}>
