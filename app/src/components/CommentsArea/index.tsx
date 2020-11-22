@@ -15,7 +15,11 @@ type CommentsAreaContainerProps = {
   linkToInformation?: boolean;
 };
 
-const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ showDescription, commentsArea, linkToInformation }) => {
+const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
+  showDescription,
+  commentsArea,
+  linkToInformation,
+}) => {
   const commentsUrl = `/api/comments-area/${commentsArea?.id}/comments`;
   const [loading, setLoading] = useState(false);
 
