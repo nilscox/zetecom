@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { EntityRepository, getRepository, In, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';

@@ -60,7 +60,7 @@
     "@types/redis": "^2.8.28",
     "@types/supertest": "^2.0.10",
     "@types/uuid": "^8.3.0",
-    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
     "eslint": "^7.14.0",
     "eslint-import-resolver-alias": "^1.1.2",

@@ -34,7 +34,6 @@ describe('comments area controller', () => {
   let comment2: Comment;
   let comment3: Comment;
   let comment4: Comment;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let comment5: Comment;
 
   let commentsAreaRepository: CommentsAreaRepository;
@@ -70,6 +69,7 @@ describe('comments area controller', () => {
     comment2 = await createComment({ commentsArea: commentsArea1 });
     comment3 = await createComment({ commentsArea: commentsArea1, text: 'searching message3', parent: comment2 });
     comment4 = await createComment({ commentsArea: commentsArea1 });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     comment5 = await createComment({ commentsArea: commentsArea2, text: 'message5 search' });
   });
 

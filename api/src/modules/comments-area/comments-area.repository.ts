@@ -33,12 +33,10 @@ export class CommentsAreaRepository extends Repository<CommentsArea> {
       .groupBy('comments_area.id')
       .getRawMany();
 
-    /* eslint-disable @typescript-eslint/camelcase */
     return counts.reduce((acc, { comments_area_id, count }) => ({
       ...acc,
       [comments_area_id]: Number(count),
     }), {});
-    /* eslint-enable @typescript-eslint/camelcase */
   }
 
 }
