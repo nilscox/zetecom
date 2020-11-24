@@ -13,8 +13,9 @@ const MarkNotificationAsSeen: React.FC = () => {
   const markAsSeen = useMarkNotificationAsSeen();
 
   useEffect(() => {
-    if (location.state?.notificationId)
+    if (location.state?.notificationId) {
       markAsSeen(location.state.notificationId);
+    }
   }, [location.state?.notificationId, markAsSeen]);
 
   return null;

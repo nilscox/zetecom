@@ -5,17 +5,17 @@ import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
 import AsyncContent from 'src/components/AsyncContent';
 import CommentsArea from 'src/components/CommentsArea';
+import useFetchCommentsArea from 'src/components/CommentsArea/useFetchCommentsArea';
 import Fallback from 'src/components/Fallback';
 import HeaderLogo from 'src/components/HeaderLogo';
 import Padding from 'src/components/Padding';
 import { useTrackPageview } from 'src/components/TrackPageView';
+import useIFrameMessages from 'src/hooks/use-iframe-messages';
 import useQueryString from 'src/hooks/use-query-string';
 import { CommentsArea as CommentsAreaType } from 'src/types/CommentsArea';
 import { trackViewIntegration } from 'src/utils/track';
 
 import CommentAreaClosed from './CommentAreaClosed';
-import useFetchCommentsArea from 'src/components/CommentsArea/useFetchCommentsArea';
-import useIFrameMessages from 'src/hooks/use-iframe-messages';
 
 type IntegrationRouterProps = {
   commentsArea: CommentsAreaType;

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Route, Switch } from 'react-router-dom';
+
 import { IFrameOriginProvider } from 'src/contexts/IFrameOriginContext';
 
 import Integration from './Integration';

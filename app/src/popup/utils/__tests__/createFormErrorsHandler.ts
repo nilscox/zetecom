@@ -16,25 +16,30 @@ describe('createFormErrorHandler', () => {
     email: (error) => {
       const fields = error.response.data;
 
-      if (!fields?.email)
+      if (!fields?.email) {
         return;
+      }
 
-      if (fields.email.isEmail)
+      if (fields.email.isEmail) {
         return 'Format d\'adresse email non valide';
+      }
     },
     password: (error) => {
       const fields = error.response.data;
 
-      if (!fields?.password)
+      if (!fields?.password) {
         return;
+      }
 
-      if (fields.password.minLength)
+      if (fields.password.minLength) {
         return 'Mot de passe trop court';
+      }
     },
   },
   (error) => {
-    if (error.response.data?.message === 'INVALID_CREDENTIALS')
+    if (error.response.data?.message === 'INVALID_CREDENTIALS') {
       return 'Combinaison email / mot de passe non valide';
+    }
   });
 
   it('should return undefined when the error is undefined', () => {

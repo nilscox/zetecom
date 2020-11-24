@@ -13,6 +13,7 @@ export const IFrameOriginProvider: React.FC = ({ children }) => {
     }
 
     return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

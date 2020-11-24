@@ -15,8 +15,9 @@ const useFormErrors = <E, T>(
   const [formError, setFormError] = useState<ReactNode>();
 
   useEffect(() => {
-    if (!error)
+    if (!error) {
       return;
+    }
 
     const [fieldsHandler, formHandler] = Array.isArray(handlers) ? handlers : [handlers];
     const fields = Object.keys(fieldsHandler);
@@ -25,8 +26,9 @@ const useFormErrors = <E, T>(
     fields.forEach((field) => {
       const fieldError = fieldsHandler[field as keyof T](error);
 
-      if (typeof fieldError !== 'undefined')
+      if (typeof fieldError !== 'undefined') {
         fieldErrors[field as keyof T] = fieldError;
+      }
     });
 
     setFieldErrors(fieldErrors);
@@ -34,8 +36,9 @@ const useFormErrors = <E, T>(
     if (formHandler) {
       const formError = formHandler(error);
 
-      if (typeof formError !== 'undefined')
+      if (typeof formError !== 'undefined') {
         setFormError(formError);
+      }
     }
   }, [handlers, error]);
 

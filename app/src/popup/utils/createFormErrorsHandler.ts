@@ -9,8 +9,9 @@ export const createFormErrorsHandler = <F extends string>(
   getGlobalError?: ErrorHandler,
 ) => {
   const useFormErrorHandler = (error?: AxiosError) => {
-    if (!error)
+    if (!error) {
       return;
+    }
 
     const fieldErrors = getFieldError && Object.keys(getFieldError)
       .map((field: F) => [field, getFieldError[field](error)])
@@ -28,17 +29,21 @@ export const createFormErrorsHandler = <F extends string>(
       unhandledError?: AxiosError;
     } = {};
 
-    if (Object.keys(fieldErrors || {}).length > 0)
+    if (Object.keys(fieldErrors || {}).length > 0) {
       result.fieldErrors = fieldErrors;
+    }
 
-    if (globalError)
+    if (globalError) {
       result.globalError = globalError;
+    }
 
-    if (error && Object.keys(result).length === 0)
+    if (error && Object.keys(result).length === 0) {
       result.unhandledError = error;
+    }
 
-    if (Object.keys(result).length > 0)
+    if (Object.keys(result).length > 0) {
       return result;
+    }
   };
 
   return useFormErrorHandler;
