@@ -82,6 +82,7 @@ nav.navigation {
 
     @media screen and (min-width: $break-small) {
       line-height: 40px;
+      height: 40px;
     }
 
     @media screen and (min-width: $break-desktop) {
@@ -115,6 +116,7 @@ nav.navigation {
 
       @media screen and (min-width: $break-small) {
         font-size: 22px;
+        height: 40px;
       }
 
       @media screen and (min-width: $break-desktop) {

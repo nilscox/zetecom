@@ -14,7 +14,7 @@ require('dotenv').config();
 const {
   NODE_ENV = 'development',
   HOST = '0.0.0.0',
-  PORT = '8000',
+  PORT = '8080',
   BETA = 'false',
 } = process.env;
 
