@@ -22,13 +22,13 @@ const useSections = () => [
     questions: [
 
       {
-        question: 'Est-il possible d\'utiliser l\'extension sans créer de compte ?',
+        question: 'Est-il possible d\'utiliser Zétécom sans créer de compte ?',
         answer: <>Oui, pour lire les commentaires. La création d'un compte n'est nécessaire que si vous souhaitez interagir avec les autres membres de la plateforme.</>,
       },
 
       {
         question: 'Comment créer un compte ?',
-        answer: <>Les inscriptions ne sont pas encore ouvertes publiquement pour l'instant. Si vous souhaitez rejoindre les béta-testeurs, toutes les informations sont disponibles sur <Link href="/beta.html">la page bêta</Link>.</>,
+        answer: <>Vous pouvez ouvrir un compte utilisateur depuis la page <Link href="/connexion">connexion</Link> de la plateforme, ou via la popup de l'extension.</>,
       },
 
       {
@@ -36,16 +36,21 @@ const useSections = () => [
         answer: <>Vous pouvez mettre à jour le mot de passe de votre compte, en passant par la popup de l'extension lorsque vous êtes connecté.e.</>,
       },
 
+      {
+        question: 'Comment supprimer un compte ?',
+        answer: <>En conformité avec le règlement général sur la protection des données (RGPD), vous pouvez demander la suppression de votre compte en contactant l'équipe qui développe le projet.</>,
+      },
+
     ],
   },
 
   {
-    title: <FAQSection id="utilisation-extension">Utilisation de l'extension</FAQSection>,
+    title: <FAQSection id="plateforme">La plateforme</FAQSection>,
     questions: [
 
       {
         question: 'Comment ouvrir une nouvelle zone de commentaire sur un article ou une vidéo ?',
-        answer: <>Pour le moment, c'est une action manuelle réservée aux administrateurs. Vous pouvez cependant demander l'ouverture d'une zone de commentaires sur la page de l'information en question.</>,
+        answer: <>Vous pouvez demander l'ouverture d'une zone de commentaires via l'extension, sur la page de concernée. Cette demande sera envoyée aux modérateurs, qui procéderont à l'ouverture manuellement.</>,
       },
 
       {
@@ -62,6 +67,20 @@ const useSections = () => [
       {
         question: 'Comment signaler un bug ou proposer de nouvelles fonctionnalités ?',
         answer: <><Link href="#contact">Contactez</Link> directement l'équipe qui développe le projet, nous sommes ouverts à vos remarques.</>,
+      },
+
+    ],
+  },
+
+  {
+    title: <FAQSection id="extension">L'extension</FAQSection>,
+    questions: [
+
+      {
+        question: 'Est-ce légal de modifier les sites pour y ajouter des zones de commentaires ?',
+        answer: <>Oui. Lorsque vous installez l'extension sur votre navigateur, la permission de modifier les sites que vous visitez vous est demandée.
+        Avec votre accord, l'extension sera en mesure d'intégrer les zones de commentaires à l'intérieur des pages concernées.
+        C'est le même principe qu'un bloqueur de publicité, ou qu'une extension ajoutant un mode sombre sur tous les sites par exemple.</>,
       },
 
     ],
@@ -89,27 +108,25 @@ const useSections = () => [
     questions: [
 
       {
-        question: 'Est-ce légal de modifier les sites pour y ajouter des zones de commentaires ?',
-        answer: <>Oui. Lorsque vous installez l'extension sur votre navigateur, la permission de modifier certains sites web vous est demandée.
-        Avec votre accord, l'extension sera en mesure de modifier les pages sur lequelles des zones de commentaires sont ouvertes (sur votre navigateur, et celui de chaque utilisateur disposant de l'extension).
-        C'est le même principe qu'un bloqueur de publicité, ou qu'une extension ajoutant un mode sombre sur tous les sites.</>,
-      },
-
-      {
         question: 'Comment le projet est-il financé ?',
         answer: <>Le but du projet n'est pas de faire du profit, et aucun financement n'est en jeu. Les seuls coûts nécessaires au fonctionnement de Zétécom sont un serveur et un nom de domaine, environ 100 euros par an, pris en charge par les développeurs du projet.</>,
       },
 
       {
-        question: 'Qui développe Zétécom ?',
-        answer: <>Le projet est développé par une <Link openInNewTab href="https://nils.cx">petite</Link> <Link openInNewTab href="https://bopzor.me">équipe</Link> de développeurs passionnés par l'esprit critique et la <Link openInNewTab href="https://fr.wikipedia.org/wiki/Zététique">zététique</Link>.</>,
+        question: 'Peut-on participer au projet ?',
+        answer: <>Que ce soit pour donner vos impressions, proposer des axes d'amélioration, vous êtes chaleureusement invité.e à <Link href="#contact">nous envoyer un petit message</Link>.
+        Et pour aller plus loin, <Link href="/beta.html">rejoignez les bêta-testeurs</Link> ! Vos retours nous aideront à comprendre vos attentes pour mieux y répondre.</>
       },
 
       {
-        question: 'Peut-on participer au projet ?',
-        answer: <>Que ce soit pour donner vos impressions, proposer des axes d'amélioration, ou même plus généralement réfléchir au concept de Zétécom et imaginer ce que l'on peut construire ensemble, vous êtes chaleureusement invité.e à <Link href="#contact">nous envoyer un petit message</Link>.
-        Pour suivre l'avancement du projet et des développements, un [board tello](https://trello.com/b/CfC8aQ80/tasks) est accessible publiquement, n'hésitez pas à y jeter un oeil !
+        question: 'Comment suivre l\'évolution du projet ?',
+        answer: <>Un <Link href="https://trello.com/b/CfC8aQ80/tasks">board tello</Link> est accessible publiquement, n'hésitez pas à y jeter un œil !
         Et si vous êtes développeu.r.se et que le projet vous intéresse techniquement, les source sont disponibles sur <Link openInNewTab href={useEnvironment('REPOSITORY_URL')} onClick={() => trackOpenRepositoryLink('faq')}>GitHub</Link>.</>,
+      },
+
+      {
+        question: 'Qui développe Zétécom ?',
+        answer: <>Le projet est développé par une <Link openInNewTab href="https://nils.cx">petite</Link> <Link openInNewTab href="https://bopzor.me">équipe</Link> de développeurs passionnés par l'esprit critique et la <Link openInNewTab href="https://fr.wikipedia.org/wiki/Zététique">zététique</Link>.</>,
       },
 
       {

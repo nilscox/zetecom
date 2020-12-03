@@ -43,8 +43,8 @@ const PageFooter: React.FC = withEnv(({ FACEBOOK_PAGE, TWITTER_ACCOUNT }) => (
 
     <div className="footer-item join-us">
       Vous souhaitez participer à la conception de <em>Zétécom</em> ?
-      L'équipe qui met en place le projet serait ravie <Link href="/faq.html#contact">d'entendre vos remarques</Link> !
-      Tant sur les fonctionnalités que sur la forme, n'hésitez pas à partager vos idées sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>featureupvote.com</Link>, où à regjoindre la <Link href="/beta.html">bêta</Link> :)
+      Nous sommes <Link href="/faq.html#contact">à l'écoute de vos remarques</Link> !
+      N'hésitez pas à partager vos idées sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>featureupvote.com</Link>, où à rejoindre la <Link href="/beta.html">bêta</Link> :)
     </div>
 
   </div>
