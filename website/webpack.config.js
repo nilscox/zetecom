@@ -72,6 +72,7 @@ const commonConfig = {
     new CleanWebpackPlugin(),
     new EnvironmentPlugin({
       NODE_ENV: 'development',
+      APP_URL: null,
       CHROME_EXTENSION_URL: null,
       FIREFOX_ADDON_URL: null,
       CHROME_EXTENSION_STAGING_URL: null,

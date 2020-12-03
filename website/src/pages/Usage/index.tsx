@@ -4,22 +4,37 @@ import DownloadExtensions from 'src/components/DownloadExtensionsButtons';
 import Link from 'src/components/Link';
 import Image from 'src/components/Image';
 
-import gifExtension from '../../images/youtube-zc.gif';
-
-import imagePopupLogin from './images/popup-login.png';
-import gifWriteReaction from './images/write-reaction.gif';
+import imageLogin from './images/login.png';
+import imageWriteComment from './images/write-comment.png';
 import gifReport from './images/report.gif';
 import imageModeration from './images/moderation.png';
 
 import './Usage.scss';
+import AppLink from 'src/components/Link/AppLink';
+import { useEnvironment } from 'src/utils/env';
 
 const Usage: React.FC = () => (
   <>
 
-    <div className="step step-install" id="extension">
+    <div className="step step-app" id="app">
       <div className="step-text">
-        Pour commencer, installez l'extension sur votre navigateur préféré en cliquant sur le bouton correspondant.
-        Cela permettra l'intégration des zones de commentaires sur les sites d'information.
+        Les zones de commentaires Zétécom sont accessibe sur <strong>l'app</strong>, à l'adresse :
+        <div className="app-link">
+          <AppLink>{useEnvironment('APP_URL')}</AppLink>
+        </div>
+      </div>
+        C'est ici que vous pouvez lire les messages, y répondre, voir la liste des zones de commentaires disponibles, voir l'historique de vos messages, etc.
+      </div>
+      <div className="step-secondary" style={{ maxWidth: 180 }}>
+    </div>
+
+    <div className="separator" />
+
+    <div className="step step-extension" id="extension">
+      <div className="step-text">
+        Pour intégrer les zones de commentaires présentes sur l'app directement sur les sites d'information, installez l'extension sur votre navigateur préféré.
+        Lorsque l'icône de l'extension affiche un badge vert, cela signifie qu'une zone de commentaire est disponible sur la page.
+        {/* Notez que ce n'est pas nécessaire pour utiliser la plateforme, l'extension ne fait qu'intégrer l'app. */}
       </div>
       <div className="step-secondary">
         <DownloadExtensions disposition="column" />
@@ -28,13 +43,24 @@ const Usage: React.FC = () => (
 
     <div className="separator" />
 
-    <div className="step step-read-reactions" id="lire-les-reactions">
+    <div className="step step-reactions" id="votes">
       <div className="step-text">
-        Lorsque l'icône de l'extension affiche un badge vert, cela signifie qu'une zone de commentaires a été ajoutée sur la page.
-        Vous la trouverez généralement sous l'article (ou la vidéo). Ça y est, vous pouvez déjà lire les messages et leurs réponses !
+        Si vous trouvez un commentaire intéressant, vous pouvez l'annoter d'un 👍, 👎 ou 🧐.
+        Un algorithme va comptabiliser le nombre total d'annotations et de réponses, permettant ainsi de les trier par pertinence.
       </div>
       <div className="step-secondary">
-        <Image border src={gifExtension} alt="zone de commentaire" />
+        <div className="reaction">
+          <div className="reaction-emoji">👍</div>
+          <div className="reaction-text">je suis <strong>d'accord</strong> avec le message</div>
+        </div>
+        <div className="reaction">
+          <div className="reaction-emoji">👎</div>
+          <div className="reaction-text">je ne suis <strong>pas d'accord</strong> avec le message</div>
+        </div>
+        <div className="reaction">
+          <div className="reaction-emoji">🧐</div>
+          <div className="reaction-text">je n'ai <strong>pas d'avis tranché</strong>, mais le message me fait réfléchir</div>
+        </div>
       </div>
     </div>
 
@@ -42,48 +68,23 @@ const Usage: React.FC = () => (
 
     <div className="step step-signup" id="inscription">
       <div className="step-text">
-        Pour participer aux échanges, il est nécessaire de disposer d'un compte sur l'extension.
-        Dans un premier temps, consacrez <strong>5 minutes</strong> à la lecture de <Link href="/charte.html">la charte</Link>. Il est impératif que tous les membres participant aux échanges gardent ces règles en tête.
-        Puis, cliquez sur l'icône de l'extension en haut à droite de votre navigateur pour vous inscrire.
+        Pour participer aux échanges, il est nécessaire de disposer d'un compte sur la plateforme.
+        Si ce n'est déjà fait, consacrez <strong>5 minutes</strong> à la lecture de <Link href="/charte.html">la charte</Link>, puis accédez à la page <AppLink href="/inscription">d'inscription</AppLink> pour créer votre compte.
       </div>
       <div className="step-secondary">
-        <Image border src={imagePopupLogin} alt="inscription" />
+        <Image border src={imageLogin} alt="inscription" />
       </div>
     </div>
 
     <div className="separator" />
 
-    <div className="step step-write-reaction" id="regider-une-reaction">
+    <div className="step step-write-comment" id="regider-une-reaction">
       <div className="step-text">
-        Vous avez votre mot à dire ? Publiez un nouveau commentaire !
-        Pensez à rechercher parmi les commentaires existants, car le sujet que vous allez aborder est peut-être déjà en train d'être discuté.<br />
-        Pour mieux structurer vos propos, un système de balisage simple vous permet de mettre en forme votre message avec des liens, des listes, des tableaux, etc. C'est la syntaxe <Link openInNewTab href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">markdown</Link>.
+        Vous avez votre mot à dire ? Publiez un nouveau commentaire !<br />
+        Pour vous permettre de structurer vos propos, la rédaction d'un message est compatible avec la syntaxe <Link openInNewTab href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">markdown</Link>, qui vous permet une mise en forme avec du texte en gras, des listes, des tableaux, etc.
       </div>
       <div className="step-secondary">
-        <Image border src={gifWriteReaction} alt="écrire un commentaire" />
-      </div>
-    </div>
-
-    <div className="separator" />
-
-    <div className="step step-quick-reactions" id="votes">
-      <div className="step-text">
-        Si vous trouvez un commentaire pertinent, il vous est possible de le mettre en avant en l'annotant d'un 👍, 👎 ou 🧐.
-        Un algorithme va comptabiliser le nombre total d'annotations et de réponses pour vous présenter les commentaires les plus impactants en premier lorsqu'ils sont triés par pertinence.
-      </div>
-      <div className="step-secondary">
-        <div className="quick-reaction">
-          <div className="quick-reaction-emoji">👍</div>
-          <div className="quick-reaction-text">je suis <strong>d'accord</strong> avec le message</div>
-        </div>
-        <div className="quick-reaction">
-          <div className="quick-reaction-emoji">👎</div>
-          <div className="quick-reaction-text">je ne suis <strong>pas d'accord</strong> avec le message</div>
-        </div>
-        <div className="quick-reaction">
-          <div className="quick-reaction-emoji">🧐</div>
-          <div className="quick-reaction-text">je n'ai <strong>pas d'avis tranché</strong>, mais le message me fait réfléchir</div>
-        </div>
+        <Image border src={imageWriteComment} alt="écrire un commentaire" />
       </div>
     </div>
 
@@ -91,7 +92,7 @@ const Usage: React.FC = () => (
 
     <div className="step step-report" id="signalement">
       <div className="step-text">
-        Si un commentaire ne respecte pas la charte, il est important de notifier les modérateurs.
+        Si un commentaire ne respecte pas la charte, vous pouvez choisir de notifier les modérateurs.
         Passez votre souris sur la date de publication du commentaire à signaler, cela fera apparaître un lien pour ouvrir une popup de signalement.
       </div>
       <div className="step-secondary">
@@ -101,7 +102,7 @@ const Usage: React.FC = () => (
 
     <div className="separator" />
 
-    <div className="step step-join-moderators" id="moderation">
+    <div className="step step-moderation" id="moderation">
       <div className="step-text">
         La modération des échanges est assurée par des membres volontaires de la communauté.
         Si vous souhaitez en faire partie, <Link href="/faq.html#contact">contactez nous</Link> pour en discuter directement.

@@ -2,6 +2,7 @@ import React, { createContext, useContext, ComponentType } from 'react';
 
 const environmentVariables = {
   NODE_ENV: process.env.NODE_ENV,
+  APP_URL: process.env.APP_URL,
   CHROME_EXTENSION_URL: process.env.CHROME_EXTENSION_URL,
   FIREFOX_ADDON_URL: process.env.FIREFOX_ADDON_URL,
   CHROME_EXTENSION_STAGING_URL: process.env.CHROME_EXTENSION_STAGING_URL,

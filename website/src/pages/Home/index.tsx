@@ -16,8 +16,7 @@ import imageCharter from './images/charter.png';
 import imageIndependence from './images/independence.png';
 import imageSearch from './images/search.png';
 import imageNestedReplies from './images/nested-replies.png';
-import imageSortRelevance from './images/sort-relevance.png';
-import imageFormat from './images/format.png';
+import imageFormat from './images/format.gif';
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './Home.scss';
@@ -124,7 +123,6 @@ const Home: React.FC = () => (
       >
         <Slide legend="Recherche" image={imageSearch} />
         <Slide legend="Réponses imbriquées" image={imageNestedReplies} />
-        <Slide legend="Messages pertinents mis en avant" image={imageSortRelevance} />
         <Slide legend="Messages structurés" image={imageFormat} />
       </Carousel>
 

@@ -33,20 +33,26 @@ $break-xxlarge: 1590px;
       }
     }
 
-    &.step-quick-reactions {
+    &.step-app .app-link {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    &.step-reactions {
       .step-secondary {
         border: 1px solid #CCC;
         padding: 10px;
       }
 
-      .quick-reaction {
+      .reaction {
         display: flex;
         flex-direction: row;
         align-items: center;
         font-size: 18px;
         margin: 10px 0;
 
-        .quick-reaction-text {
+        .reaction-text {
           padding-left: 15px;
 
           strong {
@@ -66,10 +72,10 @@ $break-xxlarge: 1590px;
       }
 
       .step-text {
-        padding: 0 20px;
+        padding: 0 60px;
       }
 
-      &.step-read-reactions, &.step-write-reaction, &.step-report {
+      &.step-reactions, &.step-write-comment, &.step-moderation {
         .step-text {
           order: 2;
         }
