@@ -16,7 +16,7 @@ const Rule: React.FC<{ rule: ReactNode }> = ({ rule, children }) => (
 
 const Example: React.FC<{ example: ReactNode }> = ({ example, children }) => (
   <div className="example">
-    <h4 className="example-text note">{ example }</h4>
+    <div className="example-text note">{ example }</div>
     <div className="example-description">{ children }</div>
   </div>
 );
@@ -28,13 +28,8 @@ const Rules: React.FC = () => {
       <Title id="Charte">La charte de Zétécom</Title>
 
       <p>
-        Cette présente charte propose un ensemble de règles dans le but d'apporter un cadre sain et propice à des échanges ouverts et respectueux.
-        Tous les utilisateurs inscrits sur la plateforme se doivent de l'accepter et de la respecter.
-      </p>
-
-      <p style={{ fontSize: 14, lineHeight: '16px', margin: '20px 0' }}>
-        L'élaboration la charte est en cours, nous cherchons d'ailleurs des personnes dotées d'un sens critique affûté pour nous épauler dans la conception de ces règles, car c'est un point clé du projet.
-        Si cette réflexion vous intéresse, nous sommes ouverts à vos remarques.
+        Cette présente charte propose un ensemble de règles qui définissent l'état d'esprit à adopter pour favoriser des échanges constructifs.
+        Tous les utilisateurs inscrits se doivent de la respecter.
       </p>
 
       <p>
@@ -78,15 +73,15 @@ const Rules: React.FC = () => {
       </p>
 
       <p>
-        Enfin, dans un but d'amélioration en continu, ces règles évoluent. Vous serez tenu.e informé.e par email lorsque des modifications y seront apportées.
+        Enfin, dans un but d'amélioration en continu, ces règles évoluent. Vous êtes vous-même invité.e à proposer des évolutions, nous en discuterons avec d'autres membres de la communauté.
       </p>
 
       <p style={{ marginTop: 40 }}>Quelques exemples de commentaires ne respectant pas la charte :</p>
 
       <div className="examples">
 
-        <Example example={'"Joré voulu ki la ferme."'}>
-          Le message est mal rédigé et le langage est familier. Préférez "J'aurais voulu qu'il ne dise rien."
+        <Example example={'"En + elle et ariver a la bourre."'}>
+          Le message est mal rédigé et le langage est familier. Préférez "En plus, elle est arrivée en retard."
         </Example>
 
         <Example example={'"Le journaliste est un imbécile."'}>
@@ -100,11 +95,11 @@ const Rules: React.FC = () => {
 
         <Example example={'"Il ne faut pas avoir peur de l\'énergie nucléaire."'}>
           Le point de vue n'est pas objectif.
-          Préférez "Selon cette étude, l'énergie nucléaire n'est pas à craindre."
+          Préférez "Selon cette source, l'énergie nucléaire n'est pas à craindre."
         </Example>
 
         <Example example={'"Je trouve que vous avez très bien résumé la situation."'}>
-          Le message n'apporte aucune plus-value.
+          Le message n'apporte aucune plus-value. Préférez annoter le commentaire d'un "je suis d'accord".
         </Example>
 
       </div>

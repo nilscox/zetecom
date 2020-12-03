@@ -9,10 +9,10 @@ $break-xxlarge: 1590px;
     font-size: 18px;
     line-height: 24px;
     padding: 15px;
-    margin: 10px 0;
+    margin: 40px 0;
 
-    a {
-      text-decoration: none;
+    p {
+      margin-bottom: 40px;
     }
 
     @media screen and (min-width: $break-medium) {
@@ -22,7 +22,7 @@ $break-xxlarge: 1590px;
     }
 
     @media screen and (min-width: $break-desktop) {
-      margin: 30px 100px;
+      margin: 40px 80px;
     }
   }
 
@@ -31,10 +31,10 @@ $break-xxlarge: 1590px;
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
+    margin: 40px 0 80px 0;
   }
 
   .why {
-    margin-top: 48px;
     display: flex;
     flex-direction: column;
 
@@ -129,10 +129,9 @@ $break-xxlarge: 1590px;
 
   .branding {
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    flex-direction: column-reverse;
 
-    @media screen and (min-width: $break-xlarge) {
+    @media screen and (min-width: $break-xxlarge) {
       flex-direction: row;
     }
 
@@ -140,15 +139,6 @@ $break-xxlarge: 1590px;
       max-width: 520px;
       margin: auto;
       flex: 1;
-
-      @media screen and (min-width: $break-xlarge) {
-        margin: 0;
-      }
-
-      @media screen and (min-width: $break-medium) {
-        margin-top: 25px;
-        margin-bottom: 25px;
-      }
 
       img {
         border-top: 1px solid #CCC;

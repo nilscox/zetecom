@@ -14,10 +14,6 @@ const Motivations: React.FC = () => (
 
     <Title id="motivations">Motivations</Title>
 
-    <p>
-      Cette page décrit plus en détail les raisons pour lesquelles ce projet a vu le jour, et les problématiques auxquelles il tente d'apporter des solutions.
-    </p>
-
     <SubTitle id="contexte">Le contexte</SubTitle>
 
     <p>
@@ -34,7 +30,7 @@ const Motivations: React.FC = () => (
 
     <p>
       Un sens critique affûté devient ainsi un atout primordial, que chaque internaute cherchant à comprendre l'information se doit de cultiver.
-      Entre les différents conflits d'intérêts, la publicité déguisée, le manque de rigueur de certains journalistes, l'addiction au buzz... Le but des médias n'est pas toujours d'<em>informer</em> son public de la manière la plus <em>neutre</em> possible.
+      Entre les différents conflits d'intérêts, la publicité déguisée, l'amalgame entre sciences et pseudosciences... En théorie, un média devrait informer son public de la manière la plus <em>neutre</em> possible, mais ce n'est malheureusement pas ainsi que fonctionne notre société en pratique.
       Pour se faire une opinion assez juste de l'information, il faut savoir raisonner avec un minimum d'esprit critique.
       Cela veut dire, par exemple, savoir suspendre son jugement, analyser correctement les faits en remontant à la source si nécessaire, estimer la validité des arguments ou encore avoir conscience des biais cognitifs pouvant compromettre un jugement.
     </p>
@@ -55,7 +51,7 @@ const Motivations: React.FC = () => (
     <SubTitle id="objectifs">Les objectifs</SubTitle>
 
     <p>
-      L'idée qui a fait naître Zétécom, c'est de proposer un espace d'échange basé sur <strong>la bienveillance</strong> et <strong>l'esprit critique</strong>, pour discuter de l'information sur internet.
+      L'idée qui a fait naître Zétécom, c'est de proposer un espace d'échange basé sur <strong>la bienveillance</strong> et <strong>l'esprit critique</strong>, permettant de décortiquer l'information sur internet.
       Par exemple, cela peut être pour apporter une source qui remet en question l'information. Ou bien pour poser une question. Pour relever une incohérence dans un article, un biais méthodologique, ou un argument fallacieux. Ou encore, pour partager son opinion sur un sujet, et en discuter avec des personnes ayant un avis potentiellement différent.
     </p>
 
@@ -78,6 +74,10 @@ const Motivations: React.FC = () => (
       Premièrement, à l'heure où attaques personnelles et procès d'intention sont monnaie courante sur les réseaux, il nous parait fondamental d'attribuer une place d'honneur au <strong>respect des personnes</strong>.
       Deuxièmement, nous pensons qu'un maximum de <strong>transparence</strong> est bénéfique pour l'évolution du projet, autant dans les motivations qui guident nos décisions, que dans le partage de l'intégralité de <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>son code source</Link>.
       Et troisièmement, nous voulons mettre en place un outil qui reste neutre, <strong>non partisan</strong>, n'étant ainsi rattaché à aucune norme politique ou idéologique.
+    </p>
+
+    <p style={{ marginTop: 32, fontSize: 12 }}>
+      Cette page est en constante évolution : certains points gagneraient à être plus détaillés ou reformulés. N'hésitez pas à <Link href="/faq.html#contact">nous faire part</Link> de vos impressions !
     </p>
 
   </>
