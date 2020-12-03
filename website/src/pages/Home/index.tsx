@@ -91,23 +91,23 @@ const Home: React.FC = () => (
           En plus de donner la possibilité d'échanger, Zétécom apporte quelques avantages par rapport aux espaces d'échanges classiques.
         </p>
         <p>
+          <strong>Ouvrir une discussion n'importe où</strong>, et en particulier lorsque la zone de commentaires originale est fermée.
+        </p>
+        <p>
+          <strong>Être notifié</strong> par exemple quand un message est publié en réponse à un commentaire que vous suivez.
+        </p>
+        <p>
           <strong>Rechercher parmi les messages existants</strong>, permettant ainsi de facilement repérer les commentaires qui parlent d'un sujet précis.
         </p>
         <p>
           <strong>Annoter les messages d'une réaction</strong> : plutôt d'accord, plutôt pas d'accord ou pas d'avis tranché. Cela permet de les qualifier et de les trier par pertinence.
         </p>
         <p>
-          <strong>Être notifié</strong> par exemple quand un message est publié en réponse à un commentaire que vous suivez.
-        </p>
-        <p>
-          <strong>Ouvrir une discussion n'importe où</strong>, et en particulier lorsque la zone de commentaires originale est fermée.
-        </p>
-        <p>
           <strong>Intégrer les zones de commentaires</strong> sur les sites d'informations, via une extension disponible sur Chrome et Firefox.
         </p>
         <p>
           Et plus à venir ! Et encore plus grâce à vous !
-          Si vous avez des idées à proposer ou si vous souhaitez vous investir dans la conception de Zétécom, <RouterLink to="/beta.html">rejoignez les bêta-testeurs</RouterLink> :)
+          Si vous avez des idées à proposer ou si vous souhaitez tester les nouvelles fonctionnalités en avant première, <RouterLink to="/beta.html">rejoignez les bêta-testeurs</RouterLink> ;)
         </p>
       </div>
 
