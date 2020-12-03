@@ -23,6 +23,7 @@
     "react-ga": "^3.3.0",
     "react-responsive-carousel": "^3.2.10",
     "react-router-dom": "^5.2.0",
+    "react-router-hash-link": "^2.2.2",
     "reset-css": "^5.0.1"
   },
   "devDependencies": {
@@ -39,6 +40,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.5",
+    "@types/react-router-hash-link": "^1.2.1",
     "@types/webpack": "^4.41.25",
     "@types/webpack-dev-server": "^3.11.1",
     "@typescript-eslint/eslint-plugin": "^4.8.1",
