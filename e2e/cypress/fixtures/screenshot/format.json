@@ -29,7 +29,7 @@
             "refute": [],
             "skeptic": []
           },
-          "text": "Pour aller plus loin dans l'analyse, voici [une source intéressante](https://source.interessante). Les données sous forme de tableau :\n\n| taille | poids  | temps de réponse | réponse partielle |\n|--------|--------|------------------|-------------------|\n| 18 cm  | 147 kg | 23 ms            | oui               |\n| 42 cm  | 612 g  | 8 ans            | non               |\n| 11 UA  | 81 kg  | 11.5 sec         | non               |\n\nCertains participants n'ont pas répondu car :\n- ils n'étaient pas là\n- ils n'ont pas compris la question\n- ils ont oubliés de répondre\n\nVoilà, pour en savoir plus, je vous conseille de lire l'étude elle-même, disponible sur le site de l'université de grenoble : https://universite-de-grenoble.website",
+          "text": "Il est bien utile de pouvoir **mettre en valeur** un argument, de donner [un lien](un.lien), et même d'afficher une liste :\n\n- ça c'est le premier élément\n- voilà le deuxième\n- et celui-là c'est le dernier !\n\nLe markdown vous permet également de présenter des données dans un tableau (les données sont inventées, mais si vous voulez vraiment *chercher un signification*, libre à vous) :\n\n| taille | poids  | temps de réponse | réponse partielle |\n|--------|--------|------------------|-------------------|\n| 18 cm  | 147 kg | 23 ms            | oui               |\n| 42 cm  | 612 g  | 8 ans            | non               |\n| 11 UA  | 81 kg  | 11.5 sec         | non               |",
           "replies": [
             {
               "author": "Stan",

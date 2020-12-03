@@ -1,6 +1,8 @@
+// document.querySelector('iframe').contentWindow.scrollY
+
 describe.skip('website screenshots', () => {
   beforeEach(() => {
-    cy.viewport(640, 480);
+    cy.viewport(660, 490);
   });
 
   it('search', () => {
@@ -10,7 +12,14 @@ describe.skip('website screenshots', () => {
 
     cy.get('input[name="search"]').type('NoFakeScience');
 
-    cy.getComment(1).contains('nofakescience');
+    cy.getComment(1).contains('NoFakeScience');
+
+    cy.blurContent();
+
+    cy.get('.markdown-github .highlighted').invoke('css', 'color', 'initial');
+    cy.get('.markdown-github .highlighted').invoke('css', 'font-weight', 'normal');
+    cy.get('.markdown-github .highlighted').invoke('css', 'letter-spacing', 'initial');
+    cy.get('.markdown-github .highlighted').invoke('css', 'text-shadow', 'none');
 
     cy.websiteScreenshot('search');
   });
@@ -18,12 +27,15 @@ describe.skip('website screenshots', () => {
   it('nested replies', () => {
     cy.seedFromFixture('screenshot/nested-replies.json');
 
+    cy.login({ email: 'nils@nils.cx', password: 'secure p4ssword' });
     cy.visitIntegration('id:1');
 
     cy.getComment(1).contains('2 réponses').click();
     cy.getComment(2).contains('5 réponse').click();
 
-    cy.websiteScreenshot('nested-replies', { y: 665 });
+    cy.wait(1000);
+    cy.blurContent();
+    cy.websiteScreenshot('nested-replies', { y: 425 });
   });
 
   it('sort relevance', () => {
@@ -53,7 +65,5 @@ describe.skip('website screenshots', () => {
     cy.visitIntegration('id:1');
 
     cy.getComment(2).contains('1 réponse').click();
-
-    cy.websiteScreenshot('format', { y: 570 });
   });
 });

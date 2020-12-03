@@ -3,7 +3,7 @@
     { "nick": "nilscox", "email": "nils@nils.cx", "password": "secure p4ssword" },
     { "nick": "KimWex", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "tree.png" },
     { "nick": "Jimmy", "email": "user02@domain.tld", "password": "secure p4ssword", "avatar": "pink-floyd.png" },
-    { "nick": "TonSanto", "email": "user03@domain.tld", "password": "secure p4ssword" }
+    { "nick": "Jean Michel", "email": "user03@domain.tld", "password": "secure p4ssword" }
   ],
   "commentsAreas": [
     {
@@ -17,11 +17,11 @@
         {
           "author": "KimWex",
           "reactions": {
-            "approve": ["Jimmy", "TonSanto"],
+            "approve": ["Jimmy", "Jean Michel"],
             "refute": [],
             "skeptic": []
           },
-          "text": "02:03:00 Désolé Thomas je ne te rejoint pas, OUI il y a une critique systemique a faire, OUI, il y a a coup sur des journalistes scientifiques qui veulent \"bien faire\" mais qui ne peuvent pas a cause du système médiatique en place, et OUI il y en a probablement qui arrivent a bien faire, du moins j'en suis convaincu.\n\nPar contre les noms que tu as cité (Foucart et Waleckx) sont critiquable en eux meme de par la maniere dont ils transmettent l'information, et je ne pense pas que ce soit seulement le systeme mediatique qui fasse ça. Ce sont des journaliste \"stars\" (un peu plus Foucart que Waleckx) si ils voulaient proposer de \"nouveaux\" angles ils pourraient. D'autant plus qu'on ne leur demande pas grand chose, juste de savoir se corriger quand c'est nécessaire. L'information est aujourd'hui largement disponible, les preuves qu'ils se sont trompés ont fait plusieurs fois le tour des réseaux sociaux, et ils les ont vu. Ils peuvent tout a fait ne pas vouloir les prendre en compte, mais avant de se rééxprimer sur le sujet en annonçant que leurs détracteurs sont payés par de gros lobbies ils auraient juste du s'interesser a ces fameuses preuves.",
+          "text": "Do you want a jelly baby? Don't be sad Grace. You'll do great things. Jamie, remind me to give you a lesson in tying knots, sometime. This thing is smaller on the inside than it is on the outside. Life depends on change and renewal. My ship…my TARDIS…",
           "replies": [
             {
               "author": "Jimmy",
@@ -30,25 +30,30 @@
                 "refute": [],
                 "skeptic": ["KimWex"]
               },
-              "text": "Il semblerait que Foucard a fabriqué lui même les preuves : il fait partie de ceux qui ont analysé les e-mail de Monsanto mais il refuse de dire dans lequel et personne n'a réussi à retrouver l'email en cause.",
+              "text": "Oh my word! Dreams are important…never underestimate them. Oh my word! Dreams are important…never underestimate them.",
               "replies": [
                 {
                   "author": "KimWex",
                   "reactions": {
                     "approve": [],
-                    "refute": [],
+                    "refute": ["Jimmy", "nilscox", "Jean Michel"],
                     "skeptic": []
                   },
-                  "text": "@Jimmy Yup je sais bien je me suis amusé a lire l'entiereté des Monsantos Papers disponible sur USRTK, ceci dit, vu le nombre de documents, il est tout a fait possible que j'ai pu en rater un, du coup je prefere ne pas affirmer avec trop d'aplomb qu'il a fabriqué ses preuves, disons qu'il a échoué a prouver plutot…"
+                  "text": "I am the Doctor! The original, you might say! Oh I'm so sorry, Jamie. Would you like a jelly baby? Goodbye... Fancypants! I don't like it. Courage isn’t a matter of not being frightened, it’s being afraid and doing what you have to do anyway.",
+                  "replies": [
+                    { "author": "Jean Michel" },
+                    { "author": "Jean Michel" },
+                    { "author": "Jean Michel" }
+                  ]
                 },
-                { "author": "TonSanto" },
-                { "author": "TonSanto" },
-                { "author": "TonSanto" },
-                { "author": "TonSanto" }
+                { "author": "Jean Michel" },
+                { "author": "Jean Michel" },
+                { "author": "Jean Michel" },
+                { "author": "Jean Michel" }
               ]
             },
             {
-              "author": "TonSanto",
+              "author": "Jean Michel",
               "reactions": {
                 "approve": [],
                 "refute": [],

@@ -1,7 +1,8 @@
 {
   "users": [
     { "nick": "nilscox", "email": "nils@nils.cx", "password": "secure p4ssword" },
-    { "nick": "Jeremy F", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "yoda.png" }
+    { "nick": "Jeremy", "email": "user01@domain.tld", "password": "secure p4ssword", "avatar": "yoda.png" },
+    { "nick": "Ton Santo", "email": "user02@domain.tld", "password": "secure p4ssword" }
   ],
   "commentsAreas": [
     {
@@ -15,46 +16,29 @@
       "subjects": [],
       "comments": [
         {
-          "author": "Jeremy F",
+          "author": "Ton Santo",
           "reactions": {
             "approve": [],
             "refute": [],
             "skeptic": []
           },
-          "text": "La remarque du journaliste scientifique à la fin de la vidéo est, selon moi, très révélateur. Il dit avoir refusé de signer la tribune nofakescience, mais sans réellement préciser quelles sont ses raisons. Si j'ai bien compris, il ne voit pas d'intérêt à limiter la diffusion des pseudo-sciences. Après le problème c'est que assez souvent les bons arguments sont politiques pas techniques (financement et choix des axes de recherche, influence du marketing, capture du régulateur…), ce qui sort un peu de votre zone de confort pour entrer dans le domaine des sciences sociales."
+          "text": "Après le problème c'est que assez souvent les bons arguments sont politiques NoFakeScience pas techniques (financement et choix des axes de recherche, influence du marketing, capture du régulateur…), ce qui sort un peu de votre zone de."
         },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" },
-        { "author": "Jeremy F", "text": "" }
+        {
+          "author": "Jeremy",
+          "reactions": {
+            "approve": ["Ton Santo", "nilscox"],
+            "refute": [],
+            "skeptic": []
+          },
+          "replies": [
+            { "author": "Ton Santo" },
+            { "author": "Ton Santo" },
+            { "author": "Ton Santo" },
+            { "author": "Ton Santo" }
+          ],
+          "text": "La remarque du journaliste scientifique à la fin de la vidéo est, selon moi, très révélateur. Il dit avoir refusé de signer la tribune nofakescience, mais sans réellement préciser quelles sont ses raisons. Si j'ai bien compris, il ne voit pas d'intérêt à limiter la diffusion des pseudo-sciences."
+        }
       ]
     }
   ]
