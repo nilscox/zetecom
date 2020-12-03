@@ -5,6 +5,8 @@ import clsx from 'clsx';
 import Title from 'src/components/Title';
 import SubTitle, { SubTitleProps } from 'src/components/SubTitle';
 import Link from 'src/components/Link';
+import AppLink from 'src/components/Link/AppLink';
+import RouterLink from 'src/components/Link/RouterLink';
 import { useEnvironment } from 'src/utils/env';
 
 import { trackOpenRepositoryLink, trackOpenFeatureUpvoteLink } from '../../utils/track';
@@ -28,7 +30,7 @@ const useSections = () => [
 
       {
         question: 'Comment créer un compte ?',
-        answer: <>Vous pouvez ouvrir un compte utilisateur depuis la page <Link href="/connexion">connexion</Link> de la plateforme, ou via la popup de l'extension.</>,
+        answer: <>Vous pouvez ouvrir un compte utilisateur depuis la page <AppLink href="/connexion">connexion</AppLink> de la plateforme, ou via la popup de l'extension.</>,
       },
 
       {
@@ -55,7 +57,7 @@ const useSections = () => [
 
       {
         question: 'Comment mettre en page un commentaire ?',
-        answer: <>Les messages supportent la syntaxe <Link openInNewTab href="https://fr.wikipedia.org/wiki/Markdown">markdown</Link>, qui permet une mise en forme simple : utilisez par exemple des étoiles pour mettre du texte <strong>*en gras*</strong>. Plus de détails ici : <Link openInNewTab href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">https://learnxinyminutes.com/docs/fr-fr/markdown-fr/</Link></>,
+        answer: <>Les messages supportent la syntaxe <Link href="https://fr.wikipedia.org/wiki/Markdown">markdown</Link>, qui permet une mise en forme simple : utilisez par exemple des étoiles pour mettre du texte <strong>*en gras*</strong>. Plus de détails ici : <Link href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">https://learnxinyminutes.com/docs/fr-fr/markdown-fr/</Link></>,
       },
 
       {
@@ -66,7 +68,7 @@ const useSections = () => [
 
       {
         question: 'Comment signaler un bug ou proposer de nouvelles fonctionnalités ?',
-        answer: <><Link href="#contact">Contactez</Link> directement l'équipe qui développe le projet, nous sommes ouverts à vos remarques.</>,
+        answer: <><RouterLink to="#contact">Contactez</RouterLink> directement l'équipe qui développe le projet, nous sommes ouverts à vos remarques.</>,
       },
 
     ],
@@ -114,24 +116,24 @@ const useSections = () => [
 
       {
         question: 'Peut-on participer au projet ?',
-        answer: <>Que ce soit pour donner vos impressions, proposer des axes d'amélioration, vous êtes chaleureusement invité.e à <Link href="#contact">nous envoyer un petit message</Link>.
-        Et pour aller plus loin, <Link href="/beta.html">rejoignez les bêta-testeurs</Link> ! Vos retours nous aideront à comprendre vos attentes pour mieux y répondre.</>
+        answer: <>Que ce soit pour donner vos impressions, proposer des axes d'amélioration, vous êtes chaleureusement invité.e à <RouterLink to="#contact">nous envoyer un petit message</RouterLink>.
+        Et pour aller plus loin, <RouterLink to="/beta.html">rejoignez les bêta-testeurs</RouterLink> ! Vos retours nous aideront à comprendre vos attentes pour mieux y répondre.</>
       },
 
       {
         question: 'Comment suivre l\'évolution du projet ?',
         answer: <>Un <Link href="https://trello.com/b/CfC8aQ80/tasks">board tello</Link> est accessible publiquement, n'hésitez pas à y jeter un œil !
-        Et si vous êtes développeu.r.se et que le projet vous intéresse techniquement, les source sont disponibles sur <Link openInNewTab href={useEnvironment('REPOSITORY_URL')} onClick={() => trackOpenRepositoryLink('faq')}>GitHub</Link>.</>,
+        Et si vous êtes développeu.r.se et que le projet vous intéresse techniquement, les source sont disponibles sur <Link href={useEnvironment('REPOSITORY_URL')} onClick={() => trackOpenRepositoryLink('faq')}>GitHub</Link>.</>,
       },
 
       {
         question: 'Qui développe Zétécom ?',
-        answer: <>Le projet est développé par une <Link openInNewTab href="https://nils.cx">petite</Link> <Link openInNewTab href="https://bopzor.me">équipe</Link> de développeurs passionnés par l'esprit critique et la <Link openInNewTab href="https://fr.wikipedia.org/wiki/Zététique">zététique</Link>.</>,
+        answer: <>Le projet est développé par une <Link href="https://nils.cx">petite</Link> <Link href="https://bopzor.me">équipe</Link> de développeurs passionnés par l'esprit critique et la <Link href="https://fr.wikipedia.org/wiki/Zététique">zététique</Link>.</>,
       },
 
       {
         question: 'Votre question ne figure pas dans cette liste... ?',
-        answer: <><Link href="#contact">Posez-la nous directement</Link>, nous l'y ajouterons sans tarder :)</>,
+        answer: <><RouterLink to="#contact">Posez-la nous directement</RouterLink>, nous l'y ajouterons sans tarder :)</>,
       },
 
     ],
@@ -236,15 +238,15 @@ const FAQ: React.FC = () => {
       <Title id="contact">Une idée à proposer ? Un bug à signaler ?</Title>
 
       <p>
-        Venez partager vos idées d'améliorations et voter pour les idées qui vous semblent pouvoir apporter de la valeur au projet sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>FeatureUpvote</Link> !
+        Venez partager vos idées d'améliorations et voter pour les idées qui vous semblent pouvoir apporter de la valeur au projet sur <Link href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>FeatureUpvote</Link> !
       </p>
 
       <p>Nous sommes également à l'écoute de vos remarques via ces différents canaux de communication :</p>
 
       <ul>
-        {TWITTER_ACCOUNT && <li>Sur twitter : <Link openInNewTab href={`https://twitter.com/${TWITTER_ACCOUNT}`}>twitter.com/{TWITTER_ACCOUNT}</Link></li>}
-        {FACEBOOK_PAGE && <li>Sur facebook : <Link openInNewTab href={`https://facebook.com/${FACEBOOK_PAGE}`}>facebook.com/{FACEBOOK_PAGE}</Link></li>}
-        {CONTACT_EMAIL && <li>Par e-mail : <Link openInNewTab href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</Link></li>}
+        {TWITTER_ACCOUNT && <li>Sur twitter : <Link href={`https://twitter.com/${TWITTER_ACCOUNT}`}>twitter.com/{TWITTER_ACCOUNT}</Link></li>}
+        {FACEBOOK_PAGE && <li>Sur facebook : <Link href={`https://facebook.com/${FACEBOOK_PAGE}`}>facebook.com/{FACEBOOK_PAGE}</Link></li>}
+        {CONTACT_EMAIL && <li>Par e-mail : <Link href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</Link></li>}
       </ul>
 
     </>

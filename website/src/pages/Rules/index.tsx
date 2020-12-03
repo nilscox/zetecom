@@ -6,6 +6,7 @@ import Title from 'src/components/Title';
 
 import './Rules.scss';
 import Link from 'src/components/Link';
+import RouterLink from 'src/components/Link/RouterLink';
 
 const Rule: React.FC<{ rule: ReactNode }> = ({ rule, children }) => (
   <div className="rule">
@@ -49,7 +50,7 @@ const Rules: React.FC = () => {
       <Rule rule="3. Décrire chaque point de vue objectivement.">
         Lorsque vous donnez votre opinion sur un sujet, votre but doit être d'expliquer ce que vous pensez et pourquoi vous pensez cela.
         Le prosélytisme ou toute forme de publicité sont donc proscrits.
-        Si vous le souhaitez, indiquez <Link href="/faq.html#utilisation">en exposant</Link> le <Link openInNewTab href="https://twitter.com/HygieneMentale/status/1230849591534407685">degré de croyance</Link> (ou degré de certitude) de ce que vous avancez.
+        Si vous le souhaitez, indiquez <RouterLink to="/faq.html#utilisation">en exposant</RouterLink> le <Link href="https://twitter.com/HygieneMentale/status/1230849591534407685">degré de croyance</Link> (ou degré de certitude) de ce que vous avancez.
       </Rule>
 
       <Rule rule="4. Apporter les sources nécessaires à la vérification des faits énoncés.">
@@ -59,12 +60,12 @@ const Rules: React.FC = () => {
 
       <Rule rule="5. Rédiger en français correct.">
         Votre message sera toujours mieux reçu s'il est bien écrit et lisible.
-        Veillez à éviter le registre familier, les abréviations, le style "texto", et les <Link openInNewTab href="https://languagetool.org/fr">fautes d'orthographe</Link> autant que possible.
+        Veillez à éviter le registre familier, les abréviations, le style "texto", et les <Link href="https://languagetool.org/fr">fautes d'orthographe</Link> autant que possible.
       </Rule>
 
       <Rule rule="6. Faire preuve de bienveillance.">
         Quelle que soit la situation, gardez un état d'esprit coopératif.
-        Mettez-vous à la place des personnes qui liront vos commentaires, et montrez-vous capable de <Link openInNewTab href="https://fr.wikipedia.org/wiki/Principe_de_charit%C3%A9">charité interprétative</Link> en lisant ceux des autres utilisateurs.
+        Mettez-vous à la place des personnes qui liront vos commentaires, et montrez-vous capable de <Link href="https://fr.wikipedia.org/wiki/Principe_de_charit%C3%A9">charité interprétative</Link> en lisant ceux des autres utilisateurs.
       </Rule>
 
       <p style={{ marginTop: 40 }}>
@@ -106,7 +107,7 @@ const Rules: React.FC = () => {
 
       {/*
         <p>
-          Pour plus d'exemples s'appliquant aussi à cette charte, faites un tour sur <Link openInNewTab href="https://www.lemonde.fr/actualite-medias/article/2019/05/21/l-espace-des-contributions-du-monde-en-10-questions_5465155_3236.html">la partie 2 de l'espace des contribution du Monde</Link>.
+          Pour plus d'exemples s'appliquant aussi à cette charte, faites un tour sur <Link href="https://www.lemonde.fr/actualite-medias/article/2019/05/21/l-espace-des-contributions-du-monde-en-10-questions_5465155_3236.html">la partie 2 de l'espace des contribution du Monde</Link>.
         </p>
       */}
 

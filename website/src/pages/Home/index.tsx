@@ -8,6 +8,7 @@ import Title from 'src/components/Title';
 import Link from 'src/components/Link';
 import Card from 'src/components/Card';
 import DownloadExtensions from 'src/components/DownloadExtensionsButtons';
+import RouterLink from 'src/components/Link/RouterLink';
 
 import gifExtension from '../../images/youtube-zc.gif';
 
@@ -37,13 +38,13 @@ const Home: React.FC = () => (
         Zétécom, c'est une plateforme qui met à disposition des zones de commentaires, pour réagir à l'information sur internet tout en cultivant son <strong>autodéfense intellectuelle</strong>.
       </p>
       <p>
-        Pour garantir des échanges constructifs, les personnes participant aux discussions s'engagent à respecter <Link href="/charte">une charte</Link> composée de quelques règles simples.
+        Pour garantir des échanges constructifs, les personnes participant aux discussions s'engagent à respecter <RouterLink to="/charte">une charte</RouterLink> composée de quelques règles simples.
       </p>
     </div>
 
     <div className="why">
       <p>
-        Depuis quelques dizaines d'années, la digitalisation des modes de communication a enclenché une vraie <Link openInNewTab href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</Link>, qui a radicalement bouleversé notre façon de nous informer.<br />
+        Depuis quelques dizaines d'années, la digitalisation des modes de communication a enclenché une vraie <Link href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</Link>, qui a radicalement bouleversé notre façon de nous informer.<br />
         Face à cela, de nouveaux problèmes liés à l'information émergent, notamment dans la manière dont elle est diffusée par les médias.
       </p>
       <div className="separator" />
@@ -78,7 +79,7 @@ const Home: React.FC = () => (
     </p>
 
     <p>
-      Si cela vous intéresse, la page <Link href="/motivations">motivations</Link> explique plus en détail le contexte dans lequel s'inscrit Zétécom, les raisons pour lesquelles cet outil a vu le jour et les problématiques auxquelles il tente d'apporter des solutions.
+      Si cela vous intéresse, la page <RouterLink to="/motivations">motivations</RouterLink> explique plus en détail le contexte dans lequel s'inscrit Zétécom, les raisons pour lesquelles cet outil a vu le jour et les problématiques auxquelles il tente d'apporter des solutions.
     </p>
 
     <Title id="comment-y-arriver">Plus que de simples zones de commentaires !</Title>
@@ -106,7 +107,7 @@ const Home: React.FC = () => (
         </p>
         <p>
           Et plus à venir ! Et encore plus grâce à vous !
-          Si vous avez des idées à proposer ou si vous souhaitez vous investir dans la conception de Zétécom, <Link href="/beta.html">rejoignez les bêta-testeurs</Link> :)
+          Si vous avez des idées à proposer ou si vous souhaitez vous investir dans la conception de Zétécom, <RouterLink to="/beta.html">rejoignez les bêta-testeurs</RouterLink> :)
         </p>
       </div>
 

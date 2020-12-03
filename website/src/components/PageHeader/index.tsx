@@ -1,6 +1,7 @@
 import React from 'react';
 
-import Link from 'src/components/Link';
+import RouterLink from 'src/components/Link/RouterLink';
+import AppLink from 'src/components/Link/AppLink';
 
 import Logo from '../../images/logo.png';
 
@@ -12,14 +13,20 @@ const PageHeader: React.FC = () => (
     <img className="logo" src={Logo} alt="Logo de Zétécom" />
 
     <h1 className="title">
-      <Link href="/">Zétécom</Link>
-      <Link href="/beta.html" className="beta" title="Rejoignez les bêta-testeurs !">BÊTA</Link>
+      <RouterLink to="/">Zétécom</RouterLink>
+      <RouterLink to="/beta.html" className="beta" title="Rejoignez les bêta-testeurs !">BÊTA</RouterLink>
     </h1>
 
     <div className="subtitle-container">
       <div className="subtitle subtitle-top">L'information</div>
       <div className="subtitle">avec esprit critique</div>
     </div>
+
+    <div style={{ flex: 1 }}></div>
+
+    <AppLink className="app-link">
+      Accéder à l'app
+    </AppLink>
 
   </div>
 );

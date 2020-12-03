@@ -6,7 +6,9 @@ import { useEnvironment, withEnv } from 'src/utils/env';
 import logoFacebook from './facebook-logo.png';
 import logoTwitter from './twitter-logo.png';
 
-import { trackOpenFeatureUpvoteLink, trackOpenRepositoryLink } from '../../utils/track';
+import RouterLink from 'src/components/Link/RouterLink';
+import { trackOpenFeatureUpvoteLink, trackOpenRepositoryLink } from 'src/utils/track';
+
 import './PageFooter.scss';
 
 const PageFooter: React.FC = withEnv(({ FACEBOOK_PAGE, TWITTER_ACCOUNT }) => (
@@ -17,14 +19,14 @@ const PageFooter: React.FC = withEnv(({ FACEBOOK_PAGE, TWITTER_ACCOUNT }) => (
       Retrouvez-nous sur les réseaux !
 
       {TWITTER_ACCOUNT && (
-        <Link openInNewTab className="social-item" href={`https://twitter.com/${TWITTER_ACCOUNT}`}>
+        <Link className="social-item" href={`https://twitter.com/${TWITTER_ACCOUNT}`}>
           <img src={logoTwitter} />
           @{TWITTER_ACCOUNT}
         </Link>
       )}
 
       {FACEBOOK_PAGE && (
-        <Link openInNewTab className="social-item" href={`https://facebook.com/${FACEBOOK_PAGE}`}>
+        <Link className="social-item" href={`https://facebook.com/${FACEBOOK_PAGE}`}>
           <img src={logoFacebook} />
           {FACEBOOK_PAGE}
         </Link>
@@ -43,8 +45,8 @@ const PageFooter: React.FC = withEnv(({ FACEBOOK_PAGE, TWITTER_ACCOUNT }) => (
 
     <div className="footer-item join-us">
       Vous souhaitez participer à la conception de <em>Zétécom</em> ?
-      Nous sommes <Link href="/faq.html#contact">à l'écoute de vos remarques</Link> !
-      N'hésitez pas à partager vos idées sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>featureupvote.com</Link>, où à rejoindre la <Link href="/beta.html">bêta</Link> :)
+      Nous sommes <RouterLink to="/faq.html#contact">à l'écoute de vos remarques</RouterLink> !
+      N'hésitez pas à partager vos idées sur <Link openInNewTab href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>featureupvote.com</Link>, où à rejoindre la <RouterLink to="/beta.html">bêta</RouterLink> :)
     </div>
 
   </div>

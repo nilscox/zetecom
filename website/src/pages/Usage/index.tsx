@@ -2,6 +2,7 @@ import React from 'react';
 
 import DownloadExtensions from 'src/components/DownloadExtensionsButtons';
 import Link from 'src/components/Link';
+import RouterLink from 'src/components/Link/RouterLink';
 import Image from 'src/components/Image';
 
 import imageLogin from './images/login.png';
@@ -69,7 +70,7 @@ const Usage: React.FC = () => (
     <div className="step step-signup" id="inscription">
       <div className="step-text">
         Pour participer aux échanges, il est nécessaire de disposer d'un compte sur la plateforme.
-        Si ce n'est déjà fait, consacrez <strong>5 minutes</strong> à la lecture de <Link href="/charte.html">la charte</Link>, puis accédez à la page <AppLink href="/inscription">d'inscription</AppLink> pour créer votre compte.
+        Si ce n'est déjà fait, consacrez <strong>5 minutes</strong> à la lecture de <RouterLink to="/charte.html">la charte</RouterLink>, puis accédez à la page <AppLink href="/inscription">d'inscription</AppLink> pour créer votre compte.
       </div>
       <div className="step-secondary">
         <Image border src={imageLogin} alt="inscription" />
@@ -81,7 +82,7 @@ const Usage: React.FC = () => (
     <div className="step step-write-comment" id="regider-une-reaction">
       <div className="step-text">
         Vous avez votre mot à dire ? Publiez un nouveau commentaire !<br />
-        Pour vous permettre de structurer vos propos, la rédaction d'un message est compatible avec la syntaxe <Link openInNewTab href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">markdown</Link>, qui vous permet une mise en forme avec du texte en gras, des listes, des tableaux, etc.
+        Pour vous permettre de structurer vos propos, la rédaction d'un message est compatible avec la syntaxe <Link href="https://learnxinyminutes.com/docs/fr-fr/markdown-fr/">markdown</Link>, qui vous permet une mise en forme avec du texte en gras, des listes, des tableaux, etc.
       </div>
       <div className="step-secondary">
         <Image border src={imageWriteComment} alt="écrire un commentaire" />
@@ -105,7 +106,7 @@ const Usage: React.FC = () => (
     <div className="step step-moderation" id="moderation">
       <div className="step-text">
         La modération des échanges est assurée par des membres volontaires de la communauté.
-        Si vous souhaitez en faire partie, <Link href="/faq.html#contact">contactez nous</Link> pour en discuter directement.
+        Si vous souhaitez en faire partie, <RouterLink to="/faq.html#contact">contactez nous</RouterLink> pour en discuter directement.
       </div>
       <div className="step-secondary">
         <Image src={imageModeration} style={{ opacity: 0.7 }} alt="moderation" />

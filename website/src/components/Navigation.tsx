@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { matchPath, useLocation } from 'react-router-dom';
 
 import pages from 'src/pages';
-import Link from 'src/components/Link';
+import RouterLink from 'src/components/Link/RouterLink';
 
 import './Navgation.scss';
 
@@ -29,9 +29,9 @@ const Navigation = () => {
 
       <div className="navigation-links">
         { pages.map(({ id, label, path }) => label !== null && (
-          <Link key={id} className={'navigation-link' + (active(path) ? ' active' : '')} href={path}>
+          <RouterLink key={id} to={path} className={'navigation-link' + (active(path) ? ' active' : '')}>
             { label }
-          </Link>
+          </RouterLink>
         )) }
       </div>
 

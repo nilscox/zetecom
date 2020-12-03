@@ -166,21 +166,21 @@ const More: React.FC = withEnv(({ DISCORD_ID, TWITTER_ACCOUNT, FACEBOOK_PAGE, CO
     <div className="contacts">
 
       {DISCORD_ID && (
-        <Link openInNewTab href={`https://discord.gg//${DISCORD_ID}`} className="discord-link">
+        <Link href={`https://discord.gg//${DISCORD_ID}`} className="discord-link">
           <Image src={logoDiscord} alt="logo discord" />
           <strong>Zétécom</strong>
         </Link>
       )}
 
       {TWITTER_ACCOUNT && (
-        <Link openInNewTab href={`https://twitter.com/${TWITTER_ACCOUNT}`} className="twitter-link">
+        <Link href={`https://twitter.com/${TWITTER_ACCOUNT}`} className="twitter-link">
           <Image src={logoTwitter} alt="logo twitter" />
           <strong>@{TWITTER_ACCOUNT}</strong>
         </Link>
       )}
 
       {FACEBOOK_PAGE && (
-        <Link openInNewTab href={`https://facebook.com/${FACEBOOK_PAGE}`} className="facebook-link">
+        <Link href={`https://facebook.com/${FACEBOOK_PAGE}`} className="facebook-link">
           <Image src={logoFacebook} alt="logo facebook" />
           <strong>{FACEBOOK_PAGE}</strong>
         </Link>

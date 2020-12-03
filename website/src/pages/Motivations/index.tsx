@@ -5,6 +5,7 @@ import React from 'react';
 import Title from 'src/components/Title';
 import SubTitle from 'src/components/SubTitle';
 import Link from 'src/components/Link';
+import RouterLink from 'src/components/Link/RouterLink';
 import { useEnvironment } from 'src/utils/env';
 
 import './Motivations.scss';
@@ -67,12 +68,12 @@ const Motivations: React.FC = () => (
     <p>
       En son cœur, ce projet abrite des valeurs qui forgent la façon dont il est pensé et développé.
       Premièrement, à l'heure où attaques personnelles et procès d'intention sont monnaie courante sur les réseaux, il nous parait fondamental d'attribuer une place d'honneur au <strong>respect des personnes</strong>.
-      Deuxièmement, nous pensons qu'un maximum de <strong>transparence</strong> est bénéfique pour l'évolution du projet, autant dans les motivations qui guident nos décisions, que dans le partage de l'intégralité de <Link openInNewTab href={useEnvironment('REPOSITORY_URL')}>son code source</Link>.
+      Deuxièmement, nous pensons qu'un maximum de <strong>transparence</strong> est bénéfique pour l'évolution du projet, autant dans les motivations qui guident nos décisions, que dans le partage de l'intégralité de <Link href={useEnvironment('REPOSITORY_URL')}>son code source</Link>.
       Et troisièmement, nous voulons mettre en place un outil qui reste neutre, <strong>non partisan</strong>, n'étant ainsi rattaché à aucune norme politique ou idéologique.
     </p>
 
     <p style={{ marginTop: 32, fontSize: 13 }}>
-      Cette page est en constante évolution : certains points seront détaillés / reformulés. N'hésitez pas à <Link href="/faq.html#contact">nous faire part</Link> de vos impressions !
+      Cette page est en constante évolution : certains points seront détaillés / reformulés. N'hésitez pas à <RouterLink to="/faq.html#contact">nous faire part</RouterLink> de vos impressions !
     </p>
 
   </>

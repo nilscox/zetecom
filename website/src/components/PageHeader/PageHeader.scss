@@ -96,4 +96,17 @@
       right: -28px;
     }
   }
+
+  .app-link {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #446;
+    margin-bottom: 12px;
+    transition: color 250ms ease-in-out;
+
+    &:hover {
+      color: #446C;
+    }
+  }
 }
