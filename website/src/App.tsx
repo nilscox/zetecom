@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 
 import pages from './pages';
-import EmailValidatedAlert from './components/EmailValidatedAlert';
 import PageHeader from './components/PageHeader';
 import Navigation from './components/Navigation';
 import PageFooter from './components/PageFooter';
@@ -43,7 +42,6 @@ const App: React.FC = () => {
   return (
     <div className="page" id={`page-${page ? page.id : ''}`}>
 
-      <EmailValidatedAlert />
       <PageHeader />
 
       <div className="page-content">
