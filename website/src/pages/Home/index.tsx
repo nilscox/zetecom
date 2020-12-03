@@ -49,7 +49,7 @@ const Home: React.FC = () => (
       </p>
       <div className="separator" />
       <p>
-        Mais quels outils nous permettent de réfléchir ensemble, d'analyser, de décortiquer l'information présente sur internet ?<br />
+        Quels outils avons-nous à notre disposition pour réfléchir ensemble, pour analyser, décortiquer l'information présente sur internet ?<br />
         Le but de Zétécom est d'offrir la possibilité à tous d'ouvrir un dialogue sur des sujets d'actualité, avec des personnes à l'écoute et dans un carde propice à des échanges qui ont du sens.
       </p>
     </div>
@@ -74,7 +74,7 @@ const Home: React.FC = () => (
     </p>
 
     <p>
-      Les espaces d'échanges "classiques", sur YouTube par exemple, ne permettent pas de construire, d'organiser une discussion "sérieuse".
+      Les espaces d'échanges classiques, sur YouTube par exemple, ne permettent pas de construire, d'organiser une discussion « sérieuse ».
       Les commentaires qui apportent une vraie plus-value se retrouvent souvent noyés autour de remerciements, de blagues, de trolls, d'opinions très tranchées sans la moindre source, etc. On peut faire mieux.
     </p>
 
@@ -150,7 +150,7 @@ const Home: React.FC = () => (
     <Title id="a-qui-s-adress-zetecom">À qui s'adresse Zétécom ?</Title>
 
     <p>
-      Les espaces de commentaires Zétécom sont mis à disposition de tous, publiquement pour lire les messages, et après inscription pour participer aux échanges.
+      Les zones de commentaires sont mis à disposition de tous, publiquement pour lire les messages, et après inscription pour participer aux échanges.
       Il n'est pas nécessaire de connaître par cœur les outils de la pensée critique, les biais cognitifs ou la méthode scientifique pour s'inscrire.
       Le but, c'est de rassembler des personnes qui « jouent le jeu », qui cherchent à <strong>partager leurs opinions</strong> et à <strong>comprendre celles des autres</strong>, avec bienveillance et humilité.
     </p>
@@ -158,11 +158,11 @@ const Home: React.FC = () => (
     <p>
       Mais reconnaissons tout de même que cette initiative s'adresse en premier lieu à des personnes qui veulent décortiquer l'information, qui se posent des questions et cherchent des réponses via des échanges critiques.
       Si cette démarche vous correspond, si vous cherchez à renforcer votre autodéfense intellectuelle tout en exerçant votre esprit critique, alors vous avez beaucoup à apporter à la communauté.
-      Vous avez le pouvoir de montrer l'exemple, d'être moteur dans un groupe de personnes dans un but commun.
+      Vous avez le pouvoir de montrer l'exemple, d'être le moteur d'un groupe de personnes dans un but commun.
     </p>
 
     <p>
-      Et si vous ne cherchez pas spécialement à creuser l'information ou que vous n'êtes pas familier avec les méthodes du scepticisme, cet outil vous permet simplement de communiquer dans de bonnes conditions, d'être écouté et corrigé pour de bonnes raisons.
+      Et si vous ne cherchez pas spécialement à creuser l'information ou que vous n'êtes pas familier avec les méthodes du scepticisme, cet outil vous permet simplement de communiquer dans des conditions favorables, d'être écouté et corrigé pour de bonnes raisons.
       À terme, l'objectif est qu'autour de cet outil se développe une communauté dont l'intégrité ne peut être remise en question.
       Pour en faire partie, nous n'attendons rien de plus de votre part que le respect de la charte.
     </p>
