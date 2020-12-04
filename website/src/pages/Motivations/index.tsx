@@ -19,32 +19,32 @@ const Motivations: React.FC = () => (
 
     <p>
       Sur internet, on peut lire toute sorte d'information.
-      Entre les articles qui font l'éloge des dernières découvertes scientifiques, ceux qui mettent en garde contre le réchauffement climatique, qui expliquent pourquoi il faut sortir du nucléaire, ou l'inverse, que le nucléaire est l'énergie de l'avenir, en passant par les vidéos qui incitent à croire à des théories du complot ou qui « prouvent » l'existence de l'énergie libre !
+      Entre les articles qui font l'éloge des dernières découvertes scientifiques, ceux qui mettent en garde contre le réchauffement climatique, qui expliquent pourquoi il faut sortir du nucléaire, ou l'inverse, que le nucléaire est l'énergie de l'avenir, en passant par les vidéos qui « prouvent » l'existence de l'énergie libre ou qui « démontrent » qu'il existe un complot mondial !
       Malheureusement, la qualité des contenus présents sur le web n'est pas toujours au rendez-vous. <em>Mais à qui faire confiance ?</em>
     </p>
 
     <p>
-      Face à cette abondance d'informations, il devient très difficile de faire la distinction entre celles qui sont sérieuses, qui reposent sur des faits solides, de celles qui ne le sont pas, voire qui sont fausses.
-      Sans prendre le temps d'y réfléchir, on peut facilement accorder la même valeur au tweet d’un « expert » auto-proclamé qu'à une enquête journalistique effectuée par des professionnels.
-      Avouons-le, il n'est pas toujours évident d'user de notre rationalité lorsque nous devons nous faire une opinion sur ce que les médias nous disent.
+      Face à cette abondance d'informations, il devient très difficile de faire la distinction entre celles qui sont sérieuses, qui reposent sur des faits solides et vérifiés, de celles qui ne le sont pas, voire qui sont fausses.
+      Sans prendre le temps d'y réfléchir, on peut facilement accorder autant de valeur au tweet d’un « expert » auto-proclamé qu'à une enquête journalistique effectuée par des professionnels.
+      Force est de constater qu'il n'est pas toujours évident d'user de notre rationalité lorsque nous devons nous faire une opinion sur ce que les médias nous disent.
     </p>
 
     <p>
       Un sens critique affûté devient ainsi un atout primordial, qu'il est important de cultiver pour mieux comprendre l'information.
       Entre les différents conflits d'intérêts, la publicité déguisée, l'amalgame entre sciences et pseudosciences... En théorie, un média devrait informer son public de la manière la plus <em>neutre</em> possible, mais ce n'est pas ainsi que notre monde fonctionne en pratique.
       Pour se faire une opinion assez juste de l'information, il faut savoir raisonner avec un minimum d'esprit critique.
-      Cela veut dire, par exemple, savoir suspendre son jugement, analyser correctement les faits en remontant à la source si nécessaire, estimer la validité des arguments ou encore avoir conscience des biais cognitifs pouvant compromettre un jugement.
+      Cela veut dire, par exemple, savoir analyser correctement les faits en remontant à la source si nécessaire, suspendre son jugement pour estimer la validité des arguments ou encore avoir conscience des biais cognitifs pouvant altérer notre compréhension des choses.
     </p>
 
     <p>
       Mais élaborer une réflexion rationnelle seul peut se révéler difficile.
-      Pour creuser un sujet, apporter des doutes lâ où cela semble nécessaire, il faut pouvoir <em>partager ses idées</em> avec des personnes à l'écoute, si possible dans un cadre propice à des échanges construits, argumentatifs et courtois.
-      Ce n'est pas le but de la majorité des espaces de commentaires existants sur la toile, ceux-ci étant plutôt destinés à réagir <em>à chaud</em>, pour donner son ressenti sans trop réfléchir, allant parfois jusqu'à se faire prendre au piège à tenir une conversation hostile avec un bot, ou un troll.
+      Pour creuser un sujet, apporter des doutes là où cela semble nécessaire, il faut pouvoir <em>partager ses idées</em> avec des personnes à l'écoute, si possible dans un cadre propice à des échanges construits, argumentatifs et courtois.
+      Ce n'est pas le but de la majorité des espaces de commentaires existants sur la toile, ceux-ci étant plutôt destinés à réagir <em>à chaud</em>, pour donner son ressenti sans trop réfléchir, allant parfois jusqu'à se faire prendre au piège à tenir une conversation hostile contre un « bot », ou un « troll ».
     </p>
 
     <p>
-      D'autres inconvénients existent avec les zones de commentaires, notamment sur YouTube. Elles ne sont pas présentes partout, ou peuvent être désactivées.
-      Et lorsqu'elles existent, les fonctionnalités qu'elles apportent restent assez limitées : il est possible de commenter, parfois de répondre, mais rarement plus.
+      D'autres inconvénients existent avec les zones de commentaires, notamment sur YouTube. D'une part, elles ne sont pas présentes partout, ou peuvent être désactivées.
+      Et d'autre part, lorsqu'elles existent, les fonctionnalités qu'elles apportent restent assez limitées : il est possible de commenter, parfois de répondre, mais rarement plus.
       Enfin, ces zones de commentaires sont souvent polluées par des messages destinés à faire rire ou à se moquer, voire violents.
       Par conséquent, des personnes qui auraient pu exposer un point de vue pertinent préfèrent se taire, de peur de se faire troller en retour.
       Ce contexte ne permet pas de construire une réflexion sérieuse.
@@ -59,10 +59,10 @@ const Motivations: React.FC = () => (
 
     <p>
       <em>Mais comment maintenir des échanges courtois et bienveillants ?</em> C'est un vrai challenge.
-      À cela, deux points essentiels sont mis en place : <strong>la charte</strong> et <strong>la modération</strong>.
+      Pour cela, les deux points essentiels sont : <strong>la charte</strong> et <strong>la modération</strong>.
       La charte établie les limites de ce qui est acceptable ou non sur la plateforme, elle définit des règles simples, mais nécessaires pour garantir une bonne entente entre les utilisateurs.
       La modération quant à elle, est assurée par des personnes volontaires chargées de décider des actions à effectuer lorsqu'un message ne respecte pas la charte.
-      A terme, l'objectif est d'arriver à une sorte d'auto-organisation, où chacun accepte de jouer le jeu pour en tirer des bénéfices communs.
+      A terme, l'objectif est d'arriver à une sorte d'auto-organisation décentralisée, où l'intégrité de la communauté ne peut être remise en question.
     </p>
 
     <p>

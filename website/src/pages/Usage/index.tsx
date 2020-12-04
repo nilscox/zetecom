@@ -33,7 +33,7 @@ const Usage: React.FC = () => (
 
     <div className="step step-extension" id="extension">
       <div className="step-text">
-        Pour intégrer les zones de commentaires présentes sur l'app directement sur les sites d'information, installez l'extension sur votre navigateur préféré.
+        Pour intégrer les zones de commentaires présentes sur l'app directement sur les sites que vous visitez, installez l'extension sur votre navigateur préféré.
         Lorsque l'icône de l'extension affiche un badge vert, cela signifie qu'une zone de commentaire est disponible sur la page.
         {/* Notez que ce n'est pas nécessaire pour utiliser la plateforme, l'extension ne fait qu'intégrer l'app. */}
       </div>

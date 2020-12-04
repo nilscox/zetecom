@@ -50,17 +50,17 @@ const Rules: React.FC = () => {
       <Rule rule="3. Décrire chaque point de vue objectivement.">
         Lorsque vous donnez votre opinion sur un sujet, votre but doit être d'expliquer ce que vous pensez et pourquoi vous pensez cela.
         Le prosélytisme ou toute forme de publicité sont donc proscrits.
-        Si vous le souhaitez, indiquez <RouterLink to="/faq.html#utilisation">en exposant</RouterLink> le <Link href="https://twitter.com/HygieneMentale/status/1230849591534407685">degré de croyance</Link> (ou degré de certitude) de ce que vous avancez.
+        Si vous le souhaitez, indiquez <RouterLink to="/faq.html#plateforme">en exposant</RouterLink> le <Link href="https://twitter.com/HygieneMentale/status/1230849591534407685">degré de croyance</Link> (ou degré de certitude) de ce que vous avancez.
       </Rule>
 
       <Rule rule="4. Apporter les sources nécessaires à la vérification des faits énoncés.">
         En particulier lorsque vos affirmations sortent de l'ordinaire, il est important d'expliciter leurs sources.
-        De même prenez le temps de vérifier le messages sourcés, car une affirmation sans preuve peut être rejetée sans preuve.
+        De même prenez le temps de vérifier les messages sourcés, car une affirmation sans preuve peut être rejetée sans preuve.
       </Rule>
 
       <Rule rule="5. Rédiger en français correct.">
         Votre message sera toujours mieux reçu s'il est bien écrit et lisible.
-        Veillez à éviter le registre familier, les abréviations, le style "texto", et les <Link href="https://languagetool.org/fr">fautes d'orthographe</Link> autant que possible.
+        Veillez à éviter le registre familier, les abréviations, le style "texto", et les fautes d'orthographe autant que possible. Un outil comme l'extension <Link href="https://languagetool.org/fr/#plugins">languagetool</Link> peut s'avérer utile.
       </Rule>
 
       <Rule rule="6. Faire preuve de bienveillance.">
@@ -74,15 +74,15 @@ const Rules: React.FC = () => {
       </p>
 
       <p>
-        Enfin, dans un but d'amélioration en continu, ces règles évoluent. Vous êtes vous-même invité.e à proposer des évolutions, nous en discuterons avec d'autres membres de la communauté.
+        Enfin, dans un but d'amélioration en continu, ces règles évoluent. Vous êtes vous-même invité.e à proposer des évolutions si vous le souhaitez, nous en discuterons avec d'autres membres de la communauté.
       </p>
 
       <p style={{ marginTop: 40 }}>Quelques exemples de commentaires ne respectant pas la charte :</p>
 
       <div className="examples">
 
-        <Example example={'"En + elle et ariver a la bourre."'}>
-          Le message est mal rédigé et le langage est familier. Préférez "En plus, elle est arrivée en retard."
+        <Example example={'"En + elle et ariver a la bourre!!!"'}>
+          Le message est mal rédigé et le langage est familier. Préférez "En plus, elle est arrivée en retard !"
         </Example>
 
         <Example example={'"Le journaliste est un imbécile."'}>

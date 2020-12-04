@@ -25,7 +25,7 @@ const useSections = () => [
 
       {
         question: 'Est-il possible d\'utiliser Zétécom sans créer de compte ?',
-        answer: <>Oui, pour lire les commentaires. La création d'un compte n'est nécessaire que si vous souhaitez interagir avec les autres membres de la plateforme.</>,
+        answer: <>Oui, pour lire les commentaires sur l'app et depuis l'extension. La création d'un compte n'est nécessaire que si vous souhaitez interagir avec les autres membres de la plateforme.</>,
       },
 
       {
@@ -64,11 +64,6 @@ const useSections = () => [
         question: 'Comment indiquer son degré de croyance en exposant ?',
         answer: <>La charte vous encourage à expliciter votre degré de croyance dans ce que vous affirmez. Pour se faire, utilisez le symbole <code>^</code> :<br />
         "<code>J'apprécie les fruits au sirop^42</code>" deviendra "J'apprécie les fruits au sirop<sup>42</sup>".</>,
-      },
-
-      {
-        question: 'Comment signaler un bug ou proposer de nouvelles fonctionnalités ?',
-        answer: <><RouterLink to="#contact">Contactez</RouterLink> directement l'équipe qui développe le projet, nous sommes ouverts à vos remarques.</>,
       },
 
     ],
