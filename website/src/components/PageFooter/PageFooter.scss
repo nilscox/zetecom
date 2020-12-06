@@ -66,5 +66,9 @@
     line-height: 20px;
     padding-top: 25px;
     padding-bottom: 25px;
+
+    @media screen and (max-width: $break-large) {
+      padding: 10px 0;
+    }
   }
 }

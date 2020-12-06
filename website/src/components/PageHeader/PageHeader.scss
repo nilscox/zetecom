@@ -102,11 +102,14 @@
     text-transform: uppercase;
     font-weight: bold;
     color: #446;
-    margin-bottom: 12px;
     transition: color 250ms ease-in-out;
 
     &:hover {
       color: #446C;
+    }
+
+    @media screen and (max-width: $break-medium) {
+      display: none;
     }
   }
 }

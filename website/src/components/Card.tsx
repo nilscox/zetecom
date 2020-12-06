@@ -3,24 +3,24 @@ import React from 'react';
 import './Card.scss';
 
 type CardProps = {
-  text: string;
+  primary: string;
   children: string;
   image: string;
 };
 
-const Card: React.FC<CardProps> = ({ text, children, image }) => {
+const Card: React.FC<CardProps> = ({ primary, children, image }) => {
   return (
     <div className="card">
 
       <div className="card-image">
-        <img src={image} alt={text} />
+        <img src={image} alt={primary} />
       </div>
 
-      <div className="card-text">
-        <strong>{ text }</strong>
+      <div className="card-primary">
+        <strong>{ primary }</strong>
       </div>
 
-      <div className="card-subtext">
+      <div className="card-secondary">
         { children }
       </div>
 

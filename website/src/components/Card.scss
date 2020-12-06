@@ -1,56 +1,30 @@
 @import "../variables.scss";
 
 .card {
-  flex: 1;
-  flex-direction: column;
-  min-width: 320px;
+  min-width: 260px;
   max-width: 360px;
-  margin: 0 10px;
-
-  @media screen and (max-width: $break-small) {
-    min-width: 300px;
-  }
 
   .card-image {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding: 10px;
-    height: 120px;
-
-    @media screen and (min-width: $break-medium) {
-      height: 140px;
-    }
 
     img {
+      display: block;
       height: 100%;
-      opacity: 0.8;
+      margin: auto;
+      opacity: 0.9;
     }
   }
 
-  .card-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .card-primary {
     text-align: center;
-    line-height: 20px;
+    font-size: 1.2rem;
+    padding: 6px;
     border-top: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
-    margin-top: 10px;
-    padding: 10px 15px;
-
-    @media screen and (min-width: $break-medium) {
-      font-size: 18px;
-    }
   }
 
-  .card-subtext {
-    font-size: 15px;
-    line-height: 18px;
-    margin-top: 10px;
-
-    @media screen and (min-width: $break-medium) {
-      line-height: 20px;
-    }
+  .card-secondary {
+    padding-top: 10px;
+    font-size: 0.9rem;
   }
 }

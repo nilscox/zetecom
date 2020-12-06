@@ -54,39 +54,41 @@ const Home: React.FC = () => (
       </p>
     </div>
 
-    <Title id="comment-y-arriver">Comment y arriver ?</Title>
+    <Title id="Comment y arriver">Comment y arriver ?</Title>
 
-    <div className="objectives">
-      <Card text="La communauté" image={imageCommunity}>
+    <div className="how">
+      <Card primary="La communauté" image={imageCommunity}>
         Composée de personnes qui cherche à discuter dans "de bonnes conditions", qui savent écouter tout en gardant un œil critique
       </Card>
-      <Card text="La charte" image={imageCharter}>
+      <Card primary="La charte" image={imageCharter}>
         Elle définit l'état d'esprit à adopter dans les conversations, apportant le filtre nécessaire pour garantir des échanges pertinents
       </Card>
-      <Card text="L'indépendance" image={imageIndependence}>
+      <Card primary="L'indépendance" image={imageIndependence}>
         Open-source et gratuit, Zétécom n'est lié à aucune autorité capable d'influer dans les commentaires d'une quelconque manière
       </Card>
     </div>
 
-    <p>
-      Vous est-il déjà arrivé de lire un commentaire qui apporte une réflexion poussée, détaillée et argumentée, un commentaire qui vous interpelle, vous fait réfléchir, voire peut-être même douter ?
-      Avez-vous vous-même déjà pris le temps de rédiger un tel message, d'exprimer le fond de votre pensée en espérant trouver des personnes avec qui échanger sur un sujet qui vous tient à cœur ?
-    </p>
+    <div className="need">
+      <p>
+        Vous est-il déjà arrivé de lire un commentaire qui apporte une réflexion poussée, détaillée et argumentée, un commentaire qui vous interpelle, vous fait réfléchir, voire peut-être même douter ?
+        Avez-vous vous-même déjà pris le temps de rédiger un tel message, d'exprimer le fond de votre pensée en espérant trouver des personnes avec qui échanger sur un sujet qui vous tient à cœur ?
+      </p>
 
-    <p>
-      Les espaces d'échanges classiques, sur YouTube par exemple, ne permettent pas de construire, d'organiser une discussion « sérieuse ».
-      Les commentaires qui apportent une vraie plus-value se retrouvent souvent noyés autour de remerciements, de blagues, de trolls, d'opinions très tranchées sans la moindre source, etc. On peut faire mieux.
-    </p>
+      <p>
+        Les espaces d'échanges classiques, sur YouTube par exemple, ne permettent pas de construire, d'organiser une discussion « sérieuse ».
+        Les commentaires qui apportent une vraie plus-value se retrouvent souvent noyés autour de remerciements, de blagues, de trolls, d'opinions très tranchées sans la moindre source, etc. On peut faire mieux.
+      </p>
 
-    <p>
-      Si cela vous intéresse, la page <RouterLink to="/motivations">motivations</RouterLink> explique plus en détail le contexte dans lequel s'inscrit Zétécom, les raisons pour lesquelles cet outil a vu le jour et les problématiques auxquelles il tente d'apporter des solutions.
-    </p>
+      <p>
+        Si cela vous intéresse, la page <RouterLink to="/motivations">motivations</RouterLink> explique plus en détail le contexte dans lequel s'inscrit Zétécom, les raisons pour lesquelles cet outil a vu le jour et les problématiques auxquelles il tente d'apporter des solutions.
+      </p>
+    </div>
 
-    <Title id="comment-y-arriver">Plus que de simples zones de commentaires !</Title>
+    <Title id="Fonctionnalités">Plus que de simples zones de commentaires !</Title>
 
-    <div className="branding">
+    <div className="features">
 
-      <div style={{ flex: 1, marginTop: 24, marginRight: 24 }}>
+      <div className="features-text">
         <p>
           En plus de donner la possibilité d'échanger, Zétécom apporte quelques avantages par rapport aux espaces d'échanges classiques.
         </p>
@@ -129,24 +131,26 @@ const Home: React.FC = () => (
 
     </div>
 
-    <div className="spacer" />
+    <hr className="separator" />
 
-    <div className="what-integration">
+    <div className="extension">
 
-      <div className="integration-image">
-        <img src={gifExtension} alt="extension Zétécom" />
-      </div>
+      <img className="extension-image" src={gifExtension} alt="extension Zétécom" />
 
-      <div className="integration-text">
-        <div>
-          Avec l'extension, <strong>intégrez</strong> les zones de commentaires Zétécom sur les sites que vous visitez. Pas besoin de chercher plus loin.
-        </div>
+      <div className="extension-text">
+        <p>
+          Avec l'extension, <strong>intégrez</strong> les zones de commentaires Zétécom sur les sites que vous visitez.<br />
+          Pas besoin de chercher plus loin.
+        </p>
         <DownloadExtensions disposition="row" />
       </div>
-
     </div>
 
-    <Title id="a-qui-s-adress-zetecom">À qui s'adresse Zétécom ?</Title>
+    <div className="after-extension">
+      <DownloadExtensions disposition="row" />
+    </div>
+
+    <Title id="Public cible">À qui s'adresse Zétécom ?</Title>
 
     <p>
       Les zones de commentaires sont mis à disposition de tous, publiquement pour lire les messages, et après inscription pour participer aux échanges.
