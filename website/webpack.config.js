@@ -91,6 +91,7 @@ const commonConfig = {
         { from: 'static/logo.png', to: './logo.png' },
         { from: 'static/favicon.ico', to: './favicon.ico' },
         { from: 'static/updates.json', to: './updates.json', noErrorOnMissing: true },
+        { from: 'static/zetecom-beta.pdf', to: './zetecom-beta.pdf' },
       ],
     }),
   ],

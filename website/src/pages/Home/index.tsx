@@ -58,7 +58,7 @@ const Home: React.FC = () => (
 
     <div className="how">
       <Card primary="La communauté" image={imageCommunity}>
-        Composée de personnes qui cherche à discuter dans "de bonnes conditions", qui savent écouter tout en gardant un œil critique
+        Composée de personnes qui cherchent à discuter dans "de bonnes conditions", qui savent écouter tout en gardant un œil critique
       </Card>
       <Card primary="La charte" image={imageCharter}>
         Elle définit l'état d'esprit à adopter dans les conversations, apportant le filtre nécessaire pour garantir des échanges pertinents

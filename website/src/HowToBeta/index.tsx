@@ -73,7 +73,7 @@ const HowToBeta: React.FC = () => (
     </p>
 
     <p>
-      Si cette démarche vous intéresse, vous pouvez dès à présent tester l'outil et répondre au premier questionnaire (5 minutes), accessible ici : <a href="https://nilscoxdev.typeform.com/to/jsLZdej6">https://nilscoxdev.typeform.com/to/jsLZdej6</a>.
+      Si cette démarche vous intéresse, vous pouvez dès à présent tester l'outil et répondre au premier questionnaire, accessible ici : <a href="https://nilscoxdev.typeform.com/to/jsLZdej6">https://nilscoxdev.typeform.com/to/jsLZdej6</a>.
       Vous pouvez également nous contacter à l'adresse <a href="mailto:contact@zetecom.fr">contact@zetecom.fr</a> et nous retrouver sur discord : <a href="https://discord.gg/huwfqra">discord.gg/huwfqra</a>.
     </p>
 
