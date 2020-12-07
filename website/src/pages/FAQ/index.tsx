@@ -8,8 +8,7 @@ import Link from 'src/components/Link';
 import AppLink from 'src/components/Link/AppLink';
 import RouterLink from 'src/components/Link/RouterLink';
 import { useEnvironment } from 'src/utils/env';
-
-import { trackOpenRepositoryLink, trackOpenFeatureUpvoteLink } from '../../utils/track';
+import { useTrackEvent } from 'src/utils/TrackingProvider';
 
 import './FAQ.scss';
 
@@ -118,7 +117,7 @@ const useSections = () => [
       {
         question: 'Comment suivre l\'évolution du projet ?',
         answer: <>Un <Link href="https://trello.com/b/CfC8aQ80/tasks">board tello</Link> est accessible publiquement, n'hésitez pas à y jeter un œil !
-        Et si vous êtes développeu.r.se et que le projet vous intéresse techniquement, les source sont disponibles sur <Link href={useEnvironment('REPOSITORY_URL')} onClick={() => trackOpenRepositoryLink('faq')}>GitHub</Link>.</>,
+        Et si vous êtes développeu.r.se et que le projet vous intéresse techniquement, les source sont disponibles sur <Link href={useEnvironment('REPOSITORY_URL')}>GitHub</Link>.</>,
       },
 
       {
@@ -139,7 +138,7 @@ const useSections = () => [
 type QuestionProps = {
   open: boolean;
   question: string;
-  onToggle: (e: React.MouseEvent) => void;
+  onToggle: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 const Question: React.FC<QuestionProps> = ({ open, question, children, onToggle }) => (
@@ -159,6 +158,8 @@ const FAQ: React.FC = () => {
   const TWITTER_ACCOUNT = useEnvironment('TWITTER_ACCOUNT');
   const FACEBOOK_PAGE = useEnvironment('FACEBOOK_PAGE');
 
+  const trackEvent = useTrackEvent();
+
   const questionId = (sectionIdx: number, questionIdx: number) => [sectionIdx, questionIdx].join(':');
 
   const sections = useSections();
@@ -177,15 +178,22 @@ const FAQ: React.FC = () => {
 
   const [open, setOpen] = useState(initialState(false));
 
-  const handleToggle = (questionId: string) => (e: React.MouseEvent) => {
+  const handleToggle = (questionId: string) => (e: React.MouseEvent<HTMLElement>) => {
     if (e.ctrlKey || e.altKey || e.shiftKey) {
       // if at least one is closed, we open all
-      if (Object.values(open).some(value => !value))
+      if (Object.values(open).some(value => !value)) {
         setOpen(initialState(true));
-      else
+        trackEvent({ category: 'FAQ', action: 'Open all' });
+      } else {
+        trackEvent({ category: 'FAQ', action: 'Close all' });
         setOpen(initialState(false));
-    } else
+      }
+    } else {
+      const action = open[questionId] ? 'Close' : 'Open';
+
       setOpen({ ...open, [questionId]: !open[questionId] });
+      trackEvent({ category: 'FAQ', action: action + ' question', name: `${action} "${e.currentTarget.innerText}"` });
+    }
   };
 
   return (
@@ -233,7 +241,7 @@ const FAQ: React.FC = () => {
       <Title id="contact">Une idée à proposer ? Un bug à signaler ?</Title>
 
       <p>
-        Venez partager vos idées d'améliorations et voter pour les idées qui vous semblent pouvoir apporter de la valeur au projet sur <Link href="https://zetecom.featureupvote.com/" onClick={trackOpenFeatureUpvoteLink}>FeatureUpvote</Link> !
+        Venez partager vos idées d'améliorations et voter pour les idées qui vous semblent pouvoir apporter de la valeur au projet sur <Link href="https://zetecom.featureupvote.com/">FeatureUpvote</Link> !
       </p>
 
       <p>Nous sommes également à l'écoute de vos remarques via ces différents canaux de communication :</p>

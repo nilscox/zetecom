@@ -6,7 +6,7 @@ import pages from './pages';
 import PageHeader from './components/PageHeader';
 import Navigation from './components/Navigation';
 import PageFooter from './components/PageFooter';
-import usePageViewTracking from './utils/usePageViewTracking';
+import TrackingProvider, { TrackPageView } from './utils/TrackingProvider';
 
 import 'fontsource-noticia-text/latin-400.css';
 import 'fontsource-noticia-text/latin-700.css';
@@ -37,26 +37,28 @@ const App: React.FC = () => {
   const location = useLocation();
   const page = pages.find(({ path }) => path === location.pathname);
 
-  usePageViewTracking();
-
   return (
-    <div className="page" id={`page-${page ? page.id : ''}`}>
+    <TrackingProvider>
+      <TrackPageView />
 
-      <PageHeader />
+      <div className="page" id={`page-${page ? page.id : ''}`}>
 
-      <div className="page-content">
+        <PageHeader />
 
-        <Navigation />
+        <div className="page-content">
 
-        <main>
-          <Routes />
-        </main>
+          <Navigation />
+
+          <main>
+            <Routes />
+          </main>
+
+        </div>
+
+        <PageFooter />
 
       </div>
-
-      <PageFooter />
-
-    </div>
+    </TrackingProvider>
   );
 };
 
