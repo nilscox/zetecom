@@ -9,11 +9,11 @@ import useFetchCommentsArea from 'src/components/CommentsArea/useFetchCommentsAr
 import Fallback from 'src/components/Fallback';
 import HeaderLogo from 'src/components/HeaderLogo';
 import Padding from 'src/components/Padding';
-import { useTrackPageview } from 'src/components/TrackPageView';
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import useIFrameMessages from 'src/hooks/use-iframe-messages';
 import useQueryString from 'src/hooks/use-query-string';
 import { CommentsArea as CommentsAreaType } from 'src/types/CommentsArea';
-import { trackViewIntegration } from 'src/utils/track';
+import track from 'src/utils/track';
 
 import CommentAreaClosed from './CommentAreaClosed';
 
@@ -46,13 +46,15 @@ const Integration: React.FC = () => {
 
   const [{ data: commentsArea, loading, status }] = useFetchCommentsArea({ identifier });
 
-  useTrackPageview(() => !!commentsArea);
+  const trackEvent = useTrackEvent();
 
   useEffect(() => {
-    if (commentsArea) {
-      trackViewIntegration(identifier);
+    if (status(200)) {
+      trackEvent(track.viewIntegration(identifier, commentsArea));
+    } else if (status(404)) {
+      trackEvent(track.viewIntegration(identifier));
     }
-  }, [commentsArea, identifier]);
+  }, [commentsArea, identifier, trackEvent, status]);
 
   useEffect(() => {
     if (commentsArea) {

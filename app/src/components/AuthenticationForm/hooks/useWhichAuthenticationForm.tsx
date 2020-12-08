@@ -9,11 +9,13 @@ const useWhichAuthenticationForm = (urlPrefix?: string) => {
   const isEmailLogin = !!useRouteMatch(`${urlPrefix}/connexion-par-email`);
 
   const form: Form = useMemo(() => {
-    if (isSignup)
+    if (isSignup) {
       return 'signup';
+    }
 
-    if (isEmailLogin)
+    if (isEmailLogin) {
       return 'emailLogin';
+    }
 
     return 'login';
   }, [isSignup, isEmailLogin]);

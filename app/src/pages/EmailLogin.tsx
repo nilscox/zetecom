@@ -4,11 +4,12 @@ import { Typography } from '@material-ui/core';
 
 import AsyncContent from 'src/components/AsyncContent';
 import Padding from 'src/components/Padding';
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
 import { User } from 'src/types/User';
-import { trackEmailLogin } from 'src/utils/track';
+import track from 'src/utils/track';
 
 const useErrorMessage = (status: (s: number) => boolean) => {
   if (status(403)) {
@@ -23,6 +24,8 @@ const useErrorMessage = (status: (s: number) => boolean) => {
 };
 
 const EmailLogin: React.FC = () => {
+  const trackEvent = useTrackEvent();
+
   const { token } = useQueryString();
   const [, setUser] = useUser();
 
@@ -41,9 +44,9 @@ const EmailLogin: React.FC = () => {
   useEffect(() => {
     if (status(200) && user) {
       setUser(user);
-      trackEmailLogin();
+      trackEvent(track.emailLogin());
     }
-  }, [status, user, setUser]);
+  }, [status, user, setUser, trackEvent]);
 
   return (
     <AsyncContent

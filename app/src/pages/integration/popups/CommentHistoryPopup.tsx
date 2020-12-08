@@ -9,7 +9,6 @@ import { RouteComponentProps } from 'react-router';
 import Box from 'src/components/Box';
 import DiffMessage from 'src/components/DiffMessage';
 import Loader from 'src/components/Loader';
-import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
 import { Message } from 'src/types/Comment';
 
@@ -110,8 +109,6 @@ const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
 type CommentHistoryPopupProps = RouteComponentProps<{ id: string }>;
 
 const CommentHistoryPopup: React.FC<CommentHistoryPopupProps> = ({ match }) => {
-  useTrackPageview();
-
   const [{ raw, loading, error }] = useAxios('/api/comment/' + match.params.id + '/history', undefined);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

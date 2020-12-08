@@ -8,7 +8,6 @@ import { RouteComponentProps } from 'react-router';
 import CommentBody from 'src/components/Comment/CommentBody';
 import { WebsiteLink } from 'src/components/Link';
 import Loader from 'src/components/Loader';
-import { useTrackPageview } from 'src/components/TrackPageView';
 import useAxios from 'src/hooks/use-axios';
 import useReportComment from 'src/pages/integration/popups/ReportPopup/useReportComment';
 import { Comment } from 'src/types/Comment';
@@ -46,8 +45,6 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
 type ReportPopupProps = RouteComponentProps<{ id: string }>;
 
 const ReportPopup: React.FC<ReportPopupProps> = ({ match }) => {
-  useTrackPageview();
-
   const [message, setMessage] = useState('');
   const classes = useStyles();
 

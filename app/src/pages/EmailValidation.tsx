@@ -6,10 +6,11 @@ import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import AsyncContent from 'src/components/AsyncContent';
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import { User } from 'src/types/User';
-import { trackEmailValidated } from 'src/utils/track';
+import track from 'src/utils/track';
 
 const useErrorMessage = (status: (s: number) => boolean, error?: AxiosError) => {
   if (status(403)) {
@@ -24,6 +25,8 @@ const useErrorMessage = (status: (s: number) => boolean, error?: AxiosError) => 
 };
 
 const EmailValidation: React.FC = () => {
+  const trackEvent = useTrackEvent();
+
   const { token } = useParams<{ token: string }>();
   const [, setUser] = useUser();
   const history = useHistory();
@@ -42,11 +45,11 @@ const EmailValidation: React.FC = () => {
   useEffect(() => {
     if (status(201) && user) {
       setUser(user);
-      trackEmailValidated();
+      trackEvent(track.emailValidated());
       toast.success('Votre adresse email a été validée ! 🎉');
       history.push('/');
     }
-  }, [status, user, setUser, history]);
+  }, [status, user, setUser, history, trackEvent]);
 
   return (
     <AsyncContent loading={loading} render={() => error && <Typography color="error">{errorMessage}</Typography>} />

@@ -1,116 +1,101 @@
+import { CommentsArea } from 'src/types/CommentsArea';
+
 import { ReactionType } from '../types/Comment';
 
-import ReactGA from './google-analytics';
+export type AuthenticateFrom = 'App' | 'Popup';
 
-export type AuthenticateFrom = 'app' | 'popup';
-
-export const trackViewIntegration = (identifier: string) => {
-  ReactGA.event({
-    category: 'Integration',
-    action: 'ViewIntegration',
-    label: 'View integration ' + identifier,
-  });
-};
-
-export const trackSignup = (from: AuthenticateFrom) => {
-  ReactGA.event({
-    category: 'Authentication',
-    action: 'Signup',
-    label: 'Signup from ' + from,
-  });
-};
-
-export const trackLogin = (from: AuthenticateFrom) => {
-  ReactGA.event({
+const track = {
+  login: (from: AuthenticateFrom) => ({
     category: 'Authentication',
     action: 'Login',
-    label: 'Login from ' + from,
-  });
-};
+    name: 'Login From ' + from,
+  }),
 
-export const trackLoginFailed = (from: AuthenticateFrom) => {
-  ReactGA.event({
+  loginFailed: (from: AuthenticateFrom) => ({
     category: 'Authentication',
-    action: 'LoginFailed',
-    label: 'Login failed from ' + from,
-  });
-};
+    action: 'Login Failed',
+    name: 'Login Failed From ' + from,
+  }),
 
-export const trackLogout = (from: AuthenticateFrom) => {
-  ReactGA.event({
+  logout: (from: AuthenticateFrom) => ({
     category: 'Authentication',
     action: 'Logout',
-    label: 'Logout from ' + from,
-  });
-};
+    name: 'Logout From ' + from,
+  }),
 
-export const trackEmailValidated = () => {
-  ReactGA.event({
+  emailValidated: () => ({
     category: 'Authentication',
-    action: 'EmailValidated',
-  });
-};
+    action: 'Email Validated',
+  }),
 
-export const trackAskEmailLogin = () => {
-  ReactGA.event({
+  askEmailLogin: (from: AuthenticateFrom) => ({
     category: 'Authentication',
-    action: 'AskEmailLogin',
-  });
-};
+    action: 'Ask Email Login',
+    name: 'Ask Email Login From ' + from,
+  }),
 
-export const trackChangePassword = () => {
-  ReactGA.event({
+  changePassword: () => ({
     category: 'Authentication',
-    action: 'ChangePassword',
-  });
-};
+    action: 'Change Password',
+  }),
 
-export const trackEmailLogin = () => {
-  ReactGA.event({
+  emailLogin: () => ({
     category: 'Authentication',
-    action: 'EmailLogin',
-  });
-};
+    action: 'Email Login',
+  }),
 
-export const trackCreateComment = () => {
-  ReactGA.event({
+  commentCreated: () => ({
     category: 'Comment',
-    action: 'Create',
-  });
-};
+    action: 'Created',
+  }),
 
-export const trackEditComment = () => {
-  ReactGA.event({
+  commentEdited: () => ({
     category: 'Comment',
-    action: 'Edit',
-  });
-};
+    action: 'Edited',
+  }),
 
-export const trackSetReaction = (type: ReactionType | null) => {
-  ReactGA.event({
+  setReaction: (type: ReactionType | null) => ({
     category: 'Comment',
-    action: 'SetReaction',
-    label: 'Set Reaction ' + type,
-  });
-};
+    action: 'Set Reaction',
+    name: `Set Reaction "${type}"`,
+  }),
 
-export const trackSubscribeComment = () => {
-  ReactGA.event({
+  subscribeComment: () => ({
     category: 'Comment',
     action: 'Subscribe',
-  });
-};
+  }),
 
-export const trackUnsubscribeComment = () => {
-  ReactGA.event({
+  unsubscribeComment: () => ({
     category: 'Comment',
     action: 'Unsubscribe',
-  });
-};
+  }),
 
-export const trackReportComment = () => {
-  ReactGA.event({
+  reportComment: () => ({
     category: 'Comment',
     action: 'Report',
-  });
+  }),
+
+  requestCommentsArea: (identifier: string, alreadyRequested = false) => ({
+    category: 'CommentsArea',
+    action: 'Request',
+    name: `Request ${alreadyRequested ? 'Again ' : ''}"${identifier}"`,
+  }),
+
+  viewIntegration: (identifier: string, commentsArea?: CommentsArea) => {
+    if (commentsArea) {
+      return {
+        category: 'Extension',
+        action: 'View Integration',
+        name: `View Integration "${identifier}"`,
+      };
+    } else {
+      return {
+        category: 'Extension',
+        action: 'View Integration',
+        name: 'View Integration Closed',
+      };
+    }
+  },
 };
+
+export default track;

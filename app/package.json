@@ -14,6 +14,7 @@
     "deploy": "../scripts/deploy-app.sh"
   },
   "dependencies": {
+    "@datapunt/matomo-tracker-react": "^0.3.1",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.5.1",
     "@openfonts/noticia-text_all": "^1.44.1",
@@ -32,7 +33,6 @@
     "query-string": "^6.13.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-ga": "^3.3.0",
     "react-router-dom": "^5.2.0",
     "react-toastify": "^6.1.0",
     "react-use-form-state": "^0.13.1",

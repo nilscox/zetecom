@@ -2,7 +2,8 @@ const users = require('../fixtures/users.json');
 const commentsAreas = require('../fixtures/comments-areas.json');
 
 const [user1, user2, user3, user4, me] = users;
-const [commentsAreaEmpty,
+const [
+  commentsAreaEmpty,
   commentsAreaOneComment,
   commentsAreaScore,
   commentsAreaPaginationImported,
@@ -26,9 +27,9 @@ const createComments = (num) => {
 const commentsAreaPagination = {
   ...commentsAreaPaginationImported,
   comments: [
-    ...createComments(20).map(comment => ({
+    ...createComments(20).map((comment) => ({
       ...commentsAreaPaginationImported.comments[0],
-      ...comment
+      ...comment,
     })),
     {
       ...commentsAreaPaginationImported.comments[0],
@@ -38,9 +39,7 @@ const commentsAreaPagination = {
 };
 
 describe('comments', () => {
-
   describe('view comments', () => {
-
     before(() => {
       cy.seed({
         users: [user1, user2, user3, user4],
@@ -52,6 +51,8 @@ describe('comments', () => {
       cy.visitIntegration('test:news1');
 
       cy.contains("Aucun commentaire n'a été publié pour le moment");
+
+      cy.didTrack({ category: 'Extension', action: 'View Integration', name: 'View Integration "test:news1"' });
 
       cy.visitIntegration('test:news2');
 
@@ -182,7 +183,7 @@ describe('comments', () => {
       cy.visitIntegration('test:news4');
 
       cy.getCommentAt(0).within(() => {
-        cy.contains('11 réponses').click()
+        cy.contains('11 réponses').click();
         cy.countComments(10);
         cy.contains('1 commentaire restant').click();
         cy.countComments(11);
@@ -217,20 +218,36 @@ describe('comments', () => {
       cy.contains("L'espace de commentaires n'est pas ouvert sur cette page.");
       cy.contains("Connectez-vous pour demander l'ouverture d'une nouvelle zone de commentaire.");
 
+      cy.didTrack({ category: 'Extension', action: 'View Integration', name: 'View Integration Closed' });
+
       cy.login({ email: 'user1@domain.tld', password: 'p4ssword' });
       cy.visitIntegration('test:request-open');
 
       cy.contains("L'espace de commentaires n'est pas ouvert sur cette page.");
       cy.contains("Demander l'ouverture").click();
 
+      cy.didTrack({
+        category: 'CommentsArea',
+        action: 'Request',
+        name: 'Request "test:request-open"',
+      });
+
       cy.contains("L'ouverture a bien été prise en compte !");
       cy.contains('Les modérateurs traiteront votre demande au plus vite.');
-    });
 
+      cy.reload();
+
+      cy.contains("Demander l'ouverture").click();
+
+      cy.didTrack({
+        category: 'CommentsArea',
+        action: 'Request',
+        name: 'Request Again "test:request-open"',
+      });
+    });
   });
 
   describe('create / edit comments', () => {
-
     before(() => {
       cy.seed({
         users: [user1, me],
@@ -243,7 +260,7 @@ describe('comments', () => {
 
       cy.get('[placeholder="Composez votre message..."]').should('not.exist');
 
-      cy.login({ email: 'me@domain.tld', password: 'p4ssword' })
+      cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
       cy.visitIntegration('test:news1');
 
       cy.get('.comment-form').within(() => {
@@ -256,7 +273,7 @@ describe('comments', () => {
         cy.contains('Editer').click();
         cy.get('button[type="submit"]').contains('Envoyer').click();
         cy.get('[placeholder="Composez votre message..."]').should('be.empty');
-        cy.didTrack({ category: 'Comment', action: 'Create' });
+        cy.didTrack({ category: 'Comment', action: 'Created' });
       });
 
       cy.getCommentAt(0).within(() => {
@@ -265,7 +282,7 @@ describe('comments', () => {
     });
 
     it('post reply', () => {
-      cy.login({ email: 'me@domain.tld', password: 'p4ssword' })
+      cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
       cy.visitIntegration('test:news1');
 
       cy.getCommentAt(0).within(() => {
@@ -280,6 +297,8 @@ describe('comments', () => {
         cy.get('button[type="submit"]').contains('Envoyer').click();
 
         cy.get('form.comment-form').should('not.be.visible');
+
+        cy.didTrack({ category: 'Comment', action: 'Created' });
       });
 
       cy.getComment(2).within(() => {
@@ -289,7 +308,7 @@ describe('comments', () => {
     });
 
     it('edit comment', () => {
-      cy.login({ email: 'me@domain.tld', password: 'p4ssword' })
+      cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
       cy.visitIntegration('test:news1');
 
       cy.getCommentAt(0).within(() => {
@@ -298,7 +317,7 @@ describe('comments', () => {
         cy.get('.comment-form').first().contains('Commentaire').clear().type('edit');
         cy.get('button[type="submit"]').contains('Envoyer').click();
 
-        cy.didTrack({ category: 'Comment', action: 'Edit' });
+        cy.didTrack({ category: 'Comment', action: 'Edited' });
 
         cy.get('form').should('not.be.visible');
 
@@ -306,11 +325,9 @@ describe('comments', () => {
         cy.get('[title="Édité"]');
       });
     });
-
   });
 
   describe('reactions', () => {
-
     before(() => {
       cy.seed({
         users: [user1, me],
@@ -334,7 +351,7 @@ describe('comments', () => {
         // add
         cy.get('.reaction--approve').click();
 
-        cy.didTrack({ category: 'Comment', action: 'SetReaction', label: 'Set Reaction approve' });
+        cy.didTrack({ category: 'Comment', action: 'Set Reaction', name: 'Set Reaction "approve"' });
 
         cy.get('.reaction--approve').contains('1');
         cy.get('.reaction--approve').should('have.class', 'user-reaction');
@@ -363,13 +380,10 @@ describe('comments', () => {
         cy.get('.reaction--skeptic').contains('0');
         cy.get('.reaction--skeptic').should('not.have.class', 'user-reaction');
       });
-
     });
-
   });
 
   describe('report', () => {
-
     before(() => {
       cy.seed({
         users: [user1, me],
@@ -420,11 +434,9 @@ describe('comments', () => {
       cy.get('button[type="button"]').contains('Signaler').click();
       cy.contains('Vous avez déjà signalé ce commentaire');
     });
-
   });
 
   describe('subscription', () => {
-
     before(() => {
       cy.seed({
         users: [user1, user2, me],
@@ -443,6 +455,11 @@ describe('comments', () => {
       cy.get('[title="S\'abonner"]').click();
       cy.get('[title="S\'abonner"]').should('not.exist');
 
+      cy.didTrack({
+        category: 'Comment',
+        action: 'Subscribe',
+      });
+
       cy.logout();
       cy.login({ email: 'user1@domain.tld', password: 'p4ssword' });
       cy.postComment({ commentsAreaId: 1, parentId: 1, text: 'reply' });
@@ -459,6 +476,11 @@ describe('comments', () => {
       cy.get('[title="Se désabonner"]').click();
       cy.get('[title="Se désabonner"]').should('not.exist');
 
+      cy.didTrack({
+        category: 'Comment',
+        action: 'Unsubscribe',
+      });
+
       cy.logout();
       cy.login({ email: 'user1@domain.tld', password: 'p4ssword' });
       cy.postComment({ commentsAreaId: 1, parentId: 1, text: 'reply' });
@@ -467,7 +489,5 @@ describe('comments', () => {
       cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
       cy.getNotificationsCount().should('equal', 1);
     });
-
   });
-
 });

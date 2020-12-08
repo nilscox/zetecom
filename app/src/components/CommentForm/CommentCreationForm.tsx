@@ -3,9 +3,10 @@ import React, { useEffect } from 'react';
 import { AxiosRequestConfig } from 'axios';
 
 import { useCommentsArea } from 'src/contexts/CommentsAreaContext';
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import useAxios from 'src/hooks/use-axios';
 import { Comment } from 'src/types/Comment';
-import { trackCreateComment } from 'src/utils/track';
+import track from 'src/utils/track';
 
 import CommentForm from './CommentForm';
 
@@ -16,6 +17,8 @@ type CommentCreationFormProps = {
 };
 
 const CommentCreationForm: React.FC<CommentCreationFormProps> = ({ parent, closeForm, onCreated }) => {
+  const trackEvent = useTrackEvent();
+
   const commentsArea = useCommentsArea();
 
   // eslint-disable-next-line func-call-spacing
@@ -39,7 +42,7 @@ const CommentCreationForm: React.FC<CommentCreationFormProps> = ({ parent, close
 
   useEffect(() => {
     if (data) {
-      trackCreateComment();
+      trackEvent(track.commentCreated());
       onCreated(data);
 
       if (formRef.current) {

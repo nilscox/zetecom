@@ -4,17 +4,19 @@ import { AxiosError, AxiosRequestConfig } from 'axios';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import useAxios from 'src/hooks/use-axios';
 import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
 import { User } from 'src/types/User';
-import { trackSignup } from 'src/utils/track';
 
 import { FormFields } from '../types';
 
 const useSignup = (onAuthenticated: (user: User) => void) => {
+  const trackEvent = useTrackEvent();
+  const location = useLocation();
+
   const opts: AxiosRequestConfig = { method: 'POST', url: '/api/auth/signup' };
   const [{ data: user, loading, error, status }, signup] = useAxios(opts, { manual: true }, User);
-  const location = useLocation();
 
   useEffect(() => {
     if (status(201) && user) {
@@ -25,9 +27,14 @@ const useSignup = (onAuthenticated: (user: User) => void) => {
       }
 
       onAuthenticated(user);
-      trackSignup(/popup/.exec(location.pathname) ? 'popup' : 'app');
+      trackEvent({
+        category: 'Authentication',
+        action: 'Signup',
+        name: `Signup From ${/popup/.exec(location.pathname) ? 'Popup' : 'App'}`,
+      });
     }
-  }, [status, user, onAuthenticated, location.pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status, user, onAuthenticated, trackEvent]);
 
   const handleSignup = (email: string, password: string, nick: string) => {
     signup({ data: { email, password, nick } }).catch(() => {});

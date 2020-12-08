@@ -2,11 +2,15 @@ import { useEffect, useState } from 'react';
 
 import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
 
+import { useTrackEvent } from 'src/contexts/TrackingContext';
+import track from 'src/utils/track';
+
 import useAxios from '../../../../hooks/use-axios';
 import { Comment, ReactionType } from '../../../../types/Comment';
-import { trackSetReaction } from '../../../../utils/track';
 
 const useSetReaction = (comment: Comment, setComment: (comment: Comment) => void) => {
+  const trackEvent = useTrackEvent();
+
   const [cancelToken, setCancelToken] = useState<CancelTokenSource>();
   const opts: AxiosRequestConfig = {
     method: 'POST',
@@ -21,9 +25,9 @@ const useSetReaction = (comment: Comment, setComment: (comment: Comment) => void
 
   useEffect(() => {
     if (status(201) && data?.userReaction !== undefined) {
-      trackSetReaction(data.userReaction);
+      trackEvent(track.setReaction(data.userReaction));
     }
-  }, [status, data]);
+  }, [status, data, trackEvent]);
 
   return (type: ReactionType | null) => {
     if (comment.userReaction === type) {

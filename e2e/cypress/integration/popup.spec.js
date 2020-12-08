@@ -38,7 +38,9 @@ describe('popup', () => {
 
     cy.get('#accept-rules-checkbox').click();
     cy.get('#accept-rules-checkbox').should('not.be.checked');
-    cy.contains("Il est important que chaque membre ait pris connaissance de la charte. Si ce n'est pas encore fait, accordez 5 minutes à sa lecture avant de vous inscrire.");
+    cy.contains(
+      "Il est important que chaque membre ait pris connaissance de la charte. Si ce n'est pas encore fait, accordez 5 minutes à sa lecture avant de vous inscrire."
+    );
 
     cy.get('#accept-rules-checkbox').click();
     cy.get('#accept-rules-checkbox').should('be.checked');
@@ -46,14 +48,17 @@ describe('popup', () => {
     cy.contains('Inscription').click();
     cy.url().should('eq', 'http://localhost:8000/popup');
     cy.contains('Bienvenue ! 🎉');
-    cy.didTrack({ category: 'Authentication', action: 'Signup', label: 'Signup from popup' });
+    cy.didTrack({
+      category: 'Authentication',
+      action: 'Signup',
+      name: 'Signup From Popup',
+    });
 
     cy.reload();
     cy.url().should('eq', 'http://localhost:8000/popup');
 
     cy.contains('User');
     cy.contains('Email : user@domain.tld');
-
   });
 
   it('logout', () => {
@@ -62,6 +67,12 @@ describe('popup', () => {
 
     cy.contains('Déconnexion').click();
     cy.url().should('eq', 'http://localhost:8000/popup/connexion');
+
+    cy.didTrack({
+      category: 'Authentication',
+      action: 'Logout',
+      name: 'Logout From Popup',
+    });
 
     cy.reload();
     cy.url().should('eq', 'http://localhost:8000/popup/connexion');
@@ -75,14 +86,22 @@ describe('popup', () => {
     cy.contains('Connexion').click();
 
     cy.contains('Combinaison email / mot de passe non valide');
-    cy.didTrack({ category: 'Authentication', action: 'LoginFailed', label: 'Login failed from popup' });
+    cy.didTrack({
+      category: 'Authentication',
+      action: 'Login Failed',
+      name: 'Login Failed From Popup',
+    });
 
     cy.getInput('password').clear();
     cy.getInput('password').type('p4ssword');
 
     cy.contains('Connexion').click();
     cy.url().should('eq', 'http://localhost:8000/popup');
-    cy.didTrack({ category: 'Authentication', action: 'Login', label: 'Login from popup' });
+    cy.didTrack({
+      category: 'Authentication',
+      action: 'Login',
+      name: 'Login From Popup',
+    });
 
     cy.reload();
     cy.url().should('eq', 'http://localhost:8000/popup');
@@ -101,7 +120,7 @@ describe('popup', () => {
     cy.getInput('password').clear().type('such wow!');
     cy.get('form').submit();
 
-    cy.didTrack({ category: 'Authentication', action: 'ChangePassword' });
+    cy.didTrack({ category: 'Authentication', action: 'Change Password' });
     cy.contains('Votre mot de passe a bien été mis à jour !');
     cy.contains('Changer de mot de passe');
 
@@ -126,8 +145,8 @@ describe('popup', () => {
     cy.get('input[name="email"]').type('user@domain.tld');
     cy.contains('Envoyer').click();
 
-    cy.contains('Si un compte est associé à l\'adresse user@domain.tld, l\'email de connexion a bien été envoyé.');
-    cy.didTrack({ category: 'Authentication', action: 'AskEmailLogin' });
+    cy.contains("Si un compte est associé à l'adresse user@domain.tld, l'email de connexion a bien été envoyé.");
+    cy.didTrack({ category: 'Authentication', action: 'Ask Email Login', name: 'Ask Email Login From Popup' });
   });
 
   it('signup conflicts', () => {
@@ -154,5 +173,4 @@ describe('popup', () => {
     cy.contains('Inscription').click();
     cy.contains('Ce pseudo est déjà utilisé.');
   });
-
 });

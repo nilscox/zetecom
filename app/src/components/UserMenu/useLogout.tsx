@@ -1,11 +1,15 @@
 import { useEffect } from 'react';
 
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
-import { trackLogout } from 'src/utils/track';
+import track from 'src/utils/track';
 
 const useLogout = (onLoggedOut?: () => void) => {
+  const trackEvent = useTrackEvent();
+
   const [, setUser] = useUser();
+
   const [{ error, loading, status }, logout] = useAxios({ method: 'POST', url: '/api/auth/logout' }, { manual: true });
 
   if (error) {
@@ -15,10 +19,10 @@ const useLogout = (onLoggedOut?: () => void) => {
   useEffect(() => {
     if (status(204)) {
       setUser(null);
-      trackLogout('app');
+      trackEvent(track.logout('App'));
       onLoggedOut?.();
     }
-  }, [status, setUser, onLoggedOut]);
+  }, [status, setUser, onLoggedOut, trackEvent]);
 
   return logout;
 };

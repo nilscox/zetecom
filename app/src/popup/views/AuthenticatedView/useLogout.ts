@@ -3,11 +3,14 @@ import { useEffect } from 'react';
 import { AxiosRequestConfig } from 'axios';
 import { useHistory } from 'react-router-dom';
 
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import { useUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
-import { trackLogout } from 'src/utils/track';
+import track from 'src/utils/track';
 
 const useLogout = () => {
+  const trackEvent = useTrackEvent();
+
   const [, setUser] = useUser();
   const history = useHistory();
 
@@ -22,10 +25,10 @@ const useLogout = () => {
   useEffect(() => {
     if (status(204)) {
       setUser(null);
+      trackEvent(track.logout('Popup'));
       history.push('/popup');
-      trackLogout('popup');
     }
-  }, [status, setUser, history]);
+  }, [status, setUser, history, trackEvent]);
 
   return [result, logout] as const;
 };

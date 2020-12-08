@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
 
+import { useTrackEvent } from 'src/contexts/TrackingContext';
+import track from 'src/utils/track';
+
 import useAxios from '../../../../hooks/use-axios';
 import { Comment } from '../../../../types/Comment';
-import { trackSubscribeComment, trackUnsubscribeComment } from '../../../../utils/track';
 
 const useSubscription = (comment: Comment | null, setComment: (comment: Comment) => void) => {
+  const trackEvent = useTrackEvent();
+
   const [{ loading, error, status }, execute] = useAxios({ method: 'POST' }, { manual: true });
 
   if (error) {
@@ -22,11 +26,11 @@ const useSubscription = (comment: Comment | null, setComment: (comment: Comment)
 
   useEffect(() => {
     if (status(201)) {
-      trackSubscribeComment();
+      trackEvent(track.subscribeComment());
     } else if (status(204)) {
-      trackUnsubscribeComment();
+      trackEvent(track.unsubscribeComment());
     }
-  }, [status]);
+  }, [status, trackEvent]);
 
   return toggleSubscription;
 };

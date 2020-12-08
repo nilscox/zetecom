@@ -98,4 +98,3 @@ services:
     environment:
       API_URL: http://${LOCAL_IP:-localhost}:3000
       WEBSITE_URL: http://${LOCAL_IP:-localhost}:8080
-      GOOGLE_ANALYTICS_ID: ''

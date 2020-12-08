@@ -33,13 +33,11 @@ Cypress.Commands.add('getInput', (name) => {
 });
 
 Cypress.Commands.add('seed', (body) => {
-  cy.request({ method: 'POST', url: API_SEED_URL + '/seed', body })
-    .then(({ status }) => expect(status).to.eq(204));
+  cy.request({ method: 'POST', url: API_SEED_URL + '/seed', body }).then(({ status }) => expect(status).to.eq(204));
 });
 
 Cypress.Commands.add('seedFromFixture', (fixtureName) => {
-  return cy.fixture(fixtureName)
-    .then((data) => cy.seed(data));
+  return cy.fixture(fixtureName).then((data) => cy.seed(data));
 });
 
 Cypress.Commands.add('login', (body) => {
@@ -64,7 +62,7 @@ Cypress.Commands.add('getNotificationsCount', () => {
 
 Cypress.Commands.add('getCommentId', (idx) => {
   cy.getCommentAt(idx).within(() => {
-    cy.contains('#').then(elem => {
+    cy.contains('#').then((elem) => {
       const match = elem.text().match(/^#(\d+) -/);
       return Number(match[1]);
     });
@@ -100,7 +98,7 @@ Cypress.Commands.add('getCommentAt', (place) => cy.getComments().eq(place));
 
 Cypress.Commands.add('countComments', (expected) => cy.getComments().should('have.length', expected));
 
-Cypress.Commands.add('zetecom', () => cy.window().then(win => win.zetecom));
+Cypress.Commands.add('zetecom', () => cy.window().then((win) => win.zetecom));
 
 Cypress.Commands.add('fixCI', () => {
   cy.wait(500);
@@ -109,23 +107,24 @@ Cypress.Commands.add('fixCI', () => {
 Cypress.Commands.add('didTrack', (event) => {
   cy.fixCI();
 
-  return cy.zetecom()
-    .then(zc => zc.mockGa.events)
+  return cy
+    .zetecom()
+    .then((zc) => zc.tracking.events)
     .then((events) => {
       const found = events.find((other) => {
-        return ['category', 'action', 'label'].every(prop => event[prop] === other[prop]);
+        return ['category', 'action', 'name'].every((prop) => event[prop] === other[prop]);
       });
 
       if (!found) {
-        console.log('GA events', events, JSON.stringify(events));
+        console.log('tracking events', events, JSON.stringify(events));
         console.log('expected', event);
 
         // not working
-        // cy.log('GA events', events);
+        // cy.log('tracking events', events);
         // cy.log('expected', event);
       }
 
-      expect(found, 'GA event was not tracked').not.to.be.undefined;
+      expect(found, 'event was not tracked').not.to.be.undefined;
     });
 });
 

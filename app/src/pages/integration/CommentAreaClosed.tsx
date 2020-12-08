@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 
 import Button from 'src/components/Button';
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import { useCurrentUser } from 'src/contexts/UserContext';
 import useAxios from 'src/hooks/use-axios';
 import useQueryString from 'src/hooks/use-query-string';
+import track from 'src/utils/track';
 
 const useStyles = makeStyles(({ palette, spacing }) => ({
   message: {
@@ -25,6 +27,7 @@ const CommentAreaClosed: React.FC = () => {
   const [, setAlreadyRequested] = useState(false);
   const { identifier } = useQueryString();
   const user = useCurrentUser();
+  const trackEvent = useTrackEvent();
 
   const [{ status, loading, error }, request] = useAxios(
     {
@@ -38,13 +41,15 @@ const CommentAreaClosed: React.FC = () => {
   useEffect(() => {
     if (status(201)) {
       setRequested(true);
+      trackEvent(track.requestCommentsArea(identifier as string));
     }
 
     if (status(400) && error?.response?.data.message === 'REQUEST_ALREADY_REGISTERED') {
       setRequested(true);
       setAlreadyRequested(true);
+      trackEvent(track.requestCommentsArea(identifier as string, true));
     }
-  }, [status, error]);
+  }, [status, error, trackEvent, identifier]);
 
   return (
     <>
@@ -59,7 +64,7 @@ const CommentAreaClosed: React.FC = () => {
       )}
 
       {user && !requested && (
-        <Button loading={loading} size="large" onClick={() => request()}>
+        <Button loading={loading} size="large" onClick={() => request().catch(() => {})}>
           Demander l'ouverture
         </Button>
       )}

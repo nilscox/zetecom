@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
 
 import { MatomoProvider, createInstance, useMatomo } from '@datapunt/matomo-tracker-react'
+import { useLocation } from 'react-router-dom';
 
 import { useEnvironment } from 'src/utils/env';
-import { useLocation } from 'react-router-dom';
 
 const TrackingProvider: React.FC = ({ children }) => {
   const ANALYTICS_SITE_ID = useEnvironment('ANALYTICS_SITE_ID');
@@ -20,7 +20,7 @@ const TrackingProvider: React.FC = ({ children }) => {
       configurations: {
         setRequestMethod: 'POST',
       },
-    })
+    });
   }, [ANALYTICS_URL, ANALYTICS_SITE_ID]);
 
   if (!matomoInstance) {

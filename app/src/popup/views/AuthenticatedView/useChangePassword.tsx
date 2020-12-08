@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import useAxios from 'src/hooks/use-axios';
-import { trackChangePassword } from 'src/utils/track';
+import track from 'src/utils/track';
 
 import { createFormErrorsHandler } from '../../utils/createFormErrorsHandler';
 
@@ -24,24 +25,26 @@ const useChangePasswordErrors = createFormErrorsHandler({
     }
 
     if (data.message === 'PASSWORD_UNSECURE') {
-      return 'Ce mot de passe n\'est pas assez sécurisé.';
+      return "Ce mot de passe n'est pas assez sécurisé.";
     }
   },
 });
 
 const useChangePassword = () => {
+  const trackEvent = useTrackEvent();
+
   const opts: AxiosRequestConfig = { method: 'PUT', url: '/api/auth/change-password' };
   const [{ error, loading, status }, changePassword] = useAxios(opts, { manual: true });
-  const errors = useChangePasswordErrors(error);
 
+  const errors = useChangePasswordErrors(error);
   const [passwordChanged, setPasswordChanged] = useState(false);
 
   useEffect(() => {
     if (status(200)) {
       setPasswordChanged(true);
-      trackChangePassword();
+      trackEvent(track.changePassword());
     }
-  }, [status]);
+  }, [status, trackEvent]);
 
   useEffect(() => {
     if (passwordChanged) {
@@ -55,7 +58,7 @@ const useChangePassword = () => {
 
     changePassword({
       data: { password },
-    });
+    }).catch(() => {});
   };
 
   return [handleChangePassord, { loading, errors, passwordChanged }] as const;

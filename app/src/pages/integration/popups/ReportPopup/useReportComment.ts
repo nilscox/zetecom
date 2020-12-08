@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import useAxios from 'src/hooks/use-axios';
 import { Comment } from 'src/types/Comment';
-import { trackReportComment } from 'src/utils/track';
+import track from 'src/utils/track';
 
 const useReportComment = (onReported?: () => void) => {
+  const trackEvent = useTrackEvent();
+
   const [result, report] = useAxios(
     { method: 'POST', validateStatus: (status: number) => [201, 400].includes(status) },
     { manual: true },
@@ -21,10 +24,10 @@ const useReportComment = (onReported?: () => void) => {
 
   useEffect(() => {
     if (status(201)) {
-      trackReportComment();
+      trackEvent(track.reportComment());
       onReported?.();
     }
-  }, [status, onReported]);
+  }, [status, onReported, trackEvent]);
 
   const handleReport = (comment: Comment, message?: string) => {
     report({
