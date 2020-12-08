@@ -57,6 +57,7 @@ const MarkdownMessageField: React.FC<MarkdownMessageFieldProps> = ({ message, pl
 
   return (
     <textarea
+      style={{ fontFamily: 'monospace', lineHeight: 1.5 }}
       ref={ref}
       className={classes.input}
       placeholder={placeholder}

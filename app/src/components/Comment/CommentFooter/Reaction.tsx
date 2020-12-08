@@ -42,6 +42,7 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette: { selected, text 
     },
   },
   count: {
+    fontWeight: 'bold',
     marginLeft: spacing(2),
     [breakpoints.down('xs')]: {
       marginLeft: spacing(1),
