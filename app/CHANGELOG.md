@@ -16,7 +16,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
 
+- Sentry integration
+- Display the integration state in the popup
+
+### Changed
+
+- Replace GA with Matomo
+- Debounce the loaders
+
+### Fixed
+
+- Redirect to the login page after signup
 
 ## [0.5.1] - 2020-10-10
 
