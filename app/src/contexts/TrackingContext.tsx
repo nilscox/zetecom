@@ -41,14 +41,16 @@ const useTrackingProvider = (): { Provider: React.FC<{ value: TrackingProvider }
   }
 
   if (ANALYTICS_SITE_ID === 'log') {
+    /* eslint-disable no-console */
     return {
       Provider: CustomTrackingContext.Provider,
       value: {
-        trackPageView: params => console.log(`trackPageView ${params.href}`),
+        trackPageView: params => console.log(`trackPageView ${params.href as string}`),
         trackEvent: params =>
           console.log(`trackEvent ${params.category} / ${params.action}${params.name ? `: ${params.name}` : ''}`),
       },
     };
+    /* eslint-enable no-console */
   }
 
   if (ANALYTICS_SITE_ID === 'mock') {

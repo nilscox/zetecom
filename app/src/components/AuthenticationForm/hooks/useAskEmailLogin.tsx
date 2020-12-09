@@ -23,7 +23,7 @@ const useAskEmailLogin = () => {
   useEffect(() => {
     if (status(204) && email) {
       toast.success(`Si un compte est associé à l'adresse ${email}, l'email de connexion a bien été envoyé.`);
-      trackEvent(track.askEmailLogin(location.pathname.match(/popup/) ? 'Popup' : 'App'));
+      trackEvent(track.askEmailLogin(/popup/.exec(location.pathname) ? 'Popup' : 'App'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, email, trackEvent]);
