@@ -19,5 +19,6 @@ services:
     command: /start.sh --coverage
     environment:
       API_URL: http://localhost:3000
-      GOOGLE_ANALYTICS_ID: mock
+      ANALYTICS_URL: ''
+      ANALYTICS_SITE_ID: mock
       DEBUG: 'true'

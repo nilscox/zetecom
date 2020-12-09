@@ -6,6 +6,7 @@ Environment variables locations:
 ../scripts/env/*/app.env
 ../scripts/deploy-app.sh
 ../docker-compose.yml
+../e2e/docker-compose.e2e.yml
 ./.env.example
 ./.env
 ./Dockerfile
