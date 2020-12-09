@@ -7,7 +7,7 @@ shift
 command="$1"
 
 prepare_deployment() {
-  if [ "$environment" != 'production' ] && [ "$environment" != 'staging' ]; then
+  if [ "$environment" != 'production' ] && [ "$environment" != 'staging' ] && [ "$environment" != 'local' ]; then
     echo 'usage: deploy-api.sh [staging|production]' >&2
     exit 1
   fi
@@ -27,7 +27,15 @@ setup_environment () {
   echo "Deployment variables:"
   echo_vars deploy_user deploy_host deploy_key base_dir api_image api_port
 
-  execute ssh-add "$deploy_key"
+  if [ -n "$deploy_key" ]; then
+    execute ssh-add "$deploy_key"
+  fi
+}
+
+cleanup_environment() {
+  if [ -n "$deploy_key" ]; then
+    execute ssh-add -d "$deploy_key"
+  fi
 }
 
 deploy_api() {
@@ -76,10 +84,6 @@ deploy_api() {
     --env $(sshenv USER_AVATAR_DESTINATION) \
     "$api_image" \
     "$command"
-}
-
-cleanup_environment() {
-  execute ssh-add -d "$deploy_key"
 }
 
 main() {
