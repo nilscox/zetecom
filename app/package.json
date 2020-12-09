@@ -20,7 +20,7 @@
     "@openfonts/noticia-text_all": "^1.44.1",
     "@openfonts/nunito-sans_all": "^1.44.1",
     "@sentry/browser": "^5.27.4",
-    "@sentry/react": "^5.27.4",
+    "@sentry/react": "^5.29.0",
     "@types/diff": "^4.0.2",
     "axios": "^0.21.0",
     "axios-hooks": "2.2.0",
