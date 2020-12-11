@@ -101,7 +101,7 @@ export class LoggerService extends Logger {
       [
         `${dim('[')}${color(LoggerService._levelToTag[level], 'Bright')}${dim(']')}`,
         `${color(date, 'FgYellow')}`,
-        ...(context && [dim('|'), color(context, 'FgGreen')]),
+        ...(context ? [dim('|'), color(context, 'FgGreen')] : []),
         dim('|'),
         message,
         trace,
