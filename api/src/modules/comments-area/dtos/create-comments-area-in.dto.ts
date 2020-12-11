@@ -14,8 +14,8 @@ export class CreateCommentsAreaInDto {
   @IsNotEmpty()
   readonly informationTitle: string;
 
-  @IsOptional()
   @IsString()
+  @IsNotEmpty()
   readonly informationAuthor?: string;
 
   @IsString()

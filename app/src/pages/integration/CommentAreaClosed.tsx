@@ -32,7 +32,7 @@ const CommentAreaClosed: React.FC = () => {
   const [{ status, loading, error }, request] = useAxios(
     {
       method: 'POST',
-      url: '/api/comments-area-request',
+      url: '/api/comments-area/request',
       data: { identifier: decodeURIComponent(identifier as string) },
     },
     { manual: true },
