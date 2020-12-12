@@ -85,12 +85,11 @@ describe('comments area controller', () => {
 
     beforeAll(async () => {
       commentsArea = await commentsAreaFactory.create({
-        identifier: 'test:1',
         informationTitle: 'title',
         informationUrl: 'url',
         informationAuthor: 'author',
         imageUrl: 'imageUrl',
-        published: new Date(2020, 1, 10),
+        informationPublicationDate: new Date(2020, 1, 10),
       });
 
       await commentFactory.create({ commentsArea });
@@ -105,12 +104,11 @@ describe('comments area controller', () => {
 
       expect(body).toMatchObject({
         id: commentsArea.id,
-        identifier: 'test:1',
         informationTitle: 'title',
         informationUrl: 'url',
         informationAuthor: 'author',
         imageUrl: 'imageUrl',
-        published: '2020-02-10',
+        informationPublicationDate: '2020-02-10',
         commentsCount: 1,
       });
     });
@@ -143,11 +141,10 @@ describe('comments area controller', () => {
     const [asModerator] = createAuthenticatedModerator(server);
 
     const commentsArea = {
-      identifier: 'id:someIdentifier',
       informationUrl: 'https://info.url',
       informationTitle: 'title',
       informationAuthor: 'me',
-      published: new Date(2020, 0, 1).toJSON(),
+      informationPublicationDate: new Date(2020, 0, 1).toJSON(),
       imageUrl: 'https://image.url',
     };
 
@@ -166,9 +163,9 @@ describe('comments area controller', () => {
       await asModerator.post('/api/comments-area').send(data).expect(400);
     });
 
-    it('should not create a comment area with missing identifier', async () => {
+    it('should not create a comment area with missing information url', async () => {
       const data: Partial<typeof commentsArea> = { ...commentsArea };
-      delete data.identifier;
+      delete data.informationUrl;
 
       await asModerator.post('/api/comments-area').send(data).expect(400);
     });
@@ -181,10 +178,10 @@ describe('comments area controller', () => {
       const commentsAreaDb = await commentsAreaRepository.findOne(body.id);
 
       expect(commentsAreaDb).toMatchObject({
-        identifier: 'id:someIdentifier',
         informationUrl: 'https://info.url',
         informationTitle: 'title',
-        published: '2020-01-01',
+        informationAuthor: 'me',
+        informationPublicationDate: '2020-01-01',
         imageUrl: 'https://image.url',
       });
     });
@@ -214,21 +211,24 @@ describe('comments area controller', () => {
 
     it('should update a comment area', async () => {
       const data = {
-        identifier: 'id:someOtherIdentifier',
         informationUrl: 'https://other.url',
-        published: new Date(2020, 0, 1).toJSON(),
+        informationAuthor: 'someone',
+        informationPublicationDate: new Date(2020, 0, 1).toISOString(),
         imageUrl: 'https://image.url',
       };
 
       const { body } = await adminRequest.put(`/api/comments-area/${commentsArea.id}`).send(data).expect(200);
 
-      expect(body).toMatchObject(data);
-
-      const infoDb = await commentsAreaRepository.findOne(body.id);
-
-      expect(infoDb).toMatchObject({
+      expect(body).toMatchObject({
         ...data,
-        published: '2020-01-01',
+        informationPublicationDate: '2020-01-01',
+      });
+
+      const commentsAreaDb = await commentsAreaRepository.findOne(body.id);
+
+      expect(commentsAreaDb).toMatchObject({
+        ...data,
+        informationPublicationDate: '2020-01-01',
       });
     });
   });

@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 import { User } from '../../user/user.entity';
 import { CommentsArea } from '../comments-area.entity';
@@ -9,15 +17,28 @@ export enum CommentsAreaRequestStatus {
   REFUSED = 'REFUSED',
 }
 
-// TODO: add moderator
 @Entity({ name: 'comments_area_request', orderBy: { created: 'ASC' } })
 export class CommentsAreaRequest {
-
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  identifier: string;
+  informationUrl: string;
+
+  @Column({ nullable: true })
+  informaitonTitle: string;
+
+  @Column({ nullable: true })
+  informaitonAuthor: string;
+
+  @Column({ nullable: true })
+  informaitonPublicationDate: string;
+
+  @Column({ nullable: true })
+  idetifier: string;
+
+  @Column({ nullable: true })
+  imageUrl: string;
 
   @ManyToOne(() => CommentsArea, { nullable: true })
   @JoinColumn({ name: 'comments_area_id' })
@@ -27,6 +48,10 @@ export class CommentsAreaRequest {
   @JoinColumn({ name: 'requester_id' })
   requester: User;
 
+  @ManyToOne(() => User, { nullable: true })
+  @JoinColumn({ name: 'moderator_id' })
+  moderator: User;
+
   @CreateDateColumn()
   created: Date;
 
@@ -35,5 +60,4 @@ export class CommentsAreaRequest {
 
   @Column({ type: 'enum', enum: CommentsAreaRequestStatus })
   status: CommentsAreaRequestStatus;
-
 }

@@ -35,15 +35,15 @@ export class CommentsAreaService {
       creator,
     });
 
-    await this.commentsAreaRequestService.approve(commentsArea);
-
     return commentsArea;
   }
 
   async update(commentsArea: CommentsArea, dto: UpdateCommentsAreaInDto): Promise<CommentsArea> {
     Object.assign(commentsArea, dto);
 
-    return this.commentsAreaRepository.save(commentsArea);
+    await this.commentsAreaRepository.save(commentsArea);
+
+    return this.findById(commentsArea.id);
   }
 
   async getCommentsCounts(CommentsAreasIds: number[]) {

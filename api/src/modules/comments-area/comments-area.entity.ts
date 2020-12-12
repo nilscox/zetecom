@@ -15,9 +15,6 @@ export class CommentsArea {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
-  identifier: string;
-
   @Column({ name: 'information_url' })
   informationUrl: string;
 
@@ -27,8 +24,8 @@ export class CommentsArea {
   @Column({ name: 'information_author' })
   informationAuthor: string;
 
-  @Column({ type: 'date', nullable: true })
-  published: Date;
+  @Column({ name: 'information_publication_date', type: 'date', nullable: true })
+  informationPublicationDate: Date;
 
   @Column({ name: 'image_url', nullable: true })
   imageUrl: string;

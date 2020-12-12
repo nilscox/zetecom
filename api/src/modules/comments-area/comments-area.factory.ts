@@ -15,11 +15,10 @@ export class CommentsAreaFactory implements Factory<CommentsArea> {
 
   async create(override: Partial<Omit<CommentsArea, 'id'>> = {}) {
     const data = {
-      identifier: `id:${Math.random().toString(36).slice(6)}`,
       informationUrl: 'https://information.url',
       informationTitle: 'Fake News!',
       informationAuthor: 'anyone',
-      published: new Date().toISOString(),
+      informationPublicationDate: new Date().toISOString(),
       ...override,
     };
 

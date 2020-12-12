@@ -1,16 +1,12 @@
 import { Expose } from 'class-transformer';
 
 export class CommentsAreaDto {
-
   constructor(partial: Partial<CommentsAreaDto>) {
     Object.assign(this, partial);
   }
 
   @Expose()
   id: number;
-
-  @Expose()
-  identifier: string;
 
   @Expose()
   informationUrl: string;
@@ -22,12 +18,11 @@ export class CommentsAreaDto {
   informationAuthor: string;
 
   @Expose()
+  informationPublicationDate: Date;
+
+  @Expose()
   imageUrl: string;
 
   @Expose()
-  published: Date;
-
-  @Expose()
   commentsCount: number;
-
 }

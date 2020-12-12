@@ -1,21 +1,23 @@
 import { IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class UpdateCommentsAreaInDto {
+  @IsString()
+  @IsOptional()
+  readonly informationUrl?: string;
 
   @IsString()
   @IsOptional()
-  readonly informationUrl: string;
+  readonly informationTitle?: string;
 
   @IsString()
   @IsOptional()
-  readonly informationTitle: string;
+  readonly informationAuthor?: string;
 
   @IsDateString()
   @IsOptional()
-  readonly published?: string;
+  readonly informationPublicationDate?: string;
 
   @IsString()
   @IsOptional()
-  readonly imageUrl: string;
-
+  readonly imageUrl?: string;
 }

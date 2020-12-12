@@ -16,7 +16,7 @@ export class CommentsAreaRequestFactory implements Factory<CommentsAreaRequest> 
 
   async create(override: Partial<Omit<CommentsAreaRequest, 'id'>> = {}) {
     const data = {
-      identifier: `id:${Math.random().toString(36).slice(6)}`,
+      informationUrl: 'https://info.url/articles/1',
       status: CommentsAreaRequestStatus.PENDING,
       ...override,
     };

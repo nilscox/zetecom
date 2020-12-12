@@ -1,11 +1,6 @@
 import { IsDateString, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateCommentsAreaInDto {
-
-  @IsString()
-  @IsNotEmpty()
-  readonly identifier: string;
-
   @IsString()
   @IsNotEmpty()
   readonly informationUrl: string;
@@ -16,14 +11,13 @@ export class CreateCommentsAreaInDto {
 
   @IsString()
   @IsNotEmpty()
-  readonly informationAuthor?: string;
+  readonly informationAuthor: string;
+
+  @IsDateString()
+  @IsOptional()
+  readonly informationPublicationDate?: string;
 
   @IsString()
   @IsOptional()
   readonly imageUrl?: string;
-
-  @IsDateString()
-  @IsOptional()
-  readonly published?: string;
-
 }
