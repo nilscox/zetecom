@@ -10,7 +10,9 @@ import {
   NotFoundException,
   Param,
   ParseIntPipe,
-  Post, Put,
+  Post,
+  Put,
+  Query,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -24,6 +26,9 @@ import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
 import { SearchQuery } from 'Common/search-query.decorator';
 
+import { OptionalQuery } from '../../common/optional-query.decorator';
+import { SortType } from '../../common/sort-type';
+import { SortTypePipe } from '../../common/sort-type.pipe';
 import { CommentsArea } from '../comments-area/comments-area.entity';
 import { CommentsAreaService } from '../comments-area/comments-area.service';
 import { User } from '../user/user.entity';
@@ -47,7 +52,6 @@ import { SubscriptionService } from './subscription/subscription.service';
 @Controller('/comment')
 @UseInterceptors(ClassToPlainInterceptor)
 export class CommentController {
-
   @Inject('COMMENT_PAGE_SIZE')
   private readonly commentPageSize: number;
 
@@ -71,29 +75,47 @@ export class CommentController {
     return this.commentService.findForUser(user.id, search, page, this.commentPageSize);
   }
 
+  @Get()
+  @CastToDto(CommentDto)
+  @UseInterceptors(PopulateComment)
+  async findRoot(
+    @Query('commentsAreaId', new ParseIntPipe()) commentsAreaId: number,
+    @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
+    @SearchQuery() search: string,
+    @PageQuery() page: number,
+  ) {
+    const commentsArea = await this.commentsAreaService.findById(commentsAreaId);
+
+    if (!commentsArea) {
+      throw new NotFoundException();
+    }
+
+    return search
+      ? this.commentService.search(commentsArea.id, search, sort, page, this.commentPageSize)
+      : this.commentService.findRoot(commentsArea.id, sort, page, this.commentPageSize);
+  }
+
   @Get(':id')
   @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
-  async findOneById(
-    @Param('id', new ParseIntPipe()) id: number,
-  ): Promise<Comment> {
+  async findOneById(@Param('id', new ParseIntPipe()) id: number): Promise<Comment> {
     const comment = await this.commentService.findById(id);
 
-    if (!comment)
+    if (!comment) {
       throw new NotFoundException();
+    }
 
     return comment;
   }
 
   @Get(':id/history')
   @CastToDto(MessageDto)
-  async findHistory(
-    @Param('id', new ParseIntPipe()) id: number,
-  ): Promise<Message[]> {
+  async findHistory(@Param('id', new ParseIntPipe()) id: number): Promise<Message[]> {
     const comment = await this.commentService.findById(id, { messages: true });
 
-    if (!comment)
+    if (!comment) {
       throw new NotFoundException();
+    }
 
     return comment.messages;
   }
@@ -105,8 +127,9 @@ export class CommentController {
     @Param('id', new ParseIntPipe()) id: number,
     @PageQuery() page: number,
   ): Promise<Paginated<Comment>> {
-    if (!await this.commentService.exists(id))
+    if (!(await this.commentService.exists(id))) {
       throw new NotFoundException();
+    }
 
     return this.commentService.findReplies(id, page, this.commentPageSize);
   }
@@ -114,20 +137,19 @@ export class CommentController {
   // TODO: return 204
   @Post(':id/subscribe')
   @UseGuards(IsAuthenticated)
-  async subscribe(
-    @AuthUser() user: User,
-    @Param('id', new ParseIntPipe()) id: number,
-  ): Promise<void> {
+  async subscribe(@AuthUser() user: User, @Param('id', new ParseIntPipe()) id: number): Promise<void> {
     const comment = await this.commentService.findById(id);
 
-    if (!comment)
+    if (!comment) {
       throw new NotFoundException();
+    }
 
     const subscription = await this.subscriptionService.getSubscription(user, comment);
 
     // TODO: error format
-    if (subscription)
+    if (subscription) {
       throw new ConflictException('already subscribed to comment ' + comment.id);
+    }
 
     await this.subscriptionService.subscribe(user, comment);
   }
@@ -135,19 +157,18 @@ export class CommentController {
   @Post(':id/unsubscribe')
   @UseGuards(IsAuthenticated)
   @HttpCode(HttpStatus.NO_CONTENT)
-  async unsubscribe(
-    @AuthUser() user: User,
-    @Param('id', new ParseIntPipe()) id: number,
-  ): Promise<void> {
+  async unsubscribe(@AuthUser() user: User, @Param('id', new ParseIntPipe()) id: number): Promise<void> {
     const comment = await this.commentService.findById(id);
 
-    if (!comment)
+    if (!comment) {
       throw new NotFoundException();
+    }
 
     const subscription = await this.subscriptionService.getSubscription(user, comment);
 
-    if (!subscription)
+    if (!subscription) {
       throw new NotFoundException();
+    }
 
     await this.subscriptionService.unsubscribe(subscription);
   }
@@ -156,18 +177,18 @@ export class CommentController {
   @UseGuards(IsAuthenticated)
   @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
-  async create(
-    @AuthUser() user: User,
-    @Body() dto: CreateCommentDto,
-  ): Promise<Comment> {
+  async create(@AuthUser() user: User, @Body() dto: CreateCommentDto): Promise<Comment> {
     const commentsArea = await this.commentsAreaService.findById(dto.commentsAreaId);
     let parent: Comment | null = null;
 
-    if (!commentsArea)
+    if (!commentsArea) {
       throw new BadRequestException(`commentsArea with id ${dto.commentsAreaId} does not exists`);
+    }
 
     if (dto.parentId) {
-      parent = await this.commentRepository.findOne({ id: dto.parentId });
+      {
+        parent = await this.commentRepository.findOne({ id: dto.parentId });
+      }
 
       // TODO: error format
       if (!parent) {
@@ -182,14 +203,12 @@ export class CommentController {
   @UseGuards(IsAuthenticated, IsAuthor)
   @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
-  async update(
-    @Body() dto: UpdateCommentDto,
-    @Param('id', new ParseIntPipe()) id: number,
-  ): Promise<Comment> {
+  async update(@Body() dto: UpdateCommentDto, @Param('id', new ParseIntPipe()) id: number): Promise<Comment> {
     const comment = await this.commentService.findById(id);
 
-    if (!comment)
+    if (!comment) {
       throw new NotFoundException();
+    }
 
     return this.commentService.update(comment, dto.text);
   }
@@ -206,8 +225,9 @@ export class CommentController {
   ): Promise<Comment> {
     const comment = await this.commentService.findById(id);
 
-    if (!comment)
+    if (!comment) {
       throw new NotFoundException();
+    }
 
     await this.commentService.setReaction(comment, user, dto.type);
 
@@ -227,18 +247,19 @@ export class CommentController {
   ): Promise<Comment> {
     const comment = await this.commentService.findById(id);
 
-    if (!comment)
+    if (!comment) {
       throw new NotFoundException();
+    }
 
     const report = await this.reportService.didUserReportComment(comment, user);
 
     // TODO: error format
-    if (report)
+    if (report) {
       throw new BadRequestException('COMMENT_ALREADY_REPORTED');
+    }
 
     await this.reportService.report(comment, user, dto.message);
 
     return comment;
   }
-
 }

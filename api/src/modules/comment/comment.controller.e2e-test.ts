@@ -66,6 +66,81 @@ describe('comment controller', () => {
     reply3 = await commentFactory.create({ commentsArea, parent: comment });
   });
 
+  describe('get root', () => {
+    let commentsArea: CommentsArea;
+
+    let comment1: Comment;
+    let comment2: Comment;
+    let comment3: Comment;
+    let comment4: Comment;
+
+    beforeAll(async () => {
+      commentsArea = await commentsAreaFactory.create();
+
+      comment1 = await commentFactory.create({ commentsArea: commentsArea }, 'search');
+      comment2 = await commentFactory.create({ commentsArea: commentsArea });
+      comment3 = await commentFactory.create({ commentsArea: commentsArea, parent: comment1 }, 'you search me');
+      comment4 = await commentFactory.create({ commentsArea: commentsArea });
+
+      const commentsArea2 = await commentsAreaFactory.create();
+
+      await commentFactory.create({ commentsArea: commentsArea2 }, 'search');
+    });
+
+    it('should return a bad request when not providing a commentsAreaId', async () => {
+      await request(server).get('/api/comment').expect(400);
+    });
+
+    it('should not find comments for a comment area that does not exist', async () => {
+      await request(server).get('/api/comment').query({ commentsAreaId: 42 }).expect(404);
+    });
+
+    it('should fetch the root comments', async () => {
+      const { body } = await request(server).get('/api/comment').query({ commentsAreaId: commentsArea.id }).expect(200);
+
+      expect(body).toMatchObject({
+        items: [{ id: comment4.id }, { id: comment2.id }],
+        total: 3,
+      });
+    });
+
+    it('should fetch the root comments on page 2', async () => {
+      const { body } = await request(server)
+        .get('/api/comment')
+        .query({ commentsAreaId: commentsArea.id, page: 2 })
+        .expect(200);
+
+      expect(body).toMatchObject({
+        items: [{ id: comment1.id }],
+        total: 3,
+      });
+    });
+
+    it('should fetch the root comments sorted by date asc', async () => {
+      const { body } = await request(server)
+        .get('/api/comment')
+        .query({ commentsAreaId: commentsArea.id, sort: 'date-asc' })
+        .expect(200);
+
+      expect(body).toMatchObject({
+        items: [{ id: comment1.id }, { id: comment2.id }],
+        total: 3,
+      });
+    });
+
+    it('should fetch the comments that match a search query', async () => {
+      const { body } = await request(server)
+        .get('/api/comment')
+        .query({ commentsAreaId: commentsArea.id, search: 'search' })
+        .expect(200);
+
+      expect(body).toMatchObject({
+        items: [{ id: comment3.id }, { id: comment1.id }],
+        total: 2,
+      });
+    });
+  });
+
   describe('get for user', () => {
     const [userRequest, user] = createAuthenticatedUser(server);
 
