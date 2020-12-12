@@ -43,7 +43,7 @@ export class CommentFactory implements Factory<Comment> {
     message.comment = comment;
     await this.messageRepository.save(data.message);
 
-    return this.repository.findOne(comment.id);
+    return comment;
   }
 
   async edit(comment: Comment, text: string) {

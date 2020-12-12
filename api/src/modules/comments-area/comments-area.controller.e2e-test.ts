@@ -8,7 +8,6 @@ import {
   setupE2eTest,
 } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
-import { Comment } from '../comment/comment.entity';
 import { CommentFactory } from '../comment/comment.factory';
 
 import { CommentsArea } from './comments-area.entity';
@@ -33,68 +32,28 @@ describe('comments area controller', () => {
   const commentsAreaFactory = new CommentsAreaFactory();
   const commentFactory = new CommentFactory();
 
-  let commentsArea1: CommentsArea;
-  let commentsArea2: CommentsArea;
-  let commentsArea3: CommentsArea;
-
-  let comment1: Comment;
-  let comment2: Comment;
-  let comment3: Comment;
-  let comment4: Comment;
-  let comment5: Comment;
-
   let commentsAreaRepository: CommentsAreaRepository;
-
-  /*
-    - commentsArea1
-      - comment1 (message1 search wow)
-      - comment2
-        - comment3 (searching message3)
-      - comment4
-
-    - commentsArea2
-      - comment5 (message5 search)
-
-    - commentsArea3
-  */
 
   beforeAll(async () => {
     commentsAreaRepository = getCustomRepository(CommentsAreaRepository);
-
-    commentsArea1 = await commentsAreaFactory.create({
-      identifier: 'test:1',
-      informationTitle: 'title',
-      informationUrl: 'url',
-      informationAuthor: 'author',
-      imageUrl: 'imageUrl',
-      published: new Date(2020, 1, 10),
-    });
-    commentsArea2 = await commentsAreaFactory.create({ informationTitle: 'search me' });
-    commentsArea3 = await commentsAreaFactory.create();
-
-    comment1 = await commentFactory.create({ commentsArea: commentsArea1 }, 'message1 search wow');
-    comment2 = await commentFactory.create({ commentsArea: commentsArea1 });
-    comment3 = await commentFactory.create(
-      {
-        commentsArea: commentsArea1,
-        parent: comment2,
-      },
-      'searching message3',
-    );
-    comment4 = await commentFactory.create({ commentsArea: commentsArea1 });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    comment5 = await commentFactory.create({ commentsArea: commentsArea2 }, 'message5 search');
   });
 
   describe('list comment areas', () => {
+    let commentsArea1: CommentsArea;
+    let commentsArea2: CommentsArea;
+    let commentsArea3: CommentsArea;
+
+    beforeAll(async () => {
+      commentsArea1 = await commentsAreaFactory.create();
+      commentsArea2 = await commentsAreaFactory.create({ informationTitle: 'search me' });
+      commentsArea3 = await commentsAreaFactory.create();
+    });
+
     it('should list all comment areas', async () => {
       const { body } = await request(server).get('/api/comments-area').expect(200);
 
       expect(body).toMatchObject({
-        items: [
-          { id: commentsArea3.id, commentsCount: 0 },
-          { id: commentsArea2.id, commentsCount: 1 },
-        ],
+        items: [{ id: commentsArea3.id }, { id: commentsArea2.id }],
         total: 3,
       });
     });
@@ -103,7 +62,7 @@ describe('comments area controller', () => {
       const { body } = await request(server).get('/api/comments-area').query({ page: 2 }).expect(200);
 
       expect(body).toMatchObject({
-        items: [{ id: commentsArea1.id, commentsCount: 4 }],
+        items: [{ id: commentsArea1.id }],
         total: 3,
       });
     });
@@ -119,22 +78,37 @@ describe('comments area controller', () => {
   });
 
   describe('get comment area', () => {
+    let commentsArea: CommentsArea;
+
+    beforeAll(async () => {
+      commentsArea = await commentsAreaFactory.create({
+        identifier: 'test:1',
+        informationTitle: 'title',
+        informationUrl: 'url',
+        informationAuthor: 'author',
+        imageUrl: 'imageUrl',
+        published: new Date(2020, 1, 10),
+      });
+
+      await commentFactory.create({ commentsArea });
+    });
+
     it('should not find a comment area with unexisting id', async () => {
-      await request(server).get('/api/comments-area/4').expect(404);
+      await request(server).get('/api/comments-area/42').expect(404);
     });
 
     it('should fetch a comment area by id', async () => {
-      const { body } = await request(server).get(`/api/comments-area/${commentsArea1.id}`).expect(200);
+      const { body } = await request(server).get(`/api/comments-area/${commentsArea.id}`).expect(200);
 
       expect(body).toMatchObject({
-        id: commentsArea1.id,
+        id: commentsArea.id,
         identifier: 'test:1',
         informationTitle: 'title',
         informationUrl: 'url',
         informationAuthor: 'author',
         imageUrl: 'imageUrl',
         published: '2020-02-10',
-        commentsCount: 4,
+        commentsCount: 1,
       });
     });
 
@@ -146,63 +120,64 @@ describe('comments area controller', () => {
 
     it('should fetch a comment area by identifier', async () => {
       const { body } = await request(server)
-        .get(`/api/comments-area/by-identifier/${encodeURIComponent(commentsArea1.identifier)}`)
+        .get(`/api/comments-area/by-identifier/${encodeURIComponent(commentsArea.identifier)}`)
         .expect(200);
 
       expect(body).toMatchObject({
-        id: commentsArea1.id,
+        id: commentsArea.id,
       });
     });
   });
 
-  describe('get root comments', () => {
-    it('should not find comments for a comment area that does not exist', async () => {
-      await request(server).get('/api/comments-area/4/comments').expect(404);
-    });
+  // TODO: move to comment controller
+  // describe('get root comments', () => {
+  //   it('should not find comments for a comment area that does not exist', async () => {
+  //     await request(server).get('/api/comments-area/4/comments').expect(404);
+  //   });
 
-    it('should fetch the root comments', async () => {
-      const { body } = await request(server).get(`/api/comments-area/${commentsArea1.id}/comments`).expect(200);
+  //   it('should fetch the root comments', async () => {
+  //     const { body } = await request(server).get(`/api/comments-area/${commentsArea1.id}/comments`).expect(200);
 
-      expect(body).toMatchObject({
-        items: [{ id: comment4.id }, { id: comment2.id }],
-        total: 3,
-      });
-    });
+  //     expect(body).toMatchObject({
+  //       items: [{ id: comment4.id }, { id: comment2.id }],
+  //       total: 3,
+  //     });
+  //   });
 
-    it('should fetch the root comments on page 2', async () => {
-      const { body } = await request(server)
-        .get(`/api/comments-area/${commentsArea1.id}/comments`)
-        .query({ page: 2 })
-        .expect(200);
+  //   it('should fetch the root comments on page 2', async () => {
+  //     const { body } = await request(server)
+  //       .get(`/api/comments-area/${commentsArea1.id}/comments`)
+  //       .query({ page: 2 })
+  //       .expect(200);
 
-      expect(body).toMatchObject({
-        items: [{ id: comment1.id }],
-        total: 3,
-      });
-    });
+  //     expect(body).toMatchObject({
+  //       items: [{ id: comment1.id }],
+  //       total: 3,
+  //     });
+  //   });
 
-    it('should fetch the root comments sorted by date asc', async () => {
-      const { body } = await request(server)
-        .get(`/api/comments-area/${commentsArea1.id}/comments?sort=date-asc`)
-        .expect(200);
+  //   it('should fetch the root comments sorted by date asc', async () => {
+  //     const { body } = await request(server)
+  //       .get(`/api/comments-area/${commentsArea1.id}/comments?sort=date-asc`)
+  //       .expect(200);
 
-      expect(body).toMatchObject({
-        items: [{ id: comment1.id }, { id: comment2.id }],
-        total: 3,
-      });
-    });
+  //     expect(body).toMatchObject({
+  //       items: [{ id: comment1.id }, { id: comment2.id }],
+  //       total: 3,
+  //     });
+  //   });
 
-    it('should search from the comments', async () => {
-      const { body } = await request(server)
-        .get(`/api/comments-area/${commentsArea1.id}/comments?search=search`)
-        .expect(200);
+  //   it('should search from the comments', async () => {
+  //     const { body } = await request(server)
+  //       .get(`/api/comments-area/${commentsArea1.id}/comments?search=search`)
+  //       .expect(200);
 
-      expect(body).toMatchObject({
-        items: [{ id: comment3.id }, { id: comment1.id }],
-        total: 2,
-      });
-    });
-  });
+  //     expect(body).toMatchObject({
+  //       items: [{ id: comment3.id }, { id: comment1.id }],
+  //       total: 2,
+  //     });
+  //   });
+  // });
 
   describe('create comment area', () => {
     const [userRequest] = createAuthenticatedUser(server);
@@ -226,14 +201,14 @@ describe('comments area controller', () => {
     });
 
     it('should not create a comment area with missing information title', async () => {
-      const data = { ...commentsArea };
+      const data: Partial<typeof commentsArea> = { ...commentsArea };
       delete data.informationTitle;
 
       await asModerator.post('/api/comments-area').send(data).expect(400);
     });
 
     it('should not create a comment area with missing identifier', async () => {
-      const data = { ...commentsArea };
+      const data: Partial<typeof commentsArea> = { ...commentsArea };
       delete data.identifier;
 
       await asModerator.post('/api/comments-area').send(data).expect(400);
