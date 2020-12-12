@@ -47,9 +47,12 @@ export class CommentFactory implements Factory<Comment> {
   }
 
   async edit(comment: Comment, text: string) {
-    const message = await this.messageRepository.save({ comment, text });
+    const message = await this.messageRepository.save({ text });
 
     comment.message = message;
     await this.repository.save(comment);
+
+    message.comment = comment;
+    await this.messageRepository.save(message);
   }
 }

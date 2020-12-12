@@ -239,10 +239,21 @@ describe('comment controller', () => {
   });
 
   describe('get history', () => {
+    let comment: Comment;
+
+    beforeAll(async () => {
+      comment = await commentFactory.create({}, 'message 1');
+
+      await commentFactory.edit(comment, 'message 2');
+    });
+
     it('should get the comment history', async () => {
       const { body } = await request(server).get(`/api/comment/${comment.id}/history`).expect(200);
 
-      expect(body).toMatchObject([{ text: 'message2' }, { text: 'message1' }]);
+      expect(body).toMatchObject([
+        { text: 'message 2', date: expect.any(String) },
+        { text: 'message 1', date: expect.any(String) },
+      ]);
     });
   });
 
