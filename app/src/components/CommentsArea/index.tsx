@@ -20,7 +20,7 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
   commentsArea,
   linkToInformation,
 }) => {
-  const commentsUrl = `/api/comments-area/${commentsArea?.id}/comments`;
+  const commentsUrl = `/api/comment?commentsAreaId=${commentsArea?.id}`;
   const [loading, setLoading] = useState(false);
 
   const [

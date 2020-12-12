@@ -3,14 +3,13 @@ import { InjectConnection } from '@nestjs/typeorm';
 import { Connection, getConnectionOptions } from 'typeorm';
 
 import { Comment } from '../comment/comment.entity';
-import { CommentFactory } from '../comment/comment.factory';
+import { CommentService } from '../comment/comment.service';
 import { ReactionType } from '../comment/reaction.entity';
-import { ReactionFactory } from '../comment/reaction.factory';
 import { CommentsArea } from '../comments-area/comments-area.entity';
-import { CommentsAreaFactory } from '../comments-area/comments-area.factory';
+import { CommentsAreaService } from '../comments-area/comments-area.service';
 import { LoggerService } from '../logger/logger.service';
 import { User } from '../user/user.entity';
-import { UserFactory } from '../user/user.factory';
+import { UserService } from '../user/user.service';
 
 import { CommentDto } from './dtos/Comment';
 import { CommentsAreaDto } from './dtos/CommentsArea';
@@ -19,7 +18,8 @@ import { UserDto } from './dtos/User';
 
 const DB_NAME = 'cypress';
 
-const wait = (ms: number) => new Promise(r => setTimeout(r, ms)); wait;
+const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+wait;
 
 type GetUser = (nick: string) => User;
 
@@ -30,10 +30,9 @@ export class CypressService {
     private readonly postgresConnection: Connection,
     @InjectConnection()
     private readonly testConnection: Connection,
-    private readonly userFactory: UserFactory,
-    private readonly commentsAreaFactory: CommentsAreaFactory,
-    private readonly commentsFactory: CommentFactory,
-    private readonly reactionFactory: ReactionFactory,
+    private readonly userService: UserService,
+    private readonly commentsAreaService: CommentsAreaService,
+    private readonly commentsService: CommentService,
     private readonly logger: LoggerService,
   ) {
     this.logger.setContext('CypressService');
@@ -91,7 +90,7 @@ export class CypressService {
     const users: Record<string, User> = {};
 
     for (const user of data) {
-      users[user.nick] = await this.userFactory.create(user);
+      users[user.nick] = await this.userService.create(user);
     }
 
     return users;
@@ -100,7 +99,16 @@ export class CypressService {
   private async createCommentsAreas(data: CommentsAreaDto[], getUser: GetUser) {
     for (const { creator: creatorNick, ...commentsArea } of data) {
       const creator = creatorNick !== undefined ? getUser(creatorNick) : undefined;
-      const created = await this.commentsAreaFactory.create({ ...commentsArea, creator });
+
+      const created = await this.commentsAreaService.create(
+        {
+          informationUrl: 'https://info,url',
+          informationTitle: 'Fake news!',
+          informationAuthor: 'Anyone',
+          ...commentsArea,
+        },
+        creator,
+      );
 
       for (const comment of commentsArea.comments || []) {
         await this.createComment(comment, created, null, getUser);
@@ -108,22 +116,27 @@ export class CypressService {
     }
   }
 
-  private async createComment(comment: CommentDto, commentsArea: CommentsArea, parent: Comment | null, getUser: GetUser) {
-    const created = await this.commentsFactory.create({
+  private async createComment(
+    comment: CommentDto,
+    commentsArea: CommentsArea,
+    parent: Comment | null,
+    getUser: GetUser,
+  ) {
+    const created = await this.commentsService.create(
+      comment.author !== undefined ? getUser(comment.author) : undefined,
       commentsArea,
-      author: comment.author !== undefined ? getUser(comment.author) : undefined,
-      text: comment.text,
       parent,
-    });
+      comment.text,
+    );
 
     for (const text of comment.history || []) {
-      await this.commentsFactory.edit(created, text);
+      await this.commentsService.update(created, text);
     }
 
     if (comment.reactions) {
       for (const type of [ReactionType.APPROVE, ReactionType.REFUTE, ReactionType.SKEPTIC]) {
         for (const nick of comment.reactions[type] || []) {
-          await this.reactionFactory.create({ comment: created, user: getUser(nick), type });
+          await this.commentsService.setReaction(created, getUser(nick), type);
         }
       }
     }

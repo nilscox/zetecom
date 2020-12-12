@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import axios, { AxiosRequestConfig, CancelTokenSource } from 'axios';
 
@@ -17,17 +17,11 @@ const useSetReaction = (comment: Comment, setComment: (comment: Comment) => void
     url: `/api/comment/${comment.id}/reaction`,
   };
 
-  const [{ error, data, status }, post] = useAxios(opts, { manual: true }, Comment);
+  const [{ error }, post] = useAxios(opts, { manual: true });
 
   if (error) {
     throw error;
   }
-
-  useEffect(() => {
-    if (status(201) && data?.userReaction !== undefined) {
-      trackEvent(track.setReaction(data.userReaction));
-    }
-  }, [status, data, trackEvent]);
 
   return (type: ReactionType | null) => {
     if (comment.userReaction === type) {
@@ -74,6 +68,8 @@ const useSetReaction = (comment: Comment, setComment: (comment: Comment) => void
         {} as Record<ReactionType, number>,
       ),
     });
+
+    trackEvent(track.setReaction(type));
   };
 };
 
