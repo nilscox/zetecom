@@ -9,26 +9,19 @@ import { UserFactory } from './user.factory';
 import { UserModule } from './user.module';
 
 describe('user controller', () => {
-
-  const { server, getTestingModule } = setupE2eTest({
+  const { server } = setupE2eTest({
     imports: [AuthenticationModule, UserModule],
   });
 
   let userRepository: Repository<User>;
-  let createUser: UserFactory['create'];
+  const userFactory = new UserFactory();
 
   let user: User;
 
   beforeAll(async () => {
-    const module = getTestingModule();
-
     userRepository = getRepository(User);
 
-    const userFactory = module.get<UserFactory>(UserFactory);
-
-    createUser = userFactory.create.bind(userFactory);
-
-    user = await createUser({
+    user = await userFactory.create({
       email: 'user@domain.tld',
       nick: 'user',
       password: 'password',
@@ -38,18 +31,14 @@ describe('user controller', () => {
   const [adminRequest] = createAuthenticatedAdmin(server);
 
   it('should find all users', async () => {
-    const { body } = await adminRequest
-      .get('/api/user')
-      .expect(200);
+    const { body } = await adminRequest.get('/api/user').expect(200);
 
     expect(body).toHaveLength(2);
     expect(body).toMatchObject([{ id: user.id }, {}]);
   });
 
   it('should find a user by id', async () => {
-    const { body } = await adminRequest
-      .get(`/api/user/${user.id}`)
-      .expect(200);
+    const { body } = await adminRequest.get(`/api/user/${user.id}`).expect(200);
 
     expect(body).toEqual({
       id: user.id,
@@ -59,14 +48,11 @@ describe('user controller', () => {
   });
 
   describe('update role', () => {
-
-    it('should not update a user\'s roles when not an admin', async () => {
-      await request(server)
-        .get(`/api/user/${user.id}`)
-        .expect(403);
+    it("should not update a user's roles when not an admin", async () => {
+      await request(server).get(`/api/user/${user.id}`).expect(403);
     });
 
-    it('should update a user\'s roles', async () => {
+    it("should update a user's roles", async () => {
       const { body } = await adminRequest
         .put(`/api/user/${user.id}/roles`)
         .send({ roles: ['USER', 'ADMIN'] })
@@ -78,7 +64,5 @@ describe('user controller', () => {
 
       expect(userDb).toHaveProperty('roles', ['USER', 'ADMIN']);
     });
-
   });
-
 });

@@ -6,7 +6,6 @@ import { UserModule } from '../user/user.module';
 
 import { CommentsAreaRequestModule } from './comments-area-request/comments-area-request.module';
 import { CommentsAreaController } from './comments-area.controller';
-import { CommentsAreaFactory } from './comments-area.factory';
 import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaService } from './comments-area.service';
 import { PopulateCommentsArea } from './populate-comments-area.interceptor';
@@ -24,21 +23,8 @@ const CommentsAreaPageSize: Provider = {
     forwardRef(() => CommentModule),
     forwardRef(() => CommentsAreaRequestModule),
   ],
-  controllers: [
-    CommentsAreaController,
-  ],
-  providers: [
-    CommentsAreaPageSize,
-    CommentsAreaService,
-    PopulateCommentsArea,
-    CommentsAreaFactory,
-  ],
-  exports: [
-    TypeOrmModule,
-    CommentsAreaPageSize,
-    CommentsAreaService,
-    PopulateCommentsArea,
-    CommentsAreaFactory,
-  ],
+  controllers: [CommentsAreaController],
+  providers: [CommentsAreaPageSize, CommentsAreaService, PopulateCommentsArea],
+  exports: [TypeOrmModule, CommentsAreaPageSize, CommentsAreaService, PopulateCommentsArea],
 })
 export class CommentsAreaModule {}

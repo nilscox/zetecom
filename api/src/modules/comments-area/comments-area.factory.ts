@@ -1,42 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { getCustomRepository } from 'typeorm';
 
 import { Factory } from '../../testing/factory';
-import { User } from '../user/user.entity';
 import { UserFactory } from '../user/user.factory';
 
 import { CommentsArea } from './comments-area.entity';
-import { CommentsAreaService } from './comments-area.service';
+import { CommentsAreaRepository } from './comments-area.repository';
 
-type CommentsAreaFactoryData = {
-  identifier?: string;
-  creator?: User;
-  informationTitle?: string;
-  informationUrl?: string;
-  informationAuthor?: string;
-  imageUrl?: string;
-  published?: string;
-};
+export class CommentsAreaFactory implements Factory<CommentsArea> {
+  private userFactory = new UserFactory();
 
-@Injectable()
-export class CommentsAreaFactory implements Factory<CommentsAreaFactoryData, CommentsArea> {
-  constructor(private readonly commentsAreaService: CommentsAreaService, private readonly userFactory: UserFactory) {}
+  private get repository() {
+    return getCustomRepository(CommentsAreaRepository);
+  }
 
-  async create(data: CommentsAreaFactoryData = {}) {
-    const getCreator = async () => {
-      return data.creator || (await this.userFactory.create());
+  async create(override: Partial<Omit<CommentsArea, 'id'>> = {}) {
+    const data = {
+      identifier: `id:${Math.random().toString(36).slice(6)}`,
+      informationUrl: 'https://information.url',
+      informationTitle: 'Fake News!',
+      informationAuthor: 'anyone',
+      published: new Date().toISOString(),
+      ...override,
     };
 
-    return this.commentsAreaService.create(
-      {
-        identifier: `id:${Math.random().toString(36).slice(6)}`,
-        informationUrl: 'https://information.url',
-        informationTitle: 'Fake News!',
-        informationAuthor: 'anyone',
-        imageUrl: null,
-        published: new Date().toISOString(),
-        ...data,
-      },
-      await getCreator(),
-    );
+    if (!data.creator) {
+      data.creator = await this.userFactory.create();
+    }
+
+    return this.repository.save(data);
   }
 }

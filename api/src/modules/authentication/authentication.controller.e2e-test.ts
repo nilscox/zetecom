@@ -9,40 +9,23 @@ import { UserFactory } from '../user/user.factory';
 import { AuthenticationModule } from './authentication.module';
 
 describe('authentification', () => {
-
-  const { server, getTestingModule } = setupE2eTest({
+  const { server } = setupE2eTest({
     imports: [AuthenticationModule, EmailModule],
   });
 
   let userRepository: Repository<User>;
 
-  let createUser: UserFactory['create'];
+  const userFactory = new UserFactory();
 
   beforeAll(async () => {
-    const module = getTestingModule();
-
-    const userFactory = module.get<UserFactory>(UserFactory);
-
-    createUser = userFactory.create.bind(userFactory);
-
     userRepository = getRepository(User);
   });
-
-  const unsetEmailValidated = async (user: User) => {
-    await userRepository.update(user.id, { emailValidated: false });
-  };
-
-  const setEmailLoginToken = async (user: User, token: string) => {
-    await userRepository.update(user.id, { emailLoginToken: token });
-  };
 
   describe('signup', () => {
     const [userRequest, authenticatedUser] = createAuthenticatedUser(server);
 
     it('should not create an account when already authenticated', () => {
-      return userRequest
-        .post('/api/auth/signup')
-        .expect(403);
+      return userRequest.post('/api/auth/signup').expect(403);
     });
 
     it('should not create an account when nick already exists', async () => {
@@ -52,10 +35,7 @@ describe('authentification', () => {
         nick: authenticatedUser.nick,
       };
 
-      const { body } = await request(server)
-        .post('/api/auth/signup')
-        .send(user)
-        .expect(400);
+      const { body } = await request(server).post('/api/auth/signup').send(user).expect(400);
 
       expect(body).toMatchObject({ message: 'NICK_ALREADY_EXISTS' });
     });
@@ -67,10 +47,7 @@ describe('authentification', () => {
         nick: 'nick',
       };
 
-      const { body } = await request(server)
-        .post('/api/auth/signup')
-        .send(user)
-        .expect(400);
+      const { body } = await request(server).post('/api/auth/signup').send(user).expect(400);
 
       expect(body).toMatchObject({ message: 'EMAIL_ALREADY_EXISTS' });
     });
@@ -90,10 +67,7 @@ describe('authentification', () => {
       ];
 
       for (const data of cases) {
-        const { body } = await request(server)
-          .post('/api/auth/signup')
-          .send(data)
-          .expect(400);
+        const { body } = await request(server).post('/api/auth/signup').send(data).expect(400);
 
         expect(body).toMatchObject({ message: 'PASSWORD_UNSECURE' });
       }
@@ -106,10 +80,7 @@ describe('authentification', () => {
         nick: 'nick',
       };
 
-      const { body } = await request(server)
-        .post('/api/auth/signup')
-        .send(user)
-        .expect(201);
+      const { body } = await request(server).post('/api/auth/signup').send(user).expect(201);
 
       expect(body).toMatchObject({
         id: expect.any(Number),
@@ -121,7 +92,6 @@ describe('authentification', () => {
 
       expect(userDb).toBeDefined();
     });
-
   });
 
   describe('login', () => {
@@ -130,77 +100,51 @@ describe('authentification', () => {
     let user: User;
 
     beforeAll(async () => {
-      user = await createUser({ password: 'pa$$word' });
+      user = await userFactory.create({ password: 'pa$$sword' });
     });
 
     it('should not be possible to login when already authenticated', () => {
-      return userRequest
-        .post('/api/auth/login')
-        .expect(403);
+      return userRequest.post('/api/auth/login').expect(403);
     });
 
     it('should not login with invalid credentials', async () => {
       const data = {
-        email: 'email@domain.tld',
-        password: 'password',
+        email: 'notok@domain.tld',
+        password: 'notok',
       };
 
       const cases = [
         { ...data, email: user.email },
-        { ...data, password: user.password },
+        { ...data, password: 'pa$$sword' },
       ];
 
       for (const data of cases) {
-        const { body } = await request(server)
-          .post('/api/auth/login')
-          .send(data)
-          .expect(401);
+        const { body } = await request(server).post('/api/auth/login').send(data).expect(401);
 
         expect(body).toMatchObject({ message: 'INVALID_CREDENTIALS' });
       }
     });
 
     it('should not login when the email is not validated', async () => {
-      const user = await createUser({ password: 'pa$$word' });
-      const data = { email: user.email, password: 'pa$$word' };
-
-      await unsetEmailValidated(user);
-
-      const { body } = await request(server)
-        .post('/api/auth/login')
-        .send(data)
-        .expect(401);
+      const data = { email: user.email, password: 'pa$$sword' };
+      const { body } = await request(server).post('/api/auth/login').send(data).expect(401);
 
       expect(body).toMatchObject({ message: 'EMAIL_NOT_VALIDATED' });
     });
 
     it('should login', async () => {
-      const data = { email: user.email, password: 'pa$$word' };
+      const data = { email: user.email, password: 'pa$$sword' };
+      await userFactory.setEmailValidated(user, true);
 
-      const { body } = await request(server)
-        .post('/api/auth/login')
-        .send(data)
-        .expect(200);
+      const { body } = await request(server).post('/api/auth/login').send(data).expect(200);
 
       expect(body).toHaveProperty('id', user.id);
     });
-
   });
 
   describe('emailLogin', () => {
-
-    let user: User;
-
-    beforeAll(async () => {
-      user = await createUser();
-      await setEmailLoginToken(user, 'token');
-    });
-
     it('should not login with an invalid token', async () => {
-      const { body } = await request(server)
-        .post('/api/auth/email-login')
-        .send({ token: 'nope' })
-        .expect(401);
+      const { body } = await request(server).post('/api/auth/email-login').send({ token: 'nope' }).expect(401);
 
       expect(body).toMatchObject({
         message: 'INVALID_EMAIL_LOGIN_TOKEN',
@@ -208,24 +152,23 @@ describe('authentification', () => {
     });
 
     it('should login with a token', async () => {
-      const { body } = await request(server)
-        .post('/api/auth/email-login')
-        .send({ token: 'token' })
-        .expect(200);
+      const user = await userFactory.create({ emailLoginToken: 'token' });
+
+      const { body } = await request(server).post('/api/auth/email-login').send({ token: 'token' }).expect(200);
 
       expect(body).toHaveProperty('id', user.id);
+
+      const userDb = await userRepository.findOne(user.id);
+
+      expect(userDb).toMatchObject({
+        emailLoginToken: null,
+      });
     });
 
     it('should validate the email address', async () => {
-      const user = await createUser();
+      const user = await userFactory.create({ emailLoginToken: 'token' });
 
-      await unsetEmailValidated(user);
-      await setEmailLoginToken(user, 'token');
-
-      await request(server)
-        .post('/api/auth/email-login')
-        .send({ token: 'token' })
-        .expect(200);
+      await request(server).post('/api/auth/email-login').send({ token: 'token' }).expect(200);
 
       const userDb = await userRepository.findOne(user.id);
 
@@ -233,23 +176,17 @@ describe('authentification', () => {
         emailValidated: true,
       });
     });
-
   });
 
   describe('askEmailLogin', () => {
-
     let user: User;
 
     beforeAll(async () => {
-      user = await createUser();
-      setEmailLoginToken(user, 'token');
+      user = await userFactory.create();
     });
 
     it('should ask for a login token', async () => {
-      await request(server)
-        .post('/api/auth/ask-email-login')
-        .send({ email: user.email })
-        .expect(204);
+      await request(server).post('/api/auth/ask-email-login').send({ email: user.email }).expect(204);
 
       const userDb = await userRepository.findOne(user.id);
 
@@ -259,48 +196,33 @@ describe('authentification', () => {
     });
 
     it('should return a status code 204 even if the email does not exist', async () => {
-      await request(server)
-        .post('/api/auth/ask-email-login')
-        .send({ email: 'nopp@domain.tld' })
-        .expect(204);
+      await request(server).post('/api/auth/ask-email-login').send({ email: 'nopp@domain.tld' }).expect(204);
     });
-
   });
 
   describe('logout', () => {
     const [userRequest] = createAuthenticatedUser(server);
 
     it('should not be possible to logout when unauthenticated', () => {
-      return request(server)
-        .post('/api/auth/logout')
-        .expect(403);
+      return request(server).post('/api/auth/logout').expect(403);
     });
 
     it('should logout', async () => {
-      await userRequest
-        .post('/api/auth/logout')
-        .expect(204);
+      await userRequest.post('/api/auth/logout').expect(204);
     });
-
   });
 
   describe('me', () => {
     const [userRequest, user] = createAuthenticatedUser(server);
 
     it('should not fetch me when unauthenticated', () => {
-      return request(server)
-        .get('/api/auth/me')
-        .expect(403);
+      return request(server).get('/api/auth/me').expect(403);
     });
 
     it('s me, mario!', async () => {
-      const { body } = await userRequest
-        .get('/api/auth/me')
-        .expect(200);
+      const { body } = await userRequest.get('/api/auth/me').expect(200);
 
       expect(body).toHaveProperty('id', user.id);
     });
-
   });
-
 });

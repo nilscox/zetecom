@@ -9,27 +9,20 @@ import { CommentsAreaRequestFactory } from './comments-area-request.factory';
 import { CommentsAreaRequestModule } from './comments-area-request.module';
 
 describe('comments area request controller', () => {
-
-  const { server, getTestingModule } = setupE2eTest({
+  const { server } = setupE2eTest({
     imports: [AuthenticationModule, CommentsAreaRequestModule],
   });
 
   let commentsAreaRequestRepository: Repository<CommentsAreaRequest>;
 
-  let createCommentsAreaRequest: CommentsAreaRequestFactory['create'];
+  const commentsAreaRequestFactory = new CommentsAreaRequestFactory();
 
   let commentsAreaRequest: CommentsAreaRequest;
 
   beforeAll(async () => {
-    const module = getTestingModule();
-
     commentsAreaRequestRepository = getRepository(CommentsAreaRequest);
 
-    const commentsAreaRequestFactory = module.get<CommentsAreaRequestFactory>(CommentsAreaRequestFactory);
-
-    createCommentsAreaRequest = commentsAreaRequestFactory.create.bind(commentsAreaRequestFactory);
-
-    commentsAreaRequest = await createCommentsAreaRequest();
+    commentsAreaRequest = await commentsAreaRequestFactory.create();
   });
 
   describe('list pending requests', () => {
@@ -42,18 +35,13 @@ describe('comments area request controller', () => {
     });
 
     it('should list pending requests', async () => {
-      const { body } = await asModerator
-        .get('/api/comments-area/request')
-        .expect(200);
+      const { body } = await asModerator.get('/api/comments-area/request').expect(200);
 
       expect(body).toMatchObject({
         total: 1,
-        items: [
-          { id: commentsAreaRequest.id },
-        ],
+        items: [{ id: commentsAreaRequest.id }],
       });
     });
-
   });
 
   describe('create a new request', () => {
@@ -65,10 +53,7 @@ describe('comments area request controller', () => {
     });
 
     it('should request to create a new comment area', async () => {
-      const { body } = await asUser1
-        .post('/api/comments-area/request')
-        .send({ identifier: 'id:1'})
-        .expect(201);
+      const { body } = await asUser1.post('/api/comments-area/request').send({ identifier: 'id:1' }).expect(201);
 
       expect(body).toMatchObject({
         identifier: 'id:1',
@@ -81,19 +66,12 @@ describe('comments area request controller', () => {
         status: CommentsAreaRequestStatus.PENDING,
       });
 
-      await asUser2
-        .post('/api/comments-area/request')
-        .send({ identifier: 'id:1'})
-        .expect(201);
+      await asUser2.post('/api/comments-area/request').send({ identifier: 'id:1' }).expect(201);
     });
 
     it('should not be possible to request to create the same comment area twice', async () => {
-      await asUser1
-        .post('/api/comments-area/request')
-        .send({ identifier: 'id:1' })
-        .expect(400);
+      await asUser1.post('/api/comments-area/request').send({ identifier: 'id:1' }).expect(400);
     });
-
   });
 
   describe('reject a request', () => {
@@ -106,11 +84,9 @@ describe('comments area request controller', () => {
     });
 
     it('should reject a request', async () => {
-      const request = await createCommentsAreaRequest();
+      const request = await commentsAreaRequestFactory.create();
 
-      await asModerator
-        .post(`/api/comments-area/request/${request.id}/reject`)
-        .expect(200);
+      await asModerator.post(`/api/comments-area/request/${request.id}/reject`).expect(200);
 
       const requestDb = await commentsAreaRequestRepository.findOne(request.id);
 
@@ -118,7 +94,5 @@ describe('comments area request controller', () => {
         status: CommentsAreaRequestStatus.REFUSED,
       });
     });
-
   });
-
 });

@@ -36,7 +36,7 @@
     "comma-spacing": "error",
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "single"],
+    "quotes": ["error", "single", { "avoidEscape": true }],
     "semi": ["error", "always"],
     "sort-imports": "off",
     "space-infix-ops": "error",

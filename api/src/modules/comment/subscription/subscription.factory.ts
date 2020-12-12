@@ -1,36 +1,32 @@
 import { Injectable } from '@nestjs/common';
+import { getRepository } from 'typeorm';
 
 import { Factory } from '../../../testing/factory';
-import { Comment } from '../../comment/comment.entity';
 import { CommentFactory } from '../../comment/comment.factory';
-import { User } from '../../user/user.entity';
 import { UserFactory } from '../../user/user.factory';
 
 import { Subscription } from './subscription.entity';
-import { SubscriptionService } from './subscription.service';
-
-type SubscriptionFactoryData = {
-  user?: User;
-  comment?: Comment;
-};
 
 @Injectable()
-export class SubscriptionFactory implements Factory<SubscriptionFactoryData, Subscription> {
-  constructor(
-    private readonly subscriptionService: SubscriptionService,
-    private readonly commentFactory: CommentFactory,
-    private readonly userFactory: UserFactory,
-  ) {}
+export class SubscriptionFactory implements Factory<Subscription> {
+  private commentFactory = new CommentFactory();
+  private userFactory = new UserFactory();
 
-  async create(data: SubscriptionFactoryData = {}) {
-    const getUser = async () => {
-      return data.user || await this.userFactory.create();
-    };
+  private get repository() {
+    return getRepository(Subscription);
+  }
 
-    const getComment = async () => {
-      return data.comment || await this.commentFactory.create();
-    };
+  async create(override: Partial<Omit<Subscription, 'id'>> = {}) {
+    const data = { ...override };
 
-    return this.subscriptionService.subscribe(await getUser(), await getComment());
+    if (!data.user) {
+      data.user = await this.userFactory.create();
+    }
+
+    if (!data.comment) {
+      data.comment = await this.commentFactory.create();
+    }
+
+    return this.repository.save(data);
   }
 }

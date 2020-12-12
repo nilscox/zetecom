@@ -1,30 +1,21 @@
 import { Injectable } from '@nestjs/common';
-
-import { NotificationPayload } from 'src/modules/notification/notification-payload';
+import { getRepository } from 'typeorm';
 
 import { Factory } from '../../testing/factory';
-import { User } from '../user/user.entity';
 
-import { NotificationType } from './notification-type';
 import { Notification } from './notification.entity';
-import { NotificationService } from './notification.service';
-
-type NotificationFactoryOpts = {
-  type: NotificationType;
-  user: User;
-  payload: NotificationPayload;
-};
 
 @Injectable()
-export class NotificationFactory implements Factory<NotificationFactoryOpts, Notification> {
-  constructor(
-    private readonly notificationService: NotificationService,
-  ) {}
+export class NotificationFactory implements Factory<Notification> {
+  private get repository() {
+    return getRepository(Notification);
+  }
 
-  async create(data?: NotificationFactoryOpts) {
-    if (!data)
-      throw new Error('NotificationFactory: data must be provided');
+  async create(override: Partial<Omit<Notification, 'id'>>) {
+    return this.repository.save(override);
+  }
 
-    return this.notificationService.create(data.type, data.user, data.payload);
+  async markAsSeen(notification: Notification, date = new Date()) {
+    await this.repository.update(notification.id, { seen: date });
   }
 }

@@ -1,33 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { getRepository } from 'typeorm';
 
 import { Factory } from '../../../testing/factory';
 import { UserFactory } from '../../user/user.factory';
 
-import { CommentsAreaRequest } from './comments-area-request.entity';
-import { CommentsAreaRequestService } from './comments-area-request.service';
-
-type CommentsAreaRequestFactoryData = {
-  identifier?: string;
-};
+import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request.entity';
 
 @Injectable()
-export class CommentsAreaRequestFactory implements Factory<CommentsAreaRequestFactoryData, CommentsAreaRequest> {
-  constructor(
-    private readonly commentsAreaRequestService: CommentsAreaRequestService,
-    private readonly userFactory: UserFactory,
-  ) {}
+export class CommentsAreaRequestFactory implements Factory<CommentsAreaRequest> {
+  private userFactory = new UserFactory();
 
-  async create(data: CommentsAreaRequestFactoryData = {}) {
-    const getRequester = async () => {
-      return this.userFactory.create();
+  private get repository() {
+    return getRepository(CommentsAreaRequest);
+  }
+
+  async create(override: Partial<Omit<CommentsAreaRequest, 'id'>> = {}) {
+    const data = {
+      identifier: `id:${Math.random().toString(36).slice(6)}`,
+      status: CommentsAreaRequestStatus.PENDING,
+      ...override,
     };
 
-    return this.commentsAreaRequestService.request(
-      {
-        identifier: `id:${Math.random().toString(36).slice(6)}`,
-        ...data,
-      },
-      await getRequester(),
-    );
+    if (!data.requester) {
+      data.requester = await this.userFactory.create();
+    }
+
+    return this.repository.save(data);
   }
 }

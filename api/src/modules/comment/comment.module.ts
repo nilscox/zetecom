@@ -5,13 +5,11 @@ import { CommentsAreaModule } from '../comments-area/comments-area.module';
 import { UserModule } from '../user/user.module';
 
 import { CommentController } from './comment.controller';
-import { CommentFactory } from './comment.factory';
 import { CommentRepository } from './comment.repository';
 import { CommentService } from './comment.service';
 import { Message } from './message.entity';
 import { PopulateComment } from './populate-comment.interceptor';
 import { Reaction } from './reaction.entity';
-import { ReactionFactory } from './reaction.factory';
 import { ReportModule } from './report/report.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 
@@ -29,23 +27,8 @@ const CommentPageSize: Provider = {
     forwardRef(() => CommentsAreaModule),
     forwardRef(() => SubscriptionModule),
   ],
-  controllers: [
-    CommentController,
-  ],
-  providers: [
-    CommentPageSize,
-    CommentService,
-    PopulateComment,
-    CommentFactory,
-    ReactionFactory,
-  ],
-  exports: [
-    TypeOrmModule,
-    CommentPageSize,
-    CommentService,
-    PopulateComment,
-    CommentFactory,
-    ReactionFactory,
-  ],
+  controllers: [CommentController],
+  providers: [CommentPageSize, CommentService, PopulateComment],
+  exports: [TypeOrmModule, CommentPageSize, CommentService, PopulateComment],
 })
 export class CommentModule {}

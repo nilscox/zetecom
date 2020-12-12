@@ -13,75 +13,59 @@ import { UserModule } from '../user/user.module';
 import { ModerationModule } from './moderation.module';
 
 describe('moderation', () => {
-
-  const { server, getTestingModule } = setupE2eTest({
+  const { server } = setupE2eTest({
     imports: [UserModule, AuthenticationModule, CommentModule, ModerationModule],
   });
 
   let commentRepository: Repository<Comment>;
   let reportRepository: Repository<Report>;
 
-  let createUser: UserFactory['create'];
-  let createComment: CommentFactory['create'];
-  let reportComment: ReportFactory['create'];
-  let moderateReport: ReportFactory['markAsModerated'];
+  const userFactor = new UserFactory();
+  const commentFactory = new CommentFactory();
+  const reportFactory = new ReportFactory();
 
   const [asUser] = createAuthenticatedUser(server);
   const [asModerator, moderator] = createAuthenticatedModerator(server);
 
   beforeAll(() => {
-    const module = getTestingModule();
-
-    const userFactory = module.get<UserFactory>(UserFactory);
-    const commentFactory = module.get<CommentFactory>(CommentFactory);
-    const reportFactory = module.get<ReportFactory>(ReportFactory);
-
-    createUser = userFactory.create.bind(userFactory);
-    createComment = commentFactory.create.bind(commentFactory);
-    reportComment = reportFactory.create.bind(reportFactory);
-    moderateReport = reportFactory.markAsModerated.bind(reportFactory);
-
     commentRepository = getRepository(Comment);
     reportRepository = getRepository(Report);
   });
 
   describe('list reports', () => {
-
     it('should not list reports when not a moderator', async () => {
       await asUser.get('/api/moderation/reports').expect(403);
     });
 
     it('should list reports waiting for an action', async () => {
-      const comment1 = await createComment();
-      const user1 = await createUser();
-      const report1 = await reportComment({ reporter: user1, comment: comment1 });
+      const comment1 = await commentFactory.create();
+      const user1 = await userFactor.create();
+      const report1 = await reportFactory.create({ reportedBy: user1, comment: comment1 });
 
-      const comment2 = await createComment();
-      const user2 = await createUser();
-      const report2 = await reportComment({ reporter: user2, comment: comment2 });
+      const comment2 = await commentFactory.create();
+      const user2 = await userFactor.create();
+      const report2 = await reportFactory.create({ reportedBy: user2, comment: comment2 });
 
-      const user3 = await createUser();
-      const report3 = await reportComment({ reporter: user3, comment: comment2 });
+      const user3 = await userFactor.create();
+      const report3 = await reportFactory.create({ reportedBy: user3, comment: comment2 });
 
-      const report4 = await reportComment({ reporter: await createUser(), comment: comment2 });
-      await moderateReport(report4, moderator, ReportModerationAction.IGNORED);
+      const report4 = await reportFactory.create({ reportedBy: await userFactor.create(), comment: comment2 });
+      await reportFactory.markAsModerated(report4, moderator, ReportModerationAction.IGNORED);
 
-      const report5 = await reportComment({ reporter: await createUser(), comment: await createComment() });
-      await moderateReport(report5, moderator, ReportModerationAction.IGNORED);
+      const report5 = await reportFactory.create({
+        reportedBy: await userFactor.create(),
+        comment: await commentFactory.create(),
+      });
+      await reportFactory.markAsModerated(report5, moderator, ReportModerationAction.IGNORED);
 
-      const { body } = await asModerator
-        .get('/api/moderation/reports')
-        .expect(200);
+      const { body } = await asModerator.get('/api/moderation/reports').expect(200);
 
       expect(body).toMatchObject({
         total: 2,
         items: [
           {
             id: comment2.id,
-            reports: [
-              { id: report3.id },
-              { id: report2.id },
-            ],
+            reports: [{ id: report3.id }, { id: report2.id }],
           },
           {
             id: comment1.id,
@@ -95,29 +79,22 @@ describe('moderation', () => {
         ],
       });
     });
-
   });
 
   describe('ignore reported comment', () => {
-
     it('should not ignore reports when not a moderator', async () => {
-      const comment = await createComment();
-      await reportComment({ reporter: await createUser(), comment });
+      const comment = await commentFactory.create();
+      await reportFactory.create({ reportedBy: await userFactor.create(), comment });
 
-      await asUser.put('/api/moderation/ignore-reports')
-        .send({ commentId: comment.id })
-        .expect(403);
+      await asUser.put('/api/moderation/ignore-reports').send({ commentId: comment.id }).expect(403);
     });
 
     it('should ignore reports', async () => {
-      const comment = await createComment();
-      const report1 = await reportComment({ reporter: await createUser(), comment });
-      const report2 = await reportComment({ reporter: await createUser(), comment });
+      const comment = await commentFactory.create();
+      const report1 = await reportFactory.create({ reportedBy: await userFactor.create(), comment });
+      const report2 = await reportFactory.create({ reportedBy: await userFactor.create(), comment });
 
-      await asModerator
-        .put('/api/moderation/ignore-reports')
-        .send({ commentId: comment.id })
-        .expect(204);
+      await asModerator.put('/api/moderation/ignore-reports').send({ commentId: comment.id }).expect(204);
 
       const [reportDb1, reportDb2] = await reportRepository.findByIds([report1.id, report2.id]);
 
@@ -131,29 +108,22 @@ describe('moderation', () => {
         moderatedBy: expect.objectContaining({ id: moderator.id }),
       });
     });
-
   });
 
   describe('delete reported comment', () => {
-
     it('should not delete a comment when not a moderator', async () => {
-      const comment = await createComment();
-      await reportComment({ reporter: await createUser(), comment });
+      const comment = await commentFactory.create();
+      await reportFactory.create({ reportedBy: await userFactor.create(), comment });
 
-      await asUser.put('/api/moderation/delete-comment')
-        .send({ commentId: comment.id })
-        .expect(403);
+      await asUser.put('/api/moderation/delete-comment').send({ commentId: comment.id }).expect(403);
     });
 
     it('should delete a comment', async () => {
-      const comment = await createComment();
-      const report1 = await reportComment({ reporter: await createUser(), comment });
-      const report2 = await reportComment({ reporter: await createUser(), comment });
+      const comment = await commentFactory.create();
+      const report1 = await reportFactory.create({ reportedBy: await userFactor.create(), comment });
+      const report2 = await reportFactory.create({ reportedBy: await userFactor.create(), comment });
 
-      await asModerator
-        .put('/api/moderation/delete-comment')
-        .send({ commentId: comment.id })
-        .expect(204);
+      await asModerator.put('/api/moderation/delete-comment').send({ commentId: comment.id }).expect(204);
 
       const [reportDb1, reportDb2] = await reportRepository.findByIds([report1.id, report2.id]);
 
@@ -171,7 +141,5 @@ describe('moderation', () => {
 
       expect(commentDb).toMatchObject({ deleted: expect.any(Date) });
     });
-
   });
-
 });

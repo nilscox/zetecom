@@ -7,7 +7,6 @@ import { CommentModule } from '../comment.module';
 
 import { SubscriptionController } from './subscription.controller';
 import { Subscription } from './subscription.entity';
-import { SubscriptionFactory } from './subscription.factory';
 import { SubscriptionService } from './subscription.service';
 
 const SUBSCRIPTION_PAGE_SIZE = 'SUBSCRIPTION_PAGE_SIZE';
@@ -17,23 +16,9 @@ const SubscriptionPageSize: Provider = {
 };
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Subscription]),
-    UserModule,
-    forwardRef(() => CommentModule),
-    NotificationModule,
-  ],
-  controllers: [
-    SubscriptionController,
-  ],
-  providers: [
-    SubscriptionPageSize,
-    SubscriptionService,
-    SubscriptionFactory,
-  ],
-  exports: [
-    SubscriptionService,
-    SubscriptionFactory,
-  ],
+  imports: [TypeOrmModule.forFeature([Subscription]), UserModule, forwardRef(() => CommentModule), NotificationModule],
+  controllers: [SubscriptionController],
+  providers: [SubscriptionPageSize, SubscriptionService],
+  exports: [SubscriptionService],
 })
 export class SubscriptionModule {}

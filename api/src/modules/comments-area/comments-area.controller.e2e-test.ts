@@ -17,7 +17,7 @@ import { CommentsAreaModule } from './comments-area.module';
 import { CommentsAreaRepository } from './comments-area.repository';
 
 describe('comments area controller', () => {
-  const { server, getTestingModule } = setupE2eTest(
+  const { server } = setupE2eTest(
     {
       imports: [CommentsAreaModule, AuthenticationModule],
     },
@@ -30,8 +30,8 @@ describe('comments area controller', () => {
     },
   );
 
-  let createCommentsArea: CommentsAreaFactory['create'];
-  let createComment: CommentFactory['create'];
+  const commentsAreaFactory = new CommentsAreaFactory();
+  const commentFactory = new CommentFactory();
 
   let commentsArea1: CommentsArea;
   let commentsArea2: CommentsArea;
@@ -59,32 +59,31 @@ describe('comments area controller', () => {
   */
 
   beforeAll(async () => {
-    const module = getTestingModule();
-    const commentsAreaFactory = module.get<CommentsAreaFactory>(CommentsAreaFactory);
-    const commentFactory = module.get<CommentFactory>(CommentFactory);
-
-    createCommentsArea = commentsAreaFactory.create.bind(commentsAreaFactory);
-    createComment = commentFactory.create.bind(commentFactory);
-
     commentsAreaRepository = getCustomRepository(CommentsAreaRepository);
 
-    commentsArea1 = await createCommentsArea({
+    commentsArea1 = await commentsAreaFactory.create({
       identifier: 'test:1',
       informationTitle: 'title',
       informationUrl: 'url',
       informationAuthor: 'author',
       imageUrl: 'imageUrl',
-      published: new Date(2020, 1, 10).toISOString(),
+      published: new Date(2020, 1, 10),
     });
-    commentsArea2 = await createCommentsArea({ informationTitle: 'search me' });
-    commentsArea3 = await createCommentsArea();
+    commentsArea2 = await commentsAreaFactory.create({ informationTitle: 'search me' });
+    commentsArea3 = await commentsAreaFactory.create();
 
-    comment1 = await createComment({ commentsArea: commentsArea1, text: 'message1 search wow' });
-    comment2 = await createComment({ commentsArea: commentsArea1 });
-    comment3 = await createComment({ commentsArea: commentsArea1, text: 'searching message3', parent: comment2 });
-    comment4 = await createComment({ commentsArea: commentsArea1 });
+    comment1 = await commentFactory.create({ commentsArea: commentsArea1 }, 'message1 search wow');
+    comment2 = await commentFactory.create({ commentsArea: commentsArea1 });
+    comment3 = await commentFactory.create(
+      {
+        commentsArea: commentsArea1,
+        parent: comment2,
+      },
+      'searching message3',
+    );
+    comment4 = await commentFactory.create({ commentsArea: commentsArea1 });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    comment5 = await createComment({ commentsArea: commentsArea2, text: 'message5 search' });
+    comment5 = await commentFactory.create({ commentsArea: commentsArea2 }, 'message5 search');
   });
 
   describe('list comment areas', () => {
@@ -264,7 +263,7 @@ describe('comments area controller', () => {
     let commentsArea: CommentsArea;
 
     beforeAll(async () => {
-      commentsArea = await createCommentsArea();
+      commentsArea = await commentsAreaFactory.create();
     });
 
     it('should not update a comment area when unauthenticated', async () => {

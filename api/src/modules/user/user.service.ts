@@ -13,7 +13,6 @@ import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
-
   constructor(
     private readonly configService: ConfigService,
     @InjectRepository(User)
@@ -44,8 +43,9 @@ export class UserService {
 
     const existing = await this.userRepository.findOne({ where: { email } });
 
-    if (existing !== undefined)
+    if (existing !== undefined) {
       throw new BadRequestException('EMAIL_ALREADY_EXISTS');
+    }
 
     const user = new User();
 
@@ -56,10 +56,11 @@ export class UserService {
     user.emailValidationToken = uuidv4();
     user.roles = [Role.USER];
 
-    if (EMAIL_ACCOUNT_VERIFICATION === 'true')
+    if (EMAIL_ACCOUNT_VERIFICATION === 'true') {
       await this.emailService.sendEmailValidationEmail(user);
-    else
+    } else {
       user.emailValidated = true;
+    }
 
     return this.userRepository.save(user);
   }
@@ -69,8 +70,9 @@ export class UserService {
       where: { emailValidationToken: token },
     });
 
-    if (!user)
+    if (!user) {
       throw new BadRequestException('USER_EMAIL_TOKEN_NOT_FOUND');
+    }
 
     await this.userRepository.update(user.id, { emailValidated: true });
 
@@ -86,5 +88,4 @@ export class UserService {
   async updateRoles(user: User, roles: Role[]) {
     await this.userRepository.update(user.id, { roles });
   }
-
 }

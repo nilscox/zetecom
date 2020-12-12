@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable,  UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
@@ -12,7 +12,6 @@ import { SignupUserInDto } from './dtos/signup-user-in.dto';
 
 @Injectable()
 export class AuthenticationService {
-
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -21,16 +20,19 @@ export class AuthenticationService {
   ) {}
 
   private ensurePasswordSecurity(email: string, nick: string, password: string) {
-    if (password.includes(email) || email.includes(password) || password.includes(nick) || nick.includes(password))
+    if (password.includes(email) || email.includes(password) || password.includes(nick) || nick.includes(password)) {
       throw new BadRequestException('PASSWORD_UNSECURE');
+    }
   }
 
   async signup(dto: SignupUserInDto): Promise<User> {
-    if (await this.userService.findByNick(dto.nick))
+    if (await this.userService.findByNick(dto.nick)) {
       throw new BadRequestException('NICK_ALREADY_EXISTS');
+    }
 
-    if (await this.userService.findByEmail(dto.email))
+    if (await this.userService.findByEmail(dto.email)) {
       throw new BadRequestException('EMAIL_ALREADY_EXISTS');
+    }
 
     const { email, nick, password } = dto;
 
@@ -44,11 +46,13 @@ export class AuthenticationService {
       where: { email },
     });
 
-    if (!user || !await bcrypt.compare(password, user.password))
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('INVALID_CREDENTIALS');
+    }
 
-    if (!user.emailValidated)
+    if (!user.emailValidated) {
       throw new UnauthorizedException('EMAIL_NOT_VALIDATED');
+    }
 
     return user;
   }
@@ -58,11 +62,13 @@ export class AuthenticationService {
       where: { emailLoginToken },
     });
 
-    if (!user)
+    if (!user) {
       throw new UnauthorizedException('INVALID_EMAIL_LOGIN_TOKEN');
+    }
 
-    if (!user.emailValidated)
+    if (!user.emailValidated) {
       await this.userRepository.update(user.id, { emailValidated: true });
+    }
 
     await this.userRepository.update(user.id, { emailLoginToken: undefined });
 
@@ -74,8 +80,9 @@ export class AuthenticationService {
       where: { email },
     });
 
-    if (!user)
+    if (!user) {
       return;
+    }
 
     user.emailLoginToken = uuidv4();
 
@@ -92,5 +99,4 @@ export class AuthenticationService {
 
     await this.userService.setUserPassword(user, password);
   }
-
 }

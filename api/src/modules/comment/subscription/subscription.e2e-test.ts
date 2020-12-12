@@ -12,43 +12,30 @@ import { UserFactory } from '../../user/user.factory';
 import { SubscriptionFactory } from './subscription.factory';
 
 describe('subscription', () => {
-
-  const { server, getTestingModule } = setupE2eTest({
+  const { server } = setupE2eTest({
     imports: [AuthenticationModule, CommentModule, NotificationModule],
   });
 
-  let createUser: UserFactory['create'];
-  let createCommentsArea: CommentsAreaFactory['create'];
-  let createComment: CommentFactory['create'];
-  let createsubscription: SubscriptionFactory['create'];
+  const userFactor = new UserFactory();
+  const commentsAreaFactory = new CommentsAreaFactory();
+  const commentFactory = new CommentFactory();
+  const subscriptionFactory = new SubscriptionFactory();
 
   let notificationRepository: Repository<Notification>;
 
   const [userRequest, user] = createAuthenticatedUser(server);
 
   beforeAll(() => {
-    const module = getTestingModule();
-
-    const userFactory = module.get<UserFactory>(UserFactory);
-    const commentsAreaFactory = module.get<CommentsAreaFactory>(CommentsAreaFactory);
-    const commentFactory = module.get<CommentFactory>(CommentFactory);
-    const subscriptionFactory = module.get<SubscriptionFactory>(SubscriptionFactory);
-
-    createUser = userFactory.create.bind(userFactory);
-    createCommentsArea = commentsAreaFactory.create.bind(commentsAreaFactory);
-    createComment = commentFactory.create.bind(commentFactory);
-    createsubscription = subscriptionFactory.create.bind(subscriptionFactory);
-
     notificationRepository = getRepository(Notification);
   });
 
   it('should create a notification from a subscription to a comment', async () => {
-    const commentsArea = await createCommentsArea();
-    const comment = await createComment({ commentsArea });
-    const otherUser = await createUser({ nick: 'otherUser' });
+    const commentsArea = await commentsAreaFactory.create();
+    const comment = await commentFactory.create({ commentsArea });
+    const otherUser = await userFactor.create({ nick: 'otherUser' });
 
-    await createsubscription({ comment: comment, user });
-    await createsubscription({ comment: comment, user: otherUser });
+    await subscriptionFactory.create({ comment: comment, user });
+    await subscriptionFactory.create({ comment: comment, user: otherUser });
 
     const requestBody = {
       parentId: comment.id,
@@ -56,10 +43,7 @@ describe('subscription', () => {
       text: 'text',
     };
 
-    const { body } = await userRequest
-      .post('/api/comment')
-      .send(requestBody)
-      .expect(201);
+    const { body } = await userRequest.post('/api/comment').send(requestBody).expect(201);
 
     const notificationsDb = await notificationRepository.find({
       where: { user: otherUser },
@@ -76,5 +60,4 @@ describe('subscription', () => {
       },
     });
   });
-
 });

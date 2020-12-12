@@ -16,7 +16,7 @@ import { Subscription } from './subscription/subscription.entity';
 import { SubscriptionFactory } from './subscription/subscription.factory';
 
 describe('comment controller', () => {
-  const { server, getTestingModule } = setupE2eTest(
+  const { server } = setupE2eTest(
     {
       imports: [CommentModule, AuthenticationModule],
     },
@@ -25,11 +25,10 @@ describe('comment controller', () => {
     },
   );
 
-  let createUser: UserFactory['create'];
-  let createCommentsArea: CommentsAreaFactory['create'];
-  let createComment: CommentFactory['create'];
-  let editComment: CommentFactory['edit'];
-  let createsubscription: SubscriptionFactory['create'];
+  const userFactory = new UserFactory();
+  const commentsAreaFactory = new CommentsAreaFactory();
+  const commentFactory = new CommentFactory();
+  const subscriptionFactory = new SubscriptionFactory();
 
   let commentRepository: CommentRepository;
   let reactionRepository: Repository<Reaction>;
@@ -44,38 +43,27 @@ describe('comment controller', () => {
   let reply3: Comment;
 
   beforeAll(async () => {
-    const module = getTestingModule();
-
-    const userFactory = module.get<UserFactory>(UserFactory);
-    const commentsAreaFactory = module.get<CommentsAreaFactory>(CommentsAreaFactory);
-    const commentFactory = module.get<CommentFactory>(CommentFactory);
-    const subscriptionFactory = module.get<SubscriptionFactory>(SubscriptionFactory);
-
-    createUser = userFactory.create.bind(userFactory);
-    createCommentsArea = commentsAreaFactory.create.bind(commentsAreaFactory);
-    createComment = commentFactory.create.bind(commentFactory);
-    editComment = commentFactory.edit.bind(commentFactory);
-    createsubscription = subscriptionFactory.create.bind(subscriptionFactory);
-
     commentRepository = getCustomRepository(CommentRepository);
     reactionRepository = getRepository(Reaction);
     subscriptionRepository = getRepository(Subscription);
 
-    const user = await createUser();
+    const user = await userFactory.create();
 
-    commentsArea = await createCommentsArea();
+    commentsArea = await commentsAreaFactory.create();
 
-    comment = await createComment({
-      author: user,
-      commentsArea,
-      text: 'message1',
-    });
+    comment = await commentFactory.create(
+      {
+        author: user,
+        commentsArea,
+      },
+      'message1',
+    );
 
-    await editComment(comment, 'message2');
+    await commentFactory.edit(comment, 'message2');
 
-    reply1 = await createComment({ commentsArea, parent: comment });
-    reply2 = await createComment({ commentsArea, parent: comment });
-    reply3 = await createComment({ commentsArea, parent: comment });
+    reply1 = await commentFactory.create({ commentsArea, parent: comment });
+    reply2 = await commentFactory.create({ commentsArea, parent: comment });
+    reply3 = await commentFactory.create({ commentsArea, parent: comment });
   });
 
   describe('get for user', () => {
@@ -89,16 +77,22 @@ describe('comment controller', () => {
     let comment4: Comment;
 
     beforeAll(async () => {
-      commentsArea1 = await createCommentsArea();
-      CommentsArea2 = await createCommentsArea();
+      commentsArea1 = await commentsAreaFactory.create();
+      CommentsArea2 = await commentsAreaFactory.create();
 
-      comment1 = await createComment(1, { commentsArea: commentsArea1, author: user });
+      comment1 = await commentFactory.create({ commentsArea: commentsArea1, author: user });
 
-      comment2 = await createComment(2, { commentsArea: CommentsArea2, author: user, text: 'comment2 search' });
-      // await createComment({ commentsArea: commentsArea2 });
+      comment2 = await commentFactory.create({ commentsArea: CommentsArea2, author: user }, 'comment2 search');
+      // await commentFactory.create({ commentsArea: commentsArea2 });
 
-      comment3 = await createComment(3, { commentsArea: commentsArea1, author: user });
-      comment4 = await createComment(4, { commentsArea: commentsArea1, author: user, text: 'comment4 you search me' });
+      comment3 = await commentFactory.create({ commentsArea: commentsArea1, author: user });
+      comment4 = await commentFactory.create(
+        {
+          commentsArea: commentsArea1,
+          author: user,
+        },
+        'comment4 you search me',
+      );
     });
 
     it('should not get comments created by a specific user when unauthenticated', async () => {
@@ -213,14 +207,14 @@ describe('comment controller', () => {
     });
 
     it('should not subscribe to a comment twice', async () => {
-      const comment = await createComment();
-      await createsubscription({ comment, user });
+      const comment = await commentFactory.create();
+      await subscriptionFactory.create({ comment, user });
 
       return userRequest.post(`/api/comment/${comment.id}/subscribe`).expect(409);
     });
 
     it('subscribe to a comment', async () => {
-      const comment = await createComment();
+      const comment = await commentFactory.create();
 
       await userRequest.post(`/api/comment/${comment.id}/subscribe`).expect(201);
 
@@ -242,8 +236,8 @@ describe('comment controller', () => {
     });
 
     it('unsubscribe to a comment', async () => {
-      const comment = await createComment();
-      await createsubscription({ user, comment });
+      const comment = await commentFactory.create();
+      await subscriptionFactory.create({ user, comment });
 
       await userRequest.post(`/api/comment/${comment.id}/unsubscribe`).expect(204);
 
@@ -257,7 +251,7 @@ describe('comment controller', () => {
     const [userRequest, user] = createAuthenticatedUser(server);
 
     it('should not set the subscribed field when unauthenticated', async () => {
-      const comment = await createComment();
+      const comment = await commentFactory.create();
 
       const { body } = await request(server).get(`/api/comment/${comment.id}`).expect(200);
 
@@ -265,7 +259,7 @@ describe('comment controller', () => {
     });
 
     it('should set the subscribed field to false when not subscribed to a comment', async () => {
-      const comment = await createComment();
+      const comment = await commentFactory.create();
 
       const { body } = await userRequest.get(`/api/comment/${comment.id}`).expect(200);
 
@@ -273,8 +267,8 @@ describe('comment controller', () => {
     });
 
     it('should set the subscribed field to true when subscribed to a comment', async () => {
-      const comment = await createComment();
-      await createsubscription({ user, comment });
+      const comment = await commentFactory.create();
+      await subscriptionFactory.create({ user, comment });
 
       const { body } = await userRequest.get(`/api/comment/${comment.id}`).expect(200);
 
@@ -367,7 +361,7 @@ describe('comment controller', () => {
     });
 
     it('should update a comment', async () => {
-      const comment = await createComment({ author: user });
+      const comment = await commentFactory.create({ author: user });
 
       const { body } = await userRequest.put(`/api/comment/${comment.id}`).send({ text: 'edited' }).expect(200);
 
@@ -389,7 +383,7 @@ describe('comment controller', () => {
     });
 
     it('should not create a reaction on own comment', async () => {
-      const comment = await createComment({ author: user });
+      const comment = await commentFactory.create({ author: user });
 
       return userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(403);
     });
@@ -458,8 +452,8 @@ describe('comment controller', () => {
     const [userRequest2] = createAuthenticatedUser(server);
 
     beforeAll(async () => {
-      commentsArea = await createCommentsArea();
-      comment = await createComment({ commentsArea });
+      commentsArea = await commentsAreaFactory.create();
+      comment = await commentFactory.create({ commentsArea });
     });
 
     it('should increment a comment score by 2 when a reply is created', async () => {

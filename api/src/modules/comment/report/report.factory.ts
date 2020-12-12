@@ -1,33 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { getRepository } from 'typeorm';
 
 import { Factory } from '../../../testing/factory';
 import { User } from '../../user/user.entity';
-import { Comment } from '../comment.entity';
 
 import { Report, ReportModerationAction } from './report.entity';
-import { ReportService } from './report.service';
 
-type ReportFactoryData = {
-  reporter: User;
-  comment: Comment;
-  message?: string;
-};
+export class ReportFactory implements Factory<Report> {
+  private get repository() {
+    return getRepository(Report);
+  }
 
-@Injectable()
-export class ReportFactory implements Factory<ReportFactoryData, Report> {
-  constructor(
-    private readonly reportService: ReportService,
-  ) {}
+  async create(override: Partial<Omit<Report, 'id'>>): Promise<Report> {
+    const data = {
+      ...override,
+    };
 
-  async create(data: ReportFactoryData): Promise<Report> {
-    return this.reportService.report(
-      data.comment,
-      data.reporter,
-      data.message || null,
-    );
+    return this.repository.save(data);
   }
 
   async markAsModerated(report: Report, moderator: User, action: ReportModerationAction): Promise<void> {
-    return this.reportService.markAsModerated([report], moderator, action);
+    await this.repository.update({ id: report.id }, { moderatedBy: moderator, moderationAction: action });
   }
 }

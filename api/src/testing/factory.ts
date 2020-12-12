@@ -1,3 +1,3 @@
-export interface Factory<D, T> {
-  create(data?: D): Promise<T>;
+export interface Factory<T> {
+  create(override?: Partial<Omit<T, 'id'>>): Promise<T>;
 }

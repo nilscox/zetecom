@@ -1,57 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { getCustomRepository, getRepository } from 'typeorm';
 
 import { Factory } from '../../testing/factory';
-import { CommentsArea } from '../comments-area/comments-area.entity';
 import { CommentsAreaFactory } from '../comments-area/comments-area.factory';
-import { User } from '../user/user.entity';
 import { UserFactory } from '../user/user.factory';
 
 import { Comment } from './comment.entity';
-import { CommentService } from './comment.service';
+import { CommentRepository } from './comment.repository';
+import { Message } from './message.entity';
 
-type CommentFactoryData = {
-  commentsArea?: CommentsArea;
-  author?: User;
-  parent?: Comment;
-  text?: string;
-};
+export class CommentFactory implements Factory<Comment> {
+  private userFactory = new UserFactory();
+  private commentsAreaFactory = new CommentsAreaFactory();
 
-@Injectable()
-export class CommentFactory implements Factory<CommentFactoryData, Comment> {
-  constructor(
-    private readonly commentService: CommentService,
-    private readonly userFactory: UserFactory,
-    private readonly commentsAreaFactory: CommentsAreaFactory
-  ) {}
+  private get repository() {
+    return getCustomRepository(CommentRepository);
+  }
 
-  async create(a: number | CommentFactoryData = {}, b: CommentFactoryData = {}) {
-    let n: number;
-    let data: CommentFactoryData;
+  private get messageRepository() {
+    return getRepository(Message);
+  }
 
-    if (typeof a === 'number') {
-      n = a;
-      data = b;
-    } else {
-      data = a;
+  async create(override: Partial<Omit<Comment, 'id'>> = {}, text = 'comment') {
+    const data = {
+      ...override,
+    };
+
+    if (!data.author) {
+      data.author = await this.userFactory.create();
     }
 
-    const getCommentsArea = async () => {
-      return data.commentsArea || await this.commentsAreaFactory.create();
-    };
+    if (!data.commentsArea) {
+      data.commentsArea = await this.commentsAreaFactory.create();
+    }
 
-    const getAuthor = async () => {
-      return data.author || await this.userFactory.create();
-    };
+    const message = await this.messageRepository.save({ text });
 
-    return this.commentService.create(
-      await getAuthor(),
-      await getCommentsArea(),
-      data.parent || null,
-      data.text || 'comment' + (n || ''),
-    );
+    data.message = message;
+    data.messages = [message];
+
+    const comment = await this.repository.save(data);
+
+    message.comment = comment;
+    await this.messageRepository.save(data.message);
+
+    return this.repository.findOne(comment.id);
   }
 
   async edit(comment: Comment, text: string) {
-    return this.commentService.update(comment, text);
+    const message = await this.messageRepository.save({ comment, text });
+
+    comment.message = message;
+    await this.repository.save(comment);
   }
 }

@@ -1,34 +1,19 @@
 import request from 'supertest';
-import { getRepository, Repository } from 'typeorm';
 
 import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { UserLightDto } from '../user/dtos/user-ligth.dto';
 
 import { NotificationType } from './notification-type';
-import { Notification } from './notification.entity';
 import { NotificationFactory } from './notification.factory';
 import { NotificationModule } from './notification.module';
 
 describe('notifications', () => {
-
-  const { server, getTestingModule } = setupE2eTest({
+  const { server } = setupE2eTest({
     imports: [AuthenticationModule, NotificationModule],
   });
 
-  let createNotification: NotificationFactory['create'];
-
-  let notificationRepository: Repository<Notification>;
-
-  beforeAll(() => {
-    notificationRepository = getRepository(Notification);
-
-    const module = getTestingModule();
-
-    const notificationFactory = module.get<NotificationFactory>(NotificationFactory);
-
-    createNotification = notificationFactory.create.bind(notificationFactory);
-  });
+  const notificationFactory = new NotificationFactory();
 
   const [userRequest, user] = createAuthenticatedUser(server);
 
@@ -40,29 +25,25 @@ describe('notifications', () => {
     text: 'text',
   };
 
-  const markAsSeen = async (notification: Notification, date: Date) => {
-    await notificationRepository.update(notification.id, { seen: date });
-  };
-
   beforeAll(async () => {
-    await createNotification({ type: NotificationType.RULES_UPDATE, payload: { version: '4.2' }, user });
+    await notificationFactory.create({ type: NotificationType.RULES_UPDATE, payload: { version: '4.2' }, user });
 
-    const notification = await createNotification({ type: NotificationType.SUBSCRIPTION_REPLY, payload: subscriptionReplyPayload, user });
-    await markAsSeen(notification, new Date(2020, 0, 1));
+    const notification = await notificationFactory.create({
+      type: NotificationType.SUBSCRIPTION_REPLY,
+      payload: subscriptionReplyPayload,
+      user,
+    });
+
+    await notificationFactory.markAsSeen(notification, new Date(2020, 0, 1));
   });
 
   describe('get notifications', () => {
-
     it('should not fetch notifications when not authenticated', () => {
-      return request(server)
-        .get('/api/notification/me')
-        .expect(403);
+      return request(server).get('/api/notification/me').expect(403);
     });
 
     it('should fetch notifications', async () => {
-      const { body } = await userRequest
-        .get('/api/notification/me')
-        .expect(200);
+      const { body } = await userRequest.get('/api/notification/me').expect(200);
 
       expect(body).toMatchObject({
         items: [
@@ -72,25 +53,17 @@ describe('notifications', () => {
         total: 2,
       });
     });
-
   });
 
   describe('get count', () => {
-
     it('should not fetch notifications count when not authenticated', () => {
-      return request(server)
-        .get('/api/notification/me/count')
-        .expect(403);
+      return request(server).get('/api/notification/me/count').expect(403);
     });
 
     it('should fetch unseen notifications count', async () => {
-      const { body } = await userRequest
-        .get('/api/notification/me/count')
-        .expect(200);
+      const { body } = await userRequest.get('/api/notification/me/count').expect(200);
 
       expect(body).toMatchObject({ count: 1 });
     });
-
   });
-
 });
