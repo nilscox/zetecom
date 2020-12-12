@@ -1,10 +1,17 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 import { User } from '../user/user.entity';
 
 @Entity({ name: 'comments_area', orderBy: { created: 'ASC' } })
 export class CommentsArea {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -35,5 +42,4 @@ export class CommentsArea {
   @ManyToOne(() => User, { nullable: false, eager: true })
   @JoinColumn({ name: 'creator_id' })
   creator: User;
-
 }

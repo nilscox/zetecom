@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentModule } from '../comment/comment.module';
 import { UserModule } from '../user/user.module';
 
+import { CommentsAreaIntegrationModule } from './comments-area-integration/comments-area-integration.module';
 import { CommentsAreaRequestModule } from './comments-area-request/comments-area-request.module';
 import { CommentsAreaController } from './comments-area.controller';
 import { CommentsAreaRepository } from './comments-area.repository';
@@ -22,6 +23,7 @@ const CommentsAreaPageSize: Provider = {
     UserModule,
     forwardRef(() => CommentModule),
     forwardRef(() => CommentsAreaRequestModule),
+    CommentsAreaIntegrationModule,
   ],
   controllers: [CommentsAreaController],
   providers: [CommentsAreaPageSize, CommentsAreaService, PopulateCommentsArea],

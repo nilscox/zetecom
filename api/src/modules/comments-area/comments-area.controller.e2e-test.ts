@@ -10,6 +10,8 @@ import {
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { CommentFactory } from '../comment/comment.factory';
 
+import { CommentsAreaIntegration } from './comments-area-integration/comments-area-integration.entity';
+import { CommentsAreaIntegrationFactory } from './comments-area-integration/comments-area-integration.factory';
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaFactory } from './comments-area.factory';
 import { CommentsAreaModule } from './comments-area.module';
@@ -31,10 +33,11 @@ describe('comments area controller', () => {
 
   const commentsAreaFactory = new CommentsAreaFactory();
   const commentFactory = new CommentFactory();
+  const commentsAreaIntegrationFactory = new CommentsAreaIntegrationFactory();
 
   let commentsAreaRepository: CommentsAreaRepository;
 
-  beforeAll(async () => {
+  beforeAll(() => {
     commentsAreaRepository = getCustomRepository(CommentsAreaRepository);
   });
 
@@ -111,21 +114,27 @@ describe('comments area controller', () => {
         commentsCount: 1,
       });
     });
+  });
 
-    it('should not find a comment area with unexisting identifier', async () => {
-      await request(server)
-        .get(`/api/comments-area/by-identifier/${encodeURIComponent('id:unexisting')}`)
-        .expect(404);
+  describe('get comments area by identifier', () => {
+    let commentsArea: CommentsArea;
+    let commentsAreaIntegration: CommentsAreaIntegration;
+
+    beforeAll(async () => {
+      commentsArea = await commentsAreaFactory.create();
+      commentsAreaIntegration = await commentsAreaIntegrationFactory.create({ commentsArea, identifier: 'test:1' });
     });
 
-    it('should fetch a comment area by identifier', async () => {
+    it('should not get a comments area for an unexisting identifier', async () => {
+      await request(server).get('/api/comments-area/by-identifier/unexisting').expect(404);
+    });
+
+    it('should get a comments area from its identifier', async () => {
       const { body } = await request(server)
-        .get(`/api/comments-area/by-identifier/${encodeURIComponent(commentsArea.identifier)}`)
+        .get(`/api/comments-area/by-identifier/${commentsAreaIntegration.identifier}`)
         .expect(200);
 
-      expect(body).toMatchObject({
-        id: commentsArea.id,
-      });
+      expect(body).toHaveProperty('id', commentsArea.id);
     });
   });
 

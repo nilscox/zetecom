@@ -32,6 +32,7 @@ import { CommentDto } from '../comment/dtos/comment.dto';
 import { PopulateComment } from '../comment/populate-comment.interceptor';
 import { User } from '../user/user.entity';
 
+import { CommentsAreaIntegrationService } from './comments-area-integration/comments-area-integration.service';
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaService } from './comments-area.service';
@@ -43,7 +44,6 @@ import { PopulateCommentsArea } from './populate-comments-area.interceptor';
 @Controller('comments-area')
 @UseInterceptors(ClassToPlainInterceptor)
 export class CommentsAreaController {
-
   @Inject('COMMENTS_AREA_PAGE_SIZE')
   private readonly commentsAreaPageSize: number;
 
@@ -52,6 +52,7 @@ export class CommentsAreaController {
 
   constructor(
     private readonly commentsAreaService: CommentsAreaService,
+    private readonly commentsAreaIntegrationService: CommentsAreaIntegrationService,
     private readonly commentsAreaRepository: CommentsAreaRepository,
     private readonly commentService: CommentService,
   ) {}
@@ -69,13 +70,12 @@ export class CommentsAreaController {
   @Get(':id')
   @CastToDto(CommentsAreaDto)
   @UseInterceptors(PopulateCommentsArea)
-  async findOneById(
-    @Param('id', new ParseIntPipe()) id: number,
-  ): Promise<CommentsArea> {
+  async findOneById(@Param('id', new ParseIntPipe()) id: number): Promise<CommentsArea> {
     const commentsArea = await this.commentsAreaService.findById(id);
 
-    if (!commentsArea)
+    if (!commentsArea) {
       throw new NotFoundException();
+    }
 
     return commentsArea;
   }
@@ -83,15 +83,14 @@ export class CommentsAreaController {
   @Get('by-identifier/:identifier')
   @CastToDto(CommentsAreaDto)
   @UseInterceptors(PopulateCommentsArea)
-  async findOneByIdentifier(
-    @Param('identifier') identifier: string,
-  ): Promise<CommentsArea> {
-    const commentsArea = await this.commentsAreaService.findByIdentifier(decodeURIComponent(identifier));
+  async findOneByIdentifier(@Param('identifier') identifier: string): Promise<CommentsArea> {
+    const integration = await this.commentsAreaIntegrationService.findByIdentifier(decodeURIComponent(identifier));
 
-    if (!commentsArea)
+    if (!integration) {
       throw new NotFoundException();
+    }
 
-    return commentsArea;
+    return integration.commentsArea;
   }
 
   @Get(':id/comments')
@@ -103,8 +102,9 @@ export class CommentsAreaController {
     @SearchQuery() search: string,
     @PageQuery() page: number,
   ): Promise<Paginated<Comment>> {
-    if (!(await this.commentsAreaService.exists(id)))
+    if (!(await this.commentsAreaService.exists(id))) {
       throw new NotFoundException();
+    }
 
     return search
       ? this.commentService.search(id, search, sort, page, this.commentPageSize)
@@ -116,12 +116,10 @@ export class CommentsAreaController {
   @CastToDto(CommentsAreaDto)
   @UseInterceptors(PopulateCommentsArea)
   @Roles(Role.MODERATOR, Role.ADMIN)
-  async create(
-    @Body() dto: CreateCommentsAreaInDto,
-    @AuthUser() user: User,
-  ): Promise<CommentsArea> {
-    if (await this.commentsAreaService.findByIdentifier(dto.identifier))
+  async create(@Body() dto: CreateCommentsAreaInDto, @AuthUser() user: User): Promise<CommentsArea> {
+    if (await this.commentsAreaIntegrationService.findByIdentifier(dto.identifier)) {
       throw new ConflictException(`A comments area with identifier ${dto.identifier} already exists`);
+    }
 
     return this.commentsAreaService.create(dto, user);
   }
@@ -137,10 +135,10 @@ export class CommentsAreaController {
   ): Promise<CommentsArea> {
     const commentsArea = await this.commentsAreaService.findById(id);
 
-    if (!commentsArea)
+    if (!commentsArea) {
       throw new NotFoundException();
+    }
 
     return this.commentsAreaService.update(commentsArea, dto);
   }
-
 }

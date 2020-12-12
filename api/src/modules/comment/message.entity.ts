@@ -4,7 +4,6 @@ import { Comment } from './comment.entity';
 
 @Entity({ name: 'message', orderBy: { created: 'DESC' } })
 export class Message {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -14,8 +13,7 @@ export class Message {
   @CreateDateColumn()
   created: Date;
 
-  @ManyToOne(() => Comment, comment => comment.messages, { nullable: true })
+  @ManyToOne(() => Comment, (comment) => comment.messages, { nullable: true })
   @JoinColumn({ name: 'comment_id' })
   comment: Comment;
-
 }

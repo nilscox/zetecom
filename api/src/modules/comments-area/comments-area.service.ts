@@ -10,7 +10,6 @@ import { UpdateCommentsAreaInDto } from './dtos/update-comments-area-in.dto';
 
 @Injectable()
 export class CommentsAreaService {
-
   constructor(
     private readonly commentsAreaRepository: CommentsAreaRepository,
     private readonly commentsAreaRequestService: CommentsAreaRequestService,
@@ -28,10 +27,6 @@ export class CommentsAreaService {
 
   async findByIds(id: number[]): Promise<CommentsArea[]> {
     return this.commentsAreaRepository.findByIds(id);
-  }
-
-  async findByIdentifier(identifier: string): Promise<CommentsArea | undefined> {
-    return this.commentsAreaRepository.findOne({ identifier });
   }
 
   async create(dto: CreateCommentsAreaInDto, creator: User): Promise<CommentsArea> {
@@ -54,5 +49,4 @@ export class CommentsAreaService {
   async getCommentsCounts(CommentsAreasIds: number[]) {
     return this.commentsAreaRepository.getCommentsCounts(CommentsAreasIds);
   }
-
 }
