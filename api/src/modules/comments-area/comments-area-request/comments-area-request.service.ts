@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { User } from '../../user/user.entity';
+import { CommentsArea } from '../comments-area.entity';
 
 import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request.entity';
 import { CommentsAreaRequestInDto } from './dtos/comments-area-request-in.dto';
@@ -36,7 +37,21 @@ export class CommentsAreaRequestService {
     });
   }
 
-  async reject(request: CommentsAreaRequest, moderator: User) {
+  async approveAll(commentsArea: CommentsArea, moderator: User): Promise<void> {
+    await this.commentsAreaRequestRepository.update(
+      {
+        informationUrl: commentsArea.informationUrl,
+        status: CommentsAreaRequestStatus.PENDING,
+      },
+      {
+        status: CommentsAreaRequestStatus.APPROVED,
+        commentsArea,
+        moderator,
+      },
+    );
+  }
+
+  async reject(request: CommentsAreaRequest, moderator: User): Promise<CommentsAreaRequest> {
     await this.commentsAreaRequestRepository.update(request.id, {
       status: CommentsAreaRequestStatus.REFUSED,
       moderator,

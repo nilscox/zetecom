@@ -1,6 +1,5 @@
 import {
   Body,
-  ConflictException,
   Controller,
   Get,
   Inject,
@@ -117,9 +116,9 @@ export class CommentsAreaController {
   @UseInterceptors(PopulateCommentsArea)
   @Roles(Role.MODERATOR, Role.ADMIN)
   async create(@Body() dto: CreateCommentsAreaInDto, @AuthUser() user: User): Promise<CommentsArea> {
-    if (await this.commentsAreaIntegrationService.findByIdentifier(dto.identifier)) {
-      throw new ConflictException(`A comments area with identifier ${dto.identifier} already exists`);
-    }
+    // if (await this.commentsAreaIntegrationService.findByIdentifier(dto.identifier)) {
+    //   throw new ConflictException(`A comments area with identifier ${dto.identifier} already exists`);
+    // }
 
     return this.commentsAreaService.create(dto, user);
   }

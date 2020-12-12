@@ -1,5 +1,5 @@
 import request from 'supertest';
-import { getCustomRepository } from 'typeorm';
+import { getCustomRepository, getRepository, Repository } from 'typeorm';
 
 import {
   createAuthenticatedAdmin,
@@ -12,6 +12,8 @@ import { CommentFactory } from '../comment/comment.factory';
 
 import { CommentsAreaIntegration } from './comments-area-integration/comments-area-integration.entity';
 import { CommentsAreaIntegrationFactory } from './comments-area-integration/comments-area-integration.factory';
+import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request/comments-area-request.entity';
+import { CommentsAreaRequestFactory } from './comments-area-request/comments-area-request.factory';
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaFactory } from './comments-area.factory';
 import { CommentsAreaModule } from './comments-area.module';
@@ -34,11 +36,14 @@ describe('comments area controller', () => {
   const commentsAreaFactory = new CommentsAreaFactory();
   const commentFactory = new CommentFactory();
   const commentsAreaIntegrationFactory = new CommentsAreaIntegrationFactory();
+  const commentsAreaRequestFactory = new CommentsAreaRequestFactory();
 
   let commentsAreaRepository: CommentsAreaRepository;
+  let commentsAreaRequestRepository: Repository<CommentsAreaRequest>;
 
   beforeAll(() => {
     commentsAreaRepository = getCustomRepository(CommentsAreaRepository);
+    commentsAreaRequestRepository = getRepository(CommentsAreaRequest);
   });
 
   describe('list comment areas', () => {
@@ -184,6 +189,18 @@ describe('comments area controller', () => {
         informationPublicationDate: '2020-01-01',
         imageUrl: 'https://image.url',
       });
+    });
+
+    it('should approve related requests after creating a comments area', async () => {
+      const informationUrl = commentsArea.informationUrl;
+
+      const request = await commentsAreaRequestFactory.create({ informationUrl });
+
+      await asModerator.post('/api/comments-area').send(commentsArea).expect(201);
+
+      const requestDb = await commentsAreaRequestRepository.findOne(request.id);
+
+      expect(requestDb).toHaveProperty('status', CommentsAreaRequestStatus.APPROVED);
     });
   });
 

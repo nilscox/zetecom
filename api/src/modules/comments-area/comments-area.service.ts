@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
 
 import { User } from '../user/user.entity';
 
-import { CommentsAreaRequestService } from './comments-area-request/comments-area-request.service';
+import { CommentsAreaCreatedCommand } from './comments-area-created.command';
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';
 import { CreateCommentsAreaInDto } from './dtos/create-comments-area-in.dto';
@@ -10,10 +11,7 @@ import { UpdateCommentsAreaInDto } from './dtos/update-comments-area-in.dto';
 
 @Injectable()
 export class CommentsAreaService {
-  constructor(
-    private readonly commentsAreaRepository: CommentsAreaRepository,
-    private readonly commentsAreaRequestService: CommentsAreaRequestService,
-  ) {}
+  constructor(private readonly commentsAreaRepository: CommentsAreaRepository, private readonly command$: CommandBus) {}
 
   async exists(commentsAreaId: number): Promise<boolean> {
     const count = await this.commentsAreaRepository.count({ id: commentsAreaId });
@@ -34,6 +32,8 @@ export class CommentsAreaService {
       ...dto,
       creator,
     });
+
+    await this.command$.execute(new CommentsAreaCreatedCommand(commentsArea, creator));
 
     return commentsArea;
   }
