@@ -14,18 +14,16 @@ type CommentsAreaFactoryData = {
   informationUrl?: string;
   informationAuthor?: string;
   imageUrl?: string;
+  published?: string;
 };
 
 @Injectable()
 export class CommentsAreaFactory implements Factory<CommentsAreaFactoryData, CommentsArea> {
-  constructor(
-    private readonly commentsAreaService: CommentsAreaService,
-    private readonly userFactory: UserFactory,
-  ) {}
+  constructor(private readonly commentsAreaService: CommentsAreaService, private readonly userFactory: UserFactory) {}
 
   async create(data: CommentsAreaFactoryData = {}) {
     const getCreator = async () => {
-      return data.creator || await this.userFactory.create();
+      return data.creator || (await this.userFactory.create());
     };
 
     return this.commentsAreaService.create(
@@ -35,6 +33,7 @@ export class CommentsAreaFactory implements Factory<CommentsAreaFactoryData, Com
         informationTitle: 'Fake News!',
         informationAuthor: 'anyone',
         imageUrl: null,
+        published: new Date().toISOString(),
         ...data,
       },
       await getCreator(),
