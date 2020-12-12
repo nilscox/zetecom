@@ -25,7 +25,6 @@ describe('comment controller', () => {
     },
   );
 
-  const userFactory = new UserFactory();
   const commentsAreaFactory = new CommentsAreaFactory();
   const commentFactory = new CommentFactory();
   const subscriptionFactory = new SubscriptionFactory();
@@ -34,36 +33,10 @@ describe('comment controller', () => {
   let reactionRepository: Repository<Reaction>;
   let subscriptionRepository: Repository<Subscription>;
 
-  let commentsArea: CommentsArea;
-
-  let comment: Comment;
-
-  let reply1: Comment;
-  let reply2: Comment;
-  let reply3: Comment;
-
   beforeAll(async () => {
     commentRepository = getCustomRepository(CommentRepository);
     reactionRepository = getRepository(Reaction);
     subscriptionRepository = getRepository(Subscription);
-
-    const user = await userFactory.create();
-
-    commentsArea = await commentsAreaFactory.create();
-
-    comment = await commentFactory.create(
-      {
-        author: user,
-        commentsArea,
-      },
-      'message1',
-    );
-
-    await commentFactory.edit(comment, 'message2');
-
-    reply1 = await commentFactory.create({ commentsArea, parent: comment });
-    reply2 = await commentFactory.create({ commentsArea, parent: comment });
-    reply3 = await commentFactory.create({ commentsArea, parent: comment });
   });
 
   describe('get root', () => {
@@ -227,13 +200,28 @@ describe('comment controller', () => {
   });
 
   describe('get by id', () => {
+    let comment: Comment;
+
+    beforeAll(async () => {
+      comment = await commentFactory.create({}, 'hello');
+    });
+
     it('should get one comment', async () => {
       const { body } = await request(server).get(`/api/comment/${comment.id}`).expect(200);
 
       expect(body).toMatchObject({
         id: comment.id,
         date: expect.any(String),
-        score: expect.any(Number),
+        author: {},
+        edited: false,
+        text: 'hello',
+        repliesCount: 0,
+        reactionsCount: {
+          [ReactionType.APPROVE]: 0,
+          [ReactionType.REFUTE]: 0,
+          [ReactionType.SKEPTIC]: 0,
+        },
+        score: 0,
       });
     });
   });
@@ -258,11 +246,29 @@ describe('comment controller', () => {
   });
 
   describe('get replies', () => {
+    let commentsArea: CommentsArea;
+
+    let comment: Comment;
+
+    let reply1: Comment;
+    let reply2: Comment;
+    let reply3: Comment;
+
+    beforeAll(async () => {
+      commentsArea = await commentsAreaFactory.create();
+
+      comment = await commentFactory.create();
+
+      reply1 = await commentFactory.create({ commentsArea, parent: comment });
+      reply2 = await commentFactory.create({ commentsArea, parent: comment });
+      reply3 = await commentFactory.create({ commentsArea, parent: comment });
+    });
+
     it('should not get replies for an unexisting comment', async () => {
       await request(server).get('/api/comment/404/replies').expect(404);
     });
 
-    it('should get replies on page 1', async () => {
+    it("should get a comment's replies on page 1", async () => {
       const { body } = await request(server).get(`/api/comment/${comment.id}/replies`).expect(200);
 
       expect(body).toMatchObject({
@@ -271,7 +277,7 @@ describe('comment controller', () => {
       });
     });
 
-    it('should get replies on page 2', async () => {
+    it("should get a comment's replies on page 2", async () => {
       const { body } = await request(server).get(`/api/comment/${comment.id}/replies`).query({ page: 2 }).expect(200);
 
       expect(body).toMatchObject({
@@ -282,6 +288,12 @@ describe('comment controller', () => {
   });
 
   describe('subscribe to a comment', () => {
+    let comment: Comment;
+
+    beforeAll(async () => {
+      comment = await commentFactory.create();
+    });
+
     const [userRequest, user] = createAuthenticatedUser(server);
 
     it('should not subscribe when unauthenticated', async () => {
@@ -304,6 +316,10 @@ describe('comment controller', () => {
 
       await userRequest.post(`/api/comment/${comment.id}/subscribe`).expect(201);
 
+      const { body } = await userRequest.get(`/api/comment/${comment.id}`).expect(200);
+
+      expect(body).toHaveProperty('subscribed', true);
+
       const subscriptionDb = await subscriptionRepository.findOne({ user, comment });
 
       expect(subscriptionDb).toBeDefined();
@@ -311,6 +327,12 @@ describe('comment controller', () => {
   });
 
   describe('unsubscribe from a comment', () => {
+    let comment: Comment;
+
+    beforeAll(async () => {
+      comment = await commentFactory.create();
+    });
+
     const [userRequest, user] = createAuthenticatedUser(server);
 
     it('should not subscribe when unauthenticated', async () => {
@@ -327,42 +349,23 @@ describe('comment controller', () => {
 
       await userRequest.post(`/api/comment/${comment.id}/unsubscribe`).expect(204);
 
+      const { body } = await userRequest.get(`/api/comment/${comment.id}`).expect(200);
+
+      expect(body).toHaveProperty('subscribed', false);
+
       const subscriptionDb = await subscriptionRepository.findOne({ user, comment });
 
       expect(subscriptionDb).not.toBeDefined();
     });
   });
 
-  describe('set the subscribed field when subscribed to a comment', () => {
-    const [userRequest, user] = createAuthenticatedUser(server);
-
-    it('should not set the subscribed field when unauthenticated', async () => {
-      const comment = await commentFactory.create();
-
-      const { body } = await request(server).get(`/api/comment/${comment.id}`).expect(200);
-
-      expect(body.subscribed).not.toBeDefined();
-    });
-
-    it('should set the subscribed field to false when not subscribed to a comment', async () => {
-      const comment = await commentFactory.create();
-
-      const { body } = await userRequest.get(`/api/comment/${comment.id}`).expect(200);
-
-      expect(body).toMatchObject({ subscribed: false });
-    });
-
-    it('should set the subscribed field to true when subscribed to a comment', async () => {
-      const comment = await commentFactory.create();
-      await subscriptionFactory.create({ user, comment });
-
-      const { body } = await userRequest.get(`/api/comment/${comment.id}`).expect(200);
-
-      expect(body).toMatchObject({ subscribed: true });
-    });
-  });
-
   describe('create comment', () => {
+    let commentsArea: CommentsArea;
+
+    beforeAll(async () => {
+      commentsArea = await commentsAreaFactory.create();
+    });
+
     const [userRequest, user] = createAuthenticatedUser(server);
 
     const makeComment = (commentsAreaId: number) => ({
@@ -432,6 +435,12 @@ describe('comment controller', () => {
   });
 
   describe('update comment', () => {
+    let comment: Comment;
+
+    beforeAll(async () => {
+      comment = await commentFactory.create();
+    });
+
     const [userRequest, user] = createAuthenticatedUser(server);
 
     it('should not update a comment when not authenticated', async () => {
@@ -458,6 +467,12 @@ describe('comment controller', () => {
   });
 
   describe('reaction', () => {
+    let comment: Comment;
+
+    beforeAll(async () => {
+      comment = await commentFactory.create();
+    });
+
     const [userRequest, user] = createAuthenticatedUser(server);
 
     it('should not create a reaction when not authenticated', async () => {
@@ -475,10 +490,9 @@ describe('comment controller', () => {
     });
 
     it('should create a reaction', async () => {
-      const { body } = await userRequest
-        .post(`/api/comment/${comment.id}/reaction`)
-        .send({ type: ReactionType.APPROVE })
-        .expect(201);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(204);
+
+      const { body } = await userRequest.get(`/api/comment/${comment.id}`).expect(200);
 
       expect(body).toMatchObject({
         reactionsCount: {
@@ -489,16 +503,16 @@ describe('comment controller', () => {
         userReaction: ReactionType.APPROVE,
       });
 
-      const reactionDb = await reactionRepository.findOne(body.id);
+      const reactionsDb = await reactionRepository.find({ where: { comment }, relations: ['user'] });
 
-      expect(reactionDb).toMatchObject({ type: ReactionType.APPROVE });
+      expect(reactionsDb).toHaveLength(1);
+      expect(reactionsDb[0]).toMatchObject({ type: ReactionType.APPROVE, user: { id: user.id } });
     });
 
     it('should update a reaction', async () => {
-      const { body } = await userRequest
-        .post(`/api/comment/${comment.id}/reaction`)
-        .send({ type: ReactionType.SKEPTIC })
-        .expect(201);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.SKEPTIC }).expect(204);
+
+      const { body } = await userRequest.get(`/api/comment/${comment.id}`).expect(200);
 
       expect(body).toMatchObject({
         reactionsCount: {
@@ -509,13 +523,18 @@ describe('comment controller', () => {
         userReaction: ReactionType.SKEPTIC,
       });
 
-      const reactionDb = await reactionRepository.findOne(body.id);
+      const reactionsDb = await reactionRepository.find({ where: { comment }, relations: ['user'] });
 
-      expect(reactionDb).toMatchObject({ type: ReactionType.SKEPTIC });
+      expect(reactionsDb).toHaveLength(1);
+      expect(reactionsDb[0]).toMatchObject({ type: ReactionType.SKEPTIC, user: { id: user.id } });
     });
 
     it('should remove a reaction', async () => {
-      const { body } = await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: null }).expect(201);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: null }).expect(204);
+
+      const { body } = await userRequest.get(`/api/comment/${comment.id}`).expect(200);
+
+      expect(body).not.toHaveProperty('userReaction');
 
       expect(body).toMatchObject({
         reactionsCount: {
@@ -525,15 +544,22 @@ describe('comment controller', () => {
         },
       });
 
-      expect(body).not.toHaveProperty('userReaction');
+      const reactionsDb = await reactionRepository.find({ where: { comment }, relations: ['user'] });
 
-      const reactionDb = await reactionRepository.findOne(body.id);
-
-      expect(reactionDb).toMatchObject({ type: null });
+      expect(reactionsDb).toHaveLength(1);
+      expect(reactionsDb[0]).toMatchObject({ type: null, user: { id: user.id } });
     });
   });
 
   describe('score', () => {
+    let commentsArea: CommentsArea;
+    let comment: Comment;
+
+    beforeAll(async () => {
+      commentsArea = await commentsAreaFactory.create();
+      comment = await commentFactory.create({ commentsArea });
+    });
+
     const [userRequest] = createAuthenticatedUser(server);
     const [userRequest2] = createAuthenticatedUser(server);
 
@@ -561,7 +587,7 @@ describe('comment controller', () => {
 
     // this is odd, but can still be achived by calling the api directly
     it('should not update the score when a reaction is created with type null', async () => {
-      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: null }).expect(201);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: null }).expect(204);
 
       const commentDb = await commentRepository.findOne(comment.id);
 
@@ -571,7 +597,7 @@ describe('comment controller', () => {
     });
 
     it('should increment a comment score when a reaction is created', async () => {
-      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(201);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(204);
 
       const commentDb = await commentRepository.findOne(comment.id);
 
@@ -581,7 +607,7 @@ describe('comment controller', () => {
     });
 
     it('should not change a comment score when a reaction is updated', async () => {
-      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.SKEPTIC }).expect(201);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.SKEPTIC }).expect(204);
 
       const commentDb = await commentRepository.findOne(comment.id);
 
@@ -591,7 +617,7 @@ describe('comment controller', () => {
     });
 
     it('should decrement a comment score when a reaction is removed', async () => {
-      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: null }).expect(201);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: null }).expect(204);
 
       const commentDb = await commentRepository.findOne(comment.id);
 
@@ -601,7 +627,7 @@ describe('comment controller', () => {
     });
 
     it('should reincrement a comment score when a reaction is recreated', async () => {
-      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(201);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(204);
 
       const commentDb = await commentRepository.findOne(comment.id);
 
@@ -613,7 +639,7 @@ describe('comment controller', () => {
     it('should increment a parent comment score when a reaction is created', async () => {
       const child = await commentRepository.findOne({ parent: comment });
 
-      await userRequest2.post(`/api/comment/${child.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(201);
+      await userRequest2.post(`/api/comment/${child.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(204);
 
       const commentDb = await commentRepository.findOne(comment.id);
 

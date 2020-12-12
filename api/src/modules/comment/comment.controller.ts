@@ -213,16 +213,14 @@ export class CommentController {
     return this.commentService.update(comment, dto.text);
   }
 
-  // TODO: return 204
   @Post(':id/reaction')
+  @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(IsAuthenticated, IsNotAuthor)
-  @CastToDto(CommentDto)
-  @UseInterceptors(PopulateComment)
   async reaction(
     @AuthUser() user: User,
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: CreateReactionDto,
-  ): Promise<Comment> {
+  ): Promise<void> {
     const comment = await this.commentService.findById(id);
 
     if (!comment) {
@@ -230,9 +228,6 @@ export class CommentController {
     }
 
     await this.commentService.setReaction(comment, user, dto.type);
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return (await this.commentService.findById(comment.id))!;
   }
 
   // TODO: return 204
