@@ -6,15 +6,15 @@ export class CommentsAreaRequestInDto {
 
   @IsString()
   @IsOptional()
-  readonly informaitonTitle: string;
+  readonly informationTitle: string;
 
   @IsString()
   @IsOptional()
-  readonly informaitonAuthor: string;
+  readonly informationAuthor: string;
 
   @IsString()
   @IsOptional()
-  readonly informaitonPublicationDate: string;
+  readonly informationPublicationDate: string;
 
   @IsString()
   @IsOptional()

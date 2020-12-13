@@ -83,9 +83,9 @@ describe('comments area request controller', () => {
         identifier: 'id:1',
         informationUrl,
         imageUrl: 'https://image.url',
-        informaitonTitle: 'title',
-        informaitonAuthor: 'autor',
-        informaitonPublicationDate: new Date(2020, 1, 10).toISOString(),
+        informationTitle: 'title',
+        informationAuthor: 'autor',
+        informationPublicationDate: new Date(2020, 1, 10).toISOString(),
       };
 
       const { body } = await asUser1.post('/api/comments-area-request').send(payload).expect(201);

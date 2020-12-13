@@ -14,13 +14,13 @@ export class CommentsAreaRequestDto {
   informationUrl: string;
 
   @Expose()
-  informaitonTitle: string;
+  informationTitle: string;
 
   @Expose()
-  informaitonAuthor: string;
+  informationAuthor: string;
 
   @Expose()
-  informaitonPublicationDate: string;
+  informationPublicationDate: string;
 
   @Expose()
   identifier: string;

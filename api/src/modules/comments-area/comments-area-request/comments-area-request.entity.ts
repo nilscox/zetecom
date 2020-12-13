@@ -22,17 +22,20 @@ export class CommentsAreaRequest {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ nullable: true })
+  identifier: string;
+
   @Column()
   informationUrl: string;
 
   @Column({ nullable: true })
-  informaitonTitle: string;
+  informationTitle: string;
 
   @Column({ nullable: true })
-  informaitonAuthor: string;
+  informationAuthor: string;
 
   @Column({ nullable: true })
-  informaitonPublicationDate: string;
+  informationPublicationDate: string;
 
   @Column({ nullable: true })
   idetifier: string;
