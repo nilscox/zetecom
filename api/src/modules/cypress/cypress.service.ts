@@ -5,6 +5,7 @@ import { Connection, getConnectionOptions } from 'typeorm';
 import { Comment } from '../comment/comment.entity';
 import { CommentService } from '../comment/comment.service';
 import { ReactionType } from '../comment/reaction.entity';
+import { CommentsAreaIntegrationService } from '../comments-area/comments-area-integration/comments-area-integration.service';
 import { CommentsArea } from '../comments-area/comments-area.entity';
 import { CommentsAreaService } from '../comments-area/comments-area.service';
 import { LoggerService } from '../logger/logger.service';
@@ -32,6 +33,7 @@ export class CypressService {
     private readonly testConnection: Connection,
     private readonly userService: UserService,
     private readonly commentsAreaService: CommentsAreaService,
+    private readonly commentsAreaIntegrationService: CommentsAreaIntegrationService,
     private readonly commentsService: CommentService,
     private readonly logger: LoggerService,
   ) {
@@ -109,6 +111,10 @@ export class CypressService {
         },
         creator,
       );
+
+      if (commentsArea.identifier) {
+        await this.commentsAreaIntegrationService.create(created, commentsArea.identifier);
+      }
 
       for (const comment of commentsArea.comments || []) {
         await this.createComment(comment, created, null, getUser);
