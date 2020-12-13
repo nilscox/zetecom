@@ -1,26 +1,39 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsOptional, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
+
+import { IsPast } from 'Common/is-past.validator';
 
 export class CommentsAreaRequestInDto {
   @IsString()
+  @IsUrl()
+  @MinLength(5)
+  @MaxLength(1000)
   readonly informationUrl: string;
 
-  @IsString()
   @IsOptional()
-  readonly informationTitle: string;
+  @IsString()
+  @MinLength(5)
+  @MaxLength(1000)
+  readonly informationTitle?: string;
 
-  @IsString()
   @IsOptional()
-  readonly informationAuthor: string;
+  @IsString()
+  @MinLength(5)
+  @MaxLength(32)
+  readonly informationAuthor?: string;
 
-  @IsString()
   @IsOptional()
-  readonly informationPublicationDate: string;
+  @IsDateString()
+  @IsPast()
+  readonly informationPublicationDate?: string;
 
-  @IsString()
   @IsOptional()
-  readonly identifier: string;
+  @IsString()
+  readonly identifier?: string;
 
-  @IsString()
   @IsOptional()
-  readonly imageUrl: string;
+  @IsString()
+  @IsUrl()
+  @MinLength(10)
+  @MaxLength(1000)
+  readonly imageUrl?: string;
 }
