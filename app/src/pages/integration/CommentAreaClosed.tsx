@@ -41,13 +41,13 @@ const CommentAreaClosed: React.FC = () => {
   useEffect(() => {
     if (status(201)) {
       setRequested(true);
-      trackEvent(track.requestCommentsArea(identifier as string));
+      trackEvent(track.commentsAreaRequested('Integration'));
     }
 
     if (status(400) && error?.response?.data.message === 'REQUEST_ALREADY_REGISTERED') {
       setRequested(true);
       setAlreadyRequested(true);
-      trackEvent(track.requestCommentsArea(identifier as string, true));
+      trackEvent(track.commentsAreaRequested('Integration'));
     }
   }, [status, error, trackEvent, identifier]);
 

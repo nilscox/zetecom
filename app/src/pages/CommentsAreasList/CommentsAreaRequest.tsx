@@ -49,7 +49,7 @@ const CommentsAreaRequest: React.FC = () => {
       setClearForm(true);
       setDisplayForm(false);
       setRequested(true);
-      trackEvent(track.requestCommentsArea(''));
+      trackEvent(track.commentsAreaRequested('App'));
     }
   }, [status, trackEvent, data]);
 

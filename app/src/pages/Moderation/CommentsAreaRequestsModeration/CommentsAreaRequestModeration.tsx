@@ -7,8 +7,10 @@ import CommentsAreaForm from 'src/components/CommentsAreaForm';
 import createCommentsAreaErrorsHandlers from 'src/components/CommentsAreaForm/createCommentsAreaErrorsHandlers';
 import { CreateCommentsAreaFormState } from 'src/components/CommentsAreaForm/useCommentsAreaForm';
 import Link from 'src/components/Link';
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import useFormErrors from 'src/hooks/use-form-errors';
 import { CommentsAreaRequest } from 'src/types/CommentsArea';
+import track from 'src/utils/track';
 
 import CommentsAreaRequestModerationActions from './CommentsAreaRequestModerationActions';
 import useCreateCommentsArea from './useCreateCommentsArea';
@@ -19,6 +21,8 @@ type CreateCommentsAreaProps = {
 };
 
 const CommentsAreaRequestModeration: React.FC<CreateCommentsAreaProps> = ({ request }) => {
+  const trackEvent = useTrackEvent();
+
   const [{ loading: createLoading, error, data: created }, create] = useCreateCommentsArea();
   const { loading: rejectLoading, rejected, reject } = useRejectCommentsAreaRequest(request.id);
 
@@ -34,8 +38,10 @@ const CommentsAreaRequestModeration: React.FC<CreateCommentsAreaProps> = ({ requ
           </Link>
         </>,
       );
+
+      trackEvent(track.createCommentsArea());
     }
-  }, [created]);
+  }, [created, trackEvent]);
 
   useEffect(() => {
     if (rejected) {

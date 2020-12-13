@@ -2,24 +2,24 @@ import { CommentsArea } from 'src/types/CommentsArea';
 
 import { ReactionType } from '../types/Comment';
 
-export type AuthenticateFrom = 'App' | 'Popup';
+export type From = 'App' | 'Popup' | 'Integration';
 
 // track app crash
 
 const track = {
-  login: (from: AuthenticateFrom) => ({
+  login: (from: From) => ({
     category: 'Authentication',
     action: 'Login',
     name: 'Login From ' + from,
   }),
 
-  loginFailed: (from: AuthenticateFrom) => ({
+  loginFailed: (from: From) => ({
     category: 'Authentication',
     action: 'Login Failed',
     name: 'Login Failed From ' + from,
   }),
 
-  logout: (from: AuthenticateFrom) => ({
+  logout: (from: From) => ({
     category: 'Authentication',
     action: 'Logout',
     name: 'Logout From ' + from,
@@ -30,7 +30,7 @@ const track = {
     action: 'Email Validated',
   }),
 
-  askEmailLogin: (from: AuthenticateFrom) => ({
+  askEmailLogin: (from: From) => ({
     category: 'Authentication',
     action: 'Ask Email Login',
     name: 'Ask Email Login From ' + from,
@@ -48,12 +48,12 @@ const track = {
 
   commentCreated: () => ({
     category: 'Comment',
-    action: 'Created',
+    action: 'Create',
   }),
 
   commentEdited: () => ({
     category: 'Comment',
-    action: 'Edited',
+    action: 'Edit',
   }),
 
   setReaction: (type: ReactionType | null) => ({
@@ -77,10 +77,15 @@ const track = {
     action: 'Report',
   }),
 
-  requestCommentsArea: (identifier: string, alreadyRequested = false) => ({
+  commentsAreaRequested: (from: From) => ({
     category: 'CommentsArea',
     action: 'Request',
-    name: `Request ${alreadyRequested ? 'Again ' : ''}"${identifier}"`,
+    name: `Request from ${from}`,
+  }),
+
+  createCommentsArea: () => ({
+    category: 'CommentsArea',
+    action: 'Create',
   }),
 
   viewIntegration: (identifier: string, commentsArea?: CommentsArea) => {
