@@ -93,6 +93,10 @@ export class CypressService {
 
     for (const user of data) {
       users[user.nick] = await this.userService.create(user);
+
+      if (user.roles) {
+        await this.userService.updateRoles(users[user.nick], user.roles);
+      }
     }
 
     return users;

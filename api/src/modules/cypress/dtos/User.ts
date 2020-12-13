@@ -1,7 +1,8 @@
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
+
+import { Role } from '../../authorization/roles.enum';
 
 export class UserDto {
-
   @IsString()
   nick: string;
 
@@ -16,4 +17,7 @@ export class UserDto {
   @IsOptional()
   avatar?: string;
 
+  @IsEnum(Role, { each: true })
+  @IsOptional()
+  roles?: Role[];
 }

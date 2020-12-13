@@ -7,16 +7,13 @@ import { createUser } from './user.factory';
 export const createCommentsArea = async (data: DeepPartial<CommentsArea> = {}) => {
   const manager = getManager();
 
-  if (!data.creator)
-    data.creator = await createUser();
-
-  const rnd = Math.random().toString(36).slice(6);
+  if (!data.creator) data.creator = await createUser();
 
   const commentsArea = manager.create(CommentsArea, {
-    identifier: `id:${rnd}`,
     informationTitle: 'Fake News!',
     informationUrl: 'https://information.url',
     informationAuthor: 'anyone',
+    informationPublicationDate: new Date(),
     ...data,
   });
 
