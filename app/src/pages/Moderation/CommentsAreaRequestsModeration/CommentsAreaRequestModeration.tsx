@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import { Collapse } from '@material-ui/core';
 import { toast } from 'react-toastify';
@@ -39,7 +39,7 @@ const CommentsAreaRequestModeration: React.FC<CreateCommentsAreaProps> = ({ requ
 
   useEffect(() => {
     if (rejected) {
-      toast.success(<>La nouvelle zone de commentaires a bien été refusée.</>);
+      toast.info(<>La nouvelle zone de commentaires a bien été refusée.</>);
     }
   }, [rejected]);
 

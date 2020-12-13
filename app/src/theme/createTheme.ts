@@ -9,7 +9,6 @@ import '@openfonts/nunito-sans_all/index.css';
 
 const createTheme = (): Theme => {
   const theme = createMuiTheme({
-
     spacing: 4,
 
     // breakpoints: {
@@ -32,6 +31,7 @@ const createTheme = (): Theme => {
       success: { main: '#9fd6a1' },
       error: { main: '#f2766d' },
       warning: { main: '#ffc97a' },
+      info: { main: '#92b0de' },
       text: {
         primary: '#222',
         secondary: '#556',
@@ -43,12 +43,8 @@ const createTheme = (): Theme => {
     },
 
     typography: {
-      fontFamily: [
-        '"Nunito Sans"',
-        'sans-serif',
-      ].join(', '),
+      fontFamily: ['"Nunito Sans"', 'sans-serif'].join(', '),
     },
-
   });
 
   theme.typography.h1 = {
