@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { Grid, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
@@ -46,6 +46,7 @@ type CommentsAreaFormProps = {
   initialValues?: Partial<CreateCommentsAreaFormState>;
   fieldsErrors?: FieldsErrors<CreateCommentsAreaFormState>;
   requiredFields?: Array<keyof CreateCommentsAreaFormState>;
+  clear?: boolean;
   onSubmit: (form: CreateCommentsAreaFormState) => void;
 };
 
@@ -54,13 +55,15 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
   initialValues,
   fieldsErrors,
   requiredFields,
+  clear,
   children,
   onSubmit,
 }) => {
   const [form, { text }] = useCommentsAreaForm(
-    replaceFields(initialValues as CreateCommentsAreaFormState, value => (value === null ? '' : value)),
+    replaceFields((initialValues || {}) as CreateCommentsAreaFormState, value => (value === null ? '' : value)),
     fieldsErrors,
   );
+
   const classes = useStyles();
 
   const placeholders: Record<keyof CreateCommentsAreaFormState, string> = {
@@ -85,6 +88,12 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
     error: form.errors[name],
     ...initializer({ name, onChange: () => form.setFieldError(name, undefined) }),
   });
+
+  useEffect(() => {
+    if (clear) {
+      form.clear();
+    }
+  }, [clear, form]);
 
   const handleDateChange = useCallback(
     (date: Date) => {

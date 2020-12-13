@@ -37,6 +37,7 @@ const CommentsAreaRequest: React.FC = () => {
   const trackEvent = useTrackEvent();
 
   const [displayForm, setDisplayForm] = useState(false);
+  const [clearForm, setClearForm] = useState(false);
   const [requested, setRequested] = useState(false);
   const classes = useStyles();
 
@@ -45,12 +46,18 @@ const CommentsAreaRequest: React.FC = () => {
 
   useEffect(() => {
     if (status(201)) {
-      // formState[0].clear();
+      setClearForm(true);
       setDisplayForm(false);
       setRequested(true);
       trackEvent(track.requestCommentsArea(''));
     }
   }, [status, trackEvent, data]);
+
+  useEffect(() => {
+    if (clearForm) {
+      setClearForm(false);
+    }
+  }, [clearForm]);
 
   useEffect(() => {
     const timeout = setTimeout(() => setRequested(false), SUCCESS_MESSAGE_TIMEOUT);
@@ -78,6 +85,7 @@ const CommentsAreaRequest: React.FC = () => {
           className={classes.commentsAreaForm}
           requiredFields={['informationUrl']}
           fieldsErrors={fieldsErrors}
+          clear={clearForm}
           onSubmit={handleSubmit}
         >
           <Button onClick={() => setDisplayForm(false)}>Annuler</Button>

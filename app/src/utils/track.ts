@@ -4,6 +4,8 @@ import { ReactionType } from '../types/Comment';
 
 export type AuthenticateFrom = 'App' | 'Popup';
 
+// track app crash
+
 const track = {
   login: (from: AuthenticateFrom) => ({
     category: 'Authentication',
