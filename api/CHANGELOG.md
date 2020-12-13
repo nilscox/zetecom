@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.5.2] - 2020-11-10
 
+### Added
+
+- Allow to create comments area without an identifier
+
 ### Changed
 
 - Multi-stage build
