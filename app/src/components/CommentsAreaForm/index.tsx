@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { Grid, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import { useFormState } from 'react-use-form-state';
+import { InputInitializer } from 'react-use-form-state';
 
-import Input from 'src/components/Input';
+import Input, { InputProps } from 'src/components/Input';
 
-import { ClearFieldError, FieldsErrors } from '../../hooks/use-form-errors';
-import { CommentsAreaRequest } from '../../types/CommentsArea';
+import useCommentsAreaForm, { CreateCommentsAreaFormState } from './useCommentsAreaForm';
 
 import defaultCommentsAreaImage from '../CommentsArea/default-comments-area.png';
 
@@ -39,44 +38,14 @@ const useStyles = makeStyles(({ spacing, breakpoints }) => ({
   },
 }));
 
-export type CreateCommentsAreaFormState = {
-  informationUrl: string;
-  informationTitle: string;
-  informationAuthor: string;
-  informationPublicationDate: string;
-  imageUrl: string;
-};
-
 type CommentsAreaFormProps = {
   className?: string;
-  initialValues?: CommentsAreaRequest;
-  fieldErrors?: FieldsErrors<CreateCommentsAreaFormState>;
-  clearFieldError?: ClearFieldError<CreateCommentsAreaFormState>;
+  formState: ReturnType<typeof useCommentsAreaForm>;
   onSubmit: (form: CreateCommentsAreaFormState) => void;
 };
 
-const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
-  className,
-  children,
-  initialValues,
-  fieldErrors,
-  clearFieldError,
-  onSubmit,
-}) => {
-  const [form, { text, date }] = useFormState<CreateCommentsAreaFormState>(
-    {
-      informationUrl: '',
-      informationTitle: '',
-      informationAuthor: '',
-      informationPublicationDate: '',
-      imageUrl: '',
-      ...initialValues,
-    },
-    {
-      onChange: ({ target: { name } }) => clearFieldError?.(name as keyof CreateCommentsAreaFormState),
-    },
-  );
-
+const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({ className, formState, children, onSubmit }) => {
+  const [form, { text }] = formState;
   const classes = useStyles();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -84,17 +53,14 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
     onSubmit(form.values);
   };
 
-  useEffect(() => {
-    if (form.values.imageUrl !== '') {
-      return;
-    }
-
-    const match = /youtube\.com\/watch\?v=(.*)/.exec(form.values.informationUrl);
-
-    if (match) {
-      form.setField('imageUrl', 'https://i.ytimg.com/vi/' + match[1] + '/hqdefault.jpg');
-    }
-  }, [form, form.values.informationUrl]);
+  const fieldProps = (
+    name: keyof CreateCommentsAreaFormState,
+    initializer: InputInitializer<CreateCommentsAreaFormState, InputProps>,
+  ): InputProps => ({
+    autoComplete: 'off',
+    error: form.errors[name],
+    ...initializer({ name, onChange: () => form.setFieldError(name, undefined) }),
+  });
 
   return (
     <Grid component="form" container className={clsx(classes.description, className)} onSubmit={handleSubmit}>
@@ -103,35 +69,17 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
       </Grid>
 
       <Grid item container direction="column" className={classes.right}>
-        <Input
-          autoComplete="off"
-          placeholder="Titre de l'information"
-          error={fieldErrors?.informationTitle}
-          {...text('informationTitle')}
-        />
-        <Input
-          required
-          autoComplete="off"
-          placeholder="URL de l'information *"
-          error={fieldErrors?.informationUrl}
-          {...text('informationUrl')}
-        />
-        <Input autoComplete="off" placeholder="URL de l'image" error={fieldErrors?.imageUrl} {...text('imageUrl')} />
+        <Input placeholder="Titre de l'information" {...fieldProps('informationTitle', text)} />
+        <Input required placeholder="URL de l'information *" {...fieldProps('informationUrl', text)} />
+        <Input placeholder="URL de l'image" {...fieldProps('imageUrl', text)} />
+
         <Grid item container>
           <Grid item className={classes.authorInput}>
-            <Input
-              autoComplete="off"
-              placeholder="Auteur"
-              error={fieldErrors?.informationAuthor}
-              {...text('informationAuthor')}
-            />
+            <Input placeholder="Auteur" {...fieldProps('informationAuthor', text)} />
           </Grid>
-          <Input
-            autoComplete="off"
-            placeholder="Date de publication"
-            error={fieldErrors?.informationPublicationDate}
-            {...text('informationPublicationDate')}
-          />
+          <Grid item>
+            <Input placeholder="Date de publication" {...fieldProps('informationPublicationDate', text)} />
+          </Grid>
         </Grid>
 
         <Grid item container justify="flex-end">

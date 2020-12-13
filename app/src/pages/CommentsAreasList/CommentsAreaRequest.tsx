@@ -1,11 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Collapse, Fade, makeStyles, Typography } from '@material-ui/core';
 
 import Button from 'src/components/Button';
-import CommentsAreaForm, { CreateCommentsAreaFormState } from 'src/components/CommentsAreaForm';
+import CommentsAreaForm from 'src/components/CommentsAreaForm';
+import createCommentsAreaErrorsHandlers from 'src/components/CommentsAreaForm/createCommentsAreaErrorsHandlers';
+import useCommentsAreaForm, { CreateCommentsAreaFormState } from 'src/components/CommentsAreaForm/useCommentsAreaForm';
 import { useTrackEvent } from 'src/contexts/TrackingContext';
 import useAxios from 'src/hooks/use-axios';
+import useFormErrors from 'src/hooks/use-form-errors';
+import useCommentsAreaRequest from 'src/pages/CommentsAreasList/useCreateCommentsArea';
 import track from 'src/utils/track';
 
 const SUCCESS_MESSAGE_TIMEOUT = 5000;
@@ -37,25 +41,18 @@ const CommentsAreaRequest: React.FC = () => {
   const [requested, setRequested] = useState(false);
   const classes = useStyles();
 
-  const [{ status, loading, error, data }, request] = useAxios(
-    {
-      method: 'POST',
-      url: '/api/comments-area-request',
-    },
-    { manual: true },
-  );
+  const [{ status, loading, error, data }, request] = useCommentsAreaRequest();
+  const [[fieldsErrors]] = useFormErrors(createCommentsAreaErrorsHandlers, error);
+  const formState = useCommentsAreaForm({}, fieldsErrors);
 
   useEffect(() => {
     if (status(201)) {
+      formState[0].clear();
       setDisplayForm(false);
       setRequested(true);
       trackEvent(track.requestCommentsArea(''));
     }
-
-    if (status(400)) {
-      // TODO
-    }
-  }, [status, error, trackEvent, data]);
+  }, [status, trackEvent, data]);
 
   useEffect(() => {
     const timeout = setTimeout(() => setRequested(false), SUCCESS_MESSAGE_TIMEOUT);
@@ -79,9 +76,11 @@ const CommentsAreaRequest: React.FC = () => {
         </Typography>
       </Fade>
       <Collapse in={displayForm}>
-        <CommentsAreaForm className={classes.commentsAreaForm} onSubmit={handleSubmit}>
+        <CommentsAreaForm className={classes.commentsAreaForm} formState={formState} onSubmit={handleSubmit}>
           <Button onClick={() => setDisplayForm(false)}>Annuler</Button>
-          <Button type="submit">Valider</Button>
+          <Button loading={loading} type="submit">
+            Valider
+          </Button>
         </CommentsAreaForm>
       </Collapse>
     </div>

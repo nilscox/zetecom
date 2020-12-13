@@ -29,7 +29,7 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
   },
 }));
 
-type InputProps = React.HTMLProps<HTMLInputElement> & {
+export type InputProps = React.HTMLProps<HTMLInputElement> & {
   fullWidth?: boolean;
   error?: React.ReactNode;
 };
