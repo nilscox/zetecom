@@ -3,6 +3,8 @@
     "identifier": "test:news1",
     "informationTitle": "Empty",
     "informationUrl": "https://info.url/1",
+    "informationPublicationDate": "2020-02-10T00:00:00.000Z",
+    "imageUrl": "https://image.url",
     "informationAuthor": "anyone",
     "creator": "user1",
     "comments": []
@@ -22,9 +24,7 @@
           "skeptic": []
         },
         "text": "edit",
-        "history": [
-          "text"
-        ],
+        "history": ["text"],
         "replies": []
       }
     ]
@@ -49,9 +49,7 @@
           {
             "author": "user2",
             "reactions": {
-              "approve": [
-                "user3"
-              ],
+              "approve": ["user3"],
               "refute": [],
               "skeptic": []
             },
@@ -110,10 +108,7 @@
       {
         "author": "user1",
         "reactions": {
-          "approve": [
-            "user2",
-            "user3"
-          ],
+          "approve": ["user2", "user3"],
           "refute": [],
           "skeptic": []
         },

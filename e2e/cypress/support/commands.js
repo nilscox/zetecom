@@ -86,7 +86,7 @@ Cypress.Commands.add('visitReport', (commentId) => {
   cy.visit(APP_URL + '/integration/comment/' + commentId + '/report');
 });
 
-Cypress.Commands.add('visitApp', (route) => {
+Cypress.Commands.add('visitApp', (route = '') => {
   cy.visit(APP_URL + route);
 });
 
@@ -97,6 +97,10 @@ Cypress.Commands.add('getComment', (id) => cy.get(`#comment-${id}`));
 Cypress.Commands.add('getCommentAt', (place) => cy.getComments().eq(place));
 
 Cypress.Commands.add('countComments', (expected) => cy.getComments().should('have.length', expected));
+
+Cypress.Commands.add('getField', (placeholder) => cy.get(`[placeholder="${placeholder}"]`));
+
+Cypress.Commands.add('pathname', (path) => cy.url().should('eq', APP_URL + path));
 
 Cypress.Commands.add('zetecom', () => cy.window().then((win) => win.zetecom));
 

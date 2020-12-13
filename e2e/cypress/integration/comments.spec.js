@@ -1,7 +1,7 @@
 const users = require('../fixtures/users.json');
 const commentsAreas = require('../fixtures/comments-areas.json');
 
-const [user1, user2, user3, user4, me] = users;
+const [, , user1, user2, user3, user4, me] = users;
 const [
   commentsAreaEmpty,
   commentsAreaOneComment,
@@ -211,34 +211,6 @@ describe('comments', () => {
         cy.get('[data-e2e="history-list"]').children().eq(0).contains('text');
         cy.get('[data-e2e="history-list"]').children().eq(1).contains('edit');
       });
-    });
-
-    it('request to open a new comments area', () => {
-      cy.visitIntegration('test:request-open');
-
-      cy.contains("L'espace de commentaires n'est pas ouvert sur cette page.");
-      cy.contains("Connectez-vous pour demander l'ouverture d'une nouvelle zone de commentaire.");
-
-      cy.didTrack({ category: 'Extension', action: 'View Integration', name: 'View Integration Closed' });
-
-      cy.login({ email: 'user1@domain.tld', password: 'p4ssword' });
-      cy.visitIntegration('test:request-open');
-
-      cy.contains("L'espace de commentaires n'est pas ouvert sur cette page.");
-      cy.contains("Demander l'ouverture").click();
-
-      cy.didTrack({
-        category: 'CommentsArea',
-        action: 'Request',
-        name: 'Request From Integration',
-      });
-
-      cy.contains("L'ouverture a bien été prise en compte !");
-      cy.contains('Les modérateurs traiteront votre demande au plus vite.');
-
-      cy.reload();
-
-      cy.contains("Demander l'ouverture").click();
     });
   });
 

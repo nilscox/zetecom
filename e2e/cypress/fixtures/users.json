@@ -1,5 +1,17 @@
 [
   {
+    "nick": "admin",
+    "email": "admin@domain.tld",
+    "password": "p4ssword",
+    "roles": ["USER", "ADMIN"]
+  },
+  {
+    "nick": "moderator",
+    "email": "moderator@domain.tld",
+    "password": "p4ssword",
+    "roles": ["USER", "MODERATOR"]
+  },
+  {
     "nick": "user1",
     "email": "user1@domain.tld",
     "password": "p4ssword"
