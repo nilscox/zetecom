@@ -5,9 +5,8 @@ import { Collapse, Fade, makeStyles, Typography } from '@material-ui/core';
 import Button from 'src/components/Button';
 import CommentsAreaForm from 'src/components/CommentsAreaForm';
 import createCommentsAreaErrorsHandlers from 'src/components/CommentsAreaForm/createCommentsAreaErrorsHandlers';
-import useCommentsAreaForm, { CreateCommentsAreaFormState } from 'src/components/CommentsAreaForm/useCommentsAreaForm';
+import { CreateCommentsAreaFormState } from 'src/components/CommentsAreaForm/useCommentsAreaForm';
 import { useTrackEvent } from 'src/contexts/TrackingContext';
-import useAxios from 'src/hooks/use-axios';
 import useFormErrors from 'src/hooks/use-form-errors';
 import useCommentsAreaRequest from 'src/pages/CommentsAreasList/useCreateCommentsArea';
 import track from 'src/utils/track';
@@ -43,11 +42,10 @@ const CommentsAreaRequest: React.FC = () => {
 
   const [{ status, loading, error, data }, request] = useCommentsAreaRequest();
   const [[fieldsErrors]] = useFormErrors(createCommentsAreaErrorsHandlers, error);
-  const formState = useCommentsAreaForm({}, fieldsErrors);
 
   useEffect(() => {
     if (status(201)) {
-      formState[0].clear();
+      // formState[0].clear();
       setDisplayForm(false);
       setRequested(true);
       trackEvent(track.requestCommentsArea(''));
@@ -76,7 +74,12 @@ const CommentsAreaRequest: React.FC = () => {
         </Typography>
       </Fade>
       <Collapse in={displayForm}>
-        <CommentsAreaForm className={classes.commentsAreaForm} formState={formState} onSubmit={handleSubmit}>
+        <CommentsAreaForm
+          className={classes.commentsAreaForm}
+          requiredFields={['informationUrl']}
+          fieldsErrors={fieldsErrors}
+          onSubmit={handleSubmit}
+        >
           <Button onClick={() => setDisplayForm(false)}>Annuler</Button>
           <Button loading={loading} type="submit">
             Valider

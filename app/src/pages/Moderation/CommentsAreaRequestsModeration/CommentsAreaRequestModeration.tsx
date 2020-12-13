@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 import CommentsAreaForm from 'src/components/CommentsAreaForm';
 import createCommentsAreaErrorsHandlers from 'src/components/CommentsAreaForm/createCommentsAreaErrorsHandlers';
-import useCommentsAreaForm, { CreateCommentsAreaFormState } from 'src/components/CommentsAreaForm/useCommentsAreaForm';
+import { CreateCommentsAreaFormState } from 'src/components/CommentsAreaForm/useCommentsAreaForm';
 import Link from 'src/components/Link';
 import useFormErrors from 'src/hooks/use-form-errors';
 import { CommentsAreaRequest } from 'src/types/CommentsArea';
@@ -23,11 +23,10 @@ const CommentsAreaRequestModeration: React.FC<CreateCommentsAreaProps> = ({ requ
   const { loading: rejectLoading, rejected, reject } = useRejectCommentsAreaRequest(request.id);
 
   const [[fieldErrors]] = useFormErrors(createCommentsAreaErrorsHandlers, error);
-  const formState = useCommentsAreaForm(request, fieldErrors);
 
   useEffect(() => {
     if (created) {
-      formState[0].clear();
+      // form.clear();
       toast.success(
         <>
           La nouvelle zone de commentaires a bien été créé.{' '}
@@ -37,14 +36,14 @@ const CommentsAreaRequestModeration: React.FC<CreateCommentsAreaProps> = ({ requ
         </>,
       );
     }
-  }, [created, formState]);
+  }, [created]);
 
   useEffect(() => {
     if (rejected) {
-      formState[0].clear();
+      // form.clear();
       toast.success(<>La nouvelle zone de commentaires a bien été refusée.</>);
     }
-  }, [rejected, formState]);
+  }, [rejected]);
 
   const handleSubmit = (data: CreateCommentsAreaFormState) => {
     create({ data }).catch(() => {});
@@ -52,7 +51,18 @@ const CommentsAreaRequestModeration: React.FC<CreateCommentsAreaProps> = ({ requ
 
   return (
     <Collapse in={!created && !rejected}>
-      <CommentsAreaForm formState={formState} onSubmit={handleSubmit}>
+      <CommentsAreaForm
+        requiredFields={[
+          'informationUrl',
+          'informationTitle',
+          'informationAuthor',
+          'informationPublicationDate',
+          'imageUrl',
+        ]}
+        initialValues={request}
+        fieldsErrors={fieldErrors}
+        onSubmit={handleSubmit}
+      >
         <CommentsAreaRequestModerationActions
           createLoading={createLoading}
           rejectLoading={rejectLoading}

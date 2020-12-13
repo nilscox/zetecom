@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { Grid, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import { InputInitializer } from 'react-use-form-state';
 
+import DateInput from 'src/components/DateInput';
 import Input, { InputProps } from 'src/components/Input';
+import { FieldsErrors } from 'src/hooks/use-form-errors';
+import replaceFields from 'src/utils/replaceFields';
 
 import useCommentsAreaForm, { CreateCommentsAreaFormState } from './useCommentsAreaForm';
 
@@ -40,17 +43,36 @@ const useStyles = makeStyles(({ spacing, breakpoints }) => ({
 
 type CommentsAreaFormProps = {
   className?: string;
-  formState: ReturnType<typeof useCommentsAreaForm>;
+  initialValues?: Partial<CreateCommentsAreaFormState>;
+  fieldsErrors?: FieldsErrors<CreateCommentsAreaFormState>;
+  requiredFields?: Array<keyof CreateCommentsAreaFormState>;
   onSubmit: (form: CreateCommentsAreaFormState) => void;
 };
 
-const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({ className, formState, children, onSubmit }) => {
-  const [form, { text }] = formState;
+const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
+  className,
+  initialValues,
+  fieldsErrors,
+  requiredFields,
+  children,
+  onSubmit,
+}) => {
+  const [form, { text }] = useCommentsAreaForm(
+    replaceFields(initialValues as CreateCommentsAreaFormState, value => (value === null ? '' : value)),
+    fieldsErrors,
+  );
   const classes = useStyles();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(form.values);
+  const placeholders: Record<keyof CreateCommentsAreaFormState, string> = {
+    informationUrl: "URL de l'information",
+    informationTitle: "Titre de l'information",
+    informationAuthor: "Auteur de l'information",
+    informationPublicationDate: 'Date de publication',
+    imageUrl: "URL de l'image",
+  };
+
+  const requiredPlaceholderSuffix = (field: keyof CreateCommentsAreaFormState) => {
+    return requiredFields?.includes(field) ? ' *' : '';
   };
 
   const fieldProps = (
@@ -58,9 +80,23 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({ className, formStat
     initializer: InputInitializer<CreateCommentsAreaFormState, InputProps>,
   ): InputProps => ({
     autoComplete: 'off',
+    required: requiredFields?.includes(name),
+    placeholder: placeholders[name] + requiredPlaceholderSuffix(name),
     error: form.errors[name],
     ...initializer({ name, onChange: () => form.setFieldError(name, undefined) }),
   });
+
+  const handleDateChange = useCallback(
+    (date: Date) => {
+      form.setField('informationPublicationDate', date.toISOString());
+    },
+    [form],
+  );
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(replaceFields(form.values, value => (value === '' ? null : value)));
+  };
 
   return (
     <Grid component="form" container className={clsx(classes.description, className)} onSubmit={handleSubmit}>
@@ -78,7 +114,11 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({ className, formStat
             <Input placeholder="Auteur" {...fieldProps('informationAuthor', text)} />
           </Grid>
           <Grid item>
-            <Input placeholder="Date de publication" {...fieldProps('informationPublicationDate', text)} />
+            <DateInput
+              placeholder="Date de publication"
+              onDateChange={handleDateChange}
+              {...fieldProps('informationPublicationDate', text)}
+            />
           </Grid>
         </Grid>
 

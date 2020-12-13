@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core';
+import { Fade, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    margin: spacing(2, 0),
+    margin: spacing(1, 0),
   },
   input: {
     border: 0,
@@ -22,14 +22,15 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
     },
   },
   error: {
-    marginTop: spacing(1),
+    marginTop: spacing(0.5),
     color: palette.error.main,
     fontWeight: 'bold',
     fontSize: 12,
   },
 }));
 
-export type InputProps = React.HTMLProps<HTMLInputElement> & {
+export type InputProps = React.ComponentProps<'input'> & {
+  className?: string;
   fullWidth?: boolean;
   error?: React.ReactNode;
 };
@@ -40,7 +41,9 @@ const Input: React.FC<InputProps> = ({ className, error, ...props }) => {
   return (
     <div className={classes.container}>
       <input className={clsx(classes.input, className)} {...props} />
-      <div className={classes.error}>{error}</div>
+      <Fade in={!!error}>
+        <div className={classes.error}>{error}&nbsp;</div>
+      </Fade>
     </div>
   );
 };
