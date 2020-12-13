@@ -45,9 +45,10 @@ const CommentsAreaRequestModeration: React.FC<CreateCommentsAreaProps> = ({ requ
 
   useEffect(() => {
     if (rejected) {
-      toast.info(<>La nouvelle zone de commentaires a bien été refusée.</>);
+      toast.info(<>La demande d'ouverture a bien été refusée.</>);
+      trackEvent(track.commentsAreaRequestRejected());
     }
-  }, [rejected]);
+  }, [rejected, trackEvent]);
 
   const handleSubmit = (data: CreateCommentsAreaFormState) => {
     create({ data }).catch(() => {});
