@@ -124,7 +124,7 @@ Cypress.Commands.add('didTrack', (event) => {
         // cy.log('expected', event);
       }
 
-      expect(found, 'event was not tracked').not.to.be.undefined;
+      expect(found, `event ${event.category} ${event.action} was not tracked`).not.to.be.undefined;
     });
 });
 

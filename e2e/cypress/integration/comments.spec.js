@@ -121,6 +121,7 @@ describe('comments', () => {
         cy.get('input[name="search"]').clear();
         cy.get('input[name="search"]').type(query);
         cy.fixCI();
+        cy.fixCI();
       };
 
       cy.visitIntegration('test:news3');
@@ -229,7 +230,7 @@ describe('comments', () => {
       cy.didTrack({
         category: 'CommentsArea',
         action: 'Request',
-        name: 'Request "test:request-open"',
+        name: 'Request From Integration',
       });
 
       cy.contains("L'ouverture a bien été prise en compte !");
@@ -238,12 +239,6 @@ describe('comments', () => {
       cy.reload();
 
       cy.contains("Demander l'ouverture").click();
-
-      cy.didTrack({
-        category: 'CommentsArea',
-        action: 'Request',
-        name: 'Request Again "test:request-open"',
-      });
     });
   });
 
@@ -273,7 +268,7 @@ describe('comments', () => {
         cy.contains('Editer').click();
         cy.get('button[type="submit"]').contains('Envoyer').click();
         cy.get('[placeholder="Composez votre message..."]').should('be.empty');
-        cy.didTrack({ category: 'Comment', action: 'Created' });
+        cy.didTrack({ category: 'Comment', action: 'Create' });
       });
 
       cy.getCommentAt(0).within(() => {
@@ -298,7 +293,7 @@ describe('comments', () => {
 
         cy.get('form.comment-form').should('not.be.visible');
 
-        cy.didTrack({ category: 'Comment', action: 'Created' });
+        cy.didTrack({ category: 'Comment', action: 'Create' });
       });
 
       cy.getComment(2).within(() => {
@@ -317,7 +312,7 @@ describe('comments', () => {
         cy.get('.comment-form').first().contains('Commentaire').clear().type('edit');
         cy.get('button[type="submit"]').contains('Envoyer').click();
 
-        cy.didTrack({ category: 'Comment', action: 'Edited' });
+        cy.didTrack({ category: 'Comment', action: 'Edit' });
 
         cy.get('form').should('not.be.visible');
 
