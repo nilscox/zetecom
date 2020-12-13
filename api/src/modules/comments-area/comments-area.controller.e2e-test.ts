@@ -46,7 +46,7 @@ describe('comments area controller', () => {
     commentsAreaRequestRepository = getRepository(CommentsAreaRequest);
   });
 
-  describe('list comment areas', () => {
+  describe('list comments areas', () => {
     let commentsArea1: CommentsArea;
     let commentsArea2: CommentsArea;
     let commentsArea3: CommentsArea;
@@ -57,7 +57,7 @@ describe('comments area controller', () => {
       commentsArea3 = await commentsAreaFactory.create();
     });
 
-    it('should list all comment areas', async () => {
+    it('should list all comments areas', async () => {
       const { body } = await request(server).get('/api/comments-area').expect(200);
 
       expect(body).toMatchObject({
@@ -66,7 +66,7 @@ describe('comments area controller', () => {
       });
     });
 
-    it('should list all comment areas on page 2', async () => {
+    it('should list all comments areas on page 2', async () => {
       const { body } = await request(server).get('/api/comments-area').query({ page: 2 }).expect(200);
 
       expect(body).toMatchObject({
@@ -75,7 +75,7 @@ describe('comments area controller', () => {
       });
     });
 
-    it('should search comment areas', async () => {
+    it('should search comments areas', async () => {
       const { body } = await request(server).get('/api/comments-area').query({ search: 'search' }).expect(200);
 
       expect(body).toMatchObject({
@@ -85,7 +85,7 @@ describe('comments area controller', () => {
     });
   });
 
-  describe('get comment area', () => {
+  describe('get comments area', () => {
     let commentsArea: CommentsArea;
 
     beforeAll(async () => {
@@ -100,11 +100,11 @@ describe('comments area controller', () => {
       await commentFactory.create({ commentsArea });
     });
 
-    it('should not find a comment area with unexisting id', async () => {
+    it('should not find a comments area with unexisting id', async () => {
       await request(server).get('/api/comments-area/42').expect(404);
     });
 
-    it('should fetch a comment area by id', async () => {
+    it('should fetch a comments area by id', async () => {
       const { body } = await request(server).get(`/api/comments-area/${commentsArea.id}`).expect(200);
 
       expect(body).toMatchObject({
@@ -141,41 +141,41 @@ describe('comments area controller', () => {
     });
   });
 
-  describe('create comment area', () => {
+  describe('create comments area', () => {
     const [userRequest] = createAuthenticatedUser(server);
     const [asModerator] = createAuthenticatedModerator(server);
 
     const commentsArea = {
       informationUrl: 'https://info.url',
       informationTitle: 'title',
-      informationAuthor: 'me',
+      informationAuthor: 'author',
       informationPublicationDate: new Date(2020, 0, 1).toJSON(),
       imageUrl: 'https://image.url',
     };
 
-    it('should not create a comment area when unauthenticated', async () => {
+    it('should not create a comments area when unauthenticated', async () => {
       await request(server).post('/api/comments-area').send(commentsArea).expect(403);
     });
 
-    it('should not create a comment area when not an admin', async () => {
+    it('should not create a comments area when not an admin', async () => {
       await userRequest.post('/api/comments-area').send(commentsArea).expect(403);
     });
 
-    it('should not create a comment area with missing information title', async () => {
+    it('should not create a comments area with missing information title', async () => {
       const data: Partial<typeof commentsArea> = { ...commentsArea };
       delete data.informationTitle;
 
       await asModerator.post('/api/comments-area').send(data).expect(400);
     });
 
-    it('should not create a comment area with missing information url', async () => {
+    it('should not create a comments area with missing information url', async () => {
       const data: Partial<typeof commentsArea> = { ...commentsArea };
       delete data.informationUrl;
 
       await asModerator.post('/api/comments-area').send(data).expect(400);
     });
 
-    it('should create a comment area', async () => {
+    it('should create a comments area', async () => {
       const { body } = await asModerator.post('/api/comments-area').send(commentsArea).expect(201);
 
       expect(body).toMatchObject(commentsArea);
@@ -183,11 +183,8 @@ describe('comments area controller', () => {
       const commentsAreaDb = await commentsAreaRepository.findOne(body.id);
 
       expect(commentsAreaDb).toMatchObject({
-        informationUrl: 'https://info.url',
-        informationTitle: 'title',
-        informationAuthor: 'me',
+        ...commentsArea,
         informationPublicationDate: '2020-01-01',
-        imageUrl: 'https://image.url',
       });
     });
 
@@ -204,7 +201,7 @@ describe('comments area controller', () => {
     });
   });
 
-  describe('update comment area', () => {
+  describe('update comments area', () => {
     const [userRequest] = createAuthenticatedUser(server);
     const [adminRequest] = createAuthenticatedAdmin(server);
 
@@ -214,19 +211,19 @@ describe('comments area controller', () => {
       commentsArea = await commentsAreaFactory.create();
     });
 
-    it('should not update a comment area when unauthenticated', async () => {
+    it('should not update a comments area when unauthenticated', async () => {
       await request(server).put(`/api/comments-area/${commentsArea.id}`).send(commentsArea).expect(403);
     });
 
-    it('should not update a comment area when not an admin', async () => {
+    it('should not update a comments area when not an admin', async () => {
       await userRequest.put(`/api/comments-area/${commentsArea.id}`).send(commentsArea).expect(403);
     });
 
-    it('should not update a comment area that does not exist', async () => {
+    it('should not update a comments area that does not exist', async () => {
       await adminRequest.put('/api/comments-area/404').send({}).expect(404);
     });
 
-    it('should update a comment area', async () => {
+    it('should update a comments area', async () => {
       const data = {
         informationUrl: 'https://other.url',
         informationAuthor: 'someone',

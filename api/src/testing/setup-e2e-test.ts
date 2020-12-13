@@ -1,4 +1,4 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, Module, ValidationPipe } from '@nestjs/common';
 import { MiddlewareConsumer, ModuleMetadata } from '@nestjs/common/interfaces';
 import { APP_GUARD } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
@@ -33,39 +33,29 @@ const MemoryStore = memorystore(expressSession);
       useClass: RolesGuard,
     },
   ],
-  imports: [
-    TypeOrmModule.forRoot(),
-    TypeOrmModule.forFeature([User]),
-    AuthorizationModule,
-    ConfigModule,
-  ],
-  exports: [
-    TypeOrmModule,
-  ],
+  imports: [TypeOrmModule.forRoot(), TypeOrmModule.forFeature([User]), AuthorizationModule, ConfigModule],
+  exports: [TypeOrmModule],
 })
 export class TestModule {
-
   configure(consumer: MiddlewareConsumer) {
     const middlewares = [];
 
-    middlewares.push(expressSession({
-      store: new MemoryStore(),
-      secret: 'SESSION_SECRET',
-      resave: false,
-      saveUninitialized: false,
-    }));
+    middlewares.push(
+      expressSession({
+        store: new MemoryStore(),
+        secret: 'SESSION_SECRET',
+        resave: false,
+        saveUninitialized: false,
+      }),
+    );
 
     middlewares.push(UserMiddleware);
 
-    consumer
-      .apply(...middlewares)
-      .forRoutes('*');
+    consumer.apply(...middlewares).forRoutes('*');
   }
-
 }
 
 export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module: TestingModuleBuilder) => void) => {
-
   const server = express();
   let module: TestingModule;
 
@@ -75,16 +65,22 @@ export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module
       imports: [TestModule, ...testingModule.imports],
     });
 
-    if (beforeInit)
+    if (beforeInit) {
       beforeInit(moduleBuilder);
+    }
 
     module = await moduleBuilder.compile();
 
     const app = module.createNestApplication(new ExpressAdapter(server));
 
     app.setGlobalPrefix('api');
-    app.useGlobalPipes(new ValidationPipe({ transform: true }));
     app.useGlobalInterceptors(new ErrorsInterceptor());
+    app.useGlobalPipes(
+      new ValidationPipe({
+        transform: true,
+        exceptionFactory: (errors) => new BadRequestException(errors),
+      }),
+    );
 
     await app.init();
   });
@@ -117,8 +113,9 @@ export const createAuthenticatedUser = (server, roles?: Role[]) => {
     Object.assign(user, body);
     createUsersCount++;
 
-    if (Array.isArray(roles))
+    if (Array.isArray(roles)) {
       await getRepository(User).update({ id: user.id }, { roles });
+    }
   });
 
   return [userRequest, user] as const;
