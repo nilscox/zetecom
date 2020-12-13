@@ -166,10 +166,12 @@ describe('comments area creation', () => {
     cy.contains('Ouvertures').click();
 
     cy.getField("Titre de l'information *").type(commentsArea1.informationTitle);
-    cy.getField("URL de l'information *").type('https://some.other/url');
     cy.getField("Auteur de l'information *").clear();
     cy.getField("Auteur de l'information *").type('himself');
 
+    cy.contains('Ouvrir').click();
+
+    cy.getField('jj / mm / aaaa').type(typePublicationDate);
     cy.contains('Ouvrir').click();
 
     cy.contains('La nouvelle zone de commentaires a bien été créé.');
