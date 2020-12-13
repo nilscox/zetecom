@@ -20,11 +20,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Sentry integration
 - Display the integration state in the popup
+- Create comments area from the app
 
 ### Changed
 
 - Replace GA with Matomo
 - Debounce the loaders
+- Moderation tabs
 
 ### Fixed
 

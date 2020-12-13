@@ -1,15 +1,16 @@
 import React from 'react';
 
+import { Box, Typography } from '@material-ui/core';
+
 import { CommentsAreaRequest } from 'src/types/CommentsArea';
 
 import AsyncContent from '../../../components/AsyncContent';
 import Fallback from '../../../components/Fallback';
 import useAxiosPaginated from '../../../hooks/use-axios-paginated';
-import Section from '../Section';
 
-import OpenCommentsAreaRequest from './OpenCommentsAreaRequest';
+import CommentsAreaRequestModeration from './CommentsAreaRequestModeration';
 
-const OpenCommentsAreaRequests: React.FC = () => {
+const CommentsAreaRequestsModeration: React.FC = () => {
   const [{ loading, data: pendingRequests, error }] = useAxiosPaginated(
     '/api/comments-area-request',
     undefined,
@@ -21,7 +22,11 @@ const OpenCommentsAreaRequests: React.FC = () => {
   }
 
   return (
-    <Section title="Ouverture de nouvelles zones de commentaires">
+    <>
+      <Box my={4}>
+        <Typography variant="h2">Ouverture de nouvelles zones de commentaires</Typography>
+      </Box>
+
       <AsyncContent
         loading={loading}
         render={() => (
@@ -31,16 +36,16 @@ const OpenCommentsAreaRequests: React.FC = () => {
             fallback="Toutes les demandes d'ouvertures de zones de commentaires ont été traitées."
             render={() => (
               <>
-                {pendingRequests?.map(({ id, identifier }, n) => (
-                  <OpenCommentsAreaRequest key={n} requestId={id} identifier={identifier} />
+                {pendingRequests?.map(request => (
+                  <CommentsAreaRequestModeration key={request.id} request={request} />
                 ))}
               </>
             )}
           />
         )}
       ></AsyncContent>
-    </Section>
+    </>
   );
 };
 
-export default OpenCommentsAreaRequests;
+export default CommentsAreaRequestsModeration;

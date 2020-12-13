@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { Button as MuiButton, ButtonProps as MuiButtonProps, makeStyles } from '@material-ui/core';
 
@@ -21,16 +21,15 @@ export type ButtonProps = MuiButtonProps & {
   loading?: boolean;
 };
 
-const Button: React.FC<ButtonProps> = ({
-  loading,
-  children,
-  disableFocusRipple = true,
-  ...props
-}) => {
+const Button: React.ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
+  { loading, children, disableFocusRipple = true, ...props },
+  ref,
+) => {
   const classes = useStyles();
 
   return (
     <MuiButton
+      ref={ref}
       disableFocusRipple={disableFocusRipple}
       disabled={loading || props.disabled}
       classes={{
@@ -39,18 +38,11 @@ const Button: React.FC<ButtonProps> = ({
       }}
       {...props}
     >
+      {children}
 
-      { children }
-
-      { loading && (
-        <Loader
-          size="small"
-          className={classes.loader}
-        />
-      ) }
-
+      {loading && <Loader size="small" className={classes.loader} />}
     </MuiButton>
   );
 };
 
-export default Button;
+export default forwardRef(Button);

@@ -1,0 +1,91 @@
+import React, { useEffect, useRef, useState } from 'react';
+
+import { Collapse, Fade, makeStyles, Typography } from '@material-ui/core';
+
+import Button from 'src/components/Button';
+import CommentsAreaForm, { CreateCommentsAreaFormState } from 'src/components/CommentsAreaForm';
+import { useTrackEvent } from 'src/contexts/TrackingContext';
+import useAxios from 'src/hooks/use-axios';
+import track from 'src/utils/track';
+
+const SUCCESS_MESSAGE_TIMEOUT = 5000;
+
+const useStyles = makeStyles(({ spacing, palette }) => ({
+  container: {
+    position: 'relative',
+    minHeight: spacing(8),
+  },
+  openCommentsAreaButton: {
+    position: 'absolute',
+    margin: spacing(2, 0),
+  },
+  successMessage: {
+    position: 'absolute',
+    margin: spacing(2, 0),
+    color: palette.success.dark,
+    fontWeight: 'bold',
+  },
+  commentsAreaForm: {
+    margin: spacing(2, 0),
+  },
+}));
+
+const CommentsAreaRequest: React.FC = () => {
+  const trackEvent = useTrackEvent();
+
+  const [displayForm, setDisplayForm] = useState(false);
+  const [requested, setRequested] = useState(false);
+  const classes = useStyles();
+
+  const [{ status, loading, error, data }, request] = useAxios(
+    {
+      method: 'POST',
+      url: '/api/comments-area-request',
+    },
+    { manual: true },
+  );
+
+  useEffect(() => {
+    if (status(201)) {
+      setDisplayForm(false);
+      setRequested(true);
+      trackEvent(track.requestCommentsArea(''));
+    }
+
+    if (status(400)) {
+      // TODO
+    }
+  }, [status, error, trackEvent, data]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setRequested(false), SUCCESS_MESSAGE_TIMEOUT);
+    return () => clearTimeout(timeout);
+  }, [requested]);
+
+  const handleSubmit = (data: CreateCommentsAreaFormState) => {
+    request({ data }).catch(() => {});
+  };
+
+  return (
+    <div className={classes.container}>
+      <Fade in={!displayForm && !requested}>
+        <Button className={classes.openCommentsAreaButton} onClick={() => setDisplayForm(true)}>
+          Ouvrir une zone de commentaires
+        </Button>
+      </Fade>
+      <Fade in={requested}>
+        <Typography className={classes.successMessage}>
+          L'ouverture a bien été prise en compte, les modérateurs vont traiter votre demande.
+        </Typography>
+      </Fade>
+      <Collapse in={displayForm}>
+        <CommentsAreaForm className={classes.commentsAreaForm} onSubmit={handleSubmit}>
+          <Button onClick={() => setDisplayForm(false)}>Annuler</Button>
+          <Button type="submit">Valider</Button>
+        </CommentsAreaForm>
+      </Collapse>
+    </div>
+  );
+};
+
+export default CommentsAreaRequest;

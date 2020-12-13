@@ -12,14 +12,10 @@ import defaultCommentsAreaImage from './default-comments-area.png';
 const imageRatio = 1.61803398875;
 
 const useStyles = makeStyles<Theme, { folded?: boolean }>(({ breakpoints, spacing, palette }) => ({
-  description: ({ folded }) => ({
+  description: {
     width: '100%',
-    height: spacing(folded ? 20 : 40),
     padding: spacing(2),
-    [breakpoints.down('md')]: {
-      height: ({ folded }) => spacing(folded ? 20 : 30),
-    },
-  }),
+  },
   left: {
     height: '100%',
   },
@@ -27,14 +23,15 @@ const useStyles = makeStyles<Theme, { folded?: boolean }>(({ breakpoints, spacin
     flex: 1,
     paddingLeft: spacing(4),
   },
-  image: ({ folded }) => ({
-    width: spacing((folded ? 16 : 36) * imageRatio),
-    height: '100%',
+  image: {
+    height: spacing(36),
+    width: spacing(36 * imageRatio),
     objectFit: 'cover',
     [breakpoints.down('md')]: {
-      width: ({ folded }) => spacing((folded ? 16 : 26) * imageRatio),
+      width: spacing(26 * imageRatio),
+      height: spacing(26),
     },
-  }),
+  },
   title: {
     color: palette.secondary.main,
     fontSize: '1.4em',

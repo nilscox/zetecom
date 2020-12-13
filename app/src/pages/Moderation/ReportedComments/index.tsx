@@ -1,11 +1,11 @@
 import React from 'react';
 
+import { Box, Typography } from '@material-ui/core';
+
 import AsyncContent from 'src/components/AsyncContent';
 import Fallback from 'src/components/Fallback';
 import useAxiosPaginated from 'src/hooks/use-axios-paginated';
 import { ReportedComment as ReportedCommentType } from 'src/types/Report';
-
-import Section from '../Section';
 
 import ReportedComment from './ReportedComment';
 
@@ -21,7 +21,11 @@ const ReportedComments: React.FC = () => {
   }
 
   return (
-    <Section title="Commentaires signalés">
+    <>
+      <Box my={4}>
+        <Typography variant="h2">Commentaires signalés</Typography>
+      </Box>
+
       <AsyncContent
         loading={loading}
         render={() => (
@@ -39,7 +43,7 @@ const ReportedComments: React.FC = () => {
           />
         )}
       />
-    </Section>
+    </>
   );
 };
 

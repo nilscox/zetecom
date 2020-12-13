@@ -29,5 +29,15 @@ export class CommentsArea {
 export class CommentsAreaRequest {
   id: number;
 
-  identifier: string;
+  informationUrl: string;
+
+  informationTitle?: string;
+
+  informationAuthor?: string;
+
+  informationPublicationDate?: string;
+
+  identifier?: string;
+
+  imageUrl?: string;
 }
