@@ -8,7 +8,7 @@ import AsyncContent from 'src/components/AsyncContent';
 import HeaderLogo from 'src/components/HeaderLogo';
 import RouterLink from 'src/components/Link';
 import ToastContainer from 'src/components/ToastContainer';
-import { IFrameOriginProvider } from 'src/contexts/IFrameOriginContext';
+import { IntegrationPageUrlProvider } from 'src/contexts/IntegrationPageUrlContext';
 import { useCurrentUser } from 'src/contexts/UserContext';
 import Separator from 'src/popup/views/Separator';
 import createTheme from 'src/theme/createTheme';
@@ -29,7 +29,7 @@ const Popup: React.FC = () => {
   const user = useCurrentUser();
 
   return (
-    <IFrameOriginProvider>
+    <IntegrationPageUrlProvider>
       <AsyncContent
         loading={typeof user === 'undefined'}
         render={() => (
@@ -56,7 +56,7 @@ const Popup: React.FC = () => {
           </ThemeProvider>
         )}
       />
-    </IFrameOriginProvider>
+    </IntegrationPageUrlProvider>
   );
 };
 

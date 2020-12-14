@@ -25,7 +25,7 @@ const CommentAreaClosed: React.FC = () => {
   const classes = useStyles();
   const [requested, setRequested] = useState(false);
   const [, setAlreadyRequested] = useState(false);
-  const { identifier, origin } = useQueryString();
+  const { identifier, pageUrl } = useQueryString();
   const user = useCurrentUser();
   const trackEvent = useTrackEvent();
 
@@ -35,7 +35,7 @@ const CommentAreaClosed: React.FC = () => {
       url: '/api/comments-area/request',
       data: {
         identifier: decodeURIComponent(identifier as string),
-        informationUrl: decodeURIComponent(origin as string),
+        informationUrl: decodeURIComponent(pageUrl as string),
       },
     },
     { manual: true },

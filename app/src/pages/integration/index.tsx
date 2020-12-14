@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Route, Switch } from 'react-router-dom';
 
-import { IFrameOriginProvider } from 'src/contexts/IFrameOriginContext';
+import { IntegrationPageUrlProvider } from 'src/contexts/IntegrationPageUrlContext';
 
 import Integration from './Integration';
 import CommentHistoryPopup from './popups/CommentHistoryPopup';
@@ -15,9 +15,9 @@ const IntegrationRouter: React.FC = () => {
         path="/integration"
         exact
         render={() => (
-          <IFrameOriginProvider>
+          <IntegrationPageUrlProvider>
             <Integration />
-          </IFrameOriginProvider>
+          </IntegrationPageUrlProvider>
         )}
       />
       <Route path="/integration/comment/:id/history" exact component={CommentHistoryPopup} />

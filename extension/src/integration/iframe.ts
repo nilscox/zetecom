@@ -29,7 +29,7 @@ export default class IFrame {
 
     const query = {
       identifier: encodeURIComponent(identifier),
-      origin: encodeURIComponent(window.location.origin),
+      pageUrl: encodeURIComponent(window.location.href),
       extensionVersion: pkg.version,
     };
 
