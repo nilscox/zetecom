@@ -4,7 +4,7 @@ const useCommentsAreaRequest = () => {
   return useAxios(
     {
       method: 'POST',
-      url: '/api/comments-area-request',
+      url: '/api/comments-area/request',
     },
     { manual: true },
   );

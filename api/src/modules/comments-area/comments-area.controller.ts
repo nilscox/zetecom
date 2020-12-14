@@ -66,7 +66,7 @@ export class CommentsAreaController {
     return this.commentsAreaRepository.findAllPaginated(search, page, this.commentsAreaPageSize);
   }
 
-  @Get(':id')
+  @Get(':id(\\d+)')
   @CastToDto(CommentsAreaDto)
   @UseInterceptors(PopulateCommentsArea)
   async findOneById(@Param('id', new ParseIntPipe()) id: number): Promise<CommentsArea> {

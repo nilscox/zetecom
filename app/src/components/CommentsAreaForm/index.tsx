@@ -114,20 +114,16 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
       </Grid>
 
       <Grid item container direction="column" className={classes.right}>
-        <Input placeholder="Titre de l'information" {...fieldProps('informationTitle', text)} />
-        <Input required placeholder="URL de l'information *" {...fieldProps('informationUrl', text)} />
-        <Input placeholder="URL de l'image" {...fieldProps('imageUrl', text)} />
+        <Input {...fieldProps('informationTitle', text)} />
+        <Input {...fieldProps('informationUrl', text)} />
+        <Input {...fieldProps('imageUrl', text)} />
 
         <Grid item container>
           <Grid item className={classes.authorInput}>
-            <Input placeholder="Auteur" {...fieldProps('informationAuthor', text)} />
+            <Input {...fieldProps('informationAuthor', text)} />
           </Grid>
           <Grid item>
-            <DateInput
-              placeholder="Date de publication"
-              onDateChange={handleDateChange}
-              {...fieldProps('informationPublicationDate', text)}
-            />
+            <DateInput onDateChange={handleDateChange} {...fieldProps('informationPublicationDate', text)} />
           </Grid>
         </Grid>
 

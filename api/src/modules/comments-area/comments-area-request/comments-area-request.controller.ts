@@ -29,7 +29,7 @@ import { CommentsAreaRequestService } from './comments-area-request.service';
 import { CommentsAreaRequestInDto } from './dtos/comments-area-request-in.dto';
 import { CommentsAreaRequestDto } from './dtos/comments-area-request.dto';
 
-@Controller('comments-area-request')
+@Controller('comments-area/request')
 @UseInterceptors(ClassToPlainInterceptor)
 export class CommentsAreaRequestController {
   @Inject('COMMENTS_AREA_PAGE_SIZE')
