@@ -1,15 +1,7 @@
-version: '3.4'
+version: "3.4"
 services:
-
   api:
-    build:
-      context: ./api
-      network: host
-
-  seed:
-    build:
-      context: ./api
-      network: host
+    build: ./api
 
   app:
     build: ./app

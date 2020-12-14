@@ -19,6 +19,7 @@ import { CommentModule } from './modules/comment/comment.module';
 import { CommentsAreaModule } from './modules/comments-area/comments-area.module';
 import { ConfigModule } from './modules/config/config.module';
 import { ConfigService } from './modules/config/config.service';
+import { CypressModule } from './modules/cypress/cypress.module';
 import { EmailModule } from './modules/email/email.module';
 import { HealthcheckModule } from './modules/healthcheck/healthcheck.module';
 import { LoggerModule } from './modules/logger/logger.module';
@@ -42,6 +43,7 @@ const fakeLagProvider: Provider = {
   imports: [
     TypeOrmModule.forRoot(),
     TypeOrmModule.forFeature([User]),
+    CypressModule,
     LoggerModule,
     ConfigModule,
     HealthcheckModule,

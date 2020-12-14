@@ -20,12 +20,7 @@ import { ErrorsInterceptor } from 'Common/errors.interceptor';
 import { AppModule } from './app.module';
 import { LoggerService } from './modules/logger/logger.service';
 
-const {
-  LISTEN_PORT = '3000',
-  LISTEN_IP = '0.0.0.0',
-  REFLECT_ORIGIN,
-  TRUST_PROXY,
-} = process.env;
+const { LISTEN_PORT = '3000', LISTEN_IP = '0.0.0.0', REFLECT_ORIGIN, TRUST_PROXY } = process.env;
 
 const LOG_TAG = 'Bootstrap';
 
@@ -39,10 +34,12 @@ async function bootstrap() {
   app.useLogger(logger);
   app.setGlobalPrefix('api');
   app.useGlobalInterceptors(new ErrorsInterceptor());
-  app.useGlobalPipes(new ValidationPipe({
-    transform: true,
-    exceptionFactory: errors => new BadRequestException(errors),
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      exceptionFactory: (errors) => new BadRequestException(errors),
+    }),
+  );
 
   if (TRUST_PROXY === 'true') {
     logger.verbose('setting trust proxy', 'Bootstrap');

@@ -1,6 +1,5 @@
-version: '3.4'
+version: "3.4"
 services:
-
   postgresql:
     image: postgres:11.5
     container_name: zc-postgres
@@ -12,7 +11,6 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: db
 
-
   redis:
     image: redis
     container_name: zc-redis
@@ -22,7 +20,6 @@ services:
       - 6379:6379
     volumes:
       - ./data/redis:/data
-
 
   api:
     container_name: zc-api
@@ -40,9 +37,9 @@ services:
     environment:
       LISTEN_PORT: 3000
       LISTEN_IP: 0.0.0.0
-      LOG_LEVEL: 'log'
-      REFLECT_ORIGIN: 'true'
-      ADMIN_USER: 'admin:admin@zetecom.fr:admin42'
+      LOG_LEVEL: log
+      REFLECT_ORIGIN: "true"
+      ADMIN_USER: admin:admin@zetecom.fr:admin42
       APP_URL: http://${LOCAL_IP:-localhost}:8000
       WEBSITE_URL: http://${LOCAL_IP:-localhost}:8080
       DB_HOST: zc-postgres
@@ -58,34 +55,11 @@ services:
       EMAIL_HOST: domain.tld
       EMAIL_USER: username
       EMAIL_PASSWORD: password
-      EMAIL_BYPASS: 'true'
-      EMAIL_ACCOUNT_VERIFICATION: 'false'
+      EMAIL_BYPASS: "true"
+      EMAIL_ACCOUNT_VERIFICATION: "false"
       SESSION_SECRET: sekret
-      SECURE_COOKIE: 'false'
+      SECURE_COOKIE: "false"
       USER_AVATAR_DESTINATION: /app/avatars
-
-
-  seed:
-    container_name: zc-seed
-    hostname: zc-seed
-    ports:
-      - 4242:4242
-    command: sh -c "
-      yarn typeorm query 'DROP DATABASE cypress' > /dev/null 2>&1;
-      DB_NAME="$DB_NAME_ROOT" yarn typeorm query 'CREATE DATABASE cypress' > /dev/null 2>&1;
-      node src/modules/cypress"
-    environment:
-      LISTEN_PORT: 4242
-      LISTEN_IP: 0.0.0.0
-      DB_HOST: zc-postgres
-      DB_PORT: 5432
-      DB_USER: root
-      DB_PASS: root
-      DB_NAME: cypress
-      DB_NAME_ROOT: postgres
-      DB_ENTITIES: src/**/*.entity.js
-      DB_MIGRATIONS: migrations/*.js
-
 
   app:
     container_name: zc-app

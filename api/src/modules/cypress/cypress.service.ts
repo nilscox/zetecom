@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/typeorm';
-import { Connection, getConnectionOptions } from 'typeorm';
+import { Connection, getConnectionOptions, QueryRunner } from 'typeorm';
 
 import { Comment } from '../comment/comment.entity';
 import { CommentService } from '../comment/comment.service';
@@ -23,6 +23,7 @@ const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 wait;
 
 type GetUser = (nick: string) => User;
+Error.stackTraceLimit = 2000;
 
 @Injectable()
 export class CypressService {
@@ -41,41 +42,40 @@ export class CypressService {
   }
 
   async dropDatabase() {
-    const connectionOptions = await getConnectionOptions('default');
-
-    this.logger.log('drop database');
-
-    if (connectionOptions.database !== DB_NAME) {
-      throw new Error(`database name is not "${DB_NAME}", aborting drop databse`);
-    }
+    const { logger } = this;
 
     if (this.testConnection.isConnected) {
+      logger.log('close database connection');
       await this.testConnection.close();
     }
 
     const queryRunner = this.postgresConnection.createQueryRunner();
 
-    await queryRunner.query(`
-      SELECT pg_terminate_backend(pg_stat_activity.pid)
-      FROM pg_stat_activity
-      WHERE pg_stat_activity.datname = '${DB_NAME}' AND pid <> pg_backend_pid();
-    `);
+    if (!queryRunner.connection.isConnected) {
+      logger.log('connect query runner');
+      await queryRunner.connection.connect();
+    }
 
+    logger.log('drop database');
     await queryRunner.query(`DROP DATABASE ${DB_NAME}`);
 
-    this.logger.log('create database');
+    logger.log('create database');
     await queryRunner.query(`CREATE DATABASE ${DB_NAME}`);
 
+    logger.log('connect to the new database');
     await this.testConnection.connect();
 
-    this.logger.log('run migrations');
+    logger.log('run migrations');
     await this.testConnection.runMigrations();
+
+    logger.log('close the query runner connection');
+    await queryRunner.connection.close();
   }
 
   async seed(data: Dataset) {
-    const users = await this.createUsers(data.users || []);
-
     this.logger.log('seed database');
+
+    const users = await this.createUsers(data.users || []);
 
     const getUser = (nick: string) => {
       if (!users[nick]) {
@@ -89,6 +89,8 @@ export class CypressService {
   }
 
   private async createUsers(data: UserDto[]) {
+    this.logger.log('create users');
+
     const users: Record<string, User> = {};
 
     for (const user of data) {
@@ -99,10 +101,14 @@ export class CypressService {
       }
     }
 
+    this.logger.log(users.length + ' users created: ' + Object.keys(users).join(', '));
+
     return users;
   }
 
   private async createCommentsAreas(data: CommentsAreaDto[], getUser: GetUser) {
+    this.logger.log('create comments areas');
+
     for (const { creator: creatorNick, ...commentsArea } of data) {
       const creator = creatorNick !== undefined ? getUser(creatorNick) : undefined;
 
@@ -124,6 +130,8 @@ export class CypressService {
         await this.createComment(comment, created, null, getUser);
       }
     }
+
+    this.logger.log(data.length + ' comments areas created');
   }
 
   private async createComment(

@@ -26,14 +26,13 @@
 
 const API_URL = Cypress.env('API_URL');
 const APP_URL = Cypress.env('APP_URL');
-const API_SEED_URL = Cypress.env('API_SEED_URL');
 
 Cypress.Commands.add('getInput', (name) => {
   return cy.get(`input[name="${name}"]`);
 });
 
 Cypress.Commands.add('seed', (body) => {
-  cy.request({ method: 'POST', url: API_SEED_URL + '/seed', body }).then(({ status }) => expect(status).to.eq(204));
+  cy.request({ method: 'POST', url: API_URL + '/api/seed', body }).then(({ status }) => expect(status).to.eq(204));
 });
 
 Cypress.Commands.add('seedFromFixture', (fixtureName) => {

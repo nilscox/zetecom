@@ -6,17 +6,12 @@
   "screenshot": false,
   "videosFolder": "artifacts/videos",
   "screenshotsFolder": "artifacts/screenshots",
-  "blacklistHosts": [
-    "*google-analytics.com",
-    "*googletagmanager.com",
-    "*sentry.io"
-  ],
+  "blacklistHosts": ["*sentry.io"],
   "env": {
     "codeCoverage": {
       "url": "http://localhost:3000/api/__coverage__"
     },
     "API_URL": "http://localhost:3000",
-    "API_SEED_URL": "http://localhost:4242",
     "APP_URL": "http://localhost:8000",
     "WEBSITE_URL": "http://localhost:8080"
   }

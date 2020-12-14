@@ -1,6 +1,5 @@
 version: '3.4'
 services:
-
   postgresql:
     environment:
       POSTGRES_DB: cypress
@@ -14,6 +13,7 @@ services:
       CI: 'true'
       BYPASS_AUTHORIZATIONS: 'true'
       DB_NAME: cypress
+      DB_NAME_ROOT: postgres
 
   app:
     command: /start.sh --coverage
