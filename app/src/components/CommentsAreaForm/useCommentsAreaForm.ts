@@ -5,6 +5,7 @@ import { StateErrors, useFormState } from 'react-use-form-state';
 import { FieldsErrors } from 'src/hooks/use-form-errors';
 
 export type CreateCommentsAreaFormState = {
+  identifier?: string;
   informationUrl: string;
   informationTitle: string;
   informationAuthor: string;
@@ -16,6 +17,7 @@ type FS = CreateCommentsAreaFormState;
 
 const useCommentsAreaForm = (initialValues: Partial<FS>, fieldErrors: FieldsErrors<FS>) => {
   const formState = useFormState<FS, StateErrors<FS, React.ReactNode>>({
+    identifier: '',
     informationUrl: '',
     informationTitle: '',
     informationAuthor: '',

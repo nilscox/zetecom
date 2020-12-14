@@ -2,20 +2,14 @@ import React from 'react';
 
 import { Box, Typography } from '@material-ui/core';
 
-import { CommentsAreaRequest } from 'src/types/CommentsArea';
-
 import AsyncContent from '../../../components/AsyncContent';
 import Fallback from '../../../components/Fallback';
-import useAxiosPaginated from '../../../hooks/use-axios-paginated';
 
 import CommentsAreaRequestModeration from './CommentsAreaRequestModeration';
+import useFetchCommentsAreaRequests from './useFetchCommentsAreaRequests';
 
 const CommentsAreaRequestsModeration: React.FC = () => {
-  const [{ loading, data: pendingRequests, error }] = useAxiosPaginated(
-    '/api/comments-area-request',
-    undefined,
-    CommentsAreaRequest,
-  );
+  const [{ loading, data: pendingRequests, error }] = useFetchCommentsAreaRequests();
 
   if (error) {
     throw error;

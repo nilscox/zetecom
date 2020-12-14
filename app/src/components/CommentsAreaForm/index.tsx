@@ -7,6 +7,7 @@ import { InputInitializer } from 'react-use-form-state';
 import DateInput from 'src/components/DateInput';
 import Input, { InputProps } from 'src/components/Input';
 import { FieldsErrors } from 'src/hooks/use-form-errors';
+import env from 'src/utils/env';
 import replaceFields from 'src/utils/replaceFields';
 
 import useCommentsAreaForm, { CreateCommentsAreaFormState } from './useCommentsAreaForm';
@@ -52,7 +53,7 @@ type CommentsAreaFormProps = {
 
 const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
   className,
-  initialValues,
+  initialValues = {},
   fieldsErrors,
   requiredFields,
   clear,
@@ -60,13 +61,14 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
   onSubmit,
 }) => {
   const [form, { text }] = useCommentsAreaForm(
-    replaceFields((initialValues || {}) as CreateCommentsAreaFormState, value => (value === null ? '' : value)),
+    replaceFields(initialValues, value => (value === null ? '' : value)),
     fieldsErrors,
   );
 
   const classes = useStyles();
 
   const placeholders: Record<keyof CreateCommentsAreaFormState, string> = {
+    identifier: 'identifier',
     informationUrl: "URL de l'information",
     informationTitle: "Titre de l'information",
     informationAuthor: "Auteur de l'information",
@@ -117,6 +119,8 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
         <Input {...fieldProps('informationTitle', text)} />
         <Input {...fieldProps('informationUrl', text)} />
         <Input {...fieldProps('imageUrl', text)} />
+
+        {env.DEBUG === 'true' && <Input disabled {...fieldProps('identifier', text)} />}
 
         <Grid item container>
           <Grid item className={classes.authorInput}>
