@@ -6,10 +6,6 @@ import { FormErrorsHandlers } from 'src/hooks/use-form-errors';
 const createCommentsAreaErrorsHandlers: FormErrorsHandlers<AxiosError, CreateCommentsAreaFormState> = [
   {
     informationUrl: ({ response: { status, data } }) => {
-      if (status === 400 && data.informationUrl?.isNotEmpty) {
-        return "Veillez renseigner l'url de l'information";
-      }
-
       if (status === 400 && data.informationUrl?.minLength) {
         return "L'URL de l'information n'est pas assez longue";
       }
@@ -23,10 +19,6 @@ const createCommentsAreaErrorsHandlers: FormErrorsHandlers<AxiosError, CreateCom
       }
     },
     informationTitle: ({ response: { status, data } }) => {
-      if (status === 400 && data.informationTitle?.isNotEmpty) {
-        return "Veillez renseigner le titre de l'information";
-      }
-
       if (status === 400 && data.informationTitle?.minLength) {
         return "Le titre de l'information n'est pas assez long";
       }
@@ -38,10 +30,6 @@ const createCommentsAreaErrorsHandlers: FormErrorsHandlers<AxiosError, CreateCom
     informationAuthor: ({ response: { status, data } }) => {
       if (status === 400 && data.informationAuthor?.isNotEmpty) {
         return "Veillez renseigner l'auteur de l'information";
-      }
-
-      if (status === 400 && data.informationAuthor?.minLength) {
-        return "Le nom de l'auteur n'est pas assez long";
       }
 
       if (status === 400 && data.informationAuthor?.maxLength) {

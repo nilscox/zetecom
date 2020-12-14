@@ -1,4 +1,4 @@
-import { IsDateString, IsOptional, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
 
 import { IsPast } from 'Common/is-past.validator';
 
@@ -17,7 +17,7 @@ export class CommentsAreaRequestInDto {
 
   @IsOptional()
   @IsString()
-  @MinLength(5)
+  @IsNotEmpty()
   @MaxLength(32)
   readonly informationAuthor?: string;
 

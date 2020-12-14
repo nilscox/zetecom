@@ -84,6 +84,7 @@ const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({
   toggleFolded,
   linkToInformation,
 }) => {
+  const { informationTitle, informationAuthor, imageUrl, informationPublicationDate, commentsCount } = commentsArea;
   const classes = useStyles({ folded });
 
   const handleToggleFolded = (e: React.MouseEvent) => {
@@ -94,26 +95,26 @@ const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({
     <Grid container className={classes.description}>
       <Grid item className={classes.left}>
         <LinkComponent commentsArea={commentsArea} linkToInformation={linkToInformation}>
-          <img src={commentsArea.imageUrl || defaultCommentsAreaImage} className={classes.image} />
+          <img src={imageUrl || defaultCommentsAreaImage} className={classes.image} />
         </LinkComponent>
       </Grid>
 
       <Grid item className={classes.right}>
         <LinkComponent commentsArea={commentsArea} linkToInformation={linkToInformation}>
-          <Typography className={classes.title}>{commentsArea.informationTitle}</Typography>
+          <Typography className={classes.title}>{informationTitle}</Typography>
         </LinkComponent>
 
         <Grid container direction={folded ? 'row' : 'column'}>
           <Grid item>
             <Typography variant="body2" className={classes.author}>
-              {commentsArea.informationAuthor}
+              {informationAuthor}
             </Typography>
           </Grid>
           <Grid item>
             <Typography className={classes.dateAndCommentsCount}>
-              {commentsArea.published && dayjs(commentsArea.published).format('D MMMM YYYY')}
+              {informationPublicationDate && dayjs(informationPublicationDate).format('D MMMM YYYY')}
               {' - '}
-              {commentsArea.commentsCount} commentaire{commentsArea.commentsCount !== 1 && 's'}
+              {commentsCount} commentaire{commentsCount !== 1 && 's'}
             </Typography>
           </Grid>
         </Grid>

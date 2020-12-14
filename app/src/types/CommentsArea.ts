@@ -15,7 +15,7 @@ export class CommentsArea {
   imageUrl: string | null;
 
   @Type(() => Date)
-  published?: Date;
+  informationPublicationDate?: Date;
 
   @Type(() => UserLight)
   creator?: UserLight;
