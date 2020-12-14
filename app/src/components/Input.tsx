@@ -1,25 +1,24 @@
-import React from 'react';
+import React, { PropsWithoutRef } from 'react';
 
-import { Fade, makeStyles } from '@material-ui/core';
-import clsx from 'clsx';
+import { Fade, Input as MUIInput, InputProps as MUIInputProps, makeStyles, Theme } from '@material-ui/core';
 
-const useStyles = makeStyles(({ spacing, palette }) => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
+const useStyles = makeStyles<Theme, { disabled?: boolean }>(({ spacing, palette }) => ({
+  root: ({ disabled }) => ({
     margin: spacing(1, 0),
-  },
-  input: {
-    border: 0,
-    padding: spacing(1, 2),
-    borderBottom: `1px solid ${palette.border.main}`,
-    fontSize: '1rem',
-    '&:focus': {
-      borderBottomColor: palette.primary.main,
-    },
+    borderBottom: `2px solid ${palette.border.main}`,
     '&:hover': {
-      borderBottomColor: palette.primary.light,
+      borderBottomColor: disabled ? undefined : palette.primary.light,
     },
+  }),
+  input: {
+    padding: spacing(1, 2),
+    fontSize: '1rem',
+  },
+  focused: {
+    borderBottomColor: palette.primary.main,
+  },
+  disabled: {
+    backgroundColor: palette.grey[100],
   },
   error: {
     marginTop: spacing(0.5),
@@ -29,22 +28,25 @@ const useStyles = makeStyles(({ spacing, palette }) => ({
   },
 }));
 
-export type InputProps = React.ComponentProps<'input'> & {
+export type InputProps = PropsWithoutRef<Omit<MUIInputProps, 'error'>> & {
   className?: string;
-  fullWidth?: boolean;
   error?: React.ReactNode;
 };
 
-const Input: React.FC<InputProps> = ({ className, error, ...props }) => {
-  const classes = useStyles();
+const Input: React.FC<InputProps> = ({ error, ...props }) => {
+  const classes = useStyles({ disabled: props.disabled });
 
   return (
-    <div className={classes.container}>
-      <input className={clsx(classes.input, className)} {...props} />
+    <>
+      <MUIInput
+        disableUnderline
+        classes={{ root: classes.root, input: classes.input, disabled: classes.disabled, focused: classes.focused }}
+        {...props}
+      />
       <Fade in={!!error}>
         <div className={classes.error}>{error}&nbsp;</div>
       </Fade>
-    </div>
+    </>
   );
 };
 

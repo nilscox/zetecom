@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import parseISO from 'date-fns/parseISO';
 
-import Input from 'src/components/Input';
+import Input, { InputProps } from 'src/components/Input';
 
-type DateInputProps = React.HTMLProps<HTMLInputElement> & {
+type DateInputProps = InputProps & {
   onDateChange?: (value: Date) => void;
 };
 

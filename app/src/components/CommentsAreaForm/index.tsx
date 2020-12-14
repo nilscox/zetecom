@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 
 import { Grid, makeStyles } from '@material-ui/core';
+import LaunchIcon from '@material-ui/icons/Launch';
 import clsx from 'clsx';
 import { InputInitializer } from 'react-use-form-state';
 
@@ -16,7 +17,7 @@ import defaultCommentsAreaImage from '../CommentsArea/default-comments-area.png'
 
 const imageRatio = 1.61803398875;
 
-const useStyles = makeStyles(({ spacing, breakpoints }) => ({
+const useStyles = makeStyles(({ spacing, palette, breakpoints }) => ({
   description: {
     width: '100%',
     padding: spacing(2),
@@ -36,6 +37,9 @@ const useStyles = makeStyles(({ spacing, breakpoints }) => ({
       width: spacing(26 * imageRatio),
       height: spacing(26),
     },
+  },
+  openUrlIcon: {
+    color: palette.secondary.light,
   },
   authorInput: {
     marginRight: spacing(4),
@@ -68,7 +72,7 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
   const classes = useStyles();
 
   const placeholders: Record<keyof CreateCommentsAreaFormState, string> = {
-    identifier: 'identifier',
+    identifier: '',
     informationUrl: "URL de l'information",
     informationTitle: "Titre de l'information",
     informationAuthor: "Auteur de l'information",
@@ -109,6 +113,12 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
     onSubmit(replaceFields(form.values, value => (value === '' ? null : value)));
   };
 
+  const openUrlIconLink = (
+    <a target="_blank" rel="noreferrer" href={form.values.informationUrl}>
+      <LaunchIcon className={classes.openUrlIcon} />
+    </a>
+  );
+
   return (
     <Grid component="form" container className={clsx(classes.description, className)} onSubmit={handleSubmit}>
       <Grid item className={classes.left}>
@@ -117,7 +127,7 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
 
       <Grid item container direction="column" className={classes.right}>
         <Input {...fieldProps('informationTitle', text)} />
-        <Input {...fieldProps('informationUrl', text)} />
+        <Input {...fieldProps('informationUrl', text)} endAdornment={openUrlIconLink} />
         <Input {...fieldProps('imageUrl', text)} />
 
         {env.DEBUG === 'true' && <Input disabled {...fieldProps('identifier', text)} />}
