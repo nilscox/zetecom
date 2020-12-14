@@ -38,7 +38,7 @@ const Home: React.FC = () => (
         Zétécom, c'est une plateforme qui met à disposition des zones de commentaires, pour réagir à l'information sur internet tout en cultivant son <strong>autodéfense intellectuelle</strong>.
       </p>
       <p>
-        Pour garantir des échanges constructifs, les personnes participant aux discussions s'engagent à respecter <RouterLink to="/charte">une charte</RouterLink> composée de quelques règles simples.
+        Pour garantir des échanges constructifs, les personnes participant aux discussions s'engagent à respecter <RouterLink to="/charte.html">une charte</RouterLink> composée de quelques règles simples.
       </p>
     </div>
 
@@ -80,7 +80,7 @@ const Home: React.FC = () => (
       </p>
 
       <p>
-        Si cela vous intéresse, la page <RouterLink to="/motivations">motivations</RouterLink> explique plus en détail le contexte dans lequel s'inscrit Zétécom, les raisons pour lesquelles cet outil a vu le jour et les problématiques auxquelles il tente d'apporter des solutions.
+        Si cela vous intéresse, la page <RouterLink to="/motivations.html">motivations</RouterLink> explique plus en détail le contexte dans lequel s'inscrit Zétécom, les raisons pour lesquelles cet outil a vu le jour et les problématiques auxquelles il tente d'apporter des solutions.
       </p>
     </div>
 
