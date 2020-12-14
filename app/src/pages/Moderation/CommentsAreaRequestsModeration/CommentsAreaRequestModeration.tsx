@@ -51,7 +51,12 @@ const CommentsAreaRequestModeration: React.FC<CreateCommentsAreaProps> = ({ requ
   }, [rejected, trackEvent]);
 
   const handleSubmit = (data: CreateCommentsAreaFormState) => {
-    create({ data }).catch(() => {});
+    create({
+      data: {
+        ...data,
+        integrationIdentifer: data.identifier,
+      },
+    }).catch(() => {});
   };
 
   return (

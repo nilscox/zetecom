@@ -120,7 +120,13 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
   );
 
   return (
-    <Grid component="form" container className={clsx(classes.description, className)} onSubmit={handleSubmit}>
+    <Grid
+      id="comments-area-request-form"
+      component="form"
+      container
+      className={clsx(classes.description, className)}
+      onSubmit={handleSubmit}
+    >
       <Grid item className={classes.left}>
         <img src={form.values.imageUrl || defaultCommentsAreaImage} className={classes.image} />
       </Grid>

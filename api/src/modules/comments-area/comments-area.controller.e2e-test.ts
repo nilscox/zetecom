@@ -40,10 +40,12 @@ describe('comments area controller', () => {
 
   let commentsAreaRepository: CommentsAreaRepository;
   let commentsAreaRequestRepository: Repository<CommentsAreaRequest>;
+  let commentsAreaIntegrationRepository: Repository<CommentsAreaIntegration>;
 
   beforeAll(() => {
     commentsAreaRepository = getCustomRepository(CommentsAreaRepository);
     commentsAreaRequestRepository = getRepository(CommentsAreaRequest);
+    commentsAreaIntegrationRepository = getRepository(CommentsAreaIntegration);
   });
 
   describe('list comments areas', () => {
@@ -198,6 +200,25 @@ describe('comments area controller', () => {
       const requestDb = await commentsAreaRequestRepository.findOne(request.id);
 
       expect(requestDb).toHaveProperty('status', CommentsAreaRequestStatus.APPROVED);
+    });
+
+    it('should create an integration along with the comments area', async () => {
+      const identifier = 'test:2';
+
+      const { body } = await asModerator
+        .post('/api/comments-area')
+        .send({ ...commentsArea, integrationIdentifier: identifier })
+        .expect(201);
+
+      const [integration] = await commentsAreaIntegrationRepository.find({
+        where: {
+          commentsArea: { id: body.id },
+        },
+        relations: ['commentsArea'],
+      });
+
+      expect(integration).toBeDefined();
+      expect(integration).toHaveProperty('identifier', identifier);
     });
   });
 

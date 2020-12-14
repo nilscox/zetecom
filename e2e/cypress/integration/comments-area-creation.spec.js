@@ -39,7 +39,7 @@ describe('comments area creation', () => {
       cy.didTrack({
         category: 'CommentsArea',
         action: 'Request',
-        name: 'Comments Area Request From App',
+        name: 'Request Comments Area From App',
       });
     });
 
@@ -60,35 +60,27 @@ describe('comments area creation', () => {
       cy.getField("Auteur de l'information").type(commentsArea1.informationAuthor);
       cy.getField('Date de publication').type(typePublicationDate);
 
+      cy.get("#comments-area-request-form img").should('have.attr', 'src', commentsArea1.imageUrl);
+
       cy.contains('Valider').click();
     });
 
-    it.skip('should request to open a new comments area from the integration', () => {
-      cy.visitIntegration('test:request-open');
-
-      cy.contains("L'espace de commentaires n'est pas ouvert sur cette page.");
-      cy.contains("Connectez-vous pour demander l'ouverture d'une nouvelle zone de commentaire.");
-
-      cy.didTrack({ category: 'Extension', action: 'View Integration', name: 'View Integration Closed' });
-
+    it('should request to open a new comments area from the integration', () => {
       cy.login({ email: 'user1@domain.tld', password: 'p4ssword' });
-      cy.visitIntegration('test:request-open');
-
-      cy.contains("L'espace de commentaires n'est pas ouvert sur cette page.");
-      cy.contains("Demander l'ouverture").click();
-
-      cy.didTrack({
-        category: 'CommentsArea',
-        action: 'Request',
-        name: 'Request From Integration',
-      });
-
-      cy.contains("L'ouverture a bien été prise en compte !");
-      cy.contains('Les modérateurs traiteront votre demande au plus vite.');
-
-      cy.reload();
+      cy.visitIntegration('test:request-open', 'https://page.url');
 
       cy.contains("Demander l'ouverture").click();
+
+      for (const _ of [1, 2]) {
+        cy.contains("L'ouverture a bien été prise en compte !");
+        cy.contains('Les modérateurs traiteront votre demande au plus vite.');
+
+        cy.didTrack({
+          category: 'CommentsArea',
+          action: 'Request',
+          name: 'Request Comments Area From Integration',
+        });
+      }
     });
   });
 
@@ -168,10 +160,8 @@ describe('comments area creation', () => {
     cy.getField("Titre de l'information *").type(commentsArea1.informationTitle);
     cy.getField("Auteur de l'information *").clear();
     cy.getField("Auteur de l'information *").type('himself');
+    cy.getField('Date de publication *').type(typePublicationDate);
 
-    cy.contains('Ouvrir').click();
-
-    cy.getField('jj / mm / aaaa').type(typePublicationDate);
     cy.contains('Ouvrir').click();
 
     cy.contains('La nouvelle zone de commentaires a bien été créé.');

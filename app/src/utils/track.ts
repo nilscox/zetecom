@@ -80,7 +80,7 @@ const track = {
   commentsAreaRequested: (from: From) => ({
     category: 'CommentsArea',
     action: 'Request',
-    name: `Comments Area Request From ${from}`,
+    name: `Request Comments Area From ${from}`,
   }),
 
   commentsAreaRequestRejected: () => ({

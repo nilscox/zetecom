@@ -73,8 +73,8 @@ Cypress.Commands.add('visitPopup', (url = '') => {
   cy.visit(APP_URL + '/popup' + url);
 });
 
-Cypress.Commands.add('visitIntegration', (identifier) => {
-  cy.visit(APP_URL + '/integration?identifier=' + encodeURIComponent(identifier));
+Cypress.Commands.add('visitIntegration', (identifier, pageUrl) => {
+  cy.visit(APP_URL + '/integration?identifier=' + encodeURIComponent(identifier) + '&pageUrl=' + pageUrl);
 });
 
 Cypress.Commands.add('visitHistory', (commentId) => {

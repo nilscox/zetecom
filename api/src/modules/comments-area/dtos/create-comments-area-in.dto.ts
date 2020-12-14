@@ -4,6 +4,10 @@ import { IsPast } from 'Common/is-past.validator';
 
 export class CreateCommentsAreaInDto {
   @IsString()
+  @IsOptional()
+  readonly integrationIdentifier?: string;
+
+  @IsString()
   @IsUrl()
   @MinLength(5)
   @MaxLength(1000)

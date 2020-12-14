@@ -7,7 +7,7 @@ export class CommentsAreaIntegration {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   identifier: string;
 
   @OneToOne(() => CommentsArea, undefined, { eager: true })
