@@ -2,12 +2,13 @@ import React, { createContext, useContext, useEffect } from 'react';
 
 import useAxios from 'src/hooks/use-axios';
 import { NotificationsCount } from 'src/types/Notification';
-import env from 'src/utils/env';
+
+import useLongPolling from '../hooks/useLongPolling';
 
 import { useCurrentUser } from './UserContext';
 
 // every minute
-const POLL_INTERVAL = 60 * 1000;
+const POLL_INTERVAL = 2 * 1000;
 
 export type NotificationsContextType = {
   count: number;
@@ -31,28 +32,15 @@ const useFetchNotifications = () => {
   return [result, refetch] as const;
 };
 
-const useLongPolling = (fetch: () => void, ms: number) => {
-  const user = useCurrentUser();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (fetch) {
-        fetch();
-      }
-    }, ms);
-
-    return () => clearInterval(interval);
-  }, [user, fetch, ms]);
-};
-
 export const NotificationsProvider: React.FC = ({ children }) => {
+  const user = useCurrentUser();
   const [{ data }, refetch] = useFetchNotifications();
 
-  // resolved to a constant value after webpack's transform
-  if (env.NODE_ENV === 'development') {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useLongPolling(() => void refetch(), POLL_INTERVAL);
-  }
+  useLongPolling(() => {
+    if (user) {
+      refetch();
+    }
+  }, POLL_INTERVAL);
 
   const value = { count: data?.count || NaN, refetch };
 
