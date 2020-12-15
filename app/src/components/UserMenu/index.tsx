@@ -21,10 +21,18 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
 
   return (
     <RouterLink focusColor={false} to="/connexion">
-      <Grid container direction="column" alignItems="center">
+      <Grid container direction="column" alignItems="center" style={{ width: 140 }}>
         <CircleAvatarIwage src={defaultAvatar} />
-        <Grid item>
-          <Typography style={{ fontWeight: 600 }}>
+        <Grid item style={{ maxWidth: '100%' }}>
+          <Typography
+            style={{
+              fontWeight: 600,
+              textAlign: 'center',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              maxWidth: '100%',
+            }}
+          >
             Conexion
           </Typography>
         </Grid>

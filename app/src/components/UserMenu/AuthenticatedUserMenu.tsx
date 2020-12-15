@@ -1,15 +1,6 @@
 import React, { forwardRef, useRef, useState } from 'react';
 
-import {
-  Badge,
-  Grid,
-  ListItemIcon,
-  ListItemText,
-  makeStyles,
-  Menu,
-  MenuItem,
-  Typography,
-} from '@material-ui/core';
+import { Badge, Grid, ListItemIcon, ListItemText, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 import ModerationIcon from '@material-ui/icons/DoneAll';
 import SignoutIcon from '@material-ui/icons/ExitToApp';
@@ -125,7 +116,7 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
   return (
     <>
       <Grid container justify="flex-end">
-        <Grid item>
+        <Grid item style={{ width: 140 }}>
           <Grid
             container
             ref={userMenuAnchor}

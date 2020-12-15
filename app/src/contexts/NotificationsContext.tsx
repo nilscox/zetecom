@@ -1,14 +1,14 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useCallback, useContext, useEffect } from 'react';
 
 import useAxios from 'src/hooks/use-axios';
 import { NotificationsCount } from 'src/types/Notification';
 
 import useLongPolling from '../hooks/useLongPolling';
 
-import { useCurrentUser } from './UserContext';
+import { useUser } from './UserContext';
 
 // every minute
-const POLL_INTERVAL = 2 * 1000;
+const POLL_INTERVAL = 2 * 60_000;
 
 export type NotificationsContextType = {
   count: number;
@@ -19,9 +19,31 @@ export const NotificationsContext = createContext<NotificationsContextType>({ co
 
 export const useNotifications = () => useContext(NotificationsContext);
 
-const useFetchNotifications = () => {
-  const user = useCurrentUser();
-  const [result, refetch] = useAxios('/api/notification/me/count', { manual: true }, NotificationsCount);
+const useFetchNotifications = (onUnauthenticated: () => void) => {
+  const [result, refetch] = useAxios(
+    {
+      url: '/api/notification/me/count',
+      validateStatus: s => [200, 403].includes(s),
+    },
+    { manual: true },
+    NotificationsCount,
+  );
+
+  const { status } = result;
+
+  useEffect(() => {
+    if (status(403)) {
+      onUnauthenticated();
+    }
+  }, [status, onUnauthenticated]);
+
+  return [result, refetch] as const;
+};
+
+export const NotificationsProvider: React.FC = ({ children }) => {
+  const [user, setUser] = useUser();
+  const onUnauthenticated = useCallback(() => setUser(null), [setUser]);
+  const [{ data }, refetch] = useFetchNotifications(onUnauthenticated);
 
   useEffect(() => {
     if (user) {
@@ -29,16 +51,9 @@ const useFetchNotifications = () => {
     }
   }, [user, refetch]);
 
-  return [result, refetch] as const;
-};
-
-export const NotificationsProvider: React.FC = ({ children }) => {
-  const user = useCurrentUser();
-  const [{ data }, refetch] = useFetchNotifications();
-
   useLongPolling(() => {
     if (user) {
-      refetch();
+      refetch().catch(() => {});
     }
   }, POLL_INTERVAL);
 
