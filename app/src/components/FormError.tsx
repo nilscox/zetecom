@@ -17,12 +17,13 @@ type FormErrorProps = {
 const FormError: React.FC<FormErrorProps> = ({ error, consistentHeight }) => {
   const classes = useStyles();
 
-  if (!error && !consistentHeight)
+  if (!error && !consistentHeight) {
     return null;
+  }
 
   return (
     <FormHelperText error className={classes.error}>
-      { error || <>&nbsp;</> }
+      {error || <>&nbsp;</>}
     </FormHelperText>
   );
 };

@@ -28,30 +28,29 @@ type AuthenticateButtonProps = {
   formError: ReactNode | undefined;
 };
 
-const AuthenticateButton: React.FC<AuthenticateButtonProps> = ({
-  form,
-  loading,
-  values,
-  fieldErrors,
-  formError,
-}) => {
+const AuthenticateButton: React.FC<AuthenticateButtonProps> = ({ form, loading, values, fieldErrors, formError }) => {
   const isValid = useMemo(() => {
-    if (typeof formError !== 'undefined' || Object.values(fieldErrors).some(error => typeof error !== 'undefined'))
+    if (typeof formError !== 'undefined' || Object.values(fieldErrors).some(error => typeof error !== 'undefined')) {
       return false;
+    }
 
-    if (form === 'signup' && !values.didAcceptRules)
+    if (form === 'signup' && !values.didAcceptRules) {
       return false;
+    }
 
     const [email, password, nick] = [values.email !== '', values.password !== '', values.nick !== ''];
 
-    if (form === 'login' && (!email || !password))
+    if (form === 'login' && (!email || !password)) {
       return false;
+    }
 
-    if (form === 'signup' && (!email || !password || !nick))
+    if (form === 'signup' && (!email || !password || !nick)) {
       return false;
+    }
 
-    if (form === 'emailLogin' && !email)
+    if (form === 'emailLogin' && !email) {
       return false;
+    }
 
     return true;
   }, [form, values, fieldErrors, formError]);
@@ -61,7 +60,7 @@ const AuthenticateButton: React.FC<AuthenticateButtonProps> = ({
   return (
     <Grid container direction="row" justify="center">
       <Button size="large" type="submit" disabled={!isValid} loading={loading} className={classes.button}>
-        { text[form] }
+        {text[form]}
       </Button>
     </Grid>
   );

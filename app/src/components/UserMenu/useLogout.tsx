@@ -10,6 +10,7 @@ const useLogout = (onLoggedOut?: () => void) => {
 
   const [, setUser] = useUser();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [{ error, loading, status }, logout] = useAxios({ method: 'POST', url: '/api/auth/logout' }, { manual: true });
 
   if (error) {

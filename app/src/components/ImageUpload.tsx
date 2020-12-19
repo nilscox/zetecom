@@ -11,33 +11,28 @@ type ImageUploadProps = {
 const ImageUpload: React.FC<ImageUploadProps> = ({ allowedTypes, onUpload, children }) => {
   const fileInputRef = React.createRef<HTMLInputElement>();
 
-  const onFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
+  const onFileChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files;
 
-    if (files.length === 0)
-      return;
+      if (files.length === 0) {
+        return;
+      }
 
-    if (!allowedTypes.includes(files[0].type.split('/')[1])) {
-      toast.warn('Type de fichier non valide.');
-      return;
-    }
+      if (!allowedTypes.includes(files[0].type.split('/')[1])) {
+        toast.warn('Type de fichier non valide.');
+        return;
+      }
 
-    onUpload(files[0]);
-  }, [allowedTypes, onUpload]);
+      onUpload(files[0]);
+    },
+    [allowedTypes, onUpload],
+  );
 
   return (
     <>
-      <input
-        ref={fileInputRef}
-        accept="image/*"
-        type="file"
-        style={{ display: 'none' }}
-        onChange={onFileChange}
-      />
-      <div
-        style={{ display: 'inline-flex', cursor: 'pointer' }}
-        onClick={() => fileInputRef.current.click()}
-      >
+      <input ref={fileInputRef} accept="image/*" type="file" style={{ display: 'none' }} onChange={onFileChange} />
+      <div style={{ display: 'inline-flex', cursor: 'pointer' }} onClick={() => fileInputRef.current.click()}>
         {children}
       </div>
     </>

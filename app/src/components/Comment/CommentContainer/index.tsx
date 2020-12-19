@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 
-import AsyncContent from 'src/components/AsyncContent';
 import { CommentEditionForm } from 'src/components/CommentForm';
 import usePrevious from 'src/hooks/use-previous';
 import { Comment } from 'src/types/Comment';

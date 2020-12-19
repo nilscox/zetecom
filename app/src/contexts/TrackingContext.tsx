@@ -13,7 +13,7 @@ interface TrackingProvider {
   trackEvent: (params: TrackEventParams) => void;
 }
 
-const CustomTrackingContext = createContext<TrackingProvider>(null as any);
+const CustomTrackingContext = createContext<TrackingProvider | null>(null);
 
 const useTrackingProvider = (): { Provider: React.FC<{ value: TrackingProvider }>; value: TrackingProvider } => {
   const matomoInstance = useMemo(() => {
