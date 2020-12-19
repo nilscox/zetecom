@@ -1,4 +1,4 @@
-const env = {
+const env: Record<string, string> = {
   NODE_ENV: import.meta.env.NODE_ENV,
   API_URL: import.meta.env.SNOWPACK_PUBLIC_API_URL,
   WEBSITE_URL: import.meta.env.SNOWPACK_PUBLIC_WEBSITE_URL,
