@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { makeStyles, useMediaQuery } from '@material-ui/core';
+import { makeStyles, Theme, useMediaQuery } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 import Button from 'src/components/Button';
 
-const useStyles = makeStyles(({ palette, breakpoints, spacing }) => ({
+const useStyles = makeStyles<Theme, { displayReplies?: boolean }>(({ palette, breakpoints, spacing }) => ({
   button: {
     padding: spacing(0, 2),
     color: palette.text.secondary,
@@ -21,7 +21,7 @@ const useStyles = makeStyles(({ palette, breakpoints, spacing }) => ({
       fontSize: '0.7rem',
     },
   },
-  arrow: (displayReplies: boolean) => ({
+  arrow: ({ displayReplies }) => ({
     transform: `rotate(${displayReplies ? 90 : 0}deg)`,
     transition: 'transform 200ms ease-in-out',
     color: 'inherit',
@@ -42,7 +42,7 @@ type RepliesButtonProps = {
 };
 
 const RepliesButton: React.FC<RepliesButtonProps> = ({ loading, repliesCount, displayReplies, onClick }) => {
-  const classes = useStyles(displayReplies);
+  const classes = useStyles({ displayReplies });
   const verySmall = useMediaQuery('(max-width: 320px)');
 
   return (

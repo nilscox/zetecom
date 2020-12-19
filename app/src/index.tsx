@@ -1,4 +1,4 @@
-/* eslint-disable simple-import-sort/sort */
+/* eslint-disable simple-import-sort/imports */
 
 import 'reflect-metadata';
 
