@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace GA with Matomo
 - Debounce the loaders
 - Moderation tabs
+- Use snowpack to build the app
 
 ### Fixed
 
