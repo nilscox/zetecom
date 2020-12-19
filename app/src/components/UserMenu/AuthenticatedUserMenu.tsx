@@ -19,10 +19,6 @@ const useStyles = makeStyles(({ palette }) => ({
   userMenuButton: {
     cursor: 'pointer',
   },
-  notificationsActive: {
-    color: palette.primary.main,
-    fontWeight: 600,
-  },
   logout: {
     color: palette.secondary.main,
   },
@@ -34,19 +30,10 @@ type MenuItemProps = {
 
 const NotificationsMenuItem = forwardRef<HTMLAnchorElement, MenuItemProps>(({ onClose }, ref) => {
   const { count: notificationsCount } = useNotifications();
-  const classes = useStyles();
-
   const hasNotifications = notificationsCount > 0;
 
   return (
-    <MenuItem
-      ref={ref}
-      component={RouterLink}
-      focusColor={false}
-      to="/notifications"
-      className={clsx(hasNotifications && classes.notificationsActive)}
-      onClick={onClose}
-    >
+    <MenuItem ref={ref} component={RouterLink} focusColor={false} to="/notifications" onClick={onClose}>
       <ListItemIcon>
         <NotificationIcon fontSize="small" color={hasNotifications ? 'primary' : 'inherit'} />
       </ListItemIcon>
