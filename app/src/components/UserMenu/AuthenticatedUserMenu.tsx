@@ -1,6 +1,6 @@
 import React, { forwardRef, useRef, useState } from 'react';
 
-import { Badge, Grid, ListItemIcon, ListItemText, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
+import { Badge, ListItemIcon, ListItemText, makeStyles, Menu, MenuItem } from '@material-ui/core';
 import CommentIcon from '@material-ui/icons/Comment';
 import ModerationIcon from '@material-ui/icons/DoneAll';
 import SignoutIcon from '@material-ui/icons/ExitToApp';
@@ -13,17 +13,11 @@ import RouterLink from '../Link';
 import UserAvatar from '../UserAvatar';
 
 import useLogout from './useLogout';
+import UserMenuComponent from './UserMenuComponent';
 
 const useStyles = makeStyles(({ palette }) => ({
   userMenuButton: {
     cursor: 'pointer',
-    transition: 'color 200ms ease-in-out',
-    '&:hover': {
-      color: palette.secondary.light,
-    },
-  },
-  nick: {
-    fontWeight: 600,
   },
   notificationsActive: {
     color: palette.primary.main,
@@ -115,23 +109,17 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
 
   return (
     <>
-      <Grid container justify="flex-end">
-        <Grid item style={{ width: 140 }}>
-          <Grid
-            container
-            ref={userMenuAnchor}
-            direction="column"
-            alignItems="center"
-            className={classes.userMenuButton}
-            onClick={() => setMenuOpen(true)}
-          >
-            <Badge badgeContent={notificationsCount || 0} color="primary">
-              <UserAvatar user={user} />
-            </Badge>
-            <Typography className={classes.nick}>{user.nick}</Typography>
-          </Grid>
-        </Grid>
-      </Grid>
+      <UserMenuComponent
+        ref={userMenuAnchor}
+        className={classes.userMenuButton}
+        image={
+          <Badge badgeContent={notificationsCount || 0} color="primary">
+            <UserAvatar user={user} />
+          </Badge>
+        }
+        text={user.nick}
+        onClick={() => setMenuOpen(true)}
+      />
 
       <Menu
         open={menuOpen}
