@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { AxiosResponse } from 'axios';
-import { mocked } from 'ts-jest';
+import { mocked } from 'ts-jest/utils';
 
 import useAxios from '../../../../../hooks/use-axios';
 import makeComment from '../../../../../test/makeComment';
@@ -112,9 +112,7 @@ describe('useReactions', () => {
       result.current(null);
     });
 
-    expect(postReaction).toHaveBeenCalledWith(
-      expect.objectContaining({ data: { commentId: comment.id, type: null } }),
-    );
+    expect(postReaction).toHaveBeenCalledWith(expect.objectContaining({ data: { commentId: comment.id, type: null } }));
 
     expect(setComment).toHaveBeenCalledWith(
       expect.objectContaining({

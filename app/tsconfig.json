@@ -15,6 +15,5 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true
   },
-  "include": ["src", "package.json"],
-  "exclude": ["src/__mocks__"]
+  "include": ["src"]
 }
