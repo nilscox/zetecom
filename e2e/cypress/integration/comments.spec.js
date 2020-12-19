@@ -152,7 +152,10 @@ describe('comments', () => {
     });
 
     it('pagination', () => {
-      const expectPage = (str) => cy.get('[role="Numéro de page"]').contains(str);
+      const expectPage = (str) => {
+        cy.fixCI();
+        cy.get('[role="Numéro de page"]').contains(str);
+      };
 
       cy.visitIntegration('test:news4');
 
