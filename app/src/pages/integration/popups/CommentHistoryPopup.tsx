@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
-import { Paper, Typography } from '@material-ui/core';
+import { Box, Paper, Typography } from '@material-ui/core';
 import { plainToClass } from 'class-transformer';
 import dayjs from 'dayjs';
 import * as diff from 'diff';
 import { RouteComponentProps } from 'react-router';
 
-import Box from 'src/components/Box';
 import DiffMessage from 'src/components/DiffMessage';
 import Loader from 'src/components/Loader';
 import useAxios from 'src/hooks/use-axios';

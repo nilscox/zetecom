@@ -1,8 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { Typography } from '@material-ui/core';
-
-import Flex from './Flex';
+import { Grid, Typography } from '@material-ui/core';
 
 class Not<T> {
   constructor(public readonly value: T | null | undefined) {}
@@ -42,9 +40,9 @@ function Fallback<T>({ when, fallback, minHeight = 200, render }: FallbackProps<
 
   if (!shouldRender) {
     return (
-      <Flex flexDirection="column" justifyContent="center" alignItems="center" style={{ minHeight }}>
+      <Grid container direction="column" justify="center" alignItems="center" style={{ minHeight }}>
         {typeof fallback === 'string' ? <Typography variant="body2">{fallback}</Typography> : fallback}
-      </Flex>
+      </Grid>
     );
   }
 
