@@ -1,4 +1,4 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 
 import { UserLightDto } from '../../user/dtos/user-ligth.dto';
 import { NotificationType } from '../notification-type';
@@ -11,9 +11,14 @@ class RulesUpdatePayloadDto {
 }
 
 class SubscriptionReplyPayloadDto {
-
   @Expose()
   commentsAreaId: number;
+
+  @Expose()
+  commentsAreaTitle: string;
+
+  @Expose()
+  commentsAreaImageUrl: string;
 
   @Expose()
   commentId: number;
@@ -48,13 +53,14 @@ export class NotificationDto {
   type: NotificationType;
 
   @Expose()
-  @Type(({ object }: any) => mapNotificationTypePayload[object.type])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  @Type(({ object }: Record<string, any>) => mapNotificationTypePayload[object.type])
   payload: NotificationPayload;
 
   @Expose()
+  @Transform((value) => value || false)
   seen: Date | false;
 
   @Expose()
   created: Date;
-
 }

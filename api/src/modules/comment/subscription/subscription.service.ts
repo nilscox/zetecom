@@ -5,8 +5,9 @@ import { FindConditions, Not, Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
+import { SubscriptionReplyNotificationPayload } from '../../notification/notification-payload';
 import { NotificationType } from '../../notification/notification-type';
-import { Notification } from '../../notification/notification.entity';
+import { NotificationService } from '../../notification/notification.service';
 import { UserLightDto } from '../../user/dtos/user-ligth.dto';
 import { UserDto } from '../../user/dtos/user.dto';
 import { Comment } from '../comment.entity';
@@ -15,16 +16,13 @@ import { Subscription } from './subscription.entity';
 
 @Injectable()
 export class SubscriptionService {
-
   @Inject('SUBSCRIPTION_PAGE_SIZE')
   private pageSize: number;
 
   constructor(
     @InjectRepository(Subscription)
     private readonly subscriptionRepository: Repository<Subscription>,
-
-    @InjectRepository(Notification)
-    private readonly notificationRepository: Repository<Notification>,
+    private readonly notificationService: NotificationService,
   ) {}
 
   public async subscribe(user: UserDto, comment: Comment): Promise<Subscription> {
@@ -45,7 +43,8 @@ export class SubscriptionService {
   }
 
   public async findAllForUser(user: UserDto, page: number): Promise<Paginated<Subscription>> {
-    const qb = this.subscriptionRepository.createQueryBuilder('comment_subscription')
+    const qb = this.subscriptionRepository
+      .createQueryBuilder('comment_subscription')
       .leftJoinAndSelect('comment_subscription.comment', 'comment')
       .leftJoinAndSelect('comment.commentsArea', 'commentsArea')
       .leftJoinAndSelect('comment.author', 'author')
@@ -59,18 +58,25 @@ export class SubscriptionService {
     return { items, total };
   }
 
-  public async getSubscriptionsForUser(commentsIds: number[], userId: number): Promise<{ [commentId: number]: boolean }> {
-    const subscriptions = await this.subscriptionRepository.createQueryBuilder('comment_subscription')
+  public async getSubscriptionsForUser(
+    commentsIds: number[],
+    userId: number,
+  ): Promise<{ [commentId: number]: boolean }> {
+    const subscriptions = await this.subscriptionRepository
+      .createQueryBuilder('comment_subscription')
       .select('comment_id', 'commentId')
       .leftJoin('comment', 'comment', 'comment_subscription.comment_id = comment.id')
       .where('user_id = :userId', { userId })
       .andWhere('comment.id IN (' + commentsIds + ')')
       .getRawMany();
 
-    return commentsIds.reduce((acc, commentId) => ({
-      ...acc,
-      [commentId]: !!subscriptions.find(s => s.commentId === commentId),
-    }), {});
+    return commentsIds.reduce(
+      (acc, commentId) => ({
+        ...acc,
+        [commentId]: !!subscriptions.find((s) => s.commentId === commentId),
+      }),
+      {},
+    );
   }
 
   public async notifyReply(reply: Comment): Promise<void> {
@@ -82,24 +88,20 @@ export class SubscriptionService {
       relations: ['user'],
     });
 
-    const payload = {
+    const payload: SubscriptionReplyNotificationPayload = {
       commentsAreaId: reply.commentsArea.id,
+      commentsAreaTitle: reply.commentsArea.informationTitle,
+      commentsAreaImageUrl: reply.commentsArea.imageUrl,
       commentId: reply.parent.id,
       replyId: reply.id,
-      author: classToPlain(plainToClass(UserLightDto, reply.author), { strategy: 'excludeAll' }),
+      author: classToPlain(plainToClass(UserLightDto, reply.author), { strategy: 'excludeAll' }) as any,
       text: reply.message.text,
     };
 
-    const notifications = subscriptions.map(({ user }) => {
-      return this.notificationRepository.create({
-        type: NotificationType.SUBSCRIPTION_REPLY,
-        user,
-        payload,
-      } as unknown as Notification);
-    });
-
-    if (notifications.length > 0)
-      await this.notificationRepository.insert(notifications);
+    this.notificationService.createMultiple(
+      NotificationType.SUBSCRIPTION_REPLY,
+      subscriptions.map(({ user }) => user),
+      payload,
+    );
   }
-
 }

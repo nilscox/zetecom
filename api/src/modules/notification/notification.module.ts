@@ -15,6 +15,6 @@ const NotificationPageSize: Provider = {
   imports: [TypeOrmModule.forFeature([Notification])],
   controllers: [NotificationController],
   providers: [NotificationPageSize, NotificationService],
-  exports: [TypeOrmModule],
+  exports: [NotificationService],
 })
 export class NotificationModule {}

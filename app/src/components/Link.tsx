@@ -34,15 +34,12 @@ export type RouterLinkProps = Omit<ReactRouterLinkProps, 'color'> & {
   color?: boolean;
   focusColor?: boolean;
   focusHighlightColor?: boolean;
-}
+};
 
-const RouterLink: React.ForwardRefRenderFunction<HTMLAnchorElement, RouterLinkProps> = ({
-  color,
-  focusColor = true,
-  focusHighlightColor,
-  className,
-  ...props
-}, ref) => {
+const RouterLink: React.ForwardRefRenderFunction<HTMLAnchorElement, RouterLinkProps> = (
+  { color = true, focusColor = true, focusHighlightColor, className, ...props },
+  ref,
+) => {
   // const ref = useRef<HTMLAnchorElement>(null);
   const classes = useStyles({});
 
@@ -50,15 +47,13 @@ const RouterLink: React.ForwardRefRenderFunction<HTMLAnchorElement, RouterLinkPr
     <ReactRouterLink
       ref={ref}
       onClick={() => ref && 'current' in ref && ref.current?.blur()}
-      className={
-        clsx(
-          classes.link,
-          color && classes.color,
-          focusColor && classes.focusColor,
-          focusHighlightColor && classes.focusHighlightColor,
-          className,
-        )
-      }
+      className={clsx(
+        classes.link,
+        color && classes.color,
+        focusColor && classes.focusColor,
+        focusHighlightColor && classes.focusHighlightColor,
+        className,
+      )}
       {...props}
     />
   );
@@ -92,15 +87,13 @@ export const Link: React.FC<LinkProps> = ({
   return (
     <a
       ref={ref}
-      className={
-        clsx(
-          classes.link,
-          color && classes.color,
-          focusColor && classes.focusColor,
-          focusHighlightColor && classes.focusHighlightColor,
-          className,
-        )
-      }
+      className={clsx(
+        classes.link,
+        color && classes.color,
+        focusColor && classes.focusColor,
+        focusHighlightColor && classes.focusHighlightColor,
+        className,
+      )}
       {...props}
       {...other}
     />

@@ -10,6 +10,10 @@ class RulesUpdatePayload {
 class SubscriptionReplyPayload {
   commentsAreaId: number;
 
+  commentsAreaTitle: string;
+
+  commentsAreaImageUrl: string;
+
   commentId: number;
 
   replyId: number;
@@ -27,6 +31,10 @@ const transformNotificationPayload = (
   { type }: Notification<NotificationType>,
   transform: TransformationType,
 ) => {
+  if (transform === TransformationType.CLASS_TO_CLASS) {
+    return value;
+  }
+
   if (transform !== TransformationType.PLAIN_TO_CLASS) {
     throw new Error('cannot handle transform');
   }

@@ -1,4 +1,5 @@
 import { forwardRef, Module, Provider } from '@nestjs/common';
+import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CommentsAreaModule } from '../comments-area/comments-area.module';
@@ -21,6 +22,7 @@ const CommentPageSize: Provider = {
 
 @Module({
   imports: [
+    CqrsModule,
     TypeOrmModule.forFeature([CommentRepository, Message, Reaction]),
     UserModule,
     ReportModule,

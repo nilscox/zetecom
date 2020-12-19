@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Grid } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
 
-import RouterLink from '../Link';
+import Link from '../Link';
 
 import { Form } from './types';
 
@@ -27,19 +27,17 @@ const AuthenticationNavigation: React.FC<AuthenticationNavigationProps> = ({ for
 
   return (
     <Grid container>
-
       <Box flex={1}>
-        <RouterLink focusHighlightColor to={loginSignupLocation()}>
-          { form === 'login' ? 'Créer un compte' : 'Connexion' }
-        </RouterLink>
+        <Link focusHighlightColor color={false} to={loginSignupLocation()}>
+          {form === 'login' ? 'Créer un compte' : 'Connexion'}
+        </Link>
       </Box>
 
-      <Box flex={1} textAlign="right">
-        <RouterLink tabIndex={-1} to={forgotPasswordLocation()}>
+      <Box flex={1} color={false} textAlign="right">
+        <Link tabIndex={-1} to={forgotPasswordLocation()}>
           Mot de passe oublié
-        </RouterLink>
+        </Link>
       </Box>
-
     </Grid>
   );
 };

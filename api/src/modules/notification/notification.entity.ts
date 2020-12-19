@@ -7,7 +7,6 @@ import { NotificationType } from './notification-type';
 
 @Entity({ name: 'notification' })
 export class Notification {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -15,7 +14,7 @@ export class Notification {
   type: NotificationType;
 
   @Column({ type: 'json' })
-  payload: NotificationPayload;
+  payload: NotificationPayload[keyof NotificationPayload];
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
@@ -26,5 +25,4 @@ export class Notification {
 
   @CreateDateColumn()
   created: Date;
-
 }
