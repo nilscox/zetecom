@@ -4,7 +4,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import useEditableDataset from '../useEditableDataset';
 
 function render<T>(input?: T[], onUpdate?: 'prepend' | 'append') {
-  return renderHook((props) => useEditableDataset(props.input, props.onUpdate), {
+  return renderHook(props => useEditableDataset(props.input, props.onUpdate), {
     initialProps: { input, onUpdate },
   });
 }
@@ -122,6 +122,14 @@ describe('useEditableDataset', () => {
 
       act(() => replace('foo', 'bar'));
       expect(result.current[0]).toEqual(['world']);
+    });
+
+    it('should replace items', () => {
+      const { result } = render(['hello', 'world']);
+      const { replace } = result.current[1];
+
+      act(() => replace('world', 'hello'));
+      expect(result.current[0]).toEqual(['hello', 'hello']);
     });
   });
 

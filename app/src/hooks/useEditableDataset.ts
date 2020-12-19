@@ -43,36 +43,36 @@ type Action<T> = Set<T> | Prepend<T> | Append<T> | Remove<T> | Replace<T>;
 
 const reducer = <T>(data: T[] | undefined, action: Action<T>) => {
   switch (action.type) {
-  case 'set':
-    return [...action.items];
+    case 'set':
+      return [...action.items];
 
-  case 'prepend':
-    return [...action.items, ...(data || [])];
+    case 'prepend':
+      return [...action.items, ...(data || [])];
 
-  case 'append':
-    return [...(data || []), ...action.items];
+    case 'append':
+      return [...(data || []), ...action.items];
 
-  case 'remove': {
-    if (!data) {
-      return;
+    case 'remove': {
+      if (!data) {
+        return;
+      }
+
+      return data.filter(item => !action.items.includes(item));
     }
 
-    return data.filter(item => !action.items.includes(item));
-  }
+    case 'replace': {
+      if (!data) {
+        return;
+      }
 
-  case 'replace': {
-    if (!data) {
-      return;
+      const idx = data.indexOf(action.prev);
+
+      if (idx !== -1) {
+        return [...data.slice(0, idx), action.next, ...data.slice(idx + 1)];
+      }
+
+      return data;
     }
-
-    const idx = data.indexOf(action.prev);
-
-    if (idx !== -1) {
-      return [...data.slice(0, idx - 1), action.next, ...data.slice(idx + 1)];
-    }
-
-    return data;
-  }
   }
 };
 

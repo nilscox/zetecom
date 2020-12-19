@@ -33,8 +33,8 @@ const AuthenticationNavigation: React.FC<AuthenticationNavigationProps> = ({ for
         </Link>
       </Box>
 
-      <Box flex={1} color={false} textAlign="right">
-        <Link tabIndex={-1} to={forgotPasswordLocation()}>
+      <Box flex={1} textAlign="right">
+        <Link color={false} tabIndex={-1} to={forgotPasswordLocation()}>
           Mot de passe oublié
         </Link>
       </Box>
