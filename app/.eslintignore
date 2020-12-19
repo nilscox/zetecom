@@ -1,6 +1,3 @@
 node_modules/
-webpack.config.js
 webpack/
-babel.config.js
-src/react-app-env.d.ts
-src/serviceWorker.ts
+*.js

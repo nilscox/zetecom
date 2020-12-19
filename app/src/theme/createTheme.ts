@@ -4,9 +4,6 @@ import grey from '@material-ui/core/colors/grey';
 import orange from '@material-ui/core/colors/orange';
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
 
-import '@openfonts/noticia-text_all/index.css';
-import '@openfonts/nunito-sans_all/index.css';
-
 const createTheme = (): Theme => {
   const theme = createMuiTheme({
     spacing: 4,
