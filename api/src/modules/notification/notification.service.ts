@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
@@ -29,13 +29,24 @@ export class NotificationService {
     return this.notificationRepository.insert(users.map((user) => ({ type, payload, user })));
   }
 
-  async findForUser(user: User, page: number): Promise<Paginated<Notification>> {
-    const [items, total] = await this.notificationRepository
+  async findForUser(user: User, page: number, search?: string): Promise<Paginated<Notification>> {
+    const qb = this.notificationRepository
       .createQueryBuilder('notification')
       .where('notification.user.id = :userId', { userId: user.id })
       .skip((page - 1) * this.pageSize)
-      .take(this.pageSize)
-      .getManyAndCount();
+      .take(this.pageSize);
+
+    if (search) {
+      qb.andWhere(
+        new Brackets((qb) => {
+          qb.where("notification.payload->>'commentsAreaTitle' ILIKE :search", { search: `%${search}%` })
+            .orWhere("notification.payload->>'author' ILIKE :search", { search: `%${search}%` })
+            .orWhere("notification.payload->>'text' ILIKE :search", { search: `%${search}%` });
+        }),
+      );
+    }
+
+    const [items, total] = await qb.getManyAndCount();
 
     return { items, total };
   }

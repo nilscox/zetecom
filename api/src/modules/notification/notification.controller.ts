@@ -19,6 +19,7 @@ import { IsAuthenticated } from 'Common/auth.guard';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
+import { SearchQuery } from 'Common/search-query.decorator';
 
 import { CastToDto } from '../../common/cast-to-dto.interceptor';
 import { Roles } from '../../common/roles.decorator';
@@ -46,8 +47,12 @@ export class NotificationController {
   @Get('me')
   @UseGuards(IsAuthenticated)
   @CastToDto(NotificationDto)
-  findForUser(@AuthUser() user: User, @PageQuery() page: number): Promise<Paginated<Notification>> {
-    return this.notificationService.findForUser(user, page);
+  findForUser(
+    @AuthUser() user: User,
+    @PageQuery() page: number,
+    @SearchQuery() search?: string,
+  ): Promise<Paginated<Notification>> {
+    return this.notificationService.findForUser(user, page, search);
   }
 
   @Get('me/count')

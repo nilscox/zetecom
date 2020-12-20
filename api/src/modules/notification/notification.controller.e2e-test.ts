@@ -45,15 +45,26 @@ describe('notifications', () => {
       return request(server).get('/api/notification/me').expect(403);
     });
 
-    it('should fetch notifications', async () => {
+    it("should fetch the user's notifications", async () => {
       const { body } = await userRequest.get('/api/notification/me').expect(200);
 
       expect(body).toMatchObject({
         items: [
-          { type: NotificationType.RULES_UPDATE, payload: { version: '4.2' } },
           { type: NotificationType.SUBSCRIPTION_REPLY, payload: subscriptionReplyPayload, seen: expect.any(String) },
+          { type: NotificationType.RULES_UPDATE, payload: { version: '4.2' } },
         ],
         total: 2,
+      });
+    });
+
+    it("should search the users's notifications", async () => {
+      const { body } = await userRequest.get('/api/notification/me').query({ search: 'title' }).expect(200);
+
+      expect(body).toMatchObject({
+        items: [
+          { type: NotificationType.SUBSCRIPTION_REPLY, payload: subscriptionReplyPayload, seen: expect.any(String) },
+        ],
+        total: 1,
       });
     });
   });
