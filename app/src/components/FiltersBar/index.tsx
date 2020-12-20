@@ -9,6 +9,7 @@ import SearchField from './SearchField';
 import SortMenu from './SortMenu';
 
 type FiltersBarProps = {
+  className?: string;
   sort?: {
     type: SortType;
     onChange: (type: SortType) => void;
@@ -20,20 +21,16 @@ type FiltersBarProps = {
   onPageChange: (page: number) => void;
 };
 
-const FiltersBar: React.FC<FiltersBarProps> = ({
-  sort,
-  onSearch,
-  page,
-  pageSize,
-  total,
-  onPageChange,
-}) => {
+const FiltersBar: React.FC<FiltersBarProps> = ({ className, sort, onSearch, page, pageSize, total, onPageChange }) => {
   const totalPages = typeof total === 'number' ? Math.max(1, Math.ceil(total / pageSize)) : '-';
 
-  const handleSearch = useCallback((text: string) => {
-    onSearch(text);
-    onPageChange(1);
-  }, [onSearch, onPageChange]);
+  const handleSearch = useCallback(
+    (text: string) => {
+      onSearch(text);
+      onPageChange(1);
+    },
+    [onSearch, onPageChange],
+  );
 
   const handleSort = (sortParam: SortType) => {
     sort.onChange(sortParam);
@@ -41,9 +38,8 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
   };
 
   return (
-    <Grid container>
-
-      { sort && <SortMenu sort={sort.type} onSortChange={handleSort} /> }
+    <Grid container className={className}>
+      {sort && <SortMenu sort={sort.type} onSortChange={handleSort} />}
 
       <Grid item style={{ flexGrow: 1 }}>
         <SearchField onSearch={handleSearch} />
@@ -52,7 +48,6 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
       <Grid item>
         <Pagination page={page} totalPages={totalPages} onPageChange={onPageChange} />
       </Grid>
-
     </Grid>
   );
 };

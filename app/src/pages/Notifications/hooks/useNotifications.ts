@@ -8,11 +8,9 @@ import useEditableDataset from 'src/hooks/useEditableDataset';
 import { Notification, NotificationType } from 'src/types/Notification';
 
 const useNotifications = () => {
-  const [{ data, loading }] = useAxiosPaginated<Notification<NotificationType>>(
-    '/api/notification/me',
-    undefined,
-    Notification,
-  );
+  const [{ data, loading, total }, { search, setSearch }, , { page, setPage }] = useAxiosPaginated<
+    Notification<NotificationType>
+  >('/api/notification/me', undefined, Notification);
 
   const { markAsSeen } = useContext(NotificationsContext);
   const [notifications, { replace }] = useEditableDataset(data, 'set');
@@ -20,6 +18,11 @@ const useNotifications = () => {
   return {
     notifications,
     loading,
+    total,
+    search,
+    setSearch,
+    page,
+    setPage,
     markAsSeen: (notification: Notification<NotificationType>) => {
       markAsSeen(notification);
 
