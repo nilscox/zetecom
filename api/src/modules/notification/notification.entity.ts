@@ -5,7 +5,7 @@ import { User } from '../user/user.entity';
 import { NotificationPayload } from './notification-payload';
 import { NotificationType } from './notification-type';
 
-@Entity({ name: 'notification' })
+@Entity({ name: 'notification', orderBy: { created: 'DESC' } })
 export class Notification {
   @PrimaryGeneratedColumn()
   id: number;

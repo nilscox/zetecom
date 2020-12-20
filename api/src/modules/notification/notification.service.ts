@@ -33,7 +33,6 @@ export class NotificationService {
     const [items, total] = await this.notificationRepository
       .createQueryBuilder('notification')
       .where('notification.user.id = :userId', { userId: user.id })
-      .orderBy('seen', 'DESC', 'NULLS FIRST')
       .skip((page - 1) * this.pageSize)
       .take(this.pageSize)
       .getManyAndCount();
