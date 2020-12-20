@@ -59,16 +59,25 @@ const useStyles = makeStyles<Theme, { folded?: boolean }>(({ breakpoints, spacin
 }));
 
 type LinkComponentProps = {
+  className?: string;
   commentsArea: CommentsArea;
   linkToInformation?: boolean;
 };
 
-const LinkComponent: React.FC<LinkComponentProps> = ({ commentsArea, linkToInformation, children }) => {
+const LinkComponent: React.FC<LinkComponentProps> = ({ className, commentsArea, linkToInformation, children }) => {
   if (linkToInformation) {
-    return <Link href={commentsArea.informationUrl}>{children}</Link>;
+    return (
+      <Link className={className} href={commentsArea.informationUrl}>
+        {children}
+      </Link>
+    );
   }
 
-  return <RouterLink to={`/commentaires/${commentsArea.id}`}>{children}</RouterLink>;
+  return (
+    <RouterLink className={className} to={`/commentaires/${commentsArea.id}`}>
+      {children}
+    </RouterLink>
+  );
 };
 
 type CommentsAreaDescriptionProps = {
@@ -100,8 +109,8 @@ const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({
       </Grid>
 
       <Grid item className={classes.right}>
-        <LinkComponent commentsArea={commentsArea} linkToInformation={linkToInformation}>
-          <Typography className={classes.title}>{informationTitle}</Typography>
+        <LinkComponent className={classes.title} commentsArea={commentsArea} linkToInformation={linkToInformation}>
+          {informationTitle}
         </LinkComponent>
 
         <Grid container direction={folded ? 'row' : 'column'}>

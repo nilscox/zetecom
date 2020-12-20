@@ -1,8 +1,8 @@
 const users = require('../fixtures/users.json');
 const commentsAreas = require('../fixtures/comments-areas.json');
 
-const [admin, moderator, user1] = users;
-const [commentsArea1] = commentsAreas;
+const [admin, moderator, user1, user2, user3] = users;
+const [commentsArea1, commentsArea2] = commentsAreas;
 
 const publicationDate = new Date(commentsArea1.informationPublicationDate);
 const typePublicationDate = [
@@ -11,7 +11,44 @@ const typePublicationDate = [
   publicationDate.getFullYear(),
 ].join('');
 
-describe('comments area creation', () => {
+describe('comments area', () => {
+  describe('comments area list', () => {
+    before(() => {
+      cy.seed({ users: [user1, user2, user3], commentsAreas: [commentsArea1, commentsArea2] });
+    });
+
+    it('should list the comments areas', () => {
+      cy.visitApp();
+
+      cy.countCommentsAreas(2);
+
+      cy.getCommentsAreaAt(0).within(() => {
+        cy.contains('One comment');
+        cy.contains('someone');
+        cy.contains('11 février 2020 - 1 commentaire');
+      });
+
+      cy.getCommentsAreaAt(1).within(() => {
+        cy.contains('Empty');
+        cy.contains('anyone');
+        cy.contains('10 février 2020 - 0 commentaires');
+        cy.get('img[src="https://image.url"]').should('be.visible');
+      });
+
+      cy.contains('One comment').click();
+      cy.pathname('/commentaires/2');
+    });
+
+    it('should search for a comments area', () => {
+      cy.visitApp();
+
+      cy.get('[name="search"]').type('pty');
+
+      cy.countCommentsAreas(1);
+      cy.contains('One comment').should('not.exist');
+    });
+  });
+
   describe('comments area request', () => {
     before(() => {
       cy.seed({ users: [user1] });
@@ -22,15 +59,15 @@ describe('comments area creation', () => {
       cy.visitApp();
 
       cy.contains('Ouvrir une zone de commentaires').click();
-      cy.contains('Valider').should('be.visible');
+      cy.contains("Demander l'ouverture").should('be.visible');
 
       cy.contains('Annuler').click();
-      cy.contains('Valider').should('not.be.visible');
+      cy.contains("Demander l'ouverture").should('not.be.visible');
 
       cy.contains('Ouvrir une zone de commentaires').click();
       cy.getField("URL de l'information *").type(commentsArea1.informationUrl);
 
-      cy.contains('Valider').click();
+      cy.contains("Demander l'ouverture").click();
 
       cy.contains("L'ouverture a bien été prise en compte, les modérateurs vont traiter votre demande.").should(
         'be.visible'
@@ -48,10 +85,10 @@ describe('comments area creation', () => {
       cy.visitApp('');
 
       cy.contains('Ouvrir une zone de commentaires').click();
-      cy.contains('Valider').should('be.visible');
+      cy.contains("Demander l'ouverture").should('be.visible');
 
       cy.contains('Annuler').click();
-      cy.contains('Valider').should('not.be.visible');
+      cy.contains("Demander l'ouverture").should('not.be.visible');
 
       cy.contains('Ouvrir une zone de commentaires').click();
       cy.getField("Titre de l'information").type(commentsArea1.informationTitle);
@@ -60,9 +97,9 @@ describe('comments area creation', () => {
       cy.getField("Auteur de l'information").type(commentsArea1.informationAuthor);
       cy.getField('Date de publication').type(typePublicationDate);
 
-      cy.get("#comments-area-request-form img").should('have.attr', 'src', commentsArea1.imageUrl);
+      cy.get('#comments-area-request-form img').should('have.attr', 'src', commentsArea1.imageUrl);
 
-      cy.contains('Valider').click();
+      cy.contains("Demander l'ouverture").click();
     });
 
     it('should request to open a new comments area from the integration', () => {
@@ -95,7 +132,7 @@ describe('comments area creation', () => {
 
       cy.contains('Ouvrir une zone de commentaires').click();
       cy.getField("URL de l'information *").type(commentsArea1.informationUrl);
-      cy.contains('Valider').click();
+      cy.contains("Demander l'ouverture").click();
 
       cy.logout();
     });
@@ -151,7 +188,7 @@ describe('comments area creation', () => {
     cy.getField("URL de l'image").type(commentsArea1.imageUrl);
     cy.getField('Date de publication').type(typePublicationDate);
 
-    cy.contains('Valider').click();
+    cy.contains("Demander l'ouverture").click();
 
     cy.contains('moderator').click();
     cy.contains('Modération').click();

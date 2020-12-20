@@ -5,7 +5,6 @@ import CommentIcon from '@material-ui/icons/Comment';
 import ModerationIcon from '@material-ui/icons/DoneAll';
 import SignoutIcon from '@material-ui/icons/ExitToApp';
 import NotificationIcon from '@material-ui/icons/Notifications';
-import clsx from 'clsx';
 
 import { useNotifications } from '../../contexts/NotificationsContext';
 import { Role, User } from '../../types/User';

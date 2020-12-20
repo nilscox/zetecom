@@ -13,7 +13,8 @@
     "identifier": "test:news2",
     "informationTitle": "One comment",
     "informationUrl": "https://info.url/2",
-    "informationAuthor": "anyone",
+    "informationPublicationDate": "2020-02-11T00:00:00.000Z",
+    "informationAuthor": "someone",
     "creator": "user1",
     "comments": [
       {

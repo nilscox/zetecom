@@ -130,7 +130,7 @@ const CommentsAreaComponent: React.FC<CommentsAreaComponentProps> = ({
 
   return (
     <CommentsAreaProvider value={commentsArea}>
-      <Grid container direction="column">
+      <Grid container direction="column" className="comments-area">
         {showDescription && (
           <CommentsAreaDescription
             commentsArea={commentsArea}
