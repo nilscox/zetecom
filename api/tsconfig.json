@@ -2,7 +2,6 @@
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
-    "noImplicitAny": false,
     "removeComments": true,
     "noLib": false,
     "skipLibCheck": true,
@@ -10,7 +9,9 @@
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "strictNullChecks": false,
+    // "strict": true,
+    // "strictNullChecks": true,
+    // "noImplicitAny": true,
     "target": "es2018",
     "sourceMap": true,
     "outDir": "./dist",
@@ -21,10 +22,5 @@
     }
   },
   "exclude": ["node_modules/*"],
-  "include": [
-    "src/**/*",
-    "migrations/*",
-    "seeds/*",
-    "scripts/**/*"
-  ]
+  "include": ["src/**/*", "migrations/*", "seeds/*", "scripts/**/*"]
 }

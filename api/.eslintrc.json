@@ -41,7 +41,7 @@
     "sort-imports": "off",
     "space-infix-ops": "error",
     "import/order": "off",
-    "simple-import-sort/sort": ["warn", {
+    "simple-import-sort/imports": ["warn", {
       "groups": [
         ["^(path|fs|stream|util)$"],
         ["^@nest", "^[a-z]"],
