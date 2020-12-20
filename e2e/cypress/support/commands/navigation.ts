@@ -2,9 +2,9 @@ const APP_URL = Cypress.env('APP_URL');
 
 Cypress.Commands.add('pathname', (path) => cy.url().should('eq', APP_URL + path));
 
-Cypress.Commands.add('visitPopup', (url = '') => {
+Cypress.Commands.add('visitPopup', (path = '') => {
   cy.viewport(380, 550);
-  cy.visit(APP_URL + '/popup' + url);
+  cy.visit(APP_URL + '/popup' + path);
 });
 
 Cypress.Commands.add('visitIntegration', (identifier, pageUrl) => {
@@ -19,6 +19,17 @@ Cypress.Commands.add('visitReport', (commentId) => {
   cy.visit(APP_URL + '/integration/comment/' + commentId + '/report');
 });
 
-Cypress.Commands.add('visitApp', (route = '') => {
-  cy.visit(APP_URL + route);
+Cypress.Commands.add('visitApp', (path = '') => {
+  cy.visit(APP_URL + path);
 });
+
+declare namespace Cypress {
+  interface Chainable {
+    pathname(path: string): Chainable<void>;
+    visitPopup(path?: string): Chainable<void>;
+    visitIntegration(identifier: string, pageUrl: string): Chainable<void>;
+    visitHistory(commentId: number): Chainable<void>;
+    visitReport(commentId: number): Chainable<void>;
+    visitApp(path?: string): Chainable<void>;
+  }
+}

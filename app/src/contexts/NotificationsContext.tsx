@@ -72,7 +72,7 @@ export const NotificationsProvider: React.FC = ({ children }) => {
   const [user, setUser] = useUser();
   const onUnauthenticated = useCallback(() => setUser(null), [setUser]);
   const [{ data }, fetchCount] = useFetchNotificationsCount(onUnauthenticated);
-  const markAsSeen = useMarkNotificationAsSeen(() => void fetchCount());
+  const markAsSeen = useMarkNotificationAsSeen(fetchCount);
 
   useEffect(() => {
     if (user) {

@@ -7,3 +7,10 @@ Cypress.Commands.add('seed', (body) => {
 Cypress.Commands.add('seedFromFixture', (fixtureName) => {
   return cy.fixture(fixtureName).then((data) => cy.seed(data));
 });
+
+declare namespace Cypress {
+  interface Chainable {
+    seed(body: { users?: any[]; commentsAreas?: any[] }): Chainable<void>;
+    seedFromFixture(fixtureName: string): Chainable<void>;
+  }
+}

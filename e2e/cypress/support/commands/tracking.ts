@@ -23,3 +23,10 @@ Cypress.Commands.add('didTrack', (event) => {
       expect(found, `event ${event.category} ${event.action} was not tracked`).not.to.be.undefined;
     });
 });
+
+declare namespace Cypress {
+  interface Chainable {
+    zetecom(): Chainable<{ tracking: { events: any } }>;
+    didTrack(event: { category: string; action: string; name?: string }): Chainable<void>;
+  }
+}

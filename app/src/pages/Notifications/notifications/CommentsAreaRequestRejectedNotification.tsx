@@ -15,7 +15,7 @@ const CommentsAreaRequestRejectedNotification: React.FC<CommentsAreaRequestRejec
     title="Votre demande d'ouverture de zone de commentaires n'a pas été retenue"
     subTitle={
       <>
-        Cette demande concernait l’ouverture d'une nouvelle zone de commentaire sur la page :<br />
+        Cette demande concernait l'ouverture d'une nouvelle zone de commentaire sur la page :<br />
         <a href={notification.payload.requestedInformationUrl}>{notification.payload.requestedInformationUrl}</a>
       </>
     }

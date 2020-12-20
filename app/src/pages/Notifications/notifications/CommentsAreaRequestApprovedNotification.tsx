@@ -13,7 +13,7 @@ const CommentsAreaRequestApprovedNotification: React.FC<CommentsAreaRequestAppro
     title="Votre demande d'ouverture de zone de commentaires a été acceptée !"
     subTitle={
       <>
-        Vous avez demandé l’ouverture d’une zone de commentaire sur la page :<br />
+        Vous avez demandé l'ouverture d'une zone de commentaire sur la page :<br />
         <a href={notification.payload.requestedInformationUrl}>{notification.payload.requestedInformationUrl}</a>
       </>
     }

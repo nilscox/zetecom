@@ -1,5 +1,5 @@
-const users = require('../fixtures/users.json');
-const commentsAreas = require('../fixtures/comments-areas.json');
+import users from '../fixtures/users.json';
+import commentsAreas from '../fixtures/comments-areas.json';
 
 const [, , user1, user2, user3, user4, me] = users;
 const [
@@ -48,18 +48,18 @@ describe('comments', () => {
     });
 
     it('list', () => {
-      cy.visitIntegration('test:news1');
+      cy.visitIntegration('test:news1', 'https://page.url');
 
       cy.contains("Aucun commentaire n'a été publié pour le moment");
 
       cy.didTrack({ category: 'Extension', action: 'View Integration', name: 'View Integration "test:news1"' });
 
-      cy.visitIntegration('test:news2');
+      cy.visitIntegration('test:news2', 'https://page.url');
 
       cy.contains('user2');
       cy.contains(/Le \d{2}\.\d{2}\.\d{4} à \d{2}:\d{2}/);
 
-      cy.visitIntegration('test:news3');
+      cy.visitIntegration('test:news3', 'https://page.url');
 
       cy.getCommentAt(2).within(() => {
         cy.contains('2 réponses').click();
@@ -87,7 +87,7 @@ describe('comments', () => {
     });
 
     it('sort', () => {
-      cy.visitIntegration('test:news3');
+      cy.visitIntegration('test:news3', 'https://page.url');
 
       // SORT ASC
       cy.getCommentAt(0).should('contain', 'comment 4');
@@ -124,7 +124,7 @@ describe('comments', () => {
         cy.fixCI();
       };
 
-      cy.visitIntegration('test:news3');
+      cy.visitIntegration('test:news3', 'https://page.url');
 
       search('1 text');
       cy.countComments(4);
@@ -157,7 +157,7 @@ describe('comments', () => {
         cy.get('[role="Numéro de page"]').contains(str);
       };
 
-      cy.visitIntegration('test:news4');
+      cy.visitIntegration('test:news4', 'https://page.url');
 
       expectPage('1 / 3');
       cy.countComments(10);
@@ -184,7 +184,7 @@ describe('comments', () => {
     });
 
     it('replies pagination', () => {
-      cy.visitIntegration('test:news4');
+      cy.visitIntegration('test:news4', 'https://page.url');
 
       cy.getCommentAt(0).within(() => {
         cy.contains('11 réponses').click();
@@ -195,11 +195,11 @@ describe('comments', () => {
     });
 
     it('history', () => {
-      cy.visitIntegration('test:news3');
+      cy.visitIntegration('test:news3', 'https://page.url');
 
       cy.getCommentAt(0).find('[title="Édité"]').should('not.exist');
 
-      cy.visitIntegration('test:news2');
+      cy.visitIntegration('test:news2', 'https://page.url');
 
       cy.window().then((win) => {
         cy.stub(win, 'open').as('windowOpen');
@@ -226,12 +226,12 @@ describe('comments', () => {
     });
 
     it('post comment', () => {
-      cy.visitIntegration('test:news1');
+      cy.visitIntegration('test:news1', 'https://page.url');
 
       cy.get('[placeholder="Composez votre message..."]').should('not.exist');
 
       cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
-      cy.visitIntegration('test:news1');
+      cy.visitIntegration('test:news1', 'https://page.url');
 
       cy.get('.comment-form').within(() => {
         cy.get('button[type="submit"]').should('be.disabled');
@@ -253,7 +253,7 @@ describe('comments', () => {
 
     it('post reply', () => {
       cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
-      cy.visitIntegration('test:news1');
+      cy.visitIntegration('test:news1', 'https://page.url');
 
       cy.getCommentAt(0).within(() => {
         cy.contains('Répondre').click();
@@ -279,7 +279,7 @@ describe('comments', () => {
 
     it('edit comment', () => {
       cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
-      cy.visitIntegration('test:news1');
+      cy.visitIntegration('test:news1', 'https://page.url');
 
       cy.getCommentAt(0).within(() => {
         cy.get('[title="Éditer votre message"]').click();
@@ -306,11 +306,11 @@ describe('comments', () => {
     });
 
     it('create / update / delete reaction', () => {
-      cy.visitIntegration('test:news5');
+      cy.visitIntegration('test:news5', 'https://page.url');
       cy.get('.reaction--approve').should('be.disabled');
 
       cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
-      cy.visitIntegration('test:news5');
+      cy.visitIntegration('test:news5', 'https://page.url');
 
       // user's own comment
       cy.getCommentAt(0).within(() => {
@@ -362,14 +362,14 @@ describe('comments', () => {
     });
 
     it('open report popup', () => {
-      cy.visitIntegration('test:news5');
+      cy.visitIntegration('test:news5', 'https://page.url');
 
       cy.getCommentAt(0).within(() => {
         cy.contains('Signaler').should('not.exist');
       });
 
       cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
-      cy.visitIntegration('test:news5');
+      cy.visitIntegration('test:news5', 'https://page.url');
 
       cy.window().then((win) => {
         cy.stub(win, 'open').as('windowOpen');
@@ -415,12 +415,12 @@ describe('comments', () => {
     });
 
     it('subscribe', () => {
-      cy.visitIntegration('test:news2');
+      cy.visitIntegration('test:news2', 'https://page.url');
 
       cy.get('[title="S\'abonner"]').should('not.exist');
 
       cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
-      cy.visitIntegration('test:news2');
+      cy.visitIntegration('test:news2', 'https://page.url');
 
       cy.get('[title="S\'abonner"]').click();
       cy.get('[title="S\'abonner"]').should('not.exist');
@@ -441,7 +441,7 @@ describe('comments', () => {
 
     it('unsubscribe', () => {
       cy.login({ email: 'me@domain.tld', password: 'p4ssword' });
-      cy.visitIntegration('test:news2');
+      cy.visitIntegration('test:news2', 'https://page.url');
 
       cy.get('[title="Se désabonner"]').click();
       cy.get('[title="Se désabonner"]').should('not.exist');

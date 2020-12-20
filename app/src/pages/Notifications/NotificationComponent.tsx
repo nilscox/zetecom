@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { Grid, makeStyles, Theme, Typography } from '@material-ui/core';
+import clsx from 'clsx';
 import dayjs from 'dayjs';
 
 import { Notification, NotificationType } from '../../types/Notification';
@@ -104,7 +105,7 @@ const NotificationComponent: React.FC<NotificationComponentProps> = ({
     <Grid
       container
       direction="row"
-      className={classes.container}
+      className={clsx('notification', classes.container)}
       onMouseOver={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
