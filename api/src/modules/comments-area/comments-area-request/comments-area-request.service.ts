@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindConditions, Repository } from 'typeorm';
 
+import { NotificationType } from '../../notification/notification-type';
+import { NotificationService } from '../../notification/notification.service';
 import { User } from '../../user/user.entity';
 import { CommentsArea } from '../comments-area.entity';
 
@@ -11,6 +13,7 @@ import { CommentsAreaRequestInDto } from './dtos/comments-area-request-in.dto';
 @Injectable()
 export class CommentsAreaRequestService {
   constructor(
+    private readonly notificationService: NotificationService,
     @InjectRepository(CommentsAreaRequest)
     private readonly commentsAreaRequestRepository: Repository<CommentsAreaRequest>,
   ) {}
@@ -38,25 +41,41 @@ export class CommentsAreaRequestService {
   }
 
   async approveAll(commentsArea: CommentsArea, moderator: User): Promise<void> {
-    await this.commentsAreaRequestRepository.update(
+    const findCondition: FindConditions<CommentsAreaRequest> = {
+      informationUrl: commentsArea.informationUrl,
+      status: CommentsAreaRequestStatus.PENDING,
+    };
+
+    const requests = await this.commentsAreaRequestRepository.find(findCondition);
+
+    await this.commentsAreaRequestRepository.update(findCondition, {
+      status: CommentsAreaRequestStatus.APPROVED,
+      commentsArea,
+      moderator,
+    });
+
+    await this.notificationService.createMultiple(
+      NotificationType.COMMENTS_AREA_REQUEST_APPROVED,
+      requests.map(({ requester }) => requester),
       {
-        informationUrl: commentsArea.informationUrl,
-        status: CommentsAreaRequestStatus.PENDING,
-      },
-      {
-        status: CommentsAreaRequestStatus.APPROVED,
-        commentsArea,
-        moderator,
+        requestedInformationUrl: commentsArea.informationUrl,
+        commentsAreaId: commentsArea.id,
+        commentsAreaImageUrl: commentsArea.imageUrl,
+        commentsAreaTitle: commentsArea.informationTitle,
       },
     );
   }
 
-  async reject(request: CommentsAreaRequest, moderator: User): Promise<CommentsAreaRequest> {
+  async reject(request: CommentsAreaRequest, moderator: User, reason?: string): Promise<void> {
     await this.commentsAreaRequestRepository.update(request.id, {
-      status: CommentsAreaRequestStatus.REFUSED,
+      status: CommentsAreaRequestStatus.REJECTED,
       moderator,
     });
 
-    return this.findRequest(request.id);
+    await this.notificationService.create(NotificationType.COMMENTS_AREA_REQUEST_REJECTED, request.requester, {
+      requestId: request.id,
+      requestedInformationUrl: request.informationUrl,
+      reason,
+    });
   }
 }

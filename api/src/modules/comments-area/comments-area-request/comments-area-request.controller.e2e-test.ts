@@ -3,6 +3,7 @@ import { getRepository, Repository } from 'typeorm';
 
 import { createAuthenticatedModerator, createAuthenticatedUser, setupE2eTest } from '../../../testing/setup-e2e-test';
 import { AuthenticationModule } from '../../authentication/authentication.module';
+import { Notification } from '../../notification/notification.entity';
 
 import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request.entity';
 import { CommentsAreaRequestFactory } from './comments-area-request.factory';
@@ -14,11 +15,13 @@ describe('comments area request controller', () => {
   });
 
   let commentsAreaRequestRepository: Repository<CommentsAreaRequest>;
+  let notificationRepository: Repository<Notification>;
 
   const commentsAreaRequestFactory = new CommentsAreaRequestFactory();
 
   beforeAll(() => {
     commentsAreaRequestRepository = getRepository(CommentsAreaRequest);
+    notificationRepository = getRepository(Notification);
   });
 
   describe('list pending requests', () => {
@@ -111,8 +114,73 @@ describe('comments area request controller', () => {
       const requestDb = await commentsAreaRequestRepository.findOne(request.id, { relations: ['moderator'] });
 
       expect(requestDb).toMatchObject({
-        status: CommentsAreaRequestStatus.REFUSED,
+        status: CommentsAreaRequestStatus.REJECTED,
         moderator: { id: moderator.id },
+      });
+    });
+  });
+
+  describe('notification after a moderation action', () => {
+    const informationUrl = 'https://info.url/articles/2';
+
+    const [asUser1, user1] = createAuthenticatedUser(server);
+    const [asUser2, user2] = createAuthenticatedUser(server);
+    const [asModerator] = createAuthenticatedModerator(server);
+
+    it('should send a notification when a request is approved', async () => {
+      const payload = {
+        identifier: 'id:2',
+        informationUrl,
+        imageUrl: 'https://image.url',
+        informationTitle: 'title',
+        informationAuthor: 'autor',
+        informationPublicationDate: new Date(2020, 1, 10).toISOString(),
+      };
+
+      await asUser1.post('/api/comments-area/request').send({ informationUrl }).expect(201);
+      await asUser2.post('/api/comments-area/request').send({ informationUrl }).expect(201);
+      const { body } = await asModerator.post('/api/comments-area').send(payload).expect(201);
+
+      const notifications = await notificationRepository
+        .createQueryBuilder('notification')
+        .innerJoinAndSelect('notification.user', 'user')
+        .where("notification.payload->>'commentsAreaId' = :commentsAreaId", { commentsAreaId: body.id })
+        .getMany();
+
+      expect(notifications).toHaveLength(2);
+      expect(notifications).toMatchObject([
+        {
+          type: 'commentsAreaRequestApproved',
+          payload: {
+            requestedInformationUrl: informationUrl,
+            commentsAreaId: body.id,
+            commentsAreaImageUrl: 'https://image.url',
+            commentsAreaTitle: 'title',
+          },
+          user: expect.objectContaining({ id: user1.id }),
+        },
+        {
+          user: expect.objectContaining({ id: user2.id }),
+        },
+      ]);
+    });
+
+    it('should send a notification when a request is rejected', async () => {
+      const { body } = await asUser1.post('/api/comments-area/request').send({ informationUrl }).expect(201);
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      await asModerator.post(`/api/comments-area/request/${body.id}/reject`).send({ reason: 'reason' }).expect(200);
+
+      const notifications = await notificationRepository
+        .createQueryBuilder('notification')
+        .innerJoinAndSelect('notification.user', 'user')
+        .where("notification.payload->>'requestId' = :requestId", { requestId: body.id })
+        .getMany();
+
+      expect(notifications).toHaveLength(1);
+      expect(notifications[0]).toMatchObject({
+        type: 'commentsAreaRequestRejected',
+        payload: { requestedInformationUrl: informationUrl, reason: 'reason' },
+        user: expect.objectContaining({ id: user1.id }),
       });
     });
   });

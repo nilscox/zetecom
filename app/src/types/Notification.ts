@@ -24,7 +24,32 @@ class SubscriptionReplyPayload {
   text: string;
 }
 
-export type NotificationType = 'rulesUpdate' | 'subscriptionReply';
+class CommentsAreaRequestApprovedPayload {
+  requestedInformationUrl: string;
+
+  commentsAreaId: number;
+
+  commentsAreaImageUrl: string;
+
+  commentsAreaTitle: string;
+}
+
+class CommentsAreaRequestRejectedPayload {
+  requestId: number;
+
+  requestedInformationUrl: string;
+
+  reason?: string;
+}
+
+type MapNotificationPayload = {
+  rulesUpdate: RulesUpdatePayload;
+  subscriptionReply: SubscriptionReplyPayload;
+  commentsAreaRequestApproved: CommentsAreaRequestApprovedPayload;
+  commentsAreaRequestRejected: CommentsAreaRequestRejectedPayload;
+};
+
+export type NotificationType = keyof MapNotificationPayload;
 
 const transformNotificationPayload = (
   value: unknown,
@@ -46,11 +71,14 @@ const transformNotificationPayload = (
   if (type === 'subscriptionReply') {
     return plainToClass(SubscriptionReplyPayload, value);
   }
-};
 
-type MapNotificationPayload = {
-  rulesUpdate: RulesUpdatePayload;
-  subscriptionReply: SubscriptionReplyPayload;
+  if (type === 'commentsAreaRequestApproved') {
+    return plainToClass(CommentsAreaRequestApprovedPayload, value);
+  }
+
+  if (type === 'commentsAreaRequestRejected') {
+    return plainToClass(CommentsAreaRequestRejectedPayload, value);
+  }
 };
 
 export class Notification<T extends NotificationType> {

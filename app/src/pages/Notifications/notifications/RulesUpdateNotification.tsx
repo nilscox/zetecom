@@ -3,14 +3,14 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 
 import { WebsiteLink } from '../../../components/Link';
-import NotificationItem, { NotificationProps } from '../Notification';
+import NotificationComponent, { NotificationProps } from '../NotificationComponent';
 
 import imageCharter from './charter.png';
 
 type RulesUpdateNotificationProps = NotificationProps<'rulesUpdate'>;
 
 const RulesUpdateNotification: React.FC<RulesUpdateNotificationProps> = ({ notification, markAsSeen }) => (
-  <NotificationItem
+  <NotificationComponent
     title={
       <>
         <strong>La charte</strong> a été mise à jour !
@@ -38,7 +38,7 @@ const RulesUpdateNotification: React.FC<RulesUpdateNotificationProps> = ({ notif
     markAsSeen={markAsSeen}
   >
     La charte a été mise à jour ! Nouvelle version : <strong>{notification.payload.version}</strong>
-  </NotificationItem>
+  </NotificationComponent>
 );
 
 export default RulesUpdateNotification;

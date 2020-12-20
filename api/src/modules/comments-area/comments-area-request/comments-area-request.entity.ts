@@ -14,7 +14,7 @@ import { CommentsArea } from '../comments-area.entity';
 export enum CommentsAreaRequestStatus {
   PENDING = 'PENDING',
   APPROVED = 'APPROVED',
-  REFUSED = 'REFUSED',
+  REJECTED = 'REJECTED',
 }
 
 @Entity({ name: 'comments_area_request', orderBy: { created: 'ASC' } })

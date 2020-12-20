@@ -96,7 +96,12 @@ export const TrackPageView: React.FC = () => {
   const { trackPageView } = useTracker();
 
   useEffect(() => {
-    trackPageView({ href: location.pathname });
+    // do not track redirects
+    const timeout = setTimeout(() => {
+      trackPageView({ href: location.pathname });
+    }, 0);
+
+    return () => clearTimeout(timeout);
   }, [trackPageView, location.pathname]);
 
   return null;

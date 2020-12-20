@@ -14,7 +14,22 @@ export interface SubscriptionReplyNotificationPayload {
   text: string;
 }
 
+export interface CommentsAreaRequestApprovedPayload {
+  requestedInformationUrl: string;
+  commentsAreaId: number;
+  commentsAreaImageUrl: string;
+  commentsAreaTitle: string;
+}
+
+export interface CommentsAreaRequestRejectedPayload {
+  requestId: number;
+  requestedInformationUrl: string;
+  reason?: string;
+}
+
 export type NotificationPayload = {
   [NotificationType.RULES_UPDATE]: RulesUpdateNotificationPayload;
   [NotificationType.SUBSCRIPTION_REPLY]: SubscriptionReplyNotificationPayload;
+  [NotificationType.COMMENTS_AREA_REQUEST_APPROVED]: CommentsAreaRequestApprovedPayload;
+  [NotificationType.COMMENTS_AREA_REQUEST_REJECTED]: CommentsAreaRequestRejectedPayload;
 };

@@ -31,10 +31,13 @@ const useStyles = makeStyles<Theme, StylesProps>(({ spacing }) => ({
     fontSize: 20,
     lineHeight: 1.2,
     flex: 1,
+    marginRight: spacing(2),
   },
   dateAndActions: {
+    maxHeight: 20,
     marginLeft: 'auto',
     overflow: 'hidden',
+    position: 'relative',
   },
   date: ({ seen, hover }) => ({
     fontSize: 14,
@@ -46,7 +49,6 @@ const useStyles = makeStyles<Theme, StylesProps>(({ spacing }) => ({
     position: 'relative',
     top: !seen && hover ? -25 : 0,
     transition: 'top 150ms ease-in-out',
-    height: 0,
     textAlign: 'right',
     cursor: 'pointer',
     display: seen ? 'none' : 'block',
@@ -76,17 +78,17 @@ export type NotificationProps<T extends NotificationType> = {
   markAsSeen: () => void;
 };
 
-type NotificationItemProps = {
+type NotificationComponentProps = {
   seen: Date | false;
   title: React.ReactNode;
   subTitle: React.ReactNode;
-  text: React.ReactNode;
+  text?: React.ReactNode;
   imageSrc: string;
   date: Date;
   markAsSeen: () => void;
 };
 
-const NotificationItem: React.FC<NotificationItemProps> = ({
+const NotificationComponent: React.FC<NotificationComponentProps> = ({
   seen,
   title,
   subTitle,
@@ -120,10 +122,10 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           </Grid>
         </Grid>
         <Typography className={classes.subTitle}>{subTitle}</Typography>
-        <div className={classes.text}>{text}</div>
+        {text && <div className={classes.text}>{text}</div>}
       </Grid>
     </Grid>
   );
 };
 
-export default NotificationItem;
+export default NotificationComponent;

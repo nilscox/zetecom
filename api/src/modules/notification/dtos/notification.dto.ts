@@ -34,11 +34,38 @@ class SubscriptionReplyPayloadDto {
   text: string;
 }
 
+class CommentsAreaRequestApprovedPayloadDto {
+  @Expose()
+  requestedInformationUrl: string;
+
+  @Expose()
+  commentsAreaId: number;
+
+  @Expose()
+  commentsAreaImageUrl: string;
+
+  @Expose()
+  commentsAreaTitle: string;
+}
+
+class CommentsAreaRequestRejectedPayloadDto {
+  @Expose()
+  requestId: number;
+
+  @Expose()
+  requestedInformationUrl: string;
+
+  @Expose()
+  reason?: string;
+}
+
 type NotificationPayload = RulesUpdatePayloadDto | SubscriptionReplyPayloadDto;
 
-const mapNotificationTypePayload = {
+const mapNotificationTypePayload: Record<NotificationType, { new (): void }> = {
   [NotificationType.RULES_UPDATE]: RulesUpdatePayloadDto,
   [NotificationType.SUBSCRIPTION_REPLY]: SubscriptionReplyPayloadDto,
+  [NotificationType.COMMENTS_AREA_REQUEST_APPROVED]: CommentsAreaRequestApprovedPayloadDto,
+  [NotificationType.COMMENTS_AREA_REQUEST_REJECTED]: CommentsAreaRequestRejectedPayloadDto,
 };
 
 export class NotificationDto {

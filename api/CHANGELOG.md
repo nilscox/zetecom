@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Send a notification when a comments area requset is moderated
+
 ## [0.5.2] - 2020-11-10
 
 ### Added

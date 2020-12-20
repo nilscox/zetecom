@@ -90,7 +90,7 @@ const CommentsAreaRequest: React.FC = () => {
         >
           <Button onClick={() => setDisplayForm(false)}>Annuler</Button>
           <Button loading={loading} type="submit">
-            Valider
+            Demander l'ouverture
           </Button>
         </CommentsAreaForm>
       </Collapse>

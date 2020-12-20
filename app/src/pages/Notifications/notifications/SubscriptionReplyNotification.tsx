@@ -1,12 +1,12 @@
 import React from 'react';
 
 import Link from '../../../components/Link';
-import NotificationItem, { NotificationProps } from '../Notification';
+import NotificationComponent, { NotificationProps } from '../NotificationComponent';
 
 type SubscriptionReplyNotificationProps = NotificationProps<'subscriptionReply'>;
 
 const SubscriptionReplyNotification: React.FC<SubscriptionReplyNotificationProps> = ({ notification, markAsSeen }) => (
-  <NotificationItem
+  <NotificationComponent
     seen={notification.seen}
     title={
       <>

@@ -6,15 +6,20 @@ import { makeStyles } from '@material-ui/core/styles';
 import AsyncContent from 'src/components/AsyncContent';
 import Authenticated from 'src/components/Authenticated';
 import FiltersBar from 'src/components/FiltersBar';
+import { NotificationProps } from 'src/pages/Notifications/NotificationComponent';
 import { Notification, NotificationType } from 'src/types/Notification';
 
 import useNotifications from './hooks/useNotifications';
+import CommentsAreaRequestApprovedNotification from './notifications/CommentsAreaRequestApprovedNotification';
+import CommentsAreaRequestRejectedNotification from './notifications/CommentsAreaRequestRejectedNotification';
 import RulesUpdateNotification from './notifications/RulesUpdateNotification';
 import SubscriptionReplyNotification from './notifications/SubscriptionReplyNotification';
 
-const NotificationComponents = {
+const NotificationComponents: Record<NotificationType, React.FC<NotificationProps<NotificationType>>> = {
   rulesUpdate: RulesUpdateNotification,
   subscriptionReply: SubscriptionReplyNotification,
+  commentsAreaRequestApproved: CommentsAreaRequestApprovedNotification,
+  commentsAreaRequestRejected: CommentsAreaRequestRejectedNotification,
 };
 
 const useStyles = makeStyles(({ spacing, palette }) => ({
@@ -36,7 +41,7 @@ const NotificationsList: React.FC = () => {
   const classes = useStyles();
 
   const renderNotification = (notification: Notification<NotificationType>, idx: number) => {
-    const Component = NotificationComponents[notification.type] as React.FC<any>;
+    const Component = NotificationComponents[notification.type];
 
     return (
       <React.Fragment key={notification.id}>
