@@ -1,6 +1,7 @@
 import { CommentsArea } from 'src/types/CommentsArea';
 
 import { ReactionType } from '../types/Comment';
+import { NotificationType } from '../types/Notification';
 
 export type From = 'App' | 'Popup' | 'Integration';
 
@@ -91,6 +92,12 @@ const track = {
   createCommentsArea: () => ({
     category: 'CommentsArea',
     action: 'Create',
+  }),
+
+  notificationSeen: (notificationType: NotificationType) => ({
+    category: 'Notification',
+    action: 'Seen',
+    name: `Notification Seen "${notificationType}"`,
   }),
 
   viewIntegration: (identifier: string, commentsArea?: CommentsArea) => {

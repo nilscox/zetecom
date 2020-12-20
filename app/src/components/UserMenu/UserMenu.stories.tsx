@@ -14,7 +14,9 @@ const withNotificationsProvider = (Story: React.FC) => {
   const count = number('notifications count', 2);
 
   return (
-    <NotificationsContext.Provider value={{ count, refetch: action('refetch notifications') }}>
+    <NotificationsContext.Provider
+      value={{ count, fetchCount: action('refetch notifications'), markAsSeen: action('mark as seen') }}
+    >
       <Story />
     </NotificationsContext.Provider>
   );

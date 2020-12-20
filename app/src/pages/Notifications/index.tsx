@@ -7,7 +7,7 @@ import AsyncContent from 'src/components/AsyncContent';
 import Authenticated from 'src/components/Authenticated';
 import { Notification, NotificationType } from 'src/types/Notification';
 
-import useNotifications from './hooks/useNotification';
+import useNotifications from './hooks/useNotifications';
 import RulesUpdateNotification from './notifications/RulesUpdateNotification';
 import SubscriptionReplyNotification from './notifications/SubscriptionReplyNotification';
 

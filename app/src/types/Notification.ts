@@ -65,16 +65,6 @@ export class Notification<T extends NotificationType> {
 
   @Transform(transformNotificationPayload)
   payload: MapNotificationPayload[T];
-
-  getLink() {
-    // if (this.type === 'rulesUpdate') {
-    //   return { href: env.WEBSITE_URL + '/charte.html', external: true };
-    // }
-    // if (this.type === 'subscriptionReply') {
-    //   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    //   return { href: `/commentaires/${this.payload.commentsAreaId}`, external: false };
-    // }
-  }
 }
 
 export class NotificationsCount {

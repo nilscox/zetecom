@@ -21,12 +21,17 @@ const RulesUpdateNotification: React.FC<RulesUpdateNotificationProps> = ({ notif
     subTitle={
       <>
         La <strong>version {notification.payload.version}</strong> de la charte est disponible{' '}
-        <WebsiteLink to="/charte.html">sur le site de Zétécom</WebsiteLink>.
+        <WebsiteLink to="/charte.html" onClick={markAsSeen}>
+          sur le site de Zétécom
+        </WebsiteLink>
+        .
       </>
     }
     text={
       <Typography>
-        <WebsiteLink to={`/charte-v${notification.payload.version}.html`}>Voir les détails</WebsiteLink>
+        <WebsiteLink to={`/charte-v${notification.payload.version}.html`} onClick={markAsSeen}>
+          Voir les détails
+        </WebsiteLink>
       </Typography>
     }
     imageSrc={imageCharter}

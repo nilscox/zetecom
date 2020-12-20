@@ -1,7 +1,9 @@
 import React, { createContext, useCallback, useContext, useEffect } from 'react';
 
+import { useTrackEvent } from 'src/contexts/TrackingContext';
 import useAxios from 'src/hooks/use-axios';
-import { NotificationsCount } from 'src/types/Notification';
+import { Notification, NotificationsCount, NotificationType } from 'src/types/Notification';
+import track from 'src/utils/track';
 
 import useLongPolling from '../hooks/useLongPolling';
 
@@ -12,14 +14,19 @@ const POLL_INTERVAL = 2 * 60_000;
 
 export type NotificationsContextType = {
   count: number;
-  refetch: () => void;
+  fetchCount: () => void;
+  markAsSeen: (notification: Notification<NotificationType>) => void;
 };
 
-export const NotificationsContext = createContext<NotificationsContextType>({ count: NaN, refetch: () => {} });
+export const NotificationsContext = createContext<NotificationsContextType>({
+  count: NaN,
+  fetchCount: () => {},
+  markAsSeen: () => {},
+});
 
 export const useNotifications = () => useContext(NotificationsContext);
 
-const useFetchNotifications = (onUnauthenticated: () => void) => {
+const useFetchNotificationsCount = (onUnauthenticated: () => void) => {
   const [result, refetch] = useAxios(
     {
       url: '/api/notification/me/count',
@@ -40,24 +47,46 @@ const useFetchNotifications = (onUnauthenticated: () => void) => {
   return [result, refetch] as const;
 };
 
+const useMarkNotificationAsSeen = (fetchCount: () => void) => {
+  const trackEvent = useTrackEvent();
+  const [{ status: setSeenStatus }, setSeen] = useAxios({ method: 'POST' }, { manual: true });
+
+  useEffect(() => {
+    if (setSeenStatus(204)) {
+      fetchCount();
+    }
+  }, [setSeenStatus, fetchCount, trackEvent]);
+
+  const markAsSeen = useCallback(
+    (notification: Notification<NotificationType>) => {
+      setSeen({ url: `/api/notification/${notification.id}/seen` });
+      trackEvent(track.notificationSeen(notification.type));
+    },
+    [setSeen, trackEvent],
+  );
+
+  return markAsSeen;
+};
+
 export const NotificationsProvider: React.FC = ({ children }) => {
   const [user, setUser] = useUser();
   const onUnauthenticated = useCallback(() => setUser(null), [setUser]);
-  const [{ data }, refetch] = useFetchNotifications(onUnauthenticated);
+  const [{ data }, fetchCount] = useFetchNotificationsCount(onUnauthenticated);
+  const markAsSeen = useMarkNotificationAsSeen(fetchCount);
 
   useEffect(() => {
     if (user) {
-      refetch();
+      fetchCount();
     }
-  }, [user, refetch]);
+  }, [user, fetchCount]);
 
   useLongPolling(() => {
     if (user) {
-      refetch().catch(() => {});
+      fetchCount().catch(() => {});
     }
   }, POLL_INTERVAL);
 
-  const value = { count: data?.count || NaN, refetch };
+  const value = { count: data?.count || NaN, fetchCount, markAsSeen };
 
   return <NotificationsContext.Provider value={value}>{children}</NotificationsContext.Provider>;
 };

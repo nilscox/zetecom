@@ -22,7 +22,6 @@ import EmailValidation from './EmailValidation';
 import Moderation from './Moderation';
 import NotFound from './NotFound';
 import Notifications from './Notifications';
-import MarkNotificationAsSeen from './Notifications/MarkNotificationAsSeet';
 import UserComments from './UserComments';
 
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -91,7 +90,6 @@ const Pages: React.FC = () => {
     <NotificationsProvider>
       <PageContainer>
         <ToastContainer />
-        <MarkNotificationAsSeen />
 
         <Grid container className={classes.header}>
           <RouterLink to="/" className={classes.headerLink}>
