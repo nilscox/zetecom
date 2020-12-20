@@ -65,7 +65,7 @@ const useStyles = makeStyles<Theme, StylesProps>(({ spacing }) => ({
       bottom: 0,
       left: 0,
       right: 0,
-      top: 0,
+      height: 32,
       background: 'linear-gradient(to top, #FFFF, #FFF0 32px)',
     },
   },

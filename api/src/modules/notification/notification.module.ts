@@ -1,6 +1,8 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { UserModule } from '../user/user.module';
+
 import { NotificationController } from './notification.controller';
 import { Notification } from './notification.entity';
 import { NotificationService } from './notification.service';
@@ -12,7 +14,7 @@ const NotificationPageSize: Provider = {
 };
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Notification])],
+  imports: [TypeOrmModule.forFeature([Notification]), UserModule],
   controllers: [NotificationController],
   providers: [NotificationPageSize, NotificationService],
   exports: [NotificationService],

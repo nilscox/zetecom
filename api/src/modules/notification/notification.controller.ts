@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
@@ -20,18 +21,23 @@ import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
 
 import { CastToDto } from '../../common/cast-to-dto.interceptor';
+import { Roles } from '../../common/roles.decorator';
+import { Role } from '../authorization/roles.enum';
 import { User } from '../user/user.entity';
+import { UserService } from '../user/user.service';
 
 import { NotificationDto } from './dtos/notification.dto';
 import { NotificationsCountDto } from './dtos/notifications-count.dto';
+import { RulesUpdateInDto } from './dtos/rules-update-in.dto';
+import { NotificationType } from './notification-type';
 import { Notification } from './notification.entity';
 import { NotificationService } from './notification.service';
 
 @Controller('notification')
 @UseInterceptors(ClassToPlainInterceptor)
 export class NotificationController {
-
   constructor(
+    private readonly userService: UserService,
     private readonly notificationService: NotificationService,
     @InjectRepository(Notification)
     private readonly notificationRepository: Repository<Notification>,
@@ -40,40 +46,43 @@ export class NotificationController {
   @Get('me')
   @UseGuards(IsAuthenticated)
   @CastToDto(NotificationDto)
-  findForUser(
-    @AuthUser() user: User,
-    @PageQuery() page: number,
-  ): Promise<Paginated<Notification>> {
+  findForUser(@AuthUser() user: User, @PageQuery() page: number): Promise<Paginated<Notification>> {
     return this.notificationService.findForUser(user, page);
   }
 
   @Get('me/count')
   @UseGuards(IsAuthenticated)
   @CastToDto(NotificationsCountDto)
-  async countUnseenForUser(
-    @AuthUser() user: User,
-  ): Promise<{ count: number }> {
+  async countUnseenForUser(@AuthUser() user: User): Promise<{ count: number }> {
     return { count: await this.notificationService.countUnseenForUser(user) };
   }
 
   @Post(':id/seen')
   @UseGuards(IsAuthenticated)
   @HttpCode(HttpStatus.NO_CONTENT)
-  async markAsSeen(
-    @Param('id', new ParseIntPipe()) id: number,
-    @AuthUser() user: User,
-  ): Promise<void> {
+  async markAsSeen(@Param('id', new ParseIntPipe()) id: number, @AuthUser() user: User): Promise<void> {
     const notification = await this.notificationRepository.findOne(id, { relations: ['user'] });
 
-    if (!notification)
+    if (!notification) {
       throw new NotFoundException();
+    }
 
-    if (user.id !== notification.user.id)
+    if (user.id !== notification.user.id) {
       throw new NotFoundException();
+    }
 
     notification.seen = new Date();
 
     await this.notificationRepository.save(notification);
   }
 
+  @Post('rules-update')
+  @UseGuards(IsAuthenticated)
+  @Roles(Role.ADMIN)
+  @HttpCode(204)
+  async rulesUpdate(@Body() { version }: RulesUpdateInDto): Promise<void> {
+    const users = await this.userService.findAll();
+
+    await this.notificationService.createMultiple(NotificationType.RULES_UPDATE, users, { version });
+  }
 }
