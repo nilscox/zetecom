@@ -205,9 +205,12 @@ describe('comments', () => {
         cy.stub(win, 'open').as('windowOpen');
       });
 
-      cy.getCommentId(0).then((id) => {
+      cy.getCommentAt(0).then((elem: any) => {
+        const match = elem.attr('id').match(/comment-(\d+)/);
+        const id = Number(match[1]);
+
         cy.get('[title="Édité"]').click();
-        cy.get('@windowOpen').should('be.calledWith', '/integration/comment/' + id + '/history');
+        cy.get('@windowOpen').should('be.calledWith', `/integration/comment/${id}/history`);
 
         cy.visitHistory(id);
 

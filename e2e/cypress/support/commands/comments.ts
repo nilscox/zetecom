@@ -4,15 +4,6 @@ Cypress.Commands.add('postComment', (body) => {
   cy.request({ method: 'POST', url: API_URL + '/api/comment', body });
 });
 
-Cypress.Commands.add('getCommentId', (place) => {
-  cy.getCommentAt(place).within(() => {
-    cy.contains('#').then((elem) => {
-      const match = elem.text().match(/^#(\d+) -/);
-      return Number(match[1]);
-    });
-  });
-});
-
 Cypress.Commands.add('getComments', () => cy.get('.comment'));
 
 Cypress.Commands.add('getComment', (id) => cy.get(`#comment-${id}`));
@@ -24,7 +15,6 @@ Cypress.Commands.add('countComments', (expected) => cy.getComments().should('hav
 declare namespace Cypress {
   interface Chainable {
     postComment(body: any): Chainable<Element[]>;
-    getCommentId(place: number): Chainable<Element[]>;
     getComments(): Chainable<Element>;
     getComment(id: number): Chainable<Element>;
     getCommentAt(place: number): Chainable<Element>;
