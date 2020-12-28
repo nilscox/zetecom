@@ -64,21 +64,8 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
   children,
   onSubmit,
 }) => {
-  const [form, { text }] = useCommentsAreaForm(
-    replaceFields(initialValues, value => (value === null ? '' : value)),
-    fieldsErrors,
-  );
-
+  const [form, { text }, placeholders] = useCommentsAreaForm(initialValues, fieldsErrors);
   const classes = useStyles();
-
-  const placeholders: Record<keyof CreateCommentsAreaFormState, string> = {
-    identifier: '',
-    informationUrl: "URL de l'information",
-    informationTitle: "Titre de l'information",
-    informationAuthor: "Auteur de l'information",
-    informationPublicationDate: 'Date de publication',
-    imageUrl: "URL de l'image",
-  };
 
   const requiredPlaceholderSuffix = (field: keyof CreateCommentsAreaFormState) => {
     return requiredFields?.includes(field) ? ' *' : '';
@@ -136,7 +123,7 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
         <Input {...fieldProps('informationUrl', text)} endAdornment={openUrlIconLink} />
         <Input {...fieldProps('imageUrl', text)} />
 
-        {env.DEBUG === 'true' && <Input disabled {...fieldProps('identifier', text)} />}
+        {env.DEBUG === 'true' && <Input disabled {...fieldProps('integrationIdentifier', text)} />}
 
         <Grid item container>
           <Grid item className={classes.authorInput}>

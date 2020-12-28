@@ -5,11 +5,11 @@ import { StateErrors, useFormState } from 'react-use-form-state';
 import { FieldsErrors } from 'src/hooks/use-form-errors';
 
 export type CreateCommentsAreaFormState = {
-  identifier?: string;
   informationUrl: string;
   informationTitle: string;
   informationAuthor: string;
   informationPublicationDate: string;
+  integrationIdentifier?: string;
   imageUrl: string;
 };
 
@@ -17,13 +17,12 @@ type FS = CreateCommentsAreaFormState;
 
 const useCommentsAreaForm = (initialValues: Partial<FS>, fieldErrors: FieldsErrors<FS>) => {
   const formState = useFormState<FS, StateErrors<FS, React.ReactNode>>({
-    identifier: '',
-    informationUrl: '',
-    informationTitle: '',
-    informationAuthor: '',
-    informationPublicationDate: '',
-    imageUrl: '',
-    ...initialValues,
+    integrationIdentifier: initialValues.integrationIdentifier || '',
+    informationUrl: initialValues.informationUrl || '',
+    informationTitle: initialValues.informationTitle || '',
+    informationAuthor: initialValues.informationAuthor || '',
+    informationPublicationDate: initialValues.informationPublicationDate || '',
+    imageUrl: initialValues.imageUrl || '',
   });
 
   const [form] = formState;
@@ -46,7 +45,16 @@ const useCommentsAreaForm = (initialValues: Partial<FS>, fieldErrors: FieldsErro
     }
   }, [form, form.values.informationUrl]);
 
-  return formState;
+  const placeholders: Record<keyof CreateCommentsAreaFormState, string> = {
+    integrationIdentifier: '',
+    informationUrl: "URL de l'information",
+    informationTitle: "Titre de l'information",
+    informationAuthor: "Auteur de l'information",
+    informationPublicationDate: 'Date de publication',
+    imageUrl: "URL de l'image",
+  };
+
+  return [...formState, placeholders] as const;
 };
 
 export default useCommentsAreaForm;

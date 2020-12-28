@@ -51,12 +51,7 @@ const CommentsAreaRequestModeration: React.FC<CreateCommentsAreaProps> = ({ requ
   }, [rejected, trackEvent]);
 
   const handleSubmit = (data: CreateCommentsAreaFormState) => {
-    create({
-      data: {
-        ...data,
-        integrationIdentifer: data.identifier,
-      },
-    }).catch(() => {});
+    create({ data }).catch(() => {});
   };
 
   return (
@@ -69,7 +64,7 @@ const CommentsAreaRequestModeration: React.FC<CreateCommentsAreaProps> = ({ requ
           'informationPublicationDate',
           'imageUrl',
         ]}
-        initialValues={request}
+        initialValues={{ ...request, integrationIdentifier: request.identifier }}
         fieldsErrors={fieldErrors}
         onSubmit={handleSubmit}
       >
