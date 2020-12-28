@@ -2,13 +2,23 @@ import React, { PropsWithoutRef } from 'react';
 
 import { Fade, Input as MUIInput, InputProps as MUIInputProps, makeStyles, Theme } from '@material-ui/core';
 
-const useStyles = makeStyles<Theme, { disabled?: boolean }>(({ spacing, palette }) => ({
-  root: ({ disabled }) => ({
+type StylesProps = {
+  disabled?: boolean;
+  variant: InputProps['variant'];
+};
+
+const useStyles = makeStyles<Theme, StylesProps>(({ spacing, palette }) => ({
+  root: ({ variant, disabled }) => ({
     margin: spacing(1, 0),
     borderBottom: `2px solid ${palette.border.main}`,
     '&:hover': {
       borderBottomColor: disabled ? undefined : palette.primary.light,
     },
+    ...(variant === 'outlined' && {
+      padding: spacing(1, 2),
+      border: `1px solid ${palette.border.main}`,
+      borderRadius: spacing(1),
+    }),
   }),
   input: {
     padding: spacing(1, 2),
@@ -30,11 +40,12 @@ const useStyles = makeStyles<Theme, { disabled?: boolean }>(({ spacing, palette 
 
 export type InputProps = PropsWithoutRef<Omit<MUIInputProps, 'error'>> & {
   className?: string;
+  variant?: 'outlined';
   error?: React.ReactNode;
 };
 
-const Input: React.FC<InputProps> = ({ error, ...props }) => {
-  const classes = useStyles({ disabled: props.disabled });
+const Input: React.FC<InputProps> = ({ error, variant, ...props }) => {
+  const classes = useStyles({ variant, disabled: props.disabled });
 
   return (
     <>

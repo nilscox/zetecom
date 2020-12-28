@@ -51,7 +51,7 @@ describe('comments area', () => {
 
   describe('comments area request', () => {
     before(() => {
-      cy.seed({ users: [user1] });
+      cy.seed({ users: [admin, user1] });
     });
 
     it('should request to open a new comments area', () => {
@@ -104,11 +104,12 @@ describe('comments area', () => {
 
     it('should request to open a new comments area from the integration', () => {
       cy.login({ email: 'user1@domain.tld', password: 'p4ssword' });
-      cy.visitIntegration('test:request-open', 'https://page.url');
-
-      cy.contains("Demander l'ouverture").click();
 
       for (const _ of [1, 2]) {
+        cy.visitIntegration('test:request-open', 'https://page.url');
+
+        cy.contains("Demander l'ouverture").click();
+
         cy.contains("L'ouverture a bien été prise en compte !");
         cy.contains('Les modérateurs traiteront votre demande au plus vite.');
 

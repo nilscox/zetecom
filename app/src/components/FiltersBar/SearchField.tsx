@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import TextField from '@material-ui/core/TextField';
 import { useDebounce } from 'use-debounce';
 
+import Input from 'src/components/Input';
 import useUpdateEffect from 'src/hooks/use-update-effect';
 
 type SearchFieldProps = {
@@ -18,12 +18,11 @@ const SearchField: React.FC<SearchFieldProps> = ({ onSearch }) => {
   }, [onSearch, searchDebounced]);
 
   return (
-    <TextField
+    <Input
       fullWidth
       variant="outlined"
-      margin="dense"
+      placeholder="Rechercher..."
       name="search"
-      label="Rechercher..."
       onChange={e => setSearch(e.currentTarget.value)}
     />
   );
