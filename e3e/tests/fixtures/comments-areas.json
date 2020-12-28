@@ -1,0 +1,27 @@
+[
+  {
+    "identifier": "test:news1",
+    "informationTitle": "Information title 1",
+    "informationUrl": "https://info.url/1",
+    "informationPublicationDate": "2020-02-10T00:00:00.000Z",
+    "imageUrl": null,
+    "informationAuthor": "Anyone",
+    "creator": "user1",
+    "comments": []
+  },
+  {
+    "identifier": "test:news2",
+    "informationTitle": "Information title 2",
+    "informationUrl": "https://info.url/1",
+    "informationPublicationDate": "2015-06-18T00:00:00.000Z",
+    "imageUrl": null,
+    "informationAuthor": "Someone",
+    "creator": "user1",
+    "comments": [
+      {
+        "author": "user2",
+        "text": "Hello!"
+      }
+    ]
+  }
+]
