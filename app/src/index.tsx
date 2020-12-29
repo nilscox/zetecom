@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 
 import axios from 'axios';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import queryString from 'query-string';
 
 import 'dayjs/locale/fr';
@@ -23,6 +24,7 @@ const getApiRootUrl = () => {
 };
 
 const main = () => {
+  dayjs.extend(utc);
   dayjs.locale('fr');
 
   axios.defaults.baseURL = getApiRootUrl();

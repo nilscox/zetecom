@@ -89,8 +89,8 @@ const CommentsAreaForm: React.FC<CommentsAreaFormProps> = ({
   }, [clear, form]);
 
   const handleDateChange = useCallback(
-    (date: Date) => {
-      form.setField('informationPublicationDate', date.toISOString());
+    (date: string) => {
+      form.setField('informationPublicationDate', date);
     },
     [form],
   );

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 import parseISO from 'date-fns/parseISO';
+import dayjs from 'dayjs';
 
 import Input, { InputProps } from 'src/components/Input';
 
 type DateInputProps = InputProps & {
-  onDateChange?: (value: Date) => void;
+  // use a string to avoid timezone issues
+  onDateChange?: (value: string) => void;
 };
 
 const DateInput: React.FC<DateInputProps> = ({ placeholder, value, onDateChange, ...props }) => {
@@ -143,7 +145,7 @@ const DateInput: React.FC<DateInputProps> = ({ placeholder, value, onDateChange,
 
   useEffect(() => {
     if (day.length === 2 && month.length === 2 && year.length === 4) {
-      onDateChange?.(new Date(Number(year), Number(month) - 1, Number(day)));
+      onDateChange?.(dayjs.utc([Number(year), Number(month), Number(day)].join('-')).toISOString());
     }
   }, [day, month, year, onDateChange]);
 
