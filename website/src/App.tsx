@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 
 import pages from './pages';
+import NotFound from './pages/NotFound';
 import PageHeader from './components/PageHeader';
 import Navigation from './components/Navigation';
 import PageFooter from './components/PageFooter';
@@ -26,9 +27,10 @@ const Routes: React.FC = () => {
 
   return (
     <Switch>
-      { pages.map(({ id, path, Component }) => (
+      {pages.map(({ id, path, Component }) => (
         <Route key={id} exact path={path} component={Component} />
-      )) }
+      ))}
+      <Route component={NotFound} />
     </Switch>
   );
 };
@@ -41,22 +43,18 @@ const App: React.FC = () => {
     <TrackingProvider>
       <TrackPageView />
 
-      <div className="page" id={`page-${page ? page.id : ''}`}>
-
+      <div className="page" id={`page-${page ? page.id : 'not-found'}`}>
         <PageHeader />
 
         <div className="page-content">
-
           <Navigation />
 
           <main>
             <Routes />
           </main>
-
         </div>
 
         <PageFooter />
-
       </div>
     </TrackingProvider>
   );

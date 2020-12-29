@@ -57,7 +57,7 @@ const ssr = () => {
   const site: Record<string, string> = {};
 
   for (const page of pages) {
-      site[page.path] = doctype + ReactDOMServer.renderToString(
+    site[page.path] = doctype + ReactDOMServer.renderToString(
       <Router history={makeHistory(page.path)}>
         <Document page={page} />
       </Router>
