@@ -190,6 +190,7 @@ describe('comments area', () => {
     cy.getField('Date de publication').type(typePublicationDate);
 
     cy.contains("Demander l'ouverture").click();
+    cy.fixCI();
 
     cy.contains('moderator').click();
     cy.contains('Modération').click();
