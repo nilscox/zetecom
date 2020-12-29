@@ -13,9 +13,10 @@ export class Test implements Integration {
   getIdentifier(url: string) {
     const match = /article\/([0-9]+)/.exec(url);
 
-    if (!match)
+    if (!match) {
       return null;
+    }
 
     return ['test', match[1]].join(':');
   }
-};
+}

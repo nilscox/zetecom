@@ -68,7 +68,7 @@ export class IntegrationHost {
   handleRuntimeMessage(message: Message) {
     if (message.type === 'SCROLL_IFRAME_INTO_VIEW') {
       this.scrollIntoView();
-    }  else if (message.type === 'GET_INTEGRATION_STATE') {
+    } else if (message.type === 'GET_INTEGRATION_STATE') {
       const state = {
         available: !!this.runtime,
         loaded: this.loaded,

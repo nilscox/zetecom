@@ -23,7 +23,7 @@ export class Messages {
     } else if (to === 'contentScript') {
       window.postMessage(message, window.location.origin);
     }
-  };
+  }
 
   static listen(from: Actor, cb: (message: Message) => void) {
     if (from === 'runtime') {
@@ -45,5 +45,5 @@ export class Messages {
         cb(data);
       });
     }
-  };
+  }
 }

@@ -20,14 +20,14 @@ const IntegrationState: React.FC = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    sendMessage({ type: 'GET_INTEGRATION_STATE' });
-
     // TODO: cleanup
-    addListener((message) => {
+    addListener(message => {
       if (message.type === 'INTEGRATION_STATE') {
         setState(message.state);
       }
     });
+
+    sendMessage({ type: 'GET_INTEGRATION_STATE' });
   }, [sendMessage, addListener]);
 
   const getText = () => {
@@ -45,9 +45,7 @@ const IntegrationState: React.FC = () => {
   return (
     <>
       <Padding y>
-        <Typography className={classes.text}>
-          {getText()}
-        </Typography>
+        <Typography className={classes.text}>{getText()}</Typography>
       </Padding>
 
       {state?.available && (
