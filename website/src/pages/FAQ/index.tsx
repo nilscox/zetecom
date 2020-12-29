@@ -79,6 +79,27 @@ const useSections = () => [
         C'est le même principe qu'un bloqueur de publicité, ou qu'une extension ajoutant un mode sombre sur tous les sites par exemple.</>,
       },
 
+      {
+        question: 'Sur quels sites l\'extension permet-elle d\'intégrer des zones de commentaires ?',
+        answer: <>L'extension permet l'intégration des zones de commentaires sur :
+          <ul>
+            <li><Link openInNewTab href="https://www.20minutes.fr">20minutes.fr</Link></li>  
+            <li><Link openInNewTab href="https://www.francesoir.fr">francesoir.fr</Link></li>  
+            <li><Link openInNewTab href="https://www.lefigaro.fr">lefigaro.fr</Link></li>  
+            <li><Link openInNewTab href="https://www.lemonde.fr">lemonde.fr</Link></li>  
+            <li><Link openInNewTab href="https://www.lepoint.fr">lepoint.fr</Link></li>  
+            <li><Link openInNewTab href="https://www.liberation.fr">liberation.fr</Link></li>  
+            <li><Link openInNewTab href="https://www.skeptikon.fr">skeptikon.fr</Link></li>  
+            <li><Link openInNewTab href="https://www.youtube.fr">youtube.fr</Link></li>  
+          </ul>.
+        </>,
+      },
+
+      {
+        question: 'Comment ajouter un nouveau site sur l\'extension ?',
+        answer: <>Quelques lignes de code sont nécessaires pour ajouter un nouveau site sur l'extension. Si vous souhaitez ouvrir des zones de commentaires sur un site qui n'est pas encore disponible, <RouterLink to="#contact">contactez-nous</RouterLink> pour nous faire part de votre requête.</>,
+      },
+
     ],
   },
 
