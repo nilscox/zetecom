@@ -2,13 +2,15 @@ import { IsDateString, IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength, MinLe
 
 import { IsPast } from 'Common/is-past.validator';
 
+const require_tld = process.env.NODE_ENV === 'production';
+
 export class CreateCommentsAreaInDto {
   @IsString()
   @IsOptional()
   readonly integrationIdentifier?: string;
 
   @IsString()
-  @IsUrl()
+  @IsUrl({ require_tld })
   @MinLength(5)
   @MaxLength(1000)
   readonly informationUrl: string;
@@ -30,7 +32,7 @@ export class CreateCommentsAreaInDto {
 
   @IsOptional()
   @IsString()
-  @IsUrl()
+  @IsUrl({ require_tld })
   @MinLength(10)
   @MaxLength(1000)
   readonly imageUrl?: string;

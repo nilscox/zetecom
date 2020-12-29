@@ -2,9 +2,11 @@ import { IsDateString, IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength, MinLe
 
 import { IsPast } from 'Common/is-past.validator';
 
+const require_tld = process.env.NODE_ENV === 'production';
+
 export class CommentsAreaRequestInDto {
   @IsString()
-  @IsUrl()
+  @IsUrl({ require_tld })
   @MinLength(5)
   @MaxLength(1000)
   readonly informationUrl: string;
