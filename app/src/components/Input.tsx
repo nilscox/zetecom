@@ -42,9 +42,10 @@ export type InputProps = PropsWithoutRef<Omit<MUIInputProps, 'error'>> & {
   className?: string;
   variant?: 'outlined';
   error?: React.ReactNode;
+  consistentHeight?: boolean;
 };
 
-const Input: React.FC<InputProps> = ({ error, variant, ...props }) => {
+const Input: React.FC<InputProps> = ({ error, consistentHeight = true, variant, ...props }) => {
   const classes = useStyles({ variant, disabled: props.disabled });
 
   return (
@@ -54,9 +55,11 @@ const Input: React.FC<InputProps> = ({ error, variant, ...props }) => {
         classes={{ root: classes.root, input: classes.input, disabled: classes.disabled, focused: classes.focused }}
         {...props}
       />
-      <Fade in={!!error}>
-        <div className={classes.error}>{error}&nbsp;</div>
-      </Fade>
+      {(error || consistentHeight) && (
+        <Fade in={!!error}>
+          <div className={classes.error}>{error}&nbsp;</div>
+        </Fade>
+      )}
     </>
   );
 };

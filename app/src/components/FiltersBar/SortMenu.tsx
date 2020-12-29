@@ -29,12 +29,7 @@ const SortMenu: React.FC<SortMenuProps> = ({ sort: currentSort, onSortChange }) 
 
   return (
     <>
-
-      <IconButton
-        onClick={handleClick}
-        style={{ background: 'transparent', marginLeft: -12 }}
-        title="Tri"
-      >
+      <IconButton onClick={handleClick} style={{ background: 'transparent' }} title="Tri">
         <SortIcon />
       </IconButton>
 
@@ -45,17 +40,12 @@ const SortMenu: React.FC<SortMenuProps> = ({ sort: currentSort, onSortChange }) 
         open={Boolean(buttonRef)}
         onClose={() => setButtonRef(null)}
       >
-        { [SortType.DATE_DESC, SortType.DATE_ASC, SortType.RELEVANCE].map(sort => (
-          <MenuItem
-            key={sort}
-            disabled={sort === currentSort}
-            onClick={setSort(sort)}
-          >
-            { menuText[sort] }
+        {[SortType.DATE_DESC, SortType.DATE_ASC, SortType.RELEVANCE].map(sort => (
+          <MenuItem key={sort} disabled={sort === currentSort} onClick={setSort(sort)}>
+            {menuText[sort]}
           </MenuItem>
-        )) }
+        ))}
       </Menu>
-
     </>
   );
 };

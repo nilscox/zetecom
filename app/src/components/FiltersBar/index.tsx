@@ -39,11 +39,11 @@ const FiltersBar: React.FC<FiltersBarProps> = ({ className, sort, onSearch, page
 
   return (
     <Grid container className={className}>
-      {sort && <SortMenu sort={sort.type} onSortChange={handleSort} />}
-
       <Grid item style={{ flexGrow: 1 }}>
         <SearchField onSearch={handleSearch} />
       </Grid>
+
+      {sort && <SortMenu sort={sort.type} onSortChange={handleSort} />}
 
       <Grid item>
         <Pagination page={page} totalPages={totalPages} onPageChange={onPageChange} />

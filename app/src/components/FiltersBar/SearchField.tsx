@@ -20,6 +20,7 @@ const SearchField: React.FC<SearchFieldProps> = ({ onSearch }) => {
   return (
     <Input
       fullWidth
+      consistentHeight={false}
       variant="outlined"
       placeholder="Rechercher..."
       name="search"
