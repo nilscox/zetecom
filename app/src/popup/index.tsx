@@ -8,7 +8,6 @@ import AsyncContent from 'src/components/AsyncContent';
 import HeaderLogo from 'src/components/HeaderLogo';
 import RouterLink from 'src/components/Link';
 import ToastContainer from 'src/components/ToastContainer';
-import { IntegrationPageUrlProvider } from 'src/contexts/IntegrationPageUrlContext';
 import { useCurrentUser } from 'src/contexts/UserContext';
 import Separator from 'src/popup/views/Separator';
 import createTheme from 'src/theme/createTheme';
@@ -29,34 +28,32 @@ const Popup: React.FC = () => {
   const user = useCurrentUser();
 
   return (
-    <IntegrationPageUrlProvider>
-      <AsyncContent
-        loading={typeof user === 'undefined'}
-        render={() => (
-          <ThemeProvider theme={theme}>
-            <Box padding={3}>
-              <ToastContainer />
+    <AsyncContent
+      loading={typeof user === 'undefined'}
+      render={() => (
+        <ThemeProvider theme={theme}>
+          <Box padding={3}>
+            <ToastContainer />
 
-              <RouterLink to="/popup">
-                <HeaderLogo />
-              </RouterLink>
+            <RouterLink to="/popup">
+              <HeaderLogo />
+            </RouterLink>
 
-              <Separator />
+            <Separator />
 
-              <IntegrationState />
+            <IntegrationState />
 
-              <Separator />
+            <Separator />
 
-              <Switch>
-                <Route path="/popup/:sign(connexion|inscription|connexion-par-email)" component={AuthenticationView} />
-                <Route path="/popup" component={AuthenticatedView} />
-                <Route render={() => <Redirect to="/popup" />} />
-              </Switch>
-            </Box>
-          </ThemeProvider>
-        )}
-      />
-    </IntegrationPageUrlProvider>
+            <Switch>
+              <Route path="/popup/:sign(connexion|inscription|connexion-par-email)" component={AuthenticationView} />
+              <Route path="/popup" component={AuthenticatedView} />
+              <Route render={() => <Redirect to="/popup" />} />
+            </Switch>
+          </Box>
+        </ThemeProvider>
+      )}
+    />
   );
 };
 

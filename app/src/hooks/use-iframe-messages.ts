@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { useIntegrationPageUrl } from 'src/contexts/IntegrationPageUrlContext';
+import useQueryString from 'src/hooks/use-query-string';
 
 const useOrigin = (url: string) => {
   const a = document.createElement('a');
@@ -17,7 +17,8 @@ export type Message = {
 };
 
 const useIFrameMessages = () => {
-  const pageUrl = useIntegrationPageUrl();
+  const params = useQueryString();
+  const pageUrl = decodeURIComponent(params.pageUrl as string);
   const origin = useOrigin(pageUrl);
 
   const sendMessage = useCallback(
@@ -29,7 +30,7 @@ const useIFrameMessages = () => {
       }
 
       if (window.parent !== window) {
-        // console.log('iframe send', message);
+        // console.log('iframe send', message, origin);
         window.parent.postMessage(message, origin);
       }
     },
