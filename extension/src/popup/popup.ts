@@ -34,6 +34,6 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  iframe.src = `${process.env.APP_URL}/popup?origin=${location.origin}`;
+  iframe.src = `${process.env.APP_URL}/popup?pageUrl=${location.origin}`;
   iframeResizer({ log: false, checkOrigin: false }, iframe);
 });
