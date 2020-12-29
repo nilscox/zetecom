@@ -1,3 +1,4 @@
+import { FranceSoir } from './francesoir';
 import { LeFigaro } from './lefigaro';
 import { LeMonde } from './lemonde';
 import { LePoint } from './lepoint';
@@ -7,6 +8,7 @@ import { Test } from './test';
 import { YouTube } from './youtube';
 
 export default [
+  FranceSoir,
   LeFigaro,
   LeMonde,
   LePoint,
