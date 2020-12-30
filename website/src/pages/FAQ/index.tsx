@@ -87,8 +87,11 @@ const useSections = () => [
             <li><Link openInNewTab href="https://www.francesoir.fr">francesoir.fr</Link></li>  
             <li><Link openInNewTab href="https://www.lefigaro.fr">lefigaro.fr</Link></li>  
             <li><Link openInNewTab href="https://www.lemonde.fr">lemonde.fr</Link></li>  
+            <li><Link openInNewTab href="https://www.leparisien.fr">leparisien.fr</Link></li>
             <li><Link openInNewTab href="https://www.lepoint.fr">lepoint.fr</Link></li>  
+            <li><Link openInNewTab href="https://www.lesechos.fr">lesechos.fr</Link></li>
             <li><Link openInNewTab href="https://www.liberation.fr">liberation.fr</Link></li>  
+            <li><Link openInNewTab href="https://www.science-et-vie.com">science-et-vie.com</Link></li>
             <li><Link openInNewTab href="https://www.skeptikon.fr">skeptikon.fr</Link></li>  
             <li><Link openInNewTab href="https://www.youtube.fr">youtube.fr</Link></li>  
           </ul>.
