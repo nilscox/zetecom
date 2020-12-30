@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "0.6.2",
+  "version": "0.6.3",
   "name": "Zétécom (dev)",
   "description": "L'information sur internet, avec esprit critique",
   "browser_specific_settings": {
@@ -9,9 +9,7 @@
       "strict_min_version": "65.0"
     }
   },
-  "permissions": [
-    "background"
-  ],
+  "permissions": ["background"],
   "browser_action": {
     "default_popup": "popup/popup.html",
     "default_icon": {
