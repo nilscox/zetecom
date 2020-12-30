@@ -12,19 +12,12 @@ type Message = {
 };
 
 class BackgroundScript {
-  private text = ' ';
-  private color = '#4BB543';
+  private color = '#45A63D';
 
   constructor(private readonly chrome: Chrome) {
     this.runtime.onMessage.addListener((request: any, sender: chrome.runtime.MessageSender) => {
       this.handleMessage(request, sender);
     });
-
-    // firefox doesn't support a space for the addon's badge text
-    if (typeof browser !== 'undefined') {
-      browser.browserAction.setBadgeTextColor({ color: this.color });
-      this.text = '*';
-    }
   }
 
   get runtime() {
@@ -37,7 +30,9 @@ class BackgroundScript {
 
   handleMessage(request: any, sender: MessageSender) {
     if (request.type === 'SET_EXTENSION_ACTIVE' && sender.tab?.id) {
-      this.browserAction.setBadgeText({ text: this.text, tabId: sender.tab.id });
+      const text = request.comments >= 100 ? '99+' : request.comments.toString();
+
+      this.browserAction.setBadgeText({ text, tabId: sender.tab.id });
       this.browserAction.setBadgeBackgroundColor({ color: this.color, tabId: sender.tab.id });
     }
 
@@ -55,7 +50,7 @@ class BackgroundScript {
   }
 
   sendMessageToCurrentTab(message: Message) {
-    this.getCurrentTab(tab => {
+    this.getCurrentTab((tab) => {
       if (tab.id) {
         chrome.tabs.sendMessage(tab.id, message);
       }

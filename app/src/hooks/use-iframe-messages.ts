@@ -1,8 +1,12 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 import useQueryString from 'src/hooks/use-query-string';
 
-const useOrigin = (url: string) => {
+const log = (...args: Parameters<typeof console.log>) => {
+  // return console.log(...args);
+};
+
+const getOrigin = (url: string) => {
   const a = document.createElement('a');
 
   a.href = url;
@@ -19,7 +23,9 @@ export type Message = {
 const useIFrameMessages = () => {
   const params = useQueryString();
   const pageUrl = decodeURIComponent(params.pageUrl as string);
-  const origin = useOrigin(pageUrl);
+
+  // pageUrl becomes undefined for some reason
+  const { current: origin } = useRef(getOrigin(pageUrl));
 
   const sendMessage = useCallback(
     (message: Message) => {
@@ -30,7 +36,7 @@ const useIFrameMessages = () => {
       }
 
       if (window.parent !== window) {
-        // console.log('iframe send', message, origin);
+        log('iframe send', message, origin);
         window.parent.postMessage(message, origin);
       }
     },
@@ -41,7 +47,7 @@ const useIFrameMessages = () => {
     // TODO: check origin
     window.addEventListener('message', (event: MessageEvent<Message>) => {
       if (typeof event.data?.type === 'string') {
-        // console.log('iframe recv', event.data);
+        log('iframe recv', event.data);
         cb(event.data);
       }
     });

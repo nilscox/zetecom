@@ -61,7 +61,7 @@ export class IntegrationHost {
   handleIframeMessage(message: Message) {
     if (message.type === 'INTEGRATION_LOADED') {
       this.loaded = true;
-      Messages.send('runtime', { type: 'SET_EXTENSION_ACTIVE' });
+      Messages.send('runtime', { type: 'SET_EXTENSION_ACTIVE', comments: message.comments });
     }
   }
 

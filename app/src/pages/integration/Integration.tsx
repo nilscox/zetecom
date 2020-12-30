@@ -58,7 +58,7 @@ const Integration: React.FC = () => {
 
   useEffect(() => {
     if (commentsArea) {
-      sendMessage({ type: 'INTEGRATION_LOADED' });
+      sendMessage({ type: 'INTEGRATION_LOADED', comments: ' ' });
     }
   }, [commentsArea, sendMessage]);
 
