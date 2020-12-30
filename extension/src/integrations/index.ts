@@ -6,6 +6,7 @@ import { LeParisien } from './leparisien';
 import { LePoint } from './lepoint';
 import { LesEchos } from './lesechos';
 import { Liberation } from './liberation';
+import { ScienceEtVie } from './scienceetvie';
 import { Skeptikon } from './skeptikon';
 import { Test } from './test';
 import { YouTube } from './youtube';
@@ -20,6 +21,7 @@ export default [
   LePoint,
   LesEchos,
   Liberation,
+  ScienceEtVie,
   Skeptikon,
   Test,
   YouTube,
