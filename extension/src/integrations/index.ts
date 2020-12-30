@@ -4,6 +4,7 @@ import { LeFigaro } from './lefigaro';
 import { LeMonde } from './lemonde';
 import { LeParisien } from './leparisien';
 import { LePoint } from './lepoint';
+import { LesEchos } from './lesechos';
 import { Liberation } from './liberation';
 import { Skeptikon } from './skeptikon';
 import { Test } from './test';
@@ -17,6 +18,7 @@ export default [
   LeMonde,
   LeParisien,
   LePoint,
+  LesEchos,
   Liberation,
   Skeptikon,
   Test,
