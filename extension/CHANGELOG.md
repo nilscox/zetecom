@@ -18,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [0.6.3]
+
+### Added
+
+- Display integration state
+- Button to show the integration in the tab
+- Display the comments count in the badge
+- Integrations: 20minutes, FranceSoir, Le Figaro, Le Parisien, Le Point, Les Echos, Liberation, Science et vie
+
 ## [0.6.2] - 2020-07-25
 
 ### Updated
