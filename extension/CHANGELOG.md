@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [0.6.4]
+
+### Changed
+
+- List host permissions explicitly
+
 ## [0.6.3]
 
 ### Added
