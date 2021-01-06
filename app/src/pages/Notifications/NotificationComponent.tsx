@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 
 import { Grid, makeStyles, Theme, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import dayjs from 'dayjs';
 
-import { Notification, NotificationType } from '../../types/Notification';
-
-const DATE_FORMAT = '[Le] DD MMMM YYYY [à] HH:mm';
+import useDateFormat, { DATE_FORMAT_DAY_HOUR } from 'src/hooks/useDateFormat';
+import { Notification, NotificationType } from 'src/types/Notification';
 
 const imageRatio = 1.61803398875;
 
@@ -100,6 +98,7 @@ const NotificationComponent: React.FC<NotificationComponentProps> = ({
 }) => {
   const [hover, setHover] = useState(false);
   const classes = useStyles({ seen: !!seen, hover });
+  const format = useDateFormat(DATE_FORMAT_DAY_HOUR);
 
   return (
     <Grid
@@ -116,7 +115,7 @@ const NotificationComponent: React.FC<NotificationComponentProps> = ({
         <Grid item container direction="row">
           <Typography className={classes.title}>{title}</Typography>
           <Grid item className={classes.dateAndActions}>
-            <Typography className={classes.date}>{dayjs(date).format(DATE_FORMAT)}</Typography>
+            <Typography className={classes.date}>{format(date)}</Typography>
             <Typography className={classes.markAsSeen} onClick={markAsSeen}>
               Marquer comme lue
             </Typography>

@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
 
 import { Card, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
-import dayjs from 'dayjs';
 
-import CommentComponent from '../../../components/Comment/CommentComponent';
-import DisabledOverlay from '../../../components/DisabledOverlay';
-import { Comment } from '../../../types/Comment';
-import { Report } from '../../../types/Report';
+import CommentComponent from 'src/components/Comment/CommentComponent';
+import DisabledOverlay from 'src/components/DisabledOverlay';
+import useDateFormat, { DATE_FORMAT_DAY } from 'src/hooks/useDateFormat';
+import { Comment } from 'src/types/Comment';
+import { Report } from 'src/types/Report';
 
 import ReportedCommentActions from './ReportedCommentActions';
 
@@ -33,6 +33,7 @@ type ReportedCommentProps = {
 const ReportedComment: React.FC<ReportedCommentProps> = ({ comment, reports }) => {
   const [moderated, setModerated] = useState(false);
   const classes = useStyles({ moderated });
+  const format = useDateFormat(DATE_FORMAT_DAY);
 
   const onModerated = useCallback(() => setModerated(true), []);
 
@@ -46,9 +47,9 @@ const ReportedComment: React.FC<ReportedCommentProps> = ({ comment, reports }) =
         <Typography>Signalé par :</Typography>
 
         <ul>
-          {reports.map((report) => (
+          {reports.map(report => (
             <li key={report.id}>
-              <strong>{report.reportedBy.nick}</strong> le {dayjs(report.created).format('DD MM YYYY')}
+              <strong>{report.reportedBy.nick}</strong> le {format(report.created)}
               {report.message && (
                 <div style={{ marginTop: 6 }}>
                   <TextField fullWidth disabled variant="outlined" label="Message" value={report.message} />

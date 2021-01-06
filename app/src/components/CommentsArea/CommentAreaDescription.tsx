@@ -5,6 +5,7 @@ import ChevronDown from '@material-ui/icons/KeyboardArrowDown';
 import dayjs from 'dayjs';
 
 import RouterLink, { Link } from 'src/components/Link';
+import useDateFormat from 'src/hooks/useDateFormat';
 import { CommentsArea } from 'src/types/CommentsArea';
 
 import defaultCommentsAreaImage from './default-comments-area.png';
@@ -94,6 +95,7 @@ const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({
   linkToInformation,
 }) => {
   const { informationTitle, informationAuthor, imageUrl, informationPublicationDate, commentsCount } = commentsArea;
+  const format = useDateFormat('D MMMM YYYY');
   const classes = useStyles({ folded });
 
   const handleToggleFolded = (e: React.MouseEvent) => {
@@ -121,7 +123,7 @@ const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({
           </Grid>
           <Grid item>
             <Typography className={classes.dateAndCommentsCount}>
-              {informationPublicationDate && dayjs(informationPublicationDate).format('D MMMM YYYY')}
+              {informationPublicationDate && format(informationPublicationDate)}
               {' - '}
               {commentsCount} commentaire{commentsCount !== 1 && 's'}
             </Typography>

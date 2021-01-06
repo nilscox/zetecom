@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 
 import { Box, Paper, Typography } from '@material-ui/core';
 import { plainToClass } from 'class-transformer';
-import dayjs from 'dayjs';
 import * as diff from 'diff';
 import { RouteComponentProps } from 'react-router';
 
 import DiffMessage from 'src/components/DiffMessage';
 import Loader from 'src/components/Loader';
 import useAxios from 'src/hooks/use-axios';
+import useDateFormat, { DATE_FORMAT_DAY_HOUR } from 'src/hooks/useDateFormat';
 import { Message } from 'src/types/Comment';
-
-const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
 
 const useDiff = (messages: string[], mouseOver?: number) => {
   const diffFunc = diff.diffLines;
@@ -66,7 +64,9 @@ type DiffMessagesProps = {
 };
 
 const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
+  const format = useDateFormat(DATE_FORMAT_DAY_HOUR);
   const [mouseOver, setMouseOver] = useState<number>();
+
   const getDiff = useDiff(
     messages.map(message => message.text),
     mouseOver,
@@ -91,7 +91,7 @@ const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
           {n > 0 && <div style={{ minHeight: 30 }} />}
 
           <Typography component="div" align="center" color="textSecondary">
-            {dayjs(date as Date).format(DATE_FORMAT)}
+            {format(date as Date)}
           </Typography>
 
           <div style={{ minHeight: 10 }} />

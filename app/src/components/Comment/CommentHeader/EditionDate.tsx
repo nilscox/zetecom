@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { makeStyles, Theme, Typography } from '@material-ui/core';
-import dayjs from 'dayjs';
 
-const DATE_FORMAT = '[Le] DD.MM.YYYY [à] HH:mm';
+import useDateFormat, { DATE_FORMAT_DAY_HOUR } from 'src/hooks/useDateFormat';
 
 const useStyles = makeStyles<Theme, { canViewHistory: boolean }>(() => ({
   edited: ({ canViewHistory }) => ({
@@ -19,24 +18,16 @@ type EditionDateProps = {
 };
 
 const EditionDate: React.FC<EditionDateProps> = ({ edited, date, onViewHistory }) => {
+  const format = useDateFormat(DATE_FORMAT_DAY_HOUR);
   const classes = useStyles({ canViewHistory: Boolean(onViewHistory) });
 
   if (!edited) {
-    return (
-      <Typography variant="caption">
-        { dayjs(date).format(DATE_FORMAT) }
-      </Typography>
-    );
+    return <Typography variant="caption">{format(date)}</Typography>;
   }
 
   return (
-    <Typography
-      variant="caption"
-      title="Édité"
-      className={classes.edited}
-      onClick={onViewHistory}
-    >
-      *&nbsp;{ dayjs(date).format(DATE_FORMAT) }
+    <Typography variant="caption" title="Édité" className={classes.edited} onClick={onViewHistory}>
+      *&nbsp;{format(date)}
     </Typography>
   );
 };
