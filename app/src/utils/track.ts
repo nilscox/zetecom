@@ -107,12 +107,6 @@ const track = {
         action: 'View Integration',
         name: `View Integration "${identifier}"`,
       };
-    } else {
-      return {
-        category: 'Extension',
-        action: 'View Integration',
-        name: 'View Integration Closed',
-      };
     }
   },
 };

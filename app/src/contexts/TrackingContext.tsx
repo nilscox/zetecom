@@ -110,5 +110,5 @@ export const TrackPageView: React.FC = () => {
 export const useTrackEvent = () => {
   const { trackEvent } = useTracker();
 
-  return trackEvent;
+  return (event?: TrackEventParams) => event && trackEvent(event);
 };
