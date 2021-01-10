@@ -3,4 +3,5 @@ node_modules
 dist
 static/extension
 static/updates.json
+static/zetecom-beta.pdf
 .env
