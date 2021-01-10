@@ -12,6 +12,6 @@ describe('useDateFormat', () => {
       result: { current: format },
     } = renderHook(() => useDateFormat());
 
-    expect(format(new Date(2020, 1, 10))).toBe('2020-02-10T00:00:00.000Z');
+    expect(format(new Date(2020, 1, 10))).toBe('2020-02-10T00:00:00Z');
   });
 });
