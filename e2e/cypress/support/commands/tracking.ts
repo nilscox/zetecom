@@ -1,4 +1,4 @@
-Cypress.Commands.add('zetecom', () => cy.window().then((win) => win.zetecom));
+Cypress.Commands.add('zetecom', () => cy.window().then((win) => (win as any).zetecom));
 
 Cypress.Commands.add('didTrack', (event) => {
   cy.fixCI();
@@ -26,7 +26,7 @@ Cypress.Commands.add('didTrack', (event) => {
 
 declare namespace Cypress {
   interface Chainable {
-    zetecom(): Chainable<{ tracking: { events: any } }>;
+    zetecom(): Chainable<{ tracking: { events: any; pageViews: string[] } }>;
     didTrack(event: { category: string; action: string; name?: string }): Chainable<void>;
   }
 }

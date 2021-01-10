@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Receive a notification when a comments area request was moderated
 
+### Changed
+
+- Do not track page views on pages where the integration does not exist
+
 ## [0.6.0]
 
 ### Added
