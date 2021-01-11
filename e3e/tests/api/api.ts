@@ -19,7 +19,7 @@ export const api = async (endpoint: string, init?: Omit<RequestInit, 'body'> & {
   });
 
   if (!response.ok) {
-    throw new APIError(init.method, endpoint, await response.text());
+    throw new APIError(init?.method || 'GET', endpoint, await response.text());
   }
 
   if (response.status !== 204) {

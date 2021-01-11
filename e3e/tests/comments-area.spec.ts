@@ -34,7 +34,7 @@ describe('Comments area', () => {
     });
 
     const getCommentsAreas = () => {
-      return iframe.body.querySelectorAll<HTMLElement>('.comments-area');
+      return iframe.body!.querySelectorAll<HTMLElement>('.comments-area');
     };
 
     const getCommentsAreaAt = (place: number) => {
@@ -61,7 +61,7 @@ describe('Comments area', () => {
       });
 
       click(getByText('Information title 1'));
-      expect(iframe.location.pathname).to.eql('/commentaires/1');
+      expect(iframe.location?.pathname).to.eql('/commentaires/1');
     });
 
     it('should search for a comments area', async () => {
@@ -178,7 +178,7 @@ describe('Comments area', () => {
       await waitFor(() => getByText('La nouvelle zone de commentaires a bien été créé.'));
       click(getByText('Voir'));
 
-      expect(iframe.location.pathname).to.eql('/commentaires/1');
+      expect(iframe.location?.pathname).to.eql('/commentaires/1');
 
       await expectEvent({
         category: 'CommentsArea',
@@ -192,7 +192,7 @@ describe('Comments area', () => {
       expect(item).to.have.property('id', 1);
       expect(item).to.have.property('imageUrl', 'https://image.url');
       expect(item).to.have.property('informationAuthor', 'Someone cool');
-      expect(item).to.have.property('informationPublicationDate', '2020-05-06');
+      expect(item).to.have.property('informationPublicationDate', '2020-05-07');
       expect(item).to.have.property('informationTitle', 'Information title');
       expect(item).to.have.property('informationUrl', 'https://information.url');
     });
