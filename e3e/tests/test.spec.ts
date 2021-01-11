@@ -3,7 +3,7 @@ import { wait } from './utils';
 
 mocha.timeout(400);
 
-describe.skip('outer describe', () => {
+describe('outer describe', () => {
   beforeEach(async () => {
     await wait(100);
   });

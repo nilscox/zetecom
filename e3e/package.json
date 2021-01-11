@@ -4,11 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "CACHE_DIR=node_modules/.cache/test-runner test-runner --dir tests --specs \"tests/**/*.spec.ts\""
+    "start": "snowpack dev"
   },
   "devDependencies": {
+    "@snowpack/plugin-typescript": "^1.1.1",
     "@types/chai": "^4.2.14",
-    "@types/mocha": "^8.2.0"
+    "@types/mocha": "^8.2.0",
+    "snowpack": "^2.18.5"
   },
   "dependencies": {
     "@testing-library/dom": "^7.29.0",
