@@ -1,5 +1,5 @@
 import { waitFor, within as withinTLD } from '@testing-library/dom';
-import userEvent, { TargetElement } from '@testing-library/user-event';
+import userEvent, { IClickOptions, TargetElement } from '@testing-library/user-event';
 import { expect } from 'chai';
 import { IFrame } from 'test-runner';
 
@@ -14,9 +14,11 @@ export const type = (element: TargetElement, text: string) => {
   return userEvent.type(element, text, { delay });
 };
 
-export const click: typeof userEvent.click = (...args) => {
-  return userEvent.click(...args);
+export const click = (element: TargetElement | any, init?: MouseEventInit, options?: IClickOptions) => {
+  return userEvent.click(element, init, options);
 };
+
+export const clear = userEvent.clear;
 
 export const wait = (ms: number) => {
   if (ms === 0) {
@@ -50,6 +52,10 @@ export const visitApp = (path = '') => {
 
 export const visitIntegration = (identifier: string, pageUrl: string) => {
   return iframe.navigate('http://localhost:8000/integration?identifier=' + identifier + '&pageUrl=' + pageUrl);
+};
+
+export const visitCommentHistory = (commentId: number) => {
+  return iframe.navigate(`http://localhost:8000/integration/comment/${commentId}/history`);
 };
 
 export const within = (elem: HTMLElement, cb: (queries: ReturnType<typeof withinTLD>) => void) => {

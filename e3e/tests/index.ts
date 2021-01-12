@@ -15,6 +15,7 @@ const main = async () => {
   });
 
   await import('./test.spec');
+  await import('./comment.spec');
   await import('./comments-area.spec');
 
   registerMochaLifecycles(mocha.run());

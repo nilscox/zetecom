@@ -1,7 +1,7 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 
 module.exports = {
-  install: ['chai'],
+  install: ['chai', 'sinon'],
   installOptions: {
     polyfillNode: true,
   },

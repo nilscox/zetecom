@@ -12,7 +12,7 @@
   {
     "identifier": "test:news2",
     "informationTitle": "Information title 2",
-    "informationUrl": "https://info.url/1",
+    "informationUrl": "https://info.url/2",
     "informationPublicationDate": "2015-06-18T00:00:00.000Z",
     "imageUrl": null,
     "informationAuthor": "Someone",
@@ -21,6 +21,57 @@
       {
         "author": "user2",
         "text": "Hello!"
+      }
+    ]
+  },
+  {
+    "identifier": "test:news3",
+    "informationTitle": "Information title 3",
+    "informationUrl": "https://info.url/3",
+    "informationPublicationDate": "2021-01-11T00:00:00.000Z",
+    "imageUrl": null,
+    "informationAuthor": "Someone",
+    "creator": "user1",
+    "comments": [
+      {
+        "author": "user1",
+        "text": "comment 1 text - score = 3",
+        "replies": [
+          {
+            "author": "user2",
+            "reactions": { "approve": ["user3"] },
+            "text": "comment 1.1 text - score = 1"
+          }
+        ]
+      },
+      {
+        "author": "user2",
+        "text": "comment 2 text - score = 6",
+        "replies": [
+          {
+            "author": "user2",
+            "text": "comment 2.1 text - score = 0"
+          },
+          {
+            "author": "user3",
+            "text": "comment 2.2 text - score = 2",
+            "replies": [
+              {
+                "author": "user1",
+                "text": "comment 2.2.1 text - score = 0"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "author": "user1",
+        "reactions": { "approve": ["user2", "user3"] },
+        "text": "comment 3 text - score = 2"
+      },
+      {
+        "author": "user3",
+        "text": "comment 4 text - score = 0"
       }
     ]
   }
