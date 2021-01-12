@@ -65,7 +65,8 @@ describe('Comment', () => {
 
       await waitFor(() => getByText(/2\.1 text/i));
 
-      within(getCommentAt(4), ({ getByRole }) => {
+      await within(getCommentAt(4), async ({ getByRole }) => {
+        // await waitFor(() => getByRole('button', { name: /1 réponse/i }));
         click(getByRole('button', { name: /1 réponse/i }));
       });
 

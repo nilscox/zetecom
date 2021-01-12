@@ -6,7 +6,7 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "test": "test-runner"
+    "test:headless": "test-runner --headless --screenshots ./screenshots"
   },
   "devDependencies": {
     "@snowpack/plugin-typescript": "^1.1.1",
