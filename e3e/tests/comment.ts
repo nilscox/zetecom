@@ -23,7 +23,7 @@ const [, commentsArea2, commentsArea3] = commentsAreas;
 const asModerator = as(moderator);
 const asUser1 = as(user1);
 
-describe.only('Comment', () => {
+describe('Comment', () => {
   let iframe: IFrame;
 
   beforeEach(async function () {

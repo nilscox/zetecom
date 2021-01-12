@@ -14,9 +14,9 @@ const main = async () => {
     this.iframe = new IFrame(document.querySelector('iframe')!);
   });
 
-  await import('./test.spec');
-  await import('./comment.spec');
-  await import('./comments-area.spec');
+  await import('./test');
+  await import('./comment');
+  await import('./comments-area');
 
   registerMochaLifecycles(mocha.run());
 };

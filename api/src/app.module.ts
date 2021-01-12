@@ -103,6 +103,8 @@ export class AppModule {
 
     return expressSession({
       cookie: {
+        // !!! DO NOT MERGE !!!
+        httpOnly: false,
         // one year
         maxAge: Date.now() + 30 * 86400 * 1000,
         ...(SECURE_COOKIE === 'true' && {

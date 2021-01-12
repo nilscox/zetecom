@@ -1,4 +1,4 @@
-import { waitFor, within as withinTLD } from '@testing-library/dom';
+import { getQueriesForElement, waitFor, within as withinTLD } from '@testing-library/dom';
 import userEvent, { IClickOptions, TargetElement } from '@testing-library/user-event';
 import { expect } from 'chai';
 import { IFrame } from 'test-runner';
@@ -46,16 +46,27 @@ export const expectEvent = async (event: { category: string; action: string; nam
   });
 };
 
-export const visitApp = (path = '') => {
-  return iframe.navigate('http://localhost:8000' + path);
+export const getQueriesForIframe = () => {
+  if (iframe.body === undefined) {
+    throw new Error('Cannot get queries for iframe: body is undefined');
+  }
+
+  return getQueriesForElement(iframe.body);
 };
 
-export const visitIntegration = (identifier: string, pageUrl: string) => {
-  return iframe.navigate('http://localhost:8000/integration?identifier=' + identifier + '&pageUrl=' + pageUrl);
+export const visitApp = async (path = '') => {
+  await iframe.navigate('http://localhost:8000' + path);
+  return getQueriesForIframe();
 };
 
-export const visitCommentHistory = (commentId: number) => {
-  return iframe.navigate(`http://localhost:8000/integration/comment/${commentId}/history`);
+export const visitIntegration = async (identifier: string, pageUrl: string) => {
+  await iframe.navigate('http://localhost:8000/integration?identifier=' + identifier + '&pageUrl=' + pageUrl);
+  return getQueriesForIframe();
+};
+
+export const visitCommentHistory = async (commentId: number) => {
+  await iframe.navigate(`http://localhost:8000/integration/comment/${commentId}/history`);
+  return getQueriesForIframe();
 };
 
 export const within = (elem: HTMLElement, cb: (queries: ReturnType<typeof withinTLD>) => void) => {
