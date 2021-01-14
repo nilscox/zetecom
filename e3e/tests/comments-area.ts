@@ -14,7 +14,7 @@ import { getCommentsAreas } from './api/comments-area';
 mocha.timeout(5000);
 mocha.slow(8000);
 
-const [, moderator, user1, user2] = users as User[];
+const [, moderator, , user1, user2] = users as User[];
 const [commentsArea1, commentsArea2] = commentsAreas;
 
 const asModerator = as(moderator);

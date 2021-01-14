@@ -10,15 +10,17 @@ import users from './fixtures/users.json';
 import { as } from './api/as';
 import { seed, User } from './api/seed';
 
-import { clear, click, type, visitCommentHistory, visitIntegration, within } from './utils';
-import { login } from './api/auth';
+import { clear, click, expectEvent, type, visitCommentHistory, visitIntegration, wait, within } from './utils';
+import { login, logout } from './api/auth';
+import { createComment, getComment, getCommentHistory } from './api/comment';
+import { getCommentsAreaByIdentifier, getCommentsAreas } from './api/comments-area';
 
 mocha.timeout(10000);
 mocha.slow(8000);
 
-const [, moderator, user1, user2, user3, user4] = users as User[];
+const [, moderator, me, user1, user2, user3, user4] = users as User[];
 
-const [, commentsArea2, commentsArea3] = commentsAreas;
+const [commentsArea1, commentsArea2, commentsArea3] = commentsAreas;
 
 const asModerator = as(moderator);
 const asUser1 = as(user1);
@@ -31,18 +33,22 @@ describe('Comment', () => {
     await iframe.clearCookies();
   });
 
-  describe('list', () => {
+  const getComments = () => {
+    return iframe.document!.querySelectorAll<HTMLElement>('.comment');
+  };
+
+  const getCommentAt = (index: number) => {
+    return getComments()[index];
+  };
+
+  const getCommentId = (element: HTMLElement) => {
+    return Number(element.getAttribute('id')?.replace('comment-', ''));
+  };
+
+  describe('list comments', () => {
     before(async () => {
       await seed({ users: [user1, user2, user3], commentsAreas: [commentsArea3] });
     });
-
-    const getComments = () => {
-      return iframe.document!.querySelectorAll<HTMLElement>('.comment');
-    };
-
-    const getCommentAt = (index: number) => {
-      return getComments()[index];
-    };
 
     const expectComments = (ids: number[]) => {
       const comments = getComments();
@@ -66,7 +72,7 @@ describe('Comment', () => {
       await waitFor(() => getByText(/2\.1 text/i));
 
       await within(getCommentAt(4), async ({ getByRole }) => {
-        // await waitFor(() => getByRole('button', { name: /1 réponse/i }));
+        await waitFor(() => getByRole('button', { name: /1 réponse/i }));
         click(getByRole('button', { name: /1 réponse/i }));
       });
 
@@ -189,7 +195,7 @@ describe('Comment', () => {
     });
   });
 
-  describe('comment', () => {
+  describe('display comment', () => {
     before(async () => {
       const commentsArea = {
         ...commentsArea2,
@@ -334,6 +340,185 @@ describe('Comment', () => {
       it('display comment history', async () => {
         const { getByText } = await visitCommentHistory(1);
       });
+    });
+  });
+
+  describe('create / update comment', () => {
+    beforeEach('seed', async () => {
+      await seed({ users: [user1], commentsAreas: [commentsArea1] });
+    });
+
+    it('post comment', async () => {
+      await login(user1);
+
+      const { getByText, getByPlaceholderText, getByRole } = await visitIntegration(
+        commentsArea1.identifier,
+        window.location.href
+      );
+
+      await waitFor(() => expect(getByText(user1.nick)));
+
+      await type(getByPlaceholderText('Composez votre message...'), 'Hello!');
+
+      click(getByRole('button', { name: /aperçu/i }));
+      expect(getByText('Hello!'));
+
+      click(getByRole('button', { name: /editer/i }));
+      expect(getByPlaceholderText('Composez votre message...')).to.have.value('Hello!');
+
+      click(getByRole('button', { name: /envoyer/i }));
+
+      await expectEvent({ category: 'Comment', action: 'Create' });
+
+      await waitFor(() => expect(getCommentAt(0)).to.exist);
+
+      within(getCommentAt(0), ({ getByText }) => {
+        getByText('Hello!');
+      });
+
+      expect(getByPlaceholderText('Composez votre message...')).to.have.value('');
+
+      await type(getByPlaceholderText('Composez votre message...'), 'I am **strong**\n\n- one\n- two');
+
+      click(getByRole('button', { name: /envoyer/i }));
+
+      await waitFor(() => expect(getCommentAt(1)).to.exist);
+
+      within(getCommentAt(0), ({ getByText, queryAllByRole }) => {
+        expect(getByText('strong')).to.have.tagName('strong');
+        expect(queryAllByRole('listitem')).to.have.length(2);
+      });
+    });
+
+    it('edit comment', async () => {
+      const { id: commentsAreaId } = await getCommentsAreaByIdentifier(commentsArea1.identifier);
+
+      await login(user1);
+      await createComment(commentsAreaId, 'initial text');
+
+      const { getByRole, getByText } = await visitIntegration(commentsArea1.identifier, window.location.href);
+
+      await waitFor(() => getByText('initial text'));
+
+      click(getByRole('button', { name: 'Éditer votre message' }));
+
+      await within(getCommentAt(0), async ({ getByPlaceholderText, getByRole }) => {
+        const input = getByPlaceholderText('Éditez votre message...');
+
+        expect(input).to.have.value('initial text');
+
+        clear(input);
+        await type(input, 'edited text');
+
+        click(getByRole('button', { name: 'Envoyer' }));
+      });
+
+      await expectEvent({ category: 'Comment', action: 'Edit' });
+
+      await waitFor(() => expect(getByText('edited text')).not.to.have.tagName('textarea'));
+
+      await within(getCommentAt(0), async ({ getByText }) => {
+        const date = getByText(/^\* Le \d+ [a-z]+ \d{4} à \d{2}:\d{2}$/);
+
+        expect(date).to.have.attribute('title', 'Édité');
+        expect(getComputedStyle(date)).to.have.property('font-style', 'italic');
+      });
+
+      const commentId = getCommentId(getCommentAt(0));
+      const comment = await getComment(commentId);
+
+      expect(comment).to.have.property('edited').that.is.a('string');
+
+      const history = await getCommentHistory(commentId);
+
+      expect(history).to.have.length(2);
+      expect(history[0]).to.have.property('text', 'edited text');
+      expect(history[1]).to.have.property('text', 'initial text');
+    });
+
+    it.skip('post reply', () => {});
+  });
+
+  describe('reaction', () => {
+    before('seed', async () => {
+      await seed({ users: [user1, user2, user3, me], commentsAreas: [commentsArea3] });
+    });
+
+    it('unauthenticated', async () => {
+      await visitIntegration(commentsArea3.identifier, window.location.href);
+
+      await waitFor(() => expect(getCommentAt(0)).to.be.visible);
+
+      expect(iframe.body?.querySelectorAll('.reaction--approve')[0]).to.have.attr('disabled');
+    });
+
+    it('authenticated as author', async () => {
+      await login(user3);
+      await visitIntegration(commentsArea3.identifier, window.location.href);
+
+      await waitFor(() => expect(getCommentAt(0)).to.be.visible);
+
+      expect(iframe.body?.querySelectorAll('.reaction--approve')[0]).to.have.attr('disabled');
+
+      await logout();
+    });
+
+    it('add / update / unset reaction', async () => {
+      await login(me);
+      await visitIntegration(commentsArea3.identifier, window.location.href);
+
+      await waitFor(() => expect(getCommentAt(0)).to.be.visible);
+
+      const comment = getCommentAt(1);
+      const commentId = getCommentId(comment);
+
+      // TODO: use labels
+      const approve = iframe.body?.querySelectorAll('.reaction--approve')[1];
+      const refute = iframe.body?.querySelectorAll('.reaction--refute')[1];
+      const skeptic = iframe.body?.querySelectorAll('.reaction--skeptic')[1];
+
+      const mapReactions = { approve, refute, skeptic };
+
+      const reactions = ['approve', 'refute', 'skeptic'] as const;
+      type Reaction = typeof reactions[number];
+
+      const expectReactions = async (userReaction: Reaction | null, expected: { [key in Reaction]: number }) => {
+        for (const reaction of reactions) {
+          const reactionElement = mapReactions[reaction];
+
+          expect(reactionElement).to.have.text(String(expected[reaction]));
+
+          if (reaction === userReaction) {
+            expect(reactionElement).to.have.class('user-reaction');
+          } else {
+            expect(reactionElement).not.to.have.class('user-reaction');
+          }
+        }
+
+        await waitFor(async () => {
+          const comment = await getComment(commentId);
+
+          for (const reaction of reactions) {
+            expect(comment).to.have.nested.property(`reactionsCount.${reaction}`, expected[reaction]);
+          }
+        });
+      };
+
+      click(approve!);
+
+      await expectEvent({ category: 'Comment', action: 'Set Reaction', name: 'Set Reaction "approve"' });
+      await expectReactions('approve', { approve: 3, refute: 0, skeptic: 0 });
+
+      click(skeptic!);
+
+      await expectEvent({ category: 'Comment', action: 'Set Reaction', name: 'Set Reaction "skeptic"' });
+      await expectReactions('skeptic', { approve: 2, refute: 0, skeptic: 1 });
+
+      click(skeptic!);
+
+      // TODO: Uset Reaction
+      await expectEvent({ category: 'Comment', action: 'Set Reaction', name: 'Set Reaction "null"' });
+      await expectReactions(null, { approve: 2, refute: 0, skeptic: 0 });
     });
   });
 });

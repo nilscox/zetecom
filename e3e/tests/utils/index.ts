@@ -1,4 +1,4 @@
-import { getQueriesForElement, waitFor, within as withinTLD } from '@testing-library/dom';
+import { BoundFunctions, getQueriesForElement, waitFor, queries } from '@testing-library/dom';
 import userEvent, { IClickOptions, TargetElement } from '@testing-library/user-event';
 import { expect } from 'chai';
 import { IFrame } from 'test-runner';
@@ -14,11 +14,11 @@ export const type = (element: TargetElement, text: string) => {
   return userEvent.type(element, text, { delay });
 };
 
-export const click = (element: TargetElement | any, init?: MouseEventInit, options?: IClickOptions) => {
+export const click = (element: TargetElement, init?: MouseEventInit, options?: IClickOptions) => {
   return userEvent.click(element, init, options);
 };
 
-export const clear = userEvent.clear;
+export const clear = (element: TargetElement) => userEvent.clear(element);
 
 export const wait = (ms: number) => {
   if (ms === 0) {
@@ -41,8 +41,17 @@ export const noMoreEvents = () => {
 };
 
 export const expectEvent = async (event: { category: string; action: string; name?: string }) => {
+  const events = zetecom().tracking.events;
+  const matchEvent = (e: any) => Object.entries(event).every(([k, v]) => e[k] === v);
+
   await waitFor(() => {
-    expect(nextEvent()).to.eql(event, 'Event was not tracked: ' + JSON.stringify(event));
+    const idx = events.findIndex(matchEvent);
+
+    if (idx < 0) {
+      expect.fail(`Event was not tracked: ${JSON.stringify(event)}\n\nAll events: ${JSON.stringify(events, null, 2)}`);
+    } else {
+      events.splice(idx, 1);
+    }
   });
 };
 
@@ -69,6 +78,6 @@ export const visitCommentHistory = async (commentId: number) => {
   return getQueriesForIframe();
 };
 
-export const within = (elem: HTMLElement, cb: (queries: ReturnType<typeof withinTLD>) => void) => {
-  return cb(withinTLD(elem));
+export const within = (elem: HTMLElement, cb: (q: BoundFunctions<typeof queries>) => void) => {
+  return cb(getQueriesForElement(elem));
 };
