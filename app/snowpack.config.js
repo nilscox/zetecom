@@ -1,16 +1,17 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 
 module.exports = {
-  installOptions: {
+  packageOptions: {
     polyfillNode: true,
   },
   devOptions: {
     open: 'none',
     port: 8000,
   },
+  routes: [{ match: 'routes', src: '.*', dest: '/index.html' }],
   buildOptions: {
     clean: true,
-    sourceMaps: true,
+    sourcemap: true,
   },
   plugins: [
     '@snowpack/plugin-react-refresh',
