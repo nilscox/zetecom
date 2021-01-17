@@ -22,7 +22,7 @@ import { CommentsAreaDto } from './dtos/CommentsArea';
 import { Dataset } from './dtos/Dataset';
 import { UserDto } from './dtos/User';
 
-const DB_NAME = 'cypress';
+const DB_NAME = 'e2e';
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 wait;
@@ -31,7 +31,7 @@ type GetUser = (nick: string) => User;
 Error.stackTraceLimit = 2000;
 
 @Injectable()
-export class CypressService {
+export class E2eService {
   constructor(
     @InjectConnection('postgres')
     private readonly postgresConnection: Connection,
@@ -44,7 +44,7 @@ export class CypressService {
     private readonly configService: ConfigService,
     private readonly logger: LoggerService,
   ) {
-    this.logger.setContext('CypressService');
+    this.logger.setContext('E2eService');
   }
 
   async dropDatabase() {
@@ -114,7 +114,7 @@ export class CypressService {
     const users: Record<string, User> = {};
 
     for (const user of data) {
-      users[user.nick] = await this.userService.create(user);
+      users[user.nick] = await this.userService.create(user, false);
 
       if (user.roles) {
         await this.userService.updateRoles(users[user.nick], user.roles);

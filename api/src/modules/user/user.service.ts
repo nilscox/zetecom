@@ -36,7 +36,7 @@ export class UserService {
     return this.userRepository.findOne({ where: { nick } });
   }
 
-  async create(dto: SignupUserInDto): Promise<User> {
+  async create(dto: SignupUserInDto, requireEmailVerification = true): Promise<User> {
     const EMAIL_ACCOUNT_VERIFICATION = this.configService.get('EMAIL_ACCOUNT_VERIFICATION');
 
     const { email, password, nick, avatar } = dto;
@@ -56,7 +56,7 @@ export class UserService {
     user.emailValidationToken = uuidv4();
     user.roles = [Role.USER];
 
-    if (EMAIL_ACCOUNT_VERIFICATION === 'true') {
+    if (requireEmailVerification && EMAIL_ACCOUNT_VERIFICATION === 'true') {
       await this.emailService.sendEmailValidationEmail(user);
     } else {
       user.emailValidated = true;

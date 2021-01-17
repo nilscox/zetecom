@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CommentModule } from '../comment/comment.module';
-import { CommentsAreaIntegrationModule } from '../comments-area/comments-area-integration/comments-area-integration.module';
 import { CommentsAreaModule } from '../comments-area/comments-area.module';
+import { CommentsAreaIntegrationModule } from '../comments-area/comments-area-integration/comments-area-integration.module';
 import { ConfigModule } from '../config/config.module';
 import { LoggerModule } from '../logger/logger.module';
 import { UserModule } from '../user/user.module';
 
-import { CypressController } from './cypress.controller';
-import { CypressService } from './cypress.service';
+import { E2eController } from './e2e.controller';
+import { E2eService } from './e2e.service';
 
 const { DB_HOST, DB_USER, DB_PASS, DB_NAME_ROOT } = process.env;
 
@@ -32,7 +32,7 @@ const { DB_HOST, DB_USER, DB_PASS, DB_NAME_ROOT } = process.env;
     CommentsAreaIntegrationModule,
     CommentModule,
   ],
-  controllers: [CypressController],
-  providers: [CypressService],
+  controllers: [E2eController],
+  providers: [E2eService],
 })
-export class CypressModule {}
+export class E2eModule {}

@@ -43,7 +43,7 @@ export type Dataset = {
 };
 
 export const seed = (data?: Dataset) => {
-  return api('/api/seed', {
+  return api('/api/e2e/seed', {
     method: 'POST',
     body: data,
   });
