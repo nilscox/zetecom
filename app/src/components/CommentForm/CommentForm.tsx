@@ -35,7 +35,7 @@ const CommentForm = forwardRef((
   }, [onSubmit, message]);
 
   return (
-    <form className="comment-form" onSubmit={onSubmitForm}>
+    <form data-testid="comment-form" className="comment-form" onSubmit={onSubmitForm}>
       <Paper elevation={small ? 1 : 2}>
         <Grid container direction="column">
           <FormHeader closeForm={closeForm} />

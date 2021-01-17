@@ -156,7 +156,7 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment: originalCo
   };
 
   return (
-    <div className="comment" id={`comment-${comment.id}`}>
+    <div data-testid="comment" className="comment" id={`comment-${comment.id}`}>
       {renderComment()}
 
       <ReplyForm

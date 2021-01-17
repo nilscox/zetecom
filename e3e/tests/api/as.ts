@@ -1,5 +1,7 @@
 import * as auth from './auth';
 import * as commentsArea from './comments-area';
+import * as comment from './comment';
+import * as notification from './notification';
 import { User } from './seed';
 
 const clearCookies = () => {
@@ -13,6 +15,8 @@ const clearCookies = () => {
 const funcs = {
   ...auth,
   ...commentsArea,
+  ...comment,
+  ...notification,
 };
 
 export const as = (user: User) => {
@@ -31,7 +35,11 @@ export const as = (user: User) => {
 
     const res = await func(...args);
 
-    document.cookie = prevCookie;
+    if (prevCookie === '') {
+      clearCookies();
+    } else {
+      document.cookie = prevCookie;
+    }
 
     return res;
   };

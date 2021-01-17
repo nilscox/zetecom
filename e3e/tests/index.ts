@@ -3,20 +3,36 @@ import 'mocha/mocha.css';
 
 import chai from 'chai';
 import chaiDom from 'chai-dom';
+import { configure } from '@testing-library/dom';
 
 import { registerMochaLifecycles, IFrame } from 'test-runner';
 
-mocha.setup('bdd');
-chai.use(chaiDom);
+declare global {
+  interface Window {
+    iframe: HTMLIFrameElement;
+  }
+}
 
 const main = async () => {
-  before(function () {
-    this.iframe = new IFrame(document.querySelector('iframe')!);
-  });
+  mocha.setup('bdd');
+  chai.use(chaiDom);
 
-  await import('./test');
   await import('./comment');
   await import('./comments-area');
+
+  configure({
+    // throwSuggestions: true,
+    asyncUtilTimeout: 2000,
+  });
+
+  before(function () {
+    this.iframe = new IFrame(document.querySelector('iframe')!);
+    window.iframe = this.iframe;
+  });
+
+  beforeEach(async function () {
+    await this.iframe.clearCookies();
+  });
 
   registerMochaLifecycles(mocha.run());
 };

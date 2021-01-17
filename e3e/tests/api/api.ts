@@ -22,7 +22,7 @@ export const api = async (endpoint: string, init?: Omit<RequestInit, 'body'> & {
     throw new APIError(init?.method || 'GET', endpoint, await response.text());
   }
 
-  if (response.status !== 204) {
+  if (response.headers.get('content-type')?.startsWith('application/json')) {
     return response.json();
   }
 };

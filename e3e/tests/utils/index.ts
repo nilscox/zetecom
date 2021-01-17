@@ -78,6 +78,11 @@ export const visitCommentHistory = async (commentId: number) => {
   return getQueriesForIframe();
 };
 
-export const within = (elem: HTMLElement, cb: (q: BoundFunctions<typeof queries>) => void) => {
+export const visitCommentReport = async (commentId: number) => {
+  await iframe.navigate(`http://localhost:8000/integration/comment/${commentId}/report`);
+  return getQueriesForIframe();
+};
+
+export const within = <R>(elem: HTMLElement, cb: (q: BoundFunctions<typeof queries>) => R): R => {
   return cb(getQueriesForElement(elem));
 };
