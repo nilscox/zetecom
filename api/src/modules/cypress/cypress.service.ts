@@ -1,13 +1,18 @@
+import { promisify } from 'util';
+
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/typeorm';
-import { Connection, getConnectionOptions, QueryRunner } from 'typeorm';
+import redis from 'redis';
+import { Connection } from 'typeorm';
+
+import { ConfigService } from 'src/modules/config/config.service';
 
 import { Comment } from '../comment/comment.entity';
 import { CommentService } from '../comment/comment.service';
 import { ReactionType } from '../comment/reaction.entity';
-import { CommentsAreaIntegrationService } from '../comments-area/comments-area-integration/comments-area-integration.service';
 import { CommentsArea } from '../comments-area/comments-area.entity';
 import { CommentsAreaService } from '../comments-area/comments-area.service';
+import { CommentsAreaIntegrationService } from '../comments-area/comments-area-integration/comments-area-integration.service';
 import { LoggerService } from '../logger/logger.service';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
@@ -36,6 +41,7 @@ export class CypressService {
     private readonly commentsAreaService: CommentsAreaService,
     private readonly commentsAreaIntegrationService: CommentsAreaIntegrationService,
     private readonly commentsService: CommentService,
+    private readonly configService: ConfigService,
     private readonly logger: LoggerService,
   ) {
     this.logger.setContext('CypressService');
@@ -70,6 +76,20 @@ export class CypressService {
 
     logger.log('close the query runner connection');
     await queryRunner.connection.close();
+  }
+
+  async flushRedis() {
+    const REDIS_HOST = this.configService.get('REDIS_HOST');
+    const REDIS_PORT = this.configService.get('REDIS_PORT');
+
+    const redisClient = redis.createClient({
+      host: REDIS_HOST,
+      port: Number(REDIS_PORT),
+    });
+
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const flushallAsync = promisify(redisClient.flushall).bind(redisClient);
+    await flushallAsync();
   }
 
   async seed(data: Dataset) {

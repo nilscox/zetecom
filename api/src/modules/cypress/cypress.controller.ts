@@ -14,6 +14,7 @@ export class CypressController {
   @HttpCode(204)
   async seed(@Body() data: Dataset) {
     await this.cypressService.dropDatabase();
+    await this.cypressService.flushRedis();
     await this.cypressService.seed(data);
   }
 }
