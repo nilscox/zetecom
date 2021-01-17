@@ -1,15 +1,11 @@
 import React from 'react';
 
-import TextField, { TextFieldProps } from 'src/components/TextField';
+import Input, { InputProps } from 'src/components/Input';
 
-type EmailFieldProps = TextFieldProps;
+type EmailFieldProps = InputProps;
 
-const EmailField: React.FC<EmailFieldProps> = (props) => (
-  <TextField
-    required
-    label="Adresse email"
-    {...props}
-  />
+const EmailField: React.FC<EmailFieldProps> = props => (
+  <Input fullWidth required variant="outlined" placeholder="Adresse email" {...props} />
 );
 
 export default EmailField;

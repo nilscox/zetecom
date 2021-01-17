@@ -73,6 +73,13 @@ export const visitIntegration = async (identifier: string, pageUrl: string) => {
   return getQueriesForIframe();
 };
 
+export const visitPopup = async (path = '') => {
+  await iframe.navigate('http://localhost:8000/popup' + path);
+  const queries = getQueriesForIframe();
+  await waitFor(() => expect(iframe.location?.pathname).to.eql('/popup/connexion'));
+  return queries;
+};
+
 export const visitCommentHistory = async (commentId: number) => {
   await iframe.navigate(`http://localhost:8000/integration/comment/${commentId}/history`);
   return getQueriesForIframe();
@@ -83,6 +90,18 @@ export const visitCommentReport = async (commentId: number) => {
   return getQueriesForIframe();
 };
 
-export const within = <R>(elem: HTMLElement, cb: (q: BoundFunctions<typeof queries>) => R): R => {
-  return cb(getQueriesForElement(elem));
-};
+export function within(elem: HTMLElement): BoundFunctions<typeof queries>;
+export function within<R>(elem: HTMLElement, cb?: (q: BoundFunctions<typeof queries>) => R): R;
+
+export function within<R>(
+  elem: HTMLElement,
+  cb?: (q: BoundFunctions<typeof queries>) => R
+): R | ReturnType<typeof getQueriesForElement> {
+  const queries = getQueriesForElement(elem);
+
+  if (!cb) {
+    return queries;
+  }
+
+  return cb(queries);
+}

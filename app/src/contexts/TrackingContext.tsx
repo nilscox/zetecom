@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo } from 'react';
 
 import { createInstance, MatomoProvider, useMatomo } from '@datapunt/matomo-tracker-react';
 import { TrackEventParams, TrackPageViewParams } from '@datapunt/matomo-tracker-react/lib/types';
@@ -110,5 +110,5 @@ export const TrackPageView: React.FC = () => {
 export const useTrackEvent = () => {
   const { trackEvent } = useTracker();
 
-  return (event?: TrackEventParams) => event && trackEvent(event);
+  return useCallback((event?: TrackEventParams) => event && trackEvent(event), [trackEvent]);
 };

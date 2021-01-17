@@ -2,21 +2,17 @@ import React from 'react';
 
 import { Collapse } from '@material-ui/core';
 
-import TextField, { TextFieldProps } from 'src/components/TextField';
+import Input, { InputProps } from 'src/components/Input';
 
 import { Form } from '../types';
 
-type PasswordFieldProps = TextFieldProps & {
+type PasswordFieldProps = InputProps & {
   form: Form;
 };
 
 const PasswordField: React.FC<PasswordFieldProps> = ({ form, ...props }) => (
   <Collapse in={form !== 'emailLogin'}>
-    <TextField
-      required={form !== 'emailLogin'}
-      label="Mot de passe"
-      {...props}
-    />
+    <Input fullWidth required={form !== 'emailLogin'} variant="outlined" placeholder="Mot de passe" {...props} />
   </Collapse>
 );
 

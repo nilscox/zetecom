@@ -2,22 +2,18 @@ import React from 'react';
 
 import { Collapse } from '@material-ui/core';
 
-import TextField, { TextFieldProps } from 'src/components/TextField';
+import Input, { InputProps } from 'src/components/Input';
 
 import { Form } from '../types';
 
-type NickFieldProps = TextFieldProps & {
+type NickFieldProps = InputProps & {
   form: Form;
 };
 
 const NickField: React.FC<NickFieldProps> = ({ form, ...props }) => {
   return (
     <Collapse in={form === 'signup'}>
-      <TextField
-        required={form === 'signup'}
-        label="Pseudo"
-        {...props}
-      />
+      <Input fullWidth required={form === 'signup'} variant="outlined" placeholder="Pseudo" {...props} />
     </Collapse>
   );
 };

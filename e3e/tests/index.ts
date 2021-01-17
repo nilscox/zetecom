@@ -17,6 +17,7 @@ const main = async () => {
   mocha.setup('bdd');
   chai.use(chaiDom);
 
+  await import('./authentication');
   await import('./comment');
   await import('./comments-area');
 
