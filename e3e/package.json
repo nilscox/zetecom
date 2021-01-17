@@ -6,24 +6,28 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "snowpack build",
-    "test:headless": "test-runner --headless --screenshots ./screenshots"
+    "test:headless": "testea --headless",
+    "docker-compose": "docker-compose -f ../docker-compose.yml -f docker-compose.e2e.yml",
+    "docker-compose:ci": "yarn docker-compose -f docker-compose.ci.yml",
+    "docker-compose:local": "yarn docker-compose -f ../docker-compose.override.yml"
   },
   "devDependencies": {
-    "@snowpack/plugin-typescript": "^1.1.1",
+    "@snowpack/plugin-typescript": "^1.2.1",
     "@types/chai": "^4.2.14",
     "@types/chai-dom": "^0.0.10",
     "@types/mocha": "^8.2.0",
     "@types/sinon": "^9.0.10",
-    "snowpack": "^2.18.5",
-    "test-runner": "https://github.com/nilscox/test-runner.git"
+    "snowpack": "^3.0.11",
+    "wait-on": "^5.2.1"
   },
   "dependencies": {
-    "@testing-library/dom": "^7.29.0",
+    "@testing-library/dom": "^7.29.4",
     "@testing-library/user-event": "^12.6.0",
     "chai": "^4.2.0",
     "chai-dom": "^1.8.2",
     "mocha": "^8.2.1",
     "serve": "^11.3.2",
-    "sinon": "^9.2.3"
+    "sinon": "^9.2.3",
+    "testea": "https://github.com/nilscox/testea"
   }
 }

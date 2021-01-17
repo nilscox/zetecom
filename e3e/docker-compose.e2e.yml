@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  postgresql:
+    environment:
+      POSTGRES_DB: e2e
+
+  api:
+    command: sh -c "
+      yarn wait-on tcp:zc-postgres:5432 &&
+      yarn db:migrate &&
+      yarn nyc --silent node src/main"
+    environment:
+      CI: 'true'
+      BYPASS_AUTHORIZATIONS: 'true'
+      DB_NAME: e2e
+      DB_NAME_ROOT: postgres
+
+  app:
+    command: /start.sh --coverage
+    environment:
+      API_URL: http://localhost:3000
+      ANALYTICS_URL: ''
+      ANALYTICS_SITE_ID: mock
+      DEBUG: 'true'

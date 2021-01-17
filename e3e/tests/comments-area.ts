@@ -1,6 +1,6 @@
 import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
-import { IFrame } from 'test-runner';
+import { IFrame } from 'testea';
 
 import { as } from './api/as';
 import { login } from './api/auth';

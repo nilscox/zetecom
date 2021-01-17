@@ -1,8 +1,8 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 
 module.exports = {
-  install: ['chai', 'sinon'],
-  installOptions: {
+  packageOptions: {
+    // knownEntrypoints: ['chai', 'sinon'],
     polyfillNode: true,
   },
   mount: {

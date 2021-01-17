@@ -1,8 +1,8 @@
-import { getByPlaceholderText, waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { IFrame } from 'test-runner';
+import { IFrame } from 'testea';
 
 import commentsAreas from './fixtures/comments-areas.json';
 import users from './fixtures/users.json';

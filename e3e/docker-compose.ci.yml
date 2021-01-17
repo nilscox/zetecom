@@ -1,0 +1,7 @@
+version: '3.4'
+services:
+  api:
+    image: nilscox/zetecom-api:${GIT_SHA}
+
+  app:
+    image: nilscox/zetecom-app:${GIT_SHA}

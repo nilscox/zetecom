@@ -1,7 +1,7 @@
 import { BoundFunctions, getQueriesForElement, waitFor, queries } from '@testing-library/dom';
 import userEvent, { IClickOptions, TargetElement } from '@testing-library/user-event';
 import { expect } from 'chai';
-import { IFrame } from 'test-runner';
+import { IFrame } from 'testea';
 
 const delay = 1;
 let iframe: IFrame;

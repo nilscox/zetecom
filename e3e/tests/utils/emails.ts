@@ -1,4 +1,4 @@
-import { IFrame } from 'test-runner';
+import { IFrame } from 'testea';
 
 const EMAIL_BASE_URL = 'http://localhost:1080';
 

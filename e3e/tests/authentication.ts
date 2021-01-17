@@ -1,6 +1,6 @@
 import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
-import { IFrame } from 'test-runner';
+import { IFrame } from 'testea';
 import { seed, User } from './api/seed';
 
 import { clear, click, expectEvent, type, visitPopup, within } from './utils';

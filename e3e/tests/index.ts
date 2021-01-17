@@ -5,15 +5,11 @@ import chai from 'chai';
 import chaiDom from 'chai-dom';
 import { configure } from '@testing-library/dom';
 
-import { registerMochaLifecycles, IFrame } from 'test-runner';
-
-declare global {
-  interface Window {
-    iframe: HTMLIFrameElement;
-  }
-}
+import testea from 'testea';
+import 'testea/testea.css';
 
 const main = async () => {
+  testea.setup();
   mocha.setup('bdd');
   chai.use(chaiDom);
 
@@ -26,16 +22,11 @@ const main = async () => {
     asyncUtilTimeout: 2000,
   });
 
-  before(function () {
-    this.iframe = new IFrame(document.querySelector('iframe')!);
-    window.iframe = this.iframe;
-  });
-
   beforeEach(async function () {
     await this.iframe.clearCookies();
   });
 
-  registerMochaLifecycles(mocha.run());
+  testea.run();
 };
 
 main().catch(console.error);
