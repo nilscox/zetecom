@@ -75,10 +75,13 @@ deploy_api() {
     --env $(sshenv REDIS_HOST) \
     --env $(sshenv REDIS_PORT) \
     --env $(sshenv EMAIL_HOST) \
+    --env $(sshenv EMAIL_PORT) \
     --env $(sshenv EMAIL_USER) \
     --env $(sshenv EMAIL_PASSWORD) \
+    --env $(sshenv EMAIL_SECURE) \
     --env $(sshenv EMAIL_BYPASS) \
     --env $(sshenv EMAIL_ACCOUNT_VERIFICATION) \
+    --env $(sshenv EMAIL_FROM) \
     --env $(sshenv SESSION_SECRET) \
     --env $(sshenv SECURE_COOKIE) \
     --env $(sshenv USER_AVATAR_DESTINATION) \

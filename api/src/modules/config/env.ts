@@ -1,5 +1,4 @@
 const enviornmentVariables = [
-
   // Env
 
   'NODE_ENV',
@@ -40,10 +39,14 @@ const enviornmentVariables = [
   // Email
 
   'EMAIL_HOST',
+  'EMAIL_PORT',
   'EMAIL_USER',
   'EMAIL_PASSWORD',
+  'EMAIL_SECURE',
+
   'EMAIL_BYPASS',
   'EMAIL_ACCOUNT_VERIFICATION',
+  'EMAIL_FROM',
 
   // Session
 
@@ -53,7 +56,6 @@ const enviornmentVariables = [
   // Paths
 
   'USER_AVATAR_DESTINATION',
-
 ] as const;
 
 export type EnviornmentVariable = typeof enviornmentVariables[number];

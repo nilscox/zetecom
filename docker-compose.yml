@@ -21,6 +21,14 @@ services:
     volumes:
       - ./data/redis:/data
 
+  maildev:
+    image: maildev/maildev
+    container_name: zc-maildev
+    hostname: zc-maildev
+    ports:
+      - "1025:25"
+      - 1080:80
+
   api:
     container_name: zc-api
     hostname: zc-api
@@ -52,11 +60,14 @@ services:
       DB_SEEDS: seeds/*.js
       REDIS_HOST: zc-redis
       REDIS_PORT: 6379
-      EMAIL_HOST: domain.tld
+      EMAIL_HOST: zc-maildev
+      EMAIL_PORT: 1025
       EMAIL_USER: username
       EMAIL_PASSWORD: password
+      EMAIL_SECURE: password
       EMAIL_BYPASS: "true"
       EMAIL_ACCOUNT_VERIFICATION: "false"
+      EMAIL_FROM: "Zétécom <contact@zetecom.fr>"
       SESSION_SECRET: sekret
       SECURE_COOKIE: "false"
       USER_AVATAR_DESTINATION: /app/avatars

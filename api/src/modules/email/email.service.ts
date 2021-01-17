@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Message, SMTPClient } from 'emailjs';
+import nodemailer from 'nodemailer';
 
 import { ConfigService } from '../config/config.service';
 import { User } from '../user/user.entity';
@@ -13,63 +13,57 @@ export type EmailTemplate = {
 
 @Injectable()
 export class EmailService {
-
   constructor(
     private readonly configService: ConfigService,
     private readonly emailRendererService: EmailRendererService,
   ) {}
 
   private sendEmail(to: string, subject: string, text: string, html: string): Promise<unknown> {
-    const EMAIL_BYPASS = this.configService.get('EMAIL_BYPASS');
     const EMAIL_HOST = this.configService.get('EMAIL_HOST');
+    const EMAIL_PORT = this.configService.get('EMAIL_PORT');
     const EMAIL_USER = this.configService.get('EMAIL_USER');
     const EMAIL_PASSWORD = this.configService.get('EMAIL_PASSWORD');
+    const EMAIL_SECURE = this.configService.get('EMAIL_SECURE');
+
+    const EMAIL_BYPASS = this.configService.get('EMAIL_BYPASS');
+    const EMAIL_FROM = this.configService.get('EMAIL_FROM');
 
     if (EMAIL_BYPASS === 'true') {
       return Promise.resolve();
     }
 
-    return new Promise((resolve, reject) => {
-      const client = new SMTPClient({
-        host: EMAIL_HOST,
+    const transport = nodemailer.createTransport({
+      host: EMAIL_HOST,
+      port: EMAIL_PORT,
+      secure: EMAIL_SECURE === 'true',
+      auth: {
         user: EMAIL_USER,
-        password: EMAIL_PASSWORD,
-        ssl: true,
-      });
+        pass: EMAIL_PASSWORD,
+      },
+      ignoreTLS: EMAIL_SECURE === 'false',
+    });
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const opts: Record<string, any> = {
-        from: 'Zétécom <contact@zetecom.fr>',
-        to,
-        subject,
-      };
-
-      if (text) {
-        opts.text = text;
-      }
-
-      if (html) {
-        opts.attachment = [{ data: html, alternative: true }];
-      }
-
-      client.send(opts as Message, (err: unknown, message: unknown) => {
-        if (err)
-          reject(err);
-        else
-          resolve(message);
-      });
+    return new Promise((resolve, reject) => {
+      return transport.sendMail(
+        {
+          from: EMAIL_FROM,
+          to,
+          subject,
+          text,
+          html,
+        },
+        (err, info) => {
+          if (err) reject(err);
+          else resolve(info);
+        },
+      );
     });
   }
 
   sendTestEmail(to: string, subject: string, value: string): Promise<unknown> {
     const template = this.emailRendererService.renderTestEmail({ value });
 
-    return this.sendEmail(
-      to,
-      subject,
-      template.text,
-      template.html,
-    );
+    return this.sendEmail(to, subject, template.text, template.html);
   }
 
   sendEmailValidationEmail(user: User): Promise<unknown> {
@@ -94,12 +88,6 @@ export class EmailService {
       emailLoginLink: `${APP_URL}/email-login?token=${user.emailLoginToken}`,
     });
 
-    return this.sendEmail(
-      user.email,
-      'Zétécom : lien de connexion',
-      template.text,
-      template.html,
-    );
+    return this.sendEmail(user.email, 'Zétécom : lien de connexion', template.text, template.html);
   }
-
 }
