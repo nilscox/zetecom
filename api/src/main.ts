@@ -31,6 +31,10 @@ async function bootstrap() {
   logger.verbose('creating nest application', LOG_TAG);
   const app = await NestFactory.create<NestExpressApplication>(AppModule, appOpts);
 
+  for (const [key, value] of Object.entries(process.env)) {
+    logger.debug(`${key}=${value}`, 'Env');
+  }
+
   app.useLogger(logger);
   app.setGlobalPrefix('api');
   app.useGlobalInterceptors(new ErrorsInterceptor());

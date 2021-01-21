@@ -13,8 +13,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
@@ -26,9 +26,9 @@ import { User } from '../../user/user.entity';
 
 import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request.entity';
 import { CommentsAreaRequestService } from './comments-area-request.service';
+import { CommentsAreaRequestDto } from './dtos/comments-area-request.dto';
 import { CommentsAreaRequestInDto } from './dtos/comments-area-request-in.dto';
 import { CommentsAreaRequestRejectedInDto } from './dtos/comments-area-request-rejected-in.dto';
-import { CommentsAreaRequestDto } from './dtos/comments-area-request.dto';
 
 @Controller('comments-area/request')
 @UseInterceptors(ClassToPlainInterceptor)

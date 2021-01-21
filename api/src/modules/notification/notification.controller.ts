@@ -14,8 +14,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
@@ -30,9 +30,9 @@ import { UserService } from '../user/user.service';
 import { NotificationDto } from './dtos/notification.dto';
 import { NotificationsCountDto } from './dtos/notifications-count.dto';
 import { RulesUpdateInDto } from './dtos/rules-update-in.dto';
-import { NotificationType } from './notification-type';
 import { Notification } from './notification.entity';
 import { NotificationService } from './notification.service';
+import { NotificationType } from './notification-type';
 
 @Controller('notification')
 @UseInterceptors(ClassToPlainInterceptor)
@@ -47,7 +47,7 @@ export class NotificationController {
   @Get('me')
   @UseGuards(IsAuthenticated)
   @CastToDto(NotificationDto)
-  findForUser(
+  async findForUser(
     @AuthUser() user: User,
     @PageQuery() page: number,
     @SearchQuery() search?: string,

@@ -1,18 +1,7 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Param,
-  Post,
-  Put,
-  Session,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Put, Session, UseGuards, UseInterceptors } from '@nestjs/common';
 
-import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 
 import { CastToDto } from '../../common/cast-to-dto.interceptor';
@@ -35,11 +24,7 @@ type SessionType = {
 @Controller('auth')
 @UseInterceptors(ClassToPlainInterceptor)
 export class AuthenticationController {
-
-  constructor(
-    private readonly authService: AuthenticationService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly authService: AuthenticationService, private readonly userService: UserService) {}
 
   @Post('/signup')
   @UseGuards(IsNotAuthenticated)
@@ -47,8 +32,9 @@ export class AuthenticationController {
   async signup(@Body() signupUserDto: SignupUserInDto, @Session() session: SessionType): Promise<User> {
     const user = await this.authService.signup(signupUserDto);
 
-    if (user.emailValidated)
+    if (user.emailValidated) {
       session.userId = user.id;
+    }
 
     return user;
   }
@@ -119,5 +105,4 @@ export class AuthenticationController {
   me(@AuthUser() user: User): User {
     return user;
   }
-
 }

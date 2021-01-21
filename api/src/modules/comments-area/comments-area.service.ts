@@ -3,10 +3,10 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { User } from '../user/user.entity';
 
-import { CommentsAreaCreatedCommand } from './comments-area-created.command';
-import { CommentsAreaIntegrationService } from './comments-area-integration/comments-area-integration.service';
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';
+import { CommentsAreaCreatedCommand } from './comments-area-created.command';
+import { CommentsAreaIntegrationService } from './comments-area-integration/comments-area-integration.service';
 import { CreateCommentsAreaInDto } from './dtos/create-comments-area-in.dto';
 import { UpdateCommentsAreaInDto } from './dtos/update-comments-area-in.dto';
 

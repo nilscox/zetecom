@@ -12,8 +12,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { OptionalQuery } from 'Common/optional-query.decorator';
 import { PageQuery } from 'Common/page-query.decorator';
@@ -31,10 +31,10 @@ import { CommentDto } from '../comment/dtos/comment.dto';
 import { PopulateComment } from '../comment/populate-comment.interceptor';
 import { User } from '../user/user.entity';
 
-import { CommentsAreaIntegrationService } from './comments-area-integration/comments-area-integration.service';
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaService } from './comments-area.service';
+import { CommentsAreaIntegrationService } from './comments-area-integration/comments-area-integration.service';
 import { CommentsAreaDto } from './dtos/comments-area.dto';
 import { CreateCommentsAreaInDto } from './dtos/create-comments-area-in.dto';
 import { UpdateCommentsAreaInDto } from './dtos/update-comments-area-in.dto';

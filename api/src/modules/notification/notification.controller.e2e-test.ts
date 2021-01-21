@@ -4,10 +4,10 @@ import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-t
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { UserLightDto } from '../user/dtos/user-ligth.dto';
 
-import { SubscriptionReplyNotificationPayload } from './notification-payload';
-import { NotificationType } from './notification-type';
 import { NotificationFactory } from './notification.factory';
 import { NotificationModule } from './notification.module';
+import { SubscriptionReplyNotificationPayload } from './notification-payload';
+import { NotificationType } from './notification-type';
 
 describe('notifications', () => {
   const { server } = setupE2eTest({

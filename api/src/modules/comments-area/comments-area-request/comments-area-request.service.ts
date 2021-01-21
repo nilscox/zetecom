@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindConditions, Repository } from 'typeorm';
 
-import { NotificationType } from '../../notification/notification-type';
 import { NotificationService } from '../../notification/notification.service';
+import { NotificationType } from '../../notification/notification-type';
 import { User } from '../../user/user.entity';
 import { CommentsArea } from '../comments-area.entity';
 

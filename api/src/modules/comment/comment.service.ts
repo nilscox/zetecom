@@ -9,9 +9,9 @@ import { CommentsArea } from '../comments-area/comments-area.entity';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 
-import { CommentCreatedCommand } from './comment-created.command';
 import { Comment } from './comment.entity';
 import { CommentJoinRelations, CommentRepository } from './comment.repository';
+import { CommentCreatedCommand } from './comment-created.command';
 import { Message } from './message.entity';
 import { Reaction, ReactionType } from './reaction.entity';
 import { SubscriptionService } from './subscription/subscription.service';

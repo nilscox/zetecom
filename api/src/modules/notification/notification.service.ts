@@ -8,8 +8,8 @@ import { NotificationPayload } from 'src/modules/notification/notification-paylo
 
 import { User } from '../user/user.entity';
 
-import { NotificationType } from './notification-type';
 import { Notification } from './notification.entity';
+import { NotificationType } from './notification-type';
 
 @Injectable()
 export class NotificationService {

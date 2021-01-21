@@ -12,6 +12,6 @@ module.exports = {
   migrations: [process.env.DB_MIGRATIONS],
   migrationsRun: process.env.DB_MIGRATIONS_RUN === 'true',
   cli: {
-    migrationsDir: 'migrations'
+    migrationsDir: 'migrations',
   },
 };

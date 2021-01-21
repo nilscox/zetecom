@@ -1,7 +1,7 @@
 import { Controller, Get, UseGuards, UseInterceptors } from '@nestjs/common';
 
-import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { PageQuery } from 'Common/page-query.decorator';
 import { Paginated } from 'Common/paginated';
@@ -17,19 +17,12 @@ import { SubscriptionService } from './subscription.service';
 @UseInterceptors(ClassToPlainInterceptor)
 @UseInterceptors(StripNullRelations)
 export class SubscriptionController {
-
-  constructor(
-    private readonly subscriptionService: SubscriptionService,
-  ) {}
+  constructor(private readonly subscriptionService: SubscriptionService) {}
 
   @Get('me')
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateSubscription)
-  findForUser(
-    @AuthUser() user: User,
-    @PageQuery() page: number,
-  ): Promise<Paginated<Subscription>> {
+  findForUser(@AuthUser() user: User, @PageQuery() page: number): Promise<Paginated<Subscription>> {
     return this.subscriptionService.findAllForUser(user, page);
   }
-
 }

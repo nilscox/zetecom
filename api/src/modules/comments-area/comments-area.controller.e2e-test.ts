@@ -10,14 +10,14 @@ import {
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { CommentFactory } from '../comment/comment.factory';
 
-import { CommentsAreaIntegration } from './comments-area-integration/comments-area-integration.entity';
-import { CommentsAreaIntegrationFactory } from './comments-area-integration/comments-area-integration.factory';
-import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request/comments-area-request.entity';
-import { CommentsAreaRequestFactory } from './comments-area-request/comments-area-request.factory';
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaFactory } from './comments-area.factory';
 import { CommentsAreaModule } from './comments-area.module';
 import { CommentsAreaRepository } from './comments-area.repository';
+import { CommentsAreaIntegration } from './comments-area-integration/comments-area-integration.entity';
+import { CommentsAreaIntegrationFactory } from './comments-area-integration/comments-area-integration.factory';
+import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request/comments-area-request.entity';
+import { CommentsAreaRequestFactory } from './comments-area-request/comments-area-request.factory';
 
 describe('comments area controller', () => {
   const { server } = setupE2eTest(

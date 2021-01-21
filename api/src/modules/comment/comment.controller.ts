@@ -17,8 +17,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { AuthUser } from 'Common/auth-user.decorator';
 import { IsAuthenticated } from 'Common/auth.guard';
+import { AuthUser } from 'Common/auth-user.decorator';
 import { CastToDto } from 'Common/cast-to-dto.interceptor';
 import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
 import { IsAuthor, IsNotAuthor } from 'Common/is-author.guard';

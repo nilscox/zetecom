@@ -5,7 +5,6 @@ import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-t
 import { AuthenticationModule } from '../authentication/authentication.module';
 import { CommentsArea } from '../comments-area/comments-area.entity';
 import { CommentsAreaFactory } from '../comments-area/comments-area.factory';
-import { UserFactory } from '../user/user.factory';
 
 import { Comment } from './comment.entity';
 import { CommentFactory } from './comment.factory';

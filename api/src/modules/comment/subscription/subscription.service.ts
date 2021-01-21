@@ -5,11 +5,11 @@ import { FindConditions, Not, Repository } from 'typeorm';
 
 import { Paginated } from 'Common/paginated';
 
+import { NotificationService } from '../../notification/notification.service';
 import { SubscriptionReplyNotificationPayload } from '../../notification/notification-payload';
 import { NotificationType } from '../../notification/notification-type';
-import { NotificationService } from '../../notification/notification.service';
-import { UserLightDto } from '../../user/dtos/user-ligth.dto';
 import { UserDto } from '../../user/dtos/user.dto';
+import { UserLightDto } from '../../user/dtos/user-ligth.dto';
 import { Comment } from '../comment.entity';
 
 import { Subscription } from './subscription.entity';
@@ -94,7 +94,7 @@ export class SubscriptionService {
       commentsAreaImageUrl: reply.commentsArea.imageUrl,
       commentId: reply.parent.id,
       replyId: reply.id,
-      author: classToPlain(plainToClass(UserLightDto, reply.author), { strategy: 'excludeAll' }) as any,
+      author: classToPlain(plainToClass(UserLightDto, reply.author), { strategy: 'excludeAll' }) as UserLightDto,
       text: reply.message.text,
     };
 
