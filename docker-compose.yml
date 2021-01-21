@@ -27,7 +27,7 @@ services:
     hostname: zc-maildev
     ports:
       - "1025:25"
-      - 1080:80
+      - "1080:80"
 
   api:
     container_name: zc-api
@@ -61,10 +61,10 @@ services:
       REDIS_HOST: zc-redis
       REDIS_PORT: 6379
       EMAIL_HOST: zc-maildev
-      EMAIL_PORT: 1025
+      EMAIL_PORT: 25
       EMAIL_USER: username
       EMAIL_PASSWORD: password
-      EMAIL_SECURE: password
+      EMAIL_SECURE: "false"
       EMAIL_BYPASS: "false"
       EMAIL_ACCOUNT_VERIFICATION: "true"
       EMAIL_FROM: "Zétécom <contact@zetecom.fr>"
