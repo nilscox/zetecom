@@ -110,7 +110,7 @@ jobs:
       - run: docker logs -f zc-api > ./artifacts/api.log &
       - run: yarn build
       - run: yarn serve -l 7357 build &
-      - run: yarn wait-on -t 300000 http://localhost:3000/api/healthcheck
+      - run: yarn wait-on -t $((30 * 1000)) http://localhost:3000/api/healthcheck
       - run: yarn test:headless --screenshots ./artifacts/screenshots
       - uses: actions/upload-artifact@v2
         if: ${{ failure() }}
