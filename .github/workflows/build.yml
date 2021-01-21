@@ -99,7 +99,7 @@ jobs:
     needs: [api, app, website]
     defaults:
       run:
-        working-directory: ./e3e
+        working-directory: ./e2e
     steps:
       - uses: actions/checkout@v1
       - run: mkdir -p ./artifacts/screenshots
@@ -115,8 +115,8 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: ${{ failure() }}
         with:
-          name: e3e-artifacts
-          path: e3e/artifacts
+          name: e2e-artifacts
+          path: e2e/artifacts
 
   # publish
 
