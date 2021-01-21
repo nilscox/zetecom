@@ -1,12 +1,12 @@
 import { api } from './api';
 import { User } from './seed';
 
-export const login = (user: User) => {
+export const login = ({ email, password }: Pick<User, 'email' | 'password'>) => {
   return api('/api/auth/login', {
     method: 'POST',
     body: {
-      email: user.email,
-      password: user.password,
+      email,
+      password,
     },
   });
 };

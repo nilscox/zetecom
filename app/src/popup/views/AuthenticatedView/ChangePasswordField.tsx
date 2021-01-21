@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 
 import Button from 'src/components/Button';
 import FormError from 'src/components/FormError';
-import TextField from 'src/components/TextField';
+import Input from 'src/components/Input';
 
 import useChangePassword from './useChangePassword';
 
@@ -44,14 +44,14 @@ const ChangePasswordField = () => {
     <>
       <Collapse in={displayForm}>
         <form onSubmit={handleSubmit}>
-          <TextField
+          <Input
             type="password"
             id="password"
             name="password"
-            label="Nouveau mot de passe"
+            placeholder="Nouveau mot de passe"
             error={fieldErrors?.password}
             value={password}
-            onTextChange={setPassword}
+            onChange={e => setPassword(e.currentTarget.value)}
           />
           <FormError error={globalError} />
         </form>
@@ -60,9 +60,7 @@ const ChangePasswordField = () => {
       {passwordChanged ? (
         <Typography className={classes.passwordChanged}>Votre mot de passe a bien été mis à jour !</Typography>
       ) : (
-        <Button onClick={() => setDisplayForm(d => !d)}>
-          Changer de mot de passe
-        </Button>
+        <Button onClick={() => setDisplayForm(d => !d)}>Changer de mot de passe</Button>
       )}
     </>
   );

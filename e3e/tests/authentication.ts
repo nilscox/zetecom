@@ -7,9 +7,9 @@ import { clear, click, expectEvent, type, visitPopup, wait, within } from './uti
 
 import users from './fixtures/users.json';
 import { flushEmails, getEmails, viewEmail } from './utils/emails';
-import { login } from './api/auth';
+import { login, logout } from './api/auth';
 
-const [, , me, user1] = users as User[];
+const [, , me, user1, user2] = users as User[];
 
 mocha.timeout(10000);
 mocha.slow(8000);
@@ -105,14 +105,18 @@ describe('authentication', () => {
     expect(emails).to.have.lengthOf(1);
     await viewEmail(emails[0].id);
 
-    await within(iframe.document!.body!, async ({ findAllByText, getByRole }) => {
+    const link = await within(iframe.body!, async ({ findAllByText, getByRole }) => {
       findAllByText('Bienvenue sur Zétécom !');
-      const link = getByRole('link', { name: 'Valider mon adresse email' });
-      await iframe.navigate(link.getAttribute('href') as string);
+      const anchor = getByRole('link', { name: 'Valider mon adresse email' });
+      return anchor.getAttribute('href') as string;
     });
 
-    await within(iframe.document!.body!).findByText(user1.nick);
-    await within(iframe.document!.body!).findByText('Votre adresse email a été validée ! 🎉');
+    await iframe.navigate(link);
+
+    await within(iframe.body!, async ({ findByText }) => {
+      await findByText(user1.nick);
+      await findByText('Votre adresse email a été validée ! 🎉');
+    });
   });
 
   it('logout', async () => {
@@ -161,5 +165,58 @@ describe('authentication', () => {
 
     await within(iframe.document!.body!).findByText(me.nick);
     await within(iframe.document!.body!).findByText(/Vous êtes maintenant connecté\.e\./);
+  });
+
+  it('reset password', async () => {
+    await login(me);
+    const { getByRole, getByPlaceholderText, findByText } = await visitPopup();
+
+    click(getByRole('button', { name: 'Changer de mot de passe' }));
+
+    const passwordField = getByPlaceholderText('Nouveau mot de passe');
+
+    await type(passwordField, 'yo{enter}');
+    await findByText(/Ce mot de passe est trop court\./);
+
+    await clear(passwordField);
+    await type(passwordField, new Array(100).fill('a').join('') + '{enter}');
+    await findByText(/Ce mot de passe est trop long\./);
+
+    await clear(passwordField);
+    await type(passwordField, 'newpassword42{enter}');
+    await findByText('Votre mot de passe a bien été mis à jour !');
+
+    await expectEvent({ category: 'Authentication', action: 'Change Password' });
+
+    await logout();
+    await login({ email: me.email, password: 'newpassword42' });
+  });
+
+  it('signup conflicts', async () => {
+    const { getByPlaceholderText, getByRole, findByText } = await visitPopup('/inscription');
+
+    const emailField = getByPlaceholderText('Adresse email');
+    const passwordField = getByPlaceholderText('Mot de passe');
+    const nickField = getByPlaceholderText('Pseudo');
+    const acceptRulesCheckbox = getByRole('checkbox', { name: /J'accepte la charte/ });
+    const signupButton = getByRole('button', { name: 'Inscription' });
+
+    await type(emailField, me.email);
+    await type(passwordField, user2.password);
+    await type(nickField, user2.nick);
+    await click(acceptRulesCheckbox);
+    await click(acceptRulesCheckbox);
+    await click(signupButton);
+
+    await findByText('Cette adresse email est déjà utilisée.');
+
+    clear(emailField);
+    clear(nickField);
+    await type(emailField, user2.email);
+    await type(passwordField, user2.password);
+    await type(nickField, me.nick);
+    await click(signupButton);
+
+    await findByText('Ce pseudo est déjà utilisé.');
   });
 });
