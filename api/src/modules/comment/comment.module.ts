@@ -2,8 +2,8 @@ import { forwardRef, Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CommentsAreaModule } from '../comments-area/comments-area.module';
-import { UserModule } from '../user/user.module';
+import { CommentsAreaModule } from 'src/modules/comments-area/comments-area.module';
+import { UserModule } from 'src/modules/user/user.module';
 
 import { CommentController } from './comment.controller';
 import { CommentRepository } from './comment.repository';

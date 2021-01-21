@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { CommentsArea } from '../comments-area.entity';
+import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
 
 @Entity({ name: 'comments_area_integration' })
 export class CommentsAreaIntegration {

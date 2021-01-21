@@ -79,6 +79,9 @@
     "tsconfig-paths": "^3.7.0",
     "wait-on": "^5.2.0"
   },
+  "_moduleAliases": {
+    "src": "src"
+  },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
     "all": true

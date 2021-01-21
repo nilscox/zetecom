@@ -1,7 +1,7 @@
 import { mixin, UseInterceptors } from '@nestjs/common';
 import { ClassType } from 'class-transformer/ClassTransformer';
 
-import { TransformInterceptor } from 'Common/transform.interceptor';
+import { TransformInterceptor } from 'src/common/transform.interceptor';
 
 import { Paginated } from './paginated';
 

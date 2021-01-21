@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 
-import { Paginated } from 'Common/paginated';
+import { Paginated } from 'src/common/paginated';
 
 import { CommentsArea } from './comments-area.entity';
 

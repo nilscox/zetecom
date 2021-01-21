@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
-import { User } from '../../user/user.entity';
-import { Comment } from '../comment.entity';
+import { Comment } from 'src/modules/comment/comment.entity';
+import { User } from 'src/modules/user/user.entity';
 
 export enum ReportModerationAction {
   IGNORED = 'IGNORED',

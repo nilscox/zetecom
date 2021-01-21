@@ -3,11 +3,10 @@ import { CommandBus } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { SortType } from 'Common/sort-type';
-
-import { CommentsArea } from '../comments-area/comments-area.entity';
-import { User } from '../user/user.entity';
-import { UserService } from '../user/user.service';
+import { SortType } from 'src/common/sort-type';
+import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { User } from 'src/modules/user/user.entity';
+import { UserService } from 'src/modules/user/user.service';
 
 import { Comment } from './comment.entity';
 import { CommentJoinRelations, CommentRepository } from './comment.repository';

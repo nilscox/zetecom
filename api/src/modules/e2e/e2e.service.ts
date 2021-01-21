@@ -5,16 +5,16 @@ import { InjectConnection } from '@nestjs/typeorm';
 import redis from 'redis';
 import { Connection } from 'typeorm';
 
-import { Comment } from '../comment/comment.entity';
-import { CommentService } from '../comment/comment.service';
-import { ReactionType } from '../comment/reaction.entity';
-import { CommentsArea } from '../comments-area/comments-area.entity';
-import { CommentsAreaService } from '../comments-area/comments-area.service';
-import { CommentsAreaIntegrationService } from '../comments-area/comments-area-integration/comments-area-integration.service';
-import { ConfigService } from '../config/config.service';
-import { LoggerService } from '../logger/logger.service';
-import { User } from '../user/user.entity';
-import { UserService } from '../user/user.service';
+import { Comment } from 'src/modules/comment/comment.entity';
+import { CommentService } from 'src/modules/comment/comment.service';
+import { ReactionType } from 'src/modules/comment/reaction.entity';
+import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { CommentsAreaService } from 'src/modules/comments-area/comments-area.service';
+import { CommentsAreaIntegrationService } from 'src/modules/comments-area/comments-area-integration/comments-area-integration.service';
+import { ConfigService } from 'src/modules/config/config.service';
+import { LoggerService } from 'src/modules/logger/logger.service';
+import { User } from 'src/modules/user/user.entity';
+import { UserService } from 'src/modules/user/user.service';
 
 import { CommentDto } from './dtos/Comment';
 import { CommentsAreaDto } from './dtos/CommentsArea';

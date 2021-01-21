@@ -1,10 +1,10 @@
 import request from 'supertest';
 import { getRepository, Repository } from 'typeorm';
 
-import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
-import { EmailModule } from '../email/email.module';
-import { User } from '../user/user.entity';
-import { UserFactory } from '../user/user.factory';
+import { EmailModule } from 'src/modules/email/email.module';
+import { User } from 'src/modules/user/user.entity';
+import { UserFactory } from 'src/modules/user/user.factory';
+import { createAuthenticatedUser, setupE2eTest } from 'src/testing/setup-e2e-test';
 
 import { AuthenticationModule } from './authentication.module';
 

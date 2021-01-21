@@ -2,11 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, Repository } from 'typeorm';
 
-import { Paginated } from 'Common/paginated';
-
+import { Paginated } from 'src/common/paginated';
 import { NotificationPayload } from 'src/modules/notification/notification-payload';
-
-import { User } from '../user/user.entity';
+import { User } from 'src/modules/user/user.entity';
 
 import { Notification } from './notification.entity';
 import { NotificationType } from './notification-type';

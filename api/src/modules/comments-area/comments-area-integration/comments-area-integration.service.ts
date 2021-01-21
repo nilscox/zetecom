@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CommentsArea } from '../comments-area.entity';
+import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
 
 import { CommentsAreaIntegration } from './comments-area-integration.entity';
 

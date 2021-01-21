@@ -12,14 +12,13 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-import { IsAuthenticated } from 'Common/auth.guard';
-import { AuthUser } from 'Common/auth-user.decorator';
-import { CastToDto } from 'Common/cast-to-dto.interceptor';
-import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
-
-import { Roles } from '../../common/roles.decorator';
-import { Role } from '../authorization/roles.enum';
-import { AvatarService } from '../avatar/avatar.service';
+import { IsAuthenticated } from 'src/common/auth.guard';
+import { AuthUser } from 'src/common/auth-user.decorator';
+import { CastToDto } from 'src/common/cast-to-dto.interceptor';
+import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
+import { Roles } from 'src/common/roles.decorator';
+import { Role } from 'src/modules/authorization/roles.enum';
+import { AvatarService } from 'src/modules/avatar/avatar.service';
 
 import { UpdateUserRoleInDto } from './dtos/update-user-role-in.dto';
 import { UserDto } from './dtos/user.dto';

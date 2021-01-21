@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { CommentCreatedCommand } from '../comment-created.command';
+import { CommentCreatedCommand } from 'src/modules/comment/comment-created.command';
 
 import { SubscriptionService } from './subscription.service';
 

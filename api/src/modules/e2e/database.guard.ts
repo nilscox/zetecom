@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
-import { ConfigService } from '../config/config.service';
+import { ConfigService } from 'src/modules/config/config.service';
 
 @Injectable()
 export class DatabaseGuard implements CanActivate {

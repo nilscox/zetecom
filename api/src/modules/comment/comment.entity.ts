@@ -13,8 +13,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { CommentsArea } from '../comments-area/comments-area.entity';
-import { User } from '../user/user.entity';
+import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { User } from 'src/modules/user/user.entity';
 
 import { Message } from './message.entity';
 import { Reaction } from './reaction.entity';

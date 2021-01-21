@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindConditions, Repository } from 'typeorm';
 
-import { NotificationService } from '../../notification/notification.service';
-import { NotificationType } from '../../notification/notification-type';
-import { User } from '../../user/user.entity';
-import { CommentsArea } from '../comments-area.entity';
+import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { NotificationService } from 'src/modules/notification/notification.service';
+import { NotificationType } from 'src/modules/notification/notification-type';
+import { User } from 'src/modules/user/user.entity';
 
 import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request.entity';
 import { CommentsAreaRequestInDto } from './dtos/comments-area-request-in.dto';

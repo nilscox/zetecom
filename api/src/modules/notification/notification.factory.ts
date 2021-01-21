@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { getRepository } from 'typeorm';
 
-import { Factory } from '../../testing/factory';
+import { Factory } from 'src/testing/factory';
 
 import { Notification } from './notification.entity';
 

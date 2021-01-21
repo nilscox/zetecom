@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ConfigModule } from '../config/config.module';
-import { EmailModule } from '../email/email.module';
-import { User } from '../user/user.entity';
-import { UserModule } from '../user/user.module';
+import { ConfigModule } from 'src/modules/config/config.module';
+import { EmailModule } from 'src/modules/email/email.module';
+import { User } from 'src/modules/user/user.entity';
+import { UserModule } from 'src/modules/user/user.module';
 
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';

@@ -13,16 +13,15 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { IsAuthenticated } from 'Common/auth.guard';
-import { AuthUser } from 'Common/auth-user.decorator';
-import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
-import { PageQuery } from 'Common/page-query.decorator';
-import { Paginated } from 'Common/paginated';
-import { Roles } from 'Common/roles.decorator';
-
-import { CastToDto } from '../../../common/cast-to-dto.interceptor';
-import { Role } from '../../authorization/roles.enum';
-import { User } from '../../user/user.entity';
+import { IsAuthenticated } from 'src/common/auth.guard';
+import { AuthUser } from 'src/common/auth-user.decorator';
+import { CastToDto } from 'src/common/cast-to-dto.interceptor';
+import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
+import { PageQuery } from 'src/common/page-query.decorator';
+import { Paginated } from 'src/common/paginated';
+import { Roles } from 'src/common/roles.decorator';
+import { Role } from 'src/modules/authorization/roles.enum';
+import { User } from 'src/modules/user/user.entity';
 
 import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request.entity';
 import { CommentsAreaRequestService } from './comments-area-request.service';

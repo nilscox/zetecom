@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
 
-import { User } from '../user/user.entity';
+import { User } from 'src/modules/user/user.entity';
 
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';

@@ -1,6 +1,6 @@
 import { DeepPartial, getManager } from 'typeorm';
 
-import { CommentsArea } from '../../modules/comments-area/comments-area.entity';
+import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
 
 import { createUser } from './user.factory';
 

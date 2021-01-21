@@ -1,7 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 
-import { Factory } from '../../testing/factory';
-import { UserFactory } from '../user/user.factory';
+import { UserFactory } from 'src/modules/user/user.factory';
+import { Factory } from 'src/testing/factory';
 
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';

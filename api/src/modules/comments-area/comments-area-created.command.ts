@@ -1,4 +1,4 @@
-import { User } from '../user/user.entity';
+import { User } from 'src/modules/user/user.entity';
 
 import { CommentsArea } from './comments-area.entity';
 

@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { ZCRequest } from 'Common/zc-request.type';
-
-import { PopulateInterceptor } from '../../common/populate.interceptor';
-import { PopulateCommentsArea } from '../comments-area/populate-comments-area.interceptor';
+import { PopulateInterceptor } from 'src/common/populate.interceptor';
+import { ZCRequest } from 'src/common/zc-request.type';
+import { PopulateCommentsArea } from 'src/modules/comments-area/populate-comments-area.interceptor';
 
 import { CommentsForCommentsAreaDto } from './dtos/comments-for-comments-area.dto';
 import { PopulateComment } from './populate-comment.interceptor';

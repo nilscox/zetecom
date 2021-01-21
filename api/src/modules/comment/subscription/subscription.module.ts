@@ -2,9 +2,9 @@ import { forwardRef, Module, Provider } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { NotificationModule } from '../../notification/notification.module';
-import { UserModule } from '../../user/user.module';
-import { CommentModule } from '../comment.module';
+import { CommentModule } from 'src/modules/comment/comment.module';
+import { NotificationModule } from 'src/modules/notification/notification.module';
+import { UserModule } from 'src/modules/user/user.module';
 
 import { NotifySubscriptionReplyHandler } from './notifiy-subscription-reply.handler';
 import { SubscriptionController } from './subscription.controller';

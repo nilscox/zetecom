@@ -1,6 +1,6 @@
 import { Module, OnModuleInit } from '@nestjs/common';
 
-import { ConfigModule } from '../config/config.module';
+import { ConfigModule } from 'src/modules/config/config.module';
 
 import { UserController } from './email.controller';
 import { EmailService } from './email.service';

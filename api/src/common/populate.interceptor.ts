@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-import { TransformInterceptor } from 'Common/transform.interceptor';
+import { TransformInterceptor } from 'src/common/transform.interceptor';
 
 import { Paginated } from './paginated';
 

@@ -3,14 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { classToPlain, plainToClass } from 'class-transformer';
 import { FindConditions, Not, Repository } from 'typeorm';
 
-import { Paginated } from 'Common/paginated';
-
-import { NotificationService } from '../../notification/notification.service';
-import { SubscriptionReplyNotificationPayload } from '../../notification/notification-payload';
-import { NotificationType } from '../../notification/notification-type';
-import { UserDto } from '../../user/dtos/user.dto';
-import { UserLightDto } from '../../user/dtos/user-ligth.dto';
-import { Comment } from '../comment.entity';
+import { Paginated } from 'src/common/paginated';
+import { Comment } from 'src/modules/comment/comment.entity';
+import { NotificationService } from 'src/modules/notification/notification.service';
+import { SubscriptionReplyNotificationPayload } from 'src/modules/notification/notification-payload';
+import { NotificationType } from 'src/modules/notification/notification-type';
+import { UserDto } from 'src/modules/user/dtos/user.dto';
+import { UserLightDto } from 'src/modules/user/dtos/user-ligth.dto';
 
 import { Subscription } from './subscription.entity';
 

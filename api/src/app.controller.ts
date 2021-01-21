@@ -6,10 +6,7 @@ import { ConfigService } from './modules/config/config.service';
 
 @Controller()
 export class AppController {
-
-  constructor(
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(private readonly configService: ConfigService) {}
 
   @Get('version')
   version(): string {
@@ -18,14 +15,15 @@ export class AppController {
 
   @Get('__coverage__')
   coverage() {
-    if (this.configService.get('CI') !== 'true')
+    if (this.configService.get('CI') !== 'true') {
       return;
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { __coverage__: coverage } = global as any;
 
-    if (coverage)
+    if (coverage) {
       return { coverage };
+    }
   }
-
 }

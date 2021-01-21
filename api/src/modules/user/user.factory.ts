@@ -2,8 +2,8 @@ import bcrypt from 'bcrypt';
 import { getRepository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Factory } from '../../testing/factory';
-import { Role } from '../authorization/roles.enum';
+import { Role } from 'src/modules/authorization/roles.enum';
+import { Factory } from 'src/testing/factory';
 
 import { User } from './user.entity';
 

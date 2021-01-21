@@ -1,8 +1,8 @@
 import request from 'supertest';
 
-import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
-import { AuthenticationModule } from '../authentication/authentication.module';
-import { UserLightDto } from '../user/dtos/user-ligth.dto';
+import { AuthenticationModule } from 'src/modules/authentication/authentication.module';
+import { UserLightDto } from 'src/modules/user/dtos/user-ligth.dto';
+import { createAuthenticatedUser, setupE2eTest } from 'src/testing/setup-e2e-test';
 
 import { NotificationFactory } from './notification.factory';
 import { NotificationModule } from './notification.module';

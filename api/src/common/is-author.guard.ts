@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 
-import { CommentService } from '../modules/comment/comment.service';
+import { CommentService } from 'src/modules/comment/comment.service';
 
 @Injectable()
 export class IsAuthor implements CanActivate {

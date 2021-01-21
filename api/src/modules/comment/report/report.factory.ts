@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 
-import { Factory } from '../../../testing/factory';
-import { User } from '../../user/user.entity';
+import { User } from 'src/modules/user/user.entity';
+import { Factory } from 'src/testing/factory';
 
 import { Report, ReportModerationAction } from './report.entity';
 

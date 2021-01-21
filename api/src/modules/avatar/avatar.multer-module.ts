@@ -3,10 +3,9 @@ import path from 'path';
 import { MulterModule } from '@nestjs/platform-express';
 import multer from 'multer';
 
-import { ZCRequest } from 'Common/zc-request.type';
-
-import { ConfigModule } from '../config/config.module';
-import { ConfigService } from '../config/config.service';
+import { ZCRequest } from 'src/common/zc-request.type';
+import { ConfigModule } from 'src/modules/config/config.module';
+import { ConfigService } from 'src/modules/config/config.service';
 
 export const AvatarMulterModule = MulterModule.registerAsync({
   imports: [ConfigModule],

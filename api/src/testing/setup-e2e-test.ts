@@ -13,14 +13,13 @@ import { getRepository } from 'typeorm';
 
 dotenv.config({ path: '.env.test' });
 
-import { ErrorsInterceptor } from 'Common/errors.interceptor';
-import { RolesGuard } from 'Common/roles.guard';
-import { UserMiddleware } from 'Common/user.middleware';
-
-import { AuthorizationModule } from '../modules/authorization/authorization.module';
-import { Role } from '../modules/authorization/roles.enum';
-import { ConfigModule } from '../modules/config/config.module';
-import { User } from '../modules/user/user.entity';
+import { ErrorsInterceptor } from 'src/common/errors.interceptor';
+import { RolesGuard } from 'src/common/roles.guard';
+import { UserMiddleware } from 'src/common/user.middleware';
+import { AuthorizationModule } from 'src/modules/authorization/authorization.module';
+import { Role } from 'src/modules/authorization/roles.enum';
+import { ConfigModule } from 'src/modules/config/config.module';
+import { User } from 'src/modules/user/user.entity';
 
 import { debug } from './supertest-debug-plugin';
 

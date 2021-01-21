@@ -1,11 +1,10 @@
 import { DeepPartial, getCustomRepository } from 'typeorm';
 
-import { SortType } from 'Common/sort-type';
-
-import { createComment } from '../../testing/intg-factories/comment.factory';
-import { createCommentsArea } from '../../testing/intg-factories/comments-area.factory';
-import { createUser } from '../../testing/intg-factories/user.factory';
-import { setupIntgTest } from '../../testing/setup-intg-test';
+import { SortType } from 'src/common/sort-type';
+import { createComment } from 'src/testing/intg-factories/comment.factory';
+import { createCommentsArea } from 'src/testing/intg-factories/comments-area.factory';
+import { createUser } from 'src/testing/intg-factories/user.factory';
+import { setupIntgTest } from 'src/testing/setup-intg-test';
 
 import { Comment } from './comment.entity';
 import { CommentRepository } from './comment.repository';

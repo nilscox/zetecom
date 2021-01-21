@@ -1,6 +1,6 @@
 import { DeepPartial, getManager } from 'typeorm';
 
-import { Reaction, ReactionType } from '../../modules/comment/reaction.entity';
+import { Reaction, ReactionType } from 'src/modules/comment/reaction.entity';
 
 import { createComment } from './comment.factory';
 import { createUser } from './user.factory';

@@ -1,6 +1,6 @@
 import { Expose, Type } from 'class-transformer';
 
-import { UserLightDto } from '../../user/dtos/user-ligth.dto';
+import { UserLightDto } from 'src/modules/user/dtos/user-ligth.dto';
 
 import { Message } from './../message.entity';
 import { ReactionType } from './../reaction.entity';

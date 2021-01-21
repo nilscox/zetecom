@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import { LoggerService } from '../logger/logger.service';
+import { LoggerService } from 'src/modules/logger/logger.service';
 
 import { SeedModule } from './seed.module';
 

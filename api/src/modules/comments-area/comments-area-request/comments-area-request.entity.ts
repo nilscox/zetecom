@@ -8,8 +8,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { User } from '../../user/user.entity';
-import { CommentsArea } from '../comments-area.entity';
+import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { User } from 'src/modules/user/user.entity';
 
 export enum CommentsAreaRequestStatus {
   PENDING = 'PENDING',

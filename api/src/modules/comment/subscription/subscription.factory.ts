@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { getRepository } from 'typeorm';
 
-import { Factory } from '../../../testing/factory';
-import { CommentFactory } from '../../comment/comment.factory';
-import { UserFactory } from '../../user/user.factory';
+import { CommentFactory } from 'src/modules/comment/comment.factory';
+import { UserFactory } from 'src/modules/user/user.factory';
+import { Factory } from 'src/testing/factory';
 
 import { Subscription } from './subscription.entity';
 

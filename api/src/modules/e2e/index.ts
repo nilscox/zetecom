@@ -1,16 +1,12 @@
-import path from 'path';
-
 import dotenv from 'dotenv';
-import { addAlias } from 'module-alias';
 
-addAlias('Common', path.resolve(__dirname, '..', '..', 'common'));
-addAlias('Utils', path.resolve(__dirname, '..', '..', 'utils'));
+import 'module-alias/register';
 
 dotenv.config();
 
 import { NestFactory } from '@nestjs/core';
 
-import { LoggerService } from '../logger/logger.service';
+import { LoggerService } from 'src/modules/logger/logger.service';
 
 import { E2eModule } from './e2e.module';
 

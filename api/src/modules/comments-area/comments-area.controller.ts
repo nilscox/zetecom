@@ -12,24 +12,23 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { IsAuthenticated } from 'Common/auth.guard';
-import { AuthUser } from 'Common/auth-user.decorator';
-import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
-import { OptionalQuery } from 'Common/optional-query.decorator';
-import { PageQuery } from 'Common/page-query.decorator';
-import { Paginated } from 'Common/paginated';
-import { Roles } from 'Common/roles.decorator';
-import { SearchQuery } from 'Common/search-query.decorator';
-import { SortType } from 'Common/sort-type';
-import { SortTypePipe } from 'Common/sort-type.pipe';
-
-import { CastToDto } from '../../common/cast-to-dto.interceptor';
-import { Role } from '../authorization/roles.enum';
-import { Comment } from '../comment/comment.entity';
-import { CommentService } from '../comment/comment.service';
-import { CommentDto } from '../comment/dtos/comment.dto';
-import { PopulateComment } from '../comment/populate-comment.interceptor';
-import { User } from '../user/user.entity';
+import { IsAuthenticated } from 'src/common/auth.guard';
+import { AuthUser } from 'src/common/auth-user.decorator';
+import { CastToDto } from 'src/common/cast-to-dto.interceptor';
+import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
+import { OptionalQuery } from 'src/common/optional-query.decorator';
+import { PageQuery } from 'src/common/page-query.decorator';
+import { Paginated } from 'src/common/paginated';
+import { Roles } from 'src/common/roles.decorator';
+import { SearchQuery } from 'src/common/search-query.decorator';
+import { SortType } from 'src/common/sort-type';
+import { SortTypePipe } from 'src/common/sort-type.pipe';
+import { Role } from 'src/modules/authorization/roles.enum';
+import { Comment } from 'src/modules/comment/comment.entity';
+import { CommentService } from 'src/modules/comment/comment.service';
+import { CommentDto } from 'src/modules/comment/dtos/comment.dto';
+import { PopulateComment } from 'src/modules/comment/populate-comment.interceptor';
+import { User } from 'src/modules/user/user.entity';
 
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';

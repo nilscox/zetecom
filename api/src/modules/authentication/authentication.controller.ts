@@ -1,13 +1,12 @@
 import { Body, Controller, Get, HttpCode, Param, Post, Put, Session, UseGuards, UseInterceptors } from '@nestjs/common';
 
-import { IsAuthenticated, IsNotAuthenticated } from 'Common/auth.guard';
-import { AuthUser } from 'Common/auth-user.decorator';
-import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
-
-import { CastToDto } from '../../common/cast-to-dto.interceptor';
-import { UserDto } from '../user/dtos/user.dto';
-import { User } from '../user/user.entity';
-import { UserService } from '../user/user.service';
+import { IsAuthenticated, IsNotAuthenticated } from 'src/common/auth.guard';
+import { AuthUser } from 'src/common/auth-user.decorator';
+import { CastToDto } from 'src/common/cast-to-dto.interceptor';
+import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
+import { UserDto } from 'src/modules/user/dtos/user.dto';
+import { User } from 'src/modules/user/user.entity';
+import { UserService } from 'src/modules/user/user.service';
 
 import { AuthenticationService } from './authentication.service';
 import { AskEmailLoginInDto } from './dtos/ask-email-login-in.dto';

@@ -1,6 +1,6 @@
 import { QueryRunner } from 'typeorm';
 
-import { LoggerService } from '../logger/logger.service';
+import { LoggerService } from 'src/modules/logger/logger.service';
 
 export interface Seed {
   readonly name: string;

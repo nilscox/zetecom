@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { PopulateInterceptor } from '../../common/populate.interceptor';
+import { PopulateInterceptor } from 'src/common/populate.interceptor';
 
 import { CommentsAreaService } from './comments-area.service';
 import { CommentsAreaDto } from './dtos/comments-area.dto';

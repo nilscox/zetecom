@@ -17,21 +17,20 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { IsAuthenticated } from 'Common/auth.guard';
-import { AuthUser } from 'Common/auth-user.decorator';
-import { CastToDto } from 'Common/cast-to-dto.interceptor';
-import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
-import { IsAuthor, IsNotAuthor } from 'Common/is-author.guard';
-import { PageQuery } from 'Common/page-query.decorator';
-import { Paginated } from 'Common/paginated';
-import { SearchQuery } from 'Common/search-query.decorator';
-
-import { OptionalQuery } from '../../common/optional-query.decorator';
-import { SortType } from '../../common/sort-type';
-import { SortTypePipe } from '../../common/sort-type.pipe';
-import { CommentsArea } from '../comments-area/comments-area.entity';
-import { CommentsAreaService } from '../comments-area/comments-area.service';
-import { User } from '../user/user.entity';
+import { IsAuthenticated } from 'src/common/auth.guard';
+import { AuthUser } from 'src/common/auth-user.decorator';
+import { CastToDto } from 'src/common/cast-to-dto.interceptor';
+import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
+import { IsAuthor, IsNotAuthor } from 'src/common/is-author.guard';
+import { OptionalQuery } from 'src/common/optional-query.decorator';
+import { PageQuery } from 'src/common/page-query.decorator';
+import { Paginated } from 'src/common/paginated';
+import { SearchQuery } from 'src/common/search-query.decorator';
+import { SortType } from 'src/common/sort-type';
+import { SortTypePipe } from 'src/common/sort-type.pipe';
+import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { CommentsAreaService } from 'src/modules/comments-area/comments-area.service';
+import { User } from 'src/modules/user/user.entity';
 
 import { Comment } from './comment.entity';
 import { CommentRepository } from './comment.repository';

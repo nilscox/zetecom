@@ -7,8 +7,8 @@ module.exports = {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '../src',
   testEnvironment: 'node',
-  testMatch: ["**/*.e2e-test.ts"],
+  testMatch: ['**/*.e2e-test.ts'],
   moduleNameMapper: {
-    'Common/(.*)': '<rootDir>/common/$1',
-  }
-}
+    '^src/(.*)': '<rootDir>/$1',
+  },
+};

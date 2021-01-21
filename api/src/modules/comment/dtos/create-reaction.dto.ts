@@ -1,6 +1,6 @@
 import { IsEnum, IsOptional } from 'class-validator';
 
-import { ReactionType } from '../reaction.entity';
+import { ReactionType } from 'src/modules/comment/reaction.entity';
 
 export class CreateReactionDto {
 

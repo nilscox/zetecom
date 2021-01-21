@@ -1,6 +1,6 @@
 import { Expose, Transform } from 'class-transformer';
 
-import { UserDto } from '../../user/dtos/user.dto';
+import { UserDto } from 'src/modules/user/dtos/user.dto';
 
 export class SignupUserDto extends UserDto {
 

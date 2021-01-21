@@ -3,9 +3,9 @@ import { existsSync, promises as fs } from 'fs';
 import { Module, OnApplicationBootstrap } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ConfigModule } from '../config/config.module';
-import { ConfigService } from '../config/config.service';
-import { User } from '../user/user.entity';
+import { ConfigModule } from 'src/modules/config/config.module';
+import { ConfigService } from 'src/modules/config/config.service';
+import { User } from 'src/modules/user/user.entity';
 
 import { AvatarService } from './avatar.service';
 

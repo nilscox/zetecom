@@ -1,7 +1,7 @@
 import { DeepPartial, getManager } from 'typeorm';
 
-import { Comment } from '../../modules/comment/comment.entity';
-import { Message } from '../../modules/comment/message.entity';
+import { Comment } from 'src/modules/comment/comment.entity';
+import { Message } from 'src/modules/comment/message.entity';
 
 import { createCommentsArea } from './comments-area.factory';
 import { createMessage } from './message.factory';

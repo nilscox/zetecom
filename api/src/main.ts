@@ -1,13 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="index.d.ts" />
 
-import path from 'path';
-
 import dotenv from 'dotenv';
-import { addAlias } from 'module-alias';
 
-addAlias('Common', path.join(__dirname, 'common'));
-addAlias('Utils', path.join(__dirname, 'utils'));
+import 'module-alias/register';
 
 dotenv.config();
 
@@ -15,7 +11,7 @@ import { BadRequestException, NestApplicationOptions, ValidationPipe } from '@ne
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
-import { ErrorsInterceptor } from 'Common/errors.interceptor';
+import { ErrorsInterceptor } from 'src/common/errors.interceptor';
 
 import { AppModule } from './app.module';
 import { LoggerService } from './modules/logger/logger.service';

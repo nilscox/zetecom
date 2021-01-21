@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
-import { Role } from '../authorization/roles.enum';
+import { Role } from 'src/modules/authorization/roles.enum';
 
 @Entity({ name: 'user', orderBy: { created: 'ASC' } })
 export class User {

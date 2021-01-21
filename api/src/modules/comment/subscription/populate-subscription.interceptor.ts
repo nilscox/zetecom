@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
 
-import { PopulateInterceptor } from '../../../common/populate.interceptor';
-import { PopulateComment } from '../../comment/populate-comment.interceptor';
+import { PopulateInterceptor } from 'src/common/populate.interceptor';
+import { PopulateComment } from 'src/modules/comment/populate-comment.interceptor';
 
 import { SubscriptionDto } from './dtos/subscrption.dto';
 

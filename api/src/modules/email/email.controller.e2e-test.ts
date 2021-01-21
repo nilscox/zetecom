@@ -1,6 +1,6 @@
-import { setupE2eTest } from '../../testing/setup-e2e-test';
-import { AuthenticationModule } from '../authentication/authentication.module';
-import { AuthorizationModule } from '../authorization/authorization.module';
+import { AuthenticationModule } from 'src/modules/authentication/authentication.module';
+import { AuthorizationModule } from 'src/modules/authorization/authorization.module';
+import { setupE2eTest } from 'src/testing/setup-e2e-test';
 
 import { EmailModule } from './email.module';
 

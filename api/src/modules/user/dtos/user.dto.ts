@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-import { Role } from '../../authorization/roles.enum';
+import { Role } from 'src/modules/authorization/roles.enum';
 
 export class UserDto {
   constructor(partial: Partial<UserDto>) {

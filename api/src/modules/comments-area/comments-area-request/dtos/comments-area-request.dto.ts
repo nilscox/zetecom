@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-import { CommentsAreaRequestStatus } from '../comments-area-request.entity';
+import { CommentsAreaRequestStatus } from 'src/modules/comments-area/comments-area-request/comments-area-request.entity';
 
 export class CommentsAreaRequestDto {
   constructor(partial: Partial<CommentsAreaRequestDto>) {

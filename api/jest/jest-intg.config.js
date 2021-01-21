@@ -7,8 +7,8 @@ module.exports = {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '../src',
   testEnvironment: 'node',
-  testMatch: ["**/*.intg-test.ts"],
+  testMatch: ['**/*.intg-test.ts'],
   moduleNameMapper: {
-    'Common/(.*)': '<rootDir>/common/$1',
-  }
-}
+    '^src/(.*)': '<rootDir>/$1',
+  },
+};

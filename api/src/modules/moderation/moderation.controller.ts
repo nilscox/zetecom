@@ -10,18 +10,18 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 
-import { IsAuthenticated } from '../../common/auth.guard';
-import { AuthUser } from '../../common/auth-user.decorator';
-import { CastToDto } from '../../common/cast-to-dto.interceptor';
-import { ClassToPlainInterceptor } from '../../common/ClassToPlain.interceptor';
-import { PageQuery } from '../../common/page-query.decorator';
-import { Paginated } from '../../common/paginated';
-import { Roles } from '../../common/roles.decorator';
-import { Role } from '../authorization/roles.enum';
-import { CommentService } from '../comment/comment.service';
-import { PopulateComment } from '../comment/populate-comment.interceptor';
-import { ReportedCommentDto } from '../comment/report/dtos/reported-comment-dto';
-import { User } from '../user/user.entity';
+import { IsAuthenticated } from 'src/common/auth.guard';
+import { AuthUser } from 'src/common/auth-user.decorator';
+import { CastToDto } from 'src/common/cast-to-dto.interceptor';
+import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
+import { PageQuery } from 'src/common/page-query.decorator';
+import { Paginated } from 'src/common/paginated';
+import { Roles } from 'src/common/roles.decorator';
+import { Role } from 'src/modules/authorization/roles.enum';
+import { CommentService } from 'src/modules/comment/comment.service';
+import { PopulateComment } from 'src/modules/comment/populate-comment.interceptor';
+import { ReportedCommentDto } from 'src/modules/comment/report/dtos/reported-comment-dto';
+import { User } from 'src/modules/user/user.entity';
 
 import { DeleteCommentInDto } from './dtos/delete-comment-in.dto';
 import { IgnoreReportsInDto } from './dtos/ignore-reports-in.dto';

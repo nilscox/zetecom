@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { getCustomRepository, getRepository } from 'typeorm';
 
-import { ZCRequest } from 'Common/zc-request.type';
-
-import { PopulateInterceptor } from '../../common/populate.interceptor';
-import { User } from '../user/user.entity';
+import { PopulateInterceptor } from 'src/common/populate.interceptor';
+import { ZCRequest } from 'src/common/zc-request.type';
+import { User } from 'src/modules/user/user.entity';
 
 import { CommentRepository } from './comment.repository';
 import { CommentDto } from './dtos/comment.dto';

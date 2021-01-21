@@ -1,7 +1,7 @@
 import { Expose, Type } from 'class-transformer';
 
-import { CommentDto } from '../../dtos/comment.dto';
-import { Subscription } from '../../subscription/subscription.entity';
+import { CommentDto } from 'src/modules/comment/dtos/comment.dto';
+import { Subscription } from 'src/modules/comment/subscription/subscription.entity';
 
 export class SubscriptionDto {
 

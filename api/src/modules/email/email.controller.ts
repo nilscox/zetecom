@@ -1,10 +1,9 @@
 import { Body, Controller, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 
-import { IsAuthenticated } from 'Common/auth.guard';
-import { ClassToPlainInterceptor } from 'Common/ClassToPlain.interceptor';
-import { Roles } from 'Common/roles.decorator';
-
-import { Role } from '../authorization/roles.enum';
+import { IsAuthenticated } from 'src/common/auth.guard';
+import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
+import { Roles } from 'src/common/roles.decorator';
+import { Role } from 'src/modules/authorization/roles.enum';
 
 import { SendTestEmailInDto } from './dtos/send-test-email-in.dto';
 import { EmailService } from './email.service';

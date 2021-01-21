@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { Comment } from '../comment/comment.entity';
-import { CommentService } from '../comment/comment.service';
-import { Report, ReportModerationAction } from '../comment/report/report.entity';
-import { ReportService } from '../comment/report/report.service';
-import { User } from '../user/user.entity';
+import { Comment } from 'src/modules/comment/comment.entity';
+import { CommentService } from 'src/modules/comment/comment.service';
+import { Report, ReportModerationAction } from 'src/modules/comment/report/report.entity';
+import { ReportService } from 'src/modules/comment/report/report.service';
+import { User } from 'src/modules/user/user.entity';
 
 export type CommentWithReports = Comment & { reports: Report[] };
 

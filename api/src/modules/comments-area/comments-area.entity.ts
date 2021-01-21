@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { User } from '../user/user.entity';
+import { User } from 'src/modules/user/user.entity';
 
 @Entity({ name: 'comments_area', orderBy: { created: 'ASC' } })
 export class CommentsArea {

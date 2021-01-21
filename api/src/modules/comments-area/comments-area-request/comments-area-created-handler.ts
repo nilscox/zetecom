@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { CommentsAreaCreatedCommand } from '../comments-area-created.command';
+import { CommentsAreaCreatedCommand } from 'src/modules/comments-area/comments-area-created.command';
 
 import { CommentsAreaRequestService } from './comments-area-request.service';
 

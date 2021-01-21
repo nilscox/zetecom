@@ -1,6 +1,6 @@
 import { Expose, Type } from 'class-transformer';
 
-import { CommentsAreaDto } from '../../comments-area/dtos/comments-area.dto';
+import { CommentsAreaDto } from 'src/modules/comments-area/dtos/comments-area.dto';
 
 import { CommentDto } from './comment.dto';
 

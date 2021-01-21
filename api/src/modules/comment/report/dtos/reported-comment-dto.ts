@@ -1,6 +1,6 @@
 import { Expose, Type } from 'class-transformer';
 
-import { CommentDto } from '../../dtos/comment.dto';
+import { CommentDto } from 'src/modules/comment/dtos/comment.dto';
 
 import { ReportDto } from './report';
 

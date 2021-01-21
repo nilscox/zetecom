@@ -1,6 +1,6 @@
 import { IsDateString, IsNotEmpty, IsOptional, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
 
-import { IsPast } from 'Common/is-past.validator';
+import { IsPast } from 'src/common/is-past.validator';
 
 const require_tld = process.env.NODE_ENV === 'production';
 

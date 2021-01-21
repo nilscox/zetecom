@@ -8,9 +8,9 @@ import expressSession from 'express-session';
 import morgan from 'morgan';
 import redis from 'redis';
 
-import { LagMiddleware } from 'Common/lag.middleware';
-import { RolesGuard } from 'Common/roles.guard';
-import { UserMiddleware } from 'Common/user.middleware';
+import { LagMiddleware } from 'src/common/lag.middleware';
+import { RolesGuard } from 'src/common/roles.guard';
+import { UserMiddleware } from 'src/common/user.middleware';
 
 import { AppController } from './app.controller';
 import { AuthenticationModule } from './modules/authentication/authentication.module';

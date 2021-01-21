@@ -1,14 +1,15 @@
 import request from 'supertest';
 import { getCustomRepository, getRepository, Repository } from 'typeorm';
 
+import { AuthenticationModule } from 'src/modules/authentication/authentication.module';
+import { CommentFactory } from 'src/modules/comment/comment.factory';
+
 import {
   createAuthenticatedAdmin,
   createAuthenticatedModerator,
   createAuthenticatedUser,
   setupE2eTest,
 } from '../../testing/setup-e2e-test';
-import { AuthenticationModule } from '../authentication/authentication.module';
-import { CommentFactory } from '../comment/comment.factory';
 
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaFactory } from './comments-area.factory';

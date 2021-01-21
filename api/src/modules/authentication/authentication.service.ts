@@ -4,9 +4,9 @@ import bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
-import { EmailService } from '../email/email.service';
-import { User } from '../user/user.entity';
-import { UserService } from '../user/user.service';
+import { EmailService } from 'src/modules/email/email.service';
+import { User } from 'src/modules/user/user.entity';
+import { UserService } from 'src/modules/user/user.service';
 
 import { SignupUserInDto } from './dtos/signup-user-in.dto';
 

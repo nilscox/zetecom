@@ -1,8 +1,8 @@
 import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ConfigModule } from '../config/config.module';
-import { LoggerModule } from '../logger/logger.module';
+import { ConfigModule } from 'src/modules/config/config.module';
+import { LoggerModule } from 'src/modules/logger/logger.module';
 
 import { Seed } from './seed.entity';
 import { SeedService } from './seed.service';

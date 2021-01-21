@@ -4,10 +4,10 @@ import bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
-import { SignupUserInDto } from '../authentication/dtos/signup-user-in.dto';
-import { Role } from '../authorization/roles.enum';
-import { ConfigService } from '../config/config.service';
-import { EmailService } from '../email/email.service';
+import { SignupUserInDto } from 'src/modules/authentication/dtos/signup-user-in.dto';
+import { Role } from 'src/modules/authorization/roles.enum';
+import { ConfigService } from 'src/modules/config/config.service';
+import { EmailService } from 'src/modules/email/email.service';
 
 import { User } from './user.entity';
 

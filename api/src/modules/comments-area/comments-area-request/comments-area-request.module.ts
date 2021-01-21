@@ -2,9 +2,9 @@ import { forwardRef, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { NotificationModule } from '../../notification/notification.module';
-import { UserModule } from '../../user/user.module';
-import { CommentsAreaModule } from '../comments-area.module';
+import { CommentsAreaModule } from 'src/modules/comments-area/comments-area.module';
+import { NotificationModule } from 'src/modules/notification/notification.module';
+import { UserModule } from 'src/modules/user/user.module';
 
 import { CommentsAreaCreatedHandler } from './comments-area-created-handler';
 import { CommentsAreaRequestController } from './comments-area-request.controller';

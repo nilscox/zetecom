@@ -1,7 +1,7 @@
 import { EntityRepository, getRepository, In, Repository, SelectQueryBuilder } from 'typeorm';
 
-import { Paginated } from 'Common/paginated';
-import { SortType } from 'Common/sort-type';
+import { Paginated } from 'src/common/paginated';
+import { SortType } from 'src/common/sort-type';
 
 import { Comment } from './comment.entity';
 import { Message } from './message.entity';

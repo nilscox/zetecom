@@ -1,13 +1,13 @@
 import { getRepository, Repository } from 'typeorm';
 
-import { createAuthenticatedUser, setupE2eTest } from '../../../testing/setup-e2e-test';
-import { AuthenticationModule } from '../../authentication/authentication.module';
-import { CommentFactory } from '../../comment/comment.factory';
-import { CommentModule } from '../../comment/comment.module';
-import { CommentsAreaFactory } from '../../comments-area/comments-area.factory';
-import { Notification } from '../../notification/notification.entity';
-import { NotificationModule } from '../../notification/notification.module';
-import { UserFactory } from '../../user/user.factory';
+import { AuthenticationModule } from 'src/modules/authentication/authentication.module';
+import { CommentFactory } from 'src/modules/comment/comment.factory';
+import { CommentModule } from 'src/modules/comment/comment.module';
+import { CommentsAreaFactory } from 'src/modules/comments-area/comments-area.factory';
+import { Notification } from 'src/modules/notification/notification.entity';
+import { NotificationModule } from 'src/modules/notification/notification.module';
+import { UserFactory } from 'src/modules/user/user.factory';
+import { createAuthenticatedUser, setupE2eTest } from 'src/testing/setup-e2e-test';
 
 import { SubscriptionFactory } from './subscription.factory';
 

@@ -1,4 +1,4 @@
-import { User } from '../user/user.entity';
+import { User } from 'src/modules/user/user.entity';
 
 import { AuthorizationService } from './authorization.service';
 import { Role } from './roles.enum';

@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { getRepository, Repository } from 'typeorm';
 
-import { createAuthenticatedAdmin, setupE2eTest } from '../../testing/setup-e2e-test';
-import { AuthenticationModule } from '../authentication/authentication.module';
+import { AuthenticationModule } from 'src/modules/authentication/authentication.module';
+import { createAuthenticatedAdmin, setupE2eTest } from 'src/testing/setup-e2e-test';
 
 import { User } from './user.entity';
 import { UserFactory } from './user.factory';

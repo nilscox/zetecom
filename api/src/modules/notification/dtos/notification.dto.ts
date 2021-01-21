@@ -1,7 +1,7 @@
 import { Expose, Transform, Type } from 'class-transformer';
 
-import { UserLightDto } from '../../user/dtos/user-ligth.dto';
-import { NotificationType } from '../notification-type';
+import { NotificationType } from 'src/modules/notification/notification-type';
+import { UserLightDto } from 'src/modules/user/dtos/user-ligth.dto';
 
 import { NotificationsCountDto } from './notifications-count.dto';
 

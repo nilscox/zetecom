@@ -1,14 +1,14 @@
 import { getRepository, Repository } from 'typeorm';
 
-import { createAuthenticatedModerator, createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
-import { AuthenticationModule } from '../authentication/authentication.module';
-import { Comment } from '../comment/comment.entity';
-import { CommentFactory } from '../comment/comment.factory';
-import { CommentModule } from '../comment/comment.module';
-import { Report, ReportModerationAction } from '../comment/report/report.entity';
-import { ReportFactory } from '../comment/report/report.factory';
-import { UserFactory } from '../user/user.factory';
-import { UserModule } from '../user/user.module';
+import { AuthenticationModule } from 'src/modules/authentication/authentication.module';
+import { Comment } from 'src/modules/comment/comment.entity';
+import { CommentFactory } from 'src/modules/comment/comment.factory';
+import { CommentModule } from 'src/modules/comment/comment.module';
+import { Report, ReportModerationAction } from 'src/modules/comment/report/report.entity';
+import { ReportFactory } from 'src/modules/comment/report/report.factory';
+import { UserFactory } from 'src/modules/user/user.factory';
+import { UserModule } from 'src/modules/user/user.module';
+import { createAuthenticatedModerator, createAuthenticatedUser, setupE2eTest } from 'src/testing/setup-e2e-test';
 
 import { ModerationModule } from './moderation.module';
 

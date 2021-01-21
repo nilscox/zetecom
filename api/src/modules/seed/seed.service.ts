@@ -6,8 +6,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import glob from 'glob';
 import { Connection, Repository } from 'typeorm';
 
-import { ConfigService } from '../config/config.service';
-import { LoggerService } from '../logger/logger.service';
+import { ConfigService } from 'src/modules/config/config.service';
+import { LoggerService } from 'src/modules/logger/logger.service';
 
 import { Seed } from './seed.entity';
 import { Seed as ISeed } from './seed.interface';

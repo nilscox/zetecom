@@ -1,10 +1,10 @@
 import request from 'supertest';
 import { getCustomRepository, getRepository, Repository } from 'typeorm';
 
-import { createAuthenticatedUser, setupE2eTest } from '../../testing/setup-e2e-test';
-import { AuthenticationModule } from '../authentication/authentication.module';
-import { CommentsArea } from '../comments-area/comments-area.entity';
-import { CommentsAreaFactory } from '../comments-area/comments-area.factory';
+import { AuthenticationModule } from 'src/modules/authentication/authentication.module';
+import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { CommentsAreaFactory } from 'src/modules/comments-area/comments-area.factory';
+import { createAuthenticatedUser, setupE2eTest } from 'src/testing/setup-e2e-test';
 
 import { Comment } from './comment.entity';
 import { CommentFactory } from './comment.factory';

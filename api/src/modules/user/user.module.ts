@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AvatarModule } from '../avatar/avatar.module';
-import { AvatarMulterModule } from '../avatar/avatar.multer-module';
-import { ConfigModule } from '../config/config.module';
-import { EmailModule } from '../email/email.module';
+import { AvatarModule } from 'src/modules/avatar/avatar.module';
+import { AvatarMulterModule } from 'src/modules/avatar/avatar.multer-module';
+import { ConfigModule } from 'src/modules/config/config.module';
+import { EmailModule } from 'src/modules/email/email.module';
 
 import { UserController } from './user.controller';
 import { User } from './user.entity';

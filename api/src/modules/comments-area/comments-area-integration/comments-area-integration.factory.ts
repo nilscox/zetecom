@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 
-import { Factory } from '../../../testing/factory';
-import { CommentsAreaFactory } from '../comments-area.factory';
+import { CommentsAreaFactory } from 'src/modules/comments-area/comments-area.factory';
+import { Factory } from 'src/testing/factory';
 
 import { CommentsAreaIntegration } from './comments-area-integration.entity';
 

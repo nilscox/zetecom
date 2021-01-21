@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import nodemailer from 'nodemailer';
 
-import { ConfigService } from '../config/config.service';
-import { User } from '../user/user.entity';
+import { ConfigService } from 'src/modules/config/config.service';
+import { User } from 'src/modules/user/user.entity';
 
 import EmailRendererService from './email-renderer.service';
 

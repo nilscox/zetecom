@@ -1,7 +1,7 @@
 import { Expose, Type } from 'class-transformer';
 
-import { UserLightDto } from '../../../user/dtos/user-ligth.dto';
-import { User } from '../../../user/user.entity';
+import { UserLightDto } from 'src/modules/user/dtos/user-ligth.dto';
+import { User } from 'src/modules/user/user.entity';
 
 export class ReportDto {
 
