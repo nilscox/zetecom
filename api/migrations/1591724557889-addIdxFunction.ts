@@ -17,7 +17,6 @@ DROP FUNCTION idx;
 `;
 
 export class AddIdxFunction1591724557889 implements MigrationInterface {
-
   name = 'addIdxFunction1591724557889';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -27,5 +26,4 @@ export class AddIdxFunction1591724557889 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(down);
   }
-
 }

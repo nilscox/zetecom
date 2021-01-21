@@ -13,7 +13,7 @@
     "test:unit": "NODE_ENV=test jest --config ./jest/jest-unit.config.js",
     "test:intg": "NODE_ENV=test jest --config ./jest/jest-intg.config.js --runInBand",
     "test:e2e": "NODE_ENV=test jest --config ./jest/jest-e2e.config.js --runInBand",
-    "typeorm": "ts-node ./node_modules/typeorm/cli.js",
+    "typeorm": "ts-node --require module-alias/register ./node_modules/typeorm/cli.js",
     "db:drop": "yarn typeorm schema:drop",
     "db:migrate": "yarn typeorm migration:run",
     "db:reset": "yarn db:drop && yarn db:migrate && yarn db:seed",
