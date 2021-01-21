@@ -22,5 +22,5 @@
     }
   },
   "exclude": ["node_modules/*"],
-  "include": ["src/**/*", "migrations/*", "seeds/*", "scripts/**/*"]
+  "include": ["src/**/*", "migrations/*", "seeds/*"]
 }
