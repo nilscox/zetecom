@@ -76,7 +76,7 @@ export const visitIntegration = async (identifier: string, pageUrl: string) => {
 export const visitPopup = async (path = '') => {
   await iframe.navigate('http://localhost:8000/popup' + path);
   const queries = getQueriesForIframe();
-  await waitFor(() => expect(iframe.location?.pathname).to.eql('/popup/connexion'));
+  await waitFor(() => expect(queries.getByText("L'information")).to.be.visible);
   return queries;
 };
 

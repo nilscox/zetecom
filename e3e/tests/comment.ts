@@ -625,7 +625,7 @@ describe('Comment', () => {
       expect(notifications).to.have.property('total', 1);
       expect(notifications).to.have.property('items').that.have.length(1);
 
-      const notification = notifications.items[0];
+      const [notification] = notifications.items;
       expect(notification).to.have.property('seen', false);
       expect(notification).to.have.property('type', 'subscriptionReply');
       expect(notification).to.have.nested.property('payload.commentsAreaId', commentsAreaId);

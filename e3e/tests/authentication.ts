@@ -3,10 +3,11 @@ import { expect } from 'chai';
 import { IFrame } from 'testea';
 import { seed, User } from './api/seed';
 
-import { clear, click, expectEvent, type, visitPopup, within } from './utils';
+import { clear, click, expectEvent, type, visitPopup, wait, within } from './utils';
 
 import users from './fixtures/users.json';
 import { flushEmails, getEmails, viewEmail } from './utils/emails';
+import { login } from './api/auth';
 
 const [, , me, user1] = users as User[];
 
@@ -91,17 +92,17 @@ describe('authentication', () => {
     getByText(/Il est important que chaque membre ait pris connaissance de la charte\./);
 
     click(acceptRulesCheckbox);
-    // expect(acceptRulesCheckbox).to.have.attr('checked');
 
     expect(signupButton).not.to.have.attr('disabled');
     click(signupButton);
 
+    // emails can take a while to be sent in CI
+    await wait(500);
     await expectEvent({ category: 'Authentication', action: 'Signup', name: 'Signup From Popup' });
 
     const emails = await getEmails();
 
     expect(emails).to.have.lengthOf(1);
-
     await viewEmail(emails[0].id);
 
     await within(iframe.document!.body!, async ({ findAllByText, getByRole }) => {
@@ -110,6 +111,55 @@ describe('authentication', () => {
       await iframe.navigate(link.getAttribute('href') as string);
     });
 
+    await within(iframe.document!.body!).findByText(user1.nick);
     await within(iframe.document!.body!).findByText('Votre adresse email a été validée ! 🎉');
+  });
+
+  it('logout', async () => {
+    await login(me);
+    const { getByRole, findByText } = await visitPopup();
+
+    await findByText(me.nick);
+
+    click(getByRole('button', { name: 'Déconnexion' }));
+
+    await expectEvent({ category: 'Authentication', action: 'Logout', name: 'Logout From Popup' });
+
+    expect(iframe.location?.pathname).to.eql('/popup/connexion');
+
+    await iframe.reload();
+    await waitFor(() => expect(iframe.location?.pathname).to.eql('/popup/connexion'));
+  });
+
+  it('email login', async () => {
+    const { getByRole, getByPlaceholderText, findByText } = await visitPopup();
+
+    click(getByRole('link', { name: 'Mot de passe oublié' }));
+
+    const emailField = getByPlaceholderText('Adresse email');
+
+    await type(emailField, me.email);
+    click(getByRole('button', { name: 'Envoyer' }));
+
+    await findByText("Si un compte est associé à l'adresse me@domain.tld, l'email de connexion a bien été envoyé.");
+
+    await expectEvent({ category: 'Authentication', action: 'Ask Email Login', name: 'Ask Email Login From Popup' });
+
+    // login email are sent asynchronously
+    await wait(500);
+
+    const emails = await getEmails();
+
+    expect(emails).to.have.lengthOf(1);
+    await viewEmail(emails[0].id);
+
+    await within(iframe.document!.body!, async ({ findAllByText, getByRole }) => {
+      findAllByText('Connexion par email');
+      const link = getByRole('link', { name: 'Je me connecte' });
+      await iframe.navigate(link.getAttribute('href') as string);
+    });
+
+    await within(iframe.document!.body!).findByText(me.nick);
+    await within(iframe.document!.body!).findByText(/Vous êtes maintenant connecté\.e\./);
   });
 });
