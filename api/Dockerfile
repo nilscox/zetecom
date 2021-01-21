@@ -18,9 +18,9 @@ RUN yarn build
 RUN yarn lint
 RUN yarn test:unit
 
-FROM node:14-alpine as runtime
+FROM node:14-slim as runtime
 
-RUN apk update && apk add git
+# RUN apt update
 
 WORKDIR /app
 COPY --from=build /app/dist /app
