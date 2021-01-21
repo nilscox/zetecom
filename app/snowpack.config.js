@@ -1,8 +1,13 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 
+const PnpWebpackPlugin = require(`pnp-webpack-plugin`);
+
 module.exports = {
   packageOptions: {
     polyfillNode: true,
+    rollup: {
+      plugins: [require('rollup-plugin-pnp-resolve')()],
+    },
   },
   devOptions: {
     open: 'none',
@@ -10,7 +15,7 @@ module.exports = {
   },
   routes: [{ match: 'routes', src: '.*', dest: '/index.html' }],
   buildOptions: {
-    clean: true,
+    // clean: true,
     sourcemap: true,
   },
   plugins: [
@@ -20,7 +25,11 @@ module.exports = {
     [
       '@snowpack/plugin-webpack',
       {
-        sourceMap: true,
+        extendConfig: config => {
+          config.resolve = { plugins: [PnpWebpackPlugin] };
+          config.resolveLoader = { plugins: [PnpWebpackPlugin.moduleLoader(module)] };
+          return config;
+        },
       },
     ],
   ],
@@ -31,11 +40,9 @@ module.exports = {
   alias: {
     src: './src',
   },
-  // experiments: {
-  //   optimize: {
-  //     bundle: true,
-  //     minify: true,
-  //     target: 'es2020',
-  //   },
+  // optimize: {
+  //   bundle: true,
+  //   minify: true,
+  //   target: 'es2020',
   // },
 };

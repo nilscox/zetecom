@@ -3310,16 +3310,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react-hooks@npm:^3.7.0":
-  version: 3.7.0
-  resolution: "@testing-library/react-hooks@npm:3.7.0"
+"@testing-library/react-hooks@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@testing-library/react-hooks@npm:5.0.0"
   dependencies:
     "@babel/runtime": ^7.12.5
-    "@types/testing-library__react-hooks": ^3.4.0
+    "@types/react": ">=16.9.0"
+    "@types/react-dom": ">=16.9.0"
+    "@types/react-test-renderer": ">=16.9.0"
+    filter-console: ^0.1.1
+    react-error-boundary: ^3.1.0
   peerDependencies:
     react: ">=16.9.0"
+    react-dom: ">=16.9.0"
     react-test-renderer: ">=16.9.0"
-  checksum: 0ab518489cb5a141f82cf26ddaf2e35dcdc87685ce14c2084dea3cd1734c877793a873fe75c0aa75b8b455eced58cd1eab49001194f8a9557d93b068582dfd5f
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-test-renderer:
+      optional: true
+  checksum: 69b856d1dda147d640dd1ae092c4a77464ee7fbf26b37e2d46080ba779833c8c75d0027171ba5da2036f0277c3d4926cde09039e78397e716e1b69dfeaa0e408
   languageName: node
   linkType: hard
 
@@ -3583,6 +3593,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^14.14.22":
+  version: 14.14.22
+  resolution: "@types/node@npm:14.14.22"
+  checksum: e46e32685b4d0261779c13c10ba3ff220cfa714b5c12f8f571fd52cc309546bdbc8ffc86cbad20559ad88e7b17e66fc51c98b067d8c3766597092c05df157b9b
+  languageName: node
+  linkType: hard
+
 "@types/normalize-package-data@npm:^2.4.0":
   version: 2.4.0
   resolution: "@types/normalize-package-data@npm:2.4.0"
@@ -3659,7 +3676,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^17.0.0":
+"@types/react-dom@npm:>=16.9.0, @types/react-dom@npm:^17.0.0":
   version: 17.0.0
   resolution: "@types/react-dom@npm:17.0.0"
   dependencies:
@@ -3689,6 +3706,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-router@npm:^5.1.11":
+  version: 5.1.11
+  resolution: "@types/react-router@npm:5.1.11"
+  dependencies:
+    "@types/history": "*"
+    "@types/react": "*"
+  checksum: 330389d79802c516d9217ae3dd959425cd7104fba9cf7ab84bf4ee706ab3f0a4f8dc1d9deb0cef63519f7da068c53ac79590cac2755170c7c9fcb67d603ffe08
+  languageName: node
+  linkType: hard
+
 "@types/react-syntax-highlighter@npm:11.0.4":
   version: 11.0.4
   resolution: "@types/react-syntax-highlighter@npm:11.0.4"
@@ -3698,12 +3725,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-test-renderer@npm:*":
-  version: 16.9.3
-  resolution: "@types/react-test-renderer@npm:16.9.3"
+"@types/react-test-renderer@npm:>=16.9.0":
+  version: 17.0.0
+  resolution: "@types/react-test-renderer@npm:17.0.0"
   dependencies:
     "@types/react": "*"
-  checksum: 43465f5866e2636170ce8baa519aaccc3fee65bb6a312ce7099a29f88b65d10b0b2db0062e81c9aa26f6cfe17ed879a6963ef84442e57496f588c995b5c713aa
+  checksum: 4931f75cfd17a43d257e9b6a021d1b01f8c859e8ee76353ab881cc3a8f6842c238b68ed643cfd69998193a16536b31f9dae329d8beca1e7c8425f6663f853750
   languageName: node
   linkType: hard
 
@@ -3732,6 +3759,16 @@ __metadata:
     "@types/prop-types": "*"
     csstype: ^3.0.2
   checksum: 2244f20526c284e3d81ff50422222fce609034f4a1e29ea71733ab9e2c2c9894f062e4a270e327d5a81d11b02a6de24e418babcfb039a7139549b21179fc1942
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:>=16.9.0, @types/react@npm:^17.0.0":
+  version: 17.0.0
+  resolution: "@types/react@npm:17.0.0"
+  dependencies:
+    "@types/prop-types": "*"
+    csstype: ^3.0.2
+  checksum: dcef2034b822a949c5528fa8fa3c64da654fdbb822bd8f0488c0084d84cadb8b90af68813a6c95153d4754079f50b1cab206552c7c20f6b67a26c3641383fe31
   languageName: node
   linkType: hard
 
@@ -3785,15 +3822,6 @@ __metadata:
   dependencies:
     "@types/jest": "*"
   checksum: d7505891cc04c51c373d0139980a3f9052ca7f2ab8882809c2715c0d6bff941f2e6e7b1e998ca2ed8312a5053e3aef0ae72f104d93cbf1f1514460073affb3ff
-  languageName: node
-  linkType: hard
-
-"@types/testing-library__react-hooks@npm:^3.4.0":
-  version: 3.4.1
-  resolution: "@types/testing-library__react-hooks@npm:3.4.1"
-  dependencies:
-    "@types/react-test-renderer": "*"
-  checksum: dba2d75c168f6377cb4bbb5443b4238bb0db85271998ef5d9297ee13719df044b0f0af088eb15dca14f8551cee88c6587ce85d9d60f5c7c1e218d50aa63395a5
   languageName: node
   linkType: hard
 
@@ -6448,6 +6476,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"core-js@npm:^3.8.3":
+  version: 3.8.3
+  resolution: "core-js@npm:3.8.3"
+  checksum: 3c67d1732d505f6afaf836f18038dae8267e8c0e8e84e1c679bac67589e66d0807c24750c7d8b1118cc386c3d66a1d96f20d9cb0f6a879b19cfc04e9f073fe78
+  languageName: node
+  linkType: hard
+
 "core-util-is@npm:1.0.2, core-util-is@npm:~1.0.0":
   version: 1.0.2
   resolution: "core-util-is@npm:1.0.2"
@@ -8506,6 +8541,13 @@ __metadata:
   dependencies:
     to-regex-range: ^5.0.1
   checksum: efca43d59b487ad4bc0b2b1cb9e51617c75a7b0159db51fa190c75c3d634ea5fad1ff4750d7c14346add4cd065e3c46e8f99af333edf2b4ec2a424f87e491a85
+  languageName: node
+  linkType: hard
+
+"filter-console@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "filter-console@npm:0.1.1"
+  checksum: f9def51f7ece9c9c469f78e1551ce33dfde02fd32bd70a6fbe8da4a9377ebb65a2a4fc6196ebf8e6ea8668a5465bde7fe3459101d1042e73bb9e3e1eb3f22fb6
   languageName: node
   linkType: hard
 
@@ -13239,7 +13281,7 @@ fsevents@^2.2.0:
   languageName: node
   linkType: hard
 
-"pnp-webpack-plugin@npm:1.6.4":
+"pnp-webpack-plugin@npm:1.6.4, pnp-webpack-plugin@npm:^1.6.4":
   version: 1.6.4
   resolution: "pnp-webpack-plugin@npm:1.6.4"
   dependencies:
@@ -14252,6 +14294,17 @@ fsevents@^2.2.0:
   languageName: node
   linkType: hard
 
+"react-error-boundary@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "react-error-boundary@npm:3.1.0"
+  dependencies:
+    "@babel/runtime": ^7.12.5
+  peerDependencies:
+    react: ">=16.13.1"
+  checksum: 0df44cd3ac6fb9990b500eb052544cbf166bf5b544ca415fd8ed3c39b67daf5376c977ee03da4a34478af22809fe99a82a7ed53719b8a16c87ad53211508b461
+  languageName: node
+  linkType: hard
+
 "react-error-overlay@npm:^6.0.7":
   version: 6.0.7
   resolution: "react-error-overlay@npm:6.0.7"
@@ -14442,7 +14495,7 @@ fsevents@^2.2.0:
   languageName: node
   linkType: hard
 
-"react-router@npm:5.2.0":
+"react-router@npm:5.2.0, react-router@npm:^5.2.0":
   version: 5.2.0
   resolution: "react-router@npm:5.2.0"
   dependencies:
@@ -15134,6 +15187,13 @@ resolve@^1.18.1:
     hash-base: ^3.0.0
     inherits: ^2.0.1
   checksum: e0370fbe779b1f15d74c3e7dffc0ce40b57b845fc7e431fab8a571958d5fd9c91eb0038a252604600e20786d117badea0cc4cf8816b8a6be6b9166b565ad6797
+  languageName: node
+  linkType: hard
+
+"rollup-plugin-pnp-resolve@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "rollup-plugin-pnp-resolve@npm:2.0.0"
+  checksum: 6fd37cfa9f5191920defd57c778c7b3eab784eb2743669c89e0903b169e08edcb3f6485115c5e7a4be42d22172f97c86bc950129e2f6d8b155efb7a9d132bf0b
   languageName: node
   linkType: hard
 
@@ -17830,12 +17890,15 @@ typescript@^4.1.3:
     "@testing-library/dom": ^7.29.0
     "@testing-library/jest-dom": ^5.11.6
     "@testing-library/react": ^11.2.2
-    "@testing-library/react-hooks": ^3.7.0
+    "@testing-library/react-hooks": ^5.0.0
     "@testing-library/user-event": ^12.6.0
     "@types/diff": ^4.0.2
     "@types/jest": ^26.0.19
     "@types/lru-cache": ^5.1.0
+    "@types/node": ^14.14.22
+    "@types/react": ^17.0.0
     "@types/react-dom": ^17.0.0
+    "@types/react-router": ^5.1.11
     "@types/react-router-dom": ^5.1.5
     "@types/showdown": ^1.9.3
     "@types/snowpack-env": ^2.3.3
@@ -17845,6 +17908,7 @@ typescript@^4.1.3:
     axios-hooks: 2.2.0
     class-transformer: ^0.3.1
     clsx: ^1.1.0
+    core-js: ^3.8.3
     date-fns: ^2.16.1
     dayjs: ^1.9.7
     diff: ^5.0.0
@@ -17859,15 +17923,18 @@ typescript@^4.1.3:
     jest: ^26.6.3
     jest-mock-axios: ^4.0.0
     nyc: ^15.1.0
+    pnp-webpack-plugin: ^1.6.4
     prop-types: ^15.7.2
     query-string: ^6.13.7
     react: ^17.0.1
     react-dom: ^17.0.1
+    react-router: ^5.2.0
     react-router-dom: ^5.2.0
     react-test-renderer: ^17.0.1
     react-toastify: ^6.2.0
     react-use-form-state: ^0.13.1
     reflect-metadata: ^0.1.13
+    rollup-plugin-pnp-resolve: ^2.0.0
     showdown: ^1.9.0
     snowpack: ^3.0.11
     source-map-support: ^0.5.19

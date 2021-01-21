@@ -12,25 +12,15 @@ ENV SNOWPACK_PUBLIC_DEBUG '__DEBUG__'
 RUN mkdir /app
 WORKDIR /app
 
-COPY package.json /app
-COPY yarn.lock /app
+COPY . /app
 
-RUN yarn --production=false --frozen-lockfile
-
-COPY public /app/public
-COPY src /app/src
-
-COPY snowpack.config.js tsconfig.json /app/
 RUN yarn build
-RUN cp -r build instrumented && yarn nyc instrument --in-place instrumented
-
-COPY .eslintignore .eslintrc.json .eslintrc.ci.json /app/
 RUN yarn lint
-
-COPY jest.config.js jest.setup.ts /app/
 RUN yarn test
 
-FROM nginx
+RUN cp -r build instrumented && yarn nyc instrument --in-place instrumented
+
+FROM nginx:alpine
 
 #RUN apt-get update
 #RUN apt-get install curl procps lsof
