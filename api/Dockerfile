@@ -24,6 +24,7 @@ RUN apk update && apk add git
 
 WORKDIR /app
 COPY --from=build /app/dist /app
+COPY --from=build /app/yarn.lock /app
 COPY --from=build /app/ormconfig.js /app
 
 RUN yarn --frozen-lockfile
