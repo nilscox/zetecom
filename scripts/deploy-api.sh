@@ -60,7 +60,6 @@ deploy_api() {
     --env $(sshenv LOG_LEVEL) \
     --env $(sshenv TRUST_PROXY) \
     --env $(sshenv REFLECT_ORIGIN) \
-    --env $(sshenv BYPASS_AUTHORIZATIONS) \
     --env $(sshenv ADMIN_USER) \
     --env $(sshenv APP_URL) \
     --env $(sshenv WEBSITE_URL) \

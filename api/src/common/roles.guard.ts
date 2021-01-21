@@ -3,39 +3,26 @@ import { Reflector } from '@nestjs/core';
 
 import { AuthorizationService } from '../modules/authorization/authorization.service';
 import { Role } from '../modules/authorization/roles.enum';
-import { ConfigService } from '../modules/config/config.service';
 import { User } from '../modules/user/user.entity';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
+  constructor(private readonly reflector: Reflector, private readonly authorizationService: AuthorizationService) {}
 
-  constructor(
-    private readonly configService: ConfigService,
-    private readonly reflector: Reflector,
-    private readonly authorizationService: AuthorizationService,
-  ) {}
-
-  async canActivate(
-    context: ExecutionContext,
-  ): Promise<boolean> {
-    const BYPASS_AUTHORIZATIONS = this.configService.get('BYPASS_AUTHORIZATIONS');
-
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const roles = this.reflector.get<Role[]>('roles', context.getHandler());
 
-    // TODO: better roles handling in tests
-    if (BYPASS_AUTHORIZATIONS === 'true')
+    if (!roles) {
       return true;
-
-    if (!roles)
-      return true;
+    }
 
     const request = context.switchToHttp().getRequest();
     const user: User | undefined = request.user;
 
-    if (!user)
+    if (!user) {
       return Promise.resolve(false);
+    }
 
     return this.authorizationService.isAuthorized(user, roles);
   }
-
 }

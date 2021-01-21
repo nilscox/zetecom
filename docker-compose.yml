@@ -65,8 +65,8 @@ services:
       EMAIL_USER: username
       EMAIL_PASSWORD: password
       EMAIL_SECURE: password
-      EMAIL_BYPASS: "true"
-      EMAIL_ACCOUNT_VERIFICATION: "false"
+      EMAIL_BYPASS: "false"
+      EMAIL_ACCOUNT_VERIFICATION: "true"
       EMAIL_FROM: "Zétécom <contact@zetecom.fr>"
       SESSION_SECRET: sekret
       SECURE_COOKIE: "false"

@@ -11,7 +11,6 @@ services:
       yarn nyc --silent node src/main"
     environment:
       CI: 'true'
-      BYPASS_AUTHORIZATIONS: 'true'
       DB_NAME: e2e
       DB_NAME_ROOT: postgres
 
