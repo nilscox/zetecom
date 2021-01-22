@@ -12,7 +12,8 @@ ENV SNOWPACK_PUBLIC_DEBUG '__DEBUG__'
 RUN mkdir /app
 WORKDIR /app
 
-COPY package.json yarn.lock /app/
+COPY package.json yarn.lock .yarnrc.yml /app/
+COPY .yarn /app/.yarn
 RUN yarn install
 
 COPY . /app
