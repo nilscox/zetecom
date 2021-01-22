@@ -14,6 +14,7 @@ WORKDIR /app
 
 COPY . /app
 
+RUN yarn install
 RUN yarn build
 RUN yarn lint
 RUN yarn test
