@@ -84,7 +84,7 @@ export class Notification<T extends NotificationType> {
 
   created: Date;
 
-  @Transform(value => typeof value === 'string' && new Date(value))
+  @Transform(({ value }) => typeof value === 'string' && new Date(value))
   seen: Date | false;
 
   @Transform(transformNotificationPayload)
