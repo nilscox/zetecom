@@ -1,8 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
-import { Type } from 'class-transformer';
-import { ClassType } from 'class-transformer/ClassTransformer';
+import { Type, ClassConstructor } from 'class-transformer';
 
 import useAxios, { AxiosHooksOptions } from 'src/hooks/use-axios';
 import useUpdateEffect from 'src/hooks/use-update-effect';
@@ -13,7 +12,7 @@ type Paginated<T> = {
   total: number;
 };
 
-const usePaginatedClass = <T>(cls?: ClassType<T>) => {
+const usePaginatedClass = <T>(cls?: ClassConstructor<T>) => {
   return useMemo(() => {
     if (!cls) {
       return;
@@ -30,7 +29,7 @@ const usePaginatedClass = <T>(cls?: ClassType<T>) => {
   }, [cls]);
 };
 
-export default function useAxiosPaginated<T>(url: string, options?: AxiosHooksOptions, cls?: ClassType<T>) {
+export default function useAxiosPaginated<T>(url: string, options?: AxiosHooksOptions, cls?: ClassConstructor<T>) {
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortType | undefined>();
   const [page, setPage] = useState(1);

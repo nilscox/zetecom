@@ -31,7 +31,7 @@ export class Comment {
   @Type(() => Date)
   date: Date;
 
-  @Transform(value => value !== false && new Date(value))
+  @Transform(({ value }) => typeof value === 'string' && new Date(value))
   edited: false | Date;
 
   repliesCount: number;

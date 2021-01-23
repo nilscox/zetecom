@@ -1,5 +1,5 @@
-import { plainToClass, Transform, Type } from 'class-transformer';
-import { TransformationType } from 'class-transformer/enums';
+import { plainToClass, Transform, TransformFnParams, Type } from 'class-transformer';
+import { TransformationType } from 'class-transformer';
 
 import { UserLight } from './User';
 
@@ -51,11 +51,7 @@ type MapNotificationPayload = {
 
 export type NotificationType = keyof MapNotificationPayload;
 
-const transformNotificationPayload = (
-  value: unknown,
-  { type }: Notification<NotificationType>,
-  transform: TransformationType,
-) => {
+const transformNotificationPayload = ({ type: transform, value, obj: { type } }: TransformFnParams) => {
   if (transform === TransformationType.CLASS_TO_CLASS) {
     return value;
   }
@@ -88,7 +84,7 @@ export class Notification<T extends NotificationType> {
 
   created: Date;
 
-  @Transform(value => value !== false && new Date(value))
+  @Transform(value => typeof value === 'string' && new Date(value))
   seen: Date | false;
 
   @Transform(transformNotificationPayload)

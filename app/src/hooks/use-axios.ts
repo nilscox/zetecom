@@ -2,8 +2,7 @@ import { useCallback, useMemo } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 import useAxiosHook from 'axios-hooks';
-import { plainToClass } from 'class-transformer';
-import { ClassType } from 'class-transformer/ClassTransformer';
+import { plainToClass, ClassConstructor } from 'class-transformer';
 
 export type AxiosHooksOptions = {
   manual?: boolean;
@@ -13,7 +12,7 @@ export type AxiosHooksOptions = {
 export default function useAxios<T>(
   config: AxiosRequestConfig | string,
   options: AxiosHooksOptions = {},
-  cls?: ClassType<T>,
+  cls?: ClassConstructor<T>,
 ) {
   if (typeof options.useCache === 'undefined') {
     options.useCache = false;
