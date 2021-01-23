@@ -31,12 +31,9 @@ type Template<P extends EmailPayload> = {
 
 @Injectable()
 class EmailRendererService {
-
   private templates?: { [key in EmailTemplate]: Template<EmailPayload> };
 
-  constructor(
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(private readonly configService: ConfigService) {}
 
   private renderMjml(mjml: string) {
     const NODE_ENV = this.configService.get('NODE_ENV');
@@ -46,7 +43,6 @@ class EmailRendererService {
         'Nunito Sans': 'https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700',
         'Noticia Text': 'https://fonts.googleapis.com/css2?family=Noticia+Text:wght@700',
       },
-      beautify: NODE_ENV !== 'production',
       minify: NODE_ENV === 'production',
       validationLevel: 'strict',
       filePath: path.join(__dirname, 'templates'),
@@ -73,9 +69,11 @@ class EmailRendererService {
   async onInit() {
     const templates = {};
 
-    await Promise.all(emailTemplates.map(async template => {
-      templates[template] = await this.loadTemplate(template);
-    }));
+    await Promise.all(
+      emailTemplates.map(async (template) => {
+        templates[template] = await this.loadTemplate(template);
+      }),
+    );
 
     this.templates = templates as { [key in EmailTemplate]: Template<EmailPayload> };
   }
@@ -104,7 +102,6 @@ class EmailRendererService {
       text: text({ ...env, ...payload }),
     };
   }
-
 }
 
 export default EmailRendererService;

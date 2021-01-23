@@ -85,7 +85,7 @@ export class NotificationDto {
   payload: NotificationPayload;
 
   @Expose()
-  @Transform((value) => value || false)
+  @Transform(({ value }) => value || false)
   seen: Date | false;
 
   @Expose()
