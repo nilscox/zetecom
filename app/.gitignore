@@ -6,7 +6,7 @@
 !.yarn/versions
 
 node_modules
-build
+dist
 instrumented
 coverage
 .env

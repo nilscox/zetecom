@@ -1,11 +1,11 @@
 const env: Record<string, string> = {
-  NODE_ENV: import.meta.env.NODE_ENV,
-  API_URL: import.meta.env.SNOWPACK_PUBLIC_API_URL,
-  WEBSITE_URL: import.meta.env.SNOWPACK_PUBLIC_WEBSITE_URL,
-  ANALYTICS_URL: import.meta.env.SNOWPACK_PUBLIC_ANALYTICS_URL,
-  ANALYTICS_SITE_ID: import.meta.env.SNOWPACK_PUBLIC_ANALYTICS_SITE_ID,
-  SENTRY_DSN: import.meta.env.SNOWPACK_PUBLIC_SENTRY_DSN,
-  DEBUG: import.meta.env.SNOWPACK_PUBLIC_DEBUG,
+  NODE_ENV: process.env.NODE_ENV,
+  API_URL: process.env.API_URL,
+  WEBSITE_URL: process.env.WEBSITE_URL,
+  ANALYTICS_URL: process.env.ANALYTICS_URL,
+  ANALYTICS_SITE_ID: process.env.ANALYTICS_SITE_ID,
+  SENTRY_DSN: process.env.SENTRY_DSN,
+  DEBUG: process.env.DEBUG,
 };
 
 export type EnvironmentVariable = keyof typeof env;
