@@ -22,7 +22,7 @@ RUN yarn build
 RUN yarn lint
 RUN yarn test
 
-RUN cp -r dist instrumented && yarn nyc instrument --in-place instrumented
+# RUN cp -r dist instrumented && yarn nyc instrument --in-place instrumented
 
 FROM nginx:alpine
 
@@ -40,6 +40,7 @@ RUN mkdir -p /var/www
 WORKDIR /var/www/zc-app
 
 COPY --from=0 /app/dist /var/www/zc-app
-COPY --from=0 /app/instrumented /var/www/zc-app_instrumented
+COPY --from=0 /app/dist /var/www/zc-app_instrumented
+# COPY --from=0 /app/instrumented /var/www/zc-app_instrumented
 
 CMD /start.sh
