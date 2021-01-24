@@ -40,7 +40,7 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
             loader: 'esbuild-loader',
             options: {
               loader: 'tsx',
-              target: 'es2015',
+              target: 'es2020',
               tsconfigRaw: require('../tsconfig.json'),
             },
           },

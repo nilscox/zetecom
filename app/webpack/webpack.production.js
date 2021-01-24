@@ -16,7 +16,12 @@ module.exports = ({ OUTPUT_PATH }) => ({
     minimize: true,
     minimizer: [
       new ESBuildMinifyPlugin({
-        target: 'es2015',
+        target: 'es2020',
+        minify: false,
+        minifyWhitespace: true,
+        minifyIdentifiers: true,
+        // this breaks nyc instrument
+        // minifySyntax: true,
       }),
     ],
   },
