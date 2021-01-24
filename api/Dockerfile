@@ -15,8 +15,6 @@ RUN yarn --production=false --frozen-lockfile
 ADD . /app
 
 RUN yarn build
-RUN yarn lint
-RUN yarn test:unit
 
 FROM node:14-slim as runtime
 

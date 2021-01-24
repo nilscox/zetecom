@@ -19,8 +19,6 @@ RUN yarn install
 COPY . /app
 
 RUN yarn build
-RUN yarn lint
-RUN yarn test
 
 # RUN cp -r dist instrumented && yarn nyc instrument --in-place instrumented
 
