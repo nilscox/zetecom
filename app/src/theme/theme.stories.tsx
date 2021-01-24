@@ -14,15 +14,13 @@ const fontWeights: Record<string, number> = {
   bold: 700,
 };
 
-const Color: React.FC<{ border?: boolean, name: string, color: string }> = ({ border, name, color }) => {
+const Color: React.FC<{ border?: boolean; name: string; color: string }> = ({ border, name, color }) => {
   const { spacing } = useTheme();
 
   return (
     <div style={{ width: 300, display: 'flex', flexDirection: 'row', alignItems: 'center', margin: spacing(4, 0) }}>
       <div style={{ width: 68, height: 42, ...(border ? { border: `1px solid ${color}` } : { background: color }) }} />
-      <Typography style={{ marginLeft: spacing(2), color }}>
-        {name}
-      </Typography>
+      <Typography style={{ marginLeft: spacing(2), color }}>{name}</Typography>
     </div>
   );
 };
@@ -49,7 +47,7 @@ export const Colors = () => {
 };
 
 export const Fonts = () => {
-  const fonts = ['Noticia Text', 'Nunito Sans'];
+  const fonts = ['Noticia Text', 'Montserrat'];
   const fontSize = number('font-size', 22, { min: 6, max: 72 });
   const fontWeight = select<CSSProperties['fontWeight']>('font-weight', fontWeights, 400);
   const italic = boolean('italic', false);

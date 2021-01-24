@@ -4,6 +4,9 @@ import grey from '@material-ui/core/colors/grey';
 import orange from '@material-ui/core/colors/orange';
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
 
+import 'fontsource-montserrat';
+import 'fontsource-noticia-text';
+
 const createTheme = (): Theme => {
   const theme = createMuiTheme({
     spacing: 4,
@@ -40,7 +43,7 @@ const createTheme = (): Theme => {
     },
 
     typography: {
-      fontFamily: ['"Nunito Sans"', 'sans-serif'].join(', '),
+      fontFamily: ['Montserrat', 'sans-serif'].join(', '),
     },
   });
 

@@ -40,7 +40,7 @@ class EmailRendererService {
 
     const { html, errors } = mjml2html(mjml, {
       fonts: {
-        'Nunito Sans': 'https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700',
+        Montserrat: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700',
         'Noticia Text': 'https://fonts.googleapis.com/css2?family=Noticia+Text:wght@700',
       },
       minify: NODE_ENV === 'production',
