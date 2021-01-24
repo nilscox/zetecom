@@ -72,7 +72,7 @@ describe('authentication', () => {
   });
 
   it('signup', async () => {
-    const { getByRole, getByPlaceholderText, getByText } = await visitPopup();
+    const { getByRole, getByPlaceholderText, getByText, findByText } = await visitPopup();
 
     click(getByRole('link', { name: 'Créer un compte' }));
 
@@ -99,6 +99,8 @@ describe('authentication', () => {
     // emails can take a while to be sent in CI
     await wait(500);
     await expectEvent({ category: 'Authentication', action: 'Signup', name: 'Signup From Popup' });
+
+    await findByText('Pour finaliser votre inscription, un email vous a été envoyé à ' + user1.email);
 
     const emails = await getEmails();
 
