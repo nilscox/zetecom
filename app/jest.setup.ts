@@ -5,5 +5,3 @@ import utc from 'dayjs/plugin/utc';
 
 dayjs.extend(utc);
 dayjs.locale('fr');
-
-jest.mock('src/utils/env');
