@@ -20,7 +20,7 @@ const useStyles = makeStyles(({ palette: { border }, spacing, breakpoints }) => 
   },
   left: {
     flexGrow: 1,
-    padding: spacing(2),
+    padding: spacing(1.5),
     [breakpoints.down('xs')]: {
       padding: spacing(1),
     },

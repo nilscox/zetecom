@@ -14,6 +14,7 @@ const useStyles = makeStyles<Theme, { displayReplies?: boolean }>(({ palette, br
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    color: palette.text.secondary,
   },
   repliesCount: {
     fontWeight: 'bold',

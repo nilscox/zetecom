@@ -19,7 +19,7 @@ const MarkdownMessage: React.FC<MarkdownMessageProps> = ({ markdown, highlight, 
   const html = useMemo(() => converter.makeHtml(markdown), [markdown, highlight]);
 
   return (
-    <Box padding={1} minHeight={minHeight}>
+    <Box padding={2} minHeight={minHeight}>
       <Typography className={clsx('markdown-github', className)} dangerouslySetInnerHTML={{ __html: html }} />
     </Box>
   );

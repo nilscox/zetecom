@@ -29,7 +29,7 @@ const useStyles = makeStyles(({ breakpoints, spacing, palette: { selected, text 
   }),
   buttonRoot: {
     '&$disabled': {
-      color: text.disabled,
+      color: text.secondary,
     },
   },
   disabled: {},
