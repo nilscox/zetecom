@@ -22,7 +22,7 @@ export type Reactions = {
 
 export type Edition = {
   text: string;
-  date: Date;
+  date: string;
 };
 
 export type Comment = {
@@ -31,7 +31,7 @@ export type Comment = {
   reactions?: Reactions;
   history?: Edition[];
   replies?: Comment[];
-  created?: Date;
+  created?: string;
 };
 
 export type CommentsArea = {

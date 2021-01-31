@@ -20,7 +20,7 @@ Bring your owner a dead bird eat a rug and furry furry hairs everywhere oh no hu
 
 const history = [
   {
-    date: new Date(2020, 1, 10, 12, 5),
+    date: '2020-02-10T12:05:00.000Z',
     text: `Hello!
 
 This is the initial text.
@@ -33,7 +33,7 @@ ${lorem}
 > Note for later: I need to buy some milk...`,
   },
   {
-    date: new Date(2020, 1, 10, 12, 10),
+    date: '2020-02-10T12:10:00.000Z',
     text: `Hello!
 
 This is the second edition.
@@ -47,7 +47,7 @@ ${lorem}
 > Note for later: I need to buy some milk...`,
   },
   {
-    date: new Date(2020, 1, 10, 14, 23),
+    date: '2020-02-10T14:23:00.000Z',
     text: `Hello!
 
 This is the third edition.
@@ -61,7 +61,7 @@ ${lorem}
 > I'll have to go back, I guess...`,
   },
   {
-    date: new Date(2020, 1, 12, 17, 56),
+    date: '2020-02-12T17:56:00.000Z',
     text: `Hello!
 
 This is the fourth, and last edition.
@@ -111,7 +111,7 @@ describe('History', () => {
 
     within(comment).getByText(/This is the fourth, and last edition\./);
 
-    const editionDate = within(comment).getByText(/\* Le 12 février 2020 à 16:56/);
+    const editionDate = within(comment).getByText(/\* Le 12 février 2020 à 17:56/);
 
     expect(editionDate).to.have.attribute('title', 'Édité');
     click(editionDate);
@@ -134,8 +134,8 @@ describe('History', () => {
 
     getByText(user2.nick);
 
-    getByText('Le 10 février 2020 à 13:23');
-    getByText('Le 12 février 2020 à 16:56');
+    getByText('Le 10 février 2020 à 14:23');
+    getByText('Le 12 février 2020 à 17:56');
 
     expect(getByText('third')).to.have.tagName('del');
     expect(getByText('fourth, and last')).to.have.tagName('ins');
@@ -144,8 +144,8 @@ describe('History', () => {
 
     click(getByTitle('Version précédente'));
 
-    getByText('Le 10 février 2020 à 11:10');
-    getByText('Le 10 février 2020 à 13:23');
+    getByText('Le 10 février 2020 à 12:10');
+    getByText('Le 10 février 2020 à 14:23');
 
     expect(getByText('second')).to.have.tagName('del');
     expect(getByText('third')).to.have.tagName('ins');
