@@ -1,20 +1,17 @@
 import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import { IFrame } from 'testea';
-import { seed, User } from './api/seed';
+import { seed, User } from '../api/seed';
 
-import { clear, click, expectEvent, type, visitPopup, wait, within } from './utils';
+import { clear, click, expectEvent, type, visitPopup, wait, within } from '../utils';
 
-import users from './fixtures/users.json';
-import { flushEmails, getEmails, viewEmail } from './utils/emails';
-import { login, logout } from './api/auth';
+import users from '../fixtures/users.json';
+import { flushEmails, getEmails, viewEmail } from '../utils/emails';
+import { login, logout } from '../api/auth';
 
 const [, , me, user1, user2] = users as User[];
 
-mocha.timeout(10000);
-mocha.slow(8000);
-
-describe('authentication', () => {
+describe('Authentication', () => {
   let iframe: IFrame;
 
   before(function () {

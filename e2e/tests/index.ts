@@ -13,9 +13,12 @@ const main = async () => {
   mocha.setup('bdd');
   chai.use(chaiDom);
 
-  await import('./authentication');
-  await import('./comment');
-  await import('./comments-area');
+  mocha.timeout(10000);
+  mocha.slow(8000);
+
+  await import('./specs/authentication.e2e-spec');
+  await import('./specs/comments-area.e2e-spec');
+  await import('./specs/comment');
 
   configure({
     // throwSuggestions: true,

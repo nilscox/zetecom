@@ -2,17 +2,14 @@ import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import { IFrame } from 'testea';
 
-import { as } from './api/as';
-import { login } from './api/auth';
-import { seed, User } from './api/seed';
-import { click, expectEvent, type, visitApp, visitIntegration, within } from './utils';
+import { as } from '../api/as';
+import { login } from '../api/auth';
+import { seed, User } from '../api/seed';
+import { click, expectEvent, type, visitApp, visitIntegration, within } from '../utils';
 
-import users from './fixtures/users.json';
-import commentsAreas from './fixtures/comments-areas.json';
-import { getCommentsAreas } from './api/comments-area';
-
-mocha.timeout(5000);
-mocha.slow(8000);
+import users from '../fixtures/users.json';
+import commentsAreas from '../fixtures/comments-areas.json';
+import { getCommentsAreas } from '../api/comments-area';
 
 const [, moderator, , user1, user2] = users as User[];
 const [commentsArea1, commentsArea2] = commentsAreas;
