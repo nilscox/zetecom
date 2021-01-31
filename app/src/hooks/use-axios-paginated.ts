@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
-import { Type, ClassConstructor } from 'class-transformer';
+import { ClassConstructor, Type } from 'class-transformer';
 
 import useAxios, { AxiosHooksOptions } from 'src/hooks/use-axios';
 import useUpdateEffect from 'src/hooks/use-update-effect';

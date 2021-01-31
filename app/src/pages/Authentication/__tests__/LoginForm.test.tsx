@@ -45,10 +45,7 @@ describe.skip('AuthenticationForm', () => {
       fireEvent.submit(getByTestId('login-form'));
     });
 
-    await mockAxiosResponseFor(
-      { method: 'POST', url: '/api/auth/login' },
-      { data: mockUser },
-    );
+    await mockAxiosResponseFor({ method: 'POST', url: '/api/auth/login' }, { data: mockUser });
 
     expect(mockAxios).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -64,7 +61,7 @@ describe.skip('AuthenticationForm', () => {
 
   it.skip('should not login when sending invalid credentials', async () => {
     const setUser = jest.fn();
-    const { getByTestId, getByLabelText, getByText } = render(
+    const { getByTestId, getByLabelText } = render(
       <Router history={history}>
         <UserProvider value={[null, setUser]}>
           <AuthenticationForm />
@@ -90,5 +87,4 @@ describe.skip('AuthenticationForm', () => {
 
     // expect(getByText('Combinaison email / mot de passe non valide')).toBeInTheDocument();
   });
-
 });

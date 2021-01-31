@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Grid, IconButton, makeStyles, Theme, Typography } from '@material-ui/core';
 import ChevronDown from '@material-ui/icons/KeyboardArrowDown';
-import dayjs from 'dayjs';
 
 import RouterLink, { Link } from 'src/components/Link';
 import useDateFormat from 'src/hooks/useDateFormat';

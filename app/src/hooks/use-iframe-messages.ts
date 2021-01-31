@@ -2,6 +2,7 @@ import { useCallback, useRef } from 'react';
 
 import useQueryString from 'src/hooks/use-query-string';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const log = (...args: Parameters<typeof console.log>) => {
   // return console.log(...args);
 };

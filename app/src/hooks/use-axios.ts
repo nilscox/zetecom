@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 
 import { AxiosRequestConfig } from 'axios';
 import useAxiosHook from 'axios-hooks';
-import { plainToClass, ClassConstructor } from 'class-transformer';
+import { ClassConstructor, plainToClass } from 'class-transformer';
 
 export type AxiosHooksOptions = {
   manual?: boolean;

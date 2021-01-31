@@ -25,7 +25,7 @@ export const group = (line: Diff.Change[]): Diff.Change[] => {
       return [...arr, chunk];
     }
 
-    if (last.value.match(/^ +$/) && !last.added && !last.removed && isSame(lastLast, chunk)) {
+    if (/^ +$/.exec(last.value) && !last.added && !last.removed && isSame(lastLast, chunk)) {
       changed = true;
       return [...arr.slice(0, -2), { ...chunk, value: lastLast.value + last.value + chunk.value }];
     }
