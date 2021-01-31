@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsDateString, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 class ReactionsDto {
   @IsOptional()
@@ -15,8 +15,15 @@ class ReactionsDto {
   skeptic?: string[];
 }
 
-export class CommentDto {
+class EditionDto {
+  @IsString()
+  text: string;
 
+  @IsDateString()
+  date: string;
+}
+
+export class CommentDto {
   @IsOptional()
   @IsString()
   author?: string;
@@ -26,17 +33,21 @@ export class CommentDto {
   text?: string;
 
   @IsOptional()
+  @IsDateString()
+  created?: string;
+
+  @IsOptional()
   @ValidateNested()
   @Type(() => ReactionsDto)
   reactions?: ReactionsDto;
 
-  @IsString({ each: true })
   @IsOptional()
-  history?: string[];
+  @ValidateNested()
+  @Type(() => EditionDto)
+  history?: EditionDto[];
 
   @IsOptional()
   @ValidateNested()
   @Type(() => CommentDto)
   replies?: CommentDto[];
-
 }

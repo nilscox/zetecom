@@ -16,20 +16,19 @@ const useStyles = makeStyles(({ breakpoints, spacing }) => ({
 }));
 
 type UserAvatarNickProps = {
+  className?: string;
   small?: boolean;
   user: UserLight;
 };
 
-const UserAvatarNick: React.FC<UserAvatarNickProps> = ({ small, user }) => {
+const UserAvatarNick: React.FC<UserAvatarNickProps> = ({ className, small, user }) => {
   const classes = useStyles();
 
   return (
-    <Grid container alignItems="center">
+    <Grid container alignItems="center" className={className}>
       <UserAvatar editable small={small} user={user} />
       <Grid item>
-        <Typography className={classes.nick}>
-          { user.nick }
-        </Typography>
+        <Typography className={classes.nick}>{user.nick}</Typography>
       </Grid>
     </Grid>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { User } from '../../types/User';
 import RouterLink from '../Link';
-import { CircleAvatarIwage } from '../UserAvatar/CircleAvatarImage';
+import CircleAvatarImage from '../UserAvatar/CircleAvatarImage';
 
 import AuthenticatedUserMenu from './AuthenticatedUserMenu';
 import UserMenuComponent from './UserMenuComponent';
@@ -20,7 +20,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
 
   return (
     <RouterLink focusColor={false} to="/connexion">
-      <UserMenuComponent image={<CircleAvatarIwage src={defaultAvatar} />} text="Connexion" />
+      <UserMenuComponent image={<CircleAvatarImage src={defaultAvatar} />} text="Connexion" />
     </RouterLink>
   );
 };

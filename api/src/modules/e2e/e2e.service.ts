@@ -1,12 +1,13 @@
 import { promisify } from 'util';
 
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/typeorm';
+import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
 import redis from 'redis';
-import { Connection } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 
 import { Comment } from 'src/modules/comment/comment.entity';
 import { CommentService } from 'src/modules/comment/comment.service';
+import { Message } from 'src/modules/comment/message.entity';
 import { ReactionType } from 'src/modules/comment/reaction.entity';
 import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
 import { CommentsAreaService } from 'src/modules/comments-area/comments-area.service';
@@ -42,6 +43,10 @@ export class E2eService {
     private readonly commentsService: CommentService,
     private readonly configService: ConfigService,
     private readonly logger: LoggerService,
+    @InjectRepository(Message)
+    private readonly messageRepository: Repository<Message>,
+    @InjectRepository(Comment)
+    private readonly commentRepository: Repository<Comment>,
   ) {
     this.logger.setContext('E2eService');
   }
@@ -166,8 +171,21 @@ export class E2eService {
       comment.text,
     );
 
-    for (const text of comment.history || []) {
+    const setLastMessageEditionDate = async (date: string) => {
+      await this.commentRepository.update(created.id, { created: date, updated: date });
+
+      const { message } = await this.commentsService.findById(created.id, { message: true });
+      await this.messageRepository.update(message.id, { created: date });
+    };
+
+    if (comment.created) {
+      await this.commentRepository.update(created.id, { created: comment.created });
+      await setLastMessageEditionDate(comment.created);
+    }
+
+    for (const { text, date } of comment.history || []) {
       await this.commentsService.update(created, text);
+      await setLastMessageEditionDate(date);
     }
 
     if (comment.reactions) {

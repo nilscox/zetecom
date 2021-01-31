@@ -20,12 +20,18 @@ export type Reactions = {
   skeptic?: string[];
 };
 
+export type Edition = {
+  text: string;
+  date: Date;
+};
+
 export type Comment = {
   author?: string;
   text?: string;
   reactions?: Reactions;
-  history?: string[];
+  history?: Edition[];
   replies?: Comment[];
+  created?: Date;
 };
 
 export type CommentsArea = {

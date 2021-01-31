@@ -18,7 +18,7 @@ const useStyles = makeStyles<Theme, StylesProps>(({ breakpoints, palette }) => (
   }),
   avatar: ({ loading }) => ({
     borderRadius: 16,
-    border: `1px solid ${palette.secondary.light}`,
+    border: `1px solid ${palette.grey[400]}`,
     opacity: loading ? 0.7 : 1,
     background: 'white',
     width: '100%',
@@ -33,7 +33,7 @@ type CircleAvatarImageProps = {
   src: string;
 };
 
-export const CircleAvatarIwage: React.FC<CircleAvatarImageProps> = ({ loading, small, src }) => {
+const CircleAvatarImage: React.FC<CircleAvatarImageProps> = ({ loading, small, src }) => {
   const classes = useStyles({ loading, small });
 
   return (
@@ -42,3 +42,5 @@ export const CircleAvatarIwage: React.FC<CircleAvatarImageProps> = ({ loading, s
     </div>
   );
 };
+
+export default CircleAvatarImage;

@@ -27,7 +27,7 @@ const EditionDate: React.FC<EditionDateProps> = ({ edited, date, onViewHistory }
 
   return (
     <Typography variant="caption" title="Édité" className={classes.edited} onClick={onViewHistory}>
-      *&nbsp;{format(date)}
+      * {format(date)}
     </Typography>
   );
 };

@@ -8,13 +8,11 @@ import { User, UserLight } from 'src/types/User';
 
 import ImageUpload from '../ImageUpload';
 
-import { CircleAvatarIwage } from './CircleAvatarImage';
-import UserAvatarNickImport from './UserAvatarNick';
+import CircleAvatarImage from './CircleAvatarImage';
 
 import defaultAvatar from './default-avatar.png';
 
-// TODO: export default from
-export const UserAvatarNick = UserAvatarNickImport;
+export { default as UserAvatarNick } from './UserAvatarNick';
 
 const getAvatarUrl = (user: UserLight) => {
   if (user.avatar) {
@@ -62,7 +60,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ small = false, editable = false
     [upload],
   );
 
-  const avatarImg = <CircleAvatarIwage loading={loading} small={small} src={getAvatarUrl(user)} />;
+  const avatarImg = <CircleAvatarImage loading={loading} small={small} src={getAvatarUrl(user)} />;
 
   if (!editable || !currentUser || user.id !== currentUser.id) {
     return avatarImg;

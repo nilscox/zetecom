@@ -1,131 +1,51 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Box, Paper, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import { plainToClass } from 'class-transformer';
-import * as diff from 'diff';
 import { RouteComponentProps } from 'react-router';
 
-import DiffMessage from 'src/components/DiffMessage';
-import Loader from 'src/components/Loader';
+import AsyncContent from 'src/components/AsyncContent';
+import DiffView from 'src/components/DiffView/DiffView';
 import useAxios from 'src/hooks/use-axios';
-import useDateFormat, { DATE_FORMAT_DAY_HOUR } from 'src/hooks/useDateFormat';
-import { Message } from 'src/types/Comment';
+import { Comment, Message } from 'src/types/Comment';
 
-const useDiff = (messages: string[], mouseOver?: number) => {
-  const diffFunc = diff.diffLines;
-
-  const makeDiff = (a: string, b: string) => {
-    const result = diffFunc(a, b);
-    const [before, after]: Diff.Change[][] = [[], []];
-
-    for (const { value, added, removed } of result) {
-      if (added) {
-        after.push({ value, added: true });
-      } else if (removed) {
-        before.push({ value, removed: true });
-      } else {
-        after.push({ value });
-        before.push({ value });
-      }
-    }
-
-    return [before, after];
-  };
-
-  return (n: number): Diff.Change[] => {
-    const noChange = [{ value: messages[n] }];
-
-    if (mouseOver !== undefined) {
-      if (mouseOver === messages.length - 1 || (n !== mouseOver && n !== mouseOver + 1)) {
-        return noChange;
-      }
-
-      const [before, after] = makeDiff(messages[mouseOver], messages[mouseOver + 1]);
-
-      if (n === mouseOver) {
-        return before;
-      } else if (n === mouseOver + 1) {
-        return after;
-      }
-
-      return noChange;
-    }
-
-    if (n === messages.length - 1) {
-      return noChange;
-    }
-
-    return diffFunc(messages[n], messages[n + 1]);
-  };
-};
-
-type DiffMessagesProps = {
-  messages: { date: Date | false; text: string }[];
-};
-
-const DiffMessages: React.FC<DiffMessagesProps> = ({ messages }) => {
-  const format = useDateFormat(DATE_FORMAT_DAY_HOUR);
-  const [mouseOver, setMouseOver] = useState<number>();
-
-  const getDiff = useDiff(
-    messages.map(message => message.text),
-    mouseOver,
-  );
-
-  return (
-    <>
-      {messages.map(({ date }, n) => (
-        <div
-          key={n}
-          style={{
-            transition: 'opacity 300ms ease-in-out',
-            ...(mouseOver !== undefined &&
-              n !== mouseOver &&
-              n !== mouseOver + 1 && {
-                opacity: 0.5,
-              }),
-          }}
-          onMouseEnter={() => setMouseOver(n)}
-          onMouseLeave={() => setMouseOver(undefined)}
-        >
-          {n > 0 && <div style={{ minHeight: 30 }} />}
-
-          <Typography component="div" align="center" color="textSecondary">
-            {format(date as Date)}
-          </Typography>
-
-          <div style={{ minHeight: 10 }} />
-
-          <Paper elevation={3} style={{ background: 'transparent' }}>
-            <DiffMessage diff={getDiff(n)} />
-          </Paper>
-        </div>
-      ))}
-    </>
-  );
-};
+const useStyles = makeStyles(({ spacing }) => ({
+  container: {
+    padding: spacing(4),
+  },
+}));
 
 type CommentHistoryPopupProps = RouteComponentProps<{ id: string }>;
 
 const CommentHistoryPopup: React.FC<CommentHistoryPopupProps> = ({ match }) => {
-  const [{ raw, loading, error }] = useAxios('/api/comment/' + match.params.id + '/history', undefined);
+  const commentId = match.params.id;
+
+  const [{ data: comment, loading: commentLoading, error: commentError }] = useAxios(
+    `/api/comment/${commentId}`,
+    undefined,
+    Comment,
+  );
+
+  const [{ raw, loading: historyLoading, error: historyError }] = useAxios(`/api/comment/${commentId}/history`);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const history = raw?.map((data: any) => plainToClass(Message, data));
+  const history: Message[] = raw?.map((data: any) => plainToClass(Message, data));
 
-  if (error) {
-    throw error;
+  const classes = useStyles();
+
+  if (commentError) {
+    throw commentError;
   }
 
-  // TODO: use <AsyncContent />
-  if (loading) {
-    return <Loader size="big" />;
+  if (historyError) {
+    throw historyError;
   }
 
   return (
-    <Box p={40} style={{ height: '100%', boxSizing: 'border-box' }} data-e2e="history-list">
-      <DiffMessages messages={history} />
-    </Box>
+    <AsyncContent
+      loading={commentLoading || historyLoading}
+      render={() => <DiffView className={classes.container} author={comment.author} history={history} />}
+    />
   );
 };
 
