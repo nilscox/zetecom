@@ -35,7 +35,7 @@
     "react-dom": "^17.0.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-toastify": "^6.2.0",
+    "react-toastify": "^7.0.2",
     "react-use-form-state": "^0.13.2",
     "reflect-metadata": "^0.1.13",
     "showdown": "^1.9.1",
