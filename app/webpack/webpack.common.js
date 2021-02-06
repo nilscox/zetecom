@@ -13,7 +13,7 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
   output: {
     path: OUTPUT_PATH,
     publicPath: '/',
-    filename: '[name].[chunkhash].js',
+    filename: '[name].[hash].js',
   },
 
   resolve: {
@@ -25,13 +25,6 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
 
   module: {
     rules: [
-      {
-        test: /\.m?js/,
-        resolve: {
-          fullySpecified: false,
-        },
-      },
-
       {
         test: /\.(j|t)sx?$/,
         include: SOURCES_PATH,
