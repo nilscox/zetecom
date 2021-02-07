@@ -4,6 +4,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { ESBuildPlugin } = require('esbuild-loader');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+const ANALYZE = process.env.ANALYZE === 'true';
 
 module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
   entry: {
@@ -88,5 +91,11 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
     new HtmlWebpackPlugin({
       template: path.join(PUBLIC_PATH, 'index.html'),
     }),
-  ],
+
+    ANALYZE &&
+      new BundleAnalyzerPlugin({
+        analyzerPort: 8888,
+        openAnalyzer: false,
+      }),
+  ].filter(Boolean),
 });
