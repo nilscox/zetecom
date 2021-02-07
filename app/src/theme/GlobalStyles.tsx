@@ -2,6 +2,8 @@ import React from 'react';
 
 import { css, Global } from '@emotion/react';
 
+import 'react-toastify/dist/ReactToastify.min.css';
+
 export const GlobalStyles: React.FC = () => (
   <Global
     styles={theme => css`
@@ -9,7 +11,7 @@ export const GlobalStyles: React.FC = () => (
         font-size: ${theme.fontSizes.html};
       }
       body {
-        font-family: ${theme.typographies.default};
+        font-family: ${theme.fonts.default};
         color: ${theme.textColors.default};
       }
     `}

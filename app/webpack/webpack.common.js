@@ -58,7 +58,12 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
       },
 
       {
-        test: /\.(svg|png)$/,
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+      },
+
+      {
+        test: /\.png$/,
         loader: 'file-loader',
         options: {
           name: '[name].[contenthash].[ext]',
