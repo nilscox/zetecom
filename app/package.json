@@ -30,6 +30,7 @@
     "fontsource-montserrat": "^4.0.0",
     "fontsource-noticia-text": "^4.0.0",
     "iframe-resizer": "^4.3.1",
+    "polished": "^4.1.0",
     "query-string": "^6.13.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -42,6 +43,9 @@
     "use-debounce": "^5.2.0"
   },
   "devDependencies": {
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.1.5",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@storybook/addon-actions": "^6.1.15",
