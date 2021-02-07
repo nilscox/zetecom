@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react';
+import React, { ComponentProps, forwardRef, useEffect, useRef } from 'react';
 
 import styled from '@emotion/styled';
 import clsx from 'clsx';
@@ -15,7 +15,7 @@ const StyledButton = styled.button`
   outline: none;
   padding: ${spacing(1, 2)};
   background-color: transparent;
-  color: ${textColor('default')};
+  color: ${textColor('button')};
   font-size: ${fontSize('default')};
   font-weight: bold;
   transition: ${transition('fast')};
@@ -48,13 +48,32 @@ type ButtonProps = ComponentProps<typeof StyledButton> & {
   loading?: boolean;
 };
 
-const Button: React.FC<ButtonProps> = ({ size, loading, disabled, children, ...props }) => (
-  <>
-    <StyledButton disabled={disabled ?? loading} {...props} className={clsx(size, props.className)}>
-      {children}
-      {loading && <LoadingIndicator />}
-    </StyledButton>
-  </>
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ size, loading, disabled, children, ...props }, forwardedRef) => {
+    const localRef = useRef<HTMLButtonElement>(null);
+    const ref = forwardedRef && 'current' in forwardedRef ? forwardedRef : localRef;
+
+    useEffect(() => {
+      if (localRef.current && typeof forwardedRef === 'function') {
+        forwardedRef(localRef.current);
+      }
+    }, [localRef, forwardedRef]);
+
+    return (
+      <StyledButton
+        ref={ref}
+        disabled={disabled ?? loading}
+        onMouseOut={() => ref.current?.blur()}
+        {...props}
+        className={clsx(size, props.className)}
+      >
+        {children}
+        {loading && <LoadingIndicator />}
+      </StyledButton>
+    );
+  },
 );
+
+Button.displayName = 'Button';
 
 export default Button;

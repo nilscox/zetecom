@@ -24,6 +24,14 @@ export const spacing = (...spacings: Array<keyof Theme['spacings']>) => {
   return themeGetter(theme => spacings.map(spacing => theme.spacings[spacing]).join(' '));
 };
 
+export const size = (size: keyof Theme['sizes'], cb?: Callback) => {
+  return themeGetter(theme => theme.sizes[size], cb);
+};
+
+export const font = (font: keyof Theme['fonts'], cb?: Callback) => {
+  return themeGetter(theme => theme.fonts[font], cb);
+};
+
 export const fontSize = (fontSize: keyof Theme['fontSizes'], cb?: Callback) => {
   return themeGetter(theme => theme.fontSizes[fontSize], cb);
 };
