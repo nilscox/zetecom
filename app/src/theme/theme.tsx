@@ -18,6 +18,7 @@ const theme = {
     primary,
     secondary,
     disabled: '#EEE',
+    light: '#EEE',
     border: lighten(0.5, secondary),
     icon: lighten(0.2, secondary),
     iconDisabled: lighten(0.5, secondary),
@@ -79,6 +80,11 @@ const theme = {
   transitions: {
     fast: '160ms',
     slow: '300ms',
+  },
+
+  domain: {
+    reactionFontSize: '20px',
+    userReactionColor: '#ffeca6',
   },
 };
 
