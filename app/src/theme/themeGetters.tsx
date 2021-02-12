@@ -51,3 +51,7 @@ export const transition = (speed: keyof Theme['transitions'], property = 'all', 
     return get(property);
   });
 };
+
+export const domain = (key: keyof Theme['domain'], cb?: Callback) => {
+  return themeGetter(theme => theme.domain[key], cb);
+};

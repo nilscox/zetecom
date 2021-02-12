@@ -31,30 +31,30 @@ const ReportDateContainer = styled.div`
 
 type CommentHeaderProps = {
   user: UserLight;
-  canEdit: boolean;
-  edited: boolean;
-  date: Date;
-  onEdit: () => void;
-  onReport: () => void;
+  edited?: boolean;
+  date?: Date;
+  onEdit?: () => void;
+  onReport?: () => void;
 };
 
-const CommentHeader: React.FC<CommentHeaderProps> = ({ user, canEdit, edited, date, onEdit, onReport }) => {
+const CommentHeader: React.FC<CommentHeaderProps> = ({ user, edited, date, onEdit, onReport }) => {
   const [reportCommentLinkVisible, setReportCommentLinkVisible] = useState(false);
 
   return (
     <Container>
       <UserAvatarNick small user={user} />
 
-      {canEdit && <EditCommentButton onClick={onEdit} css={theme => ({ marginLeft: theme.spacings[2] })} />}
+      {onEdit && <EditCommentButton onClick={onEdit} css={theme => ({ marginLeft: theme.spacings[2] })} />}
 
-      <ReportDateContainer
-        onMouseOver={() => setReportCommentLinkVisible(true)}
-        onMouseOut={() => setReportCommentLinkVisible(false)}
-      >
-        <ReportCommentLink visible={reportCommentLinkVisible} onClick={onReport} />
-
-        <CommentDate date={date} edited={edited} />
-      </ReportDateContainer>
+      {(onReport || date) && (
+        <ReportDateContainer
+          onMouseOver={() => setReportCommentLinkVisible(true)}
+          onMouseOut={() => setReportCommentLinkVisible(false)}
+        >
+          {onReport && <ReportCommentLink visible={reportCommentLinkVisible} onClick={onReport} />}
+          {date && <CommentDate date={date} edited={edited} />}
+        </ReportDateContainer>
+      )}
     </Container>
   );
 };

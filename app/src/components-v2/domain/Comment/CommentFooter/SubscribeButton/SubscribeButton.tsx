@@ -6,14 +6,24 @@ import { Notification, NotificationActive } from '../../../../icons';
 
 type SubscribeButtonProps = {
   className?: string;
-  active: boolean;
-  onClick: () => void;
+  isSubscribed: boolean;
+  onClick?: () => void;
 };
 
-const SubscribeButton: React.FC<SubscribeButtonProps> = ({ className, active, onClick }) => (
-  <IconButton className={className} onClick={onClick}>
-    <Icon as={active ? NotificationActive : Notification} color={active ? 'primary' : 'icon'} />
-  </IconButton>
-);
+const SubscribeButton: React.FC<SubscribeButtonProps> = ({ className, isSubscribed, onClick }) => {
+  if (isSubscribed === undefined) {
+    return null;
+  }
+
+  return (
+    <IconButton className={className} onClick={onClick}>
+      <Icon
+        size="small"
+        as={isSubscribed ? NotificationActive : Notification}
+        color={isSubscribed ? 'primary' : 'icon'}
+      />
+    </IconButton>
+  );
+};
 
 export default SubscribeButton;

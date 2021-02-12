@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/react';
+import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { borderRadius, color, domain } from 'src/theme';
@@ -10,13 +10,19 @@ import RepliesButton from './RepliesButton/RepliesButton';
 import ReplyButton from './ReplyButton/ReplyButton';
 import SubscribeButton from './SubscribeButton/SubscribeButton';
 
-const Container = styled.div`
+export const CommentFooterContainer = styled.div`
   display: flex;
   flex-direction: row;
   border-top: 1px solid ${color('border')};
   border-bottom-left-radius: ${borderRadius(2)};
   border-bottom-right-radius: ${borderRadius(2)};
   background: ${domain('commentLightBackground')};
+`;
+
+const Right = styled.div`
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 `;
 
 type CommentFooterProps = {
@@ -26,11 +32,11 @@ type CommentFooterProps = {
   repliesCount: number;
   repliesOpen: boolean;
   replyFormOpen: boolean;
-  isSubscribed: boolean;
+  isSubscribed?: boolean;
   onUserReactionChange: (reaction: ReactionType) => void;
   onToggleReplies: () => void;
   onOpenReplyForm: () => void;
-  onToggleSubscription: () => void;
+  onToggleSubscription?: () => void;
 };
 
 const CommentFooter: React.FC<CommentFooterProps> = ({
@@ -46,7 +52,7 @@ const CommentFooter: React.FC<CommentFooterProps> = ({
   onOpenReplyForm,
   onToggleSubscription,
 }) => (
-  <Container>
+  <CommentFooterContainer>
     <Reactions counts={reactionsCounts} userReaction={userReaction} setUserReaction={onUserReactionChange} />
 
     <RepliesButton
@@ -56,17 +62,16 @@ const CommentFooter: React.FC<CommentFooterProps> = ({
       onClick={onToggleReplies}
     />
 
-    <SubscribeButton
-      active={isSubscribed}
-      onClick={onToggleSubscription}
-      css={theme => css`
-        margin-left: auto;
-        margin-right: ${theme.spacings[1]};
-      `}
-    />
+    <Right>
+      <SubscribeButton
+        isSubscribed={isSubscribed}
+        onClick={onToggleSubscription}
+        css={theme => ({ marginRight: theme.spacings[1] })}
+      />
 
-    <ReplyButton isReplyFormOpen={replyFormOpen} onClick={onOpenReplyForm} />
-  </Container>
+      <ReplyButton isReplyFormOpen={replyFormOpen} onClick={onOpenReplyForm} />
+    </Right>
+  </CommentFooterContainer>
 );
 
 export default CommentFooter;

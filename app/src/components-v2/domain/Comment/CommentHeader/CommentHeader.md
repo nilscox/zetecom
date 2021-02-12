@@ -5,5 +5,5 @@ const user = {
   avatar: null,
 };
 
-<CommentHeader user={user} canEdit={true} edited={true} date={new Date()} onEdit={() => {}} onReport={() => {}} />;
+<CommentHeader user={user} edited={true} date={new Date()} onEdit={() => {}} onReport={() => {}} />;
 ```
