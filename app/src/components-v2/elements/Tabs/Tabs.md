@@ -1,9 +1,9 @@
 ```tsx
 import Tabs, { Tab, useTabs } from './Tabs';
 
-const [current, tabs] = useTabs(['iti', 'mano', 'raspout']);
+const [currentTab, tabs] = useTabs(['iti', 'mano', 'raspout']);
 
-const tabs = {
+const tabPanels = {
   iti: <div role="tabpanel">Iti tab</div>,
   mano: <div role="tabpanel">Mano tab</div>,
   raspout: <div role="tabpanel">Raspout tab</div>,
@@ -16,6 +16,6 @@ const tabs = {
     <Tab {...tabs.raspout}>Raspout</Tab>
   </Tabs>
 
-  {tabs[currentTab]}
+  {tabPanels[currentTab]}
 </>;
 ```
