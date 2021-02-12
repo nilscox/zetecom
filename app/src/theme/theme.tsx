@@ -30,6 +30,7 @@ const theme = {
 
   textColors: {
     default: '#333',
+    light: '#666',
     button: '#555',
     link: lighten(0.15, secondary),
     linkFocused: primary,
@@ -84,6 +85,7 @@ const theme = {
 
   domain: {
     reactionFontSize: '20px',
+    commentLightBackground: '#fafafa',
     userReactionColor: '#ffeca6',
   },
 };
