@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import clsx from 'clsx';
 import { transparentize } from 'polished';
 
+import useForwardRef from 'src/hooks/useForwardRef';
 import { borderRadius, color, fontSize, spacing, textColor, transition } from 'src/theme';
 
 import LoadingIndicator from './LoadingIndicator';
@@ -50,20 +51,13 @@ type ButtonProps = ComponentProps<typeof StyledButton> & {
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ size, loading, disabled, children, ...props }, forwardedRef) => {
-    const localRef = useRef<HTMLButtonElement>(null);
-    const ref = forwardedRef && 'current' in forwardedRef ? forwardedRef : localRef;
-
-    useEffect(() => {
-      if (localRef.current && typeof forwardedRef === 'function') {
-        forwardedRef(localRef.current);
-      }
-    }, [localRef, forwardedRef]);
+    const ref = useForwardRef(forwardedRef);
 
     return (
       <StyledButton
         ref={ref}
         disabled={disabled ?? loading}
-        onMouseOut={() => ref.current?.blur()}
+        onMouseUp={() => ref.current?.blur()}
         {...props}
         className={clsx(size, props.className)}
       >
