@@ -24,6 +24,7 @@ export class Message {
 export class Comment {
   id: number;
 
+  // TODO: remove?
   quote: string | null;
 
   text: string;

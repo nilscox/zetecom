@@ -1,5 +1,6 @@
 export { default as CaretRight } from './CaretRight.svg';
 export { default as Comment } from './Comment.svg';
+export { default as Close } from './Close.svg';
 export { default as DoneAll } from './DoneAll.svg';
 export { default as Edit } from './Edit.svg';
 export { default as First } from './First.svg';

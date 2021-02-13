@@ -1,24 +1,39 @@
 import { Type } from 'class-transformer';
 
 import { Comment } from './Comment';
-import { UserLight } from './User';
+
+export type MediaType =
+  | '20minutes'
+  | 'francesoir'
+  | 'lefigaro'
+  | 'lemonde'
+  | 'leparisien'
+  | 'lepoint'
+  | 'lesechos'
+  | 'liberation'
+  | 'scienceetvie'
+  | 'skeptikon'
+  | 'unknown'
+  | 'youtube';
+
+export class CommentsAreaInformation {
+  media: MediaType;
+
+  url: string;
+
+  title: string;
+
+  author: string;
+
+  @Type(() => Date)
+  publicationDate?: Date;
+}
 
 export class CommentsArea {
   id: number;
 
-  informationUrl: string;
-
-  informationTitle: string;
-
-  informationAuthor: string;
-
-  imageUrl: string | null;
-
-  @Type(() => Date)
-  informationPublicationDate?: Date;
-
-  @Type(() => UserLight)
-  creator?: UserLight;
+  @Type(() => CommentsAreaInformation)
+  information: CommentsAreaInformation;
 
   commentsCount: number;
 
