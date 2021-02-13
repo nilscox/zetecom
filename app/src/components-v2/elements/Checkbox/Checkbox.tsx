@@ -6,4 +6,5 @@ Checkbox.defaultProps = {
   type: 'checkbox',
 };
 
+/** @component */
 export default Checkbox;

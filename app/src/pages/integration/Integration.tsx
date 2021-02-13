@@ -5,7 +5,6 @@ import { HashRouter as Router, Redirect, Route } from 'react-router-dom';
 
 import AsyncContent from 'src/components/AsyncContent';
 import CommentsArea from 'src/components/CommentsArea';
-import useFetchCommentsArea from 'src/components/CommentsArea/useFetchCommentsArea';
 import Fallback from 'src/components/Fallback';
 import HeaderLogo from 'src/components/HeaderLogo';
 import Padding from 'src/components/Padding';
@@ -44,7 +43,7 @@ const Integration: React.FC = () => {
 
   const [sendMessage] = useIFrameMessages();
 
-  const [{ data: commentsArea, loading, status }] = useFetchCommentsArea({ identifier });
+  const [{ data: commentsArea, loading, status }] = [{ loading: true }] as any;
 
   const trackEvent = useTrackEvent();
 

@@ -5,12 +5,11 @@ import { RouteComponentProps } from 'react-router-dom';
 import CommentsArea from 'src/components/CommentsArea';
 
 import AsyncContent from '../components/AsyncContent';
-import useFetchCommentsArea from '../components/CommentsArea/useFetchCommentsArea';
 import Fallback from '../components/Fallback';
 
 const CommentsAreaPage: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const id = Number(match.params.id);
-  const [{ data: commentsArea, loading, status }] = useFetchCommentsArea({ id });
+  const [{ data: commentsArea, loading, status }] = [{ loading: true }] as any;
 
   return (
     <AsyncContent
