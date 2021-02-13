@@ -1,3 +1,4 @@
+import { darken } from '@material-ui/core';
 import { lighten } from 'polished';
 
 import 'normalize.css';
@@ -35,6 +36,10 @@ const theme = {
     link: lighten(0.15, secondary),
     linkFocused: primary,
     disabled: '#999',
+    success: darken(success, 0.2),
+    error: darken(error, 0.2),
+    warning: darken(warning, 0.2),
+    info: darken(info, 0.2),
   },
 
   spacings: {

@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import AvatarImage from 'src/components-v2/elements/AvatarImage/AvatarImage';
 import Menu, { MenuItem } from 'src/components-v2/elements/Menu/Menu';
 import { Comment, DoneAll, Logout, Notification } from 'src/components-v2/icons';
-import { color, size, spacing, textColor } from 'src/theme';
+import { color, fontWeight, size, spacing, textColor } from 'src/theme';
 import { User } from 'src/types/User';
 
 import Icon from '../../elements/Icon/Icon';
@@ -18,7 +18,7 @@ const AvatarNickContainer = styled.button`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-weight: bold;
+  font-weight: ${fontWeight('bold')};
   color: ${textColor('default')};
   cursor: pointer;
 

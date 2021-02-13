@@ -9,6 +9,7 @@ export const GlobalStyles: React.FC = () => (
     styles={theme => css`
       html {
         font-size: ${theme.fontSizes.html};
+        line-height: 1.3;
       }
       body {
         font-family: ${theme.fonts.default};
