@@ -47,6 +47,7 @@ const Error = styled.div`
 `;
 
 export type InputProps = ComponentProps<typeof StyledInput> & {
+  className?: string;
   outlined?: boolean;
   fullWidth?: boolean;
   error?: React.ReactNode;

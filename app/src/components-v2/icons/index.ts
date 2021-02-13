@@ -11,3 +11,4 @@ export { default as NotificationActive } from './NotificationActive.svg';
 export { default as Open } from './Open.svg';
 export { default as Prev } from './Prev.svg';
 export { default as Reply } from './Reply.svg';
+export { default as Sort } from './Sort.svg';

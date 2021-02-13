@@ -41,3 +41,13 @@ Every piece of code that encapsulate important buisness logic must be tested. Fo
 unauthenticated user must be tested. In countrary, unit tests for a Logo component or a react provider are not required.
 
 ---
+
+**Avoid using index.tsx.**
+
+Prefer repeating the folder's name instead, it's clearer and makes it easier to find files.
+
+---
+
+**Define prop values first, callbacks after and the css prop last.**
+
+---

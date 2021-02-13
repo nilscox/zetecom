@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/react';
+import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import clsx from 'clsx';
 
@@ -61,11 +61,7 @@ const Reaction: React.FC<ReactionProps> = ({ type, count, isUserReaction, onClic
     className={clsx('reaction', isUserReaction && 'user-reaction')}
     title={reactionLabels[type]}
     onClick={onClick}
-    css={theme =>
-      css`
-        background-color: ${isUserReaction ? theme.domain.userReactionColor : undefined};
-      `
-    }
+    css={theme => ({ backgroundColor: isUserReaction ? theme.domain.userReactionColor : undefined })}
   >
     <Icon>{reactionIcons[type]}</Icon>
     <Count>{count}</Count>
