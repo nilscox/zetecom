@@ -1,9 +1,8 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
-import { darken } from 'polished';
 
-import { color, fontSize, spacing, transition } from 'src/theme';
+import { fontSize, fontWeight, spacing, textColor, transition } from 'src/theme';
 
 type StyledLinkProps = {
   visible: boolean;
@@ -12,8 +11,8 @@ type StyledLinkProps = {
 const StyledLink = styled.span<StyledLinkProps>`
   margin-right: ${spacing(2)};
   text-decoration: none;
-  color: ${color('error', darken(0.2))};
-  font-weight: bold;
+  color: ${textColor('error')};
+  font-weight: ${fontWeight('bold')};
   font-size: ${fontSize('small')};
   opacity: ${props => (props.visible ? 1 : 0)};
   transition: ${transition('slow', 'opacity')};

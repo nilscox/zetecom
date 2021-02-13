@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { transparentize } from 'polished';
 
 import useForwardRef from 'src/hooks/useForwardRef';
-import { borderRadius, color, fontSize, size, spacing, textColor, transition } from 'src/theme';
+import { borderRadius, color, fontSize, fontWeight, size, spacing, textColor, transition } from 'src/theme';
 
 import LoadingIndicator from './LoadingIndicator';
 
@@ -18,7 +18,7 @@ const StyledButton = styled.button`
   background-color: transparent;
   color: ${textColor('button')};
   font-size: ${fontSize('default')};
-  font-weight: bold;
+  font-weight: ${fontWeight('bold')};
   transition: ${transition('fast')};
   cursor: pointer;
 

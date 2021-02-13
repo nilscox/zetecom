@@ -2,7 +2,6 @@ import React, { ComponentProps } from 'react';
 
 import styled from '@emotion/styled';
 import clsx from 'clsx';
-import { darken } from 'polished';
 
 import { borderRadius, color, fontSize, fontWeight, spacing, textColor, transition } from 'src/theme';
 
@@ -41,7 +40,7 @@ const StyledInput = styled.input`
 
 const Error = styled.div`
   margin-top: ${spacing(0.5)};
-  color: ${color('error', darken(0.15))};
+  color: ${textColor('error')};
   font-size: ${fontSize('small')};
   font-weight: ${fontWeight('bold')};
 `;

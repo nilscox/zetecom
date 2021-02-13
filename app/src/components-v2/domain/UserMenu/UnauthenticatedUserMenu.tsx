@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
-import { size, spacing, textColor } from 'src/theme';
+import { fontWeight, size, spacing, textColor } from 'src/theme';
 
 import AvatarImage from '../../elements/AvatarImage/AvatarImage';
 import Link from '../../elements/Link/Link';
@@ -12,7 +12,7 @@ const Container = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-weight: bold;
+  font-weight: ${fontWeight('bold')};
   color: ${textColor('default')};
   text-decoration: none;
 

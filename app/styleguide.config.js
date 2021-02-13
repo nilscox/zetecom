@@ -18,6 +18,8 @@ module.exports = {
       name: 'Domain',
       components: 'src/components-v2/domain/**/*.tsx',
       ignore: [
+        'src/components-v2/domain/AuthenticationForm/Authentication@(FormError|FormInput|Message|Navigation)/*.tsx',
+        'src/components-v2/domain/AuthenticationForm/components/*.tsx',
         'src/components-v2/domain/Comment/Comment@(Header|Body|Footer)/*/**/*.tsx',
         'src/components-v2/domain/Comment/CommentBody/*.tsx',
         'src/components-v2/domain/CommentForm/Comment@(TextEdition|FormFooter)/*.tsx',
