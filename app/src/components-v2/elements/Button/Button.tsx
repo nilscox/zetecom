@@ -1,11 +1,11 @@
-import React, { ComponentProps, forwardRef, useEffect, useRef } from 'react';
+import React, { ComponentProps, forwardRef } from 'react';
 
 import styled from '@emotion/styled';
 import clsx from 'clsx';
 import { transparentize } from 'polished';
 
 import useForwardRef from 'src/hooks/useForwardRef';
-import { borderRadius, color, fontSize, spacing, textColor, transition } from 'src/theme';
+import { borderRadius, color, fontSize, size, spacing, textColor, transition } from 'src/theme';
 
 import LoadingIndicator from './LoadingIndicator';
 
