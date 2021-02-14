@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import useDateFormat from 'src/hooks/useDateFormat';
 import { fontSize, fontWeight, spacing } from 'src/theme';
 import { MediaType } from 'src/types/CommentsArea';
+import { medias } from 'src/utils/medias';
 
 const Container = styled.div`
   margin-left: ${spacing(2)};
@@ -31,21 +32,6 @@ const PublicationDate = InfoItem;
 const Media = InfoItem;
 const Author = InfoItem;
 
-const mediaLabels = {
-  '20minutes': '20minutes',
-  francesoir: 'FranceSoir',
-  lefigaro: 'Le Figaro',
-  lemonde: 'Le Monde',
-  leparisien: 'Le Parisien',
-  lepoint: 'Le Point',
-  lesechos: 'Les Echos',
-  liberation: 'Liberation',
-  scienceetvie: 'Science & vie',
-  skeptikon: 'Skeptikon',
-  unknown: 'Média inconnu',
-  youtube: 'YouTube',
-};
-
 type CommentsAreaDescriptionProps = {
   title: string;
   media: MediaType;
@@ -61,7 +47,7 @@ const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({ title
       <Title>{title}</Title>
 
       <div>
-        <Media>{mediaLabels[media]}</Media>
+        <Media>{medias[media]?.label}</Media>
         <PublicationDate>{formatDate(publicationDate)}</PublicationDate>
         <Author>{author}</Author>
       </div>

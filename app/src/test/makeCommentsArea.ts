@@ -3,7 +3,7 @@ import { CommentsArea } from '../types/CommentsArea';
 const makeCommentsArea = (partial?: Partial<CommentsArea>): CommentsArea => ({
   id: 1,
   information: {
-    media: 'unknown',
+    media: 'skeptikon',
     url: 'https://info.url',
     title: "Les premiers pas de l'Homme sur Mars !",
     author: 'Camille Durand',

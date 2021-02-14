@@ -1,20 +1,10 @@
 import { Type } from 'class-transformer';
 
+import { medias } from 'src/utils/medias';
+
 import { Comment } from './Comment';
 
-export type MediaType =
-  | '20minutes'
-  | 'francesoir'
-  | 'lefigaro'
-  | 'lemonde'
-  | 'leparisien'
-  | 'lepoint'
-  | 'lesechos'
-  | 'liberation'
-  | 'scienceetvie'
-  | 'skeptikon'
-  | 'unknown'
-  | 'youtube';
+export type MediaType = keyof typeof medias;
 
 export class CommentsAreaInformation {
   media: MediaType;

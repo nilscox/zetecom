@@ -10,7 +10,13 @@ type DateInputProps = InputProps & {
 };
 
 const DateInput: React.FC<DateInputProps> = ({ placeholder, value: valueProp, onDateChange, ...props }) => {
-  const [value, handleKeyDown] = useDateInput(valueProp as string, onDateChange);
+  const handleDateChange = (date: string) => {
+    if (date !== valueProp) {
+      onDateChange(date);
+    }
+  };
+
+  const [value, handleKeyDown] = useDateInput(valueProp as string, handleDateChange);
   const [focused, setFocused] = useState(false);
 
   return (
