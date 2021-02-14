@@ -9,7 +9,7 @@ const [visible, setVisible] = useState(true);
   <button onClick={() => setVisible(v => !v)}>Visible: {String(visible)}</button>
 
   <Collapse in={visible}>
-    <div>content</div>
+    <div style={{ margin: '10px 0' }}>content</div>
     <div>content</div>
     <div>content</div>
   </Collapse>

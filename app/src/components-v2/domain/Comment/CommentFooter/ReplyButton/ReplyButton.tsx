@@ -10,12 +10,13 @@ const StyledButton = styled(Button)`
 
 type ReplyButtonProps = {
   isReplyFormOpen: boolean;
+  authorNick: string;
   onClick: () => void;
 };
 
-const ReplyButton: React.FC<ReplyButtonProps> = ({ isReplyFormOpen, onClick }) => {
+const ReplyButton: React.FC<ReplyButtonProps> = ({ isReplyFormOpen, authorNick, onClick }) => {
   return (
-    <StyledButton disabled={isReplyFormOpen} onClick={onClick}>
+    <StyledButton disabled={isReplyFormOpen} title={`Répondre à ${authorNick}`} onClick={onClick}>
       Répondre
     </StyledButton>
   );

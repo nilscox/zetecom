@@ -51,3 +51,5 @@ Prefer repeating the folder's name instead, it's clearer and makes it easier to 
 **Define prop values first, callbacks after and the css prop last.**
 
 ---
+
+**All event handlers passed as props must start with `on`**

@@ -33,9 +33,10 @@ type CommentFooterProps = {
   repliesOpen: boolean;
   replyFormOpen: boolean;
   isSubscribed?: boolean;
+  authorNick: string;
   onUserReactionChange: (reaction: ReactionType) => void;
   onToggleReplies: () => void;
-  onOpenReplyForm: () => void;
+  onReply: () => void;
   onToggleSubscription?: () => void;
 };
 
@@ -47,15 +48,17 @@ const CommentFooter: React.FC<CommentFooterProps> = ({
   repliesCount,
   replyFormOpen,
   isSubscribed,
+  authorNick,
   onUserReactionChange,
   onToggleReplies,
-  onOpenReplyForm,
+  onReply,
   onToggleSubscription,
 }) => (
   <CommentFooterContainer>
     <Reactions counts={reactionsCounts} userReaction={userReaction} setUserReaction={onUserReactionChange} />
 
     <RepliesButton
+      disabled={replyFormOpen}
       loading={repliesLoading}
       repliesOpen={repliesOpen}
       repliesCount={repliesCount}
@@ -69,7 +72,7 @@ const CommentFooter: React.FC<CommentFooterProps> = ({
         css={theme => ({ marginRight: theme.spacings[1] })}
       />
 
-      <ReplyButton isReplyFormOpen={replyFormOpen} onClick={onOpenReplyForm} />
+      <ReplyButton isReplyFormOpen={replyFormOpen} authorNick={authorNick} onClick={onReply} />
     </Right>
   </CommentFooterContainer>
 );

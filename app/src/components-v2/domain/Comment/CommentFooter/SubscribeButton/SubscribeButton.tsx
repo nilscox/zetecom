@@ -1,8 +1,10 @@
 import React from 'react';
 
-import Icon from '../../../../elements/Icon/Icon';
-import IconButton from '../../../../elements/IconButton/IconButton';
-import { Notification, NotificationActive } from '../../../../icons';
+import clsx from 'clsx';
+
+import Icon from 'src/components-v2/elements/Icon/Icon';
+import IconButton from 'src/components-v2/elements/IconButton/IconButton';
+import { Notification, NotificationActive } from 'src/components-v2/icons';
 
 type SubscribeButtonProps = {
   className?: string;
@@ -16,8 +18,9 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({ className, isSubscrib
   }
 
   return (
-    <IconButton className={className} onClick={onClick}>
+    <IconButton className={clsx(className, isSubscribed && 'active')} onClick={onClick} data-testid="subscribe-button">
       <Icon
+        className={isSubscribed ? 'active' : undefined}
         size="small"
         as={isSubscribed ? NotificationActive : Notification}
         color={isSubscribed ? 'primary' : 'icon'}

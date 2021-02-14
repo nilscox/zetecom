@@ -30,6 +30,7 @@ const StyledButton = styled.button`
 
     :active {
       box-shadow: 0 0 2px ${color('secondary', transparentize(0.4))};
+      transition: none;
     }
   }
 

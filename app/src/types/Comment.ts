@@ -4,15 +4,19 @@ import { CommentsArea } from './CommentsArea';
 import { UserLight } from './User';
 
 export enum ReactionType {
-  APPROVE = 'approve',
-  REFUTE = 'refute',
-  SKEPTIC = 'skeptic',
+  like = 'like',
+  approve = 'approve',
+  think = 'think',
+  disagree = 'disagree',
+  dontUnderstand = 'dontUnderstand',
 }
 
 export type ReactionsCount = {
-  [ReactionType.APPROVE]: number;
-  [ReactionType.REFUTE]: number;
-  [ReactionType.SKEPTIC]: number;
+  [ReactionType.like]: number;
+  [ReactionType.approve]: number;
+  [ReactionType.think]: number;
+  [ReactionType.disagree]: number;
+  [ReactionType.dontUnderstand]: number;
 };
 
 export class Message {
