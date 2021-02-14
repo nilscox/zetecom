@@ -1,9 +1,7 @@
 ```tsx
-const user = {
-  id: 42,
-  nick: 'Doug Forcett',
-  avatar: null,
-};
+import makeUser from 'src/test/makeUser';
+
+const user = makeUser({ nick: 'Doug Forcett' });
 
 <UserAvatarNick user={user} />;
 ```

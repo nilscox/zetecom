@@ -1,71 +1,120 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import styled from '@emotion/styled';
+import clsx from 'clsx';
 
-import CommentFooter from 'src/components-v2/domain/Comment/CommentFooter/CommentFooter';
-import { borderRadius, color } from 'src/theme';
+import useReactions from 'src/components-v2/domain/Comment/hooks/useUserReaction';
+import Collapse from 'src/components-v2/layout/Collapse/Collapse';
 import { Comment as CommentType } from 'src/types/Comment';
+import { User } from 'src/types/User';
 
-import CommentBody from './CommentBody/CommentBody';
-import CommentHeader from './CommentHeader/CommentHeader';
+import CommentForm from '../CommentForm/CommentForm';
 
-export const CommentContainer = styled.div`
-  border: 1px solid ${color('border')};
-  border-radius: ${borderRadius(2)};
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 1px rgba(0, 0, 0, 0.08);
-`;
+import CommentComponent from './CommentComponent/CommentComponent';
+import { ReactionType } from './CommentFooter/Reactions/ReactionType';
+import CommentReplies from './CommentReplies/CommentReplies';
+import Nested from './Nested/Nested';
 
-type CommentProps = {
+export type CommentProps = {
+  className?: string;
+  user: User;
   comment: CommentType;
-  repliesOpen: boolean;
   repliesLoading: boolean;
-  replyFormOpen: boolean;
-  onEdit?: () => void;
-  onReport?: () => void;
-  onUserReactionChange: () => void;
-  onToggleReplies: () => void;
-  onOpenReplyForm: () => void;
-  onToggleSubscription?: () => void;
+  submittingEdition: boolean;
+  submittingReply: boolean;
+  onEdit?: (commentId: number, text: string) => void;
+  onReport?: (commentId: number) => void;
+  onUserReactionChange: (commentId: number, type: ReactionType) => void;
+  onToggleSubscription?: (commentId: number) => void;
+  onReply: (commentId: number, text: string) => void;
+  fetchReplies: (commentId: number) => void;
+  getReplies: (commentId: number) => CommentType[] | null;
 };
 
-const Comment: React.FC<CommentProps> = ({
-  comment,
-  repliesOpen,
-  repliesLoading,
-  replyFormOpen,
-  onEdit,
-  onReport,
-  onUserReactionChange,
-  onToggleReplies,
-  onOpenReplyForm,
-  onToggleSubscription,
-}) => {
+const Comment: React.FC<CommentProps> = props => {
+  // prettier-ignore
+  const {
+    className, user, comment, repliesLoading, submittingEdition, submittingReply,
+    onEdit, onReport, onUserReactionChange, onToggleSubscription, onReply, fetchReplies, getReplies,
+  } = props;
+
+  const [editing, setEditing] = useState(false);
+  const [repliesOpen, setRepliesOpen] = useState(false);
+  const [replyFormOpen, setReplyFormOpen] = useState(false);
+  const [subscribed, setSubscribed] = useState(comment.subscribed);
+
+  const [reactionsCount, userReaction, handleUserReactionChange] = useReactions(comment, onUserReactionChange);
+
+  const replies = getReplies(comment.id);
+
+  const handleToggleReplies = () => {
+    fetchReplies(comment.id);
+    setRepliesOpen(!repliesOpen);
+  };
+
+  const handleToggleSubscription = () => {
+    setSubscribed(!subscribed);
+    onToggleSubscription(comment.id);
+  };
+
+  const handleReply = () => {
+    if (!repliesOpen) {
+      handleToggleReplies();
+    }
+
+    setReplyFormOpen(true);
+  };
+
+  if (editing) {
+    return (
+      <CommentForm
+        type="edition"
+        commentId={comment.id}
+        className={className}
+        placeholder="Éditez votre message..."
+        author={comment.author}
+        initialText={comment.text}
+        submitting={submittingEdition}
+        onSubmit={text => onEdit(comment.id, text)}
+        onClose={() => setEditing(false)}
+      />
+    );
+  }
+
   return (
-    <CommentContainer>
-      <CommentHeader
-        user={comment.author}
-        edited={Boolean(comment.edited)}
-        date={comment.edited || comment.date}
-        onEdit={onEdit}
-        onReport={onReport}
-      />
-
-      <CommentBody text={comment.text} />
-
-      <CommentFooter
-        userReaction={comment.userReaction as any}
-        reactionsCounts={comment.reactionsCount as any}
-        repliesLoading={repliesLoading}
-        repliesCount={comment.repliesCount}
+    <div className={clsx('comment', className)} id={`comment-${comment.id}`} data-testid={`comment-${comment.id}`}>
+      <CommentComponent
+        comment={{ ...comment, reactionsCount, userReaction, subscribed }}
         repliesOpen={repliesOpen}
+        repliesLoading={repliesLoading}
         replyFormOpen={replyFormOpen}
-        isSubscribed={comment.subscribed}
-        onUserReactionChange={onUserReactionChange}
-        onToggleReplies={onToggleReplies}
-        onOpenReplyForm={onOpenReplyForm}
-        onToggleSubscription={onToggleSubscription}
+        onEdit={() => setEditing(true)}
+        onReport={() => onReport(comment.id)}
+        onUserReactionChange={handleUserReactionChange}
+        onToggleReplies={handleToggleReplies}
+        onReply={handleReply}
+        onToggleSubscription={handleToggleSubscription}
       />
-    </CommentContainer>
+
+      <Collapse in={replyFormOpen}>
+        <Nested>
+          <CommentForm
+            type="reply"
+            commentId={comment.id}
+            author={user}
+            placeholder={`Répondez à ${comment.author.nick}...`}
+            submitting={submittingReply}
+            onSubmit={text => onReply(comment.id, text)}
+            onClose={() => setReplyFormOpen(false)}
+          />
+        </Nested>
+      </Collapse>
+
+      <Collapse in={repliesOpen && replies?.length > 0}>
+        <Nested barNegativeMargin={replyFormOpen}>
+          <CommentReplies replies={replies || []} {...props} />
+        </Nested>
+      </Collapse>
+    </div>
   );
 };
 

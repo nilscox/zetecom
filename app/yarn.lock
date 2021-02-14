@@ -1977,6 +1977,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kunukn/react-collapse@npm:^2.2.9":
+  version: 2.2.9
+  resolution: "@kunukn/react-collapse@npm:2.2.9"
+  peerDependencies:
+    react: ^16.8 || ^17.x
+    react-dom: ^16.8 || ^17.x
+  checksum: 8b68f5477abc5e1f842a164c42af13ef093af87a1b2853927411d8c440ca79669bb3ebdbe5623af2dbe7dfb83bd65d060d1c0ee315ac9c015944356a99e06d6e
+  languageName: node
+  linkType: hard
+
 "@material-ui/core@npm:^4.11.2":
   version: 4.11.3
   resolution: "@material-ui/core@npm:4.11.3"
@@ -18682,6 +18692,7 @@ typescript@^4.1.3:
     "@emotion/react": ^11.1.5
     "@emotion/styled": ^11.1.5
     "@istanbuljs/nyc-config-typescript": ^1.0.1
+    "@kunukn/react-collapse": ^2.2.9
     "@material-ui/core": ^4.11.2
     "@material-ui/icons": ^4.11.2
     "@pmmmwh/react-refresh-webpack-plugin": ^0.4.3

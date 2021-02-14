@@ -2,9 +2,8 @@ import { darken } from '@material-ui/core';
 import { lighten } from 'polished';
 
 import 'normalize.css';
-
-import 'fontsource-montserrat';
-import 'fontsource-noticia-text';
+import 'fontsource-montserrat/index.css';
+import 'fontsource-noticia-text/index.css';
 
 const primary = '#ff9000';
 const secondary = '#446';

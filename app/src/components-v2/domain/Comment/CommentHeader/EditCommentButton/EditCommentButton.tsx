@@ -10,7 +10,7 @@ type EditCommentButtonProps = {
 };
 
 const EditCommentButton: React.FC<EditCommentButtonProps> = ({ className, onClick }) => (
-  <IconButton className={className} onClick={onClick}>
+  <IconButton className={className} title="Éditer" onClick={onClick}>
     <Icon size="small" as={Edit} />
   </IconButton>
 );

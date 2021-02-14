@@ -50,11 +50,11 @@ const StyledTextArea = styled.textarea`
 
 type CommentTextEditionProps = {
   text: string;
-  placedolder?: string;
+  placeholder?: string;
   onChange: (text: string) => void;
 };
 
-const CommentTextEdition: React.FC<CommentTextEditionProps> = ({ text, placedolder, onChange }) => {
+const CommentTextEdition: React.FC<CommentTextEditionProps> = ({ text, placeholder, onChange }) => {
   const ref = useRef<HTMLTextAreaElement>(null);
   const rows = useRows(ref);
 
@@ -64,7 +64,7 @@ const CommentTextEdition: React.FC<CommentTextEditionProps> = ({ text, placedold
     <StyledTextArea
       ref={ref}
       value={text}
-      placeholder={placedolder}
+      placeholder={placeholder}
       rows={rows}
       onChange={e => onChange(e.currentTarget.value)}
     />

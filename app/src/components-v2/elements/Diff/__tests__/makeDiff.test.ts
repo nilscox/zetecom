@@ -1,6 +1,4 @@
-import makeDiff from 'src/components/DiffView/makeDiff';
-
-import { group } from '../makeDiff';
+import makeDiff, { group } from '../makeDiff';
 
 describe('makeDiff', () => {
   describe('group', () => {

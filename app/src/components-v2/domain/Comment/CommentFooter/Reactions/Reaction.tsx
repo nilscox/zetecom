@@ -62,6 +62,7 @@ const Reaction: React.FC<ReactionProps> = ({ type, count, isUserReaction, onClic
     title={reactionLabels[type]}
     onClick={onClick}
     css={theme => ({ backgroundColor: isUserReaction ? theme.domain.userReactionColor : undefined })}
+    data-testid={`reaction-${type}`}
   >
     <Icon>{reactionIcons[type]}</Icon>
     <Count>{count}</Count>

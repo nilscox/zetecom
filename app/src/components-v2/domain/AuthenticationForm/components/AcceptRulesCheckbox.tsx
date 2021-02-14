@@ -13,7 +13,7 @@ const Label = styled.label`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: ${spacing(2, 0)};
+  margin: ${spacing(2, 0)};
 `;
 
 const LabelText = styled.span`

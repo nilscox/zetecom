@@ -9,10 +9,10 @@ import { spacing } from 'src/theme';
 import { UserLight } from 'src/types/User';
 
 import Tabs, { Tab, useTabs } from '../../elements/Tabs/Tabs';
-import { CommentContainer } from '../Comment/Comment';
-import CommentHeader from '../Comment/CommentHeader/CommentHeader';
+import { CommentContainer } from '../Comment/CommentComponent/CommentComponent';
 
 import CommentFormFooter from './CommentFormFooter/CommentFormFooter';
+import CommentFormHeader from './CommentFormHeader/CommentFormHeader';
 import CommentTextEdition from './CommentTextEdition/CommentTextEdition';
 
 const StyledTabs = styled(Tabs)`
@@ -20,21 +20,35 @@ const StyledTabs = styled(Tabs)`
 `;
 
 type CommentFormProps = {
+  className?: string;
+  type: 'edition' | 'reply';
+  commentId: number;
   author: UserLight;
   initialText?: string;
-  placedolder?: string;
+  placeholder?: string;
   submitting: boolean;
   onSubmit: (text: string) => void;
+  onClose: () => void;
 };
 
-const CommentForm: React.FC<CommentFormProps> = ({ author, initialText = '', placedolder, submitting, onSubmit }) => {
+const CommentForm: React.FC<CommentFormProps> = ({
+  className,
+  type,
+  commentId,
+  author,
+  initialText = '',
+  placeholder,
+  submitting,
+  onSubmit,
+  onClose,
+}) => {
   const [currentTab, tabs] = useTabs(['edit', 'preview']);
   const [text, setText] = useState(initialText);
 
   const tabPanels = {
     edit: (
       <div role="tabpanel" css={{ display: 'flex' }}>
-        <CommentTextEdition text={text} placedolder={placedolder} onChange={setText} />
+        <CommentTextEdition text={text} placeholder={placeholder} onChange={setText} />
       </div>
     ),
 
@@ -42,20 +56,29 @@ const CommentForm: React.FC<CommentFormProps> = ({ author, initialText = '', pla
       <div role="tabpanel">
         <Markdown
           markdown={text}
-          css={theme =>
-            css`
-              padding: ${theme.spacings[2]} ${theme.spacings[1]};
-              min-height: ${theme.spacings[5]};
-            `
-          }
+          css={theme => ({
+            padding: [theme.spacings[2], theme.spacings[1]].join(' '),
+            minHeight: theme.spacings[5],
+          })}
         />
       </div>
     ),
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(text);
+  };
+
   return (
-    <CommentContainer>
-      <CommentHeader user={author} />
+    <CommentContainer
+      as="form"
+      role="form"
+      className={className}
+      data-testid={`comment-${type}-form-${commentId}`}
+      onSubmit={handleSubmit}
+    >
+      <CommentFormHeader type={type} user={author} onClose={onClose} />
 
       <StyledTabs>
         <Tab {...tabs.edit}>Éditer</Tab>
@@ -64,7 +87,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ author, initialText = '', pla
 
       {tabPanels[currentTab]}
 
-      <CommentFormFooter submitting={submitting} onSubmit={() => onSubmit(text)} />
+      <CommentFormFooter submitting={submitting} />
     </CommentContainer>
   );
 };

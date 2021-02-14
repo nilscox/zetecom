@@ -12,13 +12,12 @@ const Container = styled(CommentFooterContainer)`
 
 type CommentFormFooterProps = {
   submitting: boolean;
-  onSubmit: () => void;
 };
 
-const CommentFormFooter: React.FC<CommentFormFooterProps> = ({ submitting, onSubmit }) => {
+const CommentFormFooter: React.FC<CommentFormFooterProps> = ({ submitting }) => {
   return (
     <Container>
-      <Button loading={submitting} onClick={onSubmit}>
+      <Button type="submit" loading={submitting}>
         Envoyer
       </Button>
     </Container>
