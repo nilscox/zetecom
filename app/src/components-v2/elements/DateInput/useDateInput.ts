@@ -138,7 +138,9 @@ const useDateInput = (value: string, onDateChange: (value: string) => void) => {
 
   useEffect(() => {
     if (day.length === 2 && month.length === 2 && year.length === 4) {
-      onDateChange?.(dayjs.utc([Number(year), Number(month), Number(day)].join('-')).toISOString());
+      onDateChange?.(
+        [year.padStart(4, '0'), month.padStart(2, '0'), day.padStart(2, '0')].join('-') + 'T00:00:00.000Z',
+      );
     }
   }, [day, month, year, onDateChange]);
 

@@ -9,10 +9,10 @@ const Container = styled.div`
   margin: ${spacing(1, 0)};
 `;
 
-const AuthenticationFormInput: React.FC<ComponentProps<typeof Input>> = props => (
+const CommentsAreaFormInput = <T extends typeof Input>(props: ComponentProps<T>) => (
   <Container>
-    <Input fullWidth consistentHeight {...props} />
+    <Input fullWidth consistentHeight autoComplete="off" {...props} />
   </Container>
 );
 
-export default AuthenticationFormInput;
+export default CommentsAreaFormInput;

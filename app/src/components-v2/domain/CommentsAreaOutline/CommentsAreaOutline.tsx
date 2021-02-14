@@ -8,8 +8,9 @@ import { Comment } from 'src/components-v2/icons';
 import { spacing } from 'src/theme';
 import { CommentsArea } from 'src/types/CommentsArea';
 
+import MediaImage from '../MediaImage/MediaImage';
+
 import CommentsAreaDescription from './CommentsAreaDescription/CommentsAreaDescription';
-import MediaImage from './MediaImage/MediaImage';
 
 const Container = styled.a`
   display: flex;
