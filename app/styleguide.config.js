@@ -1,33 +1,27 @@
 const path = require('path');
+const glob = require('glob');
+
+const getComponents = basePath => {
+  const entries = glob(basePath + '/**/*.md', { sync: true })
+    .map(filePath => filePath.replace(basePath + '/', ''))
+    .map(filePath => filePath.replace(/\.md$/, '.tsx'));
+
+  return `${basePath}/{${entries.join(',')}}`;
+};
 
 module.exports = {
   sections: [
     {
       name: 'Elements',
-      components: 'src/components-v2/elements/**/*.tsx',
-      ignore: [
-        'src/components-v2/elements/Button/LoadingIndicator.tsx',
-        'src/components-v2/elements/Dialog/ConfirmDialog.tsx',
-      ],
+      components: getComponents('src/components/elements'),
     },
     {
       name: 'Layout',
-      components: 'src/components-v2/layout/**/*.tsx',
+      components: getComponents('src/components/layout'),
     },
     {
       name: 'Domain',
-      components: 'src/components-v2/domain/**/*.tsx',
-      ignore: [
-        'src/components-v2/domain/AuthenticationForm/!(AuthenticationForm.tsx)/**/*',
-        'src/components-v2/domain/Comment/!(Comment.tsx)/**/*',
-        'src/components-v2/domain/CommentForm/!(CommentForm.tsx)/**/*',
-        'src/components-v2/domain/CommentsAreaForm/!(CommentsAreaForm.tsx)/**/*',
-        'src/components-v2/domain/CommentsAreaOutline/!(CommentsAreaOutline.tsx)/**/*',
-        'src/components-v2/domain/FiltersBar/!(FiltersBar.tsx)/**/*',
-        'src/components-v2/domain/Notification/!(Notification.tsx)/**/*',
-        'src/components-v2/domain/UserMenu/AuthenticatedUserMenu.tsx',
-        'src/components-v2/domain/UserMenu/UnauthenticatedUserMenu.tsx',
-      ],
+      components: getComponents('src/components/domain'),
     },
     {
       name: 'Theme',
@@ -35,11 +29,11 @@ module.exports = {
     },
     {
       name: 'Icons',
-      content: 'src/components-v2/icons/_icons.md',
+      content: 'src/components/icons/_icons.md',
     },
     {
       name: 'Guidelines',
-      content: 'src/components-v2/guidelines.md',
+      content: 'src/components/guidelines.md',
     },
   ],
   pagePerSection: true,
