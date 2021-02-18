@@ -42,7 +42,6 @@ const StyledTextArea = styled.textarea`
   font-family: ${font('monospace')};
   line-height: 1.3;
   border: none;
-  outline: none;
   color: ${textColor('default')};
   width: 100%;
   resize: vertical;

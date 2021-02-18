@@ -9,7 +9,6 @@ import { ReactionType } from './ReactionType';
 
 const Container = styled.button`
   border: none;
-  outline: none;
   padding: ${spacing(0.5, 2)};
   background-color: transparent;
   display: flex;
