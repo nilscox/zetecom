@@ -2,7 +2,6 @@ import { Comment, ReactionType } from '../types/Comment';
 
 const makeComment = (partial?: Partial<Comment>): Comment => ({
   id: 1,
-  quote: null,
   text: 'text',
   date: new Date(),
   edited: false,
