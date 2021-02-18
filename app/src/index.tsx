@@ -13,24 +13,24 @@ import queryString from 'query-string';
 import 'dayjs/locale/fr';
 
 // keep this imports first
-import './utils/zetecom-global';
+import './domain/zetecom-global';
 import './utils/sentry';
 
 import App from './App';
 import env from './utils/env';
 
-const getApiRootUrl = () => {
-  return [queryString.parse(window.location.search).api_url as string | undefined, env.API_URL].filter(u => !!u)[0];
+dayjs.extend(utc);
+dayjs.locale('fr');
+
+const getBaseUrl = () => {
+  return [
+    queryString.parse(window.location.search).api_url as string | undefined,
+    localStorage.getItem('API_URL'),
+    env.API_URL,
+  ].find(Boolean);
 };
 
-const main = () => {
-  dayjs.extend(utc);
-  dayjs.locale('fr');
+axios.defaults.baseURL = getBaseUrl();
+axios.defaults.withCredentials = true;
 
-  axios.defaults.baseURL = getApiRootUrl();
-  axios.defaults.withCredentials = true;
-
-  ReactDOM.render(<App />, document.getElementById('app'));
-};
-
-main();
+ReactDOM.render(<App />, document.getElementById('app'));
