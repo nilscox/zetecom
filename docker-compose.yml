@@ -55,6 +55,7 @@ services:
       DB_USER: root
       DB_PASS: root
       DB_NAME: db
+      DB_NAME_ROOT: postgres
       DB_ENTITIES: src/**/*.entity.js
       DB_MIGRATIONS: migrations/*.js
       DB_SEEDS: seeds/*.js
