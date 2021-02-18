@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router';
 import Footer from 'src/components/domain/Footer/Footer';
 import HeaderLogo from 'src/components/domain/HeaderLogo/HeaderLogo';
 import UserMenu from 'src/components/domain/UserMenu/UserMenu';
-import { useSetUser, useUser } from 'src/contexts/user';
+import { useSetUser, useUser } from 'src/contexts/userContext';
 import useAxios from 'src/hooks/useAxios';
 import { size, spacing } from 'src/theme';
 

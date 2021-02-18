@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 
-import { useSetUser } from 'src/contexts/user';
+import { useSetUser } from 'src/contexts/userContext';
 import useAxios from 'src/hooks/useAxios';
 import { User } from 'src/types/User';
 import { FormErrorHandlers } from 'src/utils/getFormErrors';
