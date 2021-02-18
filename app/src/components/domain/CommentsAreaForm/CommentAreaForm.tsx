@@ -11,7 +11,7 @@ import CommentsAreaFormInput from './CommentsAreaFormInput/CommentsAreaFormInput
 import useCommentsAreaForm, { CommentsAreaFormState } from './hooks/useCommentsAreaForm';
 import useMediaType from './hooks/useMediaType';
 
-export { CommentsAreaFormState } from './hooks/useCommentsAreaForm';
+export type { CommentsAreaFormState } from './hooks/useCommentsAreaForm';
 
 const Container = styled.div`
   display: flex;
