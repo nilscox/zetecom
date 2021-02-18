@@ -35,7 +35,8 @@ const AppGuardProvider: Provider = {
 
 const fakeLagProvider: Provider = {
   provide: 'FAKE_LAG',
-  useValue: 230,
+  inject: [ConfigService],
+  useFactory: (config: ConfigService) => config.get('FAKE_LAG'),
 };
 
 @Module({

@@ -9,6 +9,7 @@ const enviornmentVariables = [
 
   'LOG_LEVEL',
   'REFLECT_ORIGIN',
+  'FAKE_LAG',
 
   'SSL_CERTIFICATE',
   'SSL_CERTIFICATE_KEY',
