@@ -2,10 +2,10 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
+import { medias } from 'src/domain/medias/medias';
 import useDateFormat from 'src/hooks/useDateFormat';
 import { domain, fontSize, fontWeight, size, spacing, textColor } from 'src/theme';
 import { MediaType } from 'src/types/CommentsArea';
-import { medias } from 'src/utils/medias';
 
 const Container = styled.div`
   margin-left: ${spacing(4)};

@@ -1,5 +1,6 @@
 import _20minutes from './images/20minutes.png';
 import francesoir from './images/francesoir.png';
+import youtube from './images/youtube.png';
 
 export const medias = {
   '20minutes': {
@@ -64,7 +65,7 @@ export const medias = {
 
   youtube: {
     label: 'YouTube',
-    image: _20minutes,
+    image: youtube,
     host: /youtube\.(com|fr)$/,
   },
 };

@@ -1,5 +1,5 @@
+import { medias } from 'src/domain/medias/medias';
 import { MediaType } from 'src/types/CommentsArea';
-import { medias } from 'src/utils/medias';
 
 const useMediaType = (urlStr: string): MediaType | undefined => {
   try {
