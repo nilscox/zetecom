@@ -23,6 +23,10 @@ const StyledInput = styled.input`
     border-radius: ${borderRadius(2)};
   }
 
+  &.large {
+    padding: ${spacing(2, 2)};
+  }
+
   &.full-width {
     width: 100%;
   }
@@ -47,15 +51,19 @@ const Error = styled.div`
 
 export type InputProps = ComponentProps<typeof StyledInput> & {
   className?: string;
+  large?: boolean;
   outlined?: boolean;
   fullWidth?: boolean;
   error?: React.ReactNode;
   consistentHeight?: boolean;
 };
 
-const Input: React.FC<InputProps> = ({ outlined, fullWidth, error, consistentHeight, ...props }) => (
+const Input: React.FC<InputProps> = ({ large, outlined, fullWidth, error, consistentHeight, ...props }) => (
   <>
-    <StyledInput {...props} className={clsx(outlined && 'outlined', fullWidth && 'full-width', props.className)} />
+    <StyledInput
+      {...props}
+      className={clsx(large && 'large', outlined && 'outlined', fullWidth && 'full-width', props.className)}
+    />
     {(error || consistentHeight) && <Error>{error || <>&nbsp;</>}</Error>}
   </>
 );

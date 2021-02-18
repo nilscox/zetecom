@@ -10,11 +10,11 @@ import facebookLogo from './facebook-logo.png';
 import twitterLogo from './twitter-logo.png';
 
 const Container = styled.footer`
-  display: flex;
-  flex-direction: row;
-  margin-top: ${spacing(2)};
+  margin: ${spacing(5, 0)};
   border-top: 1px solid ${color('border')};
   padding-top: ${spacing(2)};
+  display: flex;
+  flex-direction: row;
 `;
 
 const Column = styled.div`

@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import Icon from 'src/components/elements/Icon/Icon';
 import Link from 'src/components/elements/Link/Link';
 import { Comment } from 'src/components/icons';
-import { spacing } from 'src/theme';
+import { fontSize, spacing, textColor } from 'src/theme';
 import { CommentsArea } from 'src/types/CommentsArea';
 
 import MediaImage from '../MediaImage/MediaImage';
@@ -23,6 +23,8 @@ const CommentsCount = styled.div`
   display: flex;
   flex-direction: row;
   font-weight: bold;
+  font-size: ${fontSize('large')};
+  color: ${textColor('light')};
 
   & > svg {
     margin-right: ${spacing(1)};
@@ -45,7 +47,7 @@ const CommentsAreaOutline: React.FC<CommentsAreaOutlineProps> = ({ commentsArea,
       <MediaImage media={commentsArea.information.media} />
       <CommentsAreaDescription {...commentsArea.information} />
       <CommentsCount>
-        <Icon size="small" as={Comment}></Icon>
+        <Icon as={Comment}></Icon>
         {commentsArea.commentsCount}
       </CommentsCount>
     </Container>
