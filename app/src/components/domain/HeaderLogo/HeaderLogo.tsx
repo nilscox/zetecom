@@ -2,6 +2,7 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
+import Link from 'src/components/elements/Link/Link';
 import { color, font, fontWeight, spacing } from 'src/theme';
 
 import logo from './logo.png';
@@ -35,6 +36,13 @@ const SubTitle = styled.div`
   color: ${color('secondary')};
 `;
 
+const Left = styled(Link)`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  text-decoration: none;
+`;
+
 const Right = styled.div`
   margin-left: auto;
 `;
@@ -46,12 +54,14 @@ type HeaderLogoProps = {
 const HeaderLogo: React.FC<HeaderLogoProps> = ({ right }) => {
   return (
     <Container>
-      <Logo src={logo} />
-      <MainTitle>Zétécom</MainTitle>
-      <SubTitle>
-        <div>L'information</div>
-        <div>avec esprit critique</div>
-      </SubTitle>
+      <Left to="/">
+        <Logo src={logo} />
+        <MainTitle>Zétécom</MainTitle>
+        <SubTitle>
+          <div>L'information</div>
+          <div>avec esprit critique</div>
+        </SubTitle>
+      </Left>
       {right && <Right>{right}</Right>}
     </Container>
   );

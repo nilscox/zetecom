@@ -46,23 +46,27 @@ const MenuIcon = styled(Icon)`
 
 type AuthenticatedUserMenuProps = {
   user: User;
+  onLogout: () => void;
 };
 
-const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) => (
+const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user, onLogout }) => (
   <Menu menuButton={<AvatarNick user={user} />}>
     <MenuItem>
       <MenuIcon as={Notification} />
       Notifications
     </MenuItem>
+
     <MenuItem>
       <MenuIcon as={Comment} />
       Mes commentaires
     </MenuItem>
+
     <MenuItem>
       <MenuIcon as={DoneAll} />
       Modération
     </MenuItem>
-    <MenuItem>
+
+    <MenuItem onClick={onLogout}>
       <MenuIcon as={Logout} />
       Déconnexion
     </MenuItem>

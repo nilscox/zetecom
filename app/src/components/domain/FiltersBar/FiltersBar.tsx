@@ -16,6 +16,7 @@ const Container = styled.div`
 `;
 
 type FiltersBarProps = {
+  className?: string;
   search: string;
   sort?: SortType;
   page: number;
@@ -25,9 +26,19 @@ type FiltersBarProps = {
   onPageChange: (page: number) => void;
 };
 
-const FiltersBar: React.FC<FiltersBarProps> = ({ search, sort, page, totalPages, onSearch, onSort, onPageChange }) => (
-  <Container>
+const FiltersBar: React.FC<FiltersBarProps> = ({
+  className,
+  search,
+  sort,
+  page,
+  totalPages,
+  onSearch,
+  onSort,
+  onPageChange,
+}) => (
+  <Container className={className}>
     <Input
+      large
       outlined
       fullWidth
       placeholder="Rechercher..."

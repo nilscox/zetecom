@@ -2,16 +2,17 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
-import { size } from 'src/theme';
+import { color, domain, size } from 'src/theme';
 import { MediaType } from 'src/types/CommentsArea';
 import { medias } from 'src/utils/medias';
 
 import defaultCommentsArea from './default-comments-area.png';
 
 const StyledImage = styled.img`
-  width: ${size('small')};
-  height: ${size('xsmall')};
+  width: ${domain('mediaImageWidth')};
+  height: ${domain('mediaImageHeight')};
   object-fit: cover;
+  background-color: ${color('light')};
 `;
 
 type MediaImageProps = {

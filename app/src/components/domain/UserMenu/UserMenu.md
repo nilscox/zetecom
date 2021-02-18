@@ -11,5 +11,5 @@ import makeUser from 'src/test/makeUser';
 
 const user = makeUser({ nick: 'Doug Forcett' });
 
-<UserMenu user={user} />;
+<UserMenu user={user} onLogout={() => {}} />;
 ```

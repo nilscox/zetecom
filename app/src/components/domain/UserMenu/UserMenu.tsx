@@ -7,10 +7,11 @@ import UnauthenticatedUserMenu from './UnauthenticatedUserMenu';
 
 type UserMenuProps = {
   user?: User;
+  onLogout?: () => void;
 };
 
-const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
-  return user ? <AuthenticatedUserMenu user={user} /> : <UnauthenticatedUserMenu />;
+const UserMenu: React.FC<UserMenuProps> = ({ user, onLogout }) => {
+  return user && onLogout ? <AuthenticatedUserMenu user={user} onLogout={onLogout} /> : <UnauthenticatedUserMenu />;
 };
 
 export default UserMenu;

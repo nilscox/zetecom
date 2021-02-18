@@ -15,6 +15,17 @@ export const GlobalStyles: React.FC = () => (
         font-family: ${theme.fonts.default};
         color: ${theme.textColors.default};
       }
+
+      a {
+        outline: none;
+        color: ${theme.textColors.link};
+        transition: ${theme.transitions.fast} color;
+
+        &:focus {
+          color: ${theme.textColors.linkFocused};
+          transition: none;
+        }
+      }
     `}
   />
 );

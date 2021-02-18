@@ -3,34 +3,39 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import useDateFormat from 'src/hooks/useDateFormat';
-import { fontSize, fontWeight, spacing } from 'src/theme';
+import { domain, fontSize, fontWeight, size, spacing, textColor } from 'src/theme';
 import { MediaType } from 'src/types/CommentsArea';
 import { medias } from 'src/utils/medias';
 
 const Container = styled.div`
-  margin-left: ${spacing(2)};
+  margin-left: ${spacing(4)};
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  font-size: ${fontSize('large')};
 `;
 
 const Title = styled.div`
-  font-size: ${fontSize('large')};
+  margin-bottom: ${spacing(2)};
+  font-size: ${domain('commentsAreaTitleFontSize')};
   font-weight: ${fontWeight('bold')};
+  line-height: 1.4;
 `;
 
-const InfoItem = styled.span`
-  margin: ${spacing(0, 2)};
-
-  &:first-of-type {
-    margin-left: 0;
-  }
+const PublicationDate = styled.div`
+  color: ${textColor('light')};
 `;
 
-const PublicationDate = InfoItem;
-const Media = InfoItem;
-const Author = InfoItem;
+const Media = styled.div`
+  width: ${size('medium')};
+  display: inline-block;
+  color: ${textColor('default')};
+`;
+
+const Author = styled.div`
+  display: inline-block;
+  color: ${textColor('default')};
+`;
 
 type CommentsAreaDescriptionProps = {
   title: string;
@@ -46,9 +51,10 @@ const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({ title
     <Container>
       <Title>{title}</Title>
 
+      <PublicationDate>{formatDate(publicationDate)}</PublicationDate>
+
       <div>
         <Media>{medias[media]?.label}</Media>
-        <PublicationDate>{formatDate(publicationDate)}</PublicationDate>
         <Author>{author}</Author>
       </div>
     </Container>
