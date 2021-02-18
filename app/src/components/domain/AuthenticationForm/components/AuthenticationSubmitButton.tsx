@@ -20,10 +20,14 @@ const StyledButton = styled(Button)`
 
 type AuthenticationSubmitButtonProps = {
   formType: AuthenticationFormType;
+  disabled: boolean;
+  loading: boolean;
 };
 
-const AuthenticationSubmitButton: React.FC<AuthenticationSubmitButtonProps> = ({ formType }) => (
-  <StyledButton size="large">{labels[formType]}</StyledButton>
+const AuthenticationSubmitButton: React.FC<AuthenticationSubmitButtonProps> = ({ formType, disabled, loading }) => (
+  <StyledButton disabled={disabled} loading={loading} size="large">
+    {labels[formType]}
+  </StyledButton>
 );
 
 export default AuthenticationSubmitButton;

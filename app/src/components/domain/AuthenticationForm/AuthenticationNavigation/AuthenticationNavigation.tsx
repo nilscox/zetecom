@@ -20,7 +20,7 @@ const AuthenticationNavigation: React.FC<AuthenticationNavigationProps> = ({ for
   <Container>
     {formType !== 'login' && <Link to="/connexion">Connexion</Link>}
     {formType === 'login' && <Link to="/inscription">Créer un compte</Link>}
-    <Link to="/connexion-par-email">Mot de passe oublié</Link>
+    {formType !== 'emailLogin' && <Link to="/connexion-par-email">Mot de passe oublié</Link>}
   </Container>
 );
 

@@ -47,7 +47,7 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckbox> = ({ display, ...props 
   return (
     <Collapse in={display}>
       <Label>
-        <Checkbox tabIndex={display ? undefined : -1} {...props} onChange={handleChange} />
+        <Checkbox tabIndex={display ? undefined : -1} required={display} {...props} onChange={handleChange} />
         <LabelText>
           J'accepte{' '}
           <ExternalLink tabIndex={display ? undefined : -1} href={env.WEBSITE_URL + '/charte.html'}>

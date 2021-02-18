@@ -1,22 +1,30 @@
 ```tsx
-const [type, setType] = React.useState('login');
+import { useHistory, Route } from 'react-router-dom';
 
-<>
-  <select value={type} onChange={e => setType(e.currentTarget.value)}>
-    <option value="login">login</option>
-    <option value="signup">signup</option>
-    <option value="emailLogin">emailLogin</option>
-  </select>
+const history = useHistory();
 
-  <hr />
+history.push('/connexion');
 
-  <AuthenticationForm type={type} fieldErrors={{}} onSubmit={() => {}} />
-</>;
+<Route path="/(connexion|inscription|connexion-par-email)">
+  <AuthenticationForm
+    loading={false}
+    fieldErrors={{}}
+    formError={null}
+    clearFieldError={() => {}}
+    onSubmit={() => {}}
+  />
+</Route>;
 ```
 
 With errors
 
 ```tsx
+import { useHistory, Route } from 'react-router-dom';
+
+const history = useHistory();
+
+history.push('/inscription');
+
 const [type, setType] = React.useState('login');
 
 const fieldErrors = {
@@ -27,7 +35,13 @@ const fieldErrors = {
 
 const formError = 'Combisaison email / mot de passe non valide';
 
-<>
-  <AuthenticationForm type="signup" fieldErrors={fieldErrors} formError={formError} onSubmit={() => {}} />
-</>;
+<Route path="/(connexion|inscription|connexion-par-email)">
+  <AuthenticationForm
+    loading={false}
+    fieldErrors={fieldErrors}
+    formError={formError}
+    clearFieldError={() => {}}
+    onSubmit={() => {}}
+  />
+</Route>;
 ```

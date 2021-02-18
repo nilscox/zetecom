@@ -14,7 +14,7 @@ type NickFieldProps = {
 
 const NickField: React.FC<NickFieldProps> = ({ display, ...props }) => (
   <Collapse in={display}>
-    <AuthenticationFormInput outlined type="text" tabIndex={display ? undefined : -1} {...props} />
+    <AuthenticationFormInput outlined type="text" tabIndex={display ? undefined : -1} required={display} {...props} />
   </Collapse>
 );
 
