@@ -34,5 +34,8 @@ module.exports = ({ PUBLIC_PATH }) => ({
     progress: false,
     overlay: true,
     hot: true,
+    // fix webpack-dev-server crashing with sockjs-node
+    // https://github.com/webpack/webpack-dev-server/issues/2628#issuecomment-634475007
+    transportMode: 'ws',
   },
 });
