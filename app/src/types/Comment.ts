@@ -1,6 +1,5 @@
 import { Transform, Type } from 'class-transformer';
 
-import { CommentsArea } from './CommentsArea';
 import { UserLight } from './User';
 
 export enum ReactionType {
@@ -28,9 +27,6 @@ export class Message {
 export class Comment {
   id: number;
 
-  // TODO: remove?
-  quote: string | null;
-
   text: string;
 
   @Type(() => Date)
@@ -44,15 +40,11 @@ export class Comment {
   @Type(() => UserLight)
   author: UserLight;
 
-  // TODO: the api allows this to be undefined: why?
   reactionsCount: ReactionsCount;
 
   userReaction?: ReactionType | null;
 
   subscribed?: boolean;
-
-  @Type(() => CommentsArea)
-  commentsArea?: CommentsArea;
 
   score: number;
 }
