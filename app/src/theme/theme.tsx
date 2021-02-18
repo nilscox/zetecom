@@ -29,7 +29,7 @@ const theme = {
   },
 
   textColors: {
-    default: '#333',
+    default: '#444',
     light: '#666',
     button: '#555',
     link: lighten(0.15, secondary),
@@ -88,6 +88,11 @@ const theme = {
   },
 
   domain: {
+    authenticationFormWidth: '440px',
+    authenticationFormMargin: '80px',
+    commentsAreaTitleFontSize: '1.4rem',
+    mediaImageWidth: '160px',
+    mediaImageHeight: '100px',
     reactionFontSize: '20px',
     commentLightBackground: '#fafafa',
     userReactionColor: '#ffeca6',
