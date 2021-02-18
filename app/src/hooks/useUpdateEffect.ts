@@ -9,7 +9,7 @@ const useUpdateEffect = (effect: React.EffectCallback, deps: React.DependencyLis
     } else {
       effect();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };
 
