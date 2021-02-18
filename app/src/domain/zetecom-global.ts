@@ -1,6 +1,6 @@
-import pkg from '../../package.json';
+import env from 'src/utils/env';
 
-import env from './env';
+import pkg from '../../package.json';
 
 type Zetecom = {
   appVersion: string;

@@ -2,9 +2,9 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
+import { medias } from 'src/domain/medias/medias';
 import { color, domain, size } from 'src/theme';
 import { MediaType } from 'src/types/CommentsArea';
-import { medias } from 'src/utils/medias';
 
 import defaultCommentsArea from './default-comments-area.png';
 
