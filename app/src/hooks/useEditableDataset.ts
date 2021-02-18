@@ -1,6 +1,6 @@
 import { Reducer, useReducer } from 'react';
 
-import useUpdateEffect from './use-update-effect';
+import useUpdateEffect from './useUpdateEffect';
 
 type EditableDataset<T> = [
   T[] | undefined,
