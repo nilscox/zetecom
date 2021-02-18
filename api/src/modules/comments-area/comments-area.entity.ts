@@ -10,10 +10,27 @@ import {
 
 import { User } from 'src/modules/user/user.entity';
 
+export enum MediaType {
+  _20minutes = '20minutes',
+  francesoir = 'francesoir',
+  lefigaro = 'lefigaro',
+  lemonde = 'lemonde',
+  leparisien = 'leparisien',
+  lepoint = 'lepoint',
+  lesechos = 'lesechos',
+  liberation = 'liberatio',
+  scienceetvie = 'scienceetvie',
+  skeptikon = 'skeptikon',
+  youtube = 'youtube',
+}
+
 @Entity({ name: 'comments_area', orderBy: { created: 'ASC' } })
 export class CommentsArea {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ name: 'information_media', type: 'enum', enum: MediaType, nullable: true })
+  informationMedia: MediaType;
 
   @Column({ name: 'information_url' })
   informationUrl: string;
