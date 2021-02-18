@@ -21,6 +21,7 @@ const comment = makeComment();
 const noop = () => {};
 
 const props: CommentProps = {
+  CommentContainer: null,
   user,
   comment,
   repliesLoading: false,
@@ -32,7 +33,6 @@ const props: CommentProps = {
   onToggleSubscription: noop,
   onReply: noop,
   fetchReplies: noop,
-  getReplies: () => [],
 };
 
 const Test: React.FC<Partial<CommentProps>> = override => (
@@ -131,9 +131,7 @@ describe('Comment', () => {
       const comment: CommentType = { ...props.comment, repliesCount: 2 };
       const replies = [makeComment({ id: 2 }), makeComment({ id: 3 })];
 
-      const getReplies = (commentId: number) => (commentId === props.comment.id ? replies : []);
-
-      render(<Test comment={comment} getReplies={getReplies} />);
+      render(<Test comment={comment} replies={replies} />);
 
       expect(screen.getByTestId('comment-2')).not.toBeVisible();
       expect(screen.getByTestId('comment-3')).not.toBeVisible();
@@ -153,9 +151,7 @@ describe('Comment', () => {
       const comment: CommentType = { ...props.comment, repliesCount: 1 };
       const replies = [makeComment({ id: 2 })];
 
-      const getReplies = (commentId: number) => (commentId === props.comment.id ? replies : []);
-
-      render(<Test comment={comment} getReplies={getReplies} />);
+      render(<Test comment={comment} replies={replies} />);
 
       act(() => userEvent.click(screen.getAllByText('Répondre')[0]));
 

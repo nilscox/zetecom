@@ -2,19 +2,23 @@
 import makeComment from 'src/test/makeComment';
 import makeUser from 'src/test/makeUser';
 
-const reactionsCount = {
-  like: 5,
-  approve: 4,
-  think: 3,
-  disagree: 2,
-  dontUnderstand: 1,
-};
-
 const user = makeUser({ nick: 'Myself' });
 const author = makeUser({ nick: 'Nicolas Tesla' });
-const comment = makeComment({ text: 'Some random comment', reactionsCount, repliesCount: 2, author });
 
-const [replies, setReplies] = React.useState(null);
+const comment = makeComment({
+  text: 'Some random comment',
+  repliesCount: 2,
+  reactionsCount: {
+    like: 5,
+    approve: 4,
+    think: 3,
+    disagree: 2,
+    dontUnderstand: 1,
+  },
+  author,
+});
+
+const [replies, setReplies] = React.useState();
 const [repliesLoading, setRepliesLoading] = React.useState(false);
 
 React.useEffect(() => {
@@ -31,50 +35,50 @@ React.useEffect(() => {
   }
 }, [repliesLoading]);
 
-const getReplies = commentId => {
-  if (commentId === comment.id) {
-    return replies;
-  }
-
-  return [];
-};
-
 const fetchReplies = () => {
-  if (replies === null) {
+  if (replies === undefined) {
     setRepliesLoading(true);
   }
 };
 
-const handleEdit = (commentId, text) => {
-  console.log(`edit comment ${commentId}: "${text}"`);
+const handleEdit = text => {
+  console.log(`edit comment: "${text}"`);
 };
 
-const handleReply = (commentId, text) => {
-  console.log(`reply to comment ${commentId}: "${text}"`);
+const handleReply = text => {
+  console.log(`reply to comment: "${text}"`);
 };
 
-const handleReport = commentId => {
-  console.log(`report comment ${commentId}`);
+const handleReport = () => {
+  console.log(`report comment`);
 };
 
-const handleToggleSubscription = commentId => {
-  console.log(`toggle subscrption ${commentId}`);
+const handleToggleSubscription = () => {
+  console.log(`toggle subscrption`);
 };
 
-const handleUserReactionChange = (commentId, type) => {
-  console.log(`user reaction change ${commentId}: type`);
+const handleUserReactionChange = type => {
+  console.log(`user reaction change: ${type}`);
 };
 
-<Comment
-  user={user}
-  comment={comment}
-  repliesLoading={repliesLoading}
-  onEdit={handleEdit}
-  onReply={handleReply}
-  onReport={handleReport}
-  onToggleSubscription={handleToggleSubscription}
-  onUserReactionChange={handleUserReactionChange}
-  fetchReplies={fetchReplies}
-  getReplies={getReplies}
-/>;
+// this should be defined in the global scope, rather than inside this "component" created by styleguidist
+const CommentContainer = props => (
+  <Comment
+    CommentContainer={CommentContainer}
+    user={user}
+    comment={props.comment}
+    replies={props.comment === comment ? replies : undefined}
+    repliesLoading={repliesLoading}
+    submittingEdition={false}
+    submittingReply={false}
+    onEdit={handleEdit}
+    onReport={handleReport}
+    onUserReactionChange={handleUserReactionChange}
+    onToggleSubscription={handleToggleSubscription}
+    onReply={handleReply}
+    fetchReplies={fetchReplies}
+  />
+);
+
+<CommentContainer comment={comment} />;
 ```
