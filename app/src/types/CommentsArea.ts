@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 
-import { medias } from 'src/utils/medias';
+import { medias } from 'src/domain/medias/medias';
 
 import { Comment } from './Comment';
 
