@@ -64,8 +64,11 @@ export class Comment {
   [util.inspect.custom]() {
     let str = 'Comment#' + this.id;
 
-    if (this.messages) str += ` ("${this.messages[0].text}")`;
-    else str += ' -';
+    if (this.messages) {
+      str += ` ("${this.messages[0].text}")`;
+    } else {
+      str += ' -';
+    }
 
     return str;
   }
