@@ -25,14 +25,14 @@ type UseAxiosPaginatedReturnType<TResponse, TError> = [
   UseAxiosReturnType<Paginated<TResponse>, TError>[2],
 ];
 
-const useAxiosPaginated = <TResponse, TError = any>(
+const useAxiosPaginated = <TResponse, TError = unknown>(
   ...args: UseAxiosParams
 ): UseAxiosPaginatedReturnType<TResponse, TError> => {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<SortType>();
   const [search, setSearch] = useState('');
 
-  const [data, result, refetch] = useAxios<Paginated<TResponse>>(...args);
+  const [data, result, refetch] = useAxios<Paginated<TResponse>, TError>(...args);
 
   useUpdateEffect(() => {
     const params: AxiosRequestConfig['params'] = {};
