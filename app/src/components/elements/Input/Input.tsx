@@ -11,7 +11,6 @@ const StyledInput = styled.input`
   padding: ${spacing(1, 0)};
   font-size: ${fontSize('default')};
   color: ${textColor('default')};
-  outline: none;
   box-sizing: border-box;
   transition: ${transition('fast', 'border-bottom-color')};
 

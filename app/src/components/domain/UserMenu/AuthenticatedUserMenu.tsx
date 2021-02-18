@@ -12,7 +12,6 @@ import { User } from 'src/types/User';
 const AvatarNickContainer = styled.button`
   width: ${size('small')};
   border: none;
-  outline: none;
   background: transparent;
   display: flex;
   flex-direction: column;

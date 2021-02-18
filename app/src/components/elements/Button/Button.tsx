@@ -13,7 +13,6 @@ const StyledButton = styled.button`
   position: relative;
   border: none;
   border-radius: ${borderRadius(1)};
-  outline: none;
   padding: ${spacing(1, 2)};
   background-color: transparent;
   color: ${textColor('button')};

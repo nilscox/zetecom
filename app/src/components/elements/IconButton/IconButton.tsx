@@ -8,7 +8,6 @@ const Button = styled.button`
   border: none;
   border-radius: ${borderRadius(1)};
   padding: 0;
-  outline: none;
   background: transparent;
   color: ${color('icon')};
   cursor: pointer;

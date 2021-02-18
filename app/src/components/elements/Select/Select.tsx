@@ -7,7 +7,6 @@ const Select = styled.select`
   border: 1px solid ${color('border')};
   border-radius: ${borderRadius(1)};
   background-color: transparent;
-  outline: none;
 `;
 
 /** @component */
