@@ -21,7 +21,7 @@ type RepliesButtonProps = {
   loading: boolean;
   repliesOpen: boolean;
   repliesCount: number;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 const RepliesButton: React.FC<RepliesButtonProps> = ({ disabled, loading, repliesOpen, repliesCount, onClick }) => (
@@ -31,16 +31,18 @@ const RepliesButton: React.FC<RepliesButtonProps> = ({ disabled, loading, replie
     title="Voir les réponses"
     onClick={onClick}
   >
-    <Icon
-      as={CaretRight}
-      size="small"
-      css={theme => css`
-        margin-right: ${theme.spacings[1]};
-        transform: rotate(${repliesOpen ? 90 : 0}deg);
-        transition: ${theme.transitions.fast} transform ease;
-        display: ${repliesCount === 0 ? 'none' : undefined};
-      `}
-    />
+    {onClick && (
+      <Icon
+        as={CaretRight}
+        size="small"
+        css={theme => css`
+          margin-right: ${theme.spacings[1]};
+          transform: rotate(${repliesOpen ? 90 : 0}deg);
+          transition: ${theme.transitions.fast} transform ease;
+          display: ${repliesCount === 0 ? 'none' : undefined};
+        `}
+      />
+    )}
     {repliesCount} réponse{repliesCount >= 2 ? 's' : ''}
   </StyledRepliesButton>
 );

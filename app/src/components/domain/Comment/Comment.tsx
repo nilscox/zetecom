@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import CommentOrCommentForm from 'src/components/domain/Comment/CommentOrCommentForm/CommentOrCommentForm';
 import CommentsList from 'src/components/domain/Comment/CommentsList/CommentsList';
+import useCanPerformAction from 'src/components/domain/Comment/hooks/useCanPerformAction';
 import useReactions from 'src/components/domain/Comment/hooks/useUserReaction';
 import CommentForm from 'src/components/domain/CommentForm/CommentForm';
 import Collapse from 'src/components/layout/Collapse/Collapse';
@@ -13,31 +14,33 @@ import Nested from './Nested/Nested';
 
 export type CommentProps = {
   CommentContainer: React.FC<{ comment: CommentType }>;
-  user: User;
+  user: User | null;
   comment: CommentType;
   replies?: CommentType[];
   repliesLoading: boolean;
   submittingEdition: boolean;
   submittingReply: boolean;
-  onEdit?: (text: string) => void;
-  onReport?: () => void;
-  onUserReactionChange?: (type: ReactionType | null) => void;
-  onToggleSubscription?: () => void;
+  onEdit: (text: string) => void;
+  onReport: () => void;
+  onUserReactionChange: (type: ReactionType | null) => void;
+  onToggleSubscription: () => void;
   onReply: (text: string) => void;
   fetchReplies: () => void;
 };
 
-// prettier-ignore
-const Comment: React.FC<CommentProps> = ({
-  CommentContainer, user, comment, replies, repliesLoading, submittingEdition, submittingReply,
-  onEdit, onReport, onUserReactionChange, onToggleSubscription, onReply, fetchReplies,
-}) => {
+const Comment: React.FC<CommentProps> = props => {
+  // prettier-ignore
+  const {
+    CommentContainer, user, comment, replies, repliesLoading, submittingEdition, submittingReply,
+    onEdit, onReport, onUserReactionChange, onToggleSubscription, onReply, fetchReplies,
+  } = props;
+
   const [repliesOpen, setRepliesOpen] = useState(false);
   const [replyFormOpen, setReplyFormOpen] = useState(false);
   const [subscribed, setSubscribed] = useState(comment.subscribed);
 
   const [reactionsCount, userReaction, handleUserReactionChange] = useReactions(comment, onUserReactionChange);
-  const canSetReaction = Boolean(onUserReactionChange) && comment.author.id !== user.id;
+  const can = useCanPerformAction(user, comment);
 
   const handleToggleReplies = () => {
     if (replies === undefined) {
@@ -68,29 +71,31 @@ const Comment: React.FC<CommentProps> = ({
         repliesOpen={repliesOpen}
         repliesLoading={repliesLoading}
         replyFormOpen={replyFormOpen}
-        onEdit={onEdit}
-        onReport={onReport}
-        onUserReactionChange={canSetReaction ? handleUserReactionChange : undefined}
-        onToggleReplies={handleToggleReplies}
-        onReply={handleReply}
-        onToggleSubscription={handleToggleSubscription}
+        onEdit={can('edit', onEdit)}
+        onReport={can('report', onReport)}
+        onToggleReplies={can('toggleReplies', handleToggleReplies)}
+        onUserReactionChange={can('setReaction', handleUserReactionChange)}
+        onReply={can('reply', handleReply)}
+        onToggleSubscription={can('subscribe', handleToggleSubscription)}
       />
 
-      <Collapse in={replyFormOpen}>
-        <Nested>
-          <CommentForm
-            type="reply"
-            commentId={comment.id}
-            author={user}
-            placeholder={`Répondez à ${comment.author.nick}...`}
-            submitting={submittingReply}
-            onSubmit={onReply}
-            onClose={() => setReplyFormOpen(false)}
-          />
-        </Nested>
-      </Collapse>
+      {user && (
+        <Collapse in={replyFormOpen}>
+          <Nested>
+            <CommentForm
+              type="reply"
+              commentId={comment.id}
+              author={user}
+              placeholder={`Répondez à ${comment.author.nick}...`}
+              submitting={submittingReply}
+              onSubmit={onReply}
+              onClose={() => setReplyFormOpen(false)}
+            />
+          </Nested>
+        </Collapse>
+      )}
 
-      <Collapse in={repliesOpen && (replies || []).length > 0}>
+      <Collapse in={repliesOpen && (replies ?? []).length > 0}>
         <Nested barNegativeMargin={replyFormOpen}>
           <CommentsList CommentContainer={CommentContainer} comments={replies || []} />
         </Nested>

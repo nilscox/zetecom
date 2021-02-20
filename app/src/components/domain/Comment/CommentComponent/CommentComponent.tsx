@@ -24,8 +24,8 @@ type CommentComponentProps = {
   onEdit?: () => void;
   onReport?: () => void;
   onUserReactionChange?: (type: ReactionType) => void;
-  onToggleReplies: () => void;
-  onReply: () => void;
+  onToggleReplies?: () => void;
+  onReply?: () => void;
   onToggleSubscription?: () => void;
 };
 

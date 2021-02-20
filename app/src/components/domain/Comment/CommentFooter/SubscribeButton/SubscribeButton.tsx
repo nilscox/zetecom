@@ -8,8 +8,8 @@ import { Notification, NotificationActive } from 'src/components/icons';
 
 type SubscribeButtonProps = {
   className?: string;
-  isSubscribed?: boolean;
-  onClick?: () => void;
+  isSubscribed: boolean;
+  onClick: () => void;
 };
 
 const SubscribeButton: React.FC<SubscribeButtonProps> = ({ className, isSubscribed, onClick }) => {
