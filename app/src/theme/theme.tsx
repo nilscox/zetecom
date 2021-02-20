@@ -7,10 +7,10 @@ import 'fontsource-noticia-text/index.css';
 const primary = '#ff9000';
 const secondary = '#446';
 
-const success = '#9fd6a1';
-const error = '#ffa39d';
-const warning = '#ffcd83';
-const info = '#92b0de';
+const success = '#349b37';
+const error = '#cc574f';
+const warning = '#be6600';
+const info = '#0c51b8';
 
 const theme = {
   colors: {
@@ -21,10 +21,10 @@ const theme = {
     border: lighten(0.5, secondary),
     icon: lighten(0.2, secondary),
     iconDisabled: lighten(0.5, secondary),
-    success,
-    error,
-    warning,
-    info,
+    success: lighten(0.3, success),
+    error: lighten(0.3, error),
+    warning: lighten(0.4, warning),
+    info: lighten(0.4, info),
   },
 
   textColors: {
@@ -34,10 +34,10 @@ const theme = {
     link: lighten(0.15, secondary),
     linkFocused: primary,
     disabled: '#999',
-    success: darken(0.1, success),
-    error: darken(0.1, error),
-    warning: darken(0.1, warning),
-    info: darken(0.1, info),
+    success,
+    error,
+    warning,
+    info,
   },
 
   spacings: {
@@ -69,6 +69,7 @@ const theme = {
     default: '1rem',
     small: '0.8rem',
     large: '1.2rem',
+    xlarge: '1.6rem',
   },
 
   fontWeights: {

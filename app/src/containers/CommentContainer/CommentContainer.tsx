@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import useReport from 'src/containers/CommentContainer/hooks/useReport';
 import { useUser } from 'src/contexts/userContext';
 import { Comment as CommentType } from 'src/types/Comment';
 
@@ -25,6 +26,7 @@ const CommentContainer: React.FC<CommentContainerProps> = props => {
   const [{ submittingEdition }, onEdit] = useEdition(comment, setComment);
   const onSetReaction = useSetReaction(comment);
   const onSetSubscription = useSetSubscription(comment, setComment);
+  const onReport = useReport(comment);
 
   return (
     <Comment
@@ -36,7 +38,7 @@ const CommentContainer: React.FC<CommentContainerProps> = props => {
       submittingEdition={submittingEdition}
       submittingReply={submittingReply}
       onEdit={onEdit}
-      onReport={() => {}}
+      onReport={onReport}
       onSetReaction={onSetReaction}
       onSetSubscription={onSetSubscription}
       onReply={onReply}
