@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 import { color, spacing } from 'src/theme';
 
 const Container = styled.div`
-  margin-top: ${spacing(2)};
   display: flex;
   flex-direction: row;
 `;
@@ -13,7 +12,6 @@ const Container = styled.div`
 const Bar = styled.div<{ negativeMargin?: boolean }>`
   margin-right: ${spacing(2)};
   border-left: 6px solid ${color('border')};
-  ${({ negativeMargin, theme }) => ({ marginTop: negativeMargin ? '-' + theme.spacings[2] : 0 })}
 `;
 
 const Content = styled.div`
@@ -21,12 +19,12 @@ const Content = styled.div`
 `;
 
 type NestedProps = {
-  barNegativeMargin?: boolean;
+  className?: string;
 };
 
-const Nested: React.FC<NestedProps> = ({ barNegativeMargin, children }) => (
-  <Container>
-    <Bar negativeMargin={barNegativeMargin} />
+const Nested: React.FC<NestedProps> = ({ className, children }) => (
+  <Container className={className}>
+    <Bar className="bar" />
     <Content>{children}</Content>
   </Container>
 );

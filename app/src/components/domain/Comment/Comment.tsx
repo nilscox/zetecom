@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
 
+import styled from '@emotion/styled';
+
 import CommentForm from 'src/components/domain/CommentForm/CommentForm';
 import Collapse from 'src/components/layout/Collapse/Collapse';
+import { spacing } from 'src/theme';
 import { Comment as CommentType } from 'src/types/Comment';
 import { User } from 'src/types/User';
+
+import Nested from '../../elements/Nested/Nested';
 
 import { ReactionType } from './CommentFooter/Reactions/ReactionType';
 import CommentsList from './CommentsList/CommentsList';
 import EditableComment from './EditableComment/EditableComment';
 import useCanPerformAction from './hooks/useCanPerformAction';
 import useReactions from './hooks/useUserReaction';
-import Nested from './Nested/Nested';
+
+const StyledNested = styled(Nested)<{ barNegativeMargin?: boolean }>`
+  margin-top: ${spacing(2)};
+
+  .bar {
+    margin-top: ${props => (props.barNegativeMargin ? `-${props.theme.spacings[2]}` : undefined)};
+  }
+`;
 
 export type CommentProps = {
   CommentContainer: React.FC<{ comment: CommentType }>;
@@ -83,7 +95,7 @@ const Comment: React.FC<CommentProps> = props => {
 
       {user && (
         <Collapse in={replyFormOpen}>
-          <Nested>
+          <StyledNested>
             <CommentForm
               type="reply"
               author={user}
@@ -92,14 +104,14 @@ const Comment: React.FC<CommentProps> = props => {
               onSubmit={onReply}
               onClose={() => setReplyFormOpen(false)}
             />
-          </Nested>
+          </StyledNested>
         </Collapse>
       )}
 
       <Collapse in={repliesOpen && (replies ?? []).length > 0}>
-        <Nested barNegativeMargin={replyFormOpen}>
+        <StyledNested barNegativeMargin={replyFormOpen}>
           <CommentsList CommentContainer={CommentContainer} comments={replies || []} />
-        </Nested>
+        </StyledNested>
       </Collapse>
     </div>
   );
