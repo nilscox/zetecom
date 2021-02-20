@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import { jsx } from '@emotion/react';
 
@@ -18,9 +18,27 @@ type BoxProps = {
   p?: Spacing;
   px?: Spacing;
   py?: Spacing;
+  flex?: boolean;
+  justifyContent?: CSSProperties['justifyContent'];
+  alignItems?: CSSProperties['alignItems'];
 };
 
-const Box: React.FC<BoxProps> = ({ m, mx, my, mt, mr, mb, ml, p, px, py, children }) => {
+const Box: React.FC<BoxProps> = ({
+  m,
+  mx,
+  my,
+  mt,
+  mr,
+  mb,
+  ml,
+  p,
+  px,
+  py,
+  flex,
+  justifyContent,
+  alignItems,
+  children,
+}) => {
   const margin: Array<Spacing> = [mt ?? 0, ml ?? 0, mb ?? 0, mr ?? 0];
   const padding: Array<Spacing> = [0, 0, 0, 0];
 
@@ -53,6 +71,9 @@ const Box: React.FC<BoxProps> = ({ m, mx, my, mt, mr, mb, ml, p, px, py, childre
       css={theme => ({
         margin: margin.map(n => theme.spacings[n]).join(' '),
         padding: padding.map(n => theme.spacings[n]).join(' '),
+        display: flex ? 'flex' : undefined,
+        justifyContent,
+        alignItems,
       })}
     >
       {children}
