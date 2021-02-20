@@ -4,7 +4,7 @@ jest.mock('../../layout/Collapse/Collapse');
 import React from 'react';
 
 import { ThemeProvider } from '@emotion/react';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { ReactionType } from 'src/components/domain/Comment/CommentFooter/Reactions/ReactionType';
@@ -15,13 +15,18 @@ import { Comment as CommentType } from 'src/types/Comment';
 
 import Comment, { CommentProps } from './Comment';
 
-const user = makeUser();
-const comment = makeComment();
+const CommentContainer: React.FC<{ comment: CommentType }> = ({ comment }) => (
+  <div data-testid={`comment-${comment.id}`} />
+);
+
+const user = makeUser({ id: 1 });
+const author = makeUser({ id: 2 });
+const comment = makeComment({ author });
 
 const noop = () => {};
 
 const props: CommentProps = {
-  CommentContainer: () => null,
+  CommentContainer,
   user,
   comment,
   repliesLoading: false,
@@ -29,8 +34,8 @@ const props: CommentProps = {
   submittingReply: false,
   onEdit: noop,
   onReport: noop,
-  onUserReactionChange: noop,
-  onToggleSubscription: noop,
+  onSetReaction: noop,
+  onSetSubscription: noop,
   onReply: noop,
   fetchReplies: noop,
 };
@@ -43,10 +48,16 @@ const Test: React.FC<Partial<CommentProps>> = override => (
 
 describe('Comment', () => {
   describe('edition', () => {
-    it('switch to edition mode', () => {
-      const formTestId = `comment-edition-form-${comment.id}`;
+    const formTestId = 'comment-edition-form';
 
-      render(<Test />);
+    it('cannot switch to edition mode when not the author', () => {
+      render(<Test user={user} />);
+
+      expect(screen.queryByTitle('Éditer')).toBeNull();
+    });
+
+    it('switch to edition mode', () => {
+      render(<Test user={author} />);
 
       expect(screen.queryByTestId(formTestId)).toBeNull();
 
@@ -64,38 +75,45 @@ describe('Comment', () => {
     it('edit a comment', async () => {
       const onEdit = jest.fn();
 
-      render(<Test onEdit={onEdit} />);
+      render(<Test user={author} onEdit={onEdit} />);
 
       act(() => userEvent.click(screen.getByTitle('Éditer')));
 
-      await act(async () => {
-        const textArea = screen.getByPlaceholderText('Éditez votre message...');
+      const textArea = screen.getByPlaceholderText('Éditez votre message...');
 
+      await act(async () => {
         userEvent.clear(textArea);
         await userEvent.type(textArea, 'Some message', { delay: 1 });
       });
 
-      act(() => userEvent.click(screen.getByText('Envoyer')));
+      act(() => userEvent.click(within(screen.getByTestId(formTestId)).getByText('Envoyer')));
 
-      expect(onEdit).toHaveBeenCalledWith(comment.id, 'Some message');
+      expect(onEdit).toHaveBeenCalledWith('Some message');
     });
   });
 
   describe('reply', () => {
+    const formTestId = 'comment-reply-form';
+
+    it('cannot reply when unauthenticated', () => {
+      render(<Test user={null} />);
+
+      expect(screen.queryByText('Répondre')).toBeNull();
+      expect(screen.queryByTestId(formTestId)).toBeNull();
+    });
+
     it('open the reply form', () => {
-      const formTestId = `comment-reply-form-${comment.id}`;
+      render(<Test user={user} />);
 
-      render(<Test />);
-
-      expect(screen.queryByTestId(formTestId)).not.toBeVisible();
+      expect(screen.getByTestId(formTestId)).not.toBeVisible();
 
       act(() => userEvent.click(screen.getByRole('button', { name: `Répondre à ${comment.author.nick}` })));
 
-      expect(screen.queryByTestId(formTestId)).toBeVisible();
+      expect(screen.getByTestId(formTestId)).toBeVisible();
 
       act(() => userEvent.click(screen.getByTitle('Fermer le formulaire de réponse')));
 
-      expect(screen.queryByTestId(formTestId)).not.toBeVisible();
+      expect(screen.getByTestId(formTestId)).not.toBeVisible();
     });
 
     it('reply to a comment', async () => {
@@ -111,7 +129,7 @@ describe('Comment', () => {
         userEvent.click(screen.getByText('Envoyer'));
       });
 
-      expect(onReply).toHaveBeenCalledWith(comment.id, 'Some reply');
+      expect(onReply).toHaveBeenCalledWith('Some reply');
     });
   });
 
@@ -124,7 +142,7 @@ describe('Comment', () => {
 
       act(() => userEvent.click(screen.getByRole('button', { name: 'Voir les réponses' })));
 
-      expect(fetchReplies).toHaveBeenCalledWith(comment.id);
+      expect(fetchReplies).toHaveBeenCalled();
     });
 
     it('display the replies', () => {
@@ -165,6 +183,18 @@ describe('Comment', () => {
   });
 
   describe('report', () => {
+    it('cannot report when unauthenticated', () => {
+      render(<Test user={null} />);
+
+      expect(screen.queryByText('Signaler')).toBeNull();
+    });
+
+    it('cannot report own comment', () => {
+      render(<Test user={author} />);
+
+      expect(screen.queryByText('Signaler')).toBeNull();
+    });
+
     it('report a comment', () => {
       const onReport = jest.fn();
 
@@ -172,16 +202,28 @@ describe('Comment', () => {
 
       act(() => userEvent.click(screen.getByText('Signaler')));
 
-      expect(onReport).toHaveBeenCalledWith(comment.id);
+      expect(onReport).toHaveBeenCalled();
     });
   });
 
   describe('reactions', () => {
+    it('cannot set a reaction when unauthenticated', () => {
+      render(<Test user={null} />);
+
+      expect(screen.queryByTitle("J'aime")).toBeDisabled();
+    });
+
+    it('cannot set a reaction own comment', () => {
+      render(<Test user={author} />);
+
+      expect(screen.queryByTitle("Je suis plutôt d'accord")).toBeDisabled();
+    });
+
     it('set a reaction', () => {
       const comment = { ...props.comment };
-      const onUserReactionChange = jest.fn();
+      const onSetReaction = jest.fn();
 
-      const { rerender } = render(<Test comment={comment} onUserReactionChange={onUserReactionChange} />);
+      const { rerender } = render(<Test user={user} comment={comment} onSetReaction={onSetReaction} />);
 
       const expectReactionsState = () => {
         for (const type of Object.values(ReactionType)) {
@@ -204,12 +246,12 @@ describe('Comment', () => {
       comment.reactionsCount[ReactionType.think]++;
       comment.userReaction = ReactionType.think;
 
-      expect(onUserReactionChange).toHaveBeenCalledWith(comment.id, ReactionType.think);
-      onUserReactionChange.mockReset();
+      expect(onSetReaction).toHaveBeenCalledWith(ReactionType.think);
+      onSetReaction.mockReset();
 
       expectReactionsState();
 
-      rerender(<Test comment={comment} onUserReactionChange={onUserReactionChange} />);
+      rerender(<Test comment={comment} onSetReaction={onSetReaction} />);
       expectReactionsState();
 
       act(() => userEvent.click(screen.getByTestId(`reaction-${ReactionType.dontUnderstand}`)));
@@ -218,12 +260,12 @@ describe('Comment', () => {
       comment.reactionsCount[ReactionType.dontUnderstand]++;
       comment.userReaction = ReactionType.dontUnderstand;
 
-      expect(onUserReactionChange).toHaveBeenCalledWith(comment.id, ReactionType.dontUnderstand);
-      onUserReactionChange.mockReset();
+      expect(onSetReaction).toHaveBeenCalledWith(ReactionType.dontUnderstand);
+      onSetReaction.mockReset();
 
       expectReactionsState();
 
-      rerender(<Test comment={comment} onUserReactionChange={onUserReactionChange} />);
+      rerender(<Test comment={comment} onSetReaction={onSetReaction} />);
       expectReactionsState();
 
       act(() => userEvent.click(screen.getByTestId(`reaction-${ReactionType.dontUnderstand}`)));
@@ -231,45 +273,39 @@ describe('Comment', () => {
       comment.reactionsCount[ReactionType.dontUnderstand]--;
       comment.userReaction = null;
 
-      expect(onUserReactionChange).toHaveBeenCalledWith(comment.id, null);
-      onUserReactionChange.mockReset();
+      expect(onSetReaction).toHaveBeenCalledWith(null);
+      onSetReaction.mockReset();
 
       expectReactionsState();
 
-      rerender(<Test comment={comment} onUserReactionChange={onUserReactionChange} />);
+      rerender(<Test comment={comment} onSetReaction={onSetReaction} />);
       expectReactionsState();
     });
   });
 
   describe('subscribe', () => {
-    it('toggle the subscription to a comment', () => {
-      const onToggleSubscription = jest.fn();
+    it('cannot subscribe when unauthenticated', () => {
+      render(<Test user={null} />);
 
-      render(<Test onToggleSubscription={onToggleSubscription} />);
+      expect(screen.queryByTestId('subscribe-button')).toBeNull();
+    });
+
+    it('toggle the subscription to a comment', () => {
+      const onSetSubscription = jest.fn();
+
+      render(<Test user={user} onSetSubscription={onSetSubscription} />);
 
       expect(screen.getByTestId('subscribe-button')).not.toHaveClass('active');
 
       act(() => userEvent.click(screen.getByTestId('subscribe-button')));
 
-      expect(onToggleSubscription).toHaveBeenCalledWith(comment.id);
+      expect(onSetSubscription).toHaveBeenCalled();
       expect(screen.getByTestId('subscribe-button')).toHaveClass('active');
 
       act(() => userEvent.click(screen.getByTestId('subscribe-button')));
 
       expect(screen.getByTestId('subscribe-button')).not.toHaveClass('active');
-      expect(onToggleSubscription).toHaveBeenCalledTimes(2);
-    });
-  });
-
-  describe('report', () => {
-    it('report a comment', () => {
-      const onReport = jest.fn();
-
-      render(<Test onReport={onReport} />);
-
-      act(() => userEvent.click(screen.getByText('Signaler')));
-
-      expect(onReport).toHaveBeenCalledWith(comment.id);
+      expect(onSetSubscription).toHaveBeenCalledTimes(2);
     });
   });
 });

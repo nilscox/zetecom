@@ -23,6 +23,7 @@ export const UserProvider: React.FC = ({ children }) => {
 
   return (
     <AsyncContent
+      loaderDelay={800}
       loading={user === undefined}
       render={() => (
         <userContext.Provider value={[user as UserContextType[0], setUser]}>{children}</userContext.Provider>

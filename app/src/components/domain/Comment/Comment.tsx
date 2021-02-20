@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
-import CommentOrCommentForm from 'src/components/domain/Comment/CommentOrCommentForm/CommentOrCommentForm';
-import CommentsList from 'src/components/domain/Comment/CommentsList/CommentsList';
-import useCanPerformAction from 'src/components/domain/Comment/hooks/useCanPerformAction';
-import useReactions from 'src/components/domain/Comment/hooks/useUserReaction';
 import CommentForm from 'src/components/domain/CommentForm/CommentForm';
 import Collapse from 'src/components/layout/Collapse/Collapse';
 import { Comment as CommentType } from 'src/types/Comment';
 import { User } from 'src/types/User';
 
 import { ReactionType } from './CommentFooter/Reactions/ReactionType';
+import CommentOrCommentForm from './CommentOrCommentForm/CommentOrCommentForm';
+import CommentsList from './CommentsList/CommentsList';
+import useCanPerformAction from './hooks/useCanPerformAction';
+import useReactions from './hooks/useUserReaction';
 import Nested from './Nested/Nested';
 
 export type CommentProps = {
@@ -22,8 +22,8 @@ export type CommentProps = {
   submittingReply: boolean;
   onEdit: (text: string) => void;
   onReport: () => void;
-  onUserReactionChange: (type: ReactionType | null) => void;
-  onToggleSubscription: () => void;
+  onSetReaction: (type: ReactionType | null) => void;
+  onSetSubscription: (subscribed: boolean) => void;
   onReply: (text: string) => void;
   fetchReplies: () => void;
 };
@@ -32,14 +32,14 @@ const Comment: React.FC<CommentProps> = props => {
   // prettier-ignore
   const {
     CommentContainer, user, comment, replies, repliesLoading, submittingEdition, submittingReply,
-    onEdit, onReport, onUserReactionChange, onToggleSubscription, onReply, fetchReplies,
+    onEdit, onReport, onSetReaction, onSetSubscription, onReply, fetchReplies,
   } = props;
 
   const [repliesOpen, setRepliesOpen] = useState(false);
   const [replyFormOpen, setReplyFormOpen] = useState(false);
   const [subscribed, setSubscribed] = useState(comment.subscribed);
 
-  const [reactionsCount, userReaction, handleUserReactionChange] = useReactions(comment, onUserReactionChange);
+  const [reactionsCount, userReaction, handleUserReactionChange] = useReactions(comment, onSetReaction);
   const can = useCanPerformAction(user, comment);
 
   const handleToggleReplies = () => {
@@ -51,8 +51,10 @@ const Comment: React.FC<CommentProps> = props => {
   };
 
   const handleToggleSubscription = () => {
-    setSubscribed(!subscribed);
-    onToggleSubscription?.();
+    if (onSetSubscription) {
+      onSetSubscription(!subscribed);
+      setSubscribed(!subscribed);
+    }
   };
 
   const handleReply = () => {
@@ -74,7 +76,7 @@ const Comment: React.FC<CommentProps> = props => {
         onEdit={can('edit', onEdit)}
         onReport={can('report', onReport)}
         onToggleReplies={can('toggleReplies', handleToggleReplies)}
-        onUserReactionChange={can('setReaction', handleUserReactionChange)}
+        onSetReaction={can('setReaction', handleUserReactionChange)}
         onReply={can('reply', handleReply)}
         onToggleSubscription={can('subscribe', handleToggleSubscription)}
       />
@@ -84,7 +86,6 @@ const Comment: React.FC<CommentProps> = props => {
           <Nested>
             <CommentForm
               type="reply"
-              commentId={comment.id}
               author={user}
               placeholder={`Répondez à ${comment.author.nick}...`}
               submitting={submittingReply}
