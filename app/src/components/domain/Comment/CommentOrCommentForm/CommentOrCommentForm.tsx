@@ -16,8 +16,8 @@ type CommentOrCommentFormProps = {
   onReport?: () => void;
   onUserReactionChange?: (type: ReactionType) => void;
   onToggleSubscription?: () => void;
-  onToggleReplies: () => void;
-  onReply: () => void;
+  onToggleReplies?: () => void;
+  onReply?: () => void;
 };
 
 const CommentOrCommentForm: React.FC<CommentOrCommentFormProps> = ({
@@ -56,7 +56,7 @@ const CommentOrCommentForm: React.FC<CommentOrCommentFormProps> = ({
       repliesOpen={repliesOpen}
       repliesLoading={repliesLoading}
       replyFormOpen={replyFormOpen}
-      onEdit={() => setEditing(true)}
+      onEdit={onEdit ? () => setEditing(true) : undefined}
       onReport={onReport}
       onUserReactionChange={onUserReactionChange}
       onToggleReplies={onToggleReplies}

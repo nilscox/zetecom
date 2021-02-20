@@ -1,7 +1,8 @@
 import React from 'react';
 
 import AuthenticationForm from 'src/components/domain/AuthenticationForm/AuthenticationForm';
-import useAuthentication from 'src/containers/Authentication/hooks/useAuthentication';
+
+import useAuthentication from './hooks/useAuthentication';
 
 type AuthenticationProps = {
   className?: string;
