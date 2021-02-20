@@ -5,15 +5,16 @@ import { User } from 'src/modules/user/user.entity';
 import { Comment } from './comment.entity';
 
 export enum ReactionType {
-  APPROVE = 'approve',
-  REFUTE = 'refute',
-  SKEPTIC = 'skeptic',
+  like = 'like',
+  approve = 'approve',
+  think = 'think',
+  disagree = 'disagree',
+  dontUnderstand = 'dontUnderstand',
 }
 
 @Entity({ name: 'reaction' })
 @Unique(['user', 'comment'])
 export class Reaction {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -30,5 +31,4 @@ export class Reaction {
 
   @CreateDateColumn()
   created: Date;
-
 }

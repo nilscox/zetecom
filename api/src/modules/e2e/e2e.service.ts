@@ -24,7 +24,7 @@ import { UserDto } from './dtos/User';
 
 const DB_NAME = 'e2e';
 
-const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const wait = (ms: number) => new Promise(r => setTimeout(r, ms));
 wait;
 
 type GetUser = (nick: string) => User;
@@ -189,7 +189,7 @@ export class E2eService {
     }
 
     if (comment.reactions) {
-      for (const type of [ReactionType.APPROVE, ReactionType.REFUTE, ReactionType.SKEPTIC]) {
+      for (const type of Object.values(ReactionType)) {
         for (const nick of comment.reactions[type] || []) {
           await this.commentsService.setReaction(created, getUser(nick), type);
         }

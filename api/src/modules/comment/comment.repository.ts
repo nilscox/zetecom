@@ -51,7 +51,6 @@ export type FindAllOptions = {
 
 @EntityRepository(Comment)
 export class CommentRepository extends Repository<Comment> {
-
   private readonly reactionRepository: Repository<Reaction>;
 
   constructor() {
@@ -62,8 +61,7 @@ export class CommentRepository extends Repository<Comment> {
   }
 
   createQueryBuilder(alias: string) {
-    return super.createQueryBuilder(alias)
-      .where(`${alias}.deleted IS NULL`);
+    return super.createQueryBuilder(alias).where(`${alias}.deleted IS NULL`);
   }
 
   async exists(id: number): Promise<boolean> {
@@ -73,29 +71,37 @@ export class CommentRepository extends Repository<Comment> {
   async findAll(opts: FindAllOptions = {}): Promise<Paginated<Comment>> {
     const qb = this.createQueryBuilder('comment');
 
-    if (typeof opts.ids !== 'undefined')
+    if (typeof opts.ids !== 'undefined') {
       qb.whereInIds(opts.ids);
+    }
 
-    if (typeof opts.sort !== 'undefined')
+    if (typeof opts.sort !== 'undefined') {
       this.orderBy(qb, opts.sort);
+    }
 
-    if (typeof opts.search !== 'undefined')
+    if (typeof opts.search !== 'undefined') {
       this.search(qb, opts.search);
+    }
 
-    if (typeof opts.authorId !== 'undefined')
+    if (typeof opts.authorId !== 'undefined') {
       qb.andWhere('comment.author_id = :authorId', { authorId: opts.authorId });
+    }
 
-    if (typeof opts.commentsAreaId !== 'undefined')
+    if (typeof opts.commentsAreaId !== 'undefined') {
       qb.andWhere('comment.comments_area_id = :commentsAreaId', { commentsAreaId: opts.commentsAreaId });
+    }
 
-    if (typeof opts.root !== 'undefined')
+    if (typeof opts.root !== 'undefined') {
       qb.andWhere('comment.parent_id IS NULL');
+    }
 
-    if (typeof opts.parentId !== 'undefined')
+    if (typeof opts.parentId !== 'undefined') {
       qb.andWhere('comment.parent_id = :parentId', { parentId: opts.parentId });
+    }
 
-    if (typeof opts.pagination !== 'undefined')
+    if (typeof opts.pagination !== 'undefined') {
       this.paginate(qb, opts.pagination);
+    }
 
     this.joinAndSelect(qb, opts?.relations);
 
@@ -108,8 +114,7 @@ export class CommentRepository extends Repository<Comment> {
   }
 
   async findById(id: number, relations?: CommentJoinRelations) {
-    const qb = this.createQueryBuilder('comment')
-      .where({ id });
+    const qb = this.createQueryBuilder('comment').where({ id });
 
     this.joinAndSelect(qb, relations);
 
@@ -120,6 +125,7 @@ export class CommentRepository extends Repository<Comment> {
   }
 
   private joinAndSelect(qb: SelectQueryBuilder<Comment>, relations?: CommentJoinRelations) {
+    // prettier-ignore
     const {
       author = true,
       message = true,
@@ -128,32 +134,34 @@ export class CommentRepository extends Repository<Comment> {
       parent = false,
     } = { ...relations };
 
-    if (author)
+    if (author) {
       qb.leftJoinAndSelect('comment.author', 'author');
-
-    if (message)
-      qb.leftJoinAndSelect('comment.message', 'message');
-
-    if (messages) {
-      qb.leftJoinAndSelect('comment.messages', 'messages')
-        .addOrderBy('messages.created', 'DESC');
     }
 
-    if (commentsArea)
-      qb.leftJoinAndSelect('comment.commentsArea', 'commentsArea');
+    if (message) {
+      qb.leftJoinAndSelect('comment.message', 'message');
+    }
 
-    if (parent)
+    if (messages) {
+      qb.leftJoinAndSelect('comment.messages', 'messages').addOrderBy('messages.created', 'DESC');
+    }
+
+    if (commentsArea) {
+      qb.leftJoinAndSelect('comment.commentsArea', 'commentsArea');
+    }
+
+    if (parent) {
       qb.leftJoinAndSelect('comment.parent', 'parent');
+    }
   }
 
   private orderBy(qb: SelectQueryBuilder<Comment>, sort: SortType) {
-    if (sort === SortType.DATE_ASC)
+    if (sort === SortType.DATE_ASC) {
       qb.addOrderBy('comment.created', 'ASC');
-    else if (sort === SortType.DATE_DESC)
+    } else if (sort === SortType.DATE_DESC) {
       qb.addOrderBy('comment.created', 'DESC');
-    else if (sort === SortType.RELEVANCE) {
-      qb.addOrderBy('comment.score', 'DESC')
-        .addOrderBy('comment.created', 'DESC');
+    } else if (sort === SortType.RELEVANCE) {
+      qb.addOrderBy('comment.score', 'DESC').addOrderBy('comment.created', 'DESC');
     }
   }
 
@@ -166,11 +174,7 @@ export class CommentRepository extends Repository<Comment> {
     qb.offset(pageSize * (page - 1));
   }
 
-  async findForUser(
-    userId: number,
-    search: string | null,
-    pagination: Pagination,
-  ): Promise<Paginated<Comment>> {
+  async findForUser(userId: number, search: string | null, pagination: Pagination): Promise<Paginated<Comment>> {
     const getCommentsAreasIds = async () => {
       const qb = this.createQueryBuilder('comment')
         .select('comment.comments_area_id')
@@ -214,6 +218,7 @@ export class CommentRepository extends Repository<Comment> {
   }
 
   private async findAncestors(id: number) {
+    // prettier-ignore
     const [{ ancestors }] = await this.query(`
       WITH RECURSIVE tree AS (
         SELECT id, ARRAY[]::INTEGER[] AS ancestors
@@ -229,11 +234,11 @@ export class CommentRepository extends Repository<Comment> {
   }
 
   async incrementScore(id: number, by = 1) {
-    return this.increment({ id: In([id, ...await this.findAncestors(id)]) }, 'score', by);
+    return this.increment({ id: In([id, ...(await this.findAncestors(id))]) }, 'score', by);
   }
 
   async decrementScore(id: number, by = 1) {
-    return this.decrement({ id: In([id, ...await this.findAncestors(id)]) }, 'score', by);
+    return this.decrement({ id: In([id, ...(await this.findAncestors(id))]) }, 'score', by);
   }
 
   async getMessages(commentsIds: number[]): Promise<{ commentId: number; messages: Message[] }[]> {
@@ -258,7 +263,7 @@ export class CommentRepository extends Repository<Comment> {
       .groupBy('comment.id')
       .getRawMany();
 
-    const results = commentsIds.map((id) => ({ commentId: id, repliesCount: 0 }));
+    const results = commentsIds.map(id => ({ commentId: id, repliesCount: 0 }));
 
     repliesCounts.forEach(({ comment_id: id, comment_repliesCount }) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -271,7 +276,8 @@ export class CommentRepository extends Repository<Comment> {
   }
 
   async getReactionsCounts(commentsIds: number[]): Promise<ReactionsCount[]> {
-    const counts = await this.reactionRepository.createQueryBuilder('reaction')
+    const counts = await this.reactionRepository
+      .createQueryBuilder('reaction')
       .select('comment_id')
       .addSelect('type')
       .addSelect('count(id)', 'count')
@@ -280,13 +286,12 @@ export class CommentRepository extends Repository<Comment> {
       .addGroupBy('comment_id')
       .getRawMany();
 
-    const defaultReactions = {
-      [ReactionType.APPROVE]: 0,
-      [ReactionType.REFUTE]: 0,
-      [ReactionType.SKEPTIC]: 0,
-    };
+    const defaultReactions = Object.values(ReactionType).reduce(
+      (obj, type) => ({ ...obj, [type]: 0 }),
+      {} as Record<ReactionType, number>,
+    );
 
-    const results = commentsIds.map((id) => ({ commentId: id, reactions: { ...defaultReactions } }));
+    const results = commentsIds.map(id => ({ commentId: id, reactions: { ...defaultReactions } }));
 
     counts.forEach(({ comment_id: id, type, count }: { comment_id: number; type: ReactionType; count: number }) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -299,7 +304,8 @@ export class CommentRepository extends Repository<Comment> {
   }
 
   async getReactionForUser(commentsIds: number[], userId: number): Promise<UserReaction[]> {
-    const result = await this.reactionRepository.createQueryBuilder('reaction')
+    const result = await this.reactionRepository
+      .createQueryBuilder('reaction')
       .select('comment_id')
       .addSelect('type')
       .where('reaction.comment_id IN (' + commentsIds + ')')
@@ -313,5 +319,4 @@ export class CommentRepository extends Repository<Comment> {
       type: qr.type as ReactionType | null,
     }));
   }
-
 }

@@ -19,10 +19,18 @@ describe('comment controller', () => {
     {
       imports: [CommentModule, AuthenticationModule],
     },
-    (moduleBuilder) => {
+    moduleBuilder => {
       moduleBuilder.overrideProvider('COMMENT_PAGE_SIZE').useValue(2);
     },
   );
+
+  const reactionsCountZero = {
+    [ReactionType.like]: 0,
+    [ReactionType.approve]: 0,
+    [ReactionType.think]: 0,
+    [ReactionType.disagree]: 0,
+    [ReactionType.dontUnderstand]: 0,
+  };
 
   const commentsAreaFactory = new CommentsAreaFactory();
   const commentFactory = new CommentFactory();
@@ -215,11 +223,7 @@ describe('comment controller', () => {
         edited: false,
         text: 'hello',
         repliesCount: 0,
-        reactionsCount: {
-          [ReactionType.APPROVE]: 0,
-          [ReactionType.REFUTE]: 0,
-          [ReactionType.SKEPTIC]: 0,
-        },
+        reactionsCount: reactionsCountZero,
         score: 0,
       });
     });
@@ -485,47 +489,45 @@ describe('comment controller', () => {
     it('should not create a reaction on own comment', async () => {
       const comment = await commentFactory.create({ author: user });
 
-      return userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(403);
+      return userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.like }).expect(403);
     });
 
     it('should create a reaction', async () => {
-      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(204);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.like }).expect(204);
 
       const { body } = await userRequest.get(`/api/comment/${comment.id}`).expect(200);
 
       expect(body).toMatchObject({
         reactionsCount: {
-          [ReactionType.APPROVE]: 1,
-          [ReactionType.REFUTE]: 0,
-          [ReactionType.SKEPTIC]: 0,
+          ...reactionsCountZero,
+          [ReactionType.like]: 1,
         },
-        userReaction: ReactionType.APPROVE,
+        userReaction: ReactionType.like,
       });
 
       const reactionsDb = await reactionRepository.find({ where: { comment }, relations: ['user'] });
 
       expect(reactionsDb).toHaveLength(1);
-      expect(reactionsDb[0]).toMatchObject({ type: ReactionType.APPROVE, user: { id: user.id } });
+      expect(reactionsDb[0]).toMatchObject({ type: ReactionType.like, user: { id: user.id } });
     });
 
     it('should update a reaction', async () => {
-      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.SKEPTIC }).expect(204);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.think }).expect(204);
 
       const { body } = await userRequest.get(`/api/comment/${comment.id}`).expect(200);
 
       expect(body).toMatchObject({
         reactionsCount: {
-          [ReactionType.APPROVE]: 0,
-          [ReactionType.REFUTE]: 0,
-          [ReactionType.SKEPTIC]: 1,
+          ...reactionsCountZero,
+          [ReactionType.think]: 1,
         },
-        userReaction: ReactionType.SKEPTIC,
+        userReaction: ReactionType.think,
       });
 
       const reactionsDb = await reactionRepository.find({ where: { comment }, relations: ['user'] });
 
       expect(reactionsDb).toHaveLength(1);
-      expect(reactionsDb[0]).toMatchObject({ type: ReactionType.SKEPTIC, user: { id: user.id } });
+      expect(reactionsDb[0]).toMatchObject({ type: ReactionType.think, user: { id: user.id } });
     });
 
     it('should remove a reaction', async () => {
@@ -536,11 +538,7 @@ describe('comment controller', () => {
       expect(body).not.toHaveProperty('userReaction');
 
       expect(body).toMatchObject({
-        reactionsCount: {
-          [ReactionType.APPROVE]: 0,
-          [ReactionType.REFUTE]: 0,
-          [ReactionType.SKEPTIC]: 0,
-        },
+        reactionsCount: reactionsCountZero,
       });
 
       const reactionsDb = await reactionRepository.find({ where: { comment }, relations: ['user'] });
@@ -596,7 +594,7 @@ describe('comment controller', () => {
     });
 
     it('should increment a comment score when a reaction is created', async () => {
-      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(204);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.like }).expect(204);
 
       const commentDb = await commentRepository.findOne(comment.id);
 
@@ -606,7 +604,7 @@ describe('comment controller', () => {
     });
 
     it('should not change a comment score when a reaction is updated', async () => {
-      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.SKEPTIC }).expect(204);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.disagree }).expect(204);
 
       const commentDb = await commentRepository.findOne(comment.id);
 
@@ -626,7 +624,7 @@ describe('comment controller', () => {
     });
 
     it('should reincrement a comment score when a reaction is recreated', async () => {
-      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(204);
+      await userRequest.post(`/api/comment/${comment.id}/reaction`).send({ type: ReactionType.like }).expect(204);
 
       const commentDb = await commentRepository.findOne(comment.id);
 
@@ -638,7 +636,7 @@ describe('comment controller', () => {
     it('should increment a parent comment score when a reaction is created', async () => {
       const child = await commentRepository.findOne({ parent: comment });
 
-      await userRequest2.post(`/api/comment/${child.id}/reaction`).send({ type: ReactionType.APPROVE }).expect(204);
+      await userRequest2.post(`/api/comment/${child.id}/reaction`).send({ type: ReactionType.like }).expect(204);
 
       const commentDb = await commentRepository.findOne(comment.id);
 

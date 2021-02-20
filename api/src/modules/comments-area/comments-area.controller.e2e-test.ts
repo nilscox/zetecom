@@ -25,7 +25,7 @@ describe('comments area controller', () => {
     {
       imports: [CommentsAreaModule, AuthenticationModule],
     },
-    (moduleBuilder) => {
+    moduleBuilder => {
       moduleBuilder
         .overrideProvider('COMMENTS_AREA_PAGE_SIZE')
         .useValue(2)
@@ -96,7 +96,6 @@ describe('comments area controller', () => {
         informationTitle: 'title',
         informationUrl: 'url',
         informationAuthor: 'author',
-        imageUrl: 'imageUrl',
         informationPublicationDate: new Date(2020, 1, 10),
       });
 
@@ -112,12 +111,13 @@ describe('comments area controller', () => {
 
       expect(body).toMatchObject({
         id: commentsArea.id,
-        informationTitle: 'title',
-        informationUrl: 'url',
-        informationAuthor: 'author',
-        imageUrl: 'imageUrl',
-        informationPublicationDate: '2020-02-10',
         commentsCount: 1,
+        information: {
+          title: 'title',
+          url: 'url',
+          author: 'author',
+          publicationDate: '2020-02-10',
+        },
       });
     });
   });
@@ -153,7 +153,6 @@ describe('comments area controller', () => {
       informationTitle: 'title',
       informationAuthor: 'author',
       informationPublicationDate: new Date(2020, 0, 1).toJSON(),
-      imageUrl: 'https://image.url',
     };
 
     it('should not create a comments area when unauthenticated', async () => {
@@ -181,7 +180,14 @@ describe('comments area controller', () => {
     it('should create a comments area', async () => {
       const { body } = await asModerator.post('/api/comments-area').send(commentsArea).expect(201);
 
-      expect(body).toMatchObject(commentsArea);
+      expect(body).toMatchObject({
+        information: {
+          url: commentsArea.informationUrl,
+          title: commentsArea.informationTitle,
+          author: commentsArea.informationAuthor,
+          publicationDate: '2020-01-01T00:00:00.000Z',
+        },
+      });
 
       const commentsAreaDb = await commentsAreaRepository.findOne(body.id);
 
@@ -250,14 +256,16 @@ describe('comments area controller', () => {
         informationUrl: 'https://other.url',
         informationAuthor: 'someone',
         informationPublicationDate: new Date(2020, 0, 1).toISOString(),
-        imageUrl: 'https://image.url',
       };
 
       const { body } = await adminRequest.put(`/api/comments-area/${commentsArea.id}`).send(data).expect(200);
 
       expect(body).toMatchObject({
-        ...data,
-        informationPublicationDate: '2020-01-01',
+        information: {
+          url: data.informationUrl,
+          author: data.informationAuthor,
+          publicationDate: '2020-01-01',
+        },
       });
 
       const commentsAreaDb = await commentsAreaRepository.findOne(body.id);

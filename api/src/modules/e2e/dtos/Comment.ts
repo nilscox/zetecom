@@ -4,15 +4,23 @@ import { IsDateString, IsOptional, IsString, ValidateNested } from 'class-valida
 class ReactionsDto {
   @IsOptional()
   @IsString({ each: true })
+  like?: string[];
+
+  @IsOptional()
+  @IsString({ each: true })
   approve?: string[];
 
   @IsOptional()
   @IsString({ each: true })
-  refute?: string[];
+  think?: string[];
 
   @IsOptional()
   @IsString({ each: true })
-  skeptic?: string[];
+  disagree?: string[];
+
+  @IsOptional()
+  @IsString({ each: true })
+  dontUnderstand?: string[];
 }
 
 class EditionDto {

@@ -12,7 +12,6 @@ import { Subscription } from './subscription/subscription.entity';
 
 @Injectable()
 export class PopulateComment extends PopulateInterceptor<CommentDto> {
-
   get commentRepository() {
     return getCustomRepository(CommentRepository);
   }
@@ -47,13 +46,14 @@ export class PopulateComment extends PopulateInterceptor<CommentDto> {
   private async addRepliesCounts(comments: CommentDto[]): Promise<CommentDto[]> {
     const repliesCounts = await this.commentRepository.getRepliesCounts(comments.map(({ id }) => id));
 
-    comments.forEach(comment => {
-      const reply = repliesCounts.find(r => r.commentId === comment.id);
+    comments.forEach((comment) => {
+      const reply = repliesCounts.find((r) => r.commentId === comment.id);
 
-      if (reply)
+      if (reply) {
         comment.repliesCount = reply.repliesCount;
-      else
+      } else {
         comment.repliesCount = 0;
+      }
     });
 
     return comments;
@@ -64,46 +64,55 @@ export class PopulateComment extends PopulateInterceptor<CommentDto> {
 
     const getReactionsCount = (commentId: number, type: ReactionType): number => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return reactionsCounts.find(qrc => qrc.commentId === commentId)!.reactions[type];
+      return reactionsCounts.find((qrc) => qrc.commentId === commentId)!.reactions[type];
     };
 
-    comments.forEach(comment => {
-      comment.reactionsCount = {
-        [ReactionType.APPROVE]: getReactionsCount(comment.id, ReactionType.APPROVE),
-        [ReactionType.REFUTE]: getReactionsCount(comment.id, ReactionType.REFUTE),
-        [ReactionType.SKEPTIC]: getReactionsCount(comment.id, ReactionType.SKEPTIC),
-      };
+    comments.forEach((comment) => {
+      comment.reactionsCount = Object.values(ReactionType).reduce(
+        (obj, type) => ({
+          ...obj,
+          [type]: getReactionsCount(comment.id, type),
+        }),
+        {} as Record<ReactionType, number>,
+      );
     });
   }
 
   private async addUserReaction(comments: CommentDto[], user: User): Promise<void> {
-    const reactions = await this.commentRepository.getReactionForUser(comments.map(({ id }) => id), user.id);
+    const reactions = await this.commentRepository.getReactionForUser(
+      comments.map(({ id }) => id),
+      user.id,
+    );
 
-    comments.forEach(comment => {
-      const reaction = reactions.find(qr => qr.commentId === comment.id);
+    comments.forEach((comment) => {
+      const reaction = reactions.find((qr) => qr.commentId === comment.id);
 
-      if (reaction && reaction.type)
+      if (reaction && reaction.type) {
         comment.userReaction = reaction.type;
+      }
     });
   }
 
   private async addUserSubscriptions(comments: CommentDto[], user: User): Promise<void> {
     // TODO: handle this in subscription repository
-    const results = await this.subscriptionRepository.createQueryBuilder('comment_subscription')
+    const results = await this.subscriptionRepository
+      .createQueryBuilder('comment_subscription')
       .select('comment_id', 'commentId')
       .leftJoin('comment', 'comment', 'comment_subscription.comment_id = comment.id')
       .where('user_id = :userId', { userId: user.id })
       .andWhere('comment.id IN (' + comments.map(({ id }) => id) + ')')
       .getRawMany();
 
-    const subscriptions = comments.reduce((acc, { id: commentId }) => ({
-      ...acc,
-      [commentId]: !!results.find(s => s.commentId === commentId),
-    }), {} as { [commentId: number]: boolean });
+    const subscriptions = comments.reduce(
+      (acc, { id: commentId }) => ({
+        ...acc,
+        [commentId]: !!results.find((s) => s.commentId === commentId),
+      }),
+      {} as Record<number, boolean>,
+    );
 
-    comments.forEach(comment => {
+    comments.forEach((comment) => {
       comment.subscribed = subscriptions[comment.id];
     });
   }
-
 }
