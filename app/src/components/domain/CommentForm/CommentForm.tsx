@@ -22,7 +22,6 @@ const StyledTabs = styled(Tabs)`
 type CommentFormProps = {
   className?: string;
   type: 'edition' | 'reply';
-  commentId: number;
   author: UserLight;
   initialText?: string;
   placeholder?: string;
@@ -34,7 +33,6 @@ type CommentFormProps = {
 const CommentForm: React.FC<CommentFormProps> = ({
   className,
   type,
-  commentId,
   author,
   initialText = '',
   placeholder,
@@ -75,7 +73,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
       as="form"
       role="form"
       className={className}
-      data-testid={`comment-${type}-form-${commentId}`}
+      data-testid={`comment-${type}-form`}
       onSubmit={handleSubmit}
     >
       <CommentFormHeader type={type} user={author} onClose={onClose} />

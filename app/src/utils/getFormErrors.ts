@@ -31,16 +31,16 @@ const getError = (handler: HandlerLeaf | undefined): FormErrors => {
 };
 
 const getErrors = (data: unknown, error: unknown, handler: FormErrorHandler | undefined): FormErrors => {
-  if (typeof error !== 'object' || error === null) {
-    return [null, {}];
-  }
-
   if (!handler || isLeaf(handler)) {
     return getError(handler);
   }
 
   if (typeof handler === 'function') {
     return getError(handler(error, data));
+  }
+
+  if (typeof error !== 'object' || error === null) {
+    return [null, {}];
   }
 
   return Object.entries(error).reduce(

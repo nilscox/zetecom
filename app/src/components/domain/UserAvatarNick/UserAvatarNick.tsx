@@ -22,13 +22,11 @@ type UserAvatarNickProps = {
   user: UserLight;
 };
 
-const UserAvatarNick: React.FC<UserAvatarNickProps> = ({ small, user }) => {
-  return (
-    <Container>
-      <AvatarImage small={small} src={user.avatar} />
-      <Nick>{user.nick}</Nick>
-    </Container>
-  );
-};
+const UserAvatarNick: React.FC<UserAvatarNickProps> = ({ small, user }) => (
+  <Container>
+    <AvatarImage small={small} src={user.avatar} />
+    <Nick>{user.nick}</Nick>
+  </Container>
+);
 
 export default UserAvatarNick;

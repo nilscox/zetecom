@@ -14,7 +14,6 @@ const Container = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
-  cursor: pointer;
 
   transition: ${transition('fast', 'background-color')};
 
@@ -22,9 +21,9 @@ const Container = styled.button`
     background-color: ${color('light')};
   }
 
-  &:not(.selectable) {
-    cursor: initial;
+  &:disabled {
     background-color: initial;
+    color: inherit;
   }
 `;
 
@@ -62,7 +61,8 @@ type ReactionProps = {
 
 const Reaction: React.FC<ReactionProps> = ({ type, count, isUserReaction, onClick }) => (
   <Container
-    className={clsx('reaction', onClick && 'selectable', isUserReaction && 'user-reaction')}
+    className={clsx('reaction', isUserReaction && 'user-reaction')}
+    disabled={!onClick}
     title={reactionLabels[type]}
     onClick={onClick}
     css={theme => ({ backgroundColor: isUserReaction ? theme.domain.userReactionColor : undefined })}

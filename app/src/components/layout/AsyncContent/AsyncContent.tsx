@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { useDebounce } from 'use-debounce';
+import useTimeout from 'src/hooks/useTimeout';
 
 import Fallback from '../Fallback/Fallback';
 
@@ -11,7 +11,9 @@ type AsyncContentProps = {
 };
 
 const AsyncContent: React.FC<AsyncContentProps> = ({ loaderDelay = 300, loading, render }) => {
-  const [renderLoading] = useDebounce(loading, loaderDelay);
+  const [renderLoading, setRenderLoading] = useState(false);
+
+  useTimeout(() => setRenderLoading(true), loaderDelay);
 
   if (loading && !renderLoading) {
     return null;

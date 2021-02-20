@@ -2,20 +2,20 @@ import { useMemo, useState } from 'react';
 
 import { Comment, ReactionType } from 'src/types/Comment';
 
-const useReactions = (comment: Comment, onUserReactionChange?: (type: ReactionType | null) => void) => {
+const useReactions = (comment: Comment, onSetReaction?: (type: ReactionType | null) => void) => {
   const [userReaction, setUserReaction] = useState(comment.userReaction);
 
   const handleUserReactionChange = (type: ReactionType) => {
-    if (!onUserReactionChange) {
+    if (!onSetReaction) {
       return;
     }
 
     if (type === userReaction) {
       setUserReaction(null);
-      onUserReactionChange(null);
+      onSetReaction(null);
     } else {
       setUserReaction(type);
-      onUserReactionChange(type);
+      onSetReaction(type);
     }
   };
 
