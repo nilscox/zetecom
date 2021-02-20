@@ -30,7 +30,7 @@ const Reactions: React.FC<ReactionsProps> = ({ counts, userReaction, setUserReac
         type={type}
         count={counts[type]}
         isUserReaction={userReaction === type}
-        onClick={() => setUserReaction?.(type)}
+        onClick={setUserReaction ? () => setUserReaction(type) : undefined}
       />
     ))}
   </ReactionsContainer>
