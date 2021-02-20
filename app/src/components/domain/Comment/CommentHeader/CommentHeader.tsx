@@ -34,9 +34,10 @@ type CommentHeaderProps = {
   date: Date;
   onEdit?: () => void;
   onReport?: () => void;
+  onViewHistory?: () => void;
 };
 
-const CommentHeader: React.FC<CommentHeaderProps> = ({ user, edited, date, onEdit, onReport }) => {
+const CommentHeader: React.FC<CommentHeaderProps> = ({ user, edited, date, onEdit, onReport, onViewHistory }) => {
   const [reportCommentLinkVisible, setReportCommentLinkVisible] = useState(false);
 
   return (
@@ -50,7 +51,7 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({ user, edited, date, onEdi
         onMouseOut={() => setReportCommentLinkVisible(false)}
       >
         {onReport && <ReportCommentLink visible={reportCommentLinkVisible} onClick={onReport} />}
-        {date && <CommentDate date={date} edited={edited} />}
+        {date && <CommentDate date={date} edited={edited} onClick={onViewHistory} />}
       </ReportDateContainer>
     </CommentHeaderContainer>
   );

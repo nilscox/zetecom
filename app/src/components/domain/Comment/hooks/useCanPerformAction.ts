@@ -1,7 +1,7 @@
 import { Comment as CommentType } from 'src/types/Comment';
 import { User } from 'src/types/User';
 
-type Action = 'toggleReplies' | 'setReaction' | 'edit' | 'reply' | 'subscribe' | 'report';
+type Action = 'toggleReplies' | 'setReaction' | 'edit' | 'reply' | 'subscribe' | 'report' | 'viewHistory';
 
 const useCanPerformAction = (user: User | null, comment: CommentType) => {
   const isConnected = user !== null;
@@ -30,6 +30,10 @@ const useCanPerformAction = (user: User | null, comment: CommentType) => {
 
     if (action === 'report') {
       return Boolean(isConnected) && !isOwnComment;
+    }
+
+    if (action === 'viewHistory') {
+      return comment.edited;
     }
   };
 

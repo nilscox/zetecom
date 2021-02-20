@@ -12,21 +12,14 @@ import Nested from 'src/components/elements/Nested/Nested';
 import AsyncContent from 'src/components/layout/AsyncContent/AsyncContent';
 import { useUser } from 'src/contexts/userContext';
 import useAxios from 'src/hooks/useAxios';
-import { fontSize, fontWeight, spacing, textColor } from 'src/theme';
+import { fontWeight, textColor } from 'src/theme';
 import { Comment } from 'src/types/Comment';
 import env from 'src/utils/env';
 
+import PopupContainer from '../components/PopupContainer/PopupContainer';
+import PopupTitle from '../components/PopupTitle/PopupTitle';
+
 import useReport from './useReport';
-
-const Container = styled.div`
-  padding: ${spacing(5)};
-`;
-
-const Title = styled.div`
-  margin: ${spacing(4, 0)};
-  font-size: ${fontSize('xlarge')};
-  font-weight: ${fontWeight('bold')};
-`;
 
 const Warning = styled.div`
   color: ${textColor('warning')};
@@ -58,8 +51,8 @@ const ReportPopup: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) =
     <AsyncContent
       loading={loading}
       render={() => (
-        <Container>
-          <Title>Signaler le commentaire de {comment?.author.nick}</Title>
+        <PopupContainer>
+          <PopupTitle>Signaler le commentaire de {comment?.author.nick}</PopupTitle>
 
           <Warning>
             <strong>Vous êtes sur le point de signaler un commentaire.</strong>
@@ -96,7 +89,7 @@ const ReportPopup: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) =
               Signaler
             </Button>
           </Box>
-        </Container>
+        </PopupContainer>
       )}
     />
   );

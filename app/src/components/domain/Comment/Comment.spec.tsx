@@ -37,6 +37,7 @@ const props: CommentProps = {
   onSetReaction: noop,
   onSetSubscription: noop,
   onReply: noop,
+  onViewHistory: noop,
   fetchReplies: noop,
 };
 
@@ -306,6 +307,24 @@ describe('Comment', () => {
 
       expect(screen.getByTestId('subscribe-button')).not.toHaveClass('active');
       expect(onSetSubscription).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('view history', () => {
+    it('cannot view history when the comment was not edited', () => {
+      render(<Test user={null} />);
+
+      expect(screen.queryByTitle("Voir l'historique d'édition")).toBeNull();
+    });
+
+    it("toggle view a comment's history", () => {
+      const onViewHistory = jest.fn();
+
+      render(<Test comment={{ ...comment, edited: new Date() }} user={user} onViewHistory={onViewHistory} />);
+
+      act(() => userEvent.click(screen.getByTitle("Voir l'historique d'édition")));
+
+      expect(onViewHistory).toHaveBeenCalled();
     });
   });
 });

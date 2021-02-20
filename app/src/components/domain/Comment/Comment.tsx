@@ -37,6 +37,7 @@ export type CommentProps = {
   onSetReaction: (type: ReactionType | null) => void;
   onSetSubscription: (subscribed: boolean) => void;
   onReply: (text: string) => void;
+  onViewHistory: () => void;
   fetchReplies: () => void;
 };
 
@@ -44,7 +45,7 @@ const Comment: React.FC<CommentProps> = props => {
   // prettier-ignore
   const {
     CommentContainer, user, comment, replies, repliesLoading, submittingEdition, submittingReply,
-    onEdit, onReport, onSetReaction, onSetSubscription, onReply, fetchReplies,
+    onEdit, onReport, onSetReaction, onSetSubscription, onReply, onViewHistory, fetchReplies,
   } = props;
 
   const [repliesOpen, setRepliesOpen] = useState(false);
@@ -92,6 +93,7 @@ const Comment: React.FC<CommentProps> = props => {
         onSetReaction={can('setReaction', handleUserReactionChange)}
         onReply={can('reply', handleReply)}
         onToggleSubscription={can('subscribe', handleToggleSubscription)}
+        onViewHistory={can('viewHistory', onViewHistory)}
       />
 
       {user && (

@@ -19,6 +19,7 @@ type BoxProps = {
   px?: Spacing;
   py?: Spacing;
   flex?: boolean;
+  flexDirection?: CSSProperties['flexDirection'];
   justifyContent?: CSSProperties['justifyContent'];
   alignItems?: CSSProperties['alignItems'];
 };
@@ -35,6 +36,7 @@ const Box: React.FC<BoxProps> = ({
   px,
   py,
   flex,
+  flexDirection,
   justifyContent,
   alignItems,
   children,
@@ -72,6 +74,7 @@ const Box: React.FC<BoxProps> = ({
         margin: margin.map(n => theme.spacings[n]).join(' '),
         padding: padding.map(n => theme.spacings[n]).join(' '),
         display: flex ? 'flex' : undefined,
+        flexDirection,
         justifyContent,
         alignItems,
       })}

@@ -14,6 +14,8 @@ const Container = styled.button`
   display: flex;
   flex-direction: row;
   align-items: center;
+  color: inherit;
+  cursor: pointer;
 
   transition: ${transition('fast', 'background-color')};
 
@@ -23,7 +25,7 @@ const Container = styled.button`
 
   &:disabled {
     background-color: initial;
-    color: inherit;
+    cursor: unset;
   }
 `;
 
