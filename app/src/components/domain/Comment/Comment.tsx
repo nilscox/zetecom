@@ -37,6 +37,7 @@ const Comment: React.FC<CommentProps> = ({
   const [subscribed, setSubscribed] = useState(comment.subscribed);
 
   const [reactionsCount, userReaction, handleUserReactionChange] = useReactions(comment, onUserReactionChange);
+  const canSetReaction = Boolean(onUserReactionChange) && comment.author.id !== user.id;
 
   const handleToggleReplies = () => {
     if (replies === undefined) {
@@ -69,7 +70,7 @@ const Comment: React.FC<CommentProps> = ({
         replyFormOpen={replyFormOpen}
         onEdit={onEdit}
         onReport={onReport}
-        onUserReactionChange={handleUserReactionChange}
+        onUserReactionChange={canSetReaction ? handleUserReactionChange : undefined}
         onToggleReplies={handleToggleReplies}
         onReply={handleReply}
         onToggleSubscription={handleToggleSubscription}

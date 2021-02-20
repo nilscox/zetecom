@@ -18,8 +18,13 @@ const Container = styled.button`
 
   transition: ${transition('fast', 'background-color')};
 
-  &:hover:not(.user-reaction) {
+  &:hover {
     background-color: ${color('light')};
+  }
+
+  &:not(.selectable) {
+    cursor: initial;
+    background-color: initial;
   }
 `;
 
@@ -52,12 +57,12 @@ type ReactionProps = {
   type: ReactionType;
   count: number;
   isUserReaction: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 const Reaction: React.FC<ReactionProps> = ({ type, count, isUserReaction, onClick }) => (
   <Container
-    className={clsx('reaction', isUserReaction && 'user-reaction')}
+    className={clsx('reaction', onClick && 'selectable', isUserReaction && 'user-reaction')}
     title={reactionLabels[type]}
     onClick={onClick}
     css={theme => ({ backgroundColor: isUserReaction ? theme.domain.userReactionColor : undefined })}
