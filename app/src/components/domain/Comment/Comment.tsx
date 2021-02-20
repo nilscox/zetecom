@@ -6,8 +6,8 @@ import { Comment as CommentType } from 'src/types/Comment';
 import { User } from 'src/types/User';
 
 import { ReactionType } from './CommentFooter/Reactions/ReactionType';
-import CommentOrCommentForm from './CommentOrCommentForm/CommentOrCommentForm';
 import CommentsList from './CommentsList/CommentsList';
+import EditableComment from './EditableComment/EditableComment';
 import useCanPerformAction from './hooks/useCanPerformAction';
 import useReactions from './hooks/useUserReaction';
 import Nested from './Nested/Nested';
@@ -67,7 +67,7 @@ const Comment: React.FC<CommentProps> = props => {
 
   return (
     <div className="comment" id={`comment-${comment.id}`} data-testid={`comment-${comment.id}`}>
-      <CommentOrCommentForm
+      <EditableComment
         comment={{ ...comment, reactionsCount, userReaction, subscribed }}
         submittingEdition={submittingEdition}
         repliesOpen={repliesOpen}

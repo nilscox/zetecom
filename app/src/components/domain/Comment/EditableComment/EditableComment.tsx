@@ -6,7 +6,7 @@ import { Comment as CommentType } from 'src/types/Comment';
 import CommentComponent from '../CommentComponent/CommentComponent';
 import { ReactionType } from '../CommentFooter/Reactions/ReactionType';
 
-type CommentOrCommentFormProps = {
+type EditableCommentProps = {
   comment: CommentType;
   submittingEdition: boolean;
   repliesOpen: boolean;
@@ -20,7 +20,7 @@ type CommentOrCommentFormProps = {
   onReply?: () => void;
 };
 
-const CommentOrCommentForm: React.FC<CommentOrCommentFormProps> = ({
+const EditableComment: React.FC<EditableCommentProps> = ({
   comment,
   submittingEdition,
   repliesOpen,
@@ -65,4 +65,4 @@ const CommentOrCommentForm: React.FC<CommentOrCommentFormProps> = ({
   );
 };
 
-export default CommentOrCommentForm;
+export default EditableComment;
