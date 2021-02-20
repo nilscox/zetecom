@@ -28,7 +28,7 @@ const CommentsAreasListPage: React.FC = () => {
 
       <CommentsAreaRequest />
 
-      <AsyncContent loading={loading} render={() => <CommentsAreasList commentsAreas={commentsAreas.items} />} />
+      <AsyncContent loading={loading} render={() => <CommentsAreasList commentsAreas={commentsAreas?.items || []} />} />
     </>
   );
 };

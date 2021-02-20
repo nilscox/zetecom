@@ -21,7 +21,7 @@ export type CommentProps = {
   submittingReply: boolean;
   onEdit?: (text: string) => void;
   onReport?: () => void;
-  onUserReactionChange: (type: ReactionType) => void;
+  onUserReactionChange?: (type: ReactionType | null) => void;
   onToggleSubscription?: () => void;
   onReply: (text: string) => void;
   fetchReplies: () => void;
@@ -48,7 +48,7 @@ const Comment: React.FC<CommentProps> = ({
 
   const handleToggleSubscription = () => {
     setSubscribed(!subscribed);
-    onToggleSubscription();
+    onToggleSubscription?.();
   };
 
   const handleReply = () => {
@@ -89,7 +89,7 @@ const Comment: React.FC<CommentProps> = ({
         </Nested>
       </Collapse>
 
-      <Collapse in={repliesOpen && replies?.length > 0}>
+      <Collapse in={repliesOpen && (replies || []).length > 0}>
         <Nested barNegativeMargin={replyFormOpen}>
           <CommentsList CommentContainer={CommentContainer} comments={replies || []} />
         </Nested>

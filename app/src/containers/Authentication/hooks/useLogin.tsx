@@ -11,7 +11,7 @@ export const loginErrorHandlers: FormErrorHandlers = {
       isEmail: ['email', "Format d'adresse email non valide"],
     },
   },
-  401: ({ message }) => {
+  401: ({ message }: { message?: string }) => {
     if (message === 'INVALID_CREDENTIALS') {
       return 'Combinaison email / mot de passe non valide';
     }

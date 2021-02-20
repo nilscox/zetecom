@@ -12,12 +12,12 @@ type CommentOrCommentFormProps = {
   repliesOpen: boolean;
   repliesLoading: boolean;
   replyFormOpen: boolean;
-  onEdit: (text: string) => void;
-  onReport: () => void;
-  onUserReactionChange: (type: ReactionType) => void;
+  onEdit?: (text: string) => void;
+  onReport?: () => void;
+  onUserReactionChange?: (type: ReactionType) => void;
+  onToggleSubscription?: () => void;
   onToggleReplies: () => void;
   onReply: () => void;
-  onToggleSubscription?: () => void;
 };
 
 const CommentOrCommentForm: React.FC<CommentOrCommentFormProps> = ({
@@ -35,7 +35,7 @@ const CommentOrCommentForm: React.FC<CommentOrCommentFormProps> = ({
 }) => {
   const [editing, setEditing] = useState(false);
 
-  if (editing) {
+  if (editing && onEdit) {
     return (
       <CommentForm
         type="edition"
@@ -57,7 +57,7 @@ const CommentOrCommentForm: React.FC<CommentOrCommentFormProps> = ({
       repliesLoading={repliesLoading}
       replyFormOpen={replyFormOpen}
       onEdit={() => setEditing(true)}
-      onReport={() => onReport()}
+      onReport={onReport}
       onUserReactionChange={onUserReactionChange}
       onToggleReplies={onToggleReplies}
       onReply={onReply}

@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { useState } from 'react';
 
-import { css, jsx } from '@emotion/react';
+import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import Markdown from 'src/components/elements/Markdown/Markdown';

@@ -21,7 +21,7 @@ type BoxProps = {
 };
 
 const Box: React.FC<BoxProps> = ({ m, mx, my, mt, mr, mb, ml, p, px, py, children }) => {
-  const margin: Array<Spacing> = [mt, ml, mb, mr];
+  const margin: Array<Spacing> = [mt ?? 0, ml ?? 0, mb ?? 0, mr ?? 0];
   const padding: Array<Spacing> = [0, 0, 0, 0];
 
   if (mx !== undefined) {
@@ -51,8 +51,8 @@ const Box: React.FC<BoxProps> = ({ m, mx, my, mt, mr, mb, ml, p, px, py, childre
   return (
     <div
       css={theme => ({
-        margin: margin.map(n => theme.spacings[n] ?? 0).join(' '),
-        padding: padding.map(n => theme.spacings[n] ?? 0).join(' '),
+        margin: margin.map(n => theme.spacings[n]).join(' '),
+        padding: padding.map(n => theme.spacings[n]).join(' '),
       })}
     >
       {children}

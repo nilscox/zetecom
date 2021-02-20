@@ -15,12 +15,12 @@ type Paginated<T> = {
 type UseAxiosPaginatedReturnType<TResponse, TError> = [
   UseAxiosReturnType<Paginated<TResponse>, TError>[0],
   UseAxiosReturnType<Paginated<TResponse>, TError>[1] & {
-    page?: number;
-    setPage: (page?: number) => void;
+    page: number;
+    setPage: (page: number) => void;
     sort?: SortType;
     setSort: (sort?: SortType) => void;
-    search?: string;
-    setSearch: (search?: string) => void;
+    search: string;
+    setSearch: (search: string) => void;
   },
   UseAxiosReturnType<Paginated<TResponse>, TError>[2],
 ];

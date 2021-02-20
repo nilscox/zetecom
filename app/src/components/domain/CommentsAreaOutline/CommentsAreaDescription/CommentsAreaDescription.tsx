@@ -51,7 +51,7 @@ const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({ title
     <Container>
       <Title>{title}</Title>
 
-      <PublicationDate>{formatDate(publicationDate)}</PublicationDate>
+      {publicationDate && <PublicationDate>{formatDate(publicationDate)}</PublicationDate>}
 
       <div>
         <Media>{medias[media]?.label}</Media>

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 // TODO: use dayjs
 import parseISO from 'date-fns/parseISO';
-import dayjs from 'dayjs';
 
 const useDateInput = (value: string, onDateChange: (value: string) => void) => {
   const [day, setDay] = useState('');
@@ -13,7 +12,7 @@ const useDateInput = (value: string, onDateChange: (value: string) => void) => {
 
   useEffect(() => {
     if (value) {
-      const date = parseISO(value as string);
+      const date = parseISO(value);
 
       if (date) {
         setDay(date.getDate().toString().padStart(2, '0'));

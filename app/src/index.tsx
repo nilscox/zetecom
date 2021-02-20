@@ -27,7 +27,7 @@ const getBaseUrl = () => {
     queryString.parse(window.location.search).api_url as string | undefined,
     localStorage.getItem('API_URL'),
     env.API_URL,
-  ].find(Boolean);
+  ].find(Boolean) as string;
 };
 
 axios.defaults.baseURL = getBaseUrl();

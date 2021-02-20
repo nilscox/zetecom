@@ -11,9 +11,9 @@ const useAuthenticationFormType = () => {
     emailLogin: useRouteMatch({ path: '/connexion-par-email' }),
   };
 
-  const match = Object.entries(matches).find(([, v]) => v !== null)[0];
-
-  const formType = match as AuthenticationFormType | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const match = Object.entries(matches).find(([, v]) => v !== null)!;
+  const formType = match[0] as AuthenticationFormType;
 
   const getForFormType = useCallback(
     <T extends unknown>(options: Record<AuthenticationFormType, T>) => options[formType],

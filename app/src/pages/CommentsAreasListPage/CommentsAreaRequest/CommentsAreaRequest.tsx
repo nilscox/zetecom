@@ -21,7 +21,7 @@ const CommentsAreaRequest: React.FC = () => {
   const handleSubmit = (values: CommentsAreaFormState) => {};
 
   return (
-    <Container minHeight={buttonRef.current?.clientHeight}>
+    <Container minHeight={buttonRef.current?.clientHeight ?? 0}>
       <Fade in={!displayForm}>
         <Button ref={buttonRef} size="large" onClick={() => setDisplayForm(true)} style={{ position: 'absolute' }}>
           Ouvrir une zone de commentaires

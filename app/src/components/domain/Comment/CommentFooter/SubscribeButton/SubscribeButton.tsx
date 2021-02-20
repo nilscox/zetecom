@@ -8,7 +8,7 @@ import { Notification, NotificationActive } from 'src/components/icons';
 
 type SubscribeButtonProps = {
   className?: string;
-  isSubscribed: boolean;
+  isSubscribed?: boolean;
   onClick?: () => void;
 };
 

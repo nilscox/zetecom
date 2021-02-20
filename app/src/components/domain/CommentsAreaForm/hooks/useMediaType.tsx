@@ -6,7 +6,7 @@ const useMediaType = (urlStr: string): MediaType | undefined => {
     const url = new URL(urlStr);
 
     for (const [type, { host }] of Object.entries(medias)) {
-      if (url.host.match(host)) {
+      if (host.exec(url.host)) {
         return type as MediaType;
       }
     }

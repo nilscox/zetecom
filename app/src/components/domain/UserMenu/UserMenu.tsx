@@ -6,7 +6,7 @@ import AuthenticatedUserMenu from './AuthenticatedUserMenu';
 import UnauthenticatedUserMenu from './UnauthenticatedUserMenu';
 
 type UserMenuProps = {
-  user?: User;
+  user?: User | null;
   onLogout?: () => void;
 };
 
