@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { transparentize } from 'polished';
 
 import useForwardRef from 'src/hooks/useForwardRef';
-import { borderRadius, color, fontSize, fontWeight, size, spacing, textColor, transition } from 'src/theme';
+import { borderRadius, color, fontSize, fontWeight, spacing, textColor, transition } from 'src/theme';
 
 import LoadingIndicator from './LoadingIndicator';
 

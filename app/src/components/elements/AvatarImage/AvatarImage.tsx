@@ -20,12 +20,13 @@ const StyledAvatarImage = styled.img`
   }
 `;
 
-type AvatarImageProps = React.ComponentProps<typeof StyledAvatarImage> & {
+type AvatarImageProps = Omit<React.ComponentProps<typeof StyledAvatarImage>, 'src'> & {
   small?: boolean;
+  src?: string | null;
 };
 
 const AvatarImage: React.FC<AvatarImageProps> = ({ small, src, ...props }) => (
-  <StyledAvatarImage {...props} src={src || defaultAvatar} className={clsx(small && 'small', props.className)} />
+  <StyledAvatarImage {...props} src={src ?? defaultAvatar} className={clsx(small && 'small', props.className)} />
 );
 
 export default AvatarImage;

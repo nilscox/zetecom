@@ -52,7 +52,7 @@ const CommentContainer: React.FC<CommentContainerProps> = props => {
 
   useEffect(() => {
     if (reply) {
-      setReplies(replies => [reply, ...replies]);
+      setReplies(replies => [reply, ...(replies ?? [])]);
     }
   }, [reply]);
 

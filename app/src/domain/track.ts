@@ -60,7 +60,7 @@ const track = {
   setReaction: (type: ReactionType | null) => ({
     category: 'Comment',
     action: 'Set Reaction',
-    name: `Set Reaction "${type}"`,
+    name: `Set Reaction "${type ?? 'null'}"`,
   }),
 
   subscribeComment: () => ({

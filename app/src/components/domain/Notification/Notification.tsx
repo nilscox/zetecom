@@ -52,7 +52,7 @@ const Notification: React.FC<NotificationProps> = ({ date, title, text, seen, ma
         <Title>{title}</Title>
         <Text>{text}</Text>
       </Content>
-      <MarkAsSeen onClick={markAsSeen} />
+      {markAsSeen && <MarkAsSeen onClick={markAsSeen} />}
     </Container>
   );
 };

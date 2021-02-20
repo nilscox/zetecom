@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
 import { useAuthenticationFormType } from 'src/components/domain/AuthenticationForm/AuthenticationForm';
@@ -10,22 +9,6 @@ import getFormErrors from 'src/utils/getFormErrors';
 import useEmailLogin, { emailLoginErrorHandlers } from './useEmailLogin';
 import useLogin, { loginErrorHandlers } from './useLogin';
 import useSignup, { signupErrorHandlers } from './useSignup';
-
-const useUnhandledError = (unhandledError: AxiosError, message: React.ReactNode) => {
-  useEffect(() => {
-    if (unhandledError) {
-      console.warn('unhandled authentication form error', unhandledError);
-
-      toast.error(
-        <>
-          {message}
-          <br />
-          Réessayez plus tard !
-        </>,
-      );
-    }
-  }, [unhandledError, message]);
-};
 
 const fallbackMessages = {
   login: "Quelque chose s'est mal passé...",
@@ -43,17 +26,8 @@ const useAuthentication = () => {
   const loading = [login, signup, emailLogin].map(({ loading }) => loading).some(Boolean);
 
   const [{ formError, fieldErrors }, { handleError, clearFieldError, clearAllErrors }] = useFormErrors();
-  const [unhandledError, setUnhandledError] = useState<AxiosError>();
-
-  useUnhandledError(unhandledError, getForFormType(fallbackMessages));
 
   useEffect(() => {
-    const handlers = getForFormType({
-      login: loginErrorHandlers,
-      signup: signupErrorHandlers,
-      emailLogin: emailLoginErrorHandlers,
-    });
-
     const error = getForFormType({
       login: login.error,
       signup: signup.error,
@@ -64,12 +38,27 @@ const useAuthentication = () => {
       return;
     }
 
+    const handlers = getForFormType({
+      login: loginErrorHandlers,
+      signup: signupErrorHandlers,
+      emailLogin: emailLoginErrorHandlers,
+    });
+
     const [formError, fieldErrors, unhandledError] = getFormErrors(error, handlers);
 
     handleError(formError, fieldErrors);
 
     if (unhandledError) {
-      setUnhandledError(unhandledError);
+      // eslint-disable-next-line no-console
+      console.warn('unhandled authentication form error', unhandledError);
+
+      toast.error(
+        <>
+          {getForFormType(fallbackMessages)}
+          <br />
+          Réessayez plus tard !
+        </>,
+      );
     }
   }, [login, signup, emailLogin, getForFormType, handleError]);
 

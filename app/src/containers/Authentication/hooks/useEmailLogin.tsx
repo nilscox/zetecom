@@ -25,7 +25,7 @@ const useEmailLogin = () => {
   const { status } = response;
 
   useEffect(() => {
-    if (status(204)) {
+    if (status(204) && email) {
       toast.success(`Un email contenant un lien de connexion a bien été envoyé à l'adresse ${email}.`);
       history.push('/connexion');
     }

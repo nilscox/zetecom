@@ -21,7 +21,7 @@ const comment = makeComment();
 const noop = () => {};
 
 const props: CommentProps = {
-  CommentContainer: null,
+  CommentContainer: () => null,
   user,
   comment,
   repliesLoading: false,
@@ -44,7 +44,7 @@ const Test: React.FC<Partial<CommentProps>> = override => (
 describe('Comment', () => {
   describe('edition', () => {
     it('switch to edition mode', () => {
-      const formTestId = 'comment-edition-form-' + comment.id;
+      const formTestId = `comment-edition-form-${comment.id}`;
 
       render(<Test />);
 
@@ -83,7 +83,7 @@ describe('Comment', () => {
 
   describe('reply', () => {
     it('open the reply form', () => {
-      const formTestId = 'comment-reply-form-' + comment.id;
+      const formTestId = `comment-reply-form-${comment.id}`;
 
       render(<Test />);
 

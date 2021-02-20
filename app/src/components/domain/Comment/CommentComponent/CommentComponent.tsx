@@ -23,7 +23,7 @@ type CommentComponentProps = {
   replyFormOpen: boolean;
   onEdit?: () => void;
   onReport?: () => void;
-  onUserReactionChange: (type: ReactionType) => void;
+  onUserReactionChange?: (type: ReactionType) => void;
   onToggleReplies: () => void;
   onReply: () => void;
   onToggleSubscription?: () => void;
@@ -54,8 +54,8 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
       <CommentBody text={comment.text} />
 
       <CommentFooter
-        userReaction={comment.userReaction as any}
-        reactionsCounts={comment.reactionsCount as any}
+        userReaction={comment.userReaction}
+        reactionsCounts={comment.reactionsCount}
         repliesLoading={repliesLoading}
         repliesCount={comment.repliesCount}
         repliesOpen={repliesOpen}

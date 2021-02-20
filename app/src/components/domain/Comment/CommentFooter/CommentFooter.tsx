@@ -26,7 +26,7 @@ const Right = styled.div`
 `;
 
 type CommentFooterProps = {
-  userReaction: ReactionType | null;
+  userReaction?: ReactionType | null;
   reactionsCounts: Record<ReactionType, number>;
   repliesLoading: boolean;
   repliesCount: number;
@@ -34,10 +34,10 @@ type CommentFooterProps = {
   replyFormOpen: boolean;
   isSubscribed?: boolean;
   authorNick: string;
-  onUserReactionChange: (reaction: ReactionType) => void;
+  onUserReactionChange?: (reaction: ReactionType) => void;
+  onToggleSubscription?: () => void;
   onToggleReplies: () => void;
   onReply: () => void;
-  onToggleSubscription?: () => void;
 };
 
 const CommentFooter: React.FC<CommentFooterProps> = ({
@@ -50,9 +50,9 @@ const CommentFooter: React.FC<CommentFooterProps> = ({
   isSubscribed,
   authorNick,
   onUserReactionChange,
+  onToggleSubscription,
   onToggleReplies,
   onReply,
-  onToggleSubscription,
 }) => (
   <CommentFooterContainer>
     <Reactions counts={reactionsCounts} userReaction={userReaction} setUserReaction={onUserReactionChange} />

@@ -41,7 +41,7 @@ type Replace<T> = {
 
 type Action<T> = Set<T> | Prepend<T> | Append<T> | Remove<T> | Replace<T>;
 
-const reducer = <T>(data: T[] | undefined, action: Action<T>) => {
+const reducer = <T>(data: T[] | undefined, action: Action<T>): T[] | undefined => {
   switch (action.type) {
     case 'set':
       return [...action.items];
@@ -77,7 +77,7 @@ const reducer = <T>(data: T[] | undefined, action: Action<T>) => {
 };
 
 const useEditableDataset = <T>(input?: T[], onUpdate?: 'set' | 'append' | 'prepend'): EditableDataset<T> => {
-  const [data, dispatch] = useReducer<Reducer<T[], Action<T>>>(reducer, input);
+  const [data, dispatch] = useReducer<Reducer<Array<T> | undefined, Action<T>>>(reducer, input);
 
   useUpdateEffect(() => {
     if (input && onUpdate) {

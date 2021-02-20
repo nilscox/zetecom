@@ -6,13 +6,13 @@ import useDateInput from './useDateInput';
 
 type DateInputProps = InputProps & {
   // use a string to avoid timezone issues
-  onDateChange?: (value: string) => void;
+  onDateChange: (value: string) => void;
 };
 
 const DateInput: React.FC<DateInputProps> = ({ placeholder, value: valueProp, onDateChange, ...props }) => {
   const handleDateChange = (date: string) => {
     if (date !== valueProp) {
-      onDateChange(date);
+      onDateChange?.(date);
     }
   };
 

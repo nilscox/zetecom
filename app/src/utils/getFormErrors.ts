@@ -8,7 +8,8 @@ type HandlerLeaf = string | [string, string];
 
 type FormErrorHandler =
   | HandlerLeaf
-  | ((value: unknown, data: unknown) => HandlerLeaf)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  | ((value: any, data: any) => HandlerLeaf | undefined)
   | { [key: string]: FormErrorHandler };
 
 export type FormErrorHandlers = Record<number, FormErrorHandler>;
@@ -17,11 +18,7 @@ const isLeaf = (handler: FormErrorHandler): handler is HandlerLeaf => {
   return typeof handler === 'string' || Array.isArray(handler);
 };
 
-const getError = (handler: FormErrorHandler | undefined): FormErrors => {
-  if (!handler) {
-    return [null, {}];
-  }
-
+const getError = (handler: HandlerLeaf | undefined): FormErrors => {
   if (typeof handler === 'string') {
     return [handler, {}];
   }
@@ -29,9 +26,15 @@ const getError = (handler: FormErrorHandler | undefined): FormErrors => {
   if (Array.isArray(handler)) {
     return [null, { [handler[0]]: handler[1] } as FieldsErrors];
   }
+
+  return [null, {}];
 };
 
 const getErrors = (data: unknown, error: unknown, handler: FormErrorHandler | undefined): FormErrors => {
+  if (typeof error !== 'object' || error === null) {
+    return [null, {}];
+  }
+
   if (!handler || isLeaf(handler)) {
     return getError(handler);
   }
@@ -50,7 +53,7 @@ const getErrors = (data: unknown, error: unknown, handler: FormErrorHandler | un
         { ...result[1], ...fieldErrors },
       ];
     },
-    [null, {}],
+    [null, {}] as FormErrors,
   );
 };
 
@@ -67,6 +70,11 @@ const getFormErrors = (
   handlers: FormErrorHandlers,
 ): [...FormErrors, AxiosError | null] => {
   const { data, status } = error?.response ?? {};
+
+  if (!error || !status) {
+    return [null, {}, null];
+  }
+
   const errors = getErrors(data, data, handlers[status]);
 
   return [...errors, getUnhandledError(error, errors)];

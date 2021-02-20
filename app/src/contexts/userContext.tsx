@@ -5,7 +5,8 @@ import { User } from 'src/types/User';
 
 type UserContextType = [User | null | undefined, (user: User | null) => void];
 
-const userContext = createContext<UserContextType>(undefined);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const userContext = createContext<UserContextType>(null as any);
 
 export const UserProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>();

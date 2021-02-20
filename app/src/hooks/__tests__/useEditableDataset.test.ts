@@ -106,7 +106,7 @@ describe('useEditableDataset', () => {
     });
 
     it('should not replace items on an empty state', () => {
-      const { result } = render([]);
+      const { result } = render([] as string[]);
       const { replace } = result.current[1];
 
       act(() => replace('hello', 'world'));
@@ -143,7 +143,7 @@ describe('useEditableDataset', () => {
     });
 
     it('should not remove items on an empty state', () => {
-      const { result } = render([]);
+      const { result } = render([] as string[]);
       const { remove } = result.current[1];
 
       act(() => remove('hello'));

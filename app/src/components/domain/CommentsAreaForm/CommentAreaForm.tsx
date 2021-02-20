@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 
 import styled from '@emotion/styled';
 
@@ -88,7 +88,7 @@ const CommentsAreaForm: React.FC<CommentAreaFormProps> = ({
         <CommentsAreaFormInput placeholder="URL de l'information" error={fieldErrors.url} {...text('url')} />
 
         <Row>
-          <CommentsAreaFormInput<typeof DateInput>
+          <CommentsAreaFormInput<ComponentProps<typeof DateInput>>
             as={DateInput}
             placeholder="Date de publication"
             error={fieldErrors.publicationDate}

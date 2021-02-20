@@ -18,7 +18,7 @@ import { CommentsArea } from 'src/types/CommentsArea';
 const CommentsAreaPage: React.FC<RouteComponentProps<{ commentsAreaId: string }>> = ({ match }) => {
   const { commentsAreaId } = match.params;
 
-  const [commentsArea, { loading: loadingCommentsArea }] = useAxios<CommentsArea>({
+  const [commentsArea] = useAxios<CommentsArea>({
     url: `/api/comments-area/${commentsAreaId}`,
   });
 
@@ -46,7 +46,7 @@ const CommentsAreaPage: React.FC<RouteComponentProps<{ commentsAreaId: string }>
 
       <AsyncContent
         loading={loading}
-        render={() => <CommentsList CommentContainer={CommentContainer} comments={comments.items} />}
+        render={() => <CommentsList CommentContainer={CommentContainer} comments={comments?.items ?? []} />}
       />
     </Box>
   );

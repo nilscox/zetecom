@@ -53,7 +53,7 @@ const useFormErrors = () => {
   }, []);
 
   const handleError = useCallback(
-    (formError: FormError, fieldErrors: FieldsErrors) => {
+    (formError: FormError | null, fieldErrors: Partial<FieldsErrors>) => {
       clearAllErrors();
 
       if (formError) {
@@ -61,7 +61,9 @@ const useFormErrors = () => {
       }
 
       for (const [field, error] of Object.entries(fieldErrors)) {
-        setFieldErrror(field, error);
+        if (error) {
+          setFieldErrror(field, error);
+        }
       }
     },
     [clearAllErrors, setFormError, setFieldErrror],

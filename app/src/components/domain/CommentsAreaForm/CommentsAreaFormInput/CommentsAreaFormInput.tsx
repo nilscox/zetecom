@@ -9,7 +9,7 @@ const Container = styled.div`
   margin: ${spacing(1, 0)};
 `;
 
-const CommentsAreaFormInput = <T extends typeof Input>(props: ComponentProps<T>) => (
+const CommentsAreaFormInput = <P extends ComponentProps<typeof Input>>(props: P) => (
   <Container>
     <Input fullWidth consistentHeight autoComplete="off" {...props} />
   </Container>

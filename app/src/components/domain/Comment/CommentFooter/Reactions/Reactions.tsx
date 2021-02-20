@@ -18,8 +18,8 @@ const ReactionsContainer = styled.div`
 
 type ReactionsProps = {
   counts: Record<ReactionType, number>;
-  userReaction: ReactionType | null;
-  setUserReaction: (reaction: ReactionType) => void;
+  userReaction?: ReactionType | null;
+  setUserReaction?: (reaction: ReactionType) => void;
 };
 
 const Reactions: React.FC<ReactionsProps> = ({ counts, userReaction, setUserReaction }) => (
@@ -30,7 +30,7 @@ const Reactions: React.FC<ReactionsProps> = ({ counts, userReaction, setUserReac
         type={type}
         count={counts[type]}
         isUserReaction={userReaction === type}
-        onClick={() => setUserReaction(type)}
+        onClick={() => setUserReaction?.(type)}
       />
     ))}
   </ReactionsContainer>

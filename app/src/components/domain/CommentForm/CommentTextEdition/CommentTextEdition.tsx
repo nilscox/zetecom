@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 import { font, spacing, textColor } from 'src/theme';
 
-const useRows = (ref: React.MutableRefObject<HTMLElement>) => {
+const useRows = (ref: React.RefObject<HTMLElement>) => {
   const [rows, setRows] = useState(3);
 
   useEffect(() => {
