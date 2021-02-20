@@ -1,4 +1,4 @@
-import { Reducer, useReducer } from 'react';
+import { Reducer, useCallback, useReducer } from 'react';
 
 import useUpdateEffect from './useUpdateEffect';
 
@@ -88,11 +88,11 @@ const useEditableDataset = <T>(input?: T[], onUpdate?: 'set' | 'append' | 'prepe
   return [
     data,
     {
-      set: (items: T[]) => dispatch({ type: 'set', items }),
-      prepend: (...items: T[]) => dispatch({ type: 'prepend', items }),
-      append: (...items: T[]) => dispatch({ type: 'append', items }),
-      remove: (...items: T[]) => dispatch({ type: 'remove', items }),
-      replace: (prev: T, next: T) => dispatch({ type: 'replace', prev, next }),
+      set: useCallback((items: T[]) => dispatch({ type: 'set', items }), []),
+      prepend: useCallback((...items: T[]) => dispatch({ type: 'prepend', items }), []),
+      append: useCallback((...items: T[]) => dispatch({ type: 'append', items }), []),
+      remove: useCallback((...items: T[]) => dispatch({ type: 'remove', items }), []),
+      replace: useCallback((prev: T, next: T) => dispatch({ type: 'replace', prev, next }), []),
     },
   ];
 };

@@ -52,6 +52,7 @@ const Comment: React.FC<CommentProps> = props => {
   const [subscribed, setSubscribed] = useState(comment.subscribed);
 
   const [reactionsCount, userReaction, handleUserReactionChange] = useReactions(comment, onSetReaction);
+
   const can = useCanPerformAction(user, comment);
 
   const handleToggleReplies = () => {
