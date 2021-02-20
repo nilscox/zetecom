@@ -7,13 +7,19 @@ import { ReactionType } from './../reaction.entity';
 
 export class ReactionsCountDto {
   @Expose()
+  like: number;
+
+  @Expose()
   approve: number;
 
   @Expose()
-  refute: number;
+  think: number;
 
   @Expose()
-  skeptic: number;
+  disagree: number;
+
+  @Expose()
+  dontUnderstand: number;
 }
 
 export class MessageDto {

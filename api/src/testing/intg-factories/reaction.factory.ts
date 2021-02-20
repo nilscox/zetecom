@@ -8,14 +8,16 @@ import { createUser } from './user.factory';
 export const createReaction = async (data: DeepPartial<Reaction> = {}) => {
   const manager = getManager();
 
-  if (!data.user)
+  if (!data.user) {
     data.user = await createUser();
+  }
 
-  if (!data.comment)
+  if (!data.comment) {
     data.comment = await createComment();
+  }
 
   const reaction = manager.create(Reaction, {
-    type: ReactionType.APPROVE,
+    type: ReactionType.like,
     ...data,
   });
 

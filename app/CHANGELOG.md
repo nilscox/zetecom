@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Use webpack to build the app
 - Display message revisions side-by-side
+- Update reaction types
 
 ## [0.6.1]
 
