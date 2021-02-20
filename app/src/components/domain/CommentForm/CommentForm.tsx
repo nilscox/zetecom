@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 
 import Markdown from 'src/components/elements/Markdown/Markdown';
 import Tabs, { Tab, useTabs } from 'src/components/elements/Tabs/Tabs';
+import useUpdateEffect from 'src/hooks/useUpdateEffect';
 import { spacing } from 'src/theme';
 import { UserLight } from 'src/types/User';
 
@@ -21,13 +22,13 @@ const StyledTabs = styled(Tabs)`
 
 type CommentFormProps = {
   className?: string;
-  type: 'edition' | 'reply';
+  type: 'root' | 'edition' | 'reply';
   author: UserLight;
   initialText?: string;
   placeholder?: string;
   submitting: boolean;
   onSubmit: (text: string) => void;
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 const CommentForm: React.FC<CommentFormProps> = ({
@@ -42,6 +43,12 @@ const CommentForm: React.FC<CommentFormProps> = ({
 }) => {
   const [currentTab, tabs] = useTabs(['edit', 'preview']);
   const [text, setText] = useState(initialText);
+
+  useUpdateEffect(() => {
+    if (!submitting) {
+      setText('');
+    }
+  }, [submitting]);
 
   const tabPanels = {
     edit: (
