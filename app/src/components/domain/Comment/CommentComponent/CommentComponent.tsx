@@ -27,6 +27,7 @@ type CommentComponentProps = {
   onToggleReplies?: () => void;
   onReply?: () => void;
   onToggleSubscription?: () => void;
+  onViewHistory?: () => void;
 };
 
 const CommentComponent: React.FC<CommentComponentProps> = ({
@@ -40,35 +41,35 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   onToggleReplies,
   onReply,
   onToggleSubscription,
-}) => {
-  return (
-    <CommentContainer>
-      <CommentHeader
-        user={comment.author}
-        edited={Boolean(comment.edited)}
-        date={comment.edited || comment.date}
-        onEdit={onEdit}
-        onReport={onReport}
-      />
+  onViewHistory,
+}) => (
+  <CommentContainer>
+    <CommentHeader
+      user={comment.author}
+      edited={Boolean(comment.edited)}
+      date={comment.edited || comment.date}
+      onEdit={onEdit}
+      onReport={onReport}
+      onViewHistory={onViewHistory}
+    />
 
-      <CommentBody text={comment.text} />
+    <CommentBody text={comment.text} />
 
-      <CommentFooter
-        userReaction={comment.userReaction}
-        reactionsCounts={comment.reactionsCount}
-        repliesLoading={repliesLoading}
-        repliesCount={comment.repliesCount}
-        repliesOpen={repliesOpen}
-        replyFormOpen={replyFormOpen}
-        isSubscribed={comment.subscribed}
-        authorNick={comment.author.nick}
-        onSetReaction={onSetReaction}
-        onToggleReplies={onToggleReplies}
-        onReply={onReply}
-        onToggleSubscription={onToggleSubscription}
-      />
-    </CommentContainer>
-  );
-};
+    <CommentFooter
+      userReaction={comment.userReaction}
+      reactionsCounts={comment.reactionsCount}
+      repliesLoading={repliesLoading}
+      repliesCount={comment.repliesCount}
+      repliesOpen={repliesOpen}
+      replyFormOpen={replyFormOpen}
+      isSubscribed={comment.subscribed}
+      authorNick={comment.author.nick}
+      onSetReaction={onSetReaction}
+      onToggleReplies={onToggleReplies}
+      onReply={onReply}
+      onToggleSubscription={onToggleSubscription}
+    />
+  </CommentContainer>
+);
 
 export default CommentComponent;

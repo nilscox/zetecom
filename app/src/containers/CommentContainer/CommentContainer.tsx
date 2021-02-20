@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import useReport from 'src/containers/CommentContainer/hooks/useReport';
 import { useUser } from 'src/contexts/userContext';
 import { Comment as CommentType } from 'src/types/Comment';
 
@@ -8,8 +7,10 @@ import Comment from '../../components/domain/Comment/Comment';
 
 import useEdition from './hooks/useEdition';
 import useReplies from './hooks/useReplies';
+import useReport from './hooks/useReport';
 import useSetReaction from './hooks/useSetReaction';
 import useSetSubscription from './hooks/useSetSubscription';
+import useViewHistory from './hooks/useViewHistory';
 
 export type SetComment = React.Dispatch<React.SetStateAction<CommentType>>;
 export type SetReplies = React.Dispatch<React.SetStateAction<CommentType[] | undefined>>;
@@ -27,6 +28,7 @@ const CommentContainer: React.FC<CommentContainerProps> = props => {
   const onSetReaction = useSetReaction(comment);
   const onSetSubscription = useSetSubscription(comment, setComment);
   const onReport = useReport(comment);
+  const onViewHistory = useViewHistory(comment);
 
   return (
     <Comment
@@ -42,6 +44,7 @@ const CommentContainer: React.FC<CommentContainerProps> = props => {
       onSetReaction={onSetReaction}
       onSetSubscription={onSetSubscription}
       onReply={onReply}
+      onViewHistory={onViewHistory}
       fetchReplies={fetchReplies}
     />
   );

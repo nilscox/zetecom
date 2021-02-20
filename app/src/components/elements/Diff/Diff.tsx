@@ -6,7 +6,7 @@ import { color, font, spacing } from 'src/theme';
 
 import makeDiff from './makeDiff';
 
-const DiffContainer = styled.div`
+const Container = styled.div`
   font-family: ${font('monospace')};
 
   ins {
@@ -21,7 +21,7 @@ const DiffContainer = styled.div`
 
   .line {
     display: flex;
-    margin: ${spacing(2, 0)};
+    margin: ${spacing(1, 0)};
   }
 
   .left,
@@ -66,19 +66,21 @@ const Diff: React.FC<DiffProps> = ({ before, after }) => {
   const lines = makeDiff(before, after, { simplify: true, group: true });
 
   return (
-    <DiffContainer>
+    <Container>
       {lines.map(([left, right], n) => (
         <div key={n} className="line">
           <div className="left">
             <DiffLine chunks={left} />
           </div>
+
           <Separator />
+
           <div className="right">
             <DiffLine chunks={right} />
           </div>
         </div>
       ))}
-    </DiffContainer>
+    </Container>
   );
 };
 
