@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import CommentForm from 'src/components/domain/CommentForm/CommentForm';
 import { Comment as CommentType } from 'src/types/Comment';
@@ -34,6 +34,12 @@ const EditableComment: React.FC<EditableCommentProps> = ({
   onToggleSubscription,
 }) => {
   const [editing, setEditing] = useState(false);
+
+  useEffect(() => {
+    if (!submittingEdition) {
+      setEditing(false);
+    }
+  }, [submittingEdition]);
 
   if (editing && onEdit) {
     return (
