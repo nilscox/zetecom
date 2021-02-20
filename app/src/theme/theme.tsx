@@ -1,5 +1,4 @@
-import { darken } from '@material-ui/core';
-import { lighten } from 'polished';
+import { darken, lighten } from 'polished';
 
 import 'normalize.css';
 import 'fontsource-montserrat/index.css';
@@ -35,10 +34,10 @@ const theme = {
     link: lighten(0.15, secondary),
     linkFocused: primary,
     disabled: '#999',
-    success: darken(success, 0.2),
-    error: darken(error, 0.2),
-    warning: darken(warning, 0.2),
-    info: darken(info, 0.2),
+    success: darken(0.1, success),
+    error: darken(0.1, error),
+    warning: darken(0.1, warning),
+    info: darken(0.1, info),
   },
 
   spacings: {
