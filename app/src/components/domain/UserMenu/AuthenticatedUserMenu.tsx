@@ -25,13 +25,14 @@ const AvatarNickContainer = styled.button`
   }
 `;
 
-type AvatarNickContainerProps = React.ComponentProps<typeof AvatarNickContainer> & {
+type AvatarNickProps = React.ComponentProps<typeof AvatarNickContainer> & {
+  loading: boolean;
   user: User;
 };
 
-const AvatarNick = forwardRef<HTMLButtonElement, AvatarNickContainerProps>(({ user, ...props }, ref) => (
+const AvatarNick = forwardRef<HTMLButtonElement, AvatarNickProps>(({ loading, user, ...props }, ref) => (
   <AvatarNickContainer ref={ref} {...props}>
-    <AvatarImage src={user.avatar} />
+    <AvatarImage loading={loading} src={user.avatar} />
     {user.nick}
   </AvatarNickContainer>
 ));
@@ -44,12 +45,13 @@ const MenuIcon = styled(Icon)`
 `;
 
 type AuthenticatedUserMenuProps = {
+  loading: boolean;
   user: User;
   onLogout: () => void;
 };
 
-const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user, onLogout }) => (
-  <Menu menuButton={<AvatarNick user={user} />}>
+const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ loading, user, onLogout }) => (
+  <Menu menuButton={<AvatarNick loading={loading} user={user} />}>
     <MenuItem>
       <MenuIcon as={Notification} />
       Notifications

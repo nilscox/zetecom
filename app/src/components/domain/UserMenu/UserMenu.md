@@ -9,7 +9,13 @@ Authenticated
 ```tsx
 import makeUser from 'src/test/makeUser';
 
-const user = makeUser({ nick: 'Doug Forcett' });
+<UserMenu user={makeUser({ nick: 'Doug Forcett' })} onLogout={() => {}} />;
+```
 
-<UserMenu user={user} onLogout={() => {}} />;
+Loading
+
+```tsx
+import makeUser from 'src/test/makeUser';
+
+<UserMenu loading user={makeUser({ nick: 'Doug Forcett' })} onLogout={() => {}} />;
 ```
