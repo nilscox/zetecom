@@ -16,14 +16,15 @@ const fallbackMessages = {
   emailLogin: "Une erreur s'est produite, l'email n'a pas pu être envoyé.",
 };
 
-const useAuthentication = () => {
+const useAuthentication = (onAuthenticated: () => void) => {
   const [formType, getForFormType] = useAuthenticationFormType();
 
   const [, login, onLogin] = useLogin();
   const [, signup, onSignup] = useSignup();
   const [emailLogin, onEmailLogin] = useEmailLogin();
 
-  const loading = [login, signup, emailLogin].map(({ loading }) => loading).some(Boolean);
+  const response = getForFormType({ login, signup, emailLogin });
+  const { loading, status } = response;
 
   const [{ formError, fieldErrors }, { handleError, clearFieldError, clearAllErrors }] = useFormErrors();
 
@@ -61,6 +62,12 @@ const useAuthentication = () => {
       );
     }
   }, [login, signup, emailLogin, getForFormType, handleError]);
+
+  useEffect(() => {
+    if (status(200) || status(201)) {
+      onAuthenticated();
+    }
+  }, [onAuthenticated, status]);
 
   return [
     {
