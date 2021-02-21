@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-
-import useTimeout from 'src/hooks/useTimeout';
+import React, { useEffect, useState } from 'react';
 
 import Fallback from '../Fallback/Fallback';
 
@@ -10,12 +8,22 @@ type AsyncContentProps = {
   render: () => React.ReactNode;
 };
 
-const AsyncContent: React.FC<AsyncContentProps> = ({ loaderDelay = 300, loading, render }) => {
-  const [renderLoading, setRenderLoading] = useState(false);
+const AsyncContent: React.FC<AsyncContentProps> = ({ loaderDelay = 400, loading, render }) => {
+  const [renderLoader, setRenderLoader] = useState(false);
 
-  useTimeout(() => setRenderLoading(true), loaderDelay);
+  useEffect(() => {
+    if (loading) {
+      setRenderLoader(false);
 
-  if (loading && !renderLoading) {
+      const timeout = setTimeout(() => {
+        setRenderLoader(true);
+      }, loaderDelay);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [loading, loaderDelay]);
+
+  if (loading && !renderLoader) {
     return null;
   }
 
