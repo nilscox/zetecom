@@ -11,6 +11,16 @@ const useDateInput = (value: string, onDateChange: (value: string) => void) => {
   const [current, setCurrent] = useState<'day' | 'month' | 'year'>('day');
 
   useEffect(() => {
+    if (value === '') {
+      // code smell
+      setTimeout(() => {
+        setDay('');
+        setMonth('');
+        setYear('');
+        setCurrent('day');
+      }, 0);
+    }
+
     if (value) {
       const date = parseISO(value);
 
