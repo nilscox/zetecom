@@ -18,7 +18,7 @@ type UseAxiosPaginatedReturnType<TResponse, TError> = [
     page: number;
     setPage: (page: number) => void;
     sort?: SortType;
-    setSort: (sort?: SortType) => void;
+    setSort: (sort: SortType) => void;
     search: string;
     setSearch: (search: string) => void;
   },
@@ -29,7 +29,7 @@ const useAxiosPaginated = <TResponse, TError = unknown>(
   ...args: UseAxiosParams
 ): UseAxiosPaginatedReturnType<TResponse, TError> => {
   const [page, setPage] = useState(1);
-  const [sort, setSort] = useState<SortType>();
+  const [sort, setSort] = useState<SortType>(SortType.DATE_DESC);
   const [search, setSearch] = useState('');
 
   const [data, result, refetch] = useAxios<Paginated<TResponse>, TError>(...args);
@@ -47,6 +47,10 @@ const useAxiosPaginated = <TResponse, TError = unknown>(
 
     if (search !== '') {
       params.search = search;
+    }
+
+    if (typeof args[0] === 'object') {
+      Object.assign(params, args[0].params);
     }
 
     refetch({ params });
