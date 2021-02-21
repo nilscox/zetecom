@@ -6,13 +6,14 @@ import useAuthentication from './hooks/useAuthentication';
 
 type AuthenticationProps = {
   className?: string;
+  onAuthenticated: () => void;
 };
 
-const Authentication: React.FC<AuthenticationProps> = ({ className }) => {
+const Authentication: React.FC<AuthenticationProps> = ({ className, onAuthenticated }) => {
   const [
     { formType, loading, formError, fieldErrors, clearFieldError, clearAllErrors },
     { onLogin, onSignup, onEmailLogin },
-  ] = useAuthentication();
+  ] = useAuthentication(onAuthenticated);
 
   const handleSubmit = (email: string, password?: string, nick?: string) => {
     const data = { email, password, nick };

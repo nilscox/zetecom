@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
+import { useHistory } from 'react-router';
 
 import Authentication from 'src/containers/Authentication/Authentication';
 import { domain } from 'src/theme';
@@ -16,9 +17,15 @@ const StyledAuthentication = styled(Authentication)`
 `;
 
 const AuthenticationPage: React.FC = () => {
+  const history = useHistory();
+
+  const onAuthenticated = () => {
+    history.push('/');
+  };
+
   return (
     <Container>
-      <StyledAuthentication />
+      <StyledAuthentication onAuthenticated={onAuthenticated} />
     </Container>
   );
 };
