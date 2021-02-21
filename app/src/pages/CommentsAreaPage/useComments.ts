@@ -11,7 +11,7 @@ const useComments = (commentsAreaId: string) => {
     params: { commentsAreaId },
   });
 
-  const [commentsDataset, { prepend }] = useEditableDataset(comments?.items, 'append');
+  const [commentsDataset, { prepend }] = useEditableDataset(comments?.items, 'set');
 
   const [createdComment, { loading: submitting }, onSubmit] = useAxios<Comment>(
     { method: 'POST', url: '/api/comment' },
