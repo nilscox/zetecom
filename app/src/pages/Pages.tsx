@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 import { Route, Switch } from 'react-router';
 
 import Footer from 'src/components/domain/Footer/Footer';
 import HeaderLogo from 'src/components/domain/HeaderLogo/HeaderLogo';
-import UserMenu from 'src/components/domain/UserMenu/UserMenu';
-import { useSetUser, useUser } from 'src/contexts/userContext';
-import useAxios from 'src/hooks/useAxios';
+import UserMenuContainer from 'src/containers/UserMenuContainer/UserMenuContainer';
 import { size, spacing } from 'src/theme';
 
 import AuthenticationPage from './AuthenticationPage/AuthenticationPage';
@@ -38,32 +36,20 @@ const Main = styled.main`
   min-height: ${size('xlarge')};
 `;
 
-const Pages: React.FC = () => {
-  const setUser = useSetUser();
+const Pages: React.FC = () => (
+  <Page>
+    <HeaderLogo right={<UserMenuContainer />} />
 
-  const [, { status }, logout] = useAxios({ method: 'POST', url: '/api/auth/logout' }, { manual: true });
+    <Main>
+      <Switch>
+        <Route path="/" exact component={CommentsAreasListPage} />
+        <Route path="/commentaires/:commentsAreaId" component={CommentsAreaPage} />
+        <Route path="/(connexion|inscription|connexion-par-email)" component={AuthenticationPage} />
+      </Switch>
+    </Main>
 
-  useEffect(() => {
-    if (status(204)) {
-      setUser(null);
-    }
-  }, [status, setUser]);
-
-  return (
-    <Page>
-      <HeaderLogo right={<UserMenu user={useUser()} onLogout={logout} />} />
-
-      <Main>
-        <Switch>
-          <Route path="/" exact component={CommentsAreasListPage} />
-          <Route path="/commentaires/:commentsAreaId" component={CommentsAreaPage} />
-          <Route path="/(connexion|inscription|connexion-par-email)" component={AuthenticationPage} />
-        </Switch>
-      </Main>
-
-      <Footer />
-    </Page>
-  );
-};
+    <Footer />
+  </Page>
+);
 
 export default Pages;

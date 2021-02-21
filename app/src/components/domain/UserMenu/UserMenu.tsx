@@ -6,12 +6,17 @@ import AuthenticatedUserMenu from './AuthenticatedUserMenu';
 import UnauthenticatedUserMenu from './UnauthenticatedUserMenu';
 
 type UserMenuProps = {
-  user?: User | null;
+  loading: boolean;
+  user: User | null;
   onLogout?: () => void;
 };
 
-const UserMenu: React.FC<UserMenuProps> = ({ user, onLogout }) => {
-  return user && onLogout ? <AuthenticatedUserMenu user={user} onLogout={onLogout} /> : <UnauthenticatedUserMenu />;
+const UserMenu: React.FC<UserMenuProps> = ({ loading, user, onLogout }) => {
+  if (user && onLogout) {
+    return <AuthenticatedUserMenu loading={loading} user={user} onLogout={onLogout} />;
+  }
+
+  return <UnauthenticatedUserMenu />;
 };
 
 export default UserMenu;
