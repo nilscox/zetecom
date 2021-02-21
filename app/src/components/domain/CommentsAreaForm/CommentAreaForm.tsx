@@ -1,11 +1,11 @@
-import React, { ComponentProps } from 'react';
+import React, { ComponentProps, forwardRef, useImperativeHandle } from 'react';
 
 import styled from '@emotion/styled';
 
 import MediaImage from 'src/components/domain/MediaImage/MediaImage';
 import Button from 'src/components/elements/Button/Button';
 import DateInput from 'src/components/elements/DateInput/DateInput';
-import { spacing } from 'src/theme';
+import { color, spacing } from 'src/theme';
 
 import CommentsAreaFormInput from './CommentsAreaFormInput/CommentsAreaFormInput';
 import useCommentsAreaForm, { CommentsAreaFormState } from './hooks/useCommentsAreaForm';
@@ -14,6 +14,9 @@ import useMediaType from './hooks/useMediaType';
 export type { CommentsAreaFormState } from './hooks/useCommentsAreaForm';
 
 const Container = styled.div`
+  margin-bottom: ${spacing(2)};
+  border-bottom: 1px solid ${color('border')};
+  padding-bottom: ${spacing(2)};
   display: flex;
   flex-direction: row;
 `;
@@ -53,18 +56,19 @@ const Buttons = styled.div`
 export type CommentAreaFormProps = {
   initialValues?: CommentsAreaFormState;
   fieldErrors: Partial<Record<keyof CommentsAreaFormState, React.ReactNode>>;
+  isSubmitting: boolean;
   clearFieldError: (field: keyof CommentsAreaFormState) => void;
   onCancel: () => void;
   onSubmit: (values: CommentsAreaFormState) => void;
 };
 
-const CommentsAreaForm: React.FC<CommentAreaFormProps> = ({
-  initialValues,
-  fieldErrors,
-  clearFieldError,
-  onCancel,
-  onSubmit,
-}) => {
+export type CommentsAreaFormRef = {
+  reset: () => void;
+};
+
+const CommentsAreaForm = forwardRef<CommentsAreaFormRef, CommentAreaFormProps>((props, ref) => {
+  const { initialValues, fieldErrors, isSubmitting, clearFieldError, onCancel, onSubmit } = props;
+
   const [formState, { text }] = useCommentsAreaForm(initialValues, clearFieldError);
   const media = useMediaType(formState.values.url);
 
@@ -77,6 +81,12 @@ const CommentsAreaForm: React.FC<CommentAreaFormProps> = ({
     clearFieldError('publicationDate');
     formState.setField('publicationDate', value);
   };
+
+  useImperativeHandle(ref, () => ({
+    reset: () => formState.reset(),
+  }));
+
+  const hasErrors = Object.values(fieldErrors).filter(Boolean).length > 0;
 
   return (
     <Container>
@@ -103,13 +113,15 @@ const CommentsAreaForm: React.FC<CommentAreaFormProps> = ({
           <Button type="button" onClick={onCancel}>
             Annuler
           </Button>
-          <Button type="submit" disabled={Object.keys(fieldErrors).length > 0}>
+          <Button type="submit" disabled={hasErrors} loading={isSubmitting}>
             Demander l'ouverture
           </Button>
         </Buttons>
       </Form>
     </Container>
   );
-};
+});
+
+CommentsAreaForm.displayName = 'CommentsAreaForm';
 
 export default CommentsAreaForm;
