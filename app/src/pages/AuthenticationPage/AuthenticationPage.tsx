@@ -1,9 +1,10 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 import Authentication from 'src/containers/Authentication/Authentication';
+import useQueryString from 'src/hooks/use-query-string';
 import { domain } from 'src/theme';
 
 const Container = styled.div`
@@ -18,9 +19,15 @@ const StyledAuthentication = styled(Authentication)`
 
 const AuthenticationPage: React.FC = () => {
   const history = useHistory();
+  const location = useLocation();
+  const { next } = useQueryString(location.search);
 
   const onAuthenticated = () => {
-    history.push('/');
+    if (typeof next === 'string') {
+      history.push(next);
+    } else {
+      history.push('/');
+    }
   };
 
   return (
