@@ -9,6 +9,14 @@ import Pagination from '../../elements/Pagination/Pagination';
 
 import SortMenu from './SortMenu/SortMenu';
 
+const getTotalPages = (total?: number) => {
+  if (total === undefined) {
+    return;
+  }
+
+  return 1 + Math.floor(total / 10);
+};
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -20,7 +28,7 @@ type FiltersBarProps = {
   search: string;
   sort?: SortType;
   page: number;
-  totalPages?: number;
+  total?: number;
   onSearch: (search: string) => void;
   onSort?: (sort: SortType) => void;
   onPageChange: (page: number) => void;
@@ -31,7 +39,7 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
   search,
   sort,
   page,
-  totalPages,
+  total,
   onSearch,
   onSort,
   onPageChange,
@@ -47,7 +55,7 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
       css={theme => ({ marginRight: theme.spacings[4] })}
     />
     {sort && onSort && <SortMenu sort={sort} onChange={onSort} css={theme => ({ marginRight: theme.spacings[4] })} />}
-    <Pagination page={page} total={totalPages} onPageChange={onPageChange} />
+    <Pagination page={page} total={getTotalPages(total)} onPageChange={onPageChange} />
   </Container>
 );
 

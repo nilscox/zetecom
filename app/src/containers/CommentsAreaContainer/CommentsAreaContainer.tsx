@@ -42,7 +42,7 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ displayOu
       <Box my={4}>
         <FiltersBar
           page={page}
-          totalPages={total}
+          total={total}
           sort={sort}
           search={search}
           onPageChange={setPage}
