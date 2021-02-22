@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 
 import styled from '@emotion/styled';
 
@@ -41,7 +41,11 @@ export type CommentProps = {
   fetchReplies: () => void;
 };
 
-const Comment: React.FC<CommentProps> = props => {
+export type CommentRef = {
+  onReplySubmitted: (reply: CommentType) => void;
+};
+
+const Comment = forwardRef<CommentRef, CommentProps>((props, ref) => {
   // prettier-ignore
   const {
     CommentContainer, user, comment, replies, repliesLoading, submittingEdition, submittingReply,
@@ -78,6 +82,13 @@ const Comment: React.FC<CommentProps> = props => {
 
     setReplyFormOpen(true);
   };
+
+  useImperativeHandle(ref, () => ({
+    onReplySubmitted: () => {
+      setRepliesOpen(true);
+      setReplyFormOpen(false);
+    },
+  }));
 
   return (
     <div className="comment" id={`comment-${comment.id}`} data-testid={`comment-${comment.id}`}>
@@ -118,6 +129,8 @@ const Comment: React.FC<CommentProps> = props => {
       </Collapse>
     </div>
   );
-};
+});
+
+Comment.displayName = 'Comment';
 
 export default Comment;
