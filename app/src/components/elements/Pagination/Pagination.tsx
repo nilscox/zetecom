@@ -42,7 +42,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, onPageChange }) =>
     </IconButton>
 
     <div>
-      <Page>{page}</Page>/<Total>{total || '-'}</Total>
+      <Page>{page}</Page>/<Total>{total ?? '-'}</Total>
     </div>
 
     <IconButton disabled={!total || page === total} onClick={() => onPageChange(page + 1)}>

@@ -19,7 +19,7 @@ const CommentsAreasListPage: React.FC = () => {
       <Box my={4}>
         <FiltersBar
           page={page}
-          totalPages={commentsAreas?.total}
+          total={commentsAreas?.total}
           search={search}
           onPageChange={setPage}
           onSearch={setSearch}
