@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import useReply from 'src/containers/CommentContainer/hooks/useReply';
 import { useUser } from 'src/contexts/userContext';
 import { Comment as CommentType } from 'src/types/Comment';
 
-import Comment from '../../components/domain/Comment/Comment';
+import Comment, { CommentRef } from '../../components/domain/Comment/Comment';
 
 import useEdition from './hooks/useEdition';
 import useReplies from './hooks/useReplies';
@@ -21,6 +21,8 @@ type CommentContainerProps = {
 };
 
 const CommentContainer: React.FC<CommentContainerProps> = props => {
+  const ref = useRef<CommentRef>(null);
+
   const user = useUser();
   const [comment, setComment] = useState(props.comment);
 
@@ -29,10 +31,13 @@ const CommentContainer: React.FC<CommentContainerProps> = props => {
   const onReplySubmitted = useCallback(
     (reply: CommentType) => {
       prepend(reply);
+
       setComment(comment => ({
         ...comment,
         repliesCount: comment.repliesCount + 1,
       }));
+
+      ref.current?.onReplySubmitted(reply);
     },
     [prepend],
   );
@@ -47,6 +52,7 @@ const CommentContainer: React.FC<CommentContainerProps> = props => {
 
   return (
     <Comment
+      ref={ref}
       CommentContainer={CommentContainer}
       user={user}
       comment={comment}
