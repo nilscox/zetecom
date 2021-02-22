@@ -11,7 +11,6 @@ const useReply = (comment: Comment, onSubmitted: (reply: Comment) => void) => {
     {
       method: 'POST',
       url: '/api/comment',
-      params: { parentId: comment.id },
     },
     { manual: true },
   );
@@ -24,9 +23,9 @@ const useReply = (comment: Comment, onSubmitted: (reply: Comment) => void) => {
 
   const handleReply = useCallback(
     (text: string) => {
-      return onReply({ data: { commentsAreaId: commentsArea?.id, text } });
+      return onReply({ data: { commentsAreaId: commentsArea?.id, parentId: comment.id, text } });
     },
-    [commentsArea, onReply],
+    [commentsArea, comment, onReply],
   );
 
   return [{ loading }, handleReply] as const;
