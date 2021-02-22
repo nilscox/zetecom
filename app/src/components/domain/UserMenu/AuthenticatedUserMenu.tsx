@@ -3,6 +3,7 @@ import React, { forwardRef } from 'react';
 import styled from '@emotion/styled';
 
 import AvatarImage from 'src/components/elements/AvatarImage/AvatarImage';
+import Badge from 'src/components/elements/Badge/Badge';
 import Icon from 'src/components/elements/Icon/Icon';
 import Link from 'src/components/elements/Link/Link';
 import Menu, { MenuItem } from 'src/components/elements/Menu/Menu';
@@ -29,14 +30,19 @@ const AvatarNickContainer = styled.button`
 type AvatarNickProps = React.ComponentProps<typeof AvatarNickContainer> & {
   loading: boolean;
   user: User;
+  notificationsCount?: number;
 };
 
-const AvatarNick = forwardRef<HTMLButtonElement, AvatarNickProps>(({ loading, user, ...props }, ref) => (
-  <AvatarNickContainer ref={ref} {...props}>
-    <AvatarImage loading={loading} src={user.avatar} />
-    {user.nick}
-  </AvatarNickContainer>
-));
+const AvatarNick = forwardRef<HTMLButtonElement, AvatarNickProps>(
+  ({ loading, user, notificationsCount, ...props }, ref) => (
+    <AvatarNickContainer ref={ref} {...props}>
+      <Badge value={notificationsCount || undefined}>
+        <AvatarImage loading={loading} src={user.avatar} />
+      </Badge>
+      {user.nick}
+    </AvatarNickContainer>
+  ),
+);
 
 AvatarNick.displayName = 'AvatarNick';
 
@@ -55,11 +61,17 @@ const MenuItemLink = styled(Link)`
 type AuthenticatedUserMenuProps = {
   loading: boolean;
   user: User;
+  notificationsCount?: number;
   onLogout: () => void;
 };
 
-const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ loading, user, onLogout }) => (
-  <Menu menuButton={<AvatarNick loading={loading} user={user} />}>
+const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({
+  loading,
+  user,
+  notificationsCount,
+  onLogout,
+}) => (
+  <Menu menuButton={<AvatarNick loading={loading} user={user} notificationsCount={notificationsCount} />}>
     <MenuItem>
       <MenuItemLink to="/notifications">
         <MenuIcon as={Notification} />

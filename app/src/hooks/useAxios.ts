@@ -22,7 +22,9 @@ export type UseAxiosReturnType<TResponse, TError> = [
 ];
 
 const useAxios = <TResponse, TError = unknown>(...args: UseAxiosParams): UseAxiosReturnType<TResponse, TError> => {
-  const [result, refetch] = useAxiosHooks<TResponse>(...args);
+  const [config, options] = args;
+
+  const [result, refetch] = useAxiosHooks<TResponse>(config, { useCache: false, ...options });
   const response = useMemo(() => result.response || result.error?.response, [result]);
 
   const status = useCallback(
