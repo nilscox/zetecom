@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router';
 import Footer from 'src/components/domain/Footer/Footer';
 import HeaderLogo from 'src/components/domain/HeaderLogo/HeaderLogo';
 import UserMenuContainer from 'src/containers/UserMenuContainer/UserMenuContainer';
+import NotificationsPage from 'src/pages/NotificationsPage/NotificationsPage';
 import { size, spacing } from 'src/theme';
 
 import AuthenticationPage from './AuthenticationPage/AuthenticationPage';
@@ -45,6 +46,7 @@ const Pages: React.FC = () => (
         <Route path="/" exact component={CommentsAreasListPage} />
         <Route path="/commentaires/:commentsAreaId" component={CommentsAreaPage} />
         <Route path="/(connexion|inscription|connexion-par-email)" component={AuthenticationPage} />
+        <Route path="/notifications" component={NotificationsPage} />
       </Switch>
     </Main>
 

@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import clsx from 'clsx';
 
 import useDateFormat from 'src/hooks/useDateFormat';
-import { fontSize, size, transition } from 'src/theme';
+import { borderRadius, color, fontSize, size, spacing, transition } from 'src/theme';
 
 import MarkAsSeen from './MarkAsSeen/MarkAsSeen';
 
@@ -12,6 +12,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   transition: ${transition('fast', 'opacity')};
+  border: 1px solid ${color('border')};
+  border-radius: ${borderRadius(1)};
+  padding: ${spacing(2)};
 
   &.seen {
     opacity: 0.5;
@@ -38,7 +41,7 @@ type NotificationProps = {
   date: Date;
   title: React.ReactNode;
   text: React.ReactNode;
-  seen: boolean;
+  seen: false | Date;
   markAsSeen?: () => void;
 };
 

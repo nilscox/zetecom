@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 
 import AvatarImage from 'src/components/elements/AvatarImage/AvatarImage';
 import Icon from 'src/components/elements/Icon/Icon';
+import Link from 'src/components/elements/Link/Link';
 import Menu, { MenuItem } from 'src/components/elements/Menu/Menu';
 import { Comment, DoneAll, Logout, Notification } from 'src/components/icons';
 import { color, fontWeight, size, spacing, textColor } from 'src/theme';
@@ -44,6 +45,13 @@ const MenuIcon = styled(Icon)`
   color: ${color('icon')};
 `;
 
+const MenuItemLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+`;
+
 type AuthenticatedUserMenuProps = {
   loading: boolean;
   user: User;
@@ -53,8 +61,10 @@ type AuthenticatedUserMenuProps = {
 const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ loading, user, onLogout }) => (
   <Menu menuButton={<AvatarNick loading={loading} user={user} />}>
     <MenuItem>
-      <MenuIcon as={Notification} />
-      Notifications
+      <MenuItemLink to="/notifications">
+        <MenuIcon as={Notification} />
+        Notifications
+      </MenuItemLink>
     </MenuItem>
 
     <MenuItem>
