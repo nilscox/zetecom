@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
+import useReply from 'src/containers/CommentContainer/hooks/useReply';
 import { useUser } from 'src/contexts/userContext';
 import { Comment as CommentType } from 'src/types/Comment';
 
@@ -23,7 +24,21 @@ const CommentContainer: React.FC<CommentContainerProps> = props => {
   const user = useUser();
   const [comment, setComment] = useState(props.comment);
 
-  const [{ replies, repliesLoading, submittingReply }, fetchReplies, onReply] = useReplies(comment);
+  const [replies, { loading: repliesLoading, prepend }, fetchReplies] = useReplies(comment);
+
+  const onReplySubmitted = useCallback(
+    (reply: CommentType) => {
+      prepend(reply);
+      setComment(comment => ({
+        ...comment,
+        repliesCount: comment.repliesCount + 1,
+      }));
+    },
+    [prepend],
+  );
+
+  const [{ loading: submittingReply }, onReply] = useReply(comment, onReplySubmitted);
+
   const [{ submittingEdition }, onEdit] = useEdition(comment, setComment);
   const onSetReaction = useSetReaction(comment);
   const onSetSubscription = useSetSubscription(comment, setComment);

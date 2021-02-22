@@ -5,7 +5,7 @@ import useAxiosPaginated from 'src/hooks/useAxiosPaginated';
 import useEditableDataset from 'src/hooks/useEditableDataset';
 import { Comment } from 'src/types/Comment';
 
-const useComments = (commentsAreaId: string) => {
+const useComments = (commentsAreaId: number) => {
   const [comments, result] = useAxiosPaginated<Comment>({
     url: '/api/comment',
     params: { commentsAreaId },
