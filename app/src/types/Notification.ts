@@ -3,94 +3,65 @@ import { TransformationType } from 'class-transformer';
 
 import { UserLight } from './User';
 
-class RulesUpdatePayload {
-  version: string;
-}
-
-class SubscriptionReplyPayload {
-  commentsAreaId: number;
-
-  commentsAreaTitle: string;
-
-  commentsAreaImageUrl: string;
-
-  commentId: number;
-
-  replyId: number;
-
-  @Type(() => UserLight)
-  author: UserLight;
-
-  text: string;
-}
-
-class CommentsAreaRequestApprovedPayload {
-  requestedInformationUrl: string;
-
-  commentsAreaId: number;
-
-  commentsAreaImageUrl: string;
-
-  commentsAreaTitle: string;
-}
-
-class CommentsAreaRequestRejectedPayload {
-  requestId: number;
-
-  requestedInformationUrl: string;
-
-  reason?: string;
-}
-
-type MapNotificationPayload = {
-  rulesUpdate: RulesUpdatePayload;
-  subscriptionReply: SubscriptionReplyPayload;
-  commentsAreaRequestApproved: CommentsAreaRequestApprovedPayload;
-  commentsAreaRequestRejected: CommentsAreaRequestRejectedPayload;
-};
-
-export type NotificationType = keyof MapNotificationPayload;
-
-const transformNotificationPayload = ({ type: transform, value, obj: { type } }: TransformFnParams) => {
-  if (transform === TransformationType.CLASS_TO_CLASS) {
-    return value;
-  }
-
-  if (transform !== TransformationType.PLAIN_TO_CLASS) {
-    throw new Error('cannot handle transform');
-  }
-
-  if (type === 'rulesUpdate') {
-    return plainToClass(RulesUpdatePayload, value);
-  }
-
-  if (type === 'subscriptionReply') {
-    return plainToClass(SubscriptionReplyPayload, value);
-  }
-
-  if (type === 'commentsAreaRequestApproved') {
-    return plainToClass(CommentsAreaRequestApprovedPayload, value);
-  }
-
-  if (type === 'commentsAreaRequestRejected') {
-    return plainToClass(CommentsAreaRequestRejectedPayload, value);
-  }
-};
-
-export class Notification<T extends NotificationType> {
+type BaseNotification = {
   id: number;
-
-  type: T;
-
+  type: string;
   created: Date;
-
-  @Transform(({ value }) => typeof value === 'string' && new Date(value))
   seen: Date | false;
+};
 
-  @Transform(transformNotificationPayload)
-  payload: MapNotificationPayload[T];
+type RulesUpdateNotification = BaseNotification & {
+  type: 'rulesUpdate';
+  payload: {
+    version: string;
+  };
+};
+
+type SubscriptionReplyNotification = BaseNotification & {
+  type: 'subscriptionReply';
+  payload: {
+    commentsAreaId: number;
+    commentsAreaTitle: string;
+    commentsAreaImageUrl: string;
+    commentId: number;
+    replyId: number;
+    author: UserLight;
+    text: string;
+  };
+};
+
+type CommentsAreaRequestApprovedNotification = BaseNotification & {
+  type: 'commentsAreaRequestApproved';
+  payload: {
+    requestedInformationUrl: string;
+    commentsAreaId: number;
+    commentsAreaImageUrl: string;
+    commentsAreaTitle: string;
+  };
+};
+
+type CommentsAreaRequestRejectedNotification = BaseNotification & {
+  type: 'commentsAreaRequestRejected';
+  payload: {
+    requestId: number;
+    requestedInformationUrl: string;
+    reason?: string;
+  };
+};
+
+export enum NotificationType {
+  rulesUpdate,
+  subscriptionReply,
+  commentsAreaRequestApproved,
+  commentsAreaRequestRejected,
 }
 
-export class NotificationsCount {
+export type Notification =
+  | RulesUpdateNotification
+  | SubscriptionReplyNotification
+  | CommentsAreaRequestApprovedNotification
+  | CommentsAreaRequestRejectedNotification;
+
+export type NotificationsCount = {
   count: number;
-}
+};
