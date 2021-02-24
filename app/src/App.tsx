@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { ThemeProvider } from '@emotion/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import ToastContainer from 'src/components/layout/ToastContainer/ToastContainer';
@@ -19,14 +20,25 @@ const Router: React.FC = () => (
   </BrowserRouter>
 );
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 const App: React.FC = () => (
-  <ThemeProvider theme={theme}>
-    <GlobalStyles />
-    <ToastContainer />
-    <UserProvider>
-      <Router />
-    </UserProvider>
-  </ThemeProvider>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <ToastContainer />
+      <UserProvider>
+        <Router />
+      </UserProvider>
+    </ThemeProvider>
+    {/* <ReactQueryDevtools initialIsOpen /> */}
+  </QueryClientProvider>
 );
 
 export default App;
