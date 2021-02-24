@@ -1,30 +1,38 @@
-import { useEffect } from 'react';
+import axios, { AxiosResponse } from 'axios';
+import { QueryFunction, useQuery } from 'react-query';
 
-import useAxios from 'src/hooks/useAxios';
-import useAxiosPaginated from 'src/hooks/useAxiosPaginated';
-import useEditableDataset from 'src/hooks/useEditableDataset';
 import { Comment } from 'src/types/Comment';
+import { Paginated } from 'src/types/Paginated';
+import { SortType } from 'src/types/SortType';
 
-const useComments = (commentsAreaId: number) => {
-  const [comments, result] = useAxiosPaginated<Comment>({
-    url: '/api/comment',
-    params: { commentsAreaId },
+const fetchComments: QueryFunction<Paginated<Comment> | undefined> = async ({
+  queryKey: [, { commentsAreaId, parentId }, { page, sort, search }],
+}) => {
+  if (!commentsAreaId) {
+    return;
+  }
+
+  const response: AxiosResponse<Paginated<Comment>> = await axios('/api/comment', {
+    params: { commentsAreaId, parentId, page, sort, search },
   });
 
-  const [commentsDataset, { prepend }] = useEditableDataset(comments?.items, 'set');
+  return {
+    items: response.data.items,
+    total: response.data.total,
+  };
+};
 
-  const [createdComment, { loading: submitting }, onSubmit] = useAxios<Comment>(
-    { method: 'POST', url: '/api/comment' },
-    { manual: true },
+const useComments = (commentsAreaId: number | undefined, page: number, sort: SortType, search: string) => {
+  const { data: { items: comments, total: totalComments } = {}, isLoading: loadingComments } = useQuery(
+    ['comments', { commentsAreaId }, { page, sort, search }],
+    fetchComments,
   );
 
-  useEffect(() => {
-    if (createdComment) {
-      prepend(createdComment);
-    }
-  }, [createdComment, prepend]);
-
-  return [commentsDataset, { ...result, total: comments?.total, submitting, onSubmit }] as const;
+  return {
+    loadingComments,
+    totalComments,
+    comments,
+  };
 };
 
 export default useComments;
