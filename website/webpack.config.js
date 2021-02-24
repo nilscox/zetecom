@@ -9,7 +9,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const { merge } = require('webpack-merge');
 
-require('dotenv').config();
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config();
+}
 
 const {
   NODE_ENV = 'development',
