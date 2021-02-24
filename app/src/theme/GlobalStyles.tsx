@@ -27,11 +27,10 @@ const globalStyles = (theme: Theme) => css`
   a {
     outline: none;
     color: ${theme.textColors.link};
-    transition: ${theme.transitions.fast} color;
 
     &:focus {
-      color: ${theme.textColors.linkFocused};
-      transition: none;
+      /* color: ${theme.textColors.link}; */
+      text-decoration: underline;
     }
   }
 `;
