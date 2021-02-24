@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import CommentsList from 'src/components/domain/Comment/CommentsList/CommentsList';
 import CommentForm from 'src/components/domain/CommentForm/CommentForm';
@@ -6,68 +6,113 @@ import CommentsAreaOutline from 'src/components/domain/CommentsAreaOutline/Comme
 import FiltersBar from 'src/components/domain/FiltersBar/FiltersBar';
 import Box from 'src/components/elements/Box/Box';
 import AsyncContent from 'src/components/layout/AsyncContent/AsyncContent';
+import Fallback from 'src/components/layout/Fallback/Fallback';
 import CommentContainer from 'src/containers/CommentContainer/CommentContainer';
+import useCreateComment from 'src/containers/CommentsAreaContainer/hooks/useCreateComment';
 import { CommentsAreaProvider } from 'src/contexts/commentsAreaContext';
 import { useUser } from 'src/contexts/userContext';
-import useAxios from 'src/hooks/useAxios';
-import { CommentsArea } from 'src/types/CommentsArea';
+import { SortType } from 'src/types/SortType';
 
 import useComments from './hooks/useComments';
+import useCommentsArea from './hooks/useCommentsArea';
+
+const CommentsAreaClosed = () => <>closed</>;
 
 type CommentsAreaContainerProps = {
   displayOutline?: boolean;
-  commentsAreaId: number;
+  commentsAreaId?: number;
+  commentsAreaIdentifier?: string;
 };
 
-const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({ displayOutline, commentsAreaId }) => {
+type NoCommentsFallbackProps = {
+  isSearching: boolean;
+};
+
+const NoCommentsFallback: React.FC<NoCommentsFallbackProps> = ({ isSearching }) => {
+  if (isSearching) {
+    return <>Aucun résultat ne correspond à cette recherche.</>;
+  }
+
+  return <>Aucun commentaire n'a été publié pour le moment.</>;
+};
+
+const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
+  displayOutline,
+  commentsAreaId,
+  commentsAreaIdentifier,
+}) => {
   const user = useUser();
 
-  const [commentsArea] = useAxios<CommentsArea>({
-    url: `/api/comments-area/${commentsAreaId}`,
-  });
+  const { commentsArea, loadingCommentsArea, commentsAreaNotFound } = useCommentsArea(
+    commentsAreaId,
+    commentsAreaIdentifier,
+  );
 
-  const [
-    comments,
-    { loading, total, submitting, onSubmit, page, setPage, sort, setSort, search, setSearch },
-  ] = useComments(commentsAreaId);
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState(SortType.DATE_DESC);
+  const [search, setSearch] = useState('');
 
-  const handleSubmit = (text: string) => {
-    onSubmit({ data: { text, commentsAreaId: commentsArea?.id } });
-  };
+  const { loadingComments, totalComments, comments } = useComments(
+    commentsAreaId ?? commentsArea?.id,
+    page,
+    sort,
+    search,
+  );
+
+  const [createComment, { submittingRootComment }] = useCreateComment(
+    { commentsAreaId, commentsAreaIdentifier },
+    { commentsArea },
+    { comments, totalComments, page, sort, search },
+  );
+
+  if (commentsAreaNotFound) {
+    return <CommentsAreaClosed />;
+  }
 
   return (
-    <CommentsAreaProvider value={commentsArea}>
-      {displayOutline && commentsArea && <CommentsAreaOutline commentsArea={commentsArea} link="external" />}
+    <AsyncContent
+      loading={loadingCommentsArea}
+      render={() => (
+        <CommentsAreaProvider value={commentsArea}>
+          {displayOutline && commentsArea && <CommentsAreaOutline commentsArea={commentsArea} link="external" />}
 
-      <Box my={4}>
-        <FiltersBar
-          page={page}
-          total={total}
-          sort={sort}
-          search={search}
-          onPageChange={setPage}
-          onSort={setSort}
-          onSearch={setSearch}
-        />
-      </Box>
+          <Box my={4}>
+            <FiltersBar
+              page={page}
+              total={totalComments}
+              sort={sort}
+              search={search}
+              onPageChange={setPage}
+              onSort={setSort}
+              onSearch={setSearch}
+            />
+          </Box>
 
-      {user && (
-        <Box mb={2}>
-          <CommentForm
-            type="root"
-            author={user}
-            placeholder="Composez votre message..."
-            submitting={submitting}
-            onSubmit={handleSubmit}
+          {user && (
+            <Box mb={2}>
+              <CommentForm
+                type="root"
+                author={user}
+                placeholder="Composez votre message..."
+                submitting={submittingRootComment}
+                onSubmit={text => createComment({ text })}
+              />
+            </Box>
+          )}
+
+          <AsyncContent
+            loading={loadingCommentsArea || loadingComments}
+            render={() => (
+              <Fallback
+                when={totalComments === 0}
+                fallback={<NoCommentsFallback isSearching={search !== ''} />}
+                render={() => <CommentsList CommentContainer={CommentContainer} comments={comments ?? []} />}
+              />
+            )}
           />
-        </Box>
+        </CommentsAreaProvider>
       )}
-
-      <AsyncContent
-        loading={loading}
-        render={() => <CommentsList CommentContainer={CommentContainer} comments={comments ?? []} />}
-      />
-    </CommentsAreaProvider>
+    />
   );
 };
 
