@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 import useReply from 'src/containers/CommentContainer/hooks/useReply';
 import { useUser } from 'src/contexts/userContext';
@@ -13,40 +13,20 @@ import useSetReaction from './hooks/useSetReaction';
 import useSetSubscription from './hooks/useSetSubscription';
 import useViewHistory from './hooks/useViewHistory';
 
-export type SetComment = React.Dispatch<React.SetStateAction<CommentType>>;
-export type SetReplies = React.Dispatch<React.SetStateAction<CommentType[] | undefined>>;
-
 type CommentContainerProps = {
   comment: CommentType;
 };
 
-const CommentContainer: React.FC<CommentContainerProps> = props => {
+const CommentContainer: React.FC<CommentContainerProps> = ({ comment }) => {
   const ref = useRef<CommentRef>(null);
 
   const user = useUser();
-  const [comment, setComment] = useState(props.comment);
 
-  const [replies, { loading: repliesLoading, prepend }, fetchReplies] = useReplies(comment);
-
-  const onReplySubmitted = useCallback(
-    (reply: CommentType) => {
-      prepend(reply);
-
-      setComment(comment => ({
-        ...comment,
-        repliesCount: comment.repliesCount + 1,
-      }));
-
-      ref.current?.onReplySubmitted(reply);
-    },
-    [prepend],
-  );
-
-  const [{ loading: submittingReply }, onReply] = useReply(comment, onReplySubmitted);
-
-  const [{ submittingEdition }, onEdit] = useEdition(comment, setComment);
+  const [fetchReplies, { fetchingReplies, replies }] = useReplies(comment);
+  const [onReply, { submittingReply }] = useReply(comment, ref.current?.onReplySubmitted);
+  const [onEdit, { submittingEdition }] = useEdition(comment);
   const onSetReaction = useSetReaction(comment);
-  const onSetSubscription = useSetSubscription(comment, setComment);
+  const onSetSubscription = useSetSubscription(comment);
   const onReport = useReport(comment);
   const onViewHistory = useViewHistory(comment);
 
@@ -57,7 +37,7 @@ const CommentContainer: React.FC<CommentContainerProps> = props => {
       user={user}
       comment={comment}
       replies={replies}
-      repliesLoading={repliesLoading}
+      repliesLoading={fetchingReplies}
       submittingEdition={submittingEdition}
       submittingReply={submittingReply}
       onEdit={onEdit}

@@ -23,10 +23,10 @@ type CommentComponentProps = {
   replyFormOpen: boolean;
   onEdit?: () => void;
   onReport?: () => void;
-  onSetReaction?: (type: ReactionType) => void;
+  onSetReaction?: (type: ReactionType | null) => void;
   onToggleReplies?: () => void;
   onReply?: () => void;
-  onToggleSubscription?: () => void;
+  onSetSubscription?: (subscribed: boolean) => void;
   onViewHistory?: () => void;
 };
 
@@ -40,7 +40,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
   onSetReaction,
   onToggleReplies,
   onReply,
-  onToggleSubscription,
+  onSetSubscription,
   onViewHistory,
 }) => (
   <CommentContainer>
@@ -67,7 +67,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
       onSetReaction={onSetReaction}
       onToggleReplies={onToggleReplies}
       onReply={onReply}
-      onToggleSubscription={onToggleSubscription}
+      onSetSubscription={onSetSubscription}
     />
   </CommentContainer>
 );

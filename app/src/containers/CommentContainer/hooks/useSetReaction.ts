@@ -1,15 +1,39 @@
-import { useCallback } from 'react';
+import axios from 'axios';
+import { useMutation } from 'react-query';
 
-import useAxios from 'src/hooks/useAxios';
-import { Comment as CommentType, ReactionType } from 'src/types/Comment';
+import useUpdatedCachedComment from 'src/containers/CommentContainer/hooks/useUpdateCachedComment';
+import { Comment, ReactionType } from 'src/types/Comment';
 
-const useSetReaction = (comment: CommentType) => {
-  const [, , onSetReaction] = useAxios(
-    { method: 'POST', url: `/api/comment/${comment.id}/reaction` },
-    { manual: true },
-  );
+const setReaction = async (comment: Comment, type: ReactionType | null) => {
+  await axios.post(`/api/comment/${comment.id}/reaction`, { type });
+};
 
-  return useCallback((reaction: ReactionType | null) => onSetReaction({ data: { type: reaction } }), [onSetReaction]);
+const updateReactionsCount = (comment: Comment, type: ReactionType | null) => {
+  const updated = { ...comment };
+  const userReaction = comment.userReaction;
+  const reactionsCount = comment.reactionsCount;
+
+  updated.userReaction = type;
+
+  updated.reactionsCount = {
+    ...reactionsCount,
+    ...(userReaction && { [userReaction]: reactionsCount[userReaction] - 1 }),
+    ...(type && { [type]: reactionsCount[type] + 1 }),
+  };
+
+  return updated;
+};
+
+const useSetReaction = (comment: Comment) => {
+  const updateComment = useUpdatedCachedComment();
+
+  const { mutate } = useMutation((type: ReactionType | null) => setReaction(comment, type), {
+    onMutate: type => {
+      updateComment(updateReactionsCount(comment, type));
+    },
+  });
+
+  return mutate;
 };
 
 export default useSetReaction;

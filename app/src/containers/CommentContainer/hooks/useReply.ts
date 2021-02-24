@@ -1,34 +1,58 @@
-import { useCallback, useEffect } from 'react';
+import axios from 'axios';
+import { useMutation, useQueryClient } from 'react-query';
 
+import useUpdatedCachedComment from 'src/containers/CommentContainer/hooks/useUpdateCachedComment';
 import { useCommentsArea } from 'src/contexts/commentsAreaContext';
-import useAxios from 'src/hooks/useAxios';
 import { Comment } from 'src/types/Comment';
+import { Paginated } from 'src/types/Paginated';
 
-const useReply = (comment: Comment, onSubmitted: (reply: Comment) => void) => {
+const createReply = async (parent: Comment, commentsAreaId: number, text: string) => {
+  const response = await axios.post<Comment>('/api/comment', { parentId: parent.id, commentsAreaId, text });
+
+  return response.data;
+};
+
+const useAddReplyToParent = (parent: Comment) => {
+  const queryClient = useQueryClient();
+  const updateComment = useUpdatedCachedComment();
+
+  return (reply: Comment) => {
+    updateComment({
+      ...parent,
+      repliesCount: parent.repliesCount + 1,
+    });
+
+    queryClient.setQueryData<Paginated<Comment>>(['commentReplies', { commentId: parent.id }], old => {
+      if (!old) {
+        return {
+          total: 1,
+          items: [reply],
+        };
+      }
+
+      return {
+        total: old.total + 1,
+        items: [reply, ...old.items],
+      };
+    });
+  };
+};
+
+const useReply = (comment: Comment, onSubmitted?: (relpy: Comment) => void) => {
   const commentsArea = useCommentsArea();
+  const addReplyToParent = useAddReplyToParent(comment);
 
-  const [reply, { loading }, onReply] = useAxios<Comment>(
+  const { mutate, isLoading: submittingReply } = useMutation(
+    (text: string) => createReply(comment, commentsArea.id, text),
     {
-      method: 'POST',
-      url: '/api/comment',
+      onSuccess: reply => {
+        addReplyToParent(reply);
+        onSubmitted?.(reply);
+      },
     },
-    { manual: true },
   );
 
-  useEffect(() => {
-    if (reply) {
-      onSubmitted(reply);
-    }
-  }, [reply, onSubmitted]);
-
-  const handleReply = useCallback(
-    (text: string) => {
-      return onReply({ data: { commentsAreaId: commentsArea?.id, parentId: comment.id, text } });
-    },
-    [commentsArea, comment, onReply],
-  );
-
-  return [{ loading }, handleReply] as const;
+  return [mutate, { submittingReply }] as const;
 };
 
 export default useReply;

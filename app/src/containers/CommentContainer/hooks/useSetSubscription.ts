@@ -1,25 +1,23 @@
-import { useCallback, useEffect } from 'react';
+import axios from 'axios';
+import { useMutation } from 'react-query';
 
-import useAxios from 'src/hooks/useAxios';
+import useUpdatedCachedComment from 'src/containers/CommentContainer/hooks/useUpdateCachedComment';
 import { Comment as CommentType } from 'src/types/Comment';
 
-import { SetComment } from '../CommentContainer';
+const setSubscription = async (comment: CommentType, subscribed: boolean) => {
+  await axios.post(`/api/comment/${comment.id}/${subscribed ? 'subscribe' : 'unsubscribe'}`);
+};
 
-const useSetSubscription = (comment: CommentType, setComment: SetComment) => {
-  const [, { status }, onSetSubscription] = useAxios({ method: 'POST' }, { manual: true });
+const useSetSubscription = (comment: CommentType) => {
+  const updateComment = useUpdatedCachedComment();
 
-  useEffect(() => {
-    if (status(204)) {
-      setComment(comment => ({ ...comment, subscribed: !comment.subscribed }));
-    }
-  }, [status, setComment]);
-
-  return useCallback(
-    (subscribed: boolean) => {
-      onSetSubscription({ url: `/api/comment/${comment.id}` + (subscribed ? '/subscribe' : '/unsubscribe') });
+  const { mutate } = useMutation((subscribed: boolean) => setSubscription(comment, subscribed), {
+    onMutate: subscribed => {
+      updateComment({ ...comment, subscribed });
     },
-    [comment, onSetSubscription],
-  );
+  });
+
+  return mutate;
 };
 
 export default useSetSubscription;

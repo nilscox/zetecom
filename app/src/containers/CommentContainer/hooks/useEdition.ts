@@ -1,26 +1,26 @@
-import { useCallback, useEffect } from 'react';
+import axios from 'axios';
+import { useMutation } from 'react-query';
 
-import useAxios from 'src/hooks/useAxios';
-import { Comment as CommentType } from 'src/types/Comment';
+import useUpdatedCachedComment from 'src/containers/CommentContainer/hooks/useUpdateCachedComment';
+import { Comment } from 'src/types/Comment';
 
-import { SetComment } from '../CommentContainer';
+const editComment = async (comment: Comment, text: string) => {
+  const response = await axios.put<Comment>(`/api/comment/${comment.id}`, { text });
 
-const useEdition = (comment: CommentType, setComment: SetComment) => {
-  const [edited, { loading }, onEdit] = useAxios<CommentType>(
+  return response.data;
+};
+
+const useEdition = (comment: Comment) => {
+  const updateComment = useUpdatedCachedComment();
+
+  const { mutate, isLoading: submittingEdition } = useMutation<Comment, unknown, string>(
+    text => editComment(comment, text),
     {
-      method: 'PUT',
-      url: `/api/comment/${comment.id}`,
+      onSuccess: updateComment,
     },
-    { manual: true },
   );
 
-  useEffect(() => {
-    setComment(comment => ({ ...comment, ...edited }));
-  }, [edited, setComment]);
-
-  const handleEdit = useCallback((text: string) => onEdit({ data: { text } }), [onEdit]);
-
-  return [{ submittingEdition: loading }, handleEdit] as const;
+  return [mutate, { submittingEdition }] as const;
 };
 
 export default useEdition;

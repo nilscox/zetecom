@@ -224,63 +224,22 @@ describe('Comment', () => {
       const comment = { ...props.comment };
       const onSetReaction = jest.fn();
 
-      const { rerender } = render(<Test user={user} comment={comment} onSetReaction={onSetReaction} />);
-
-      const expectReactionsState = () => {
-        for (const type of Object.values(ReactionType)) {
-          const reaction = screen.getByTestId(`reaction-${type}`);
-
-          expect(reaction.textContent).toMatch(new RegExp(String(comment.reactionsCount[type]) + '$'));
-
-          if (type === comment.userReaction) {
-            expect(reaction).toHaveClass('user-reaction');
-          } else {
-            expect(reaction).not.toHaveClass('user-reaction');
-          }
-        }
-      };
-
-      expectReactionsState();
+      render(<Test user={user} comment={comment} onSetReaction={onSetReaction} />);
 
       act(() => userEvent.click(screen.getByTestId(`reaction-${ReactionType.think}`)));
 
-      comment.reactionsCount[ReactionType.think]++;
-      comment.userReaction = ReactionType.think;
-
       expect(onSetReaction).toHaveBeenCalledWith(ReactionType.think);
-      onSetReaction.mockReset();
+    });
 
-      expectReactionsState();
+    it('unset a reaction', () => {
+      const comment = { ...props.comment, userReaction: ReactionType.disagree };
+      const onSetReaction = jest.fn();
 
-      rerender(<Test comment={comment} onSetReaction={onSetReaction} />);
-      expectReactionsState();
+      render(<Test user={user} comment={comment} onSetReaction={onSetReaction} />);
 
-      act(() => userEvent.click(screen.getByTestId(`reaction-${ReactionType.dontUnderstand}`)));
-
-      comment.reactionsCount[ReactionType.think]--;
-      comment.reactionsCount[ReactionType.dontUnderstand]++;
-      comment.userReaction = ReactionType.dontUnderstand;
-
-      expect(onSetReaction).toHaveBeenCalledWith(ReactionType.dontUnderstand);
-      onSetReaction.mockReset();
-
-      expectReactionsState();
-
-      rerender(<Test comment={comment} onSetReaction={onSetReaction} />);
-      expectReactionsState();
-
-      act(() => userEvent.click(screen.getByTestId(`reaction-${ReactionType.dontUnderstand}`)));
-
-      comment.reactionsCount[ReactionType.dontUnderstand]--;
-      comment.userReaction = null;
+      act(() => userEvent.click(screen.getByTestId(`reaction-${ReactionType.disagree}`)));
 
       expect(onSetReaction).toHaveBeenCalledWith(null);
-      onSetReaction.mockReset();
-
-      expectReactionsState();
-
-      rerender(<Test comment={comment} onSetReaction={onSetReaction} />);
-      expectReactionsState();
     });
   });
 
@@ -291,7 +250,7 @@ describe('Comment', () => {
       expect(screen.queryByTestId('subscribe-button')).toBeNull();
     });
 
-    it('toggle the subscription to a comment', () => {
+    it('set the subscription to a comment', () => {
       const onSetSubscription = jest.fn();
 
       render(<Test user={user} onSetSubscription={onSetSubscription} />);
@@ -300,13 +259,19 @@ describe('Comment', () => {
 
       act(() => userEvent.click(screen.getByTestId('subscribe-button')));
 
-      expect(onSetSubscription).toHaveBeenCalled();
+      expect(onSetSubscription).toHaveBeenCalledWith(true);
+    });
+
+    it('set the subscription to a comment', () => {
+      const onSetSubscription = jest.fn();
+
+      render(<Test user={user} comment={{ ...comment, subscribed: true }} onSetSubscription={onSetSubscription} />);
+
       expect(screen.getByTestId('subscribe-button')).toHaveClass('active');
 
       act(() => userEvent.click(screen.getByTestId('subscribe-button')));
 
-      expect(screen.getByTestId('subscribe-button')).not.toHaveClass('active');
-      expect(onSetSubscription).toHaveBeenCalledTimes(2);
+      expect(onSetSubscription).toHaveBeenCalledWith(false);
     });
   });
 

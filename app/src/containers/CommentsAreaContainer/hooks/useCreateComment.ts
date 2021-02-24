@@ -1,31 +1,36 @@
 import axios from 'axios';
-import { MutationFunction, useMutation, useQueryClient } from 'react-query';
+import { MutationFunction, useMutation } from 'react-query';
 
+import useUpdatePartialQueries from 'src/hooks/useUpdatePartialQueries';
 import { Comment } from 'src/types/Comment';
 import { CommentsArea } from 'src/types/CommentsArea';
-import { SortType } from 'src/types/SortType';
+import { Paginated } from 'src/types/Paginated';
+
+import useIncrementCommentsAreaCommentsCount from './useIncrementCommentsAreaCommentsCount';
 
 const createComment: MutationFunction<Comment, { commentsAreaId: number; text: string }> = async ({
   commentsAreaId,
   text,
 }) => {
-  const response = await axios({ method: 'POST', url: '/api/comment', data: { commentsAreaId, text } });
+  const response = await axios.post<Comment>('/api/comment', { commentsAreaId, text });
 
   return response.data;
 };
 
-const useCreateComment = (
-  { commentsAreaId, commentsAreaIdentifier }: { commentsAreaId?: number; commentsAreaIdentifier?: string },
-  { commentsArea }: { commentsArea?: CommentsArea },
-  {
-    comments,
-    totalComments,
-    page,
-    sort,
-    search,
-  }: { comments?: Comment[]; totalComments?: number; page: number; sort: SortType; search: string },
-) => {
-  const queryClient = useQueryClient();
+const useAddCommentToCommentsList = () => {
+  const updatePartialQueries = useUpdatePartialQueries();
+
+  return (comment: Comment) => {
+    updatePartialQueries<Paginated<Comment>>(['comments'], old => ({
+      total: old.total + 1,
+      items: [comment, ...old.items],
+    }));
+  };
+};
+
+const useCreateComment = (commentsArea?: CommentsArea) => {
+  const incrementCommentsAreaCommentsCount = useIncrementCommentsAreaCommentsCount();
+  const addCommentToCommentsList = useAddCommentToCommentsList();
 
   const { mutate, isLoading: submittingRootComment } = useMutation<Comment, unknown, { text: string }>(
     ({ text }) => {
@@ -36,26 +41,9 @@ const useCreateComment = (
       return createComment({ commentsAreaId: commentsArea.id, text });
     },
     {
-      onSuccess: data => {
-        if (commentsArea) {
-          queryClient.setQueryData(['commentsArea', { id: commentsAreaId, identifier: commentsAreaIdentifier }], {
-            notFound: false,
-            commentsArea: {
-              ...commentsArea,
-              commentsCount: commentsArea.commentsCount + 1,
-            },
-          });
-        }
-
-        if (comments && totalComments) {
-          queryClient.setQueryData(
-            ['comments', { commentsAreaId: commentsAreaId ?? commentsArea?.id }, { page, sort, search }],
-            {
-              total: totalComments + 1,
-              items: [data, ...comments],
-            },
-          );
-        }
+      onSuccess: created => {
+        incrementCommentsAreaCommentsCount();
+        addCommentToCommentsList(created);
       },
     },
   );
