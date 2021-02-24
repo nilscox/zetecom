@@ -32,7 +32,6 @@ const theme = {
     light: '#666',
     button: '#555',
     link: lighten(0.15, secondary),
-    linkFocused: primary,
     disabled: '#999',
     success,
     error,
