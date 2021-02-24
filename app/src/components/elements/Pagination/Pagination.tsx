@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from '@emotion/styled';
 
@@ -31,28 +31,38 @@ type PaginationProps = {
   onPageChange: (page: number) => void;
 };
 
-const Pagination: React.FC<PaginationProps> = ({ page, total, onPageChange }) => (
-  <StyledPagination>
-    <IconButton disabled={page === 1} onClick={() => onPageChange(1)}>
-      <Icon as={First} />
-    </IconButton>
+const Pagination: React.FC<PaginationProps> = ({ page, total: totalProp, onPageChange }) => {
+  const [total, setTotal] = useState(totalProp);
 
-    <IconButton disabled={page === 1} onClick={() => onPageChange(page - 1)}>
-      <Icon as={Prev} />
-    </IconButton>
+  useEffect(() => {
+    if (totalProp !== undefined) {
+      setTotal(totalProp);
+    }
+  }, [totalProp]);
 
-    <div>
-      <Page>{page}</Page>/<Total>{total ?? '-'}</Total>
-    </div>
+  return (
+    <StyledPagination>
+      <IconButton disabled={page === 1} onClick={() => onPageChange(1)}>
+        <Icon as={First} />
+      </IconButton>
 
-    <IconButton disabled={!total || page === total} onClick={() => onPageChange(page + 1)}>
-      <Icon as={Next} />
-    </IconButton>
+      <IconButton disabled={page === 1} onClick={() => onPageChange(page - 1)}>
+        <Icon as={Prev} />
+      </IconButton>
 
-    <IconButton disabled={!total || page === total} onClick={() => total && onPageChange(total)}>
-      <Icon as={Last} />
-    </IconButton>
-  </StyledPagination>
-);
+      <div>
+        <Page>{page}</Page>/<Total>{total ?? '-'}</Total>
+      </div>
+
+      <IconButton disabled={!total || page === total} onClick={() => onPageChange(page + 1)}>
+        <Icon as={Next} />
+      </IconButton>
+
+      <IconButton disabled={!total || page === total} onClick={() => total && onPageChange(total)}>
+        <Icon as={Last} />
+      </IconButton>
+    </StyledPagination>
+  );
+};
 
 export default Pagination;
