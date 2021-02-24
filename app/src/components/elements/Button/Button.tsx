@@ -56,6 +56,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <StyledButton
         ref={ref}
+        type="button"
         disabled={disabled ?? loading}
         onMouseUp={() => ref.current?.blur()}
         {...props}
