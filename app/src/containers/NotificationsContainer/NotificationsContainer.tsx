@@ -1,57 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import FiltersBar from 'src/components/domain/FiltersBar/FiltersBar';
 import Box from 'src/components/elements/Box/Box';
 import AsyncContent from 'src/components/layout/AsyncContent/AsyncContent';
 import Fallback from 'src/components/layout/Fallback/Fallback';
+import useMarkNotificationAsSeen from 'src/containers/NotificationsContainer/hooks/useMarkNotificationAsSeen';
+import useNotifications from 'src/containers/NotificationsContainer/hooks/useNotifications';
 import NotificationsList from 'src/containers/NotificationsContainer/NotificationsList/NotificationsList';
-import { useSetNotificationsCount } from 'src/contexts/notificationsContext';
-import useAxios from 'src/hooks/useAxios';
-import useAxiosPaginated from 'src/hooks/useAxiosPaginated';
-import useEditableDataset from 'src/hooks/useEditableDataset';
-import { Notification as NotificationType } from 'src/types/Notification';
+
+type NoNotificationsFallbackProps = {
+  isSearching: boolean;
+};
+
+const NoNotificationsFallback: React.FC<NoNotificationsFallbackProps> = ({ isSearching }) => {
+  if (isSearching) {
+    return <>Aucun résultat ne correspond à cette recherche.</>;
+  }
+
+  return <>Vous n'avez pas encore reçu de notification.</>;
+};
 
 const NotificationsContainer: React.FC = () => {
-  const setNotificationsConut = useSetNotificationsCount();
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
 
-  const [notifications, { loading, page, setPage, search, setSearch }] = useAxiosPaginated<NotificationType>(
-    '/api/notification/me',
-  );
+  const { notifications, totalNotifications, loadingNotifications } = useNotifications(page, search);
 
-  const [notificationsDataset, { replace }] = useEditableDataset(notifications?.items, 'set');
-
-  const [, , executeMarkAsSeen] = useAxios({ method: 'POST' });
-
-  const markAsSeen = (notification: NotificationType) => {
-    replace(notification, { ...notification, seen: new Date() });
-    executeMarkAsSeen({ url: `/api/notification/${notification?.id}/seen` });
-    setNotificationsConut?.(count => count - 1);
-  };
-
-  const fallback = search ? (
-    <>Aucun résultat ne correspond à cette recherche.</>
-  ) : (
-    <>Vous n'avez pas encore reçu de notification.</>
-  );
+  const { markAsSeen } = useMarkNotificationAsSeen();
 
   return (
     <>
       <Box my={4}>
         <FiltersBar
           page={page}
-          total={notifications?.total}
+          total={totalNotifications}
           onPageChange={setPage}
           search={search}
           onSearch={setSearch}
         />
       </Box>
+
       <AsyncContent
-        loading={loading}
+        loading={loadingNotifications}
         render={() => (
           <Fallback
-            when={notifications?.total === 0}
-            fallback={fallback}
-            render={() => <NotificationsList notifications={notificationsDataset ?? []} markAsSeen={markAsSeen} />}
+            when={totalNotifications === 0}
+            fallback={<NoNotificationsFallback isSearching={search !== ''} />}
+            render={() => <NotificationsList notifications={notifications ?? []} markAsSeen={markAsSeen} />}
           />
         )}
       />
