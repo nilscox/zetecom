@@ -34,8 +34,8 @@ type CommentFooterProps = {
   replyFormOpen: boolean;
   isSubscribed?: boolean;
   authorNick: string;
-  onSetReaction?: (reaction: ReactionType) => void;
-  onToggleSubscription?: () => void;
+  onSetReaction?: (reaction: ReactionType | null) => void;
+  onSetSubscription?: (subscribed: boolean) => void;
   onToggleReplies?: () => void;
   onReply?: () => void;
 };
@@ -50,12 +50,12 @@ const CommentFooter: React.FC<CommentFooterProps> = ({
   isSubscribed,
   authorNick,
   onSetReaction,
-  onToggleSubscription,
+  onSetSubscription,
   onToggleReplies,
   onReply,
 }) => (
   <CommentFooterContainer>
-    <Reactions counts={reactionsCounts} userReaction={userReaction} setUserReaction={onSetReaction} />
+    <Reactions counts={reactionsCounts} userReaction={userReaction} onSetReaction={onSetReaction} />
 
     <RepliesButton
       disabled={replyFormOpen}
@@ -66,10 +66,10 @@ const CommentFooter: React.FC<CommentFooterProps> = ({
     />
 
     <Right>
-      {onToggleSubscription && isSubscribed !== undefined && (
+      {onSetSubscription && isSubscribed !== undefined && (
         <SubscribeButton
           isSubscribed={isSubscribed}
-          onClick={onToggleSubscription}
+          onClick={() => onSetSubscription(!isSubscribed)}
           css={theme => ({ marginRight: theme.spacings[1] })}
         />
       )}

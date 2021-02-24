@@ -14,8 +14,8 @@ type EditableCommentProps = {
   replyFormOpen: boolean;
   onEdit?: (text: string) => void;
   onReport?: () => void;
-  onSetReaction?: (type: ReactionType) => void;
-  onToggleSubscription?: () => void;
+  onSetReaction?: (type: ReactionType | null) => void;
+  onSetSubscription?: (subscribed: boolean) => void;
   onToggleReplies?: () => void;
   onReply?: () => void;
   onViewHistory?: () => void;
@@ -32,7 +32,7 @@ const EditableComment: React.FC<EditableCommentProps> = ({
   onSetReaction,
   onToggleReplies,
   onReply,
-  onToggleSubscription,
+  onSetSubscription,
   onViewHistory,
 }) => {
   const [editing, setEditing] = useState(false);
@@ -68,7 +68,7 @@ const EditableComment: React.FC<EditableCommentProps> = ({
       onSetReaction={onSetReaction}
       onToggleReplies={onToggleReplies}
       onReply={onReply}
-      onToggleSubscription={onToggleSubscription}
+      onSetSubscription={onSetSubscription}
       onViewHistory={onViewHistory}
     />
   );

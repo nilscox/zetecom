@@ -14,7 +14,6 @@ import { ReactionType } from './CommentFooter/Reactions/ReactionType';
 import CommentsList from './CommentsList/CommentsList';
 import EditableComment from './EditableComment/EditableComment';
 import useCanPerformAction from './hooks/useCanPerformAction';
-import useReactions from './hooks/useUserReaction';
 
 const StyledNested = styled(Nested)<{ barNegativeMargin?: boolean }>`
   margin-top: ${spacing(2)};
@@ -54,9 +53,6 @@ const Comment = forwardRef<CommentRef, CommentProps>((props, ref) => {
 
   const [repliesOpen, setRepliesOpen] = useState(false);
   const [replyFormOpen, setReplyFormOpen] = useState(false);
-  const [subscribed, setSubscribed] = useState(comment.subscribed);
-
-  const [reactionsCount, userReaction, handleUserReactionChange] = useReactions(comment, onSetReaction);
 
   const can = useCanPerformAction(user, comment);
 
@@ -66,13 +62,6 @@ const Comment = forwardRef<CommentRef, CommentProps>((props, ref) => {
     }
 
     setRepliesOpen(!repliesOpen);
-  };
-
-  const handleToggleSubscription = () => {
-    if (onSetSubscription) {
-      onSetSubscription(!subscribed);
-      setSubscribed(!subscribed);
-    }
   };
 
   const handleReply = () => {
@@ -93,7 +82,7 @@ const Comment = forwardRef<CommentRef, CommentProps>((props, ref) => {
   return (
     <div className="comment" id={`comment-${comment.id}`} data-testid={`comment-${comment.id}`}>
       <EditableComment
-        comment={{ ...comment, reactionsCount, userReaction, subscribed }}
+        comment={comment}
         submittingEdition={submittingEdition}
         repliesOpen={repliesOpen}
         repliesLoading={repliesLoading}
@@ -101,9 +90,9 @@ const Comment = forwardRef<CommentRef, CommentProps>((props, ref) => {
         onEdit={can('edit', onEdit)}
         onReport={can('report', onReport)}
         onToggleReplies={can('toggleReplies', handleToggleReplies)}
-        onSetReaction={can('setReaction', handleUserReactionChange)}
+        onSetReaction={can('setReaction', onSetReaction)}
         onReply={can('reply', handleReply)}
-        onToggleSubscription={can('subscribe', handleToggleSubscription)}
+        onSetSubscription={can('subscribe', onSetSubscription)}
         onViewHistory={can('viewHistory', onViewHistory)}
       />
 

@@ -59,11 +59,7 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
     search,
   );
 
-  const [createComment, { submittingRootComment }] = useCreateComment(
-    { commentsAreaId, commentsAreaIdentifier },
-    { commentsArea },
-    { comments, totalComments, page, sort, search },
-  );
+  const [createComment, { submittingRootComment }] = useCreateComment(commentsArea);
 
   if (commentsAreaNotFound) {
     return <CommentsAreaClosed />;
@@ -73,7 +69,8 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
     <AsyncContent
       loading={loadingCommentsArea}
       render={() => (
-        <CommentsAreaProvider value={commentsArea}>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        <CommentsAreaProvider value={commentsArea!}>
           {displayOutline && commentsArea && <CommentsAreaOutline commentsArea={commentsArea} link="external" />}
 
           <Box my={4}>

@@ -1,16 +1,23 @@
-import useAxiosPaginated from 'src/hooks/useAxiosPaginated';
-import useEditableDataset from 'src/hooks/useEditableDataset';
-import { Comment as CommentType } from 'src/types/Comment';
+import axios from 'axios';
+import { useQuery } from 'react-query';
 
-const useReplies = (comment: CommentType) => {
-  const [fetchedReplies, { loading }, fetchReplies] = useAxiosPaginated<CommentType>(
-    `/api/comment/${comment.id}/replies`,
-    { manual: true },
+import { Comment as Comment } from 'src/types/Comment';
+import { Paginated } from 'src/types/Paginated';
+
+const fetchReplies = async (comment: Comment) => {
+  const response = await axios.get<Paginated<Comment>>(`/api/comment/${comment.id}/replies`);
+
+  return response.data;
+};
+
+const useReplies = (comment: Comment) => {
+  const { refetch, data: { items: replies } = {}, isLoading: fetchingReplies } = useQuery(
+    ['commentReplies', { commentId: comment.id }],
+    () => fetchReplies(comment),
+    { enabled: false },
   );
 
-  const [repliesDataset, { prepend }] = useEditableDataset(fetchedReplies?.items);
-
-  return [repliesDataset, { loading, prepend }, fetchReplies] as const;
+  return [refetch, { replies, fetchingReplies }] as const;
 };
 
 export default useReplies;

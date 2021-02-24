@@ -4,19 +4,10 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useSetNotificationsCount } from 'src/contexts/notificationsContext';
 import { Notification } from 'src/types/Notification';
 import { Paginated } from 'src/types/Paginated';
+import replace from 'src/utils/replace';
 
 const markNotificationAsSeen = async (notification: Notification) => {
   await axios.post(`/api/notification/${notification.id}/seen`);
-};
-
-const replace = <T>(items: T[], predicate: (item: T) => boolean, replacer: (item: T) => T) => {
-  const idx = items.findIndex(predicate);
-
-  if (idx < 0) {
-    return items;
-  }
-
-  return [...items.slice(0, idx), replacer(items[idx]), ...items.slice(idx + 1)];
 };
 
 const useMarkNotificationAsSeen = () => {
