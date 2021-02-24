@@ -51,20 +51,18 @@ type HeaderLogoProps = {
   right?: React.ReactNode;
 };
 
-const HeaderLogo: React.FC<HeaderLogoProps> = ({ right }) => {
-  return (
-    <Container>
-      <Left to="/">
-        <Logo src={logo} />
-        <MainTitle>Zétécom</MainTitle>
-        <SubTitle>
-          <div>L'information</div>
-          <div>avec esprit critique</div>
-        </SubTitle>
-      </Left>
-      {right && <Right>{right}</Right>}
-    </Container>
-  );
-};
+const HeaderLogo: React.FC<HeaderLogoProps> = ({ right }) => (
+  <Container>
+    <Left to="/">
+      <Logo src={logo} />
+      <MainTitle>Zétécom</MainTitle>
+      <SubTitle>
+        <div>L'information</div>
+        <div>avec esprit critique</div>
+      </SubTitle>
+    </Left>
+    {right && <Right>{right}</Right>}
+  </Container>
+);
 
 export default HeaderLogo;
