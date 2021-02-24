@@ -25,7 +25,7 @@ type AuthenticationSubmitButtonProps = {
 };
 
 const AuthenticationSubmitButton: React.FC<AuthenticationSubmitButtonProps> = ({ formType, disabled, loading }) => (
-  <StyledButton disabled={disabled} loading={loading} size="large">
+  <StyledButton type="submit" disabled={disabled} loading={loading} size="large">
     {labels[formType]}
   </StyledButton>
 );
