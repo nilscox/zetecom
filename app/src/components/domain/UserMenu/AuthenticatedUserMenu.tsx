@@ -7,9 +7,9 @@ import Badge from 'src/components/elements/Badge/Badge';
 import Icon from 'src/components/elements/Icon/Icon';
 import Link from 'src/components/elements/Link/Link';
 import Menu, { MenuItem } from 'src/components/elements/Menu/Menu';
-import { Comment, DoneAll, Logout, Notification } from 'src/components/icons';
+import { DoneAll, Logout, Notification } from 'src/components/icons';
 import { color, fontWeight, size, spacing, textColor } from 'src/theme';
-import { User } from 'src/types/User';
+import { Role, User } from 'src/types/User';
 
 const AvatarNickContainer = styled.button`
   width: ${size('small')};
@@ -79,15 +79,14 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({
       </MenuItemLink>
     </MenuItem>
 
-    <MenuItem>
-      <MenuIcon as={Comment} />
-      Mes commentaires
-    </MenuItem>
-
-    <MenuItem>
-      <MenuIcon as={DoneAll} />
-      Modération
-    </MenuItem>
+    {user.roles.includes(Role.MODERATOR) && (
+      <MenuItem>
+        <MenuItemLink to="/moderation">
+          <MenuIcon as={DoneAll} />
+          Modération
+        </MenuItemLink>
+      </MenuItem>
+    )}
 
     <MenuItem onClick={onLogout}>
       <MenuIcon as={Logout} />
