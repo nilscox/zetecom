@@ -11,15 +11,13 @@ import Markdown from 'src/components/elements/Markdown/Markdown';
 import Nested from 'src/components/elements/Nested/Nested';
 import AsyncContent from 'src/components/layout/AsyncContent/AsyncContent';
 import { useUser } from 'src/contexts/userContext';
-import useAxios from 'src/hooks/useAxios';
+import useComment from 'src/popups/hooks/useComment';
+import useReportComment from 'src/popups/ReportPopup/useReport';
 import { fontWeight, textColor } from 'src/theme';
-import { Comment } from 'src/types/Comment';
 import env from 'src/utils/env';
 
 import PopupContainer from '../components/PopupContainer/PopupContainer';
 import PopupTitle from '../components/PopupTitle/PopupTitle';
-
-import useReport from './useReport';
 
 const Warning = styled.div`
   color: ${textColor('warning')};
@@ -36,8 +34,8 @@ const ReportSuccess = styled.div`
 const ReportPopup: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const user = useUser();
 
-  const [comment, { loading }] = useAxios<Comment>(`/api/comment/${match.params.id}`);
-  const [{ loading: loadingReport, reported }, onReport] = useReport(comment);
+  const [comment, { loadingComment }] = useComment(match.params.id);
+  const [onReport, { loadingReport, reported }] = useReportComment(comment);
 
   if (!user) {
     return <Box m={5}>Vous devez être connecté.e pour signaler un commentaire.</Box>;
@@ -49,7 +47,7 @@ const ReportPopup: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) =
 
   return (
     <AsyncContent
-      loading={loading}
+      loading={loadingComment}
       render={() => (
         <PopupContainer>
           <PopupTitle>Signaler le commentaire de {comment?.author.nick}</PopupTitle>

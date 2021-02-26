@@ -1,20 +1,31 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import useAxios from 'src/hooks/useAxios';
+import axios, { AxiosError } from 'axios';
+import { useMutation } from 'react-query';
+
 import { Comment } from 'src/types/Comment';
+
+const reportComment = async (comment?: Comment) => {
+  if (!comment) {
+    throw new Error('reportComment: comment is undefined');
+  }
+
+  await axios.post(`/api/comment/${comment.id}/report`);
+};
 
 const CLOSE_AFTER_SUCCESS_TIMEOUT = 3000;
 
-const useReport = (comment?: Comment) => {
-  const [, { loading, status, error }, onReport] = useAxios<unknown, { message?: string }>(
-    {
-      method: 'POST',
-      url: `/api/comment/${comment?.id}/report`,
-    },
-    { manual: true },
-  );
+const useReportComment = (comment?: Comment) => {
+  const [reported, setReported] = useState(false);
 
-  const reported = status(200) || (status(400) && error?.response?.data.message === 'COMMENT_ALREADY_REPORTED');
+  const { mutate, isLoading: loadingReport } = useMutation(() => reportComment(comment), {
+    onSuccess: () => setReported(true),
+    onError: (e: AxiosError) => {
+      if (e.response?.data.message === 'COMMENT_ALREADY_REPORTED') {
+        setReported(true);
+      }
+    },
+  });
 
   useEffect(() => {
     if (reported) {
@@ -22,7 +33,7 @@ const useReport = (comment?: Comment) => {
     }
   }, [reported]);
 
-  return [{ loading, reported }, onReport] as const;
+  return [mutate, { loadingReport, reported }] as const;
 };
 
-export default useReport;
+export default useReportComment;
