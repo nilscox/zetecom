@@ -3,7 +3,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useHistory, useLocation } from 'react-router';
 
-import Authentication from 'src/containers/Authentication/Authentication';
+import AuthenticationContainer from 'src/containers/AuthenticationContainer/AuthenticationContainer';
 import useQueryString from 'src/hooks/use-query-string';
 import { domain } from 'src/theme';
 
@@ -13,7 +13,7 @@ const Container = styled.div`
   justify-content: center;
 `;
 
-const StyledAuthentication = styled(Authentication)`
+const StyledAuthentication = styled(AuthenticationContainer)`
   margin: ${domain('authenticationFormMargin')} 0;
 `;
 

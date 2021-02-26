@@ -4,12 +4,15 @@ import AuthenticationForm from 'src/components/domain/AuthenticationForm/Authent
 
 import useAuthentication from './hooks/useAuthentication';
 
-type AuthenticationProps = {
+type AuthenticationAuthenticationContainerProps = {
   className?: string;
   onAuthenticated: () => void;
 };
 
-const Authentication: React.FC<AuthenticationProps> = ({ className, onAuthenticated }) => {
+const AuthenticationContainer: React.FC<AuthenticationAuthenticationContainerProps> = ({
+  className,
+  onAuthenticated,
+}) => {
   const [
     { formType, loading, formError, fieldErrors, clearFieldError, clearAllErrors },
     { onLogin, onSignup, onEmailLogin },
@@ -43,4 +46,4 @@ const Authentication: React.FC<AuthenticationProps> = ({ className, onAuthentica
   );
 };
 
-export default Authentication;
+export default AuthenticationContainer;
