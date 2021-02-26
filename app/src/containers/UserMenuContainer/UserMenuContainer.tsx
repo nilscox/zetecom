@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
+import axios from 'axios';
+import { useMutation } from 'react-query';
 import { useHistory } from 'react-router';
 
 import UserMenu from 'src/components/domain/UserMenu/UserMenu';
 import { useNotificationsCount } from 'src/contexts/notificationsContext';
 import { useSetUser, useUser } from 'src/contexts/userContext';
-import useAxios from 'src/hooks/useAxios';
 
 const UserMenuContainer: React.FC = () => {
   const user = useUser();
@@ -13,14 +14,12 @@ const UserMenuContainer: React.FC = () => {
   const notificationsCount = useNotificationsCount();
   const history = useHistory();
 
-  const [, { loading, status }, logout] = useAxios({ method: 'POST', url: '/api/auth/logout' }, { manual: true });
-
-  useEffect(() => {
-    if (status(204)) {
+  const { mutate: logout, isLoading: loading } = useMutation(() => axios.post('/api/auth/logout'), {
+    onSuccess: () => {
       history.push('/connexion');
       setUser(null);
-    }
-  }, [status, setUser, history]);
+    },
+  });
 
   return <UserMenu loading={loading} user={user} notificationsCount={notificationsCount} onLogout={logout} />;
 };
