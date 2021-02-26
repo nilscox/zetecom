@@ -16,16 +16,18 @@ const Authentication: React.FC<AuthenticationProps> = ({ className, onAuthentica
   ] = useAuthentication(onAuthenticated);
 
   const handleSubmit = (email: string, password?: string, nick?: string) => {
-    const data = { email, password, nick };
-
     clearAllErrors();
 
     if (formType === 'login') {
-      onLogin({ data });
+      if (password) {
+        onLogin({ email, password });
+      }
     } else if (formType === 'signup') {
-      onSignup({ data });
+      if (password && nick) {
+        onSignup({ email, password, nick });
+      }
     } else if (formType === 'emailLogin') {
-      onEmailLogin({ data });
+      onEmailLogin({ email });
     }
   };
 

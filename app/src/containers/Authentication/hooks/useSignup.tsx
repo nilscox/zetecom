@@ -1,12 +1,13 @@
-import { useEffect } from 'react';
+import React from 'react';
 
-import { useHistory } from 'react-router';
+import axios, { AxiosError } from 'axios';
+import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 
 import { useSetUser } from 'src/contexts/userContext';
-import useAxios from 'src/hooks/useAxios';
+import { HandleError } from 'src/hooks/useFormErrors';
 import { User } from 'src/types/User';
-import { FormErrorHandlers } from 'src/utils/getFormErrors';
+import getFormErrors, { FormErrorHandlers } from 'src/utils/getFormErrors';
 
 export const signupErrorHandlers: FormErrorHandlers = {
   400: {
@@ -37,26 +38,47 @@ export const signupErrorHandlers: FormErrorHandlers = {
   403: 'Vous êtes déjà connecté.e',
 };
 
-const useSignup = () => {
-  const history = useHistory();
+const signup = async (data: { email: string; password: string; nick: string }) => {
+  const response = await axios.post<User>('/api/auth/signup', data);
+
+  return response.data;
+};
+
+const useSignup = (onAuthenticated: (user: User) => void, handleError: HandleError) => {
   const setUser = useSetUser();
 
-  const result = useAxios<User>({ method: 'POST', url: '/api/auth/signup' }, { manual: true });
-  const [user] = result;
-
-  useEffect(() => {
-    if (user) {
+  const { mutate, isLoading: loading } = useMutation(signup, {
+    onSuccess: user => {
       if (user.requiresEmailValidation) {
         toast.success(`Pour finaliser votre inscription, un email vous a été envoyé à ${user.email}`);
-        history.push('/connexion');
       } else {
         setUser(user);
         toast.success('Bienvenue ! 🎉');
       }
-    }
-  }, [user, history, setUser]);
 
-  return result;
+      onAuthenticated(user);
+    },
+    onError: error => {
+      const [formError, fieldErrors, unhandledError] = getFormErrors(error as AxiosError, signupErrorHandlers);
+
+      handleError(formError, fieldErrors);
+
+      if (unhandledError) {
+        // eslint-disable-next-line no-console
+        console.warn('unhandled signup form error', unhandledError);
+
+        toast.error(
+          <>
+            L'inscription à échouée, nos meilleurs ingénieurs sont sur le coup.
+            <br />
+            Réessayez plus tard !
+          </>,
+        );
+      }
+    },
+  });
+
+  return [mutate, { loading }] as const;
 };
 
 export default useSignup;

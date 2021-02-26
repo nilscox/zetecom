@@ -61,9 +61,9 @@ const AuthenticationForm: React.FC<AuthenticationFormProps> = ({
     const hasValue = (...fields: Array<AuthenticationFormField>) => fields.every(field => form.values[field]);
 
     return getForFormType({
-      login: hasValue('email'),
-      signup: hasValue('email', 'password'),
-      emailLogin: hasValue('email', 'password', 'nick', 'didAcceptRules'),
+      login: hasValue('email', 'password'),
+      signup: hasValue('email', 'password', 'nick', 'didAcceptRules'),
+      emailLogin: hasValue('email'),
     });
   };
 
