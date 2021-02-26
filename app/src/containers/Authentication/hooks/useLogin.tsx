@@ -1,11 +1,15 @@
-import { useEffect } from 'react';
+import React from 'react';
+
+import axios, { AxiosError } from 'axios';
+import { useMutation } from 'react-query';
+import { toast } from 'react-toastify';
 
 import { useSetUser } from 'src/contexts/userContext';
-import useAxios from 'src/hooks/useAxios';
+import { HandleError } from 'src/hooks/useFormErrors';
 import { User } from 'src/types/User';
-import { FormErrorHandlers } from 'src/utils/getFormErrors';
+import getFormErrors, { FormErrorHandlers } from 'src/utils/getFormErrors';
 
-export const loginErrorHandlers: FormErrorHandlers = {
+const loginErrorHandlers: FormErrorHandlers = {
   400: {
     email: {
       isEmail: ['email', "Format d'adresse email non valide"],
@@ -23,19 +27,41 @@ export const loginErrorHandlers: FormErrorHandlers = {
   403: 'Vous êtes déjà connecté.e',
 };
 
-const useLogin = () => {
+const login = async (credentials: { email: string; password: string }) => {
+  const response = await axios.post<User>('/api/auth/login', credentials);
+
+  return response.data;
+};
+
+const useLogin = (onAuthenticated: (user: User) => void, handleError: HandleError) => {
   const setUser = useSetUser();
 
-  const result = useAxios<User>({ method: 'POST', url: '/api/auth/login' }, { manual: true });
-  const [user] = result;
-
-  useEffect(() => {
-    if (user) {
+  const { mutate, isLoading: loading } = useMutation(login, {
+    onSuccess: user => {
       setUser(user);
-    }
-  }, [user, setUser]);
+      onAuthenticated(user);
+    },
+    onError: error => {
+      const [formError, fieldErrors, unhandledError] = getFormErrors(error as AxiosError, loginErrorHandlers);
 
-  return result;
+      handleError(formError, fieldErrors);
+
+      if (unhandledError) {
+        // eslint-disable-next-line no-console
+        console.warn('unhandled login form error', unhandledError);
+
+        toast.error(
+          <>
+            Quelque chose s'est mal passé...
+            <br />
+            Réessayez plus tard !
+          </>,
+        );
+      }
+    },
+  });
+
+  return [mutate, { loading }] as const;
 };
 
 export default useLogin;

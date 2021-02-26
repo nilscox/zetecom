@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 
-import { useHistory } from 'react-router';
+import axios, { AxiosError } from 'axios';
+import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 
-import { useSetUser } from 'src/contexts/userContext';
-import useAxios from 'src/hooks/useAxios';
-import { FormErrorHandlers } from 'src/utils/getFormErrors';
+import { HandleError } from 'src/hooks/useFormErrors';
+import getFormErrors, { FormErrorHandlers } from 'src/utils/getFormErrors';
 
 export const emailLoginErrorHandlers: FormErrorHandlers = {
   400: {
@@ -16,27 +16,36 @@ export const emailLoginErrorHandlers: FormErrorHandlers = {
   403: 'Vous êtes déjà connecté.e',
 };
 
-const useEmailLogin = () => {
-  const history = useHistory();
-  const setUser = useSetUser();
-  const [email, setEmail] = useState<string>();
+const emailLogin = async ({ email }: { email: string }) => {
+  await axios.post('/api/auth/ask-email-login', { email });
+};
 
-  const [, response, execute] = useAxios({ method: 'POST', url: '/api/auth/email-login' }, { manual: true });
-  const { status } = response;
-
-  useEffect(() => {
-    if (status(204) && email) {
+const useEmailLogin = (handleError: HandleError) => {
+  const { mutate, isLoading: loading } = useMutation(emailLogin, {
+    onSuccess: (_, { email }) => {
       toast.success(`Un email contenant un lien de connexion a bien été envoyé à l'adresse ${email}.`);
-      history.push('/connexion');
-    }
-  }, [status, setUser, history, email]);
+    },
+    onError: error => {
+      const [formError, fieldErrors, unhandledError] = getFormErrors(error as AxiosError, emailLoginErrorHandlers);
 
-  const emailLogin = (config: { data: { email: string } }) => {
-    setEmail(config.data.email);
-    return execute(config);
-  };
+      handleError(formError, fieldErrors);
 
-  return [response, emailLogin] as const;
+      if (unhandledError) {
+        // eslint-disable-next-line no-console
+        console.warn('unhandled emailLogin form error', unhandledError);
+
+        toast.error(
+          <>
+            Une erreur s'est produite, l'email de connexion n'a pas pu être envoyé.
+            <br />
+            Réessayez plus tard !
+          </>,
+        );
+      }
+    },
+  });
+
+  return [mutate, { loading }] as const;
 };
 
 export default useEmailLogin;

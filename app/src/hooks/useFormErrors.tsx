@@ -35,6 +35,8 @@ const reducer: Reducer<FormErrors[1], Action> = (state, action) => {
   return state;
 };
 
+export type HandleError = (formError: FormError | null, fieldErrors: Partial<FieldsErrors>) => void;
+
 const useFormErrors = () => {
   const [formError, setFormError] = useState<FormErrors[0]>(null);
   const [fieldErrors, dispatch] = useReducer(reducer, {});
@@ -52,8 +54,8 @@ const useFormErrors = () => {
     dispatch({ type: 'clearAll' });
   }, []);
 
-  const handleError = useCallback(
-    (formError: FormError | null, fieldErrors: Partial<FieldsErrors>) => {
+  const handleError: HandleError = useCallback(
+    (formError, fieldErrors) => {
       clearAllErrors();
 
       if (formError) {
