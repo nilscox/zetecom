@@ -11,9 +11,11 @@ const globalStyles = (theme: Theme) => css`
     font-size: ${theme.fontSizes.html};
     line-height: 1.3;
   }
+
   body {
-    font-family: ${theme.fonts.default};
+    background-color: white;
     color: ${theme.textColors.default};
+    font-family: ${theme.fonts.default};
   }
 
   :focus {
