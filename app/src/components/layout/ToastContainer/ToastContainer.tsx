@@ -31,7 +31,7 @@ const ToastContainer: React.FC = () => (
     pauseOnHover
     transition={Zoom}
     position="top-right"
-    autoClose={5000}
+    autoClose={8000}
   />
 );
 
