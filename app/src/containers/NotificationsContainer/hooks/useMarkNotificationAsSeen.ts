@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 
-import { useSetNotificationsCount } from 'src/contexts/notificationsContext';
 import { Notification } from 'src/types/Notification';
 import { Paginated } from 'src/types/Paginated';
 import replace from 'src/utils/replace';
@@ -12,14 +11,13 @@ const markNotificationAsSeen = async (notification: Notification) => {
 
 const useMarkNotificationAsSeen = () => {
   const queryClient = useQueryClient();
-  const setNotificationsCount = useSetNotificationsCount();
 
   const { mutate: markAsSeen } = useMutation(markNotificationAsSeen, {
     onMutate: notification => {
       const queryCache = queryClient.getQueryCache();
       const queries = queryCache.findAll(['notifications'], { exact: false });
 
-      setNotificationsCount?.(count => count - 1);
+      queryClient.setQueryData<number>('notificationsCount', old => (old ?? 1) - 1);
 
       for (const query of queries) {
         queryClient.setQueryData<Paginated<Notification>>(query.queryKey, old => {

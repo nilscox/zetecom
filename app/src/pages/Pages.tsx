@@ -6,7 +6,6 @@ import { Route, Switch } from 'react-router';
 import Footer from 'src/components/domain/Footer/Footer';
 import HeaderLogo from 'src/components/domain/HeaderLogo/HeaderLogo';
 import UserMenuContainer from 'src/containers/UserMenuContainer/UserMenuContainer';
-import { NotificationsProvider } from 'src/contexts/notificationsContext';
 import ModerationPage from 'src/pages/ModerationPage/ModerationPage';
 import NotificationsPage from 'src/pages/NotificationsPage/NotificationsPage';
 import { size, spacing } from 'src/theme';
@@ -40,23 +39,21 @@ const Main = styled.main`
 `;
 
 const Pages: React.FC = () => (
-  <NotificationsProvider>
-    <Page>
-      <HeaderLogo right={<UserMenuContainer />} />
+  <Page>
+    <HeaderLogo right={<UserMenuContainer />} />
 
-      <Main>
-        <Switch>
-          <Route path="/" exact component={CommentsAreasListPage} />
-          <Route path="/commentaires/:commentsAreaId" component={CommentsAreaPage} />
-          <Route path="/(connexion|inscription|connexion-par-email)" component={AuthenticationPage} />
-          <Route path="/notifications" component={NotificationsPage} />
-          <Route path="/moderation" component={ModerationPage} />
-        </Switch>
-      </Main>
+    <Main>
+      <Switch>
+        <Route path="/" exact component={CommentsAreasListPage} />
+        <Route path="/commentaires/:commentsAreaId" component={CommentsAreaPage} />
+        <Route path="/(connexion|inscription|connexion-par-email)" component={AuthenticationPage} />
+        <Route path="/notifications" component={NotificationsPage} />
+        <Route path="/moderation" component={ModerationPage} />
+      </Switch>
+    </Main>
 
-      <Footer />
-    </Page>
-  </NotificationsProvider>
+    <Footer />
+  </Page>
 );
 
 export default Pages;
