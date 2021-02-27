@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { useDebounce } from 'use-debounce/lib';
+
 import FiltersBar from 'src/components/domain/FiltersBar/FiltersBar';
 import Box from 'src/components/elements/Box/Box';
 import AsyncContent from 'src/components/layout/AsyncContent/AsyncContent';
@@ -23,8 +25,9 @@ const NoNotificationsFallback: React.FC<NoNotificationsFallbackProps> = ({ isSea
 const NotificationsContainer: React.FC = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
+  const [searchDebounced] = useDebounce(search, 200);
 
-  const { notifications, totalNotifications, loadingNotifications } = useNotifications(page, search);
+  const { notifications, totalNotifications, loadingNotifications } = useNotifications(page, searchDebounced);
 
   const { markAsSeen } = useMarkNotificationAsSeen();
 
