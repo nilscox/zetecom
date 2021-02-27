@@ -1339,15 +1339,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:7.12.5":
-  version: 7.12.5
-  resolution: "@babel/runtime@npm:7.12.5"
-  dependencies:
-    regenerator-runtime: ^0.13.4
-  checksum: 423fb0079353db2faa0dad0cbdf0a90fbc5b511d1f77e5645d1aa0b144a144e24502bb023c12a31d7dca63b6e16ae36afa59992f0404e92e21de211051c361e3
-  languageName: node
-  linkType: hard
-
 "@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.3.1, @babel/runtime@npm:^7.4.4, @babel/runtime@npm:^7.5.0, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.12.13
   resolution: "@babel/runtime@npm:7.12.13"
@@ -1357,7 +1348,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.10.5, @babel/runtime@npm:^7.6.2":
+"@babel/runtime@npm:^7.6.2":
   version: 7.13.7
   resolution: "@babel/runtime@npm:7.13.7"
   dependencies:
@@ -3280,13 +3271,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lru-cache@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "@types/lru-cache@npm:5.1.0"
-  checksum: 55bffcbc9589163e5c02896fbd658a9e7878527c12197576e1e9b8db5b27744cfabd3dd522939835740eccd9bf348064f0e32a13b9b3019a81c8f69666499590
-  languageName: node
-  linkType: hard
-
 "@types/markdown-to-jsx@npm:^6.11.0":
   version: 6.11.3
   resolution: "@types/markdown-to-jsx@npm:6.11.3"
@@ -4641,19 +4625,6 @@ __metadata:
   version: 1.11.0
   resolution: "aws4@npm:1.11.0"
   checksum: d30dce2b73839974894d8283a06c53e8374b74d643d3b08340d84c364e01158be011fcfd1a88f8462be946d69055313a3038202f2eafd155b039aaab3549ba21
-  languageName: node
-  linkType: hard
-
-"axios-hooks@npm:2.3.0":
-  version: 2.3.0
-  resolution: "axios-hooks@npm:2.3.0"
-  dependencies:
-    "@babel/runtime": 7.12.5
-    lru-cache: 6.0.0
-  peerDependencies:
-    axios: ^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0
-    react: ^16.8.0-0 || ^17.0.0
-  checksum: f53ccedb826e5f0960f31ed07d9e310bdd1da685611bf67e82bca5bee60e0b1b1a9c1bebe5835a5da21bd9b4ff302c1056001a205b9c513d75d69e0e5e18c3cd
   languageName: node
   linkType: hard
 
@@ -11845,21 +11816,21 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:6.0.0, lru-cache@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "lru-cache@npm:6.0.0"
-  dependencies:
-    yallist: ^4.0.0
-  checksum: b8b78353d2391c0f135cdc245c4744ad41c2efb1a6d98f31bc57a2cf48ebf02de96e4876657c3026673576bf1f1f61fc3fdd77ab00ad1ead737537bf17d8019d
-  languageName: node
-  linkType: hard
-
 "lru-cache@npm:^5.1.1":
   version: 5.1.1
   resolution: "lru-cache@npm:5.1.1"
   dependencies:
     yallist: ^3.0.2
   checksum: ffd9a280fa3400e731265db502270c2a65432f3fbfac23d480c72f675ec16dbbeddd57d4baf7aca70ab7af49949fad1bcaaf5a5e6e1cfed7316de71bb5dddf1c
+  languageName: node
+  linkType: hard
+
+"lru-cache@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "lru-cache@npm:6.0.0"
+  dependencies:
+    yallist: ^4.0.0
+  checksum: b8b78353d2391c0f135cdc245c4744ad41c2efb1a6d98f31bc57a2cf48ebf02de96e4876657c3026673576bf1f1f61fc3fdd77ab00ad1ead737537bf17d8019d
   languageName: node
   linkType: hard
 
@@ -11968,16 +11939,6 @@ fsevents@^1.2.7:
     he: ^1.2.0
     marked: ^0.3.12
   checksum: ed63c7d7e7e46e9c9c74396626ff6857896ae6222d0d53f79309bcd4bd238fa9f382c4b207664595b98fa8b68b05ce21b9ae12cb78499c6adc2c6e3b390e9149
-  languageName: node
-  linkType: hard
-
-"match-sorter@npm:^4.1.0":
-  version: 4.2.1
-  resolution: "match-sorter@npm:4.2.1"
-  dependencies:
-    "@babel/runtime": ^7.10.5
-    remove-accents: 0.4.2
-  checksum: 7b28e050cb4ee14e96e7233fb37f2d4587e9addbda10c10832d50e10cca0b99b49fd77669d094b8c42779442b8db7c2b52197ee4733422df3a3bf170d311c8c2
   languageName: node
   linkType: hard
 
@@ -14622,18 +14583,6 @@ fsevents@^1.2.7:
     "@popperjs/core": ^2.0.0
     react: ^16.8.0 || ^17
   checksum: 0b1303d3285e93245fb7e0460996c4dfd53b66152d09e41b1dcb6c9f99932513bf891b4359511aeb3b17eaa2ae8555129631ca2f61337d461e691104cc454898
-  languageName: node
-  linkType: hard
-
-"react-query-devtools@npm:^2.6.3":
-  version: 2.6.3
-  resolution: "react-query-devtools@npm:2.6.3"
-  dependencies:
-    match-sorter: ^4.1.0
-  peerDependencies:
-    react: ^16.6.3 || ^17.0.0
-    react-query: ^2.0.0
-  checksum: ce021a2e62452b96a46f931fa867c0cc4b5a57d0d8743cd1edf658a0ca441748c408a724b0e9ea38114165954cb2109495e998d2c94a2b42cc0816edb8de6786
   languageName: node
   linkType: hard
 
@@ -18652,7 +18601,6 @@ typescript@^4.1.3:
     "@testing-library/user-event": ^12.6.3
     "@types/diff": ^5.0.0
     "@types/jest": ^26.0.20
-    "@types/lru-cache": ^5.1.0
     "@types/node": ^14.14.25
     "@types/react": ^17.0.1
     "@types/react-dom": ^17.0.0
@@ -18662,7 +18610,6 @@ typescript@^4.1.3:
     "@typescript-eslint/eslint-plugin": ^4.14.0
     "@typescript-eslint/parser": ^4.15.0
     axios: ^0.21.1
-    axios-hooks: 2.3.0
     class-transformer: ^0.3.2
     clean-webpack-plugin: ^3.0.0
     clsx: ^1.1.1
@@ -18697,7 +18644,6 @@ typescript@^4.1.3:
     react: ^17.0.1
     react-dom: ^17.0.1
     react-query: ^3.12.0
-    react-query-devtools: ^2.6.3
     react-refresh: ^0.9.0
     react-router: ^5.2.0
     react-router-dom: ^5.2.0
