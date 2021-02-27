@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ThemeProvider } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import ToastContainer from 'src/components/layout/ToastContainer/ToastContainer';
@@ -11,6 +12,7 @@ import Pages from 'src/pages/Pages';
 import Popups from 'src/popups/Popups';
 import theme from 'src/theme';
 import { GlobalStyles } from 'src/theme/GlobalStyles';
+import env from 'src/utils/env';
 
 const Router: React.FC = () => (
   <BrowserRouter>
@@ -39,7 +41,7 @@ const App: React.FC = () => (
         <Router />
       </UserProvider>
     </ThemeProvider>
-    {/* <ReactQueryDevtools initialIsOpen /> */}
+    {env.DEBUG && <ReactQueryDevtools initialIsOpen={false} />}
   </QueryClientProvider>
 );
 
