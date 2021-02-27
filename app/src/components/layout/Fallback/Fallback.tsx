@@ -16,10 +16,10 @@ type FallbackProps = {
   when: boolean;
   fallback?: string | React.ReactNode;
   minHeight?: number;
-  render: () => React.ReactNode;
+  render?: () => React.ReactNode;
 };
 
-const Fallback: React.FC<FallbackProps> = ({ when, fallback = <Loader />, minHeight = 200, render }) => {
+const Fallback: React.FC<FallbackProps> = ({ when, fallback = <Loader />, minHeight = 200, render = () => null }) => {
   if (when) {
     return <StyledFallback minHeight={minHeight}>{fallback}</StyledFallback>;
   }

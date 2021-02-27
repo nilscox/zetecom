@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router';
 
 import Footer from 'src/components/domain/Footer/Footer';
 import HeaderLogo from 'src/components/domain/HeaderLogo/HeaderLogo';
+import Fallback from 'src/components/layout/Fallback/Fallback';
 import UserMenuContainer from 'src/containers/UserMenuContainer/UserMenuContainer';
 import ModerationPage from 'src/pages/ModerationPage/ModerationPage';
 import NotificationsPage from 'src/pages/NotificationsPage/NotificationsPage';
@@ -38,6 +39,8 @@ const Main = styled.main`
   min-height: ${size('xlarge')};
 `;
 
+const NotFoundPage = () => <Fallback when fallback={<>Cette page n'existe pas.</>} />;
+
 const Pages: React.FC = () => (
   <Page>
     <HeaderLogo right={<UserMenuContainer />} />
@@ -49,6 +52,7 @@ const Pages: React.FC = () => (
         <Route path="/(connexion|inscription|connexion-par-email)" component={AuthenticationPage} />
         <Route path="/notifications" component={NotificationsPage} />
         <Route path="/moderation" component={ModerationPage} />
+        <Route component={NotFoundPage} />
       </Switch>
     </Main>
 
