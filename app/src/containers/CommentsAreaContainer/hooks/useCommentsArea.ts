@@ -10,7 +10,7 @@ const fetchCommentsArea: QueryFunction<{ commentsArea: CommentsArea; notFound: b
     throw new Error('getCommentsArea: missing both id and identifier');
   }
 
-  const url = id ? `/api/comments-area/${id}` : `/api/comments-area/by-identifier/${identifier}`;
+  const url = id ? `/api/comments-area/${id}` : `/api/comments-area/by-identifier/${encodeURIComponent(identifier)}`;
   const response = await axios(url, { validateStatus: s => [200, 404].includes(s) });
 
   return {

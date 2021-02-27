@@ -12,6 +12,8 @@ import queryString from 'query-string';
 
 import 'dayjs/locale/fr';
 
+import 'iframe-resizer/js/iframeResizer.contentWindow';
+
 // keep this imports first
 import './domain/zetecom-global';
 import './utils/sentry';

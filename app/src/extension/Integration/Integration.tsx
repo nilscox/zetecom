@@ -1,32 +1,18 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
+import axios from 'axios';
+import { useMutation } from 'react-query';
 
 import HeaderLogo from 'src/components/domain/HeaderLogo/HeaderLogo';
-import Button from 'src/components/elements/Button/Button';
-import Fallback from 'src/components/layout/Fallback/Fallback';
 import CommentsAreaContainer from 'src/containers/CommentsAreaContainer/CommentsAreaContainer';
+import CommentsAreaClosed from 'src/extension/Integration/CommentsAreaClosed/CommentsAreaClosed';
 import useQueryString from 'src/hooks/use-query-string';
-import { color, fontSize, spacing } from 'src/theme';
+import { color, spacing } from 'src/theme';
 
-const CommentsAreaClosedFallback = styled.div`
-  font-size: ${fontSize('xlarge')};
-  margin-bottom: ${spacing(2)};
-`;
-
-const CommentsAreaClosed = () => (
-  <Fallback
-    when
-    fallback={
-      <>
-        <CommentsAreaClosedFallback>
-          L'espace de commentaires n'est pas ouvert sur cette page.
-        </CommentsAreaClosedFallback>
-        <Button size="large">Demander l'ouverture</Button>
-      </>
-    }
-  />
-);
+const requestCommentsArea = async (identifier: string, informationUrl: string) => {
+  await axios.post('/api/comments-area/request', { identifier, informationUrl });
+};
 
 const Container = styled.div`
   border: 1px solid ${color('border')};
@@ -34,12 +20,18 @@ const Container = styled.div`
 `;
 
 const Integration: React.FC = () => {
-  const { identifier } = useQueryString();
+  const { identifier, pageUrl: informationUrl } = useQueryString();
+  const { mutate, isSuccess: requested } = useMutation(() =>
+    requestCommentsArea(identifier as string, informationUrl as string),
+  );
 
   return (
     <Container>
       <HeaderLogo />
-      <CommentsAreaContainer commentsAreaIdentifier={identifier as string} notFoundFallback={<CommentsAreaClosed />} />
+      <CommentsAreaContainer
+        commentsAreaIdentifier={identifier as string}
+        notFoundFallback={<CommentsAreaClosed requested={requested} onRequest={mutate} />}
+      />
     </Container>
   );
 };

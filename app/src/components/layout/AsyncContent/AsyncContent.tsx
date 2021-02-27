@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import Loader from 'src/components/layout/Loader/Loader';
+
 import Fallback from '../Fallback/Fallback';
 
 type AsyncContentProps = {
@@ -23,11 +25,7 @@ const AsyncContent: React.FC<AsyncContentProps> = ({ loaderDelay = 400, loading,
     }
   }, [loading, loaderDelay]);
 
-  if (loading && !renderLoader) {
-    return null;
-  }
-
-  return <Fallback when={loading} render={render} />;
+  return <Fallback when={loading} fallback={loading && !renderLoader ? <></> : <Loader />} render={render} />;
 };
 
 export default AsyncContent;
