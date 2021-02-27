@@ -16,12 +16,11 @@ import { SortType } from 'src/types/SortType';
 import useComments from './hooks/useComments';
 import useCommentsArea from './hooks/useCommentsArea';
 
-const CommentsAreaClosed = () => <>closed</>;
-
 type CommentsAreaContainerProps = {
   displayOutline?: boolean;
   commentsAreaId?: number;
   commentsAreaIdentifier?: string;
+  notFoundFallback: React.ReactElement;
 };
 
 type NoCommentsFallbackProps = {
@@ -40,6 +39,7 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
   displayOutline,
   commentsAreaId,
   commentsAreaIdentifier,
+  notFoundFallback,
 }) => {
   const user = useUser();
 
@@ -62,7 +62,7 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
   const [createComment, { submittingRootComment }] = useCreateComment(commentsArea);
 
   if (commentsAreaNotFound) {
-    return <CommentsAreaClosed />;
+    return notFoundFallback;
   }
 
   return (
