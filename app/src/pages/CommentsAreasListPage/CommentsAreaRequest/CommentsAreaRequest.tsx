@@ -1,7 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 
 import styled from '@emotion/styled';
-import { toast } from 'react-toastify';
 
 import Button from 'src/components/elements/Button/Button';
 import Collapse from 'src/components/layout/Collapse/Collapse';
@@ -22,27 +21,7 @@ const CommentsAreaRequest: React.FC = () => {
   const [displayForm, setDisplayForm] = useState(false);
 
   const handleSuccess = useCallback(() => {
-    toast.success(
-      <>
-        Votre demande d'ouverture a bien été prise en compte, elle est maintenant en attente de traitement par les
-        modérateurs
-      </>,
-    );
-
     setDisplayForm(false);
-  }, []);
-
-  const handleError = useCallback((error: any) => {
-    // eslint-disable-next-line no-console
-    console.warn('unhandled comments area form error', error);
-
-    toast.error(
-      <>
-        Tout ne s'est pas passé comme prévu...
-        <br />
-        Réessayez plus tard !
-      </>,
-    );
   }, []);
 
   if (!user) {
@@ -58,12 +37,7 @@ const CommentsAreaRequest: React.FC = () => {
       </Fade>
 
       <Collapse in={displayForm}>
-        <CommentsAreaFormContainer
-          type="request"
-          onCancel={() => setDisplayForm(false)}
-          onSuccess={handleSuccess}
-          onError={handleError}
-        />
+        <CommentsAreaFormContainer type="request" onCancel={() => setDisplayForm(false)} onSuccess={handleSuccess} />
       </Collapse>
     </Container>
   );
