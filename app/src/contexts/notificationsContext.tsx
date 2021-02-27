@@ -1,6 +1,9 @@
-import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
+import React, { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
 
-import useAxios from 'src/hooks/useAxios';
+import axios from 'axios';
+import { useQuery } from 'react-query';
+
+import { useUser } from 'src/contexts/userContext';
 
 type NotificationContext = {
   notificationsCount: number;
@@ -9,16 +12,20 @@ type NotificationContext = {
 
 const notificationsContext = createContext<NotificationContext | undefined>(undefined);
 
+const fetchNotificationsCount = async () => {
+  const response = await axios.get<{ count: number }>('/api/notification/me/count');
+
+  return response.data.count;
+};
+
 export const NotificationsProvider: React.FC = ({ children }) => {
+  const user = useUser();
   const [notificationsCount, setNotificationsCount] = useState<number>(0);
 
-  const [result, { status }] = useAxios<{ count: number }>('/api/notification/me/count');
-
-  useEffect(() => {
-    if (status(200) && result) {
-      setNotificationsCount(result.count);
-    }
-  }, [status, result]);
+  useQuery('notificationsCount', fetchNotificationsCount, {
+    onSuccess: setNotificationsCount,
+    enabled: Boolean(user),
+  });
 
   return (
     <notificationsContext.Provider value={{ notificationsCount, setNotificationsCount }}>
