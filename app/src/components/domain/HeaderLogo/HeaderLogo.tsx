@@ -11,6 +11,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+
+  a:active {
+    text-decoration: none;
+  }
 `;
 
 const Logo = styled.img`

@@ -7,14 +7,14 @@ import Loader from '../Loader/Loader';
 const StyledFallback = styled.div<{ minHeight: number }>`
   min-height: ${props => props.minHeight}px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
 type FallbackProps = {
   when: boolean;
-  fallback?: string | React.ReactNode;
+  fallback?: React.ReactElement;
   minHeight?: number;
   render?: () => React.ReactNode;
 };
