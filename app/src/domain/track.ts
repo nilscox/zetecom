@@ -39,9 +39,9 @@ const track = {
     action: 'Change Password',
   }),
 
-  emailLogin: () => ({
+  linkLogin: () => ({
     category: 'Authentication',
-    action: 'Email Login',
+    action: 'Link Login',
   }),
 
   commentCreated: () => ({

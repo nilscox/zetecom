@@ -8,6 +8,7 @@ import HeaderLogo from 'src/components/domain/HeaderLogo/HeaderLogo';
 import Fallback from 'src/components/layout/Fallback/Fallback';
 import UserMenuContainer from 'src/containers/UserMenuContainer/UserMenuContainer';
 import EmailValidationPage from 'src/pages/EmailValidationPage/EmailValidationPage';
+import LoginLinkPage from 'src/pages/LoginLinkPage/LoginLinkPage';
 import ModerationPage from 'src/pages/ModerationPage/ModerationPage';
 import NotificationsPage from 'src/pages/NotificationsPage/NotificationsPage';
 import { size, spacing } from 'src/theme';
@@ -52,6 +53,7 @@ const Pages: React.FC = () => (
         <Route path="/commentaires/:commentsAreaId" component={CommentsAreaPage} />
         <Route path="/(connexion|inscription|connexion-par-email)" component={AuthenticationPage} />
         <Route path="/validation-email/:token" component={EmailValidationPage} />
+        <Route path="/lien-de-connexion/:token" component={LoginLinkPage} />
         <Route path="/notifications" component={NotificationsPage} />
         <Route path="/moderation" component={ModerationPage} />
         <Route component={NotFoundPage} />
