@@ -1,5 +1,6 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
+// prettier-ignore
 export class initialSchema1601420527077 implements MigrationInterface {
     name = 'initialSchema1601420527077'
 

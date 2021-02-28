@@ -1,5 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
+// prettier-ignore
 export class addMetadataToCommentsAreaRequset1607816228643 implements MigrationInterface {
   name = 'addMetadataToCommentsAreaRequset1607816228643'
 
