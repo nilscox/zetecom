@@ -80,6 +80,7 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
       NODE_ENV: 'development',
       API_URL: 'http://localhost:3000',
       WEBSITE_URL: 'http://localhost:8080',
+      ANALYTICS_PROVIDER: null,
       ANALYTICS_URL: null,
       ANALYTICS_SITE_ID: null,
       SENTRY_DSN: null,

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import Button from 'src/components/elements/Button/Button';
-import useIFrameMessages from 'src/hooks/use-iframe-messages';
+import useIFrameMessages from 'src/extension/hooks/useIFrameMessages';
 import { fontSize, spacing } from 'src/theme';
 
 const IntegrationStateText = styled.div`

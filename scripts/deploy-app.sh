@@ -61,6 +61,7 @@ deploy_app() {
     --env PORT='80' \
     --env $(sshenv API_URL) \
     --env $(sshenv WEBSITE_URL) \
+    --env $(sshenv ANALYTICS_PROVIDER) \
     --env $(sshenv ANALYTICS_URL) \
     --env $(sshenv ANALYTICS_SITE_ID) \
     --env $(sshenv SENTRY_DSN) \

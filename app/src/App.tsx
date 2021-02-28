@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import ToastContainer from 'src/components/layout/ToastContainer/ToastContainer';
+import TrackingProvider, { TrackPageView } from 'src/contexts/trackingContext';
 import { UserProvider } from 'src/contexts/userContext';
 import Integration from 'src/extension/Integration/Integration';
 import Popup from 'src/extension/Popup/Popup';
@@ -17,8 +18,9 @@ import env from 'src/utils/env';
 
 const Router: React.FC = () => (
   <BrowserRouter>
+    <TrackPageView shouldTrack={location => !location.pathname.startsWith('/integration')} />
     <Switch>
-      <Route path="/integration" exact component={Integration} />
+      <Route path="/integration/:identifier" exact component={Integration} />
       <Route path="/popup" component={Popup} />
       <Route path="/commentaire/:id/(signaler|historique)" component={Popups} />
       <Route component={Pages} />
@@ -39,9 +41,11 @@ const App: React.FC = () => (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <ToastContainer />
-      <UserProvider>
-        <Router />
-      </UserProvider>
+      <TrackingProvider>
+        <UserProvider>
+          <Router />
+        </UserProvider>
+      </TrackingProvider>
     </ThemeProvider>
     {env.DEBUG && <ReactQueryDevtools initialIsOpen={false} />}
   </QueryClientProvider>
