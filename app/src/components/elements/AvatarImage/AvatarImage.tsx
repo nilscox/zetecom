@@ -2,6 +2,7 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 import clsx from 'clsx';
+import { useDebounce } from 'use-debounce/lib';
 
 import { color, spacing } from 'src/theme';
 
@@ -37,11 +38,15 @@ type AvatarImageProps = {
   src?: string | null;
 };
 
-const AvatarImage: React.FC<AvatarImageProps> = ({ className, loading, small, src }) => (
-  <Container className={clsx(small && 'small')}>
-    <StyledAvatarImage src={src ? `/avatars/${src}` : defaultAvatar} className={clsx(small && 'small', className)} />
-    {loading && <LoadingIndicator />}
-  </Container>
-);
+const AvatarImage: React.FC<AvatarImageProps> = ({ className, loading, small, src }) => {
+  const [loadingDebounced] = useDebounce(loading, 400);
+
+  return (
+    <Container className={clsx(small && 'small')}>
+      <StyledAvatarImage src={src ? `/avatars/${src}` : defaultAvatar} className={clsx(small && 'small', className)} />
+      {loadingDebounced && <LoadingIndicator />}
+    </Container>
+  );
+};
 
 export default AvatarImage;
