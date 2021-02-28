@@ -1,18 +1,10 @@
-import { useCallback, useRef } from 'react';
+import { useCallback } from 'react';
 
 import useQueryString from 'src/hooks/use-query-string';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const log = (...args: Parameters<typeof console.log>) => {
   // return console.log(...args);
-};
-
-const getOrigin = (url: string) => {
-  const a = document.createElement('a');
-
-  a.href = url;
-
-  return a.origin;
 };
 
 export type Message = {
@@ -22,26 +14,22 @@ export type Message = {
 };
 
 const useIFrameMessages = () => {
-  const params = useQueryString();
-  const pageUrl = decodeURIComponent(params.pageUrl as string);
-
-  // pageUrl becomes undefined for some reason
-  const { current: origin } = useRef(getOrigin(pageUrl));
+  const { pageUrl } = useQueryString();
 
   const sendMessage = useCallback(
     (message: Message) => {
-      if (!origin) {
+      if (typeof pageUrl !== 'string') {
         // eslint-disable-next-line no-console
-        console.warn('cannot send message: origin is not set');
+        console.warn('cannot send message: pageUrl is not set');
         return;
       }
 
       if (window.parent !== window) {
-        log('iframe send', message, origin);
-        window.parent.postMessage(message, origin);
+        log('iframe send', message, pageUrl);
+        window.parent.postMessage(message, pageUrl);
       }
     },
-    [origin],
+    [pageUrl],
   );
 
   const addListener = useCallback((cb: (message: Message) => void) => {

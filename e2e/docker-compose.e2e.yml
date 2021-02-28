@@ -18,6 +18,5 @@ services:
     command: /start.sh --coverage
     environment:
       API_URL: http://localhost:3000
-      ANALYTICS_URL: ''
-      ANALYTICS_SITE_ID: mock
+      ANALYTICS_PROVIDER: mock
       DEBUG: 'true'
