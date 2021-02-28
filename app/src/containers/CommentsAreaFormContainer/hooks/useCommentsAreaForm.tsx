@@ -21,7 +21,7 @@ const handlers: FormErrorHandlers = {
       maxLength: ['title', "Le titre de l'information est trop long"],
     },
     informationAuthor: {
-      isNotEmpty: ['informationAuthor', "Veillez renseigner l'auteur de l'information"],
+      isNotEmpty: ['author', "Veillez renseigner l'auteur de l'information"],
       maxLength: ['author', "Le nom de l'auteur est trop long"],
     },
     informationPublicationDate: {
@@ -31,14 +31,23 @@ const handlers: FormErrorHandlers = {
   },
 };
 
+const stripUndefinedReducer = (obj: Record<string, unknown>, [k, v]: [string, unknown]) => {
+  if (v !== undefined) {
+    obj[k as keyof CommentsAreaFormState] = v;
+  }
+
+  return obj;
+};
+
 const requestOrCreateCommentsArea = async (type: 'request' | 'creation', values: CommentsAreaFormState) => {
-  const response = await axios.post<CommentsArea>(`/api/comments-area${type === 'request' ? '/request' : ''}`, {
+  const body = Object.entries({
     informationUrl: values.url,
     informationTitle: values.title,
     informationAuthor: values.author,
     informationPublicationDate: values.publicationDate,
-    identifier: undefined,
-  });
+  }).reduce(stripUndefinedReducer, {} as Partial<CommentsAreaFormState>);
+
+  const response = await axios.post<CommentsArea>(`/api/comments-area${type === 'request' ? '/request' : ''}`, body);
 
   return response.data;
 };

@@ -95,7 +95,7 @@ const CommentsAreaForm = forwardRef<CommentsAreaFormRef, CommentAreaFormProps>((
       <Form onSubmit={handleSubmit}>
         <CommentsAreaFormInput placeholder="Titre de l'information" error={fieldErrors.title} {...text('title')} />
 
-        <CommentsAreaFormInput placeholder="URL de l'information" error={fieldErrors.url} {...text('url')} />
+        <CommentsAreaFormInput required placeholder="URL de l'information" error={fieldErrors.url} {...text('url')} />
 
         <Row>
           <CommentsAreaFormInput<ComponentProps<typeof DateInput>>
