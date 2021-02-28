@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 
+import { useTrackEvent } from 'src/contexts/trackingContext';
+import track from 'src/domain/track';
 import { Notification } from 'src/types/Notification';
 import { Paginated } from 'src/types/Paginated';
 import replace from 'src/utils/replace';
@@ -11,6 +13,7 @@ const markNotificationAsSeen = async (notification: Notification) => {
 
 const useMarkNotificationAsSeen = () => {
   const queryClient = useQueryClient();
+  const trackEvent = useTrackEvent();
 
   const { mutate: markAsSeen } = useMutation(markNotificationAsSeen, {
     onMutate: notification => {
@@ -35,6 +38,9 @@ const useMarkNotificationAsSeen = () => {
           };
         });
       }
+    },
+    onSuccess: (_, { type }) => {
+      trackEvent(track.notificationSeen(type));
     },
   });
 

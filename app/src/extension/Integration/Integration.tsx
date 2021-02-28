@@ -7,7 +7,8 @@ import { RouteComponentProps, useLocation } from 'react-router';
 
 import HeaderLogo from 'src/components/domain/HeaderLogo/HeaderLogo';
 import CommentsAreaContainer from 'src/containers/CommentsAreaContainer/CommentsAreaContainer';
-import { useTracker } from 'src/contexts/trackingContext';
+import { useTracker, useTrackEvent } from 'src/contexts/trackingContext';
+import track from 'src/domain/track';
 import useIFrameMessages from 'src/extension/hooks/useIFrameMessages';
 import CommentsAreaClosed from 'src/extension/Integration/CommentsAreaClosed/CommentsAreaClosed';
 import useQueryString from 'src/hooks/use-query-string';
@@ -19,7 +20,13 @@ const requestCommentsArea = async (identifier: string, informationUrl: string) =
 };
 
 const useRequestCommetsArea = (identifier: string, informationUrl: string) => {
-  const { mutate, isSuccess: requested } = useMutation(() => requestCommentsArea(identifier, informationUrl));
+  const trackEvent = useTrackEvent();
+
+  const { mutate, isSuccess: requested } = useMutation(() => requestCommentsArea(identifier, informationUrl), {
+    onSuccess: () => {
+      trackEvent(track.commentsAreaRequested('Integration'));
+    },
+  });
 
   return [mutate, { requested }] as const;
 };
@@ -36,11 +43,15 @@ const Integration: React.FC<RouteComponentProps<{ identifier: string }>> = ({ ma
   const [onRequest, { requested }] = useRequestCommetsArea(identifier, informationUrl as string);
 
   const [sendMessage] = useIFrameMessages();
+
+  const trackEvent = useTrackEvent();
   const tracker = useTracker();
   const location = useLocation();
 
   const handleCommentsAreaLoaded = (commentsArea: CommentsArea) => {
     sendMessage({ type: 'INTEGRATION_LOADED', comments: commentsArea.commentsCount });
+
+    trackEvent(track.viewIntegration(identifier, commentsArea));
     tracker.trackPageView({ href: location.pathname });
   };
 

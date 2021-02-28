@@ -4,7 +4,10 @@ import axios, { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 
+import { useAuthenticationFormType } from 'src/components/domain/AuthenticationForm/AuthenticationForm';
+import { useTrackEvent } from 'src/contexts/trackingContext';
 import { useSetUser } from 'src/contexts/userContext';
+import track from 'src/domain/track';
 import { HandleError } from 'src/hooks/useFormErrors';
 import { User } from 'src/types/User';
 import getFormErrors, { FormErrorHandlers } from 'src/utils/getFormErrors';
@@ -35,13 +38,16 @@ const login = async (credentials: { email: string; password: string }) => {
 
 const useLogin = (onAuthenticated: (user: User) => void, handleError: HandleError) => {
   const setUser = useSetUser();
+  const trackEvent = useTrackEvent();
+  const [, isPopup] = useAuthenticationFormType();
 
   const { mutate, isLoading: loading } = useMutation(login, {
     onSuccess: user => {
       setUser(user);
       onAuthenticated(user);
+      trackEvent(track.login(isPopup ? 'Popup' : 'Integration'));
     },
-    onError: error => {
+    onError: (error: AxiosError) => {
       const [formError, fieldErrors, unhandledError] = getFormErrors(error as AxiosError, loginErrorHandlers);
 
       handleError(formError, fieldErrors);
@@ -57,6 +63,10 @@ const useLogin = (onAuthenticated: (user: User) => void, handleError: HandleErro
             Réessayez plus tard !
           </>,
         );
+      }
+
+      if (error.response?.status === 401 && error.response.data.message === 'INVALID_CREDENTIALS') {
+        trackEvent(track.loginFailed(isPopup ? 'Popup' : 'Integration'));
       }
     },
   });

@@ -3,6 +3,8 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import useUpdatedCachedComment from 'src/containers/CommentContainer/hooks/useUpdateCachedComment';
 import { useCommentsArea } from 'src/contexts/commentsAreaContext';
+import { useTrackEvent } from 'src/contexts/trackingContext';
+import track from 'src/domain/track';
 import { Comment } from 'src/types/Comment';
 import { Paginated } from 'src/types/Paginated';
 
@@ -41,6 +43,7 @@ const useAddReplyToParent = (parent: Comment) => {
 const useReply = (comment: Comment, onSubmitted?: (relpy: Comment) => void) => {
   const commentsArea = useCommentsArea();
   const addReplyToParent = useAddReplyToParent(comment);
+  const trackEvent = useTrackEvent();
 
   const { mutate, isLoading: submittingReply } = useMutation(
     (text: string) => createReply(comment, commentsArea.id, text),
@@ -48,6 +51,7 @@ const useReply = (comment: Comment, onSubmitted?: (relpy: Comment) => void) => {
       onSuccess: reply => {
         addReplyToParent(reply);
         onSubmitted?.(reply);
+        trackEvent(track.commentCreated());
       },
     },
   );

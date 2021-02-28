@@ -59,7 +59,7 @@ type HeaderLogoProps = {
 
 const HeaderLogo: React.FC<HeaderLogoProps> = ({ small, link = '/', right }) => (
   <Container>
-    <Left as={link !== false ? Link : undefined} to={link}>
+    <Left as={link !== false ? Link : undefined} to={link || undefined}>
       <Logo small={small} src={logo} />
       <MainTitle small={small}>Zétécom</MainTitle>
       <SubTitle small={small}>

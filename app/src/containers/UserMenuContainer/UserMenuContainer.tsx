@@ -5,7 +5,9 @@ import { useMutation, useQuery } from 'react-query';
 import { useHistory } from 'react-router';
 
 import UserMenu from 'src/components/domain/UserMenu/UserMenu';
+import { useTrackEvent } from 'src/contexts/trackingContext';
 import { useSetUser, useUser } from 'src/contexts/userContext';
+import track from 'src/domain/track';
 
 const fetchNotificationsCount = async () => {
   const response = await axios.get<{ count: number }>('/api/notification/me/count');
@@ -17,6 +19,7 @@ const UserMenuContainer: React.FC = () => {
   const user = useUser();
   const setUser = useSetUser();
   const history = useHistory();
+  const trackEvent = useTrackEvent();
 
   const { data: notificationsCount } = useQuery('notificationsCount', fetchNotificationsCount, {
     enabled: Boolean(user),
@@ -26,6 +29,7 @@ const UserMenuContainer: React.FC = () => {
     onSuccess: () => {
       history.push('/connexion');
       setUser(null);
+      trackEvent(track.logout('App'));
     },
   });
 

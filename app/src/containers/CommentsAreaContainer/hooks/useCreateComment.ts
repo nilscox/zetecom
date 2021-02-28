@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { MutationFunction, useMutation } from 'react-query';
 
+import { useTrackEvent } from 'src/contexts/trackingContext';
+import track from 'src/domain/track';
 import useUpdatePartialQueries from 'src/hooks/useUpdatePartialQueries';
 import { Comment } from 'src/types/Comment';
 import { CommentsArea } from 'src/types/CommentsArea';
@@ -31,6 +33,7 @@ const useAddCommentToCommentsList = () => {
 const useCreateComment = (commentsArea?: CommentsArea) => {
   const incrementCommentsAreaCommentsCount = useIncrementCommentsAreaCommentsCount();
   const addCommentToCommentsList = useAddCommentToCommentsList();
+  const trackEvent = useTrackEvent();
 
   const { mutate, isLoading: submittingRootComment } = useMutation<Comment, unknown, { text: string }>(
     ({ text }) => {
@@ -44,6 +47,7 @@ const useCreateComment = (commentsArea?: CommentsArea) => {
       onSuccess: created => {
         incrementCommentsAreaCommentsCount();
         addCommentToCommentsList(created);
+        trackEvent(track.commentCreated());
       },
     },
   );
