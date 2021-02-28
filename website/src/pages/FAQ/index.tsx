@@ -178,6 +178,7 @@ const Question: React.FC<QuestionProps> = ({ open, question, children, onToggle 
 );
 
 const FAQ: React.FC = () => {
+  const DISCORD_ID = useEnvironment('DISCORD_ID');
   const CONTACT_EMAIL = useEnvironment('CONTACT_EMAIL');
   const TWITTER_ACCOUNT = useEnvironment('TWITTER_ACCOUNT');
   const FACEBOOK_PAGE = useEnvironment('FACEBOOK_PAGE');
@@ -271,6 +272,7 @@ const FAQ: React.FC = () => {
       <p>Nous sommes également à l'écoute de vos remarques via ces différents canaux de communication :</p>
 
       <ul>
+        {DISCORD_ID && <li>Sur discord : <Link href={`https://discord.gg/${DISCORD_ID}`}>https://discord.gg/{DISCORD_ID}</Link></li>}
         {TWITTER_ACCOUNT && <li>Sur twitter : <Link href={`https://twitter.com/${TWITTER_ACCOUNT}`}>twitter.com/{TWITTER_ACCOUNT}</Link></li>}
         {FACEBOOK_PAGE && <li>Sur facebook : <Link href={`https://facebook.com/${FACEBOOK_PAGE}`}>facebook.com/{FACEBOOK_PAGE}</Link></li>}
         {CONTACT_EMAIL && <li>Par e-mail : <Link href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</Link></li>}
