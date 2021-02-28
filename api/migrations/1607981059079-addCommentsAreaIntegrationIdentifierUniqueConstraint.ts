@@ -1,5 +1,6 @@
-import {MigrationInterface, QueryRunner} from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
+// prettier-ignore
 export class addCommentsAreaIntegrationIdentifierUniqueConstraint1607981059079 implements MigrationInterface {
     name = 'addCommentsAreaIntegrationIdentifierUniqueConstraint1607981059079'
 

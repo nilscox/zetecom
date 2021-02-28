@@ -1,5 +1,6 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
+// prettier-ignore
 export class updateReactionsType1613822186611 implements MigrationInterface {
     name = 'updateReactionsType1613822186611'
 

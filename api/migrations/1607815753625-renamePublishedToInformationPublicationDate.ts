@@ -1,5 +1,6 @@
-import {MigrationInterface, QueryRunner} from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
+// prettier-ignore
 export class renamePublishedToInformationPublicationDate1607815753625 implements MigrationInterface {
   name = 'renamePublishedToInformationPublicationDate1607815753625'
 
