@@ -437,7 +437,7 @@ describe('comment controller', () => {
     });
   });
 
-  describe('update comment', () => {
+  describe('edit comment', () => {
     let comment: Comment;
 
     beforeAll(async () => {
@@ -446,19 +446,25 @@ describe('comment controller', () => {
 
     const [userRequest, user] = createAuthenticatedUser(server);
 
-    it('should not update a comment when not authenticated', async () => {
+    it('should not edit a comment when not authenticated', async () => {
       await request(server).put(`/api/comment/${comment.id}`).expect(403);
     });
 
-    it('should not update an unexisting comment', async () => {
+    it('should not edit an unexisting comment', async () => {
       return userRequest.put('/api/comment/404').send({ text: 'text' }).expect(404);
     });
 
-    it('should not update a comment that does not belong to the authenticated user', async () => {
+    it('should not edit a comment that does not belong to the authenticated user', async () => {
       return userRequest.put(`/api/comment/${comment.id}`).expect(403);
     });
 
-    it('should update a comment', async () => {
+    it('should not edit a comment when there is no change', async () => {
+      const comment = await commentFactory.create({ author: user });
+
+      await userRequest.put(`/api/comment/${comment.id}`).send({ text: comment.message.text }).expect(400);
+    });
+
+    it('should edit a comment', async () => {
       const comment = await commentFactory.create({ author: user });
 
       const { body } = await userRequest.put(`/api/comment/${comment.id}`).send({ text: 'edited' }).expect(200);

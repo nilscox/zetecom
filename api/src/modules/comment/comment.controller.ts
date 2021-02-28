@@ -209,6 +209,10 @@ export class CommentController {
       throw new NotFoundException();
     }
 
+    if (comment.message.text === dto.text) {
+      throw new BadRequestException('text must have changed');
+    }
+
     return this.commentService.update(comment, dto.text);
   }
 
