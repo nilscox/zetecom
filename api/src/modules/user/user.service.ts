@@ -74,6 +74,10 @@ export class UserService {
       throw new BadRequestException('USER_EMAIL_TOKEN_NOT_FOUND');
     }
 
+    if (user.emailValidated) {
+      throw new BadRequestException('EMAIL_ALREADY_VALIDATED');
+    }
+
     await this.userRepository.update(user.id, { emailValidated: true });
 
     return user;
