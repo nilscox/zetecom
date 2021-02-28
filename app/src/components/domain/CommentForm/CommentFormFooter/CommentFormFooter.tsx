@@ -12,16 +12,15 @@ const Container = styled(CommentFooterContainer)`
 
 type CommentFormFooterProps = {
   submitting: boolean;
+  canSubmit: boolean;
 };
 
-const CommentFormFooter: React.FC<CommentFormFooterProps> = ({ submitting }) => {
-  return (
-    <Container>
-      <Button type="submit" loading={submitting}>
-        Envoyer
-      </Button>
-    </Container>
-  );
-};
+const CommentFormFooter: React.FC<CommentFormFooterProps> = ({ submitting, canSubmit }) => (
+  <Container>
+    <Button type="submit" disabled={!canSubmit} loading={submitting}>
+      Envoyer
+    </Button>
+  </Container>
+);
 
 export default CommentFormFooter;

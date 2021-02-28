@@ -396,11 +396,16 @@ describe('comment controller', () => {
       return userRequest.post('/api/comment').send(comment).expect(400);
     });
 
-    it('should not create a recation with missing text', async () => {
+    it('should not create a recation with missing or empty text', async () => {
       const comment = makeComment(commentsArea.id);
       delete comment.text;
 
-      return userRequest.post('/api/comment').send(comment).expect(400);
+      await userRequest.post('/api/comment').send(comment).expect(400);
+
+      await userRequest
+        .post('/api/comment')
+        .send({ ...comment, text: '' })
+        .expect(400);
     });
 
     it('should create a comment', async () => {
