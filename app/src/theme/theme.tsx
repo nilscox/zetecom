@@ -95,6 +95,7 @@ const theme = {
     reactionFontSize: '20px',
     commentLightBackground: '#fafafa',
     userReactionColor: '#ffeca6',
+    searchHighlightBackground: '#ffe15b',
   },
 };
 
