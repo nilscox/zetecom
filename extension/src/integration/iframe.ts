@@ -28,13 +28,12 @@ export default class IFrame {
     const iframe = document.createElement('iframe');
 
     const query = {
-      identifier: encodeURIComponent(identifier),
-      pageUrl: encodeURIComponent(window.location.href),
+      pageUrl: window.location.href,
       extensionVersion: pkg.version,
     };
 
     iframe.id = 'zc-iframe';
-    iframe.src = APP_URL + '/integration?' + queryString.stringify(query);
+    iframe.src = `${APP_URL}/integration/${identifier}/${queryString.stringify(query)}`;
     iframe.scrolling = 'no';
     iframe.style.width = '1px';
     iframe.style.minWidth = '100%';
