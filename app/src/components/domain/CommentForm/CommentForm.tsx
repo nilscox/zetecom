@@ -97,7 +97,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
 
       {tabPanels[currentTab]}
 
-      <CommentFormFooter submitting={submitting} />
+      <CommentFormFooter submitting={submitting} canSubmit={text !== ''} />
     </CommentContainer>
   );
 };
