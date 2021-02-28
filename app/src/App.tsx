@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ToastContainer from 'src/components/layout/ToastContainer/ToastContainer';
 import { UserProvider } from 'src/contexts/userContext';
 import Integration from 'src/extension/Integration/Integration';
+import Popup from 'src/extension/Popup/Popup';
 import Pages from 'src/pages/Pages';
 import Popups from 'src/popups/Popups';
 import theme from 'src/theme';
@@ -18,6 +19,7 @@ const Router: React.FC = () => (
   <BrowserRouter>
     <Switch>
       <Route path="/integration" exact component={Integration} />
+      <Route path="/popup" component={Popup} />
       <Route path="/commentaire/:id/(signaler|historique)" component={Popups} />
       <Route component={Pages} />
     </Switch>

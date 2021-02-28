@@ -19,10 +19,21 @@ const fetchCommentsArea: QueryFunction<{ commentsArea: CommentsArea; notFound: b
   };
 };
 
-const useCommentsArea = (commentsAreaId?: number, commentsAreaIdentifier?: string) => {
+const useCommentsArea = (
+  commentsAreaId?: number,
+  commentsAreaIdentifier?: string,
+  onSucess?: (commentsArea: CommentsArea) => void,
+) => {
   const { data: { commentsArea, notFound: commentsAreaNotFound } = {}, isLoading: loadingCommentsArea } = useQuery(
     ['commentsArea', { id: commentsAreaId, identifier: commentsAreaIdentifier }],
     fetchCommentsArea,
+    {
+      onSuccess: ({ commentsArea, notFound }) => {
+        if (!notFound) {
+          onSucess?.(commentsArea);
+        }
+      },
+    },
   );
 
   return {
