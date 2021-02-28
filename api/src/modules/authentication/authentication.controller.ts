@@ -38,7 +38,8 @@ export class AuthenticationController {
     return user;
   }
 
-  @Post('/email-validation/:token')
+  @Post('/validate-email/:token')
+  @HttpCode(200)
   @UseGuards(IsNotAuthenticated)
   @CastToDto(UserDto)
   async emailValidation(@Param('token') token: string, @Session() session: SessionType): Promise<User> {

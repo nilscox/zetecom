@@ -94,6 +94,31 @@ describe('authentification', () => {
     });
   });
 
+  describe('validate-email', () => {
+    let user: User;
+
+    beforeAll(async () => {
+      user = await userFactory.create();
+    });
+
+    beforeEach(async () => {
+      await userRepository.update(user.id, { emailValidated: false });
+    });
+
+    it("should validate a user's email address", async () => {
+      await request(server).post(`/api/auth/validate-email/${user.emailValidationToken}`).expect(200);
+
+      const userDb = await userRepository.findOne(user.id);
+
+      expect(userDb).toHaveProperty('emailValidated', true);
+    });
+
+    it("should not validate a user's email address twice", async () => {
+      await request(server).post(`/api/auth/validate-email/${user.emailValidationToken}`).expect(200);
+      await request(server).post(`/api/auth/validate-email/${user.emailValidationToken}`).expect(400);
+    });
+  });
+
   describe('login', () => {
     const [userRequest] = createAuthenticatedUser(server);
 
