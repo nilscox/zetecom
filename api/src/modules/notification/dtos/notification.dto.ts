@@ -42,9 +42,6 @@ class CommentsAreaRequestApprovedPayloadDto {
   commentsAreaId: number;
 
   @Expose()
-  commentsAreaImageUrl: string;
-
-  @Expose()
   commentsAreaTitle: string;
 }
 
