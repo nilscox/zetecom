@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import showdown from 'showdown';
 
@@ -10,29 +10,25 @@ import './github-markdown.css';
 showdown.extension('sup', sup);
 showdown.extension('highlight', highlight);
 
+const converter = new showdown.Converter({
+  simplifiedAutoLink: true,
+  excludeTrailingPunctuationFromURLs: true,
+  literalMidWordUnderscores: true,
+  literalMidWordAsterisks: true,
+  strikethrough: true,
+  tables: true,
+  disableForced4SpacesIndentedSublists: true,
+  simpleLineBreaks: true,
+  openLinksInNewWindow: true,
+  extensions: ['sup', 'highlight'],
+});
+
 const useMarkdownConverter = (markdown: string, highlight?: string) => {
-  const converter = useMemo(
-    () =>
-      new showdown.Converter({
-        simplifiedAutoLink: true,
-        excludeTrailingPunctuationFromURLs: true,
-        literalMidWordUnderscores: true,
-        literalMidWordAsterisks: true,
-        strikethrough: true,
-        tables: true,
-        disableForced4SpacesIndentedSublists: true,
-        simpleLineBreaks: true,
-        openLinksInNewWindow: true,
-        extensions: ['sup', 'highlight'],
-      }),
-    [],
-  );
-
-  useEffect(() => {
+  return useMemo(() => {
     converter.setOption('highlight', highlight);
-  }, [converter, highlight]);
 
-  return useMemo(() => converter.makeHtml(markdown), [converter, markdown]);
+    return converter.makeHtml(markdown);
+  }, [markdown, highlight]);
 };
 
 export default useMarkdownConverter;

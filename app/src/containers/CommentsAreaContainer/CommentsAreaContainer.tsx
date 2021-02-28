@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { useDebounce } from 'use-debounce/lib';
+
 import CommentsList from 'src/components/domain/Comment/CommentsList/CommentsList';
 import CommentForm from 'src/components/domain/CommentForm/CommentForm';
 import CommentsAreaOutline from 'src/components/domain/CommentsAreaOutline/CommentsAreaOutline';
@@ -10,6 +12,7 @@ import Fallback from 'src/components/layout/Fallback/Fallback';
 import CommentContainer from 'src/containers/CommentContainer/CommentContainer';
 import useCreateComment from 'src/containers/CommentsAreaContainer/hooks/useCreateComment';
 import { CommentsAreaProvider } from 'src/contexts/commentsAreaContext';
+import { SearchQueryProvider } from 'src/contexts/searchQueryContext';
 import { useUser } from 'src/contexts/userContext';
 import { CommentsArea } from 'src/types/CommentsArea';
 import { SortType } from 'src/types/SortType';
@@ -55,15 +58,18 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState(SortType.DATE_DESC);
   const [search, setSearch] = useState('');
+  const [searchDebounced] = useDebounce(search, 200);
 
   const { loadingComments, totalComments, comments } = useComments(
     commentsAreaId ?? commentsArea?.id,
     page,
     sort,
-    search,
+    searchDebounced,
   );
 
   const [createComment, { submittingRootComment }] = useCreateComment(commentsArea);
+
+  const isSearching = searchDebounced !== '';
 
   if (commentsAreaNotFound) {
     return notFoundFallback;
@@ -106,8 +112,12 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
             render={() => (
               <Fallback
                 when={totalComments === 0}
-                fallback={<NoCommentsFallback isSearching={search !== ''} />}
-                render={() => <CommentsList CommentContainer={CommentContainer} comments={comments ?? []} />}
+                fallback={<NoCommentsFallback isSearching={isSearching} />}
+                render={() => (
+                  <SearchQueryProvider value={isSearching ? searchDebounced : undefined}>
+                    <CommentsList CommentContainer={CommentContainer} comments={comments ?? []} />
+                  </SearchQueryProvider>
+                )}
               />
             )}
           />
