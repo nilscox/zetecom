@@ -72,7 +72,12 @@ const CommentForm: React.FC<CommentFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(text);
+
+    if (text !== initialText) {
+      onSubmit(text);
+    } else {
+      onClose?.();
+    }
   };
 
   return (
