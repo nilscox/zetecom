@@ -6,7 +6,7 @@ import useLogin from './useLogin';
 import useSignup from './useSignup';
 
 const useAuthentication = (onAuthenticated: () => void) => {
-  const [formType, getForFormType] = useAuthenticationFormType();
+  const [formType, , getForFormType] = useAuthenticationFormType();
 
   const [{ formError, fieldErrors }, { handleError, clearFieldError, clearAllErrors }] = useFormErrors();
 

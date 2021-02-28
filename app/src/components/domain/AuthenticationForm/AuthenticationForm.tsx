@@ -29,7 +29,6 @@ type AuthenticationForm = {
 export type AuthenticationFormField = keyof AuthenticationForm;
 
 const Form = styled.div`
-  width: ${domain('authenticationFormWidth')};
   display: flex;
   flex-direction: column;
 `;
@@ -51,7 +50,7 @@ const AuthenticationForm: React.FC<AuthenticationFormProps> = ({
   clearFieldError,
   onSubmit,
 }) => {
-  const [formType, getForFormType] = useAuthenticationFormType();
+  const [formType, isPopup, getForFormType] = useAuthenticationFormType();
 
   const [form, { email, password, text, checkbox }] = useFormState<AuthenticationForm>(undefined, {
     onChange: e => clearFieldError(e.target.name),
@@ -101,7 +100,7 @@ const AuthenticationForm: React.FC<AuthenticationFormProps> = ({
         {...text('nick')}
       />
 
-      <AuthenticationNavigation formType={formType} />
+      <AuthenticationNavigation formType={formType} isPopup={isPopup} />
 
       {/* prettier-ignore */}
       <AcceptRulesCheckbox

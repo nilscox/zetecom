@@ -14,14 +14,19 @@ const Container = styled.div`
 
 type AuthenticationNavigationProps = {
   formType: AuthenticationFormType;
+  isPopup: boolean;
 };
 
-const AuthenticationNavigation: React.FC<AuthenticationNavigationProps> = ({ formType }) => (
-  <Container>
-    {formType !== 'login' && <Link to="/connexion">Connexion</Link>}
-    {formType === 'login' && <Link to="/inscription">Créer un compte</Link>}
-    {formType !== 'emailLogin' && <Link to="/connexion-par-email">Mot de passe oublié</Link>}
-  </Container>
-);
+const AuthenticationNavigation: React.FC<AuthenticationNavigationProps> = ({ formType, isPopup }) => {
+  const prefix = isPopup ? '/popup' : '';
+
+  return (
+    <Container>
+      {formType !== 'login' && <Link to={`${prefix}/connexion`}>Connexion</Link>}
+      {formType === 'login' && <Link to={`${prefix}/inscription`}>Créer un compte</Link>}
+      {formType !== 'emailLogin' && <Link to={`${prefix}/connexion-par-email`}>Mot de passe oublié</Link>}
+    </Container>
+  );
+};
 
 export default AuthenticationNavigation;

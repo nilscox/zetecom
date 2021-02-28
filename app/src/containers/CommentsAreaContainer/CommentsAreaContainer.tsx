@@ -11,17 +11,11 @@ import CommentContainer from 'src/containers/CommentContainer/CommentContainer';
 import useCreateComment from 'src/containers/CommentsAreaContainer/hooks/useCreateComment';
 import { CommentsAreaProvider } from 'src/contexts/commentsAreaContext';
 import { useUser } from 'src/contexts/userContext';
+import { CommentsArea } from 'src/types/CommentsArea';
 import { SortType } from 'src/types/SortType';
 
 import useComments from './hooks/useComments';
 import useCommentsArea from './hooks/useCommentsArea';
-
-type CommentsAreaContainerProps = {
-  displayOutline?: boolean;
-  commentsAreaId?: number;
-  commentsAreaIdentifier?: string;
-  notFoundFallback: React.ReactElement;
-};
 
 type NoCommentsFallbackProps = {
   isSearching: boolean;
@@ -35,17 +29,27 @@ const NoCommentsFallback: React.FC<NoCommentsFallbackProps> = ({ isSearching }) 
   return <>Aucun commentaire n'a été publié pour le moment.</>;
 };
 
+type CommentsAreaContainerProps = {
+  displayOutline?: boolean;
+  commentsAreaId?: number;
+  commentsAreaIdentifier?: string;
+  notFoundFallback: React.ReactElement;
+  onCommentsAreaLoaded?: (commentsArea: CommentsArea) => void;
+};
+
 const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
   displayOutline,
   commentsAreaId,
   commentsAreaIdentifier,
   notFoundFallback,
+  onCommentsAreaLoaded,
 }) => {
   const user = useUser();
 
   const { commentsArea, loadingCommentsArea, commentsAreaNotFound } = useCommentsArea(
     commentsAreaId,
     commentsAreaIdentifier,
+    onCommentsAreaLoaded,
   );
 
   const [page, setPage] = useState(1);

@@ -14,6 +14,7 @@ const Container = styled.div`
 `;
 
 const StyledAuthentication = styled(AuthenticationContainer)`
+  width: ${domain('authenticationFormWidth')};
   margin: ${domain('authenticationFormMargin')} 0;
 `;
 
