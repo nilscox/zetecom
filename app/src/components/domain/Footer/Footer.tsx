@@ -6,6 +6,7 @@ import { ExternalLink } from 'src/components/elements/Link/Link';
 import { color, spacing } from 'src/theme';
 import env from 'src/utils/env';
 
+import discordLogo from './discord-logo.png';
 import facebookLogo from './facebook-logo.png';
 import twitterLogo from './twitter-logo.png';
 
@@ -30,7 +31,7 @@ const SocialImage = styled.img`
   width: 24px;
   height: 24px;
   margin-right: ${spacing(2)};
-  vertical-align: bottom;
+  vertical-align: middle;
 `;
 
 const Footer: React.FC = () => (
@@ -90,6 +91,12 @@ const Footer: React.FC = () => (
         <ExternalLink href="https://twitter.com/zetecom1">
           <SocialImage src={twitterLogo} />
           @zetecom1
+        </ExternalLink>
+      </FooterItem>
+      <FooterItem>
+        <ExternalLink href="https://discord.gg/huwfqra">
+          <SocialImage src={discordLogo} />
+          discord
         </ExternalLink>
       </FooterItem>
     </Column>
