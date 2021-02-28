@@ -31,11 +31,4 @@ export class CommentsAreaRequestInDto {
   @IsOptional()
   @IsString()
   readonly identifier?: string;
-
-  @IsOptional()
-  @IsString()
-  @IsUrl()
-  @MinLength(10)
-  @MaxLength(1000)
-  readonly imageUrl?: string;
 }

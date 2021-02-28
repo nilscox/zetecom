@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  ForbiddenException,
   Get,
   HttpCode,
   HttpStatus,
@@ -72,7 +73,7 @@ export class NotificationController {
     }
 
     if (user.id !== notification.user.id) {
-      throw new NotFoundException();
+      throw new ForbiddenException();
     }
 
     notification.seen = new Date();
