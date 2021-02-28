@@ -85,7 +85,7 @@ export class EmailService {
     const APP_URL = this.configService.get('APP_URL');
 
     const template = this.emailRendererService.renderEmailLoginEmail({
-      emailLoginLink: `${APP_URL}/email-login?token=${user.emailLoginToken}`,
+      emailLoginLink: `${APP_URL}/lien-de-connexion/${user.emailLoginToken}`,
     });
 
     return this.sendEmail(user.email, 'Zétécom : lien de connexion', template.text, template.html);
