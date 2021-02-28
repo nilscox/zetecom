@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 
 import Button from 'src/components/elements/Button/Button';
 import Input from 'src/components/elements/Input/Input';
+import { useTrackEvent } from 'src/contexts/trackingContext';
+import track from 'src/domain/track';
 import { spacing } from 'src/theme';
 import getFormErrors, { FormErrorHandlers } from 'src/utils/getFormErrors';
 
@@ -42,11 +44,14 @@ const ChangePasswordField: React.FC<ChangePasswordFieldProps> = ({ onPasswordCha
   const [password, setPassword] = useState('');
   const [error, setError] = useState<ReactNode>(null);
 
+  const trackEvent = useTrackEvent();
+
   const { mutate } = useMutation((password: string) => axios.put('/api/auth/change-password', { password }), {
     onSuccess: () => {
       setPassword('');
       setError(null);
       toast.success('Votre mot de passe a bien été mis à jour');
+      trackEvent(track.changePassword());
       onPasswordChanged();
     },
     onError: (error: AxiosError) => {

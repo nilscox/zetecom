@@ -2,9 +2,12 @@ import React from 'react';
 
 import axios, { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
+import { useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 
 import { CommentsAreaFormState } from 'src/components/domain/CommentsAreaForm/CommentAreaForm';
+import { useTrackEvent } from 'src/contexts/trackingContext';
+import track from 'src/domain/track';
 import { HandleError } from 'src/hooks/useFormErrors';
 import { CommentsArea } from 'src/types/CommentsArea';
 import getFormErrors, { FormErrorHandlers } from 'src/utils/getFormErrors';
@@ -31,8 +34,8 @@ const handlers: FormErrorHandlers = {
   },
 };
 
-const stripUndefinedReducer = (obj: Record<string, unknown>, [k, v]: [string, unknown]) => {
-  if (v !== undefined) {
+const stripEmptyValuesReducer = (obj: Record<string, unknown>, [k, v]: [string, unknown]) => {
+  if (v !== '') {
     obj[k as keyof CommentsAreaFormState] = v;
   }
 
@@ -45,7 +48,7 @@ const requestOrCreateCommentsArea = async (type: 'request' | 'creation', values:
     informationTitle: values.title,
     informationAuthor: values.author,
     informationPublicationDate: values.publicationDate,
-  }).reduce(stripUndefinedReducer, {} as Partial<CommentsAreaFormState>);
+  }).reduce(stripEmptyValuesReducer, {} as Partial<CommentsAreaFormState>);
 
   const response = await axios.post<CommentsArea>(`/api/comments-area${type === 'request' ? '/request' : ''}`, body);
 
@@ -58,6 +61,8 @@ const useCommentsAreaForm = (
   onSuccess: (commentsArea: CommentsArea) => void,
   onError: HandleError,
 ) => {
+  const trackEvent = useTrackEvent();
+
   const { mutate, isLoading: loading } = useMutation(
     (values: CommentsAreaFormState) => requestOrCreateCommentsArea(type, values),
     {
@@ -69,6 +74,10 @@ const useCommentsAreaForm = (
               modérateurs
             </>,
           );
+
+          trackEvent(track.commentsAreaRequested('App'));
+        } else if (type === 'creation') {
+          trackEvent(track.createCommentsArea());
         }
 
         reset();

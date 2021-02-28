@@ -10,7 +10,9 @@ import UserAvatarNick from 'src/components/domain/UserAvatarNick/UserAvatarNick'
 import Box from 'src/components/elements/Box/Box';
 import Button from 'src/components/elements/Button/Button';
 import Collapse from 'src/components/layout/Collapse/Collapse';
+import { useTrackEvent } from 'src/contexts/trackingContext';
 import { useSetUser, useUser } from 'src/contexts/userContext';
+import track from 'src/domain/track';
 import ChangePasswordField from 'src/extension/Popup/AuthenticatedView/ChangePasswordField';
 import useDateFormat from 'src/hooks/useDateFormat';
 import { spacing } from 'src/theme';
@@ -26,15 +28,22 @@ const LogoutButton = styled(Button)`
 
 const AuthenticatedView: React.FC = () => {
   const format = useDateFormat('DD MM YYYY');
+
   const user = useUser();
   const setUser = useSetUser();
+
   const location = useLocation();
   const history = useHistory();
+
+  const trackEvent = useTrackEvent();
 
   const isChangingPassword = location.hash === '#change-password';
 
   const { mutate: onLogout, isLoading: isLoggingOut } = useMutation(() => axios.post('/api/auth/logout'), {
-    onSuccess: () => setUser(null),
+    onSuccess: () => {
+      setUser(null);
+      trackEvent(track.logout('Popup'));
+    },
   });
 
   if (!user) {

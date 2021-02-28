@@ -4,6 +4,9 @@ import axios, { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 
+import { useAuthenticationFormType } from 'src/components/domain/AuthenticationForm/AuthenticationForm';
+import { useTrackEvent } from 'src/contexts/trackingContext';
+import track from 'src/domain/track';
 import { HandleError } from 'src/hooks/useFormErrors';
 import getFormErrors, { FormErrorHandlers } from 'src/utils/getFormErrors';
 
@@ -21,9 +24,13 @@ const emailLogin = async ({ email }: { email: string }) => {
 };
 
 const useEmailLogin = (handleError: HandleError) => {
+  const trackEvent = useTrackEvent();
+  const [, isPopup] = useAuthenticationFormType();
+
   const { mutate, isLoading: loading } = useMutation(emailLogin, {
     onSuccess: (_, { email }) => {
       toast.success(`Un email contenant un lien de connexion a bien été envoyé à l'adresse ${email}.`);
+      trackEvent(track.askEmailLogin(isPopup ? 'Popup' : 'App'));
     },
     onError: error => {
       const [formError, fieldErrors, unhandledError] = getFormErrors(error as AxiosError, emailLoginErrorHandlers);

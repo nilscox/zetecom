@@ -1,11 +1,8 @@
 import { CommentsArea } from 'src/types/CommentsArea';
 
 import { ReactionType } from '../types/Comment';
-import { NotificationType } from '../types/Notification';
 
 export type From = 'App' | 'Popup' | 'Integration';
-
-// track app crash
 
 const track = {
   login: (from: From) => ({
@@ -94,7 +91,7 @@ const track = {
     action: 'Create',
   }),
 
-  notificationSeen: (notificationType: NotificationType) => ({
+  notificationSeen: (notificationType: string) => ({
     category: 'Notification',
     action: 'Seen',
     name: `Notification Seen "${notificationType}"`,
