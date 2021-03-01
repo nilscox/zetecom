@@ -78,7 +78,7 @@ const ReportPopup: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) =
               large
               outlined
               fullWidth
-              placeholder="Préciser en quelques mots le motif du signalement si nécessaire"
+              placeholder="Précisez en quelques mots le motif du signalement si nécessaire"
             />
           </Box>
 

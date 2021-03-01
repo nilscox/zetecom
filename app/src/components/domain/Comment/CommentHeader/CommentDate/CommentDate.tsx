@@ -24,7 +24,7 @@ type CommentDateProps = {
 };
 
 const CommentDate: React.FC<CommentDateProps> = ({ date, edited, onClick }) => {
-  const format = useDateFormat(DATE_FORMAT_DAY_HOUR, false);
+  const format = useDateFormat(DATE_FORMAT_DAY_HOUR);
 
   return (
     <StyledCommentDate edited={edited} title={onClick ? "Voir l'historique d'édition" : undefined} onClick={onClick}>

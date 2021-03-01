@@ -69,7 +69,7 @@ export const visitApp = async (path = '') => {
 };
 
 export const visitIntegration = async (identifier: string, pageUrl: string) => {
-  await iframe.navigate('http://localhost:8000/integration?identifier=' + identifier + '&pageUrl=' + pageUrl);
+  await iframe.navigate(`http://localhost:8000/integration/${identifier}?pageUrl=${pageUrl}`);
   return getQueriesForIframe();
 };
 
@@ -81,12 +81,12 @@ export const visitPopup = async (path = '') => {
 };
 
 export const visitCommentHistory = async (commentId: number) => {
-  await iframe.navigate(`http://localhost:8000/integration/comment/${commentId}/history`);
+  await iframe.navigate(`http://localhost:8000/commentaire/${commentId}/historique`);
   return getQueriesForIframe();
 };
 
 export const visitCommentReport = async (commentId: number) => {
-  await iframe.navigate(`http://localhost:8000/integration/comment/${commentId}/report`);
+  await iframe.navigate(`http://localhost:8000/commentaire/${commentId}/signaler`);
   return getQueriesForIframe();
 };
 

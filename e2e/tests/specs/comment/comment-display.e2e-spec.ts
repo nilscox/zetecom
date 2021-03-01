@@ -1,4 +1,4 @@
-import { waitFor } from '@testing-library/dom';
+import { getByTitle, waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import { IFrame } from 'testea';
 
@@ -7,6 +7,7 @@ import { click, visitIntegration } from '../../utils';
 
 import commentsAreas from '../../fixtures/comments-areas.json';
 import users from '../../fixtures/users.json';
+import { reactionTitle } from '../../utils/reactions';
 
 const [, , , user1, user2, user3, user4] = users as User[];
 const [, commentsArea2] = commentsAreas;
@@ -25,7 +26,7 @@ describe('Comment display', () => {
         {
           ...commentsArea2.comments[0],
           text: 'Hello!\n\n**I am strong**^42',
-          reactions: { approve: ['user1', 'user3'], refute: ['user4'] },
+          reactions: { like: ['user1', 'user3'], approve: ['user4'] },
         },
       ],
     };
@@ -37,12 +38,12 @@ describe('Comment display', () => {
   });
 
   it('display comment unauthenticated', async () => {
-    const { getByText, queryByRole, getByRole, queryByTitle } = await visitIntegration(
+    const { getByText, getByTitle, queryByRole, queryByTitle } = await visitIntegration(
       commentsArea2.identifier,
       window.location.href
     );
 
-    await waitFor(() => getByText(/Hello!/));
+    await waitFor(() => getByText('Hello!'));
 
     getByText('user2');
     getByText(/^Le \d+ [a-z]+ \d{4} à \d{2}:\d{2}$/);
@@ -50,23 +51,30 @@ describe('Comment display', () => {
     expect(getByText('I am strong')).to.have.tagName('strong');
     expect(getByText('42')).to.have.tagName('sup');
 
-    // TODO: use labels
-    const approve = iframe.body?.querySelector('.reaction--approve');
-    expect(approve).to.have.text('2');
+    const like = getByTitle(reactionTitle.like);
+    expect(like).to.have.text('❤️2');
+    expect(like).to.have.attr('disabled');
+
+    const approve = getByTitle(reactionTitle.approve);
+    expect(approve).to.have.text('👍1');
     expect(approve).to.have.attr('disabled');
 
-    const refute = iframe.body?.querySelector('.reaction--refute');
-    expect(refute).to.have.text('1');
-    expect(refute).to.have.attr('disabled');
+    const think = getByTitle(reactionTitle.think);
+    expect(think).to.have.text('🧠0');
+    expect(think).to.have.attr('disabled');
 
-    const skeptic = iframe.body?.querySelector('.reaction--skeptic');
-    expect(skeptic).to.have.text('0');
-    expect(skeptic).to.have.attr('disabled');
+    const disagree = getByTitle(reactionTitle.disagree);
+    expect(disagree).to.have.text('🤨0');
+    expect(disagree).to.have.attr('disabled');
 
-    expect(getByRole('button', { name: /0 réponse/i })).to.have.attr('disabled');
+    const dontUnderstand = getByTitle(reactionTitle.dontUnderstand);
+    expect(dontUnderstand).to.have.text('❓0');
+    expect(dontUnderstand).to.have.attr('disabled');
+
+    expect(getByText(/0 réponse/)).to.have.attr('disabled');
 
     expect(queryByTitle("S'abonner")).to.be.null;
-    expect(queryByRole('button', { name: /répondre/i })).to.be.null;
+    expect(queryByRole('button', { name: /répondre/ })).to.be.null;
   });
 
   it('display comment authenticated', async () => {
@@ -76,8 +84,8 @@ describe('Comment display', () => {
 
     await waitFor(() => getByText(/Hello!/));
 
-    for (const reaction of ['approve', 'refute', 'skeptic']) {
-      expect(iframe.body?.querySelector(`.reaction--${reaction}`)).not.to.have.attr('disabled');
+    for (const title of Object.values(reactionTitle)) {
+      expect(getByTitle(title)).not.to.have.attr('disabled');
     }
 
     expect(getByTitle(/s'abonner/i)).not.to.have.attr('disabled');
@@ -91,8 +99,8 @@ describe('Comment display', () => {
 
     await waitFor(() => getByText(/Hello!/));
 
-    getByTitle(/éditer votre message/i);
-    getByTitle(/se désabonner/i);
+    getByTitle('Éditer votre message');
+    getByTitle('Se désabonner');
   });
 
   it('comment replies pagination', async () => {

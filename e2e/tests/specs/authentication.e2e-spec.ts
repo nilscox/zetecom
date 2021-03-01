@@ -144,7 +144,7 @@ describe('Authentication', () => {
     await type(emailField, me.email);
     click(getByRole('button', { name: 'Envoyer' }));
 
-    await findByText("Si un compte est associé à l'adresse me@domain.tld, l'email de connexion a bien été envoyé.");
+    await findByText("Un email contenant un lien de connexion a bien été envoyé à l'adresse me@domain.tld.");
 
     await expectEvent({ category: 'Authentication', action: 'Ask Email Login', name: 'Ask Email Login From Popup' });
 
@@ -163,14 +163,14 @@ describe('Authentication', () => {
     });
 
     await within(iframe.document!.body!).findByText(me.nick);
-    await within(iframe.document!.body!).findByText(/Vous êtes maintenant connecté\.e\./);
+    await within(iframe.document!.body!).findByText(/Vous êtes maintenant connecté\.e/);
   });
 
   it('reset password', async () => {
     await login(me);
     const { getByRole, getByPlaceholderText, findByText } = await visitPopup();
 
-    click(getByRole('button', { name: 'Changer de mot de passe' }));
+    click(getByRole('link', { name: 'Changer de mot de passe' }));
 
     const passwordField = getByPlaceholderText('Nouveau mot de passe');
 

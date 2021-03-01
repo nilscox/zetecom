@@ -80,7 +80,7 @@ const Comment = forwardRef<CommentRef, CommentProps>((props, ref) => {
   }));
 
   return (
-    <div className="comment" id={`comment-${comment.id}`} data-testid={`comment-${comment.id}`}>
+    <div className="comment" id={`comment-${comment.id}`} data-testid="comment">
       <EditableComment
         comment={comment}
         submittingEdition={submittingEdition}

@@ -8,7 +8,7 @@ import { clear, click, type, visitIntegration, within } from '../../utils';
 import commentsAreas from '../../fixtures/comments-areas.json';
 import users from '../../fixtures/users.json';
 
-import { getCommentAt, getComments } from './index';
+import { getCommentAt, queryComments } from './index';
 
 const [, , , user1, user2, user3] = users as User[];
 const [, commentsArea2, commentsArea3] = commentsAreas;
@@ -19,7 +19,7 @@ describe('Comments list', () => {
   });
 
   const expectComments = (ids: number[]) => {
-    const comments = getComments();
+    const comments = queryComments();
 
     expect(comments).to.have.length(ids.length);
 
@@ -33,21 +33,21 @@ describe('Comments list', () => {
 
     await waitFor(() => getByText(/2 text/i));
 
-    within(getCommentAt(2), ({ getByRole }) => {
-      click(getByRole('button', { name: /2 réponses/i }));
+    within(getCommentAt(2), ({ getByText }) => {
+      click(getByText('2 réponses'));
     });
 
     await waitFor(() => getByText(/2\.1 text/i));
 
-    await within(getCommentAt(4), async ({ getByRole }) => {
-      await waitFor(() => getByRole('button', { name: /1 réponse/i }));
-      click(getByRole('button', { name: /1 réponse/i }));
+    await within(getCommentAt(4), async ({ getByText }) => {
+      await waitFor(() => getByText(/1 réponse/));
+      click(getByText('1 réponse'));
     });
 
     await waitFor(() => getByText(/2\.2\.1 text/i));
 
-    within(getCommentAt(2), ({ getByRole }) => {
-      click(getByRole('button', { name: /2 réponses/i }));
+    within(getCommentAt(2), ({ getByText }) => {
+      click(getByText('2 réponses'));
     });
 
     await waitFor(() => {
@@ -84,11 +84,11 @@ describe('Comments list', () => {
     const { getByTitle, getByRole } = await visitIntegration(commentsArea3.identifier, window.location.href);
 
     const sort = async (sort: RegExp) => {
-      userEvent.click(getByTitle('Tri'));
+      userEvent.click(getByTitle('Trier les commentaires'));
       userEvent.click(getByRole('menuitem', { name: sort }));
     };
 
-    await waitFor(() => getByTitle('Tri'));
+    await waitFor(() => getByTitle('Trier les commentaires'));
 
     await sort(/les plus anciens en premier/i);
     await waitFor(() => expectComments([1, 3, 7, 8]));
@@ -113,7 +113,15 @@ describe('Comments list', () => {
       ],
     });
 
-    const { getByTitle, getByText } = await visitIntegration(commentsArea2.identifier, window.location.href);
+    const { getByTitle, getByText, getByTestId } = await visitIntegration(
+      commentsArea2.identifier,
+      window.location.href
+    );
+
+    const expectPage = (page: number, total: number) => {
+      expect(getByTestId('current-page')).to.have.text(String(page));
+      expect(getByTestId('total-pages')).to.have.text(String(total));
+    };
 
     const expectNavigationDisabled = (expected: boolean[]) => {
       const titles = ['Première page', 'Page précédente', 'Page suivante', 'Dernière page'];
@@ -128,7 +136,7 @@ describe('Comments list', () => {
     };
 
     await waitFor(() => {
-      getByText('1 / 3');
+      expectPage(1, 3);
       getByText('comment 21');
       expectNavigationDisabled([true, true, false, false]);
     });
@@ -136,7 +144,7 @@ describe('Comments list', () => {
     click(getByTitle('Page suivante'));
 
     await waitFor(() => {
-      getByText('2 / 3');
+      expectPage(2, 3);
       getByText('comment 11');
       expectNavigationDisabled([false, false, false, false]);
     });
@@ -144,21 +152,21 @@ describe('Comments list', () => {
     click(getByTitle('Page suivante'));
 
     await waitFor(() => {
-      getByText('3 / 3');
+      expectPage(3, 3);
       getByText('comment 1');
       expectNavigationDisabled([false, false, true, true]);
     });
 
     click(getByTitle('Page précédente'));
-    await waitFor(() => getByText('2 / 3'));
+    await waitFor(() => expectPage(2, 3));
 
     click(getByTitle('Page précédente'));
-    await waitFor(() => getByText('1 / 3'));
+    await waitFor(() => expectPage(1, 3));
 
     click(getByTitle('Dernière page'));
-    await waitFor(() => getByText('3 / 3'));
+    await waitFor(() => expectPage(3, 3));
 
     click(getByTitle('Première page'));
-    await waitFor(() => getByText('1 / 3'));
+    await waitFor(() => expectPage(1, 3));
   });
 });

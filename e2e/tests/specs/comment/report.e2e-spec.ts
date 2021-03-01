@@ -46,11 +46,7 @@ describe('Report', () => {
     click(getByText('Signaler'));
 
     expect(openStub.calledOnce).to.be.true;
-    expect(openStub.firstCall.args).to.eql([
-      '/integration/comment/1/report',
-      '_blank',
-      'width=600,height=800,resizable=no',
-    ]);
+    expect(openStub.firstCall.args).to.eql(['/commentaire/1/signaler', '_blank', 'width=600,height=800,resizable=no']);
   });
 
   it('report a comment', async () => {

@@ -32,13 +32,13 @@ describe('Comment mutations', () => {
 
     await type(getByPlaceholderText('Composez votre message...'), 'Hello!');
 
-    click(getByRole('button', { name: /aperçu/i }));
+    click(getByRole('tab', { name: 'Aperçu' }));
     expect(getByText('Hello!'));
 
-    click(getByRole('button', { name: /editer/i }));
+    click(getByRole('tab', { name: 'Éditer' }));
     expect(getByPlaceholderText('Composez votre message...')).to.have.value('Hello!');
 
-    click(getByRole('button', { name: /envoyer/i }));
+    click(getByRole('button', { name: 'Envoyer' }));
 
     await expectEvent({ category: 'Comment', action: 'Create' });
 
@@ -52,7 +52,7 @@ describe('Comment mutations', () => {
 
     await type(getByPlaceholderText('Composez votre message...'), 'I am **strong**\n\n- one\n- two');
 
-    click(getByRole('button', { name: /envoyer/i }));
+    click(getByRole('button', { name: 'Envoyer' }));
 
     await waitFor(() => expect(getCommentAt(1)).to.exist);
 
@@ -92,7 +92,7 @@ describe('Comment mutations', () => {
     await within(getCommentAt(0), async ({ getByText }) => {
       const date = getByText(/^\* Le \d+ [a-z]+ \d{4} à \d{2}:\d{2}$/);
 
-      expect(date).to.have.attribute('title', 'Édité');
+      expect(date).to.have.attribute('title', "Voir l'historique d'édition");
       expect(getComputedStyle(date)).to.have.property('font-style', 'italic');
     });
 
@@ -118,20 +118,20 @@ describe('Comment mutations', () => {
 
     await waitFor(() => getByText('What is the question?'));
 
-    await within(getCommentAt(0), async ({ getByRole, getByTestId }) => {
-      click(getByRole('button', { name: 'Répondre' }));
+    await within(getCommentAt(0), async ({ getByTitle, getByTestId }) => {
+      click(getByText('Répondre'));
 
-      // TODO
-      click(getByRole('Fermer'));
+      click(getByTitle('Fermer le formulaire de réponse'));
+
       await waitFor(() =>
-        expect(getComputedStyle(getByTestId('comment-form'))).to.have.property('visibility', 'hidden')
+        expect(getComputedStyle(getByTestId('comment-reply-form'))).to.have.property('visibility', 'hidden')
       );
     });
 
     await within(getCommentAt(0), async ({ getByRole, getByPlaceholderText }) => {
-      click(getByRole('button', { name: 'Répondre' }));
+      click(getByText('Répondre'));
 
-      const textArea = getByPlaceholderText('Répondez à ' + user1.nick);
+      const textArea = getByPlaceholderText(`Répondez à ${user1.nick}...`);
       await type(textArea, 'This is the answer.');
 
       click(getByRole('button', { name: 'Envoyer' }));
@@ -140,7 +140,7 @@ describe('Comment mutations', () => {
       await expectEvent({ category: 'Comment', action: 'Create' });
 
       await waitFor(() => expect(getComputedStyle(textArea)).to.have.property('visibility', 'hidden'));
-      getByText('This is the answer.');
+      expect(getComputedStyle(getByText('This is the answer.'))).to.have.property('visibility', 'visible');
     });
   });
 });

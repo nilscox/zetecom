@@ -8,8 +8,12 @@ import './history.e2e-spec';
 import './report.e2e-spec';
 import './subscription.e2e-spec.ts';
 
-export const getComments = () => {
+export const queryComments = () => {
   return getQueriesForIframe().queryAllByTestId('comment');
+};
+
+export const getComments = () => {
+  return getQueriesForIframe().getAllByTestId('comment');
 };
 
 export const getCommentAt = (index: number) => {

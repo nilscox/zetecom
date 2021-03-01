@@ -45,7 +45,7 @@ type CommentsAreaDescriptionProps = {
 };
 
 const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({ title, media, author, publicationDate }) => {
-  const formatDate = useDateFormat('DD MMMM YYYY', false);
+  const formatDate = useDateFormat('DD MMMM YYYY');
 
   return (
     <Container>

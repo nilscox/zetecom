@@ -18,7 +18,12 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({ className, isSubscrib
   }
 
   return (
-    <IconButton className={clsx(className, isSubscribed && 'active')} onClick={onClick} data-testid="subscribe-button">
+    <IconButton
+      className={clsx(className, isSubscribed && 'active')}
+      title={isSubscribed ? 'Se désabonner' : "S'abonner"}
+      onClick={onClick}
+      data-testid="subscribe-button"
+    >
       <Icon
         className={isSubscribed ? 'active' : undefined}
         size="small"

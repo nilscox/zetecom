@@ -111,17 +111,17 @@ describe('History', () => {
 
     within(comment).getByText(/This is the fourth, and last edition\./);
 
-    const editionDate = within(comment).getByText(/\* Le 12 février 2020 à 17:56/);
+    const editionDate = within(comment).getByText('* Le 12 février 2020 à 17:56');
 
-    expect(editionDate).to.have.attribute('title', 'Édité');
+    expect(editionDate).to.have.attribute('title', "Voir l'historique d'édition");
     click(editionDate);
 
     await waitFor(() => expect(openStub.calledOnce).to.be.true);
 
     expect(openStub.firstCall.args).to.eql([
-      `/integration/comment/${commentId}/history`,
+      `/commentaire/${commentId}/historique`,
       '_blank',
-      'width=1000,height=750,resizable=yes',
+      'width=1000,height=750,resizable=no',
     ]);
   });
 

@@ -3,8 +3,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useFormState } from 'react-use-form-state';
 
-import { domain } from 'src/theme';
-
 import AuthenticationFormError from './AuthenticationFormError/AuthenticationFormError';
 import AuthenticationMessage from './AuthenticationMessage/AuthenticationMessage';
 import AuthenticationNavigation from './AuthenticationNavigation/AuthenticationNavigation';

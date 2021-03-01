@@ -43,10 +43,10 @@ const CommentsAreaOutline: React.FC<CommentsAreaOutlineProps> = ({ commentsArea,
   }[link];
 
   return (
-    <Container as={LinkComponent} {...linkProps}>
+    <Container as={LinkComponent} data-testid="comments-area" {...linkProps}>
       <MediaImage media={commentsArea.information.media} />
       <CommentsAreaDescription {...commentsArea.information} />
-      <CommentsCount>
+      <CommentsCount data-testid="comments-count">
         <Icon as={Comment}></Icon>
         {commentsArea.commentsCount}
       </CommentsCount>

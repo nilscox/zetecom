@@ -42,23 +42,43 @@ const Pagination: React.FC<PaginationProps> = ({ page, total: totalProp, onPageC
 
   return (
     <StyledPagination>
-      <IconButton disabled={page === 1} onClick={() => onPageChange(1)}>
+      {/* prettier-ignore */}
+      <IconButton
+        disabled={page === 1}
+        title="Première page"
+        onClick={() => onPageChange(1)}
+      >
         <Icon as={First} />
       </IconButton>
 
-      <IconButton disabled={page === 1} onClick={() => onPageChange(page - 1)}>
+      {/* prettier-ignore */}
+      <IconButton
+        disabled={page === 1}
+        title="Page précédente"
+        onClick={() => onPageChange(page - 1)}
+      >
         <Icon as={Prev} />
       </IconButton>
 
       <div>
-        <Page>{page}</Page>/<Total>{total ?? '-'}</Total>
+        <Page data-testid="current-page">{page}</Page> / <Total data-testid="total-pages">{total ?? '-'}</Total>
       </div>
 
-      <IconButton disabled={!total || page === total} onClick={() => onPageChange(page + 1)}>
+      {/* prettier-ignore */}
+      <IconButton
+        disabled={!total || page === total}
+        title="Page suivante"
+        onClick={() => onPageChange(page + 1)}
+        >
         <Icon as={Next} />
       </IconButton>
 
-      <IconButton disabled={!total || page === total} onClick={() => total && onPageChange(total)}>
+      {/* prettier-ignore */}
+      <IconButton
+        disabled={!total || page === total}
+        title="Dernière page"
+        onClick={() => total && onPageChange(total)}
+      >
         <Icon as={Last} />
       </IconButton>
     </StyledPagination>
