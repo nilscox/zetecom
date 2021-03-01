@@ -18,9 +18,6 @@ class SubscriptionReplyPayloadDto {
   commentsAreaTitle: string;
 
   @Expose()
-  commentsAreaImageUrl: string;
-
-  @Expose()
   commentId: number;
 
   @Expose()

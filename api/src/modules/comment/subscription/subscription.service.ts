@@ -72,7 +72,7 @@ export class SubscriptionService {
     return commentsIds.reduce(
       (acc, commentId) => ({
         ...acc,
-        [commentId]: !!subscriptions.find((s) => s.commentId === commentId),
+        [commentId]: !!subscriptions.find(s => s.commentId === commentId),
       }),
       {},
     );
@@ -90,7 +90,6 @@ export class SubscriptionService {
     const payload: SubscriptionReplyNotificationPayload = {
       commentsAreaId: reply.commentsArea.id,
       commentsAreaTitle: reply.commentsArea.informationTitle,
-      commentsAreaImageUrl: reply.commentsArea.imageUrl,
       commentId: reply.parent.id,
       replyId: reply.id,
       author: classToPlain(plainToClass(UserLightDto, reply.author), { strategy: 'excludeAll' }) as UserLightDto,

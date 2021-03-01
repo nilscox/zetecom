@@ -85,7 +85,6 @@ describe('comments area request controller', () => {
       const payload = {
         identifier: 'id:1',
         informationUrl,
-        imageUrl: 'https://image.url',
         informationTitle: 'title',
         informationAuthor: 'autor',
         informationPublicationDate: new Date(2020, 1, 10).toISOString(),
@@ -131,7 +130,6 @@ describe('comments area request controller', () => {
       const payload = {
         identifier: 'id:2',
         informationUrl,
-        imageUrl: 'https://image.url',
         informationTitle: 'title',
         informationAuthor: 'autor',
         informationPublicationDate: new Date(2020, 1, 10).toISOString(),
@@ -154,7 +152,6 @@ describe('comments area request controller', () => {
           payload: {
             requestedInformationUrl: informationUrl,
             commentsAreaId: body.id,
-            commentsAreaImageUrl: 'https://image.url',
             commentsAreaTitle: 'title',
           },
           user: expect.objectContaining({ id: user1.id }),

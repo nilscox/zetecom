@@ -60,7 +60,6 @@ export class CommentsAreaRequestService {
       {
         requestedInformationUrl: commentsArea.informationUrl,
         commentsAreaId: commentsArea.id,
-        commentsAreaImageUrl: commentsArea.imageUrl,
         commentsAreaTitle: commentsArea.informationTitle,
       },
     );

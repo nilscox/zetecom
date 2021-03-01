@@ -20,7 +20,6 @@ describe('notifications', () => {
 
   const subscriptionReplyPayload: SubscriptionReplyNotificationPayload = {
     commentsAreaId: 1,
-    commentsAreaImageUrl: 'image url',
     commentsAreaTitle: 'title',
     commentId: 1,
     replyId: 3,

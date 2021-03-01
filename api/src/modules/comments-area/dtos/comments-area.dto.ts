@@ -43,9 +43,6 @@ export class CommentsAreaDto {
   }
 
   @Expose()
-  imageUrl: string;
-
-  @Expose()
   commentsCount: number;
 
   informationMedia: MediaType;
