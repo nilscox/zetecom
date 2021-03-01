@@ -37,7 +37,7 @@ describe('Subscription', () => {
 
   const openReplies = async (comment: HTMLElement) => {
     await within(comment, async ({ getByRole, getByTestId }) => {
-      click(getByRole('button', { name: /\d réponses?/ }));
+      click(getByRole('button', { name: 'Voir les réponses' }));
       await waitFor(() => expect(getByTestId('comment')));
     });
   };
@@ -53,9 +53,9 @@ describe('Subscription', () => {
     const comment = getCommentAt(0);
     const commentId = getCommentId(comment);
 
-    within(comment, ({ getByTitle }) => {
+    await within(comment, async ({ getByTitle }) => {
       click(getByTitle("S'abonner"));
-      getByTitle('Se désabonner');
+      await waitFor(() => getByTitle('Se désabonner'));
     });
 
     expectEvent({ category: 'Comment', action: 'Subscribe' });
@@ -99,9 +99,9 @@ describe('Subscription', () => {
     const comment = getCommentAt(0);
     const commentId = getCommentId(comment);
 
-    within(comment, ({ getByTitle }) => {
+    await within(comment, async ({ getByTitle }) => {
       click(getByTitle('Se désabonner'));
-      getByTitle("S'abonner");
+      await waitFor(() => getByTitle("S'abonner"));
     });
 
     expectEvent({ category: 'Comment', action: 'Unsubscribe' });

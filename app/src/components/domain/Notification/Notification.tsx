@@ -46,7 +46,7 @@ type NotificationProps = {
 };
 
 const Notification: React.FC<NotificationProps> = ({ date, title, text, seen, markAsSeen }) => {
-  const formatDate = useDateFormat('DD MM YYYY - hh:mm', false);
+  const formatDate = useDateFormat('DD MM YYYY - hh:mm');
 
   return (
     <Container className={clsx(seen && 'seen')}>

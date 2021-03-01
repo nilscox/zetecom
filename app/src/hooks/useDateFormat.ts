@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 export const DATE_FORMAT_DAY = 'DD MM YYYY';
 export const DATE_FORMAT_DAY_HOUR = '[Le] DD MMMM YYYY [à] HH:mm';
 
-const useDateFormat = (format?: string, utc = true) => {
-  return useCallback((date: Date) => (utc ? dayjs.utc : dayjs)(date).format(format), [format, utc]);
+const useDateFormat = (format?: string) => {
+  return useCallback((date: Date) => dayjs.utc(date).format(format), [format]);
 };
 
 export default useDateFormat;

@@ -13,7 +13,7 @@ const labels: Record<SortType, string> = {
 };
 
 const SortButton = forwardRef<HTMLButtonElement, ComponentProps<typeof IconButton>>((props, ref) => (
-  <IconButton ref={ref} {...props}>
+  <IconButton ref={ref} title="Trier les commentaires" {...props}>
     <Icon as={Sort} />
   </IconButton>
 ));
