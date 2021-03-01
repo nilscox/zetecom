@@ -29,11 +29,4 @@ export class CreateCommentsAreaInDto {
   @IsDateString()
   @IsPast()
   readonly informationPublicationDate?: string;
-
-  @IsOptional()
-  @IsString()
-  @IsUrl({ require_tld })
-  @MinLength(10)
-  @MaxLength(1000)
-  readonly imageUrl?: string;
 }

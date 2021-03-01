@@ -6,7 +6,6 @@ export interface RulesUpdateNotificationPayload {
 
 export interface SubscriptionReplyNotificationPayload {
   commentsAreaId: number;
-  commentsAreaImageUrl: string;
   commentsAreaTitle: string;
   commentId: number;
   replyId: number;
@@ -17,7 +16,6 @@ export interface SubscriptionReplyNotificationPayload {
 export interface CommentsAreaRequestApprovedPayload {
   requestedInformationUrl: string;
   commentsAreaId: number;
-  commentsAreaImageUrl: string;
   commentsAreaTitle: string;
 }
 

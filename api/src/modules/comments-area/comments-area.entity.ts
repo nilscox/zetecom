@@ -44,9 +44,6 @@ export class CommentsArea {
   @Column({ name: 'information_publication_date', type: 'date', nullable: true })
   informationPublicationDate: Date;
 
-  @Column({ name: 'image_url', nullable: true })
-  imageUrl: string;
-
   @CreateDateColumn()
   created: Date;
 

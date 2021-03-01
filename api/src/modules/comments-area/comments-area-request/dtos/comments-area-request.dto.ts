@@ -26,8 +26,5 @@ export class CommentsAreaRequestDto {
   identifier: string;
 
   @Expose()
-  imageUrl: string;
-
-  @Expose()
   status: CommentsAreaRequestStatus;
 }

@@ -16,8 +16,4 @@ export class UpdateCommentsAreaInDto {
   @IsDateString()
   @IsOptional()
   readonly informationPublicationDate?: string;
-
-  @IsString()
-  @IsOptional()
-  readonly imageUrl?: string;
 }
