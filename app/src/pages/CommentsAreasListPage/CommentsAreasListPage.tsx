@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { QueryFunction, useQuery } from 'react-query';
 import { useDebounce } from 'use-debounce/lib';
 
@@ -10,21 +10,14 @@ import AsyncContent from 'src/components/layout/AsyncContent/AsyncContent';
 import CommentsAreaRequest from 'src/pages/CommentsAreasListPage/CommentsAreaRequest/CommentsAreaRequest';
 import { CommentsArea } from 'src/types/CommentsArea';
 import { Paginated } from 'src/types/Paginated';
+import makeParams from 'src/utils/makeParams';
 
 import CommentsAreasList from './CommentsAreasList/CommentsAreasList';
 
 const fetchCommentsAreas: QueryFunction<Paginated<CommentsArea>> = async ({ queryKey: [, { page, search }] }) => {
-  const params: AxiosRequestConfig['params'] = {};
-
-  if (page !== 1) {
-    params.page = page;
-  }
-
-  if (search !== '') {
-    params.search = search;
-  }
-
-  const response = await axios.get<Paginated<CommentsArea>>('/api/comments-area', { params });
+  const response = await axios.get<Paginated<CommentsArea>>('/api/comments-area', {
+    params: makeParams({ page, search }),
+  });
 
   return response.data;
 };

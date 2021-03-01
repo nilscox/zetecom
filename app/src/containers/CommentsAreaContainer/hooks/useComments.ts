@@ -4,6 +4,7 @@ import { QueryFunction, useQuery } from 'react-query';
 import { Comment } from 'src/types/Comment';
 import { Paginated } from 'src/types/Paginated';
 import { SortType } from 'src/types/SortType';
+import makeParams from 'src/utils/makeParams';
 
 const fetchComments: QueryFunction<Paginated<Comment> | undefined> = async ({
   queryKey: [, { commentsAreaId, parentId }, { page, sort, search }],
@@ -13,7 +14,7 @@ const fetchComments: QueryFunction<Paginated<Comment> | undefined> = async ({
   }
 
   const response: AxiosResponse<Paginated<Comment>> = await axios('/api/comment', {
-    params: { commentsAreaId, parentId, page, sort, search },
+    params: makeParams({ page, sort, search }, { commentsAreaId, parentId }),
   });
 
   return {

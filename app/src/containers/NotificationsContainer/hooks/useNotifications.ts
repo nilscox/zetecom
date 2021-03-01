@@ -1,21 +1,12 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { QueryFunction, useQuery } from 'react-query';
 
 import { Notification } from 'src/types/Notification';
 import { Paginated } from 'src/types/Paginated';
+import makeParams from 'src/utils/makeParams';
 
 const fetchNotifications: QueryFunction<Paginated<Notification>> = async ({ queryKey: [, { page, search }] }) => {
-  const params: AxiosRequestConfig['params'] = {};
-
-  if (page !== 1) {
-    params.page = page;
-  }
-
-  if (search !== '') {
-    params.search = search;
-  }
-
-  const response = await axios('/api/notification/me', { params });
+  const response = await axios('/api/notification/me', { params: makeParams({ page, search }) });
 
   return response.data;
 };
