@@ -44,6 +44,7 @@ const getNotificationData = (notification: NotificationType): { title: React.Rea
   }
 
   if (notification.type === 'commentsAreaRequestApproved') {
+    // eslint-disable-next-line no-empty-pattern
     const {} = notification.payload;
 
     return {
@@ -53,6 +54,7 @@ const getNotificationData = (notification: NotificationType): { title: React.Rea
   }
 
   if (notification.type === 'commentsAreaRequestRejected') {
+    // eslint-disable-next-line no-empty-pattern
     const {} = notification.payload;
 
     return {

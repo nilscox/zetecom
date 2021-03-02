@@ -14,7 +14,7 @@ import { Message } from 'src/types/Comment';
 import CommentRevisions from './CommentRevisions/CommentRevisions';
 
 const fetchHistory: QueryFunction<Message[]> = async ({ queryKey: [, { commentId }] }) => {
-  const response = await axios.get<Message[]>(`/api/comment/${commentId}/history`);
+  const response = await axios.get<Message[]>(`/api/comment/${String(commentId)}/history`);
 
   return response.data;
 };

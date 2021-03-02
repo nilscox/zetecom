@@ -1,4 +1,4 @@
-import { darken, lighten } from 'polished';
+import { lighten } from 'polished';
 
 import 'normalize.css';
 import 'fontsource-montserrat/index.css';

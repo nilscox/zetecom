@@ -48,7 +48,7 @@ const useLogin = (onAuthenticated: (user: User) => void, handleError: HandleErro
       trackEvent(track.login(isPopup ? 'Popup' : 'Integration'));
     },
     onError: (error: AxiosError) => {
-      const [formError, fieldErrors, unhandledError] = getFormErrors(error as AxiosError, loginErrorHandlers);
+      const [formError, fieldErrors, unhandledError] = getFormErrors(error, loginErrorHandlers);
 
       handleError(formError, fieldErrors);
 
