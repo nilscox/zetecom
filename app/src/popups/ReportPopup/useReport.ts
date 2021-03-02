@@ -7,12 +7,12 @@ import { useTrackEvent } from 'src/contexts/trackingContext';
 import track from 'src/domain/track';
 import { Comment } from 'src/types/Comment';
 
-const reportComment = async (comment?: Comment) => {
+const reportComment = async (comment: Comment | undefined, message: string) => {
   if (!comment) {
     throw new Error('reportComment: comment is undefined');
   }
 
-  await axios.post(`/api/comment/${comment.id}/report`);
+  await axios.post(`/api/comment/${comment.id}/report`, { message });
 };
 
 const CLOSE_AFTER_SUCCESS_TIMEOUT = 3000;
@@ -21,7 +21,7 @@ const useReportComment = (comment?: Comment) => {
   const [reported, setReported] = useState(false);
   const trackEvent = useTrackEvent();
 
-  const { mutate, isLoading: loadingReport } = useMutation(() => reportComment(comment), {
+  const { mutate, isLoading: loadingReport } = useMutation((message: string) => reportComment(comment, message), {
     onSuccess: () => {
       setReported(true);
       trackEvent(track.reportComment());

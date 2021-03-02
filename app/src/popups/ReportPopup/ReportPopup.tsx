@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styled from '@emotion/styled';
 import { RouteComponentProps } from 'react-router-dom';
@@ -33,6 +33,8 @@ const ReportSuccess = styled.div`
 
 const ReportPopup: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) => {
   const user = useUser();
+
+  const [message, setMessage] = useState('');
 
   const [comment, { loadingComment }] = useComment(match.params.id);
   const [onReport, { loadingReport, reported }] = useReportComment(comment);
@@ -79,11 +81,13 @@ const ReportPopup: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) =
               outlined
               fullWidth
               placeholder="Précisez en quelques mots le motif du signalement si nécessaire"
+              value={message}
+              onChange={(e) => setMessage(e.currentTarget.value) }
             />
           </Box>
 
           <Box flex justifyContent="center" my={4}>
-            <Button size="large" loading={loadingReport} onClick={() => onReport()}>
+            <Button size="large" loading={loadingReport} onClick={() => onReport(message)}>
               Signaler
             </Button>
           </Box>
