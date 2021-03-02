@@ -72,6 +72,7 @@ describe('Authentication', () => {
     const { getByRole, getByPlaceholderText, getByText, findByText } = await visitPopup();
 
     click(getByRole('link', { name: 'Créer un compte' }));
+    await wait(100);
 
     const emailField = getByPlaceholderText('Adresse email');
     const passwordField = getByPlaceholderText('Mot de passe');
@@ -171,6 +172,7 @@ describe('Authentication', () => {
     const { getByRole, getByPlaceholderText, findByText } = await visitPopup();
 
     click(getByRole('link', { name: 'Changer de mot de passe' }));
+    await wait(100);
 
     const passwordField = getByPlaceholderText('Nouveau mot de passe');
 
