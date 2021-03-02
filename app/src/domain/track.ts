@@ -5,6 +5,12 @@ import { ReactionType } from '../types/Comment';
 export type From = 'App' | 'Popup' | 'Integration';
 
 const track = {
+  signup: (from: From) => ({
+    category: 'Authentication',
+    action: 'Signup',
+    name: 'Signup From ' + from,
+  }),
+
   login: (from: From) => ({
     category: 'Authentication',
     action: 'Login',
