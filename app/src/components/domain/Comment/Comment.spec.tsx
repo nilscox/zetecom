@@ -62,15 +62,15 @@ describe('Comment', () => {
 
       expect(screen.queryByTestId(formTestId)).toBeNull();
 
-      act(() => userEvent.click(screen.getByTitle('Éditer')));
+      act(() => userEvent.click(screen.getByTitle('Éditer votre message')));
 
       expect(screen.queryByTestId(formTestId)).not.toBeNull();
-      expect(screen.queryByTitle('Éditer')).toBeNull();
+      expect(screen.queryByTitle('Éditer votre message')).toBeNull();
 
       act(() => userEvent.click(screen.getByTitle("Fermer le formulaire d'édition")));
 
       expect(screen.queryByTestId(formTestId)).toBeNull();
-      expect(screen.queryByTitle('Éditer')).not.toBeNull();
+      expect(screen.queryByTitle('Éditer votre message')).not.toBeNull();
     });
 
     it('edit a comment', async () => {
@@ -78,7 +78,7 @@ describe('Comment', () => {
 
       render(<Test user={author} onEdit={onEdit} />);
 
-      act(() => userEvent.click(screen.getByTitle('Éditer')));
+      act(() => userEvent.click(screen.getByTitle('Éditer votre message')));
 
       const textArea = screen.getByPlaceholderText('Éditez votre message...');
 
