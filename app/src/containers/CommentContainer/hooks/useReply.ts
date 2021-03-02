@@ -40,7 +40,7 @@ const useAddReplyToParent = (parent: Comment) => {
   };
 };
 
-const useReply = (comment: Comment, onSubmitted?: (relpy: Comment) => void) => {
+const useReply = (comment: Comment) => {
   const commentsArea = useCommentsArea();
   const addReplyToParent = useAddReplyToParent(comment);
   const trackEvent = useTrackEvent();
@@ -50,7 +50,6 @@ const useReply = (comment: Comment, onSubmitted?: (relpy: Comment) => void) => {
     {
       onSuccess: reply => {
         addReplyToParent(reply);
-        onSubmitted?.(reply);
         trackEvent(track.commentCreated());
       },
     },

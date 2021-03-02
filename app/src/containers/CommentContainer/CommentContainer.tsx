@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 import useReply from 'src/containers/CommentContainer/hooks/useReply';
 import { useUser } from 'src/contexts/userContext';
 import { Comment as CommentType } from 'src/types/Comment';
 
-import Comment, { CommentRef } from '../../components/domain/Comment/Comment';
+import Comment from '../../components/domain/Comment/Comment';
 
 import useEdition from './hooks/useEdition';
 import useReplies from './hooks/useReplies';
@@ -18,12 +18,10 @@ type CommentContainerProps = {
 };
 
 const CommentContainer: React.FC<CommentContainerProps> = ({ comment }) => {
-  const ref = useRef<CommentRef>(null);
-
   const user = useUser();
 
   const [fetchReplies, { fetchingReplies, replies }] = useReplies(comment);
-  const [onReply, { submittingReply }] = useReply(comment, ref.current?.onReplySubmitted);
+  const [onReply, { submittingReply }] = useReply(comment);
   const [onEdit, { submittingEdition }] = useEdition(comment);
   const onSetReaction = useSetReaction(comment);
   const onSetSubscription = useSetSubscription(comment);
@@ -32,7 +30,6 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment }) => {
 
   return (
     <Comment
-      ref={ref}
       CommentContainer={CommentContainer}
       user={user}
       comment={comment}
