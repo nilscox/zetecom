@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import styled from '@emotion/styled';
 
 import CommentForm from 'src/components/domain/CommentForm/CommentForm';
 import Collapse from 'src/components/layout/Collapse/Collapse';
+import useUpdateEffect from 'src/hooks/useUpdateEffect';
 import { spacing } from 'src/theme';
 import { Comment as CommentType } from 'src/types/Comment';
 import { User } from 'src/types/User';
@@ -68,9 +69,11 @@ const Comment: React.FC<CommentProps> = (props) => {
     setReplyFormOpen(true);
   };
 
-  useEffect(() => {
-    setRepliesOpen(true);
-    setReplyFormOpen(false);
+  useUpdateEffect(() => {
+    if (!submittingReply) {
+      setRepliesOpen(true);
+      setReplyFormOpen(false);
+    }
   }, [submittingReply]);
 
   return (
