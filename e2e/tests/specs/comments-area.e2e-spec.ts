@@ -5,7 +5,7 @@ import { IFrame } from 'testea';
 import { as } from '../api/as';
 import { login } from '../api/auth';
 import { seed, User } from '../api/seed';
-import { click, expectEvent, type, visitApp, visitIntegration, within } from '../utils';
+import { click, expectEvent, type, visitApp, visitIntegration, wait, within } from '../utils';
 
 import users from '../fixtures/users.json';
 import commentsAreas from '../fixtures/comments-areas.json';
@@ -90,6 +90,7 @@ describe('Comments area', () => {
       const { getByRole, getByPlaceholderText, getByText } = await visitApp();
 
       await waitFor(() => click(getByRole('button', { name: 'Ouvrir une zone de commentaires' })));
+      await wait(100);
 
       await type(getByPlaceholderText("Titre de l'information"), inputs.informationTitle);
       await type(getByPlaceholderText("URL de l'information"), inputs.informationUrl);

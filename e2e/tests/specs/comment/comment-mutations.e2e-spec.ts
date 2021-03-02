@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 // prettier-ignore
 import { as, login, createComment, getComment, getCommentHistory, getCommentsAreaByIdentifier, seed, User } from '../../api';
-import { clear, click, expectEvent, type, visitIntegration, within } from '../../utils';
+import { clear, click, expectEvent, type, visitIntegration, wait, within } from '../../utils';
 
 import commentsAreas from '../../fixtures/comments-areas.json';
 import users from '../../fixtures/users.json';
@@ -124,12 +124,13 @@ describe('Comment mutations', () => {
       click(getByTitle('Fermer le formulaire de réponse'));
 
       await waitFor(() =>
-        expect(getComputedStyle(getByTestId('comment-reply-form'))).to.have.property('visibility', 'hidden')
+      expect(getComputedStyle(getByTestId('comment-reply-form'))).to.have.property('visibility', 'hidden')
       );
     });
 
     await within(getCommentAt(0), async ({ getByRole, getByPlaceholderText }) => {
       click(getByText('Répondre'));
+      await wait(100);
 
       const textArea = getByPlaceholderText(`Répondez à ${user1.nick}...`);
       await type(textArea, 'This is the answer.');
