@@ -103,7 +103,7 @@ describe('Comment display', () => {
     getByTitle('Se désabonner');
   });
 
-  it('comment replies pagination', async () => {
+  it.skip('comment replies pagination', async () => {
     await seed({
       users: [user1, user2],
       commentsAreas: [
