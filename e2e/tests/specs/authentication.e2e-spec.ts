@@ -185,7 +185,7 @@ describe('Authentication', () => {
 
     await clear(passwordField);
     await type(passwordField, 'newpassword42{enter}');
-    await findByText('Votre mot de passe a bien été mis à jour !');
+    await findByText('Votre mot de passe a bien été mis à jour');
 
     await expectEvent({ category: 'Authentication', action: 'Change Password' });
 
