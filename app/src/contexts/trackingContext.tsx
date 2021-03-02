@@ -46,11 +46,13 @@ const mockTrackingProvider = createTrackingProvider('mock', () => {
   };
 });
 
+/* eslint-disable no-console */
 const logTrackingProvider = createTrackingProvider('log', () => ({
   trackPageView: params => console.log(`trackPageView ${params.href as string}`),
   trackEvent: params =>
-    console.log(`trackEvent ${params.category} / ${params.action}${params.name ? `: ${params.name}` : ''}`),
+  console.log(`trackEvent ${params.category} / ${params.action}${params.name ? `: ${params.name}` : ''}`),
 }));
+/* eslint-enable no-console */
 
 const noopTrackingProvider: TrackingProvider = {
   trackPageView: () => {},

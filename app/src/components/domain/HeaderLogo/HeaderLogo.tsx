@@ -3,7 +3,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 import Link from 'src/components/elements/Link/Link';
-import { color, font, fontWeight, spacing } from 'src/theme';
+import { color, font, fontWeight } from 'src/theme';
 
 import logo from './logo.png';
 

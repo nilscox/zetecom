@@ -4,7 +4,7 @@ import { QueryFunction, useQuery } from 'react-query';
 import { Comment } from 'src/types/Comment';
 
 const fetchComment: QueryFunction<Comment> = async ({ queryKey: [, { commentId }] }) => {
-  const response = await axios.get<Comment>(`/api/comment/${commentId}`);
+  const response = await axios.get<Comment>(`/api/comment/${String(commentId)}`);
 
   return response.data;
 };

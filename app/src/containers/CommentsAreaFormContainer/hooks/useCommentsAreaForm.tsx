@@ -2,7 +2,6 @@ import React from 'react';
 
 import axios, { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
-import { useLocation } from 'react-router';
 import { toast } from 'react-toastify';
 
 import { CommentsAreaFormState } from 'src/components/domain/CommentsAreaForm/CommentAreaForm';

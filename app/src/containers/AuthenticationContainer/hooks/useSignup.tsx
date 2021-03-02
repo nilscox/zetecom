@@ -5,12 +5,12 @@ import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 
 import { useAuthenticationFormType } from 'src/components/domain/AuthenticationForm/AuthenticationForm';
+import { useTrackEvent } from 'src/contexts/trackingContext';
 import { useSetUser } from 'src/contexts/userContext';
+import track from 'src/domain/track';
 import { HandleError } from 'src/hooks/useFormErrors';
 import { User } from 'src/types/User';
 import getFormErrors, { FormErrorHandlers } from 'src/utils/getFormErrors';
-import { useTrackEvent } from 'src/contexts/trackingContext';
-import track from 'src/domain/track';
 
 export const signupErrorHandlers: FormErrorHandlers = {
   400: {
