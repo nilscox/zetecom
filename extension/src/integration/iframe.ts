@@ -33,7 +33,7 @@ export default class IFrame {
     };
 
     iframe.id = 'zc-iframe';
-    iframe.src = `${APP_URL}/integration/${identifier}/${queryString.stringify(query)}`;
+    iframe.src = `${APP_URL}/integration/${identifier}?${queryString.stringify(query)}`;
     iframe.scrolling = 'no';
     iframe.style.width = '1px';
     iframe.style.minWidth = '100%';
