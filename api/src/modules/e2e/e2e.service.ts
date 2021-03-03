@@ -138,6 +138,7 @@ export class E2eService {
 
       const created = await this.commentsAreaService.create(
         {
+          informationMedia: null,
           informationUrl: 'https://info,url',
           informationTitle: 'Fake news!',
           informationAuthor: 'Anyone',
