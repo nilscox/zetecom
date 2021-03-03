@@ -70,6 +70,7 @@ export class EmailService {
     const APP_URL = this.configService.get('APP_URL');
 
     const template = this.emailRendererService.renderWelcomeEmail({
+      nick: user.nick,
       emailValidationLink: `${APP_URL}/validation-email/${user.emailValidationToken}`,
     });
 

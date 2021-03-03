@@ -106,8 +106,10 @@ describe('Authentication', () => {
     await viewEmail(emails[0].id);
 
     const link = await within(iframe.body!, async ({ findAllByText, getByRole }) => {
-      findAllByText('Bienvenue sur Zétécom !');
+      await findAllByText(`Bienvenue sur Zétécom, ${user1.nick} !`);
+
       const anchor = getByRole('link', { name: 'Valider mon adresse email' });
+
       return anchor.getAttribute('href') as string;
     });
 

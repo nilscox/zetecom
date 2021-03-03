@@ -12,6 +12,7 @@ export type TestEmailPayload = {
 };
 
 type WelcomeEmailPayload = {
+  nick: string;
   emailValidationLink: string;
 };
 
@@ -70,7 +71,7 @@ class EmailRendererService {
     const templates = {};
 
     await Promise.all(
-      emailTemplates.map(async (template) => {
+      emailTemplates.map(async template => {
         templates[template] = await this.loadTemplate(template);
       }),
     );

@@ -1,4 +1,4 @@
-Bienvenue sur Zétécom !
+Bienvenue sur Zétécom, {{nick}} !
 
 Votre compte utilisateur vous permet d'intéragir avec la comunauté.
 Pour l'activer, ouvrez sur le lien :

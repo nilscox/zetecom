@@ -2,7 +2,7 @@
 
   <mj-head>
 
-    <mj-preview>Bienvenue sur Zétécom !</mj-preview>
+    <mj-preview>Bienvenue sur Zétécom, {{nick}} !</mj-preview>
 
     <mj-include path="./common/attributes.mjml" />
 
