@@ -91,6 +91,10 @@ jobs:
         working-directory: ./app
       - run: yarn test
         working-directory: ./app
+      - run: yarn
+        working-directory: ./extension
+      - run: yarn test
+        working-directory: ./extension
 
   # e2e
 
