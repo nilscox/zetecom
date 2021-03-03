@@ -1,13 +1,7 @@
-import { Type } from 'class-transformer';
-
 import { Comment } from './Comment';
 
-export class CommentSubscription {
+export type CommentSubscription = {
   id: number;
-
-  @Type(() => Date)
-  created: Date;
-
-  @Type(() => Comment)
+  created: string;
   comment: Comment;
-}
+};

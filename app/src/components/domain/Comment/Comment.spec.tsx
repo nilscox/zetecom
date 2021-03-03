@@ -285,7 +285,9 @@ describe('Comment', () => {
     it("toggle view a comment's history", () => {
       const onViewHistory = jest.fn();
 
-      render(<Test comment={{ ...comment, edited: new Date() }} user={user} onViewHistory={onViewHistory} />);
+      render(
+        <Test comment={{ ...comment, edited: new Date().toISOString() }} user={user} onViewHistory={onViewHistory} />,
+      );
 
       act(() => userEvent.click(screen.getByTitle("Voir l'historique d'édition")));
 

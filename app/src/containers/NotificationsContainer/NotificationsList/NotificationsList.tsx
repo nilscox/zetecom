@@ -82,8 +82,8 @@ const NotificationsList: React.FC<NotificationsListProps> = ({ notifications, ma
     {notifications?.map(notification => (
       <Notification
         key={notification.id}
-        date={notification.created}
-        seen={notification.seen}
+        date={new Date(notification.created)}
+        seen={notification.seen ? new Date(notification.seen) : false}
         text={notification.payload}
         markAsSeen={!notification.seen ? () => markAsSeen(notification) : undefined}
         {...getNotificationData(notification)}

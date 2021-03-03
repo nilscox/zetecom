@@ -3,8 +3,8 @@ import { UserLight } from './User';
 type BaseNotification = {
   id: number;
   type: string;
-  created: Date;
-  seen: Date | false;
+  created: string;
+  seen: string | false;
 };
 
 type RulesUpdateNotification = BaseNotification & {

@@ -47,7 +47,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
     <CommentHeader
       user={comment.author}
       edited={Boolean(comment.edited)}
-      date={comment.edited || comment.date}
+      date={new Date(comment.edited || comment.date)}
       onEdit={onEdit}
       onReport={onReport}
       onViewHistory={onViewHistory}

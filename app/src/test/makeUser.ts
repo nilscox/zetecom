@@ -5,7 +5,7 @@ const makeUser = (partial?: Partial<User>): User => ({
   nick: 'nick',
   avatar: null,
   email: 'user@domain.tld',
-  signupDate: new Date(2020, 1, 10),
+  signupDate: new Date(2020, 1, 10).toISOString(),
   roles: [Role.USER],
   ...partial,
 });
