@@ -5,6 +5,8 @@ export class updateReactionsType1613822186611 implements MigrationInterface {
     name = 'updateReactionsType1613822186611'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`TRUNCATE TABLE "reaction"`);
+
         await queryRunner.query(`ALTER TYPE "public"."reaction_type_enum" RENAME TO "reaction_type_enum_old"`);
         await queryRunner.query(`CREATE TYPE "reaction_type_enum" AS ENUM('like', 'approve', 'think', 'disagree', 'dontUnderstand')`);
         await queryRunner.query(`ALTER TABLE "reaction" ALTER COLUMN "type" TYPE "reaction_type_enum" USING "type"::"text"::"reaction_type_enum"`);
