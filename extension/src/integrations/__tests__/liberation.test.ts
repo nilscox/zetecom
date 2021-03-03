@@ -18,4 +18,13 @@ describe('liberation', () => {
 
     expect(identifier).toEqual('liberation:societe:2021-03-03:JCH6CMACYBGRXAFR7YWBCUZ4IE');
   });
+
+  it('url 2 with sub topic', () => {
+    const liberation = new Liberation();
+    const url =
+      'https://www.liberation.fr/culture/cinema/golden-globes-et-gueule-de-bois-20210225_IKIUEHFHXFA7RAI74HUOAFS4SI/';
+    const identifier = liberation.getIdentifier(url);
+
+    expect(identifier).toEqual('liberation:culture:2021-02-25:IKIUEHFHXFA7RAI74HUOAFS4SI');
+  });
 });
