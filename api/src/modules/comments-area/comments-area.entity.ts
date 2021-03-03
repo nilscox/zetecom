@@ -18,7 +18,7 @@ export enum MediaType {
   leparisien = 'leparisien',
   lepoint = 'lepoint',
   lesechos = 'lesechos',
-  liberation = 'liberatio',
+  liberation = 'liberation',
   scienceetvie = 'scienceetvie',
   skeptikon = 'skeptikon',
   youtube = 'youtube',
