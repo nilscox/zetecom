@@ -1,6 +1,12 @@
-import { IsDateString, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsEnum, IsOptional, IsString } from 'class-validator';
+
+import { MediaType } from '../comments-area.entity';
 
 export class UpdateCommentsAreaInDto {
+  @IsEnum(MediaType)
+  @IsOptional()
+  readonly informationMedia: MediaType;
+
   @IsString()
   @IsOptional()
   readonly informationUrl?: string;
