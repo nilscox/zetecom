@@ -1,5 +1,13 @@
 import _20minutes from './images/20minutes.png';
 import francesoir from './images/francesoir.png';
+import lefigaro from './images/lefigaro.png';
+import lemonde from './images/lemonde.png';
+import leparisien from './images/leparisien.png';
+import lepoint from './images/lepoint.png';
+import lesechos from './images/lesechos.png';
+import liberation from './images/liberation.png';
+import scienceetvie from './images/scienceetvie.png';
+import skeptikon from './images/skeptikon.png';
 import youtube from './images/youtube.png';
 
 export const medias = {
@@ -17,49 +25,49 @@ export const medias = {
 
   lefigaro: {
     label: 'Le Figaro',
-    image: _20minutes,
+    image: lefigaro,
     host: /lefigaro\.fr$/,
   },
 
   lemonde: {
     label: 'Le Monde',
-    image: _20minutes,
+    image: lemonde,
     host: /lemonde\.fr$/,
   },
 
   leparisien: {
     label: 'Le Parisien',
-    image: _20minutes,
+    image: leparisien,
     host: /leparisien\.fr$/,
   },
 
   lepoint: {
     label: 'Le Point',
-    image: _20minutes,
+    image: lepoint,
     host: /lepoint\.fr$/,
   },
 
   lesechos: {
     label: 'Les Echos',
-    image: _20minutes,
+    image: lesechos,
     host: /lesechos\.fr$/,
   },
 
   liberation: {
     label: 'Liberation',
-    image: _20minutes,
+    image: liberation,
     host: /liberation\.fr$/,
   },
 
   scienceetvie: {
     label: 'Science & vie',
-    image: _20minutes,
+    image: scienceetvie,
     host: /science-et-vie\.com$/,
   },
 
   skeptikon: {
     label: 'Skeptikon',
-    image: _20minutes,
+    image: skeptikon,
     host: /skeptikon\.fr$/,
   },
 
