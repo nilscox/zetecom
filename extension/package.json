@@ -43,6 +43,7 @@
     "rootDir": "./src",
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/__mocks__/styleMock.js"
-    }
+    },
+    "testPathIgnorePatterns": ["<rootDir>/integrations/test.ts"]
   }
 }
