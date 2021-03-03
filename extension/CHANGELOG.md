@@ -16,18 +16,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+
+## [0.7.0] - 2021-03-03
+
 ### Changed
 
 - Update the liberation url matcher and the identifier creation
 - Update the iframe url
 
-## [0.6.4]
+## [0.6.4] - 2021-01-05
 
 ### Changed
 
 - List host permissions explicitly
 
-## [0.6.3]
+## [0.6.3] - 2020-12-30
 
 ### Added
 
