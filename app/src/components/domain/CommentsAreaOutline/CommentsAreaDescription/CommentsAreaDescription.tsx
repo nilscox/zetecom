@@ -41,7 +41,7 @@ type CommentsAreaDescriptionProps = {
   title: string;
   media: MediaType;
   author: string;
-  publicationDate?: Date;
+  publicationDate?: string;
 };
 
 const CommentsAreaDescription: React.FC<CommentsAreaDescriptionProps> = ({ title, media, author, publicationDate }) => {

@@ -33,7 +33,7 @@ const useMarkNotificationAsSeen = () => {
             items: replace(
               old.items,
               ({ id }) => id === notification.id,
-              old => ({ ...old, seen: new Date() }),
+              old => ({ ...old, seen: new Date().toISOString() }),
             ),
           };
         });

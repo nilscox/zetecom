@@ -1,26 +1,18 @@
-import { Type } from 'class-transformer';
-
 export enum Role {
   ADMIN = 'ADMIN',
   MODERATOR = 'MODERATOR',
   USER = 'USER',
 }
 
-export class UserLight {
+export type UserLight = {
   id: number;
-
   nick: string;
-
   avatar: string | null;
-}
+};
 
-export class User extends UserLight {
+export type User = UserLight & {
   email: string;
-
   requiresEmailValidation?: boolean;
-
-  @Type(() => Date)
-  signupDate: Date;
-
+  signupDate: string;
   roles: Role[];
-}
+};

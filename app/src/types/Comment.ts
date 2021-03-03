@@ -1,5 +1,3 @@
-import { Transform, Type } from 'class-transformer';
-
 import { UserLight } from './User';
 
 export enum ReactionType {
@@ -18,33 +16,20 @@ export type ReactionsCount = {
   [ReactionType.dontUnderstand]: number;
 };
 
-export class Message {
-  date: Date;
-
+export type Message = {
+  date: string;
   text: string;
-}
+};
 
-export class Comment {
+export type Comment = {
   id: number;
-
   text: string;
-
-  @Type(() => Date)
-  date: Date;
-
-  @Transform(({ value }) => typeof value === 'string' && new Date(value))
-  edited: false | Date;
-
+  date: string;
+  edited: false | string;
   repliesCount: number;
-
-  @Type(() => UserLight)
   author: UserLight;
-
   reactionsCount: ReactionsCount;
-
   userReaction?: ReactionType | null;
-
   subscribed?: boolean;
-
   score: number;
-}
+};
