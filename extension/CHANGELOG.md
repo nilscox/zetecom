@@ -18,12 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [0.7.0] - 2021-03-03
+## [0.7.0] - 2021-03-05
 
 ### Changed
 
-- Update the liberation url matcher and the identifier creation
 - Update the iframe url
+- Update the liberation integration to support a new URL format
+- Set the badge text color to white on Firefox
 
 ## [0.6.4] - 2021-01-05
 

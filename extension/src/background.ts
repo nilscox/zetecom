@@ -34,6 +34,7 @@ class BackgroundScript {
 
       this.browserAction.setBadgeText({ text, tabId: sender.tab.id });
       this.browserAction.setBadgeBackgroundColor({ color: this.color, tabId: sender.tab.id });
+      (this.browserAction as any).setBadgeTextColor?.({ color: '#FFFFFF', tabId: sender.tab.id });
     }
 
     if (request.type === 'UNSET_EXTENSION_ACTIVE' && sender.tab?.id) {
