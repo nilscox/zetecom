@@ -9,7 +9,9 @@ export class FranceSoir implements Integration {
   externalElementTabText = 'Commentaires FranceSoir';
 
   getElement() {
-    return document.querySelectorAll('[id^="dsq-app"]')[1] as HTMLElement;
+    const dsqs = document.querySelectorAll('[id^="dsq-app"]');
+
+    return dsqs[dsqs.length - 1] as HTMLElement;
   }
 
   getIdentifier(url: string) {
