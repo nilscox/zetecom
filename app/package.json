@@ -10,7 +10,6 @@
     "clean": "rimraf dist",
     "lint": "eslint -c .eslintrc.ci.json -f codeframe 'src/**/*.ts{,x}'",
     "test": "NODE_ENV=test jest --verbose",
-    "storybook": "start-storybook --ci -p 6006",
     "deploy": "../scripts/deploy-app.sh"
   },
   "dependencies": {
@@ -48,10 +47,6 @@
     "@emotion/styled": "^11.1.5",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
-    "@storybook/addon-actions": "^6.1.15",
-    "@storybook/addon-info": "^5.3.21",
-    "@storybook/addon-knobs": "^6.1.15",
-    "@storybook/react": "^6.1.15",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/dom": "^7.29.4",
     "@testing-library/jest-dom": "^5.11.9",
