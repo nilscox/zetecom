@@ -35,6 +35,21 @@ jobs:
           image_tag: ${{ github.sha }}
           context: ./app
 
+  styleguidist:
+    runs-on: ubuntu-latest
+    # if: github.ref == 'refs/heads/master'
+    defaults:
+      run:
+        working-directory: ./app
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: yarn
+      - run: yarn build:styleguidist
+      - uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: app/styleguide
+
   extension:
     name: build extension
     runs-on: ubuntu-latest

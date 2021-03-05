@@ -10,6 +10,8 @@
     "clean": "rimraf dist",
     "lint": "eslint -c .eslintrc.ci.json -f codeframe 'src/**/*.ts{,x}'",
     "test": "NODE_ENV=test jest --verbose",
+    "start:styleguidist": "styleguidist server",
+    "build:styleguidist": "styleguidist build",
     "deploy": "../scripts/deploy-app.sh"
   },
   "dependencies": {
