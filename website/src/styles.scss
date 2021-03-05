@@ -1,4 +1,4 @@
-@import "variables.scss";
+@import 'variables.scss';
 
 $break-xlarge: 1320px;
 
@@ -13,8 +13,11 @@ body {
   }
 }
 
-h1, h2, h3, h4 {
-  font-family: "Noticia Text";
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Noticia Text';
   font-weight: bold;
   color: #446;
 }
@@ -86,18 +89,20 @@ sup {
 }
 
 .note {
-  border-left: 5px solid #CCC;
+  border-left: 5px solid #ccc;
   margin: 10px 0;
   padding-left: 10px;
 }
 
 .wording {
-  background: #FFE;
+  background: #ffe;
 }
 
 .page {
   padding: 10px;
   width: 100%;
+  max-width: 1920px;
+  margin: auto;
   box-sizing: border-box;
 
   @media screen and (min-width: $break-small) {
@@ -127,7 +132,7 @@ sup {
 
     @media screen and (min-width: $break-desktop) {
       flex-direction: row;
-      border-top: 1px solid #CCC;
+      border-top: 1px solid #ccc;
 
       nav {
         flex: 1;

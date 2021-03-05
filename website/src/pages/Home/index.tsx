@@ -102,7 +102,7 @@ const Home: React.FC = () => (
           <strong>Rechercher parmi les messages existants</strong>, permettant ainsi de facilement repérer les commentaires qui parlent d'un sujet précis.
         </p>
         <p>
-          <strong>Annoter les messages d'une réaction</strong> : plutôt d'accord, plutôt pas d'accord ou pas d'avis tranché. Cela permet de les qualifier et de les trier par pertinence.
+          <strong>Annoter les messages d'une réaction</strong> : plutôt d'accord, plutôt pas d'accord ou pas d'avis tranché. Cela permet qualifier les commentaires et de les trier par pertinence.
         </p>
         <p>
           <strong>Intégrer les zones de commentaires</strong> sur les sites d'informations, via une extension disponible sur Chrome et Firefox.
@@ -161,12 +161,12 @@ const Home: React.FC = () => (
     <p>
       Mais reconnaissons tout de même que cette initiative s'adresse en premier lieu à des personnes qui veulent décortiquer l'information, qui se posent des questions et cherchent des réponses via des échanges critiques.
       Si cette démarche vous correspond, si vous cherchez à renforcer votre autodéfense intellectuelle tout en exerçant votre esprit critique, alors vous avez beaucoup à apporter à la communauté.
-      Vous avez le pouvoir de montrer l'exemple, d'être le moteur d'un groupe de personnes dans un but commun.
+      Vous pouvez montrer l'exemple, faire partie de la machinerie d'un groupe de personnes dans un but commun : celui de mieux comprendre le monde.
     </p>
 
     <p>
-      Et si vous ne cherchez pas spécialement à creuser l'information ou que vous n'êtes pas familier avec les méthodes du scepticisme, cet outil vous permet simplement de communiquer dans des conditions favorables, d'être écouté et corrigé pour de bonnes raisons.
-      À terme, l'objectif est qu'autour de cet outil se développe une communauté dont l'intégrité ne peut être remise en question.
+      Et si vous n'êtes pas familier avec les méthodes du scepticisme, ou ne cherchez pas spécialement à creuser l'information, cet outil vous permet de communiquer dans des conditions favorables, d'être écouté et corrigé pour de bonnes raisons.
+      À terme, l'objectif est qu'autour des zones de commentaires Zétécom se développe une communauté dont l'intégrité ne peut être remise en question.
       Pour en faire partie, nous n'attendons rien de plus de votre part que le respect de la charte.
     </p>
 

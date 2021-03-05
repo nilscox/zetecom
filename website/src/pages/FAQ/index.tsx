@@ -39,7 +39,7 @@ const useSections = () => [
 
       {
         question: 'Comment supprimer un compte ?',
-        answer: <>En conformité avec le règlement général sur la protection des données (RGPD), vous pouvez demander la suppression de votre compte en contactant l'équipe qui développe le projet.</>,
+        answer: <>En conformité avec le règlement général sur la protection des données (RGPD), vous pouvez demander la suppression de votre compte en contactant l'équipe qui développe le projet. Nous ne vous en voudrans pas, c'est normal de vouloir supprimer un compte qui n'est plus utilisé :)</>,
       },
 
     ],
@@ -51,7 +51,7 @@ const useSections = () => [
 
       {
         question: 'Comment ouvrir une nouvelle zone de commentaire sur un article ou une vidéo ?',
-        answer: <>Vous pouvez demander l'ouverture d'une zone de commentaires via l'extension, sur la page de concernée. Cette demande sera envoyée aux modérateurs, qui procéderont à l'ouverture manuellement.</>,
+        answer: <>Vous pouvez demander l'ouverture d'une zone de commentaires via l'extension, sur la page de concernée. Cette demande sera envoyée aux modérateurs, qui décideront si une zone de commentaire peut être ouverte sur cette page. Vous pouvez également passer par l'app, depuis la liste des zones de commentaires.</>,
       },
 
       {
@@ -94,13 +94,8 @@ const useSections = () => [
             <li><Link openInNewTab href="https://www.science-et-vie.com">science-et-vie.com</Link></li>
             <li><Link openInNewTab href="https://skeptikon.fr">skeptikon.fr</Link></li>  
             <li><Link openInNewTab href="https://www.youtube.fr">youtube.fr</Link></li>  
-          </ul>.
+          </ul>
         </>,
-      },
-
-      {
-        question: 'Comment ajouter un nouveau site sur l\'extension ?',
-        answer: <>Quelques lignes de code sont nécessaires pour ajouter un nouveau site sur l'extension. Si vous souhaitez ouvrir des zones de commentaires sur un site qui n'est pas encore disponible, <RouterLink to="#contact">contactez-nous</RouterLink> pour nous faire part de votre requête.</>,
       },
 
     ],
@@ -117,7 +112,7 @@ const useSections = () => [
 
       {
         question: 'Qui peut devenir modérateur ?',
-        answer: <>Tous les membres de Zétécom peuvent demander de devenir modérateur, chaque demande sera traitée au cas par cas.</>,
+        answer: <>Tous les membres de Zétécom peuvent demander de devenir modérateur.</>,
       },
 
     ],
@@ -134,8 +129,8 @@ const useSections = () => [
 
       {
         question: 'Peut-on participer au projet ?',
-        answer: <>Que ce soit pour donner vos impressions, proposer des axes d'amélioration, vous êtes chaleureusement invité.e à <RouterLink to="#contact">nous envoyer un petit message</RouterLink>.
-        Et pour aller plus loin, <RouterLink to="/beta.html">rejoignez les bêta-testeurs</RouterLink> ! Vos retours nous aideront à comprendre vos attentes pour mieux y répondre.</>
+        answer: <>Que ce soit pour donner vos impressions ou proposer des axes d'amélioration, vous êtes chaleureusement invité.e à nous rejoindre sur <Link href={`https://discord.gg/${useEnvironment('DISCORD_ID')}`}>discord</Link>.
+        Et pour aller plus loin, <RouterLink to="/beta.html">rejoignez les bêta-testeurs</RouterLink> ! Vos aurez accès aux nouvelles fonctionnalités en avant première, pour nous faire part de vos retours et nous aider à prendre de meilleurs décisions.</>
       },
 
       {
@@ -245,22 +240,22 @@ const FAQ: React.FC = () => {
       <Title id="donnees-personnelles">Utilisation des données personnelles</Title>
 
       <p>
-        L'installation de l'extension et son utilisation sans créer de compte vous permet d'intégrer les zones de commentaires sur les sites d'information, mais ne vous permet pas de répondre à ces commentaires.
-        Dans ce cas, aucune information personnelle n'est collectée.
+        L'installation de l'extension et son utilisation sans créer de compte vous permet d'intégrer les zones de commentaires sur les sites d'information, mais ne vous permet pas d'intéragir avec la communauté.
+        Dans ce cas, aucune information n'est collectée à votre sujet.
       </p>
 
       <p>
-        Si vous souhaitez interagir avec la communauté, la création d'un compte utilisateur est nécessaire.
+        Si vous souaithez publier des commentaires, la création d'un compte utilisateur est nécessaire.
         Dans ce cas, une adresse e-mail, un mot de passe et un pseudo vous seront demandés, dans le seul but de vous identifier sur la plateforme.
-        Aucune de ces informations n'est partagée avec un quelconque service tiers.
+        Aucune de ces informations n'est partagée avec un quelconque service tiers, et seul votre pseudo sera visible des autres utilisateurs.
       </p>
 
       <p>
-        Tous les échanges de données sont effectués de manière sécurisée (HTTPS), et les mots de passes sont chiffrés avec la fonction de hashage <code>bcrypt</code> (coût de 10).
+        Tous les échanges de données entre votre navigateur et le serveur Zétécom sont effectués de manière sécurisée (HTTPS), et les mots de passes sont chiffrés avec la fonction de hashage <code>bcrypt</code> (coût de 10).
       </p>
 
       <p>
-        Dans une optique de transparence, nous sommes entièrement disposés à répondre à vos éventuelles questions, voire ajouter ici des précisions si nécessaire.
+        Dans une optique de transparence, nous sommes entièrement disposés à répondre à vos éventuelles questions, et à ajouter ici des précisions si nécessaire.
       </p>
 
       <Title id="contact">Une idée à proposer ? Un bug à signaler ?</Title>
