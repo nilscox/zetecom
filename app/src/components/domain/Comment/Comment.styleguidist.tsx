@@ -104,10 +104,10 @@ const replies = {
 
 const getReplies = (comment: CommentType) => {
   if (!(comment.id in replies)) {
-    throw new Error('no replies for comment ' + comment.id);
+    throw new Error(`no replies for comment ${comment.id}`);
   }
 
-  return replies[comment.id as keyof typeof replies];
+  return replies[comment.id];
 };
 
 const CommentContainer: React.FC<{ comment: CommentType }> = ({ comment }) => {

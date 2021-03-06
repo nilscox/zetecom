@@ -37,7 +37,7 @@ jobs:
 
   styleguidist:
     runs-on: ubuntu-latest
-    # if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master'
     defaults:
       run:
         working-directory: ./app
