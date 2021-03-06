@@ -1,7 +1,8 @@
 {
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": ["./tsconfig.json"]
+    "project": ["./tsconfig.json"],
+    "createDefaultProgram": true
   },
   "env": {
     "browser": true
@@ -14,11 +15,7 @@
       "version": "detect"
     }
   },
-  "plugins": [
-    "simple-import-sort",
-    "@typescript-eslint",
-    "react-hooks"
-  ],
+  "plugins": ["simple-import-sort", "@typescript-eslint", "react-hooks"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -60,17 +57,20 @@
     "space-before-function-paren": ["error", { "anonymous": "never", "named": "never", "asyncArrow": "always" }],
     "space-in-parens": "error",
     "nonblock-statement-body-position": ["error", "below"],
-    "simple-import-sort/imports": ["warn", {
-      "groups": [
-        ["^react$", "^react-dom$"],
-        ["^@?[a-z]"],
-        ["^src/"],
-        ["^../"],
-        ["^./"],
-        ["\\.css$", "\\.scss$"],
-        ["\\.png$"]
-      ]
-    }],
+    "simple-import-sort/imports": [
+      "warn",
+      {
+        "groups": [
+          ["^react$", "^react-dom$"],
+          ["^@?[a-z]"],
+          ["^src/"],
+          ["^../"],
+          ["^./"],
+          ["\\.css$", "\\.scss$"],
+          ["\\.png$"]
+        ]
+      }
+    ],
     "react/prop-types": "off",
     "react/no-unescaped-entities": "off",
     "react-hooks/rules-of-hooks": "error",

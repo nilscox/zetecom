@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "./.eslintrc.json",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking"
-  ],
+  "extends": ["./.eslintrc", "plugin:@typescript-eslint/recommended-requiring-type-checking"],
   "rules": {
     "no-console": "error",
     "@typescript-eslint/no-unsafe-member-access": "off",
