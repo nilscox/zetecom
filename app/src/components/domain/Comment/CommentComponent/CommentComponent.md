@@ -7,17 +7,5 @@ const text = `If human is on laptop sit on the keyboard need to chase tail. Thin
 
 const comment = makeComment({ text });
 
-<CommentComponent
-  comment={comment}
-  canEdit={false}
-  repliesOpen={false}
-  repliesLoading={false}
-  replyFormOpen={false}
-  onEdit={noop}
-  onReport={noop}
-  onUserReactionChange={noop}
-  onToggleReplies={noop}
-  onOpenReplyForm={noop}
-  onToggleSubscription={noop}
-/>;
+<CommentComponent comment={comment} repliesOpen={false} repliesLoading={false} replyFormOpen={false} />;
 ```
