@@ -8,6 +8,7 @@ export interface Integration {
   domains: string[];
   type: 'append' | 'switch';
   externalElementTabText?: string;
+  scrollIntoViewOffset?: number;
   darkMode?: boolean;
   getElement: () => HTMLElement | null;
   getIdentifier: (url: string) => string | null;

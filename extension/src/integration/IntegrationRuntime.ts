@@ -27,6 +27,23 @@ abstract class BaseIntegrationRuntime implements IntegrationRuntime {
   abstract mount(): void;
   abstract unmount(): void;
   abstract scrollIntoView(): void;
+
+  protected scrollIntoViewOffset(el: HTMLElement) {
+    const scrollIntoViewElement = document.createElement('div');
+
+    scrollIntoViewElement.id = 'zc-scrollIntoView';
+
+    scrollIntoViewElement.style.position = 'absolute';
+    scrollIntoViewElement.style.top =
+      el.getBoundingClientRect().top +
+      (document.defaultView?.pageYOffset ?? 0) -
+      (this.integration.scrollIntoViewOffset ?? 100) +
+      'px';
+
+    document.body.append(scrollIntoViewElement);
+    scrollIntoViewElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.body.removeChild(scrollIntoViewElement);
+  }
 }
 
 export class AppendIntegrationRuntime extends BaseIntegrationRuntime {
@@ -42,7 +59,7 @@ export class AppendIntegrationRuntime extends BaseIntegrationRuntime {
     }
 
     log('creating iframe');
-    const iframe = this.iframe = new IFrame(identifier);
+    const iframe = (this.iframe = new IFrame(identifier));
 
     element.insertAdjacentElement('afterend', iframe.element);
 
@@ -58,7 +75,9 @@ export class AppendIntegrationRuntime extends BaseIntegrationRuntime {
   }
 
   scrollIntoView() {
-    this.iframe?.element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (this.iframe) {
+      this.scrollIntoViewOffset(this.iframe.element);
+    }
   }
 }
 
@@ -85,10 +104,14 @@ export class SwitcherIntegrationRuntime extends BaseIntegrationRuntime {
     }
 
     log('creating iframe');
-    const iframe = this.iframe = new IFrame(identifier);
+    const iframe = (this.iframe = new IFrame(identifier));
 
     log('creating switcher');
-    const switcher = this.switcher = new Switcher(integration.externalElementTabText!, 'Commentaires Zétécom', !!integration.darkMode);
+    const switcher = (this.switcher = new Switcher(
+      integration.externalElementTabText!,
+      'Commentaires Zétécom',
+      !!integration.darkMode,
+    ));
 
     element.insertAdjacentElement('beforebegin', switcher.tabsElement);
     element.insertAdjacentElement('afterend', iframe.element);
@@ -111,6 +134,8 @@ export class SwitcherIntegrationRuntime extends BaseIntegrationRuntime {
   }
 
   scrollIntoView() {
-    this.switcher?.tabsElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (this.switcher) {
+      this.scrollIntoViewOffset(this.switcher.tabsElement);
+    }
   }
 }

@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update leparisien integration to support other URL formats
+- Add an offset when scrolling the element into the view
 
 ## [0.7.0] - 2021-03-05
 

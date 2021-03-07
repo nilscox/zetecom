@@ -7,6 +7,7 @@ export class FranceSoir implements Integration {
   domains = ['www.francesoir.fr'];
   type = 'switch' as const;
   externalElementTabText = 'Commentaires FranceSoir';
+  scrollIntoViewOffset = 140;
 
   getElement() {
     const dsqs = document.querySelectorAll('[id^="dsq-app"]');
