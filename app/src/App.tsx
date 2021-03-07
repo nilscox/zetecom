@@ -47,7 +47,7 @@ const App: React.FC = () => (
         </UserProvider>
       </TrackingProvider>
     </ThemeProvider>
-    {env.DEBUG && <ReactQueryDevtools initialIsOpen={false} />}
+    {env.DEBUG === 'true' && <ReactQueryDevtools initialIsOpen={false} />}
   </QueryClientProvider>
 );
 
