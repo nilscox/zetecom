@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 import useQueryString from 'src/hooks/use-query-string';
 
@@ -14,7 +14,9 @@ export type Message = {
 };
 
 const useIFrameMessages = () => {
-  const { pageUrl } = useQueryString();
+  const query = useQueryString();
+  // query params are lost when the route changes
+  const [pageUrl] = useState(query.pageUrl as string);
 
   const sendMessage = useCallback(
     (message: Message) => {
