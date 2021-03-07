@@ -35,12 +35,14 @@ const Home: React.FC = () => (
 
     <div className="heading">
       <p>
-        Zétécom, c'est une plateforme qui met à disposition des zones de commentaires, pour réagir à l'information sur internet tout en cultivant son <strong>autodéfense intellectuelle</strong>.
+        Zétécom vous propose des zones de commentaires pour réagir à l'information sur internet, tout en cultivant votre <strong>autodéfense intellectuelle</strong>.
       </p>
       <p>
-        Pour garantir des échanges constructifs, les personnes participant aux discussions s'engagent à respecter <RouterLink to="/charte.html">une charte</RouterLink> inspirée des principes de la pensée critique.
+        Pour garantir des échanges constructifs, la communauté s'engage à respecter <RouterLink to="/charte.html">une charte</RouterLink> inspirée des principes de la pensée critique.
       </p>
     </div>
+
+    <video loop autoPlay src="/video.mp4" className="demo-video" />
 
     <div className="why">
       <p>

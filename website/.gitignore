@@ -1,6 +1,7 @@
 node_modules
 .env
 dist
+static/video.mp4
 static/extension
 static/updates.json
 static/zetecom-beta.pdf

@@ -9,22 +9,16 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const { merge } = require('webpack-merge');
 
-if (process.env.NODE_ENV === 'development') {
-  require('dotenv').config();
-}
-
-const {
-  NODE_ENV = 'development',
-  HOST = '0.0.0.0',
-  PORT = '8080',
-  BETA = 'false',
-} = process.env;
+const { NODE_ENV = 'development', HOST = '0.0.0.0', PORT = '8080', BETA = 'false' } = process.env;
 
 const dev = NODE_ENV === 'development';
 const prod = NODE_ENV === 'production';
 
-const commonConfig = {
+if (NODE_ENV === 'development') {
+  require('dotenv').config();
+}
 
+const commonConfig = {
   mode: prod ? 'production' : 'development',
   devtool: dev ? 'source-map' : false,
 
@@ -44,7 +38,6 @@ const commonConfig = {
 
   module: {
     rules: [
-
       {
         test: /\.[jt]sx?$/,
         exclude: /node_modules/,
@@ -66,7 +59,6 @@ const commonConfig = {
           },
         },
       },
-
     ],
   },
 
@@ -92,13 +84,13 @@ const commonConfig = {
         { from: 'static/robots.txt', to: './robots.txt' },
         { from: 'static/extension', to: './extension', noErrorOnMissing: true },
         { from: 'static/logo.png', to: './logo.png' },
+        { from: 'static/video.mp4', to: './video.mp4' },
         { from: 'static/favicon.ico', to: './favicon.ico' },
         { from: 'static/updates.json', to: './updates.json', noErrorOnMissing: true },
         { from: 'static/zetecom-beta.pdf', to: './zetecom-beta.pdf', noErrorOnMissing: true },
       ],
     }),
   ],
-
 };
 
 const devConfig = {
@@ -112,28 +104,19 @@ const devConfig = {
     rules: [
       {
         test: /\.s?css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
 
-  plugins: [
-    new HtmlWebpackPlugin(),
-    new ReactRefreshWebpackPlugin(),
-  ],
+  plugins: [new HtmlWebpackPlugin(), new ReactRefreshWebpackPlugin()],
 
   devServer: {
     host: HOST,
     port: Number(PORT),
     hot: true,
     historyApiFallback: {
-      rewrites: [
-        { from: /\.html$/, to: '/index.html' },
-      ],
+      rewrites: [{ from: /\.html$/, to: '/index.html' }],
     },
   },
 };

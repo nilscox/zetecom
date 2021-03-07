@@ -1,10 +1,9 @@
-@import "../../variables.scss";
+@import '../../variables.scss';
 
 $break-xlarge: 1320px;
 $break-xxlarge: 1590px;
 
 .page#page-home {
-
   h2 {
     margin: 60px 0 20px;
     text-indent: 30px;
@@ -33,6 +32,17 @@ $break-xxlarge: 1590px;
     }
   }
 
+  .demo-video {
+    max-width: 100%;
+    display: block;
+    margin: auto;
+    margin-bottom: 40px;
+
+    @media screen and (min-width: $break-medium) {
+      margin-bottom: 60px;
+    }
+  }
+
   .why {
     display: flex;
 
@@ -41,7 +51,7 @@ $break-xxlarge: 1590px;
     }
 
     .separator {
-      border-left: 1px solid #CCC;
+      border-left: 1px solid #ccc;
       margin: 0 20px;
     }
 
@@ -104,15 +114,15 @@ $break-xxlarge: 1590px;
       margin: auto;
 
       img {
-        border-top: 1px solid #CCC;
-        border-bottom: 1px solid #CCC;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
       }
 
       .carousel-slide-legend {
         background-color: white;
         padding-bottom: 10px;
         text-align: left;
-        font-family: "Noticia Text";
+        font-family: 'Noticia Text';
         font-size: 1.2rem;
         color: #446;
 
@@ -132,7 +142,7 @@ $break-xxlarge: 1590px;
   hr.separator {
     margin: 60px 0;
     border: none;
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid #ccc;
 
     @media screen and (max-width: $break-xlarge) {
       margin: 30px 0;
@@ -154,7 +164,7 @@ $break-xxlarge: 1590px;
       max-width: 540px;
       display: block;
       margin: auto;
-      border: 1px solid #CCC;
+      border: 1px solid #ccc;
 
       @media screen and (min-width: $break-xlarge) and (max-width: $break-xxlarge) {
         max-width: 480px;
