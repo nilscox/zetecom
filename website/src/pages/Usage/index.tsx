@@ -46,21 +46,29 @@ const Usage: React.FC = () => (
 
     <div className="step step-reactions" id="votes">
       <div className="step-text">
-        Si vous trouvez un commentaire intéressant, vous pouvez l'annoter d'un 👍, 👎 ou 🧐.
-        Un algorithme va comptabiliser le nombre total d'annotations et de réponses, permettant ainsi de les trier par pertinence.
+        Si vous trouvez un commentaire intéressant, vous pouvez l'annoter d'une réaction.
+        Un algorithme va comptabiliser le nombre total d'annotations et de réponses, permettant ainsi de trier les commentaires par pertinence.
       </div>
       <div className="step-secondary">
         <div className="reaction">
+          <div className="reaction-emoji">❤️</div>
+          <div className="reaction-text">J'aime</div>
+        </div>
+        <div className="reaction">
           <div className="reaction-emoji">👍</div>
-          <div className="reaction-text">je suis <strong>d'accord</strong> avec le message</div>
+          <div className="reaction-text">Je suis plutôt d'accord</div>
         </div>
         <div className="reaction">
-          <div className="reaction-emoji">👎</div>
-          <div className="reaction-text">je ne suis <strong>pas d'accord</strong> avec le message</div>
+          <div className="reaction-emoji">🧠</div>
+          <div className="reaction-text">Ça me fait réfléchir</div>
         </div>
         <div className="reaction">
-          <div className="reaction-emoji">🧐</div>
-          <div className="reaction-text">je n'ai <strong>pas d'avis tranché</strong>, mais le message me fait réfléchir</div>
+          <div className="reaction-emoji">🤨</div>
+          <div className="reaction-text">Je ne suis pas d'accord</div>
+        </div>
+        <div className="reaction">
+          <div className="reaction-emoji">❓</div>
+          <div className="reaction-text">Je ne comprends pas</div>
         </div>
       </div>
     </div>
