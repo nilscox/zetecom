@@ -1,7 +1,7 @@
 import { Integration } from '../integration/IntegrationHost';
 
 export class LeParisien implements Integration {
-  static LEPARISIEN_REGEXP = /leparisien\.fr\/.*-(\d+)\.php$/;
+  static LEPARISIEN_REGEXP = /leparisien\.fr\/.*-(\d{2})-(\d{2})-(\d{4})-([A-Z\d]+)\.php$/;
 
   name = 'leparisien';
   domains = ['www.leparisien.fr'];
@@ -18,9 +18,9 @@ export class LeParisien implements Integration {
       return null;
     }
 
-    const [, id] = match;
+    const [, day, month, year, id] = match;
 
-    return ['leparisien', id].join(':');
+    return ['leparisien', [year, month, day].join('-'), id].join(':');
   }
 
   onIFrameLoaded(iframe: HTMLIFrameElement) {
