@@ -31,7 +31,9 @@ export class BackgroundScript {
   }
 
   async getExtensionConfig(): Promise<ExtensionConfig> {
-    const defaultConfig = { integrationTypes: {} };
+    const defaultConfig: ExtensionConfig = { mediaIntegrations: {} };
+
+    // await this.setExtensionConfig(defaultConfig);
 
     const config = await new Promise<ExtensionConfig | undefined>((resolve) => {
       this.chrome.storage.local.get((result) => {

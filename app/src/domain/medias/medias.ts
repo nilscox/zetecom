@@ -71,6 +71,12 @@ export const medias = {
     host: /skeptikon\.fr$/,
   },
 
+  // test: {
+  //   label: 'Test',
+  //   image: undefined,
+  //   host: /localhost$/,
+  // },
+
   youtube: {
     label: 'YouTube',
     image: youtube,

@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update leparisien integration to support other URL formats
 - Add an offset when scrolling the element into the view
+- Allow to disable the extension per site
+- Add the overlay integration type
 
 ## [0.7.0] - 2021-03-05
 

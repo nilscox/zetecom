@@ -41,7 +41,6 @@ export default class IFrame {
     iframe.scrolling = 'no';
     iframe.style.width = '1px';
     iframe.style.minWidth = '100%';
-    iframe.style.border = 'none';
     iframe.style.display = 'block';
 
     return iframe;

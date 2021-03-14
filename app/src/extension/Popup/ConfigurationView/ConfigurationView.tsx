@@ -32,10 +32,10 @@ const ConfigurationView: React.FC = () => {
   useEffect(() => getExtensionConfig(setConfig), []);
 
   const handleIntegrationTypeChange = (media: MediaType, value: IntegrationType) => {
-    const newConfig = {
+    const newConfig: ExtensionConfig = {
       ...config,
-      integrationTypes: {
-        ...config?.integrationTypes,
+      mediaIntegrations: {
+        ...config?.mediaIntegrations,
         [media]: value,
       },
     };
@@ -56,7 +56,7 @@ const ConfigurationView: React.FC = () => {
           <div>{label}</div>
           <div>
             <Select
-              value={config?.integrationTypes[media]}
+              value={config?.mediaIntegrations[media]}
               onChange={e => handleIntegrationTypeChange(media as MediaType, e.currentTarget.value as IntegrationType)}
             >
               <option value="integration">Intégration</option>

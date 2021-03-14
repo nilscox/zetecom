@@ -6,7 +6,7 @@ export type IntegrationState = {
 export type IntegrationType = 'integration' | 'overlay' | 'disabled';
 
 export type ExtensionConfig = {
-  integrationTypes: Record<string, IntegrationType>;
+  mediaIntegrations: Record<string, IntegrationType>;
 };
 
 export type IntegrationStateResult = {

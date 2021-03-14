@@ -10,7 +10,7 @@ import { OverlayIntegrationRuntime } from './runtimes/OverlayIntegrationRuntime'
 export interface Integration {
   name: string;
   domains: string[];
-  type: 'append' | 'switch' | 'overlay';
+  type: 'append' | 'switch';
   externalElementTabText?: string;
   scrollIntoViewOffset?: number;
   darkMode?: boolean;
@@ -165,18 +165,24 @@ export class IntegrationHost {
   }
 
   getRuntime(integration: Integration) {
-    // const type = this.config?.integrationTypes[integration.name] ?? integration.type;
-    const type = 'overlay' as string;
+    const { name, type } = integration;
+    const integrationConfig = this.config?.mediaIntegrations[name] ?? 'integration';
 
-    if (type === 'append') {
-      return new AppendIntegrationRuntime(integration);
+    if (integrationConfig === 'integration') {
+      if (type === 'append') {
+        return new AppendIntegrationRuntime(integration);
+      }
+
+      if (type === 'switch') {
+        return new SwitcherIntegrationRuntime(integration);
+      }
     }
 
-    if (type === 'switch') {
-      return new SwitcherIntegrationRuntime(integration);
+    if (integrationConfig === 'overlay') {
+      return new OverlayIntegrationRuntime(integration);
     }
 
-    return new OverlayIntegrationRuntime(integration);
+    return null;
   }
 
   mount(integration: Integration) {
@@ -197,7 +203,13 @@ export class IntegrationHost {
     log('element: ', element);
     log(`identifier: "${identifier}"`);
 
-    this.runtime = this.getRuntime(integration);
+    const runtime = this.getRuntime(integration);
+
+    if (!runtime) {
+      return log('integration is disabled');
+    }
+
+    this.runtime = runtime;
 
     log('mounting integration');
     this.runtime.mount();
