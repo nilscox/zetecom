@@ -27,17 +27,26 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
 
   module: {
     rules: [
       {
-        test: /.ts$/,
+        test: /\.ts$/,
         use: 'ts-loader',
       },
       {
-        test: /.css$/,
-        use: ['style-loader','css-loader'],
+        test: /\.s?css$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.svg$/,
+        use: 'raw-loader',
+      },
+      {
+        test: /\.png$/,
+        use: 'url-loader',
       },
     ],
   },
@@ -48,10 +57,12 @@ module.exports = {
 
   plugins: [
     new CleanWebpackPlugin(),
+
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
       APP_URL: 'http://localhost:8000',
     }),
+
     new CopyWebpackPlugin({
       patterns: [
         'manifest.json',

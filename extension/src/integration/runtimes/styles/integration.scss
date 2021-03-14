@@ -1,0 +1,21 @@
+#zetecom {
+  @import "./overlay.scss";
+  @import "./switcher.scss";
+
+  div, span, iframe {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  ::-moz-focus-inner {
+    border:0;
+  }
+}

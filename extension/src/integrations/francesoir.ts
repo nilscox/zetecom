@@ -5,7 +5,7 @@ export class FranceSoir implements Integration {
 
   name = 'francesoir';
   domains = ['www.francesoir.fr'];
-  type = 'switch' as const;
+  type = 'overlay' as const;
   externalElementTabText = 'Commentaires FranceSoir';
   scrollIntoViewOffset = 140;
 

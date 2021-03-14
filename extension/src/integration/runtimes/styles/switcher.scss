@@ -1,0 +1,61 @@
+&.zc-tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  margin: 20px 0;
+  text-align : center;
+  font-family: "Montserrat", sans-serif;
+
+  button {
+    margin: 0 10px;
+    padding: 5px;
+
+    outline: none;
+    font-size: 18px;
+    font-weight: 600;
+    background: transparent;
+
+    border: 0;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+
+    transition-property: border-color, color;
+    transition-duration: 200ms;
+    transition-timing-function: ease-in-out;
+
+    color: #667;
+    border-bottom-color: transparent;
+    cursor: pointer;
+    font-family: inherit;
+
+    &.active {
+      color: #334;
+      border-bottom-color: #CCC;
+      cursor: initial;
+    }
+  }
+
+  &.dark button {
+    color: #99A;
+
+    &.active {
+      color: #CCD;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    & {
+      flex-direction: column;
+      margin-left: 20px;
+    }
+
+    & button {
+      margin: 0;
+      padding: 5px 0;
+      text-align: left;
+      border-bottom-width: 0;
+    }
+  }
+}
+

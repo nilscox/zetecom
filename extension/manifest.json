@@ -42,7 +42,8 @@
         "*://*.liberation.fr/*",
         "*://*.science-et-vie.com/*",
         "*://*.skeptikon.fr/*",
-        "*://*.youtube.com/*"
+        "*://*.youtube.com/*",
+        "*://*/*"
       ],
       "js": ["content_script.js"]
     }

@@ -3,7 +3,7 @@ import { Integration } from '../integration/IntegrationHost';
 export class Test implements Integration {
   name = 'test';
   domains = ['localhost:8080'];
-  type = 'switch' as const;
+  type = 'overlay' as const;
   externalElementTabText = 'Commentaires Test';
 
   getElement() {

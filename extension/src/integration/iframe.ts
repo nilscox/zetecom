@@ -24,6 +24,10 @@ export default class IFrame {
     iframeResizer({ log: false, checkOrigin: false }, this.iframe);
   }
 
+  resize() {
+    (this.element as any)?.iFrameResizer.resize();
+  }
+
   private createIframe(identifier: string) {
     const iframe = document.createElement('iframe');
 

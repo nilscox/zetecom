@@ -1,4 +1,6 @@
-import log from './log';
+import { BaseIntegrationRuntime } from './BaseIntegrationRuntime';
+import IFrame from '../iframe';
+import log from '../log';
 
 export default class Switcher {
   private leftTab: HTMLButtonElement;
@@ -61,6 +63,7 @@ export default class Switcher {
   private createTabsContainer(left: HTMLButtonElement, right: HTMLButtonElement, darkMode: boolean) {
     const tabs = document.createElement('div');
 
+    tabs.id = 'zetecom';
     tabs.classList.add('zc-tabs');
 
     if (darkMode) {
@@ -83,5 +86,64 @@ export default class Switcher {
     tab.addEventListener('click', () => this.focus(which));
 
     return tab;
+  }
+}
+
+export class SwitcherIntegrationRuntime extends BaseIntegrationRuntime {
+  private switcher?: Switcher;
+
+  focusTab(tab: 'left' | 'right') {
+    this.switcher?.focus(tab);
+  }
+
+  mount() {
+    const { integration, identifier, element } = this;
+
+    if (!identifier) {
+      throw new Error('cannot get identifier');
+    }
+
+    if (!element) {
+      throw new Error('cannot get element');
+    }
+
+    if (document.querySelector('iframe#zc-iframe')) {
+      throw new Error('zc-iframe already exists in the document');
+    }
+
+    log('creating iframe');
+    const iframe = (this.iframe = new IFrame(identifier));
+
+    log('creating switcher');
+    const switcher = (this.switcher = new Switcher(
+      integration.externalElementTabText!,
+      'Commentaires Zétécom',
+      !!integration.darkMode,
+    ));
+
+    element.insertAdjacentElement('beforebegin', switcher.tabsElement);
+    element.insertAdjacentElement('afterend', iframe.element);
+
+    switcher.left = element;
+    switcher.right = iframe.element;
+
+    this.focusTab('left');
+
+    log('loading iframe resizer');
+    iframe.loadIframeResizer();
+  }
+
+  unmount() {
+    log('unmounting switcher');
+    this.switcher?.unmount();
+
+    log('unmounting iframe');
+    this.iframe?.unmount();
+  }
+
+  show() {
+    if (this.switcher) {
+      this.scrollIntoViewOffset(this.switcher.tabsElement);
+    }
   }
 }

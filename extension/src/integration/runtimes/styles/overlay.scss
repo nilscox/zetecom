@@ -1,0 +1,97 @@
+&.overlay-container {
+  position: fixed;
+  width: 640px;
+  max-width: calc(100vw - 2 * 16px);
+  max-height: calc(100vh - 2 * 16px);
+  bottom: 0;
+  right: 0;
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: all 125ms ease-in-out;
+  z-index: 999;
+}
+
+#iframe-container {
+  flex: 1;
+  overflow: hidden;
+  overflow-y: hidden;
+  border: 0;
+  border-radius: 4px;
+  transition: border 0ms;
+  transition-delay: 60ms;
+
+  &.visible {
+    overflow-y: auto;
+    border: 1px solid #CCC;
+  }
+
+  & #zc-iframe {
+    position: relative;
+    width: 100%;
+    right: calc(-640px - 16px);
+    border: 0;
+    box-sizing: border-box;
+    transition: all 125ms ease-in-out;
+    box-sizing: border-box;
+  }
+
+  &.visible #zc-iframe {
+    right: 0;
+  }
+}
+
+#overlay-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 16px;
+
+  .overlay-button {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    bottom: 0;
+    right: 0;
+    margin-right: 16px;
+    background-color: white;
+    color: #446;
+    border: 2px solid #446;
+    border-radius: 50%;
+    padding: 6px;
+    transition: all 125ms ease-in-out;
+    cursor: pointer;
+    opacity: 0;
+
+    &.visible {
+      opacity: 1;
+    }
+  }
+
+  #overlay-button {
+    width: 64px;
+    height: 64px;
+    background-color: white;
+    background-image: url('./logo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top 40% left 50%;
+    background-origin: content-box;
+    margin-right: 0;
+  }
+
+  #pin-overlay {
+    color: #4469;
+    padding: 12px;
+
+    &.pin-active {
+      color: #446;
+    }
+  }
+
+  #open-app {
+    padding: 9px;
+  }
+}

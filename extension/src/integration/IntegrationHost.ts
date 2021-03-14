@@ -1,18 +1,29 @@
-import loadFont from './font';
-import { AppendIntegrationRuntime, IntegrationRuntime, SwitcherIntegrationRuntime } from './IntegrationRuntime';
 import log from './log';
 import { Message, Messages } from './Messages';
+
+import { AppendIntegrationRuntime } from './runtimes/AppendIntegrationRuntime';
+import { SwitcherIntegrationRuntime } from './runtimes/SwitcherIntegrationRuntime';
+import { OverlayIntegrationRuntime } from './runtimes/OverlayIntegrationRuntime';
 
 export interface Integration {
   name: string;
   domains: string[];
-  type: 'append' | 'switch';
+  type: 'append' | 'switch' | 'overlay';
   externalElementTabText?: string;
   scrollIntoViewOffset?: number;
   darkMode?: boolean;
   getElement: () => HTMLElement | null;
   getIdentifier: (url: string) => string | null;
   onIFrameLoaded?: (iframe: HTMLIFrameElement) => void;
+}
+
+export interface IntegrationRuntime {
+  commentsAreaId?: number;
+  readonly integration: Integration;
+  readonly identifier: string | null;
+  mount(): void;
+  unmount(): void;
+  show(): void;
 }
 
 const watchPageUrl = (cb: () => void) => {
@@ -40,11 +51,20 @@ export class IntegrationHost {
     this.integrations.push(integration);
   }
 
+  loadFont() {
+    const font = document.createElement('link');
+
+    font.href = 'https://fonts.googleapis.com/css2?family=Montserrat&display=swap';
+    font.rel = 'stylesheet';
+
+    document.head.appendChild(font);
+  }
+
   run() {
     log('starting integration host');
 
     log('loading font');
-    loadFont();
+    this.loadFont();
 
     log('registering location change handler');
     watchPageUrl(() => this.handleLocationChange());
@@ -62,7 +82,12 @@ export class IntegrationHost {
   handleIframeMessage(message: Message) {
     if (message.type === 'INTEGRATION_LOADED') {
       this.loaded = true;
+
       Messages.send('runtime', { type: 'SET_EXTENSION_ACTIVE', comments: message.comments });
+
+      if (this.runtime) {
+        this.runtime.commentsAreaId = message.commentsAreaId;
+      }
     }
   }
 
@@ -141,7 +166,11 @@ export class IntegrationHost {
       return new AppendIntegrationRuntime(integration);
     }
 
-    return new SwitcherIntegrationRuntime(integration);
+    if (integration.type === 'switch') {
+      return new SwitcherIntegrationRuntime(integration);
+    }
+
+    return new OverlayIntegrationRuntime(integration);
   }
 
   mount(integration: Integration) {
@@ -181,6 +210,6 @@ export class IntegrationHost {
       (this.runtime as SwitcherIntegrationRuntime).focusTab('right');
     }
 
-    this.runtime.scrollIntoView();
+    this.runtime.show();
   }
 }
