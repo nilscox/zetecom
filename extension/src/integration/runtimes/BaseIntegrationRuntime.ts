@@ -1,5 +1,5 @@
 import { Integration, IntegrationRuntime } from '../IntegrationHost';
-import IFrame from '../iframe';
+import IFrame from '../IFrame';
 
 import './styles/integration.scss';
 
@@ -7,7 +7,7 @@ const APP_URL = process.env.APP_URL as string;
 
 export abstract class BaseIntegrationRuntime implements IntegrationRuntime {
   public commentsAreaId?: number;
-  protected iframe?: IFrame;
+  public iframe?: IFrame;
 
   constructor(public readonly integration: Integration) {}
 

@@ -1,39 +1,66 @@
 import { iframeResizer } from 'iframe-resizer';
 
-import log from '../integration/log';
+import log from '../utils/log';
+import {
+  IFrameToPopupMessage,
+  PopupToBackgroundScriptMessage,
+  PopupToContentScriptMessage,
+  PopupToIFrameMessage,
+} from '../types';
 
-const iframeMessages = ['SCROLL_IFRAME_INTO_VIEW', 'GET_INTEGRATION_STATE'];
-const contentScriptMessages = ['INTEGRATION_STATE'];
+const iframe = document.getElementById('popup-iframe') as HTMLIFrameElement;
 
-window.addEventListener('DOMContentLoaded', () => {
-  const iframe: HTMLIFrameElement = document.getElementById('popup-iframe') as HTMLIFrameElement;
+const sendMessageToPopup = (message: PopupToIFrameMessage) => {
+  log('send message to popup', message);
+  iframe.contentWindow?.postMessage(message, process.env.APP_URL!);
+};
 
-  if (!iframe) {
+const sendMessageToContentScript = (message: PopupToContentScriptMessage, onResponse?: (response: any) => void) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs[0]?.id) {
+      log('send message to app', message);
+      chrome.tabs.sendMessage(tabs[0].id, message, onResponse);
+    }
+  });
+};
+
+const sendMessageToBackgroundScript = (
+  message: PopupToBackgroundScriptMessage,
+  onResponse?: (response: any) => void,
+) => {
+  log('send message to background script', message);
+  chrome.runtime.sendMessage(message, onResponse);
+};
+
+const handleIFrameMessage = (message: IFrameToPopupMessage) => {
+  if (typeof message.type !== 'string') {
     return;
   }
 
-  chrome.runtime.onMessage.addListener((data) => {
-    if (!contentScriptMessages.includes(data.type)) {
-      return;
-    }
+  log('message from popup', message);
 
-    log('popup forward to iframe', data);
-    iframe.contentWindow?.postMessage(data, process.env.APP_URL!);
-  });
+  if (message.type === 'focusApp') {
+    return sendMessageToContentScript(message);
+  }
 
-  window.addEventListener('message', ({ data }) => {
-    if (!iframeMessages.includes(data?.type)) {
-      return;
-    }
-
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]?.id) {
-        log('popup forward to tab', data);
-        chrome.tabs.sendMessage(tabs[0].id, data);
-      }
+  if (message.type === 'getIntegrationState') {
+    return sendMessageToContentScript(message, (state) => {
+      sendMessageToPopup({ type: 'integrationState', state });
     });
-  });
+  }
 
-  iframe.src = `${process.env.APP_URL}/popup?pageUrl=${location.origin}`;
-  iframeResizer({ log: false, checkOrigin: false }, iframe);
-});
+  if (message.type === 'getExtensionConfig') {
+    return sendMessageToBackgroundScript(message, (config) => {
+      sendMessageToPopup({ type: 'extensionConfig', config });
+    });
+  }
+
+  if (message.type === 'setExtensionConfig') {
+    return sendMessageToBackgroundScript(message);
+  }
+};
+
+window.addEventListener('message', ({ data }) => handleIFrameMessage(data));
+
+iframe.src = `${process.env.APP_URL}/popup?pageUrl=${location.origin}`;
+iframeResizer({ log: false, checkOrigin: false }, iframe);

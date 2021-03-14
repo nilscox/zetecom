@@ -1,5 +1,7 @@
-import log from './log';
-import { Message, Messages } from './Messages';
+import log from '../utils/log';
+import { ContentScriptMessages } from './ContentScriptMessages';
+import IFrame from './IFrame';
+import { ExtensionConfig } from '../types';
 
 import { AppendIntegrationRuntime } from './runtimes/AppendIntegrationRuntime';
 import { SwitcherIntegrationRuntime } from './runtimes/SwitcherIntegrationRuntime';
@@ -21,6 +23,7 @@ export interface IntegrationRuntime {
   commentsAreaId?: number;
   readonly integration: Integration;
   readonly identifier: string | null;
+  readonly iframe?: IFrame;
   mount(): void;
   unmount(): void;
   show(): void;
@@ -46,6 +49,16 @@ export class IntegrationHost {
   private runtime?: IntegrationRuntime;
   private identifier?: string;
   private loaded = false;
+  private config?: ExtensionConfig;
+
+  private messages = new ContentScriptMessages(this);
+
+  get state() {
+    return {
+      available: !!this.runtime,
+      loaded: this.loaded,
+    };
+  }
 
   register(integration: Integration) {
     this.integrations.push(integration);
@@ -60,7 +73,7 @@ export class IntegrationHost {
     document.head.appendChild(font);
   }
 
-  run() {
+  async run() {
     log('starting integration host');
 
     log('loading font');
@@ -69,39 +82,29 @@ export class IntegrationHost {
     log('registering location change handler');
     watchPageUrl(() => this.handleLocationChange());
 
-    log('registering iframe messages handler');
-    Messages.listen('iframe', (message) => this.handleIframeMessage(message));
-
-    log('registering runtime messages handler');
-    Messages.listen('runtime', (message) => this.handleRuntimeMessage(message));
+    this.config = await this.messages.sendToBackgroundScript('getExtensionConfig');
+    log('extension config', this.config);
 
     log('initializing integration');
     this.initialize();
   }
 
-  handleIframeMessage(message: Message) {
-    if (message.type === 'INTEGRATION_LOADED') {
-      this.loaded = true;
+  setConfig(config: ExtensionConfig) {
+    this.messages.sendToBackgroundScript('setExtensionConfig', { config });
+  }
 
-      Messages.send('runtime', { type: 'SET_EXTENSION_ACTIVE', comments: message.comments });
+  onIntegrationLoaded(commentsAreaId: number, comments: number) {
+    this.loaded = true;
 
-      if (this.runtime) {
-        this.runtime.commentsAreaId = message.commentsAreaId;
-      }
+    this.messages.sendToBackgroundScript('setExtensionActive', { comments });
+
+    if (this.runtime) {
+      this.runtime.commentsAreaId = commentsAreaId;
     }
   }
 
-  handleRuntimeMessage(message: Message) {
-    if (message.type === 'SCROLL_IFRAME_INTO_VIEW') {
-      this.scrollIntoView();
-    } else if (message.type === 'GET_INTEGRATION_STATE') {
-      const state = {
-        available: !!this.runtime,
-        loaded: this.loaded,
-      };
-
-      Messages.send('runtime', { type: 'INTEGRATION_STATE', state });
-    }
+  sendMessageToApp(message: unknown) {
+    this.runtime?.iframe?.element.contentWindow?.postMessage(message, process.env.APP_URL!);
   }
 
   handleLocationChange() {
@@ -124,7 +127,7 @@ export class IntegrationHost {
     this.runtime = undefined;
     this.loaded = false;
 
-    Messages.send('runtime', { type: 'UNSET_EXTENSION_ACTIVE' });
+    this.messages.sendToBackgroundScript('unsetExtensionActive');
 
     if (identifier) {
       setTimeout(() => {
@@ -162,11 +165,14 @@ export class IntegrationHost {
   }
 
   getRuntime(integration: Integration) {
-    if (integration.type === 'append') {
+    // const type = this.config?.integrationTypes[integration.name] ?? integration.type;
+    const type = 'overlay' as string;
+
+    if (type === 'append') {
       return new AppendIntegrationRuntime(integration);
     }
 
-    if (integration.type === 'switch') {
+    if (type === 'switch') {
       return new SwitcherIntegrationRuntime(integration);
     }
 
@@ -201,7 +207,7 @@ export class IntegrationHost {
     this.identifier = identifier;
   }
 
-  scrollIntoView() {
+  showCommentsArea() {
     if (!this.runtime) {
       return;
     }

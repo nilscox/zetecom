@@ -5,12 +5,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 require('dotenv').config();
 
-const {
-  NODE_ENV = 'development',
-} = process.env;
+const { NODE_ENV = 'development' } = process.env;
 
 module.exports = {
-
   mode: NODE_ENV,
 
   entry: {
@@ -18,7 +15,7 @@ module.exports = {
       import: './' + path.join('src', 'popup', 'popup.ts'),
       filename: 'popup/[name].js',
     },
-    background: './src/background.ts',
+    background_script: './src/background_script.ts',
     content_script: './src/content_script.ts',
   },
 
@@ -52,7 +49,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.json', '.js', '.ts']
+    extensions: ['.json', '.js', '.ts'],
   },
 
   plugins: [
@@ -71,7 +68,6 @@ module.exports = {
       ],
     }),
   ],
-
 };
 
 // console.log(JSON.stringify(module.exports, null, 2));

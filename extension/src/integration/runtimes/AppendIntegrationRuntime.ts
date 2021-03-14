@@ -1,6 +1,6 @@
 import { BaseIntegrationRuntime } from './BaseIntegrationRuntime';
-import IFrame from '../iframe';
-import log from '../log';
+import IFrame from '../IFrame';
+import log from '../../utils/log';
 
 export class AppendIntegrationRuntime extends BaseIntegrationRuntime {
   mount() {

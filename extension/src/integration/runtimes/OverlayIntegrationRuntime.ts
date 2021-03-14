@@ -1,6 +1,6 @@
 import { BaseIntegrationRuntime } from './BaseIntegrationRuntime';
-import IFrame from '../iframe';
-import log from '../log';
+import IFrame from '../IFrame';
+import log from '../../utils/log';
 
 import pin from './icons/pin.svg';
 import open from './icons/open.svg';
@@ -16,10 +16,15 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
   private iframeContainer = OverlayIntegrationRuntime.createElement('div', { id: 'iframe-container' });
   private buttonsContainer = OverlayIntegrationRuntime.createElement('div', { id: 'overlay-buttons' });
 
-  private overlayButton = OverlayIntegrationRuntime.createElement('button', { id: 'overlay-button' }, ['overlay-button', 'visible']);
+  private overlayButton = OverlayIntegrationRuntime.createElement('button', { id: 'overlay-button' }, [
+    'overlay-button',
+    'visible',
+  ]);
   private pinButton = OverlayIntegrationRuntime.createElement('button', { id: 'pin-overlay' }, ['overlay-button']);
   private openAppButton = OverlayIntegrationRuntime.createElement('button', { id: 'open-app' }, ['overlay-button']);
-  private largeOverlayButton = OverlayIntegrationRuntime.createElement('button', { id: 'large-overlay' }, ['overlay-button']);
+  private largeOverlayButton = OverlayIntegrationRuntime.createElement('button', { id: 'large-overlay' }, [
+    'overlay-button',
+  ]);
 
   private static createElement(type: string, attrs: Record<string, any> = {}, classes: string[] = []) {
     const el = document.createElement(type);
@@ -99,7 +104,7 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
   private onHideIframeTransitionEnd = () => {
     this.iframe?.element.removeEventListener('transitionend', this.onHideIframeTransitionEnd);
     this.overlayButton.addEventListener('mouseover', this.onOverlayButtonMouseOver);
-  }
+  };
 
   private onOverlayeMouseLeave = () => {
     this.overlayContainer.removeEventListener('mouseleave', this.onOverlayeMouseLeave);
@@ -109,12 +114,12 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
 
     this.large = false;
     this.showOverlayButtons = false;
-  }
+  };
 
   private onShowIframeTransitionEnd = () => {
     this.iframe?.element.removeEventListener('transitionend', this.onShowIframeTransitionEnd);
     this.overlayContainer.addEventListener('mouseleave', this.onOverlayeMouseLeave);
-  }
+  };
 
   private onOverlayButtonMouseOver = () => {
     this.overlayButton.removeEventListener('mouseover', this.onOverlayButtonMouseOver);
@@ -123,7 +128,7 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
     this.iframeContainer.classList.add('visible');
 
     this.showOverlayButtons = true;
-  }
+  };
 
   mount() {
     const { identifier } = this;
@@ -151,13 +156,13 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
     this.buttonsContainer.appendChild(this.largeOverlayButton);
 
     this.pinButton.innerHTML = pin;
-    this.pinButton.addEventListener('click', () => this.pin = !this.pin);
+    this.pinButton.addEventListener('click', () => (this.pin = !this.pin));
 
     this.openAppButton.innerHTML = open;
     this.openAppButton.addEventListener('click', () => window.open(this.commentsAreaUrl, '_blank'));
 
     this.largeOverlayButton.innerHTML = expand;
-    this.largeOverlayButton.addEventListener('click', () => this.large = !this.large);
+    this.largeOverlayButton.addEventListener('click', () => (this.large = !this.large));
 
     this.overlayButton.addEventListener('mouseover', this.onOverlayButtonMouseOver);
 

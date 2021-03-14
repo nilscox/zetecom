@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import Button from 'src/components/elements/Button/Button';
-import useIFrameMessages from 'src/extension/hooks/useIFrameMessages';
 import { fontSize, spacing } from 'src/theme';
+
+import { getIntegrationState, onFocusApp } from '../../messages';
+import { IntegrationState } from '../../types';
 
 const IntegrationStateText = styled.div`
   margin: ${spacing(4, 0)};
@@ -18,27 +20,17 @@ const ShowIntegrationButton = styled(Button)`
   display: block;
 `;
 
-const IntegrationState: React.FC = () => {
-  const [sendMessage, addListener] = useIFrameMessages();
-  const [state, setState] = useState<{ available: boolean; loaded: boolean }>();
+const IntegrationStateView: React.FC = () => {
+  const [integrationState, setIntegrationState] = useState<IntegrationState>();
 
-  useEffect(() => {
-    // TODO: cleanup
-    addListener(message => {
-      if (message.type === 'INTEGRATION_STATE') {
-        setState(message.state);
-      }
-    });
-
-    sendMessage({ type: 'GET_INTEGRATION_STATE' });
-  }, [sendMessage, addListener]);
+  useEffect(() => getIntegrationState(setIntegrationState), []);
 
   const getText = () => {
-    if (!state || !state.available) {
+    if (!integrationState || !integrationState.available) {
       return "Aucune zone de commentaire n'est disponible sur cette page.";
     }
 
-    if (state.loaded) {
+    if (integrationState.loaded) {
       return 'Une zone de commentaires est disponible sur cette page.';
     }
 
@@ -48,13 +40,9 @@ const IntegrationState: React.FC = () => {
   return (
     <>
       <IntegrationStateText>{getText()}</IntegrationStateText>
-      {state?.available && (
-        <ShowIntegrationButton onClick={() => sendMessage({ type: 'SCROLL_IFRAME_INTO_VIEW' })}>
-          Voir
-        </ShowIntegrationButton>
-      )}
+      {integrationState?.available && <ShowIntegrationButton onClick={onFocusApp}>Voir</ShowIntegrationButton>}
     </>
   );
 };
 
-export default IntegrationState;
+export default IntegrationStateView;
