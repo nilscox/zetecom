@@ -11,9 +11,6 @@ import { NotificationType } from './notification-type';
 
 @Injectable()
 export class NotificationService {
-  @Inject('NOTIFICATION_PAGE_SIZE')
-  private readonly pageSize: number;
-
   constructor(
     @InjectRepository(Notification)
     private readonly notificationRepository: Repository<Notification>,
@@ -27,12 +24,12 @@ export class NotificationService {
     return this.notificationRepository.insert(users.map((user) => ({ type, payload, user })));
   }
 
-  async findForUser(user: User, page: number, search?: string): Promise<Paginated<Notification>> {
+  async findForUser(user: User, page: number, pageSize: number, search?: string): Promise<Paginated<Notification>> {
     const qb = this.notificationRepository
       .createQueryBuilder('notification')
       .where('notification.user.id = :userId', { userId: user.id })
-      .skip((page - 1) * this.pageSize)
-      .take(this.pageSize);
+      .skip((page - 1) * pageSize)
+      .take(pageSize);
 
     if (search) {
       qb.andWhere(

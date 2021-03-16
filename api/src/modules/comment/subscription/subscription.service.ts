@@ -15,9 +15,6 @@ import { Subscription } from './subscription.entity';
 
 @Injectable()
 export class SubscriptionService {
-  @Inject('SUBSCRIPTION_PAGE_SIZE')
-  private pageSize: number;
-
   constructor(
     @InjectRepository(Subscription)
     private readonly subscriptionRepository: Repository<Subscription>,
@@ -41,7 +38,7 @@ export class SubscriptionService {
     return this.subscriptionRepository.findOne(where);
   }
 
-  public async findAllForUser(user: UserDto, page: number): Promise<Paginated<Subscription>> {
+  public async findAllForUser(user: UserDto, page: number, pageSize: number): Promise<Paginated<Subscription>> {
     const qb = this.subscriptionRepository
       .createQueryBuilder('comment_subscription')
       .leftJoinAndSelect('comment_subscription.comment', 'comment')
@@ -49,8 +46,8 @@ export class SubscriptionService {
       .leftJoinAndSelect('comment.author', 'author')
       .leftJoinAndSelect('comment.message', 'message')
       .where('user_id = :userId', { userId: user.id })
-      .skip((page - 1) * this.pageSize)
-      .take(this.pageSize);
+      .skip((page - 1) * pageSize)
+      .take(pageSize);
 
     const [items, total] = await qb.getManyAndCount();
 
@@ -72,7 +69,7 @@ export class SubscriptionService {
     return commentsIds.reduce(
       (acc, commentId) => ({
         ...acc,
-        [commentId]: !!subscriptions.find(s => s.commentId === commentId),
+        [commentId]: !!subscriptions.find((s) => s.commentId === commentId),
       }),
       {},
     );

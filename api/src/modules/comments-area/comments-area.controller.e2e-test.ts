@@ -21,18 +21,9 @@ import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-
 import { CommentsAreaRequestFactory } from './comments-area-request/comments-area-request.factory';
 
 describe('comments area controller', () => {
-  const { server } = setupE2eTest(
-    {
-      imports: [CommentsAreaModule, AuthenticationModule],
-    },
-    moduleBuilder => {
-      moduleBuilder
-        .overrideProvider('COMMENTS_AREA_PAGE_SIZE')
-        .useValue(2)
-        .overrideProvider('COMMENT_PAGE_SIZE')
-        .useValue(2);
-    },
-  );
+  const { server } = setupE2eTest({
+    imports: [CommentsAreaModule, AuthenticationModule],
+  });
 
   const commentsAreaFactory = new CommentsAreaFactory();
   const commentFactory = new CommentFactory();
@@ -64,15 +55,30 @@ describe('comments area controller', () => {
       const { body } = await request(server).get('/api/comments-area').expect(200);
 
       expect(body).toMatchObject({
-        items: [{ id: commentsArea3.id }, { id: commentsArea2.id }],
+        items: [{ id: commentsArea3.id }, { id: commentsArea2.id }, { id: commentsArea1.id }],
         total: 3,
       });
     });
 
-    it('should list all comments areas on page 2', async () => {
-      const { body } = await request(server).get('/api/comments-area').query({ page: 2 }).expect(200);
+    it('should limit the page size to 50', async () => {
+      await request(server).get('/api/comments-area').query({ pageSize: 50 }).expect(200);
+      await request(server).get('/api/comments-area').query({ pageSize: 51 }).expect(418);
+    });
 
-      expect(body).toMatchObject({
+    it('should list all comments areas paginated', async () => {
+      const { body: page1 } = await request(server).get('/api/comments-area').query({ pageSize: 2 }).expect(200);
+
+      expect(page1).toMatchObject({
+        items: [{ id: commentsArea3.id }, { id: commentsArea2.id }],
+        total: 3,
+      });
+
+      const { body: page2 } = await request(server)
+        .get('/api/comments-area')
+        .query({ pageSize: 2, page: 2 })
+        .expect(200);
+
+      expect(page2).toMatchObject({
         items: [{ id: commentsArea1.id }],
         total: 3,
       });

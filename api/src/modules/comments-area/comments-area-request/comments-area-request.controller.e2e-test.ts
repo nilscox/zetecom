@@ -25,10 +25,12 @@ describe('comments area request controller', () => {
   });
 
   describe('list pending requests', () => {
-    let commentsAreaRequest: CommentsAreaRequest;
+    let request1: CommentsAreaRequest;
+    let request2: CommentsAreaRequest;
 
     beforeAll(async () => {
-      commentsAreaRequest = await commentsAreaRequestFactory.create();
+      request1 = await commentsAreaRequestFactory.create();
+      request2 = await commentsAreaRequestFactory.create();
     });
 
     const [asUser] = createAuthenticatedUser(server);
@@ -43,8 +45,27 @@ describe('comments area request controller', () => {
       const { body } = await asModerator.get('/api/comments-area/request').expect(200);
 
       expect(body).toMatchObject({
-        total: 1,
-        items: [{ id: commentsAreaRequest.id }],
+        total: 2,
+        items: [{ id: request1.id }, { id: request2.id }],
+      });
+    });
+
+    it('should list pending requests paginated', async () => {
+      const { body: page1 } = await asModerator.get('/api/comments-area/request').query({ pageSize: 1 }).expect(200);
+
+      expect(page1).toMatchObject({
+        total: 2,
+        items: [{ id: request1.id }],
+      });
+
+      const { body: page2 } = await asModerator
+        .get('/api/comments-area/request')
+        .query({ pageSize: 1, page: 2 })
+        .expect(200);
+
+      expect(page2).toMatchObject({
+        total: 2,
+        items: [{ id: request2.id }],
       });
     });
   });

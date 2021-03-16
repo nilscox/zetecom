@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Inject,
   NotFoundException,
   Param,
   ParseIntPipe,
@@ -18,16 +17,10 @@ import { CastToDto } from 'src/common/cast-to-dto.interceptor';
 import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
 import { OptionalQuery } from 'src/common/optional-query.decorator';
 import { PageQuery } from 'src/common/page-query.decorator';
+import { PageSizeQuery } from 'src/common/page-size-query.decorator';
 import { Paginated } from 'src/common/paginated';
 import { Roles } from 'src/common/roles.decorator';
-import { SearchQuery } from 'src/common/search-query.decorator';
-import { SortType } from 'src/common/sort-type';
-import { SortTypePipe } from 'src/common/sort-type.pipe';
 import { Role } from 'src/modules/authorization/roles.enum';
-import { Comment } from 'src/modules/comment/comment.entity';
-import { CommentService } from 'src/modules/comment/comment.service';
-import { CommentDto } from 'src/modules/comment/dtos/comment.dto';
-import { PopulateComment } from 'src/modules/comment/populate-comment.interceptor';
 import { User } from 'src/modules/user/user.entity';
 
 import { CommentsArea } from './comments-area.entity';
@@ -42,17 +35,10 @@ import { PopulateCommentsArea } from './populate-comments-area.interceptor';
 @Controller('comments-area')
 @UseInterceptors(ClassToPlainInterceptor)
 export class CommentsAreaController {
-  @Inject('COMMENTS_AREA_PAGE_SIZE')
-  private readonly commentsAreaPageSize: number;
-
-  @Inject('COMMENT_PAGE_SIZE')
-  private readonly commentPageSize: number;
-
   constructor(
     private readonly commentsAreaService: CommentsAreaService,
     private readonly commentsAreaIntegrationService: CommentsAreaIntegrationService,
     private readonly commentsAreaRepository: CommentsAreaRepository,
-    private readonly commentService: CommentService,
   ) {}
 
   @Get()
@@ -61,8 +47,9 @@ export class CommentsAreaController {
   async findAll(
     @OptionalQuery({ key: 'search', defaultValue: null }) search: string | null,
     @PageQuery() page: number,
+    @PageSizeQuery() pageSize: number,
   ): Promise<Paginated<CommentsArea>> {
-    return this.commentsAreaRepository.findAllPaginated(search, page, this.commentsAreaPageSize);
+    return this.commentsAreaRepository.findAllPaginated(search, page, pageSize);
   }
 
   @Get(':id(\\d+)')
@@ -89,24 +76,6 @@ export class CommentsAreaController {
     }
 
     return integration.commentsArea;
-  }
-
-  @Get(':id/comments')
-  @CastToDto(CommentDto)
-  @UseInterceptors(PopulateComment)
-  async findComments(
-    @Param('id', new ParseIntPipe()) id: number,
-    @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
-    @SearchQuery() search: string,
-    @PageQuery() page: number,
-  ): Promise<Paginated<Comment>> {
-    if (!(await this.commentsAreaService.exists(id))) {
-      throw new NotFoundException();
-    }
-
-    return search
-      ? this.commentService.search(id, search, sort, page, this.commentPageSize)
-      : this.commentService.findRoot(id, sort, page, this.commentPageSize);
   }
 
   @Post()

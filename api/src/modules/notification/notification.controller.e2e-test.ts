@@ -56,6 +56,24 @@ describe('notifications', () => {
       });
     });
 
+    it("should fetch the user's notifications paginated", async () => {
+      const { body: page1 } = await userRequest.get('/api/notification/me').query({ pageSize: 1 }).expect(200);
+
+      expect(page1).toMatchObject({
+        items: [
+          { type: NotificationType.SUBSCRIPTION_REPLY, payload: subscriptionReplyPayload, seen: expect.any(String) },
+        ],
+        total: 2,
+      });
+
+      const { body: page2 } = await userRequest.get('/api/notification/me').query({ pageSize: 1, page: 2 }).expect(200);
+
+      expect(page2).toMatchObject({
+        items: [{ type: NotificationType.RULES_UPDATE, payload: { version: '4.2' } }],
+        total: 2,
+      });
+    });
+
     it("should search the users's notifications", async () => {
       const { body } = await userRequest.get('/api/notification/me').query({ search: 'title' }).expect(200);
 

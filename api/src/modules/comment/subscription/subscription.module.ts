@@ -1,4 +1,4 @@
-import { forwardRef, Module, Provider } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -11,12 +11,6 @@ import { SubscriptionController } from './subscription.controller';
 import { Subscription } from './subscription.entity';
 import { SubscriptionService } from './subscription.service';
 
-const SUBSCRIPTION_PAGE_SIZE = 'SUBSCRIPTION_PAGE_SIZE';
-const SubscriptionPageSize: Provider = {
-  provide: SUBSCRIPTION_PAGE_SIZE,
-  useValue: 10,
-};
-
 @Module({
   imports: [
     CqrsModule,
@@ -26,7 +20,7 @@ const SubscriptionPageSize: Provider = {
     NotificationModule,
   ],
   controllers: [SubscriptionController],
-  providers: [SubscriptionPageSize, SubscriptionService, NotifySubscriptionReplyHandler],
+  providers: [SubscriptionService, NotifySubscriptionReplyHandler],
   exports: [SubscriptionService],
 })
 export class SubscriptionModule {}

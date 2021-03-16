@@ -24,6 +24,7 @@ import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
 import { IsAuthor, IsNotAuthor } from 'src/common/is-author.guard';
 import { OptionalQuery } from 'src/common/optional-query.decorator';
 import { PageQuery } from 'src/common/page-query.decorator';
+import { PageSizeQuery } from 'src/common/page-size-query.decorator';
 import { Paginated } from 'src/common/paginated';
 import { SearchQuery } from 'src/common/search-query.decorator';
 import { SortType } from 'src/common/sort-type';
@@ -51,9 +52,6 @@ import { SubscriptionService } from './subscription/subscription.service';
 @Controller('/comment')
 @UseInterceptors(ClassToPlainInterceptor)
 export class CommentController {
-  @Inject('COMMENT_PAGE_SIZE')
-  private readonly commentPageSize: number;
-
   constructor(
     private readonly commentsAreaService: CommentsAreaService,
     private readonly commentService: CommentService,
@@ -71,7 +69,7 @@ export class CommentController {
     @SearchQuery() search: string,
     @PageQuery() page: number,
   ): Promise<Paginated<{ commentsArea: CommentsArea; comments: Comment[] }>> {
-    return this.commentService.findForUser(user.id, search, page, this.commentPageSize);
+    return this.commentService.findForUser(user.id, search, page, 0);
   }
 
   @Get()
@@ -82,6 +80,7 @@ export class CommentController {
     @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
     @SearchQuery() search: string,
     @PageQuery() page: number,
+    @PageSizeQuery() pageSize: number,
   ) {
     const commentsArea = await this.commentsAreaService.findById(commentsAreaId);
 
@@ -90,8 +89,8 @@ export class CommentController {
     }
 
     return search
-      ? this.commentService.search(commentsArea.id, search, sort, page, this.commentPageSize)
-      : this.commentService.findRoot(commentsArea.id, sort, page, this.commentPageSize);
+      ? this.commentService.search(commentsArea.id, search, sort, page, pageSize)
+      : this.commentService.findRoot(commentsArea.id, sort, page, pageSize);
   }
 
   @Get(':id')
@@ -125,12 +124,13 @@ export class CommentController {
   async findReplies(
     @Param('id', new ParseIntPipe()) id: number,
     @PageQuery() page: number,
+    @PageSizeQuery() pageSize: number,
   ): Promise<Paginated<Comment>> {
     if (!(await this.commentService.exists(id))) {
       throw new NotFoundException();
     }
 
-    return this.commentService.findReplies(id, page, this.commentPageSize);
+    return this.commentService.findReplies(id, page, pageSize);
   }
 
   // TODO: return 204

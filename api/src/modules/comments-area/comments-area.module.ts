@@ -1,8 +1,7 @@
-import { forwardRef, Module, Provider } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CommentModule } from 'src/modules/comment/comment.module';
 import { UserModule } from 'src/modules/user/user.module';
 
 import { CommentsAreaController } from './comments-area.controller';
@@ -12,23 +11,16 @@ import { CommentsAreaIntegrationModule } from './comments-area-integration/comme
 import { CommentsAreaRequestModule } from './comments-area-request/comments-area-request.module';
 import { PopulateCommentsArea } from './populate-comments-area.interceptor';
 
-const COMMENTS_AREA_PAGE_SIZE = 'COMMENTS_AREA_PAGE_SIZE';
-const CommentsAreaPageSize: Provider = {
-  provide: COMMENTS_AREA_PAGE_SIZE,
-  useValue: 10,
-};
-
 @Module({
   imports: [
     TypeOrmModule.forFeature([CommentsAreaRepository]),
     CqrsModule,
     UserModule,
-    forwardRef(() => CommentModule),
     forwardRef(() => CommentsAreaRequestModule),
     CommentsAreaIntegrationModule,
   ],
   controllers: [CommentsAreaController],
-  providers: [CommentsAreaPageSize, CommentsAreaService, PopulateCommentsArea],
-  exports: [TypeOrmModule, CommentsAreaPageSize, CommentsAreaService, PopulateCommentsArea],
+  providers: [CommentsAreaService, PopulateCommentsArea],
+  exports: [TypeOrmModule, CommentsAreaService, PopulateCommentsArea],
 })
 export class CommentsAreaModule {}

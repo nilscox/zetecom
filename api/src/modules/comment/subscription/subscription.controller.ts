@@ -4,6 +4,7 @@ import { IsAuthenticated } from 'src/common/auth.guard';
 import { AuthUser } from 'src/common/auth-user.decorator';
 import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
 import { PageQuery } from 'src/common/page-query.decorator';
+import { PageSizeQuery } from 'src/common/page-size-query.decorator';
 import { Paginated } from 'src/common/paginated';
 import { User } from 'src/modules/user/user.entity';
 
@@ -21,7 +22,11 @@ export class SubscriptionController {
   @Get('me')
   @UseGuards(IsAuthenticated)
   @UseInterceptors(PopulateSubscription)
-  findForUser(@AuthUser() user: User, @PageQuery() page: number): Promise<Paginated<Subscription>> {
-    return this.subscriptionService.findAllForUser(user, page);
+  findForUser(
+    @AuthUser() user: User,
+    @PageQuery() page: number,
+    @PageSizeQuery() pageSize: number,
+  ): Promise<Paginated<Subscription>> {
+    return this.subscriptionService.findAllForUser(user, page, pageSize);
   }
 }

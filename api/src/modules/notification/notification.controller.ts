@@ -20,6 +20,7 @@ import { AuthUser } from 'src/common/auth-user.decorator';
 import { CastToDto } from 'src/common/cast-to-dto.interceptor';
 import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
 import { PageQuery } from 'src/common/page-query.decorator';
+import { PageSizeQuery } from 'src/common/page-size-query.decorator';
 import { Paginated } from 'src/common/paginated';
 import { Roles } from 'src/common/roles.decorator';
 import { SearchQuery } from 'src/common/search-query.decorator';
@@ -50,9 +51,10 @@ export class NotificationController {
   async findForUser(
     @AuthUser() user: User,
     @PageQuery() page: number,
+    @PageSizeQuery() pageSize: number,
     @SearchQuery() search?: string,
   ): Promise<Paginated<Notification>> {
-    return this.notificationService.findForUser(user, page, search);
+    return this.notificationService.findForUser(user, page, pageSize, search);
   }
 
   @Get('me/count')

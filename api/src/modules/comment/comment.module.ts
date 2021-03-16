@@ -1,4 +1,4 @@
-import { forwardRef, Module, Provider } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -14,12 +14,6 @@ import { Reaction } from './reaction.entity';
 import { ReportModule } from './report/report.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 
-const COMMENT_PAGE_SIZE = 'COMMENT_PAGE_SIZE';
-const CommentPageSize: Provider = {
-  provide: COMMENT_PAGE_SIZE,
-  useValue: 10,
-};
-
 @Module({
   imports: [
     CqrsModule,
@@ -30,7 +24,7 @@ const CommentPageSize: Provider = {
     forwardRef(() => SubscriptionModule),
   ],
   controllers: [CommentController],
-  providers: [CommentPageSize, CommentService, PopulateComment],
-  exports: [TypeOrmModule, CommentPageSize, CommentService, PopulateComment],
+  providers: [CommentService, PopulateComment],
+  exports: [TypeOrmModule, CommentService, PopulateComment],
 })
 export class CommentModule {}

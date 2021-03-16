@@ -4,7 +4,6 @@ import {
   Controller,
   Get,
   HttpCode,
-  Inject,
   NotFoundException,
   Param,
   ParseIntPipe,
@@ -18,6 +17,7 @@ import { AuthUser } from 'src/common/auth-user.decorator';
 import { CastToDto } from 'src/common/cast-to-dto.interceptor';
 import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
 import { PageQuery } from 'src/common/page-query.decorator';
+import { PageSizeQuery } from 'src/common/page-size-query.decorator';
 import { Paginated } from 'src/common/paginated';
 import { Roles } from 'src/common/roles.decorator';
 import { Role } from 'src/modules/authorization/roles.enum';
@@ -32,17 +32,17 @@ import { CommentsAreaRequestRejectedInDto } from './dtos/comments-area-request-r
 @Controller('comments-area/request')
 @UseInterceptors(ClassToPlainInterceptor)
 export class CommentsAreaRequestController {
-  @Inject('COMMENTS_AREA_PAGE_SIZE')
-  private readonly commentsAreaPageSize: number;
-
   constructor(private readonly commentsAreaRequestService: CommentsAreaRequestService) {}
 
   @Get()
   @UseGuards(IsAuthenticated)
   @Roles(Role.MODERATOR, Role.ADMIN)
   @CastToDto(CommentsAreaRequestDto)
-  async requests(@PageQuery() page: number): Promise<Paginated<CommentsAreaRequest>> {
-    const [items, total] = await this.commentsAreaRequestService.findRequestsPaginated(page, this.commentsAreaPageSize);
+  async requests(
+    @PageQuery() page: number,
+    @PageSizeQuery() pageSize: number,
+  ): Promise<Paginated<CommentsAreaRequest>> {
+    const [items, total] = await this.commentsAreaRequestService.findRequestsPaginated(page, pageSize);
 
     return { items, total };
   }

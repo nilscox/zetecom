@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update reaction types
+- Allow to specify the page size through a query param
 
 ## [0.5.3] - 2021-01-10
 

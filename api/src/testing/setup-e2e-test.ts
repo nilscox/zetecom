@@ -54,21 +54,15 @@ export class TestModule {
   }
 }
 
-export const setupE2eTest = (testingModule: ModuleMetadata, beforeInit?: (module: TestingModuleBuilder) => void) => {
+export const setupE2eTest = (testingModule: ModuleMetadata) => {
   const server = express();
   let module: TestingModule;
 
   beforeAll(async () => {
-    const moduleBuilder = Test.createTestingModule({
+    module = await Test.createTestingModule({
       ...testingModule,
       imports: [TestModule, ...testingModule.imports],
-    });
-
-    if (beforeInit) {
-      beforeInit(moduleBuilder);
-    }
-
-    module = await moduleBuilder.compile();
+    }).compile();
 
     const app = module.createNestApplication(new ExpressAdapter(server));
 
