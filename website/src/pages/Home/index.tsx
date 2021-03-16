@@ -2,176 +2,228 @@
 
 import React from 'react';
 
-import { Carousel } from 'react-responsive-carousel';
-
 import Title from 'src/components/Title';
 import Link from 'src/components/Link';
 import Card from 'src/components/Card';
-import DownloadExtensions from 'src/components/DownloadExtensionsButtons';
+import { DownloadExtension } from 'src/components/DownloadExtensionsButtons';
 import RouterLink from 'src/components/Link/RouterLink';
-
-import gifExtension from '../../images/youtube-zc.gif';
+import Box from 'src/components/Box';
 
 import imageCommunity from './images/community.png';
 import imageCharter from './images/charter.png';
 import imageIndependence from './images/independence.png';
-import imageSearch from './images/search.png';
-import imageNestedReplies from './images/nested-replies.png';
-import imageFormat from './images/format.gif';
+import imageCheck from './images/check.png';
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './Home.scss';
+import AppLink from 'src/components/Link/AppLink';
+import { useEnvironment } from 'src/utils/env';
 
-const Slide: React.FC<{ legend: string, image: string }> = ({ legend, image }) => (
-  <div className="carousel-slide">
-    <div className="carousel-slide-legend">{ legend }</div>
-    <img src={image} alt={legend} />
-    <div style={{ height: 40, background: 'white' }} />
+const Heading: React.FC = () => (
+  <div className="heading">
+    <p>
+      Zétécom vous propose des zones de commentaires pour réagir à l'information sur internet, tout en cultivant votre{' '}
+      <strong>autodéfense intellectuelle</strong>.
+    </p>
+    <p>
+      Pour garantir des échanges constructifs, la communauté s'engage à respecter{' '}
+      <RouterLink to="/charte.html">une charte</RouterLink> inspirée des principes de la pensée critique.
+    </p>
+  </div>
+);
+
+const Video: React.FC = () => <video loop autoPlay muted id="demo" src="/video.mp4" className="demo-video" />;
+
+const KeyPoints = () => (
+  <div className="key-points">
+    <Card primary="La communauté" image={imageCommunity}>
+      Composée de personnes qui cherchent à discuter dans "de bonnes conditions", qui savent écouter tout en gardant un
+      œil critique
+    </Card>
+    <Card primary="La charte" image={imageCharter}>
+      Elle définit l'état d'esprit à adopter dans les conversations, apportant le filtre nécessaire pour garantir des
+      échanges pertinents
+    </Card>
+    <Card primary="L'indépendance" image={imageIndependence}>
+      Open-source et gratuit, Zétécom n'est lié à aucune autorité capable d'influer dans les commentaires d'une
+      quelconque manière
+    </Card>
+  </div>
+);
+
+const Check = () => <img className="check" src={imageCheck} />;
+
+const Feature: React.FC = ({ children }) => (
+  <div className="feature-item">
+    <Check />
+    <p>{children}</p>
+  </div>
+);
+
+const Features = () => (
+  <div className="features">
+    <div className="feature-line">
+      <Feature>
+        <strong> Ouvrir une discussion n'importe où</strong>, même quand la zone de commentaires originale est fermée
+      </Feature>
+      <Feature>
+        <strong>Intégrer les zones de commentaires</strong> sur les sites d'informations, via une extension disponible
+        sur Chrome et Firefox
+      </Feature>
+    </div>
+
+    <div className="feature-line">
+      <Feature>
+        <strong>Trier les messages par pertinence</strong> et voir tout de suite les commentaires ayant suscité le plus
+        de réactions
+      </Feature>
+      <Feature>
+        <strong>Voter</strong> : « j'aime », « je suis d'accord », « je ne suis pas d'accord », « ça me fait réfléchir
+        », ou « je n'ai pas compris », et voir le nombre total de votes
+      </Feature>
+    </div>
+
+    <div className="feature-line">
+      <Feature>
+        <strong>Rechercher</strong> par mots clés, pour trouver les commentaires qui parlent d'un sujet précis
+      </Feature>
+      <Feature>
+        <strong>Être notifié.e</strong> quand une réponse est publiée à un commentaire suivi
+      </Feature>
+    </div>
+
+    <div className="feature-line">
+      <div style={{ flex: 1 }} />
+      <Feature>
+        <strong>Vos idées</strong> sont les bienvenues pour proposer d'ajouter des fonctionnalités qui seront utiles !
+      </Feature>
+      <div style={{ flex: 1 }} />
+    </div>
+  </div>
+);
+
+const Why: React.FC = () => (
+  <div className="why">
+    <p className="why-title">Quelques mots sur les raisons qui motivent ce projet</p>
+    <div className="left-right">
+      <div className="left">
+        <p>
+          Depuis quelques dizaines d'années, la digitalisation des modes de communication a enclenché une vraie{' '}
+          <Link href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</Link>, qui a
+          radicalement bouleversé notre façon de nous informer.
+        </p>
+        <p>
+          Face à cela, de nouveaux problèmes liés à l'information émergent, notamment dans la manière dont elle est
+          diffusée par les médias.
+        </p>
+      </div>
+      <div className="separator" />
+      <div className="right">
+        <p>
+          Quels outils avons-nous à notre disposition pour réfléchir ensemble, pour analyser, décortiquer l'information
+          présente sur internet ?
+        </p>
+        <p>
+          Le but de Zétécom est d'offrir la possibilité à tous d'ouvrir un dialogue sur des sujets d'actualité, avec des
+          personnes à l'écoute et dans un cadre propice à des échanges qui ont du sens.
+        </p>
+      </div>
+    </div>
+    <Box marginTop="small">
+      <p>
+        Pour plus de détails sur les objectifs du projet, rendez-vous sur la page{' '}
+        <RouterLink to="/motivations.html">motivations</RouterLink>.
+      </p>
+    </Box>
+  </div>
+);
+
+const ToWho: React.FC = () => (
+  <>
+    <Title id="Public cible">À qui s'adresse Zétécom ?</Title>
+
+    <p>
+      Les zones de commentaires sont mises à disposition de tous, publiquement pour lire les messages, et après
+      inscription pour participer aux échanges. Il n'est pas nécessaire de connaître par cœur les outils de la pensée
+      critique, les biais cognitifs ou la méthode scientifique pour s'inscrire. Le but, c'est de rassembler des
+      personnes qui « jouent le jeu », qui cherchent à <strong>partager leurs opinions</strong> et à{' '}
+      <strong>comprendre celles des autres</strong>, avec bienveillance et humilité.
+    </p>
+
+    <p>
+      Mais reconnaissons tout de même que cette initiative s'adresse en premier lieu à des personnes qui veulent
+      décortiquer l'information, qui se posent des questions et cherchent des réponses via des échanges critiques. Si
+      cette démarche vous correspond, si vous cherchez à renforcer votre autodéfense intellectuelle tout en exerçant
+      votre esprit critique, alors vous avez beaucoup à apporter à la communauté. Vous pouvez montrer l'exemple, faire
+      partie d'un groupe de personnes dans un but commun : celui de mieux comprendre le monde.
+    </p>
+
+    <p>
+      Et si vous n'êtes pas familier avec les méthodes du scepticisme, ou ne cherchez pas spécialement à creuser
+      l'information, cet outil vous permet de communiquer dans des conditions favorables, d'être écouté.e et corrigé.e
+      pour de bonnes raisons. À terme, l'objectif est qu'autour des zones de commentaires Zétécom se développe une
+      communauté dont l'intégrité ne peut être remise en question. Pour en faire partie, nous n'attendons rien de plus
+      de votre part que le respect de la charte.
+    </p>
+  </>
+);
+
+const ExtensionApp: React.FC = () => (
+  <div className="left-right extension-app">
+    <div className="left extension">
+      <div className="buttons">
+        <DownloadExtension browser="chrome" />
+        <DownloadExtension browser="firefox" />
+      </div>
+      <p>
+        <strong>Installer l'extension</strong> permet à votre navigateur l'intégration des zones de commentaires Zétécom
+        directement sur les sites d'information que vous visitez.
+      </p>
+    </div>
+
+    <div className="separator" />
+
+    <div className="right app">
+      <div className="link">
+        <AppLink className="app-button">Voir les zones de commentaires</AppLink>
+      </div>
+      <p>
+        Si vous ne souhaitez pas passer par l'extension, les zones de commentaires sont aussi accessibles sur{' '}
+        <strong>l'app</strong> à l'adresse <AppLink>{useEnvironment('APP_URL')}</AppLink>.
+      </p>
+    </div>
   </div>
 );
 
 const Home: React.FC = () => (
   <>
+    <Box margin="big">
+      <Heading />
+    </Box>
 
-    <div className="heading">
-      <p>
-        Zétécom vous propose des zones de commentaires pour réagir à l'information sur internet, tout en cultivant votre <strong>autodéfense intellectuelle</strong>.
-      </p>
-      <p>
-        Pour garantir des échanges constructifs, la communauté s'engage à respecter <RouterLink to="/charte.html">une charte</RouterLink> inspirée des principes de la pensée critique.
-      </p>
-    </div>
+    <Box margin="medium">
+      <Video />
+    </Box>
 
-    <video loop autoPlay src="/video.mp4" className="demo-video" />
-
-    <div className="why">
-      <p>
-        Depuis quelques dizaines d'années, la digitalisation des modes de communication a enclenché une vraie <Link href="https://fr.wikipedia.org/wiki/R%C3%A9volution_num%C3%A9rique">révolution</Link>, qui a radicalement bouleversé notre façon de nous informer.<br />
-        Face à cela, de nouveaux problèmes liés à l'information émergent, notamment dans la manière dont elle est diffusée par les médias.
-      </p>
-      <div className="separator" />
-      <p>
-        Quels outils avons-nous à notre disposition pour réfléchir ensemble, pour analyser, décortiquer l'information présente sur internet ?<br />
-        Le but de Zétécom est d'offrir la possibilité à tous d'ouvrir un dialogue sur des sujets d'actualité, avec des personnes à l'écoute et dans un carde propice à des échanges qui ont du sens.
-      </p>
-    </div>
-
-    <Title id="Comment y arriver">Comment y arriver ?</Title>
-
-    <div className="how">
-      <Card primary="La communauté" image={imageCommunity}>
-        Composée de personnes qui cherchent à discuter dans "de bonnes conditions", qui savent écouter tout en gardant un œil critique
-      </Card>
-      <Card primary="La charte" image={imageCharter}>
-        Elle définit l'état d'esprit à adopter dans les conversations, apportant le filtre nécessaire pour garantir des échanges pertinents
-      </Card>
-      <Card primary="L'indépendance" image={imageIndependence}>
-        Open-source et gratuit, Zétécom n'est lié à aucune autorité capable d'influer dans les commentaires d'une quelconque manière
-      </Card>
-    </div>
-
-    <div className="need">
-      <p>
-        Vous est-il déjà arrivé de lire un commentaire qui apporte une réflexion poussée, détaillée et argumentée, un commentaire qui vous interpelle, vous fait réfléchir, voire peut-être même douter ?
-        Avez-vous vous-même déjà pris le temps de rédiger un tel message, d'exprimer le fond de votre pensée en espérant trouver des personnes avec qui échanger sur un sujet qui vous tient à cœur ?
-      </p>
-
-      <p>
-        Les espaces d'échanges classiques, sur YouTube par exemple, ne permettent pas de construire, d'organiser une discussion « sérieuse ».
-        Les commentaires qui apportent une vraie plus-value se retrouvent souvent noyés autour de remerciements, de blagues, de trolls, d'opinions très tranchées sans la moindre source, etc. On peut faire mieux.
-      </p>
-
-      <p>
-        Si cela vous intéresse, la page <RouterLink to="/motivations.html">motivations</RouterLink> explique plus en détail le contexte dans lequel s'inscrit Zétécom, les raisons pour lesquelles cet outil a vu le jour et les problématiques auxquelles il tente d'apporter des solutions.
-      </p>
-    </div>
-
-    <Title id="Fonctionnalités">Plus que de simples zones de commentaires !</Title>
-
-    <div className="features">
-
-      <div className="features-text">
-        <p>
-          En plus de donner la possibilité d'échanger, Zétécom apporte quelques avantages par rapport aux espaces d'échanges classiques.
-        </p>
-        <p>
-          <strong>Ouvrir une discussion n'importe où</strong>, et en particulier lorsque la zone de commentaires originale est fermée.
-        </p>
-        <p>
-          <strong>Être notifié</strong> par exemple quand un message est publié en réponse à un commentaire que vous suivez.
-        </p>
-        <p>
-          <strong>Rechercher parmi les messages existants</strong>, permettant ainsi de facilement repérer les commentaires qui parlent d'un sujet précis.
-        </p>
-        <p>
-          <strong>Annoter les messages d'une réaction</strong> : plutôt d'accord, plutôt pas d'accord ou pas d'avis tranché. Cela permet qualifier les commentaires et de les trier par pertinence.
-        </p>
-        <p>
-          <strong>Intégrer les zones de commentaires</strong> sur les sites d'informations, via une extension disponible sur Chrome et Firefox.
-        </p>
-        <p>
-          Et plus à venir ! Et encore plus grâce à vous !
-          Si vous avez des idées à proposer ou si vous souhaitez tester les nouvelles fonctionnalités en avant première, <RouterLink to="/beta.html">rejoignez les bêta-testeurs</RouterLink> ;)
-        </p>
-      </div>
-
-      <Carousel
-        autoPlay
-        stopOnHover
-        infiniteLoop
-        transitionTime={620}
-        interval={8000}
-        showThumbs={false}
-        showStatus={false}
-        showArrows={false}
-        className="carousel"
-      >
-        <Slide legend="Recherche" image={imageSearch} />
-        <Slide legend="Réponses imbriquées" image={imageNestedReplies} />
-        <Slide legend="Messages structurés" image={imageFormat} />
-      </Carousel>
-
-    </div>
+    <Box marginTop="medium">
+      <Features />
+    </Box>
 
     <hr className="separator" />
 
-    <div className="extension">
+    <ExtensionApp />
 
-      <img className="extension-image" src={gifExtension} alt="extension Zétécom" />
+    <Title id="points-cles">Les points clés</Title>
 
-      <div className="extension-text">
-        <p>
-          Avec l'extension, <strong>intégrez</strong> les zones de commentaires Zétécom sur les sites que vous visitez.<br />
-          Pas besoin de chercher plus loin.
-        </p>
-        <DownloadExtensions disposition="row" />
-      </div>
-    </div>
+    <Box marginBottom="big">
+      <KeyPoints />
+    </Box>
 
-    <div className="after-extension">
-      <DownloadExtensions disposition="row" />
-    </div>
+    <Box margin="medium">
+      <Why />
+    </Box>
 
-    <Title id="Public cible">À qui s'adresse Zétécom ?</Title>
-
-    <p>
-      Les zones de commentaires sont mis à disposition de tous, publiquement pour lire les messages, et après inscription pour participer aux échanges.
-      Il n'est pas nécessaire de connaître par cœur les outils de la pensée critique, les biais cognitifs ou la méthode scientifique pour s'inscrire.
-      Le but, c'est de rassembler des personnes qui « jouent le jeu », qui cherchent à <strong>partager leurs opinions</strong> et à <strong>comprendre celles des autres</strong>, avec bienveillance et humilité.
-    </p>
-
-    <p>
-      Mais reconnaissons tout de même que cette initiative s'adresse en premier lieu à des personnes qui veulent décortiquer l'information, qui se posent des questions et cherchent des réponses via des échanges critiques.
-      Si cette démarche vous correspond, si vous cherchez à renforcer votre autodéfense intellectuelle tout en exerçant votre esprit critique, alors vous avez beaucoup à apporter à la communauté.
-      Vous pouvez montrer l'exemple, faire partie de la machinerie d'un groupe de personnes dans un but commun : celui de mieux comprendre le monde.
-    </p>
-
-    <p>
-      Et si vous n'êtes pas familier avec les méthodes du scepticisme, ou ne cherchez pas spécialement à creuser l'information, cet outil vous permet de communiquer dans des conditions favorables, d'être écouté et corrigé pour de bonnes raisons.
-      À terme, l'objectif est qu'autour des zones de commentaires Zétécom se développe une communauté dont l'intégrité ne peut être remise en question.
-      Pour en faire partie, nous n'attendons rien de plus de votre part que le respect de la charte.
-    </p>
-
+    <ToWho />
   </>
 );
 

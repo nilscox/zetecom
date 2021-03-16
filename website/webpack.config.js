@@ -84,7 +84,7 @@ const commonConfig = {
         { from: 'static/robots.txt', to: './robots.txt' },
         { from: 'static/extension', to: './extension', noErrorOnMissing: true },
         { from: 'static/logo.png', to: './logo.png' },
-        { from: 'static/video.mp4', to: './video.mp4' },
+        { from: 'static/video.mp4', to: './video.mp4', noErrorOnMissing: true },
         { from: 'static/favicon.ico', to: './favicon.ico' },
         { from: 'static/updates.json', to: './updates.json', noErrorOnMissing: true },
         { from: 'static/zetecom-beta.pdf', to: './zetecom-beta.pdf', noErrorOnMissing: true },

@@ -12,7 +12,7 @@
   &.disposition-row {
     flex-direction: row;
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: $break-large) {
       flex-direction: column;
     }
   }

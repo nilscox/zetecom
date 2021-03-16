@@ -9,12 +9,13 @@ import './PageHeader.scss';
 
 const PageHeader: React.FC = () => (
   <div className="page-header">
-
     <img className="logo" src={Logo} alt="Logo de Zétécom" />
 
     <h1 className="title">
       <RouterLink to="/">Zétécom</RouterLink>
-      <RouterLink to="/beta.html" className="beta" title="Rejoignez les bêta-testeurs !">BÊTA</RouterLink>
+      <RouterLink to="/beta.html" className="beta" title="Rejoignez les bêta-testeurs !">
+        BÊTA
+      </RouterLink>
     </h1>
 
     <div className="subtitle-container">
@@ -24,10 +25,7 @@ const PageHeader: React.FC = () => (
 
     <div style={{ flex: 1 }}></div>
 
-    <AppLink className="app-link">
-      Accéder à l'app
-    </AppLink>
-
+    <AppLink className="app-link">Voir les zones de commentaires</AppLink>
   </div>
 );
 

@@ -5,7 +5,7 @@ import Link from 'src/components/Link';
 import RouterLink from 'src/components/Link/RouterLink';
 import Image from 'src/components/Image';
 
-import imageLogin from './images/login.png';
+import imageSignup from './images/signup.png';
 import imageWriteComment from './images/write-comment.png';
 import gifReport from './images/report.gif';
 import imageModeration from './images/moderation.png';
@@ -24,7 +24,7 @@ const Usage: React.FC = () => (
           <AppLink>{useEnvironment('APP_URL')}</AppLink>
         </div>
       </div>
-        C'est ici que vous pouvez lire les messages, y répondre, voir la liste des zones de commentaires disponibles, voir l'historique de vos messages, etc.
+        C'est ça, la plateforme Zétécom. L'app, vous permet de naviguer entre les différentes zones de commentaires, de lire les messages et d'y répondre, de lire vos notifications, de retrouver la liste de vos commentaires, etc.
       </div>
       <div className="step-secondary" style={{ maxWidth: 180 }}>
     </div>
@@ -33,9 +33,8 @@ const Usage: React.FC = () => (
 
     <div className="step step-extension" id="extension">
       <div className="step-text">
-        Pour intégrer les zones de commentaires présentes sur l'app directement sur les sites que vous visitez, installez l'extension sur votre navigateur préféré.
+        Pour intégrer les zones de commentaires présentes sur l'app directement sur les sites que vous visitez, installez l'extension pour votre navigateur préféré.
         Lorsque l'icône de l'extension affiche un badge vert, cela signifie qu'une zone de commentaire est disponible sur la page.
-        {/* Notez que ce n'est pas nécessaire pour utiliser la plateforme, l'extension ne fait qu'intégrer l'app. */}
       </div>
       <div className="step-secondary">
         <DownloadExtensions disposition="column" />
@@ -81,7 +80,7 @@ const Usage: React.FC = () => (
         Si ce n'est déjà fait, consacrez <strong>5 minutes</strong> à la lecture de <RouterLink to="/charte.html">la charte</RouterLink>, puis accédez à la page <AppLink href="/inscription">d'inscription</AppLink> pour créer votre compte.
       </div>
       <div className="step-secondary">
-        <Image border src={imageLogin} alt="inscription" />
+        <Image border src={imageSignup} alt="inscription" />
       </div>
     </div>
 

@@ -16,7 +16,7 @@ type DownloadExtensionProps = {
   browser: 'firefox' | 'chrome',
 };
 
-const DownloadExtension: React.FC<DownloadExtensionProps> = ({ staging, browser }) => {
+export const DownloadExtension: React.FC<DownloadExtensionProps> = ({ staging, browser }) => {
   const linkProps = {
     firefox: {
       href: useEnvironment(staging ? 'FIREFOX_ADDON_STAGING_URL' : 'FIREFOX_ADDON_URL'),
