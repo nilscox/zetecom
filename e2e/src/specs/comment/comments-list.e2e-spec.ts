@@ -106,14 +106,17 @@ describe('Comments list', () => {
       commentsAreas: [
         {
           ...commentsArea2,
-          comments: Array(3)
+          comments: Array(21)
             .fill(null)
             .map((_, n) => ({ ...commentsArea2.comments[0], text: `comment ${n + 1}` })),
         },
       ],
     });
 
-    const { getByTitle, getByText, getByTestId } = await visitIntegration(commentsArea2.identifier);
+    const { getByTitle, getByText, getByTestId } = await visitIntegration(
+      commentsArea2.identifier,
+      window.location.href
+    );
 
     const expectPage = (page: number, total: number) => {
       expect(getByTestId('current-page')).to.have.text(String(page));

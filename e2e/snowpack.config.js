@@ -7,7 +7,7 @@ module.exports = {
   },
   mount: {
     public: { url: '/', static: true },
-    tests: { url: '/dist' },
+    src: { url: '/dist' },
   },
   plugins: ['@snowpack/plugin-typescript'],
   devOptions: {

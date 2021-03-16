@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
     "skipLibCheck": true,
@@ -9,6 +9,6 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true
   },
-  "include": ["tests/**/*.ts"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }

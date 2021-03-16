@@ -68,7 +68,7 @@ export const visitApp = async (path = '') => {
   return getQueriesForIframe();
 };
 
-export const visitIntegration = async (identifier: string, pageUrl: string) => {
+export const visitIntegration = async (identifier: string, pageUrl = window.location.href) => {
   await iframe.navigate(`http://localhost:8000/integration/${identifier}?pageUrl=${pageUrl}`);
   return getQueriesForIframe();
 };
