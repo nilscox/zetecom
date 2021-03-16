@@ -29,7 +29,7 @@ describe('Comments list', () => {
   };
 
   it('comments list', async () => {
-    const { getByText } = await visitIntegration(commentsArea3.identifier, window.location.href);
+    const { getByText } = await visitIntegration(commentsArea3.identifier);
 
     await waitFor(() => getByText(/2 text/i));
 
@@ -57,7 +57,7 @@ describe('Comments list', () => {
   });
 
   it('comments list search', async () => {
-    const { getByPlaceholderText } = await visitIntegration(commentsArea3.identifier, window.location.href);
+    const { getByPlaceholderText } = await visitIntegration(commentsArea3.identifier);
 
     const search = async (text: string) => {
       clear(getByPlaceholderText('Rechercher...'));
@@ -81,7 +81,7 @@ describe('Comments list', () => {
   });
 
   it('comments list sort', async () => {
-    const { getByTitle, getByRole } = await visitIntegration(commentsArea3.identifier, window.location.href);
+    const { getByTitle, getByRole } = await visitIntegration(commentsArea3.identifier);
 
     const sort = async (sort: RegExp) => {
       userEvent.click(getByTitle('Trier les commentaires'));
@@ -100,23 +100,20 @@ describe('Comments list', () => {
     await waitFor(() => expectComments([3, 1, 7, 8]));
   });
 
-  it('comments list pagination', async () => {
+  it.only('comments list pagination', async () => {
     await seed({
       users: [user1, user2],
       commentsAreas: [
         {
           ...commentsArea2,
-          comments: Array(21)
+          comments: Array(3)
             .fill(null)
             .map((_, n) => ({ ...commentsArea2.comments[0], text: `comment ${n + 1}` })),
         },
       ],
     });
 
-    const { getByTitle, getByText, getByTestId } = await visitIntegration(
-      commentsArea2.identifier,
-      window.location.href
-    );
+    const { getByTitle, getByText, getByTestId } = await visitIntegration(commentsArea2.identifier);
 
     const expectPage = (page: number, total: number) => {
       expect(getByTestId('current-page')).to.have.text(String(page));

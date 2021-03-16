@@ -27,8 +27,9 @@ describe('Authentication', () => {
   });
 
   it('naviagtion', async () => {
-    const { getByRole } = await visitPopup();
+    const { getByRole } = await visitPopup('/popup');
 
+    click(getByRole('tab', { name: 'Connexion' }));
     expect(iframe.location?.pathname).to.eql('/popup/connexion');
 
     click(getByRole('link', { name: 'Créer un compte' }));
@@ -42,7 +43,7 @@ describe('Authentication', () => {
   });
 
   it('login', async () => {
-    const { getByPlaceholderText, getByRole, findByText } = await visitPopup();
+    const { getByPlaceholderText, getByRole, findByText } = await visitPopup('/connexion');
 
     const emailField = getByPlaceholderText('Adresse email');
     const passwordField = getByPlaceholderText('Mot de passe');
@@ -65,14 +66,11 @@ describe('Authentication', () => {
 
     expectEvent({ category: 'Authentication', action: 'Login', name: 'Login From Popup' });
 
-    await waitFor(() => expect(iframe.location?.pathname).to.eql('/popup'));
+    await waitFor(() => expect(iframe.location?.pathname).to.eql('/popup/compte'));
   });
 
   it('signup', async () => {
-    const { getByRole, getByPlaceholderText, getByText, findByText } = await visitPopup();
-
-    click(getByRole('link', { name: 'Créer un compte' }));
-    await wait(100);
+    const { getByRole, getByPlaceholderText, getByText, findByText } = await visitPopup('/inscription');
 
     const emailField = getByPlaceholderText('Adresse email');
     const passwordField = getByPlaceholderText('Mot de passe');
@@ -123,7 +121,7 @@ describe('Authentication', () => {
 
   it('logout', async () => {
     await login(me);
-    const { getByRole, findByText } = await visitPopup();
+    const { getByRole, findByText } = await visitPopup('/compte');
 
     await findByText(me.nick);
 
@@ -138,9 +136,7 @@ describe('Authentication', () => {
   });
 
   it('email login', async () => {
-    const { getByRole, getByPlaceholderText, findByText } = await visitPopup();
-
-    click(getByRole('link', { name: 'Mot de passe oublié' }));
+    const { getByRole, getByPlaceholderText, findByText } = await visitPopup('/connexion-par-email');
 
     const emailField = getByPlaceholderText('Adresse email');
 
@@ -171,7 +167,7 @@ describe('Authentication', () => {
 
   it('reset password', async () => {
     await login(me);
-    const { getByRole, getByPlaceholderText, findByText } = await visitPopup();
+    const { getByRole, getByPlaceholderText, findByText } = await visitPopup('/compte');
 
     click(getByRole('link', { name: 'Changer de mot de passe' }));
     await wait(100);

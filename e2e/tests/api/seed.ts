@@ -15,9 +15,11 @@ export type User = {
 };
 
 export type Reactions = {
+  like?: string[];
   approve?: string[];
-  refute?: string[];
-  skeptic?: string[];
+  think?: string[];
+  disagree?: string[];
+  dontUnderstand?: string[];
 };
 
 export type Edition = {
