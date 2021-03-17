@@ -100,7 +100,7 @@ describe('Comments list', () => {
     await waitFor(() => expectComments([3, 1, 7, 8]));
   });
 
-  it.only('comments list pagination', async () => {
+  it('comments list pagination', async () => {
     await seed({
       users: [user1, user2],
       commentsAreas: [
