@@ -73,7 +73,7 @@ const Rules: React.FC = () => {
 
       <Rule rule="6. Rédiger en français correct.">
         Votre message sera toujours mieux perçu s'il est bien écrit et lisible. Évitez le registre familier, les
-        abréviations et le style "texto". Une extension comment{' '}
+        abréviations et le style "texto". Une extension comme{' '}
         <Link href="https://languagetool.org/fr/#plugins">languagetool</Link> vous permettra même de corriger les fautes
         d'orthographe directement pendant la rédaction d'un message.
       </Rule>
