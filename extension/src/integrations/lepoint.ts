@@ -9,7 +9,7 @@ export class LePoint implements Integration {
   externalElementTabText = 'Commentaires Le Point';
 
   getElement() {
-    return document.getElementById('section-commentaires');
+    return document.getElementById('section-commentaires') ?? document.getElementById('Comments');
   }
 
   getIdentifier(url: string) {
