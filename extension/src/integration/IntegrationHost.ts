@@ -16,7 +16,6 @@ export interface Integration {
   darkMode?: boolean;
   getElement: () => HTMLElement | null;
   getIdentifier: (url: string) => string | null;
-  onIFrameLoaded?: (iframe: HTMLIFrameElement) => void;
 }
 
 export interface IntegrationRuntime {
@@ -222,10 +221,6 @@ export class IntegrationHost {
   showCommentsArea() {
     if (!this.runtime) {
       return;
-    }
-
-    if ('focusTab' in this.runtime) {
-      (this.runtime as SwitcherIntegrationRuntime).focusTab('right');
     }
 
     this.runtime.show();

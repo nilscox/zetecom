@@ -24,17 +24,15 @@
 
   &.visible {
     overflow-y: auto;
-    border: 1px solid #CCC;
+    border: 1px solid #ccc;
   }
 
-  & #zc-iframe {
+  #zc-iframe {
     position: relative;
-    width: 100%;
     right: calc(-640px - 16px);
     border: 0;
     box-sizing: border-box;
     transition: all 125ms ease-in-out;
-    box-sizing: border-box;
     margin-bottom: 0;
   }
 

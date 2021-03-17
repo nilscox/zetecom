@@ -2,6 +2,7 @@ import { BaseIntegrationRuntime } from './BaseIntegrationRuntime';
 import IFrame from '../IFrame';
 import log from '../../utils/log';
 
+// TODO: merge theses classes
 export default class Switcher {
   private leftTab: HTMLButtonElement;
   private rightTab: HTMLButtonElement;
@@ -10,7 +11,7 @@ export default class Switcher {
   private leftElement?: HTMLElement;
   private rightElement?: HTMLElement;
 
-  constructor(leftText: string, rightText: string, darkMode: boolean) {
+  constructor(leftText: string, rightText: string, darkMode: boolean, private resize: () => void) {
     this.leftTab = this.createTab('left', leftText);
     this.rightTab = this.createTab('right', rightText);
     this.tabs = this.createTabsContainer(this.leftTab, this.rightTab, darkMode);
@@ -51,6 +52,8 @@ export default class Switcher {
 
     newTab.classList.add('active');
     newElement.style.display = 'block';
+
+    this.resize();
   }
 
   private getElements(tab: 'left' | 'right') {
@@ -92,10 +95,6 @@ export default class Switcher {
 export class SwitcherIntegrationRuntime extends BaseIntegrationRuntime {
   private switcher?: Switcher;
 
-  focusTab(tab: 'left' | 'right') {
-    this.switcher?.focus(tab);
-  }
-
   mount() {
     const { integration, identifier, element } = this;
 
@@ -112,13 +111,14 @@ export class SwitcherIntegrationRuntime extends BaseIntegrationRuntime {
     }
 
     log('creating iframe');
-    const iframe = (this.iframe = new IFrame(identifier));
+    const iframe = (this.iframe = new IFrame(this.integration.name, identifier));
 
     log('creating switcher');
     const switcher = (this.switcher = new Switcher(
       integration.externalElementTabText!,
       'Commentaires Zétécom',
       !!integration.darkMode,
+      () => this.iframe?.resize(),
     ));
 
     element.insertAdjacentElement('beforebegin', switcher.tabsElement);
@@ -127,7 +127,7 @@ export class SwitcherIntegrationRuntime extends BaseIntegrationRuntime {
     switcher.left = element;
     switcher.right = iframe.element;
 
-    this.focusTab('left');
+    this.switcher.focus('left');
 
     log('loading iframe resizer');
     iframe.loadIframeResizer();
@@ -143,6 +143,7 @@ export class SwitcherIntegrationRuntime extends BaseIntegrationRuntime {
 
   show() {
     if (this.switcher) {
+      this.switcher.focus('right');
       this.scrollIntoViewOffset(this.switcher.tabsElement);
     }
   }

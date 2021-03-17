@@ -8,8 +8,8 @@ const APP_URL = process.env.APP_URL as string;
 export default class IFrame {
   private iframe: HTMLIFrameElement;
 
-  constructor(identifier: string) {
-    this.iframe = this.createIframe(identifier);
+  constructor(media: string, identifier: string) {
+    this.iframe = this.createIframe(media, identifier);
   }
 
   get element() {
@@ -25,10 +25,15 @@ export default class IFrame {
   }
 
   resize() {
-    (this.element as any)?.iFrameResizer.resize();
+    if ('iFrameResizer' in this.element) {
+      (this.element as any)?.iFrameResizer?.resize();
+    } else {
+      // sometimes, iframe resizer is not loaded, even if loadIframeResizer was called
+      this.loadIframeResizer();
+    }
   }
 
-  private createIframe(identifier: string) {
+  private createIframe(media: string, identifier: string) {
     const iframe = document.createElement('iframe');
 
     const query = {
@@ -37,11 +42,9 @@ export default class IFrame {
     };
 
     iframe.id = 'zc-iframe';
+    iframe.classList.add(media);
     iframe.src = `${APP_URL}/integration/${identifier}?${queryString.stringify(query)}`;
     iframe.scrolling = 'no';
-    iframe.style.width = '1px';
-    iframe.style.minWidth = '100%';
-    iframe.style.display = 'block';
 
     return iframe;
   }

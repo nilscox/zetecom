@@ -1,8 +1,10 @@
 #zetecom {
-  @import "./overlay.scss";
-  @import "./switcher.scss";
+  @import './overlay.scss';
+  @import './switcher.scss';
 
-  div, span, iframe {
+  div,
+  span,
+  iframe {
     margin: 0;
     padding: 0;
     border: 0;
@@ -16,12 +18,28 @@
   }
 
   ::-moz-focus-inner {
-    border:0;
+    border: 0;
   }
 }
 
 #zc-iframe {
-  border: 1px solid #CCC;
-  border-radius: 4px;
+  width: 100%;
+  display: block;
+  margin: 0;
   margin-bottom: 16px;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  &.lesechos {
+    width: 100%;
+    min-width: unset;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &.leparisien {
+    margin-top: 24px;
+  }
 }

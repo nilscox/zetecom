@@ -31,8 +31,4 @@ export class Liberation implements Integration {
 
     return ['liberation', topic, formatedDate, id].join(':');
   }
-
-  onIFrameLoaded(iframe: HTMLIFrameElement) {
-    iframe.style.padding = '0 24px';
-  }
-};
+}

@@ -22,8 +22,4 @@ export class LeParisien implements Integration {
 
     return ['leparisien', [year, month, day].join('-'), id].join(':');
   }
-
-  onIFrameLoaded(iframe: HTMLIFrameElement) {
-    iframe.style.paddingTop = '24px';
-  }
 }

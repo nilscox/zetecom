@@ -15,14 +15,12 @@ export class AppendIntegrationRuntime extends BaseIntegrationRuntime {
     }
 
     log('creating iframe');
-    const iframe = (this.iframe = new IFrame(identifier));
+    const iframe = (this.iframe = new IFrame(this.integration.name, identifier));
 
     element.insertAdjacentElement('afterend', iframe.element);
 
     log('loading iframe resizer');
     iframe.loadIframeResizer();
-
-    this.integration.onIFrameLoaded?.(iframe.element);
   }
 
   unmount() {

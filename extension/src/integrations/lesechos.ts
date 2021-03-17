@@ -22,12 +22,4 @@ export class LesEchos implements Integration {
 
     return ['lesechos', id].join(':');
   }
-
-  onIFrameLoaded(iframe: HTMLIFrameElement) {
-    iframe.style.width = '100%';
-    iframe.style.minWidth = 'unset';
-    iframe.style.maxWidth = '1000px';
-    iframe.style.margin = '0 auto 15px auto';
-    iframe.style.padding = '0 15px';
-  }
 }

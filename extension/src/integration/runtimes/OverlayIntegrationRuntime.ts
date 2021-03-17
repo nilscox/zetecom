@@ -138,7 +138,7 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
     }
 
     log('creating iframe');
-    this.iframe = new IFrame(identifier);
+    this.iframe = new IFrame(this.integration.name, identifier);
 
     log('loading iframe resizer');
     this.iframe.loadIframeResizer();
@@ -171,8 +171,6 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
         this.pin = true;
       }
     });
-
-    this.integration.onIFrameLoaded?.(this.iframe.element);
   }
 
   unmount() {
