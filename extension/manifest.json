@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "0.7.0",
+  "version": "0.7.1",
   "name": "Zétécom (dev)",
   "description": "L'information sur internet, avec esprit critique",
   "browser_specific_settings": {
