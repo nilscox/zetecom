@@ -15,6 +15,7 @@ import ReportCommentLink from './ReportCommentLink/ReportCommentLink';
 export const CommentHeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   border-bottom: 1px solid ${color('border')};
   border-top-left-radius: ${borderRadius(2)};
   border-top-right-radius: ${borderRadius(2)};
@@ -25,11 +26,14 @@ export const CommentHeaderContainer = styled.div`
 const ReportDateContainer = styled.div`
   display: flex;
   flex-direction: row;
+  align-self: flex-start;
   margin-left: auto;
+  white-space: nowrap;
 `;
 
 type CommentHeaderProps = {
-  user: UserLight;
+  className?: string;
+  author: UserLight;
   edited: boolean;
   date: Date;
   onEdit?: () => void;
@@ -37,14 +41,25 @@ type CommentHeaderProps = {
   onViewHistory?: () => void;
 };
 
-const CommentHeader: React.FC<CommentHeaderProps> = ({ user, edited, date, onEdit, onReport, onViewHistory }) => {
+const CommentHeader: React.FC<CommentHeaderProps> = ({
+  className,
+  author,
+  edited,
+  date,
+  onEdit,
+  onReport,
+  onViewHistory,
+  children,
+}) => {
   const [reportCommentLinkVisible, setReportCommentLinkVisible] = useState(false);
 
   return (
-    <CommentHeaderContainer>
-      <UserAvatarNick small user={user} />
+    <CommentHeaderContainer className={className}>
+      <UserAvatarNick small user={author} />
 
       {onEdit && <EditCommentButton onClick={onEdit} css={theme => ({ marginLeft: theme.spacings[2] })} />}
+
+      {children}
 
       <ReportDateContainer
         onMouseOver={() => setReportCommentLinkVisible(true)}

@@ -45,7 +45,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
 }) => (
   <CommentContainer>
     <CommentHeader
-      user={comment.author}
+      author={comment.author}
       edited={Boolean(comment.edited)}
       date={new Date(comment.edited || comment.date)}
       onEdit={onEdit}

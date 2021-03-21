@@ -9,13 +9,14 @@ const Container = styled.div`
   flex-direction: row;
 `;
 
-const Bar = styled.div<{ negativeMargin?: boolean }>`
+export const Bar = styled.div<{ negativeMargin?: boolean }>`
   margin-right: ${spacing(2)};
   border-left: 6px solid ${color('border')};
 `;
 
 const Content = styled.div`
   flex: 1;
+  max-width: calc(100% - 6px - ${spacing(2)});
 `;
 
 type NestedProps = {

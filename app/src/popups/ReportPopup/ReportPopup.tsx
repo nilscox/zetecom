@@ -8,8 +8,8 @@ import Button from 'src/components/elements/Button/Button';
 import Input from 'src/components/elements/Input/Input';
 import { ExternalLink } from 'src/components/elements/Link/Link';
 import Markdown from 'src/components/elements/Markdown/Markdown';
-import Nested from 'src/components/elements/Nested/Nested';
 import AsyncContent from 'src/components/layout/AsyncContent/AsyncContent';
+import Nested from 'src/components/layout/Nested/Nested';
 import { useUser } from 'src/contexts/userContext';
 import useComment from 'src/popups/hooks/useComment';
 import useReportComment from 'src/popups/ReportPopup/useReport';
@@ -82,7 +82,7 @@ const ReportPopup: React.FC<RouteComponentProps<{ id: string }>> = ({ match }) =
               fullWidth
               placeholder="Précisez en quelques mots le motif du signalement si nécessaire"
               value={message}
-              onChange={(e) => setMessage(e.currentTarget.value) }
+              onChange={e => setMessage(e.currentTarget.value)}
             />
           </Box>
 

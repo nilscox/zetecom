@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 import Notification from 'src/components/domain/Notification/Notification';
 import Link, { ExternalLink } from 'src/components/elements/Link/Link';
-import Nested from 'src/components/elements/Nested/Nested';
+import Nested from 'src/components/layout/Nested/Nested';
 import { spacing } from 'src/theme';
 import { Notification as NotificationType } from 'src/types/Notification';
 import env from 'src/utils/env';

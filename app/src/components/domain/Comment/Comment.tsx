@@ -9,12 +9,14 @@ import { spacing } from 'src/theme';
 import { Comment as CommentType } from 'src/types/Comment';
 import { User } from 'src/types/User';
 
-import Nested from '../../elements/Nested/Nested';
+import Nested from '../../layout/Nested/Nested';
 
 import { ReactionType } from './CommentFooter/Reactions/ReactionType';
 import CommentsList from './CommentsList/CommentsList';
 import EditableComment from './EditableComment/EditableComment';
 import useCanPerformAction from './hooks/useCanPerformAction';
+
+export { default as CommentHeader } from './CommentHeader/CommentHeader';
 
 const StyledNested = styled(Nested)<{ barNegativeMargin?: boolean }>`
   margin-top: ${spacing(2)};
@@ -41,7 +43,7 @@ export type CommentProps = {
   fetchReplies: () => void;
 };
 
-const Comment: React.FC<CommentProps> = (props) => {
+const Comment: React.FC<CommentProps> = props => {
   // prettier-ignore
   const {
     CommentContainer, user, comment, replies, repliesLoading, submittingEdition, submittingReply,
