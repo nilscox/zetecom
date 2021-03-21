@@ -15,6 +15,7 @@ const Container = styled.div`
 const Nick = styled.div`
   margin-left: ${spacing(2)};
   font-weight: ${fontWeight('bold')};
+  white-space: nowrap;
 `;
 
 type UserAvatarNickProps = {
