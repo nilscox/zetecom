@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { Redirect } from 'react-router-dom';
 import { useDebounce } from 'use-debounce/lib';
 
 import CommentsList from 'src/components/domain/Comment/CommentsList/CommentsList';
@@ -14,8 +15,11 @@ import useCreateComment from 'src/containers/CommentsAreaContainer/hooks/useCrea
 import { CommentsAreaProvider } from 'src/contexts/commentsAreaContext';
 import { SearchQueryProvider } from 'src/contexts/searchQueryContext';
 import { useUser } from 'src/contexts/userContext';
+import useQueryString from 'src/hooks/use-query-string';
 import { CommentsArea } from 'src/types/CommentsArea';
 import { SortType } from 'src/types/SortType';
+
+import PinnedCommentContainer from '../PinnedCommentContainer/PinnedCommentContainer';
 
 import useComments from './hooks/useComments';
 import useCommentsArea from './hooks/useCommentsArea';
@@ -30,6 +34,68 @@ const NoCommentsFallback: React.FC<NoCommentsFallbackProps> = ({ isSearching }) 
   }
 
   return <>Aucun commentaire n'a été publié pour le moment.</>;
+};
+
+type CommentsAreaContentProps = {
+  commentsArea: CommentsArea;
+};
+
+const CommentsAreaContent: React.FC<CommentsAreaContentProps> = ({ commentsArea }) => {
+  const user = useUser();
+
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState(SortType.DATE_DESC);
+  const [search, setSearch] = useState('');
+  const [searchDebounced] = useDebounce(search, 200);
+
+  const { loadingComments, totalComments, comments } = useComments(commentsArea?.id, page, sort, searchDebounced);
+
+  const [createComment, { submittingRootComment }] = useCreateComment(commentsArea);
+
+  const isSearching = searchDebounced !== '';
+
+  return (
+    <>
+      <Box my={4}>
+        <FiltersBar
+          page={page}
+          total={totalComments}
+          sort={sort}
+          search={search}
+          onPageChange={setPage}
+          onSort={setSort}
+          onSearch={setSearch}
+        />
+      </Box>
+
+      {user && (
+        <Box mb={2}>
+          <CommentForm
+            type="root"
+            author={user}
+            placeholder="Composez votre message..."
+            submitting={submittingRootComment}
+            onSubmit={(text) => createComment({ text })}
+          />
+        </Box>
+      )}
+
+      <AsyncContent
+        loading={loadingComments}
+        render={() => (
+          <Fallback
+            when={totalComments === 0}
+            fallback={<NoCommentsFallback isSearching={isSearching} />}
+            render={() => (
+              <SearchQueryProvider value={isSearching ? searchDebounced : undefined}>
+                <CommentsList CommentContainer={CommentContainer} comments={comments ?? []} />
+              </SearchQueryProvider>
+            )}
+          />
+        )}
+      />
+    </>
+  );
 };
 
 type CommentsAreaContainerProps = {
@@ -47,7 +113,8 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
   notFoundFallback,
   onCommentsAreaLoaded,
 }) => {
-  const user = useUser();
+  const { pin } = useQueryString();
+  const pinCommentId = typeof pin === 'string' ? Number(pin) : undefined;
 
   const { commentsArea, loadingCommentsArea, commentsAreaNotFound } = useCommentsArea(
     commentsAreaId,
@@ -55,21 +122,9 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
     onCommentsAreaLoaded,
   );
 
-  const [page, setPage] = useState(1);
-  const [sort, setSort] = useState(SortType.DATE_DESC);
-  const [search, setSearch] = useState('');
-  const [searchDebounced] = useDebounce(search, 200);
-
-  const { loadingComments, totalComments, comments } = useComments(
-    commentsAreaId ?? commentsArea?.id,
-    page,
-    sort,
-    searchDebounced,
-  );
-
-  const [createComment, { submittingRootComment }] = useCreateComment(commentsArea);
-
-  const isSearching = searchDebounced !== '';
+  if (pinCommentId && isNaN(pinCommentId)) {
+    return <Redirect to={`/commentaires/${commentsAreaId}`} />;
+  }
 
   if (commentsAreaNotFound) {
     return notFoundFallback;
@@ -78,51 +133,18 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
   return (
     <AsyncContent
       loading={loadingCommentsArea}
-      render={() => (
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        <CommentsAreaProvider value={commentsArea!}>
-          {displayOutline && commentsArea && <CommentsAreaOutline commentsArea={commentsArea} link="external" />}
-
-          <Box my={4}>
-            <FiltersBar
-              page={page}
-              total={totalComments}
-              sort={sort}
-              search={search}
-              onPageChange={setPage}
-              onSort={setSort}
-              onSearch={setSearch}
-            />
-          </Box>
-
-          {user && (
-            <Box mb={2}>
-              <CommentForm
-                type="root"
-                author={user}
-                placeholder="Composez votre message..."
-                submitting={submittingRootComment}
-                onSubmit={text => createComment({ text })}
-              />
-            </Box>
-          )}
-
-          <AsyncContent
-            loading={loadingCommentsArea || loadingComments}
-            render={() => (
-              <Fallback
-                when={totalComments === 0}
-                fallback={<NoCommentsFallback isSearching={isSearching} />}
-                render={() => (
-                  <SearchQueryProvider value={isSearching ? searchDebounced : undefined}>
-                    <CommentsList CommentContainer={CommentContainer} comments={comments ?? []} />
-                  </SearchQueryProvider>
-                )}
-              />
+      render={() =>
+        commentsArea && (
+          <CommentsAreaProvider value={commentsArea}>
+            {displayOutline && commentsArea && <CommentsAreaOutline commentsArea={commentsArea} link="external" />}
+            {pinCommentId ? (
+              <PinnedCommentContainer commentsAreaId={commentsArea.id} commentId={pinCommentId} />
+            ) : (
+              <CommentsAreaContent commentsArea={commentsArea} />
             )}
-          />
-        </CommentsAreaProvider>
-      )}
+          </CommentsAreaProvider>
+        )
+      }
     />
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
+import Button from 'src/components/elements/Button/Button';
 import Nested from 'src/components/layout/Nested/Nested';
 import { borderRadius, color, spacing } from 'src/theme';
 import { Comment as CommentType } from 'src/types/Comment';
@@ -24,32 +25,41 @@ const CommentSummaryText = styled.div`
 
 type ParentCommentsSummaryProps = {
   comments: CommentType[];
+  onPin: (commentId: number) => void;
 };
 
-const ParentCommentsSummary: React.FC<ParentCommentsSummaryProps> = ({ comments: [comment, ...childs] }) => (
+const ParentCommentsSummary: React.FC<ParentCommentsSummaryProps> = ({ comments: [comment, ...childs], onPin }) => (
   <>
     <StyledCommentHeader
       author={comment.author}
       edited={Boolean(comment.edited)}
       date={new Date(comment.edited || comment.date)}
       marginBottom={childs.length > 0}
+      onPin={() => onPin(comment.id)}
     >
       <CommentSummaryText>{comment.text}</CommentSummaryText>
     </StyledCommentHeader>
 
     {childs.length > 0 && (
       <Nested>
-        <ParentCommentsSummary comments={childs} />
+        <ParentCommentsSummary comments={childs} onPin={onPin} />
       </Nested>
     )}
   </>
 );
 
 const ParentComments = styled.div`
-  margin-bottom: ${spacing(4)};
+  margin: ${spacing(4, 0)};
 `;
 
-const InResponseTo = styled.p`
+const PinInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const PinInfoText = styled.p`
+  flex: 1;
   font-style: oblique;
 `;
 
@@ -57,16 +67,26 @@ type PinnedCommentProps = {
   CommentContainer: React.FC<{ comment: CommentType }>;
   parents: CommentType[];
   comment: CommentType;
+  onPin: (commentId: number) => void;
+  onUnpin: () => void;
 };
 
-const PinnedComment: React.FC<PinnedCommentProps> = ({ CommentContainer, parents, comment }) => {
+const PinnedComment: React.FC<PinnedCommentProps> = ({ CommentContainer, parents, comment, onPin, onUnpin }) => {
   return (
     <>
-      <ParentComments>
-        <ParentCommentsSummary comments={parents} />
-      </ParentComments>
+      {parents.length > 0 && (
+        <ParentComments>
+          <ParentCommentsSummary comments={parents} onPin={onPin} />
+        </ParentComments>
+      )}
 
-      <InResponseTo>En réponse à {parents[parents.length - 1].author.nick} :</InResponseTo>
+      <PinInfo>
+        <PinInfoText>
+          Commentaire épinglé{parents.length > 0 && <>, en réponse à {parents[parents.length - 1].author.nick}</>} :
+        </PinInfoText>
+        <Button onClick={onUnpin}>Désépingler</Button>
+      </PinInfo>
+
       <CommentContainer comment={comment} />
     </>
   );

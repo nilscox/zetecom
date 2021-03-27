@@ -51,10 +51,10 @@ const FiltersBar: React.FC<FiltersBarProps> = ({
       fullWidth
       placeholder="Rechercher..."
       value={search}
-      onChange={e => onSearch(e.currentTarget.value)}
-      css={theme => ({ marginRight: theme.spacings[4] })}
+      onChange={(e) => onSearch(e.currentTarget.value)}
+      css={(theme) => ({ marginRight: theme.spacings[4] })}
     />
-    {sort && onSort && <SortMenu sort={sort} onChange={onSort} css={theme => ({ marginRight: theme.spacings[4] })} />}
+    {sort && onSort && <SortMenu sort={sort} onChange={onSort} css={(theme) => ({ marginRight: theme.spacings[4] })} />}
     <Pagination page={page} total={getTotalPages(total)} onPageChange={onPageChange} />
   </Container>
 );

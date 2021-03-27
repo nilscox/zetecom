@@ -6,9 +6,9 @@ import { RouteComponentProps } from 'react-router';
 
 import UserAvatarNick from 'src/components/domain/UserAvatarNick/UserAvatarNick';
 import AsyncContent from 'src/components/layout/AsyncContent/AsyncContent';
+import useComment from 'src/hooks/domain/useComment';
 import PopupContainer from 'src/popups/components/PopupContainer/PopupContainer';
 import PopupTitle from 'src/popups/components/PopupTitle/PopupTitle';
-import useComment from 'src/popups/hooks/useComment';
 import { Message } from 'src/types/Comment';
 
 import CommentRevisions from './CommentRevisions/CommentRevisions';

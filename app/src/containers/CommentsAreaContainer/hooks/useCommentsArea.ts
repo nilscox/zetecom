@@ -14,7 +14,7 @@ const fetchCommentsArea: QueryFunction<{ commentsArea: CommentsArea; notFound: b
     ? `/api/comments-area/${String(id)}`
     : `/api/comments-area/by-identifier/${encodeURIComponent(identifier)}`;
 
-  const response = await axios(url, { validateStatus: s => [200, 404].includes(s) });
+  const response = await axios(url, { validateStatus: (s) => [200, 404].includes(s) });
 
   return {
     commentsArea: response.data,

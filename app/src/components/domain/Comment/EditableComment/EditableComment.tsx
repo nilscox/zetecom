@@ -8,10 +8,12 @@ import { ReactionType } from '../CommentFooter/Reactions/ReactionType';
 
 type EditableCommentProps = {
   comment: CommentType;
+  isPin?: boolean;
   submittingEdition: boolean;
   repliesOpen: boolean;
   repliesLoading: boolean;
   replyFormOpen: boolean;
+  onPin?: () => void;
   onEdit?: (text: string) => void;
   onReport?: () => void;
   onSetReaction?: (type: ReactionType | null) => void;
@@ -23,10 +25,12 @@ type EditableCommentProps = {
 
 const EditableComment: React.FC<EditableCommentProps> = ({
   comment,
+  isPin,
   submittingEdition,
   repliesOpen,
   repliesLoading,
   replyFormOpen,
+  onPin,
   onEdit,
   onReport,
   onSetReaction,
@@ -60,9 +64,11 @@ const EditableComment: React.FC<EditableCommentProps> = ({
   return (
     <CommentComponent
       comment={comment}
+      isPin={isPin}
       repliesOpen={repliesOpen}
       repliesLoading={repliesLoading}
       replyFormOpen={replyFormOpen}
+      onPin={onPin}
       onEdit={onEdit ? () => setEditing(true) : undefined}
       onReport={onReport}
       onSetReaction={onSetReaction}

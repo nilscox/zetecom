@@ -18,9 +18,11 @@ export const CommentContainer = styled.div`
 
 type CommentComponentProps = {
   comment: CommentType;
+  isPin?: boolean;
   repliesOpen: boolean;
   repliesLoading: boolean;
   replyFormOpen: boolean;
+  onPin?: () => void;
   onEdit?: () => void;
   onReport?: () => void;
   onSetReaction?: (type: ReactionType | null) => void;
@@ -32,9 +34,11 @@ type CommentComponentProps = {
 
 const CommentComponent: React.FC<CommentComponentProps> = ({
   comment,
+  isPin,
   repliesOpen,
   repliesLoading,
   replyFormOpen,
+  onPin,
   onEdit,
   onReport,
   onSetReaction,
@@ -45,12 +49,14 @@ const CommentComponent: React.FC<CommentComponentProps> = ({
 }) => (
   <CommentContainer>
     <CommentHeader
+      isPin={isPin}
       author={comment.author}
       edited={Boolean(comment.edited)}
       date={new Date(comment.edited || comment.date)}
       onEdit={onEdit}
       onReport={onReport}
       onViewHistory={onViewHistory}
+      onPin={onPin}
     />
 
     <CommentBody text={comment.text} />

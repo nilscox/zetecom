@@ -22,7 +22,7 @@ const StyledNested = styled(Nested)<{ barNegativeMargin?: boolean }>`
   margin-top: ${spacing(2)};
 
   .bar {
-    margin-top: ${props => (props.barNegativeMargin ? `-${props.theme.spacings[2]}` : undefined)};
+    margin-top: ${(props) => (props.barNegativeMargin ? `-${props.theme.spacings[2]}` : undefined)};
   }
 `;
 
@@ -30,10 +30,12 @@ export type CommentProps = {
   CommentContainer: React.FC<{ comment: CommentType }>;
   user: User | null;
   comment: CommentType;
+  isPin?: boolean;
   replies?: CommentType[];
   repliesLoading: boolean;
   submittingEdition: boolean;
   submittingReply: boolean;
+  onPin?: () => void;
   onEdit: (text: string) => void;
   onReport: () => void;
   onSetReaction: (type: ReactionType | null) => void;
@@ -43,11 +45,11 @@ export type CommentProps = {
   fetchReplies: () => void;
 };
 
-const Comment: React.FC<CommentProps> = props => {
+const Comment: React.FC<CommentProps> = (props) => {
   // prettier-ignore
   const {
-    CommentContainer, user, comment, replies, repliesLoading, submittingEdition, submittingReply,
-    onEdit, onReport, onSetReaction, onSetSubscription, onReply, onViewHistory, fetchReplies,
+    CommentContainer, user, comment, replies, repliesLoading, submittingEdition, submittingReply, isPin,
+    onPin, onEdit, onReport, onSetReaction, onSetSubscription, onReply, onViewHistory, fetchReplies,
   } = props;
 
   const [repliesOpen, setRepliesOpen] = useState(false);
@@ -82,10 +84,12 @@ const Comment: React.FC<CommentProps> = props => {
     <div className="comment" id={`comment-${comment.id}`} data-testid="comment">
       <EditableComment
         comment={comment}
+        isPin={isPin}
         submittingEdition={submittingEdition}
         repliesOpen={repliesOpen}
         repliesLoading={repliesLoading}
         replyFormOpen={replyFormOpen}
+        onPin={onPin}
         onEdit={can('edit', onEdit)}
         onReport={can('report', onReport)}
         onToggleReplies={can('toggleReplies', handleToggleReplies)}
