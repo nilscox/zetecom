@@ -4,6 +4,7 @@ import { getCustomRepository, getRepository, Repository } from 'typeorm';
 import { AuthenticationModule } from 'src/modules/authentication/authentication.module';
 import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
 import { CommentsAreaFactory } from 'src/modules/comments-area/comments-area.factory';
+import { createCommentsArea } from 'src/testing/intg-factories/comments-area.factory';
 import { createAuthenticatedUser, setupE2eTest } from 'src/testing/setup-e2e-test';
 
 import { Comment } from './comment.entity';
@@ -248,6 +249,28 @@ describe('comment controller', () => {
         { text: 'message 2', date: expect.any(String) },
         { text: 'message 1', date: expect.any(String) },
       ]);
+    });
+  });
+
+  describe('get ancestors', () => {
+    let root: Comment;
+    let reply1: Comment;
+    let reply2: Comment;
+
+    beforeAll(async () => {
+      root = await commentFactory.create();
+      reply1 = await commentFactory.create({ parent: root });
+      reply2 = await commentFactory.create({ parent: reply1 });
+    });
+
+    it('should not get ancestors for an unexisting comment', async () => {
+      await request(server).get('/api/comment/404/ancestors').expect(404);
+    });
+
+    it("should get a comment's ancestors", async () => {
+      const { body } = await request(server).get(`/api/comment/${reply2.id}/ancestors`).expect(200);
+
+      expect(body).toMatchObject([{ id: root.id }, { id: reply1.id }]);
     });
   });
 

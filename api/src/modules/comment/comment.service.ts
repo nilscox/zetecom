@@ -152,6 +152,12 @@ export class CommentService {
     return { items: result, total };
   }
 
+  async findAncestors(commentId: number) {
+    const ancestors = await this.commentRepository.findAncestors(commentId);
+
+    return ancestors.sort(({ created: a }, { created: b }) => a.getTime() - b.getTime());
+  }
+
   async findReplies(commentId: number, page: number, pageSize: number) {
     return this.commentRepository.findAll({
       parentId: commentId,

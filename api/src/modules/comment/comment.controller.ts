@@ -118,6 +118,17 @@ export class CommentController {
     return comment.messages;
   }
 
+  @Get(':id/ancestors')
+  @CastToDto(CommentDto)
+  @UseInterceptors(PopulateComment)
+  async findAncestors(@Param('id', new ParseIntPipe()) id: number): Promise<Comment[]> {
+    if (!(await this.commentService.exists(id))) {
+      throw new NotFoundException();
+    }
+
+    return this.commentService.findAncestors(id);
+  }
+
   @Get(':id/replies')
   @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)

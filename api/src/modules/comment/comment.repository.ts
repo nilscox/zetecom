@@ -212,12 +212,12 @@ export class CommentRepository extends Repository<Comment> {
     const comments = await qb.getMany();
 
     return this.findAll({
-      ids: comments.map(comment => comment.id),
+      ids: comments.map((comment) => comment.id),
       relations: { commentsArea: true },
     });
   }
 
-  private async findAncestors(id: number) {
+  private async findAncestorsIds(id: number): Promise<number[]> {
     // prettier-ignore
     const [{ ancestors }] = await this.query(`
       WITH RECURSIVE tree AS (
@@ -233,12 +233,16 @@ export class CommentRepository extends Repository<Comment> {
     return ancestors;
   }
 
+  async findAncestors(id: number): Promise<Comment[]> {
+    return super.findByIds(await this.findAncestorsIds(id));
+  }
+
   async incrementScore(id: number, by = 1) {
-    return this.increment({ id: In([id, ...(await this.findAncestors(id))]) }, 'score', by);
+    return this.increment({ id: In([id, ...(await this.findAncestorsIds(id))]) }, 'score', by);
   }
 
   async decrementScore(id: number, by = 1) {
-    return this.decrement({ id: In([id, ...(await this.findAncestors(id))]) }, 'score', by);
+    return this.decrement({ id: In([id, ...(await this.findAncestorsIds(id))]) }, 'score', by);
   }
 
   async getMessages(commentsIds: number[]): Promise<{ commentId: number; messages: Message[] }[]> {
@@ -263,7 +267,7 @@ export class CommentRepository extends Repository<Comment> {
       .groupBy('comment.id')
       .getRawMany();
 
-    const results = commentsIds.map(id => ({ commentId: id, repliesCount: 0 }));
+    const results = commentsIds.map((id) => ({ commentId: id, repliesCount: 0 }));
 
     repliesCounts.forEach(({ comment_id: id, comment_repliesCount }) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -291,7 +295,7 @@ export class CommentRepository extends Repository<Comment> {
       {} as Record<ReactionType, number>,
     );
 
-    const results = commentsIds.map(id => ({ commentId: id, reactions: { ...defaultReactions } }));
+    const results = commentsIds.map((id) => ({ commentId: id, reactions: { ...defaultReactions } }));
 
     counts.forEach(({ comment_id: id, type, count }: { comment_id: number; type: ReactionType; count: number }) => {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -314,7 +318,7 @@ export class CommentRepository extends Repository<Comment> {
       .addGroupBy('comment_id')
       .getRawMany();
 
-    return result.map(qr => ({
+    return result.map((qr) => ({
       commentId: qr.comment_id,
       type: qr.type as ReactionType | null,
     }));
