@@ -11,7 +11,7 @@ import { UserModule } from 'src/modules/user/user.module';
 import { E2eController } from './e2e.controller';
 import { E2eService } from './e2e.service';
 
-const { DB_HOST, DB_USER, DB_PASS, DB_NAME_ROOT } = process.env;
+const { DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_NAME_ROOT } = process.env;
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ const { DB_HOST, DB_USER, DB_PASS, DB_NAME_ROOT } = process.env;
       host: DB_HOST,
       username: DB_USER,
       password: DB_PASS,
-      database: DB_NAME_ROOT,
+      database: DB_NAME_ROOT || DB_NAME,
       logging: false,
     }),
     ConfigModule,

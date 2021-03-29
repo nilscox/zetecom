@@ -39,7 +39,7 @@ cleanup_environment() {
 }
 
 deploy_api() {
-  execute ssh "$deploy_user@$deploy_host" docker pull "$api_image"
+  execute ssh "$deploy_user@$deploy_host" docker pull "$api_image" || true
   ssh "$deploy_user@$deploy_host" docker rm -f "zc-api-$environment" || true
 
   ssh_args=""
