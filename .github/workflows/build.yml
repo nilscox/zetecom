@@ -53,11 +53,10 @@ jobs:
   extension:
     name: build extension
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
       - uses: actions/checkout@v1
       - run: if [ '${{ github.ref }}' = 'refs/heads/master' ]; then echo "environment=production" >> $GITHUB_ENV; fi
-      - run: if [ '${{ github.ref }}' = 'refs/heads/dev' ]; then echo "environment=staging" >> $GITHUB_ENV; fi
+      - run: if [ '${{ github.ref }}' != 'refs/heads/master' ]; then echo "environment=staging" >> $GITHUB_ENV; fi
       - run: echo "extension_version=$(node -e $'console.log(require(\'./extension/package.json\').version)')" >> $GITHUB_ENV
       - run: yarn zip "$environment"
         working-directory: ./extension
