@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add an offset when scrolling the element into the view
 - Allow to disable the extension per site
 - Add the overlay integration type
+- Allow the extension to be injected in all sites
 
 ## [0.7.0] - 2021-03-05
 

@@ -31,20 +31,7 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "*://*.20minutes.fr/*",
-        "*://*.francesoir.fr/*",
-        "*://*.lefigaro.fr/*",
-        "*://*.lemonde.fr/*",
-        "*://*.leparisien.fr/*",
-        "*://*.lepoint.fr/*",
-        "*://*.lesechos.fr/*",
-        "*://*.liberation.fr/*",
-        "*://*.science-et-vie.com/*",
-        "*://*.skeptikon.fr/*",
-        "*://*.youtube.com/*",
-        "*://*/*"
-      ],
+      "matches": ["<all_urls>"],
       "js": ["content_script.js"]
     }
   ]
