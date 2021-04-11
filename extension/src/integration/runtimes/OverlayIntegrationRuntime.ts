@@ -20,11 +20,22 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
     'overlay-button',
     'visible',
   ]);
-  private pinButton = OverlayIntegrationRuntime.createElement('button', { id: 'pin-overlay' }, ['overlay-button']);
-  private openAppButton = OverlayIntegrationRuntime.createElement('button', { id: 'open-app' }, ['overlay-button']);
-  private largeOverlayButton = OverlayIntegrationRuntime.createElement('button', { id: 'large-overlay' }, [
+
+  private pinButton = OverlayIntegrationRuntime.createElement('button', { id: 'pin-overlay', title: 'Épingler' }, [
     'overlay-button',
   ]);
+
+  private openAppButton = OverlayIntegrationRuntime.createElement(
+    'button',
+    { id: 'open-app', title: 'Ouvrir dans un nouvel onglet' },
+    ['overlay-button'],
+  );
+
+  private largeOverlayButton = OverlayIntegrationRuntime.createElement(
+    'button',
+    { id: 'large-overlay', title: 'Agrandir' },
+    ['overlay-button'],
+  );
 
   private static createElement(type: string, attrs: Record<string, any> = {}, classes: string[] = []) {
     const el = document.createElement(type);
@@ -57,18 +68,20 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
   }
 
   private set pin(value: boolean) {
-    if (this._pin === value) {
+    if (this._pin === value || !this.commentsAreaId) {
       return;
     }
 
     this._pin = value;
 
     if (this._pin) {
+      this.pinButton.title = 'Désépingler';
       this.pinButton.classList.add('pin-active');
-      this.overlayContainer.removeEventListener('mouseleave', this.onOverlayeMouseLeave);
+      this.overlayContainer.removeEventListener('mouseleave', this.onOverlayMouseLeave);
     } else {
+      this.pinButton.title = 'Épingler';
       this.pinButton.classList.remove('pin-active');
-      this.overlayContainer.addEventListener('mouseleave', this.onOverlayeMouseLeave);
+      this.overlayContainer.addEventListener('mouseleave', this.onOverlayMouseLeave);
     }
   }
 
@@ -85,9 +98,11 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
 
     if (this._large) {
       this.largeOverlayButton.innerHTML = shrink;
+      this.largeOverlayButton.title = 'Rétrécir';
       this.overlayContainer.style.width = '940px';
     } else {
       this.largeOverlayButton.innerHTML = expand;
+      this.largeOverlayButton.title = 'Agrandir';
       this.overlayContainer.style.width = '';
     }
 
@@ -106,8 +121,8 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
     this.overlayButton.addEventListener('mouseover', this.onOverlayButtonMouseOver);
   };
 
-  private onOverlayeMouseLeave = () => {
-    this.overlayContainer.removeEventListener('mouseleave', this.onOverlayeMouseLeave);
+  private onOverlayMouseLeave = () => {
+    this.overlayContainer.removeEventListener('mouseleave', this.onOverlayMouseLeave);
     this.iframe?.element.addEventListener('transitionend', this.onHideIframeTransitionEnd);
 
     this.iframeContainer.classList.remove('visible');
@@ -118,7 +133,7 @@ export class OverlayIntegrationRuntime extends BaseIntegrationRuntime {
 
   private onShowIframeTransitionEnd = () => {
     this.iframe?.element.removeEventListener('transitionend', this.onShowIframeTransitionEnd);
-    this.overlayContainer.addEventListener('mouseleave', this.onOverlayeMouseLeave);
+    this.overlayContainer.addEventListener('mouseleave', this.onOverlayMouseLeave);
   };
 
   private onOverlayButtonMouseOver = () => {

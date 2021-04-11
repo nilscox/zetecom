@@ -1,3 +1,4 @@
+import env from 'src/utils/env';
 import _20minutes from './images/20minutes.png';
 import francesoir from './images/francesoir.png';
 import lefigaro from './images/lefigaro.png';
@@ -71,15 +72,16 @@ export const medias = {
     host: /skeptikon\.fr$/,
   },
 
-  // test: {
-  //   label: 'Test',
-  //   image: undefined,
-  //   host: /localhost$/,
-  // },
-
   youtube: {
     label: 'YouTube',
     image: youtube,
     host: /youtube\.(com|fr)$/,
   },
 };
+
+if (env.NODE_ENV === 'development') {
+  (medias as Record<string, any>)['test'] = {
+    label: 'Test',
+    host: /localhost$/,
+  };
+}

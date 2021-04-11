@@ -8,11 +8,11 @@ import { LesEchos } from './lesechos';
 import { Liberation } from './liberation';
 import { ScienceEtVie } from './scienceetvie';
 import { Skeptikon } from './skeptikon';
-import { Test } from './test';
 import { YouTube } from './youtube';
+import { Test } from './test';
+import { Integration } from '../integration/IntegrationHost';
 
-export default [
-  //
+const integrations: Array<{ new (): Integration }> = [
   Minutes20,
   FranceSoir,
   LeFigaro,
@@ -23,6 +23,11 @@ export default [
   Liberation,
   ScienceEtVie,
   Skeptikon,
-  Test,
   YouTube,
 ];
+
+if (process.env.NODE_ENV === 'development') {
+  integrations.push(Test);
+}
+
+export default integrations;

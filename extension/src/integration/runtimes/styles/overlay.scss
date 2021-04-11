@@ -62,9 +62,11 @@
     padding: 6px;
     transition: all 125ms ease-in-out;
     cursor: pointer;
+    visibility: hidden;
     opacity: 0;
 
     &.visible {
+      visibility: visible;
       opacity: 1;
     }
   }
@@ -82,11 +84,15 @@
   }
 
   #pin-overlay {
-    color: #4469;
-    padding: 12px;
+    color: #446;
+    padding: 9px;
 
     &.pin-active {
-      color: #446;
+      color: #ff9000;
+    }
+
+    & svg {
+      transform: rotate(35deg);
     }
   }
 

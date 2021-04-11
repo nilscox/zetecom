@@ -2,7 +2,7 @@ import { Integration } from '../integration/IntegrationHost';
 
 export class Test implements Integration {
   name = 'test';
-  domains = ['localhost:8080'];
+  domains = ['localhost:5000'];
   type = 'switch' as const;
   externalElementTabText = 'Commentaires Test';
 
