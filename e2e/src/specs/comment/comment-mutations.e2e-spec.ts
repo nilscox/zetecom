@@ -23,10 +23,7 @@ describe('Comment mutations', () => {
   it('post comment', async () => {
     await login(me);
 
-    const { getByText, getByPlaceholderText, getByRole } = await visitIntegration(
-      commentsArea1.identifier,
-      window.location.href
-    );
+    const { getByText, getByPlaceholderText, getByRole } = await visitIntegration(commentsArea1.identifier);
 
     await waitFor(() => expect(getByText(me.nick)));
 
@@ -68,7 +65,7 @@ describe('Comment mutations', () => {
     await login(me);
     await createComment(commentsAreaId, null, 'initial text');
 
-    const { getByRole, getByText } = await visitIntegration(commentsArea1.identifier, window.location.href);
+    const { getByRole, getByText } = await visitIntegration(commentsArea1.identifier);
 
     await waitFor(() => getByText('initial text'));
 
@@ -114,7 +111,7 @@ describe('Comment mutations', () => {
     await asUser1.createComment(commentsAreaId, null, 'What is the question?');
 
     await login(me);
-    const { getByText } = await visitIntegration(commentsArea1.identifier, window.location.href);
+    const { getByText } = await visitIntegration(commentsArea1.identifier);
 
     await waitFor(() => getByText('What is the question?'));
 
@@ -124,7 +121,7 @@ describe('Comment mutations', () => {
       click(getByTitle('Fermer le formulaire de réponse'));
 
       await waitFor(() =>
-      expect(getComputedStyle(getByTestId('comment-reply-form'))).to.have.property('visibility', 'hidden')
+        expect(getComputedStyle(getByTestId('comment-reply-form'))).to.have.property('visibility', 'hidden')
       );
     });
 

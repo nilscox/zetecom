@@ -12,12 +12,12 @@ const usePin = (comment?: Comment) => {
   const pinCommentId = typeof pin === 'string' ? Number(pin) : undefined;
   const isPin = pinCommentId === comment?.id;
 
-  const onPin = () => {
-    if (isPin) {
+  const onPin = (commentId = comment?.id) => {
+    if (commentId && commentId === pinCommentId) {
       return onUnpin();
     }
 
-    history.push({ ...location, search: queryString.stringify({ ...query, pin: comment?.id }) });
+    history.push({ ...location, search: queryString.stringify({ ...query, pin: commentId ?? comment?.id }) });
   };
 
   const onUnpin = () => {

@@ -29,7 +29,7 @@ type ParentCommentsSummaryProps = {
 };
 
 const ParentCommentsSummary: React.FC<ParentCommentsSummaryProps> = ({ comments: [comment, ...childs], onPin }) => (
-  <>
+  <div id={`comment-${comment.id}`} data-testid={'comment-ancestor'}>
     <StyledCommentHeader
       author={comment.author}
       edited={Boolean(comment.edited)}
@@ -45,7 +45,7 @@ const ParentCommentsSummary: React.FC<ParentCommentsSummaryProps> = ({ comments:
         <ParentCommentsSummary comments={childs} onPin={onPin} />
       </Nested>
     )}
-  </>
+  </div>
 );
 
 const ParentComments = styled.div`

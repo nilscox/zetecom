@@ -50,7 +50,7 @@ type CommentHeaderProps = {
   onEdit?: () => void;
   onReport?: () => void;
   onViewHistory?: () => void;
-  onPin?: () => void;
+  onPin?: (comentId?: number) => void;
 };
 
 const CommentHeader: React.FC<CommentHeaderProps> = ({
@@ -79,7 +79,7 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({
       {onEdit && <EditCommentButton onClick={onEdit} css={(theme) => ({ marginLeft: theme.spacings[2] })} />}
 
       {(isPin || onPin) && (
-        <PinButton title={isPin ? 'Désépingler' : 'Épingler'} onClick={onPin}>
+        <PinButton title={isPin ? 'Désépingler' : 'Épingler'} onClick={() => onPin?.()}>
           <Icon
             as={Pin}
             css={(theme) => ({

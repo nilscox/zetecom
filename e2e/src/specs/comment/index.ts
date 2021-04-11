@@ -3,6 +3,7 @@ import { getQueriesForIframe } from '../../utils';
 import './comments-list.e2e-spec';
 import './comment-display.e2e-spec';
 import './comment-mutations.e2e-spec';
+import './comment-pin.e2e-spec.ts';
 import './reaction.e2e-spec';
 import './history.e2e-spec';
 import './report.e2e-spec';
