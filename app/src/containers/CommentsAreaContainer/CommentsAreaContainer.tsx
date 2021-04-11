@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { useDebounce } from 'use-debounce/lib';
 
 import CommentsList from 'src/components/domain/Comment/CommentsList/CommentsList';
@@ -114,6 +114,7 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
   onCommentsAreaLoaded,
 }) => {
   const { pin } = useQueryString();
+  const location = useLocation();
   const pinCommentId = typeof pin === 'string' ? Number(pin) : undefined;
 
   const { commentsArea, loadingCommentsArea, commentsAreaNotFound } = useCommentsArea(
@@ -122,8 +123,8 @@ const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
     onCommentsAreaLoaded,
   );
 
-  if (pinCommentId && isNaN(pinCommentId)) {
-    return <Redirect to={`/commentaires/${commentsAreaId}`} />;
+  if (pinCommentId !== undefined && isNaN(pinCommentId)) {
+    return <Redirect to={{ pathname: location.pathname, search: '' }} />;
   }
 
   if (commentsAreaNotFound) {

@@ -5,16 +5,15 @@ import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import UserAvatarNick from 'src/components/domain/UserAvatarNick/UserAvatarNick';
+import Icon from 'src/components/elements/Icon/Icon';
+import IconButton from 'src/components/elements/IconButton/IconButton';
 import { borderRadius, color, domain, spacing } from 'src/theme';
 import { UserLight } from 'src/types/User';
 
 import CommentDate from './CommentDate/CommentDate';
 import EditCommentButton from './EditCommentButton/EditCommentButton';
-import ReportCommentLink from './ReportCommentLink/ReportCommentLink';
-
 import Pin from './pin.svg';
-import Icon from 'src/components/elements/Icon/Icon';
-import IconButton from 'src/components/elements/IconButton/IconButton';
+import ReportCommentLink from './ReportCommentLink/ReportCommentLink';
 
 export const CommentHeaderContainer = styled.div`
   display: flex;

@@ -1,4 +1,5 @@
 import env from 'src/utils/env';
+
 import _20minutes from './images/20minutes.png';
 import francesoir from './images/francesoir.png';
 import lefigaro from './images/lefigaro.png';
@@ -80,7 +81,9 @@ export const medias = {
 };
 
 if (env.NODE_ENV === 'development') {
-  (medias as Record<string, any>)['test'] = {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  medias['test'] = {
     label: 'Test',
     host: /localhost$/,
   };

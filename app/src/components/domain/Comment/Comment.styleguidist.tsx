@@ -57,12 +57,14 @@ export const StyleguidistCommentContainer: React.FC<{ comment: CommentType }> = 
       repliesLoading={repliesLoading}
       submittingEdition={false}
       submittingReply={false}
-      onEdit={text => console.log(`edit comment: "${text}"`)}
+      /* eslint-disable no-console */
+      onEdit={(text) => console.log(`edit comment: "${text}"`)}
       onReport={() => console.log('report comment')}
-      onSetReaction={type => console.log(`set reaction: ${String(type)}`)}
-      onSetSubscription={subscribed => console.log(`set subscrption: ${String(subscribed)}`)}
-      onReply={text => console.log(`reply to comment: "${text}"`)}
+      onSetReaction={(type) => console.log(`set reaction: ${String(type)}`)}
+      onSetSubscription={(subscribed) => console.log(`set subscrption: ${String(subscribed)}`)}
+      onReply={(text) => console.log(`reply to comment: "${text}"`)}
       onViewHistory={() => console.log('view history')}
+      /* eslint-enable no-console */
       fetchReplies={fetchReplies}
     />
   );

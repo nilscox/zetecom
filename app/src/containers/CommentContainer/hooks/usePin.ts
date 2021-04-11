@@ -12,8 +12,8 @@ const usePin = (comment: Comment) => {
   const isPin = pinCommentId === comment.id;
 
   const location = isPin
-    ? `/commentaires/${match?.params.commentsAreaId}`
-    : `/commentaires/${match?.params.commentsAreaId}?pin=${comment.id}`;
+    ? `/commentaires/${match?.params.commentsAreaId ?? ''}`
+    : `/commentaires/${match?.params.commentsAreaId ?? ''}?pin=${comment.id}`;
 
   const onPin = () => history.push(location);
 

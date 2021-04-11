@@ -33,16 +33,18 @@ const PinnedCommentContainer: React.FC<PinnedCommentContainerProps> = ({ comment
   return (
     <AsyncContent
       loading={loadingComment || fetchingAncestors}
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      render={() => (
-        <PinnedComment
-          CommentContainer={CommentContainer}
-          parents={ancestors!}
-          comment={comment!}
-          onPin={handlePin}
-          onUnpin={handleUnpin}
-        />
-      )}
+      render={() =>
+        ancestors &&
+        comment && (
+          <PinnedComment
+            CommentContainer={CommentContainer}
+            parents={ancestors}
+            comment={comment}
+            onPin={handlePin}
+            onUnpin={handleUnpin}
+          />
+        )
+      }
     />
   );
 };
