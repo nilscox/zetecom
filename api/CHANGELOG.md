@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2021-04-11
+
 ### Added
 
 - Allow to fetch a comment's ancestors
@@ -24,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update reaction types
 - Allow to specify the page size through a query param
+- Align this package version with the app
 
 ## [0.5.3] - 2021-01-10
 

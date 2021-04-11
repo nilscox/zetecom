@@ -16,11 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2021-04-11
+
 ### Changed
 
 - Use webpack to build the app
 - Display message revisions side-by-side
 - Update reaction types
+- Align this package version with the api
 
 ## [0.6.1]
 
