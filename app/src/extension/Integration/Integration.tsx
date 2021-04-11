@@ -9,11 +9,10 @@ import { useTracker, useTrackEvent } from 'src/contexts/trackingContext';
 import track from 'src/domain/track';
 import CommentsAreaClosed from 'src/extension/Integration/CommentsAreaClosed/CommentsAreaClosed';
 import { onIntegrationLoaded } from 'src/extension/messages';
-import { color, spacing } from 'src/theme';
+import { spacing } from 'src/theme';
 import { CommentsArea } from 'src/types/CommentsArea';
 
 const Container = styled.div`
-  /* border: 1px solid ${color('border')}; */
   padding: ${spacing(1)};
 `;
 

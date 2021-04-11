@@ -5,9 +5,9 @@ import { useUser } from 'src/contexts/userContext';
 import { Comment as CommentType } from 'src/types/Comment';
 
 import Comment from '../../components/domain/Comment/Comment';
+import usePin from '../../hooks/domain/usePin';
 
 import useEdition from './hooks/useEdition';
-import usePin from './hooks/usePin';
 import useReplies from './hooks/useReplies';
 import useReport from './hooks/useReport';
 import useSetReaction from './hooks/useSetReaction';
@@ -24,7 +24,7 @@ const CommentContainer: React.FC<CommentContainerProps> = ({ comment }) => {
   const [fetchReplies, { fetchingReplies, replies }] = useReplies(comment);
   const [onReply, { submittingReply }] = useReply(comment);
   const [onEdit, { submittingEdition }] = useEdition(comment);
-  const [isPin, onPin] = usePin(comment);
+  const [isPin, { onPin }] = usePin(comment);
   const onSetReaction = useSetReaction(comment);
   const onSetSubscription = useSetSubscription(comment);
   const onReport = useReport(comment);

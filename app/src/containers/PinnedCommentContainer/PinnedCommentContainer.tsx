@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { Redirect, useHistory } from 'react-router';
+import { Redirect } from 'react-router';
 import { toast } from 'react-toastify';
 
 import PinnedComment from 'src/components/domain/PinnedComment/PinnedComment';
 import AsyncContent from 'src/components/layout/AsyncContent/AsyncContent';
 import CommentContainer from 'src/containers/CommentContainer/CommentContainer';
 import useComment from 'src/hooks/domain/useComment';
+import usePin from 'src/hooks/domain/usePin';
 
 import useAncestors from './hooks/useAncestors';
 
@@ -16,13 +17,10 @@ type PinnedCommentContainerProps = {
 };
 
 const PinnedCommentContainer: React.FC<PinnedCommentContainerProps> = ({ commentsAreaId, commentId }) => {
-  const history = useHistory();
-
   const [comment, { loadingComment }] = useComment(commentId);
   const [ancestors, found, { fetchingAncestors }] = useAncestors(commentId);
 
-  const handlePin = (commentId: number) => history.push(`/commentaires/${commentsAreaId}?pin=${commentId}`);
-  const handleUnpin = () => history.push(`/commentaires/${commentsAreaId}`);
+  const [, { onPin, onUnpin }] = usePin(comment);
 
   if (found === false) {
     toast.warning("Le commentaire épinglé n'existe pas ou a été supprimé");
@@ -40,8 +38,8 @@ const PinnedCommentContainer: React.FC<PinnedCommentContainerProps> = ({ comment
             CommentContainer={CommentContainer}
             parents={ancestors}
             comment={comment}
-            onPin={handlePin}
-            onUnpin={handleUnpin}
+            onPin={onPin}
+            onUnpin={onUnpin}
           />
         )
       }

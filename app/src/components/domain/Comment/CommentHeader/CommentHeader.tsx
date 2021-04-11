@@ -71,7 +71,6 @@ const CommentHeader: React.FC<CommentHeaderProps> = ({
   return (
     <CommentHeaderContainer
       className={className}
-      onClick={onPin}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
