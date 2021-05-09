@@ -22,6 +22,7 @@ export class CommentFactory implements Factory<Comment> {
 
   async create(override: Partial<Omit<Comment, 'id'>> = {}, text = 'comment'): Promise<Comment> {
     const data = {
+      status: CommentStatus.published,
       ...override,
     };
 
@@ -37,7 +38,6 @@ export class CommentFactory implements Factory<Comment> {
 
     data.message = message;
     data.messages = [message];
-    data.status = CommentStatus.published;
 
     const comment = await this.repository.save(data);
 

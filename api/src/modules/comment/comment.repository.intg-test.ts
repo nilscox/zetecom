@@ -6,11 +6,10 @@ import { createCommentsArea } from 'src/testing/intg-factories/comments-area.fac
 import { createUser } from 'src/testing/intg-factories/user.factory';
 import { setupIntgTest } from 'src/testing/setup-intg-test';
 
-import { Comment } from './comment.entity';
+import { Comment, CommentStatus } from './comment.entity';
 import { CommentRepository } from './comment.repository';
 
 describe('comment repository', () => {
-
   setupIntgTest();
 
   let commentRepository: CommentRepository;
@@ -25,8 +24,7 @@ describe('comment repository', () => {
 
     const comments = [];
 
-    for (const comment of data)
-      comments.push(await createComment({ commentsArea, ...comment }, comment.text));
+    for (const comment of data) comments.push(await createComment({ commentsArea, ...comment }, comment.text));
 
     return {
       commentsArea,
@@ -35,44 +33,38 @@ describe('comment repository', () => {
     };
   };
 
-  it('should find all comments', async () => {
-    const { commentsAreaId, comments: [comment1, comment2] } = await createCommentsAreaAndComments([
-      { text: 'comment1' },
-      { text: 'comment2' },
-    ]);
+  it('finds all comments', async () => {
+    const {
+      commentsAreaId,
+      comments: [comment1, comment2],
+    } = await createCommentsAreaAndComments([{ text: 'comment1' }, { text: 'comment2' }]);
 
     const result = await commentRepository.findAll({ commentsAreaId, sort: SortType.DATE_ASC });
 
     expect(result).toMatchObject({
-      items: [
-        { id: comment1.id },
-        { id: comment2.id },
-      ],
+      items: [{ id: comment1.id }, { id: comment2.id }],
       total: 2,
     });
   });
 
-  it('should find all comments by ids', async () => {
-    const { comments: [comment1] } = await createCommentsAreaAndComments([
-      { text: 'comment1' },
-      { text: 'comment2' },
-    ]);
+  it('finds all comments by ids', async () => {
+    const {
+      comments: [comment1],
+    } = await createCommentsAreaAndComments([{ text: 'comment1' }, { text: 'comment2' }]);
 
     const result = await commentRepository.findAll({ ids: [comment1.id], sort: SortType.DATE_ASC });
 
     expect(result).toMatchObject({
-      items: [
-        { id: comment1.id },
-      ],
+      items: [{ id: comment1.id }],
       total: 1,
     });
   });
 
-  it('should not find soft deleted comments', async () => {
-    const { commentsAreaId, comments: [comment1, comment2] } = await createCommentsAreaAndComments([
-      { text: 'comment1' },
-      { text: 'comment2' },
-    ]);
+  it('does not include soft deleted comments', async () => {
+    const {
+      commentsAreaId,
+      comments: [comment1, comment2],
+    } = await createCommentsAreaAndComments([{ text: 'comment1' }, { text: 'comment2' }]);
 
     await commentRepository.softDelete(comment1.id);
 
@@ -84,32 +76,64 @@ describe('comment repository', () => {
     });
   });
 
-  it('should find all comments sorted by date desc', async () => {
-    const { commentsAreaId, comments: [comment1, comment2] } = await createCommentsAreaAndComments([
+  it('does not include pending comments', async () => {
+    const {
+      commentsAreaId,
+      comments: [comment1],
+    } = await createCommentsAreaAndComments([
       { text: 'comment1' },
-      { text: 'comment2' },
+      { text: 'comment2', status: CommentStatus.pending },
     ]);
+
+    const result = await commentRepository.findAll({ commentsAreaId });
+
+    expect(result).toMatchObject({
+      items: [{ id: comment1.id }],
+      total: 1,
+    });
+  });
+
+  it('includes pending comments for a userId', async () => {
+    const user = await createUser();
+
+    const {
+      commentsAreaId,
+      comments: [comment],
+    } = await createCommentsAreaAndComments([{ text: 'comment1', status: CommentStatus.pending, author: user }]);
+
+    const result = await commentRepository.findAll({ commentsAreaId, includePendingForUserId: user.id });
+
+    expect(result).toMatchObject({
+      items: [{ id: comment.id }],
+      total: 1,
+    });
+  });
+
+  it('finds all comments sorted by date desc', async () => {
+    const {
+      commentsAreaId,
+      comments: [comment1, comment2],
+    } = await createCommentsAreaAndComments([{ text: 'comment1' }, { text: 'comment2' }]);
 
     const result = await commentRepository.findAll({ commentsAreaId, sort: SortType.DATE_DESC });
 
     expect(result).toMatchObject({
-      items: [
-        { id: comment2.id },
-        { id: comment1.id },
-      ],
+      items: [{ id: comment2.id }, { id: comment1.id }],
       total: 2,
     });
   });
 
-  it('should find all comments sorted by relevance', async () => {
+  it('finds all comments sorted by relevance', async () => {
     // TODO
   });
 
-  it('should find all comments with relations', async () => {
+  it('finds all comments with relations', async () => {
     const author = await createUser();
-    const { commentsAreaId, commentsArea, comments: [comment1] } = await createCommentsAreaAndComments([
-      { author, text: 'comment1' },
-    ]);
+    const {
+      commentsAreaId,
+      commentsArea,
+      comments: [comment1],
+    } = await createCommentsAreaAndComments([{ author, text: 'comment1' }]);
 
     const comment2 = await createComment({ commentsArea, author, parent: comment1 });
 
@@ -142,59 +166,62 @@ describe('comment repository', () => {
     });
   });
 
-  it('should find all root comments', async () => {
-    const { commentsAreaId, commentsArea, comments: [comment1] } = await createCommentsAreaAndComments([
-      { text: 'comment1' },
-    ]);
+  it('finds all root comments', async () => {
+    const {
+      commentsAreaId,
+      commentsArea,
+      comments: [comment1],
+    } = await createCommentsAreaAndComments([{ text: 'comment1' }]);
     await createComment({ commentsArea, parent: comment1 });
 
     const result = await commentRepository.findAll({ commentsAreaId, sort: SortType.DATE_ASC, root: true });
 
     expect(result).toMatchObject({
-      items: [
-        { id: comment1.id },
-      ],
+      items: [{ id: comment1.id }],
       total: 1,
     });
   });
 
-  it('should find all comments matching search string', async () => {
-    const { commentsAreaId, comments: [comment1, comment2] } = await createCommentsAreaAndComments([
-      { text: 'toto' },
-      { text: 'total' },
-      { text: 'tata' },
-    ]);
+  it('finds all comments matching search string', async () => {
+    const {
+      commentsAreaId,
+      comments: [comment1, comment2],
+    } = await createCommentsAreaAndComments([{ text: 'toto' }, { text: 'total' }, { text: 'tata' }]);
 
-    const result = await commentRepository.findAll({ commentsAreaId, sort: SortType.DATE_ASC, relations: { message: true }, search: 'to' });
+    const result = await commentRepository.findAll({
+      commentsAreaId,
+      sort: SortType.DATE_ASC,
+      relations: { message: true },
+      search: 'to',
+    });
 
     expect(result).toMatchObject({
-      items: [
-        { id: comment1.id },
-        { id: comment2.id },
-      ],
+      items: [{ id: comment1.id }, { id: comment2.id }],
       total: 2,
     });
   });
 
-  it('should find all comments by information id', async () => {
-    const { commentsAreaId: commentsAreaId1, comments: [comment1] } = await createCommentsAreaAndComments([
-      { text: 'comment1' },
-    ]);
+  it('finds all comments by information id', async () => {
+    const {
+      commentsAreaId: commentsAreaId1,
+      comments: [comment1],
+    } = await createCommentsAreaAndComments([{ text: 'comment1' }]);
     await createCommentsAreaAndComments([{ text: 'comment2' }]);
 
     const result = await commentRepository.findAll({ commentsAreaId: commentsAreaId1, sort: SortType.DATE_ASC });
 
     expect(result).toMatchObject({
-      items: [
-        { id: comment1.id },
-      ],
+      items: [{ id: comment1.id }],
       total: 1,
     });
   });
 
-  it('should find all comments for user', async () => {
+  it('finds all comments for user', async () => {
     const author = await createUser();
-    const { commentsAreaId, comments: [comment1, comment2] } = await createCommentsAreaAndComments([
+    const {
+      commentsAreaId,
+      comments: [comment1, comment2],
+    } = await createCommentsAreaAndComments([
       { author, text: 'comment1' },
       { author, text: 'comment2' },
     ]);
@@ -202,49 +229,47 @@ describe('comment repository', () => {
     const result = await commentRepository.findAll({ commentsAreaId, sort: SortType.DATE_ASC, authorId: author.id });
 
     expect(result).toMatchObject({
-      items: [
-        { id: comment1.id },
-        { id: comment2.id },
-      ],
+      items: [{ id: comment1.id }, { id: comment2.id }],
       total: 2,
     });
   });
 
-  it('should find all reply for a comment', async () => {
-    const { commentsAreaId, commentsArea, comments: [comment1] } = await createCommentsAreaAndComments([
-      { text: 'comment1' },
-    ]);
+  it('finds all reply for a comment', async () => {
+    const {
+      commentsAreaId,
+      commentsArea,
+      comments: [comment1],
+    } = await createCommentsAreaAndComments([{ text: 'comment1' }]);
     const comment2 = await createComment({ commentsArea, parent: comment1 });
     await createComment({ commentsArea, parent: comment2 });
 
     const result = await commentRepository.findAll({ commentsAreaId, sort: SortType.DATE_ASC, parentId: comment1.id });
 
     expect(result).toMatchObject({
-      items: [
-        { id: comment2.id },
-      ],
+      items: [{ id: comment2.id }],
       total: 1,
     });
   });
 
-  it('should find all paginated comments', async () => {
-    const { commentsAreaId, comments: [, comment2] } = await createCommentsAreaAndComments([
-      { text: 'comment1' },
-      { text: 'comment2' },
-      { text: 'comment3' },
-    ]);
+  it('finds all paginated comments', async () => {
+    const {
+      commentsAreaId,
+      comments: [, comment2],
+    } = await createCommentsAreaAndComments([{ text: 'comment1' }, { text: 'comment2' }, { text: 'comment3' }]);
 
-    const result = await commentRepository.findAll({ commentsAreaId, sort: SortType.DATE_ASC, pagination: { page: 2, pageSize: 1 } });
+    const result = await commentRepository.findAll({
+      commentsAreaId,
+      sort: SortType.DATE_ASC,
+      pagination: { page: 2, pageSize: 1 },
+    });
 
     expect(result).toMatchObject({
-      items: [
-        { id: comment2.id },
-      ],
+      items: [{ id: comment2.id }],
       total: 3,
     });
   });
 
-/*
+  /*
   describe('findRootComments', () => {
     it('should find the root comments on the first page', async () => {
       const information = await createInformation();

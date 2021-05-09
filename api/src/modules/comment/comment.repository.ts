@@ -1,9 +1,9 @@
-import { EntityRepository, getRepository, In, Repository, SelectQueryBuilder } from 'typeorm';
+import { Brackets, EntityRepository, getRepository, In, Repository, SelectQueryBuilder } from 'typeorm';
 
 import { Paginated } from 'src/common/paginated';
 import { SortType } from 'src/common/sort-type';
 
-import { Comment } from './comment.entity';
+import { Comment, CommentStatus } from './comment.entity';
 import { Message } from './message.entity';
 import { Reaction, ReactionType } from './reaction.entity';
 
@@ -47,6 +47,7 @@ export type FindAllOptions = {
   authorId?: number;
   parentId?: number;
   pagination?: Pagination;
+  includePendingForUserId?: number;
 };
 
 @EntityRepository(Comment)
@@ -99,6 +100,19 @@ export class CommentRepository extends Repository<Comment> {
       qb.andWhere('comment.parent_id = :parentId', { parentId: opts.parentId });
     }
 
+    if (opts.includePendingForUserId) {
+      qb.andWhere(
+        new Brackets((qb) => {
+          // prettier-ignore
+          qb
+            .where('comment.status = :status', { status: CommentStatus.published })
+            .orWhere('comment.author_id = :authorId', { authorId: opts.includePendingForUserId });
+        }),
+      );
+    } else {
+      qb.andWhere('comment.status = :status', { status: CommentStatus.published });
+    }
+
     if (typeof opts.pagination !== 'undefined') {
       this.paginate(qb, opts.pagination);
     }
@@ -109,6 +123,8 @@ export class CommentRepository extends Repository<Comment> {
     // console.log(qb.getParameters());
 
     const [items, total] = await qb.getManyAndCount();
+
+    // console.log(items);
 
     return { items, total };
   }
