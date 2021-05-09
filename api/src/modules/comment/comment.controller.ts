@@ -196,13 +196,11 @@ export class CommentController {
     }
 
     if (dto.parentId) {
-      {
-        parent = await this.commentRepository.findOne({ id: dto.parentId });
-      }
+      parent = await this.commentRepository.findOne({ id: dto.parentId });
 
       // TODO: error format
       if (!parent) {
-        throw new BadRequestException(`standalone comment with id ${dto.parentId} not found`);
+        throw new BadRequestException(`parent comment with id ${dto.parentId} not found`);
       }
     }
 

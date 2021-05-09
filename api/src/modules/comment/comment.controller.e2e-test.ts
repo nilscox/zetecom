@@ -7,6 +7,8 @@ import { CommentsAreaFactory } from 'src/modules/comments-area/comments-area.fac
 import { createCommentsArea } from 'src/testing/intg-factories/comments-area.factory';
 import { createAuthenticatedUser, setupE2eTest } from 'src/testing/setup-e2e-test';
 
+import { CommentsAreaRequestFactory } from '../comments-area/comments-area-request/comments-area-request.factory';
+
 import { Comment, CommentStatus } from './comment.entity';
 import { CommentFactory } from './comment.factory';
 import { CommentModule } from './comment.module';
@@ -31,6 +33,7 @@ describe('comment controller', () => {
   const commentsAreaFactory = new CommentsAreaFactory();
   const commentFactory = new CommentFactory();
   const subscriptionFactory = new SubscriptionFactory();
+  const commentsAreaRequestFactory = new CommentsAreaRequestFactory();
 
   let commentRepository: CommentRepository;
   let reactionRepository: Repository<Reaction>;
@@ -459,6 +462,19 @@ describe('comment controller', () => {
 
       expect(commentDb).toBeDefined();
       expect(commentDb.status).toBe(CommentStatus.published);
+    });
+
+    it('creates a pending comment when the comments area is not approved', async () => {
+      const commentsArea = await commentsAreaFactory.create();
+      await commentsAreaRequestFactory.create({ commentsArea });
+      const comment = makeComment(commentsArea.id);
+
+      const { body } = await userRequest.post('/api/comment').send(comment).expect(201);
+
+      const commentDb = await commentRepository.findOne(body.id);
+
+      expect(commentDb).toBeDefined();
+      expect(commentDb.status).toBe(CommentStatus.pending);
     });
 
     it('subscribes to a created comment', async () => {

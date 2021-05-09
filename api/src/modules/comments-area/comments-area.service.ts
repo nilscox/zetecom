@@ -7,6 +7,8 @@ import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaCreatedCommand } from './comments-area-created.command';
 import { CommentsAreaIntegrationService } from './comments-area-integration/comments-area-integration.service';
+import { CommentsAreaRequestStatus } from './comments-area-request/comments-area-request.entity';
+import { CommentsAreaRequestService } from './comments-area-request/comments-area-request.service';
 import { CreateCommentsAreaInDto } from './dtos/create-comments-area-in.dto';
 import { UpdateCommentsAreaInDto } from './dtos/update-comments-area-in.dto';
 
@@ -15,6 +17,7 @@ export class CommentsAreaService {
   constructor(
     private readonly commentsAreaRepository: CommentsAreaRepository,
     private readonly commentsAreaIntegrationService: CommentsAreaIntegrationService,
+    private readonly commentsAreaRequestService: CommentsAreaRequestService,
     private readonly command$: CommandBus,
   ) {}
 
@@ -57,5 +60,11 @@ export class CommentsAreaService {
 
   async getCommentsCounts(CommentsAreasIds: number[]) {
     return this.commentsAreaRepository.getCommentsCounts(CommentsAreasIds);
+  }
+
+  async isApproved(commentsArea: CommentsArea): Promise<boolean> {
+    const requests = await this.commentsAreaRequestService.findAllForCommentsArea(commentsArea);
+
+    return requests.every((request) => request.status === CommentsAreaRequestStatus.APPROVED);
   }
 }

@@ -20,6 +20,7 @@ import { Message } from './message.entity';
 import { Reaction } from './reaction.entity';
 
 export enum CommentStatus {
+  pending = 'PENDING',
   published = 'PUBLISHED',
 }
 

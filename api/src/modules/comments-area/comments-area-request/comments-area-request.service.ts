@@ -77,4 +77,8 @@ export class CommentsAreaRequestService {
       reason,
     });
   }
+
+  async findAllForCommentsArea(commentsArea: CommentsArea): Promise<CommentsAreaRequest[]> {
+    return this.commentsAreaRequestRepository.find({ where: { commentsArea } });
+  }
 }

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 
 import { SortType } from 'src/common/sort-type';
 import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { CommentsAreaService } from 'src/modules/comments-area/comments-area.service';
 import { User } from 'src/modules/user/user.entity';
 import { UserService } from 'src/modules/user/user.service';
 
@@ -24,6 +25,7 @@ export class CommentService {
     private readonly messageRepository: Repository<Message>,
     @InjectRepository(Reaction)
     private readonly reactionRepository: Repository<Reaction>,
+    private readonly commentsAreaService: CommentsAreaService,
     private readonly subscriptionService: SubscriptionService,
     private readonly command$: CommandBus,
   ) {}
@@ -41,6 +43,14 @@ export class CommentService {
   }
 
   async create(user: User, commentsArea: CommentsArea, parent: Comment | null, text: string): Promise<Comment> {
+    const getStatus = async () => {
+      if (await this.commentsAreaService.isApproved(commentsArea)) {
+        return CommentStatus.published;
+      }
+
+      return CommentStatus.pending;
+    };
+
     const message = await this.messageRepository.save({
       text,
     });
@@ -48,7 +58,7 @@ export class CommentService {
     const comment = await this.commentRepository.save({
       author: user,
       commentsArea,
-      status: CommentStatus.published,
+      status: await getStatus(),
       parent,
       message,
     });
