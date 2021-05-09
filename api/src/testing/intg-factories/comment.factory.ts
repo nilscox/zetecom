@@ -1,6 +1,6 @@
 import { DeepPartial, getManager } from 'typeorm';
 
-import { Comment } from 'src/modules/comment/comment.entity';
+import { Comment, CommentStatus } from 'src/modules/comment/comment.entity';
 import { Message } from 'src/modules/comment/message.entity';
 
 import { createCommentsArea } from './comments-area.factory';
@@ -10,14 +10,21 @@ import { createUser } from './user.factory';
 export const createComment = async (data: DeepPartial<Comment> = {}, text?: string) => {
   const manager = getManager();
 
-  if (!data.commentsArea)
+  if (!data.status) {
+    data.status = CommentStatus.published;
+  }
+
+  if (!data.commentsArea) {
     data.commentsArea = await createCommentsArea();
+  }
 
-  if (!data.author)
+  if (!data.author) {
     data.author = await createUser();
+  }
 
-  if (!data.message)
+  if (!data.message) {
     data.message = await createMessage({ text });
+  }
 
   const comment = await manager.save(Comment, data);
 

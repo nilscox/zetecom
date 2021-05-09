@@ -8,7 +8,7 @@ import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
 import { User } from 'src/modules/user/user.entity';
 import { UserService } from 'src/modules/user/user.service';
 
-import { Comment } from './comment.entity';
+import { Comment, CommentStatus } from './comment.entity';
 import { CommentJoinRelations, CommentRepository } from './comment.repository';
 import { CommentCreatedCommand } from './comment-created.command';
 import { Message } from './message.entity';
@@ -48,6 +48,7 @@ export class CommentService {
     const comment = await this.commentRepository.save({
       author: user,
       commentsArea,
+      status: CommentStatus.published,
       parent,
       message,
     });

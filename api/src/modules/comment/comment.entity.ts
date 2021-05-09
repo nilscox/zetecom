@@ -19,6 +19,10 @@ import { User } from 'src/modules/user/user.entity';
 import { Message } from './message.entity';
 import { Reaction } from './reaction.entity';
 
+export enum CommentStatus {
+  published = 'PUBLISHED',
+}
+
 @Entity({ name: 'comment', orderBy: { created: 'DESC' } })
 export class Comment {
   @PrimaryGeneratedColumn()
@@ -36,6 +40,9 @@ export class Comment {
   @ManyToOne(() => User, { nullable: false, eager: true })
   @JoinColumn({ name: 'author_id' })
   author: User;
+
+  @Column({ type: 'enum', enum: CommentStatus })
+  status: CommentStatus;
 
   @Column({ default: 0 })
   score: number;

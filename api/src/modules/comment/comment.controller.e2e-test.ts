@@ -7,7 +7,7 @@ import { CommentsAreaFactory } from 'src/modules/comments-area/comments-area.fac
 import { createCommentsArea } from 'src/testing/intg-factories/comments-area.factory';
 import { createAuthenticatedUser, setupE2eTest } from 'src/testing/setup-e2e-test';
 
-import { Comment } from './comment.entity';
+import { Comment, CommentStatus } from './comment.entity';
 import { CommentFactory } from './comment.factory';
 import { CommentModule } from './comment.module';
 import { CommentRepository } from './comment.repository';
@@ -413,27 +413,27 @@ describe('comment controller', () => {
       text: 'new comment',
     });
 
-    it('should not create a comment when not authenticated', async () => {
+    it('does not create a comment when not authenticated', async () => {
       const comment = makeComment(commentsArea.id);
 
       await request(server).post('/api/comment').send(comment).expect(403);
     });
 
-    it('should not create a comment with missing commentsAreaId', async () => {
+    it('does not create a comment with missing commentsAreaId', async () => {
       const comment = makeComment(commentsArea.id);
       delete comment.commentsAreaId;
 
       return userRequest.post('/api/comment').send(comment).expect(400);
     });
 
-    it('should not create a comment with unexisting commentsAreaId', async () => {
+    it('does not create a comment with unexisting commentsAreaId', async () => {
       const comment = makeComment(commentsArea.id);
       comment.commentsAreaId = 404;
 
       return userRequest.post('/api/comment').send(comment).expect(400);
     });
 
-    it('should not create a recation with missing or empty text', async () => {
+    it('does not create a recation with missing or empty text', async () => {
       const comment = makeComment(commentsArea.id);
       delete comment.text;
 
@@ -445,7 +445,7 @@ describe('comment controller', () => {
         .expect(400);
     });
 
-    it('should create a comment', async () => {
+    it('creates a comment', async () => {
       const comment = makeComment(commentsArea.id);
 
       const { body } = await userRequest.post('/api/comment').send(comment).expect(201);
@@ -458,9 +458,10 @@ describe('comment controller', () => {
       const commentDb = await commentRepository.findOne(body.id);
 
       expect(commentDb).toBeDefined();
+      expect(commentDb.status).toBe(CommentStatus.published);
     });
 
-    it('should be subscribed to a created comment', async () => {
+    it('subscribes to a created comment', async () => {
       const comment = makeComment(commentsArea.id);
 
       const { body } = await userRequest.post('/api/comment').send(comment).expect(201);

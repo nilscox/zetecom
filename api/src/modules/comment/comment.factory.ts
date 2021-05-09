@@ -4,7 +4,7 @@ import { CommentsAreaFactory } from 'src/modules/comments-area/comments-area.fac
 import { UserFactory } from 'src/modules/user/user.factory';
 import { Factory } from 'src/testing/factory';
 
-import { Comment } from './comment.entity';
+import { Comment, CommentStatus } from './comment.entity';
 import { CommentRepository } from './comment.repository';
 import { Message } from './message.entity';
 
@@ -20,7 +20,7 @@ export class CommentFactory implements Factory<Comment> {
     return getRepository(Message);
   }
 
-  async create(override: Partial<Omit<Comment, 'id'>> = {}, text = 'comment') {
+  async create(override: Partial<Omit<Comment, 'id'>> = {}, text = 'comment'): Promise<Comment> {
     const data = {
       ...override,
     };
@@ -37,6 +37,7 @@ export class CommentFactory implements Factory<Comment> {
 
     data.message = message;
     data.messages = [message];
+    data.status = CommentStatus.published;
 
     const comment = await this.repository.save(data);
 
