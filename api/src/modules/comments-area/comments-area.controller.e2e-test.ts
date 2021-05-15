@@ -11,7 +11,7 @@ import {
   setupE2eTest,
 } from '../../testing/setup-e2e-test';
 
-import { CommentsArea } from './comments-area.entity';
+import { CommentsArea, CommentsAreaStatus } from './comments-area.entity';
 import { CommentsAreaFactory } from './comments-area.factory';
 import { CommentsAreaModule } from './comments-area.module';
 import { CommentsAreaRepository } from './comments-area.repository';
@@ -44,14 +44,16 @@ describe('comments area controller', () => {
     let commentsArea1: CommentsArea;
     let commentsArea2: CommentsArea;
     let commentsArea3: CommentsArea;
+    let commentsArea4: CommentsArea;
 
     beforeAll(async () => {
       commentsArea1 = await commentsAreaFactory.create();
       commentsArea2 = await commentsAreaFactory.create({ informationTitle: 'search me' });
       commentsArea3 = await commentsAreaFactory.create();
+      commentsArea4 = await commentsAreaFactory.create({ status: CommentsAreaStatus.requested });
     });
 
-    it('should list all comments areas', async () => {
+    it('lists all comments areas', async () => {
       const { body } = await request(server).get('/api/comments-area').expect(200);
 
       expect(body).toMatchObject({
@@ -60,12 +62,12 @@ describe('comments area controller', () => {
       });
     });
 
-    it('should limit the page size to 50', async () => {
+    it('limits the page size to 50', async () => {
       await request(server).get('/api/comments-area').query({ pageSize: 50 }).expect(200);
       await request(server).get('/api/comments-area').query({ pageSize: 51 }).expect(418);
     });
 
-    it('should list all comments areas paginated', async () => {
+    it('lists all comments areas paginated', async () => {
       const { body: page1 } = await request(server).get('/api/comments-area').query({ pageSize: 2 }).expect(200);
 
       expect(page1).toMatchObject({
@@ -84,7 +86,7 @@ describe('comments area controller', () => {
       });
     });
 
-    it('should search comments areas', async () => {
+    it('searches comments areas', async () => {
       const { body } = await request(server).get('/api/comments-area').query({ search: 'search' }).expect(200);
 
       expect(body).toMatchObject({

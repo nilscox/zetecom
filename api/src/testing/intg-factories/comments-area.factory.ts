@@ -1,6 +1,6 @@
 import { DeepPartial, getManager } from 'typeorm';
 
-import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { CommentsArea, CommentsAreaStatus } from 'src/modules/comments-area/comments-area.entity';
 
 import { createUser } from './user.factory';
 
@@ -10,6 +10,7 @@ export const createCommentsArea = async (data: DeepPartial<CommentsArea> = {}) =
   if (!data.creator) data.creator = await createUser();
 
   const commentsArea = manager.create(CommentsArea, {
+    status: CommentsAreaStatus.open,
     informationTitle: 'Fake News!',
     informationUrl: 'https://information.url',
     informationAuthor: 'anyone',

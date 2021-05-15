@@ -3,7 +3,7 @@ import { CommandBus } from '@nestjs/cqrs';
 
 import { User } from 'src/modules/user/user.entity';
 
-import { CommentsArea } from './comments-area.entity';
+import { CommentsArea, CommentsAreaStatus } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaCreatedCommand } from './comments-area-created.command';
 import { CommentsAreaIntegrationService } from './comments-area-integration/comments-area-integration.service';
@@ -38,6 +38,7 @@ export class CommentsAreaService {
   async create(dto: CreateCommentsAreaInDto, creator: User): Promise<CommentsArea> {
     const commentsArea = await this.commentsAreaRepository.save({
       ...dto,
+      status: CommentsAreaStatus.open,
       creator,
     });
 

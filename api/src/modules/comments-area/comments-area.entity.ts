@@ -10,6 +10,11 @@ import {
 
 import { User } from 'src/modules/user/user.entity';
 
+export enum CommentsAreaStatus {
+  requested = 'REQUESTED',
+  open = 'OPEN',
+}
+
 export enum MediaType {
   _20minutes = '20minutes',
   francesoir = 'francesoir',
@@ -28,6 +33,9 @@ export enum MediaType {
 export class CommentsArea {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ type: 'enum', enum: CommentsAreaStatus })
+  status: CommentsAreaStatus;
 
   @Column({ name: 'information_media', type: 'enum', enum: MediaType, nullable: true })
   informationMedia: MediaType;
