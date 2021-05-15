@@ -72,15 +72,13 @@ describe('comments area request controller', () => {
 
   describe('create a new request', () => {
     const [asUser1, user1] = createAuthenticatedUser(server);
-    const [asUser2] = createAuthenticatedUser(server);
-
     const informationUrl = 'https://info.url/articles/1';
 
-    it('should not request to open a new comments area when not authenticated', async () => {
+    it('does not request to open a new comments area when not authenticated', async () => {
       await request(server).get('/api/comments-area/request').expect(403);
     });
 
-    it('should request to create a new comment area', async () => {
+    it('requests to open a new comment area', async () => {
       const { body } = await asUser1.post('/api/comments-area/request').send({ informationUrl }).expect(201);
 
       expect(body).toMatchObject({ informationUrl });
@@ -92,14 +90,6 @@ describe('comments area request controller', () => {
         requester: { id: user1.id },
         status: CommentsAreaRequestStatus.PENDING,
       });
-    });
-
-    it('should be possible to request to create the same comment area twice', async () => {
-      await asUser1.post('/api/comments-area/request').send({ informationUrl }).expect(201);
-    });
-
-    it('should request to open the same comments area from another user', async () => {
-      await asUser2.post('/api/comments-area/request').send({ informationUrl }).expect(201);
     });
 
     it('should request to create a new comments area with full payload', async () => {
