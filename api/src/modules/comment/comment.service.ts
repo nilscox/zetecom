@@ -170,33 +170,24 @@ export class CommentService {
     return ancestors.sort(({ created: a }, { created: b }) => a.getTime() - b.getTime());
   }
 
-  async findReplies(commentId: number, user: User | undefined, page: number, pageSize: number) {
+  async findReplies(commentId: number, page: number, pageSize: number) {
     return this.commentRepository.findAll({
       parentId: commentId,
       pagination: { pageSize, page },
       sort: SortType.DATE_ASC,
-      includePendingForUserId: user?.id,
     });
   }
 
-  async findRoot(commentsAreaId: number, user: User | undefined, sort: SortType, page: number, pageSize: number) {
+  async findRoot(commentsAreaId: number, sort: SortType, page: number, pageSize: number) {
     return this.commentRepository.findAll({
       commentsAreaId,
       root: true,
       pagination: { pageSize, page },
       sort,
-      includePendingForUserId: user?.id,
     });
   }
 
-  async search(
-    commentsAreaId: number,
-    user: User | undefined,
-    search: string,
-    sort: SortType,
-    page: number,
-    pageSize: number,
-  ) {
+  async search(commentsAreaId: number, search: string, sort: SortType, page: number, pageSize: number) {
     let author: User | undefined;
     const match = /^@([-_a-zA-Z0-9]+)$/.exec(search);
 
@@ -214,7 +205,6 @@ export class CommentService {
       sort,
       authorId: author?.id,
       search,
-      includePendingForUserId: user?.id,
     });
   }
 }

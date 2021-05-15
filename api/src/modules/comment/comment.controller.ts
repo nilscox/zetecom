@@ -76,7 +76,6 @@ export class CommentController {
   @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
   async findRoot(
-    @AuthUser() user: User | undefined,
     @Query('commentsAreaId', new ParseIntPipe()) commentsAreaId: number,
     @OptionalQuery({ key: 'sort', defaultValue: SortType.DATE_DESC }, new SortTypePipe()) sort: SortType,
     @SearchQuery() search: string,
@@ -90,8 +89,8 @@ export class CommentController {
     }
 
     return search
-      ? this.commentService.search(commentsArea.id, user, search, sort, page, pageSize)
-      : this.commentService.findRoot(commentsArea.id, user, sort, page, pageSize);
+      ? this.commentService.search(commentsArea.id, search, sort, page, pageSize)
+      : this.commentService.findRoot(commentsArea.id, sort, page, pageSize);
   }
 
   @Get(':id')
@@ -134,7 +133,6 @@ export class CommentController {
   @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)
   async findReplies(
-    @AuthUser() user: User | undefined,
     @Param('id', new ParseIntPipe()) id: number,
     @PageQuery() page: number,
     @PageSizeQuery() pageSize: number,
@@ -143,7 +141,7 @@ export class CommentController {
       throw new NotFoundException();
     }
 
-    return this.commentService.findReplies(id, user, page, pageSize);
+    return this.commentService.findReplies(id, page, pageSize);
   }
 
   // TODO: return 204
