@@ -53,7 +53,7 @@ describe('comments area controller', () => {
 
     it('limits the page size to 50', async () => {
       await request(server).get('/api/comments-area').query({ pageSize: 50 }).expect(200);
-      await request(server).get('/api/comments-area').query({ pageSize: 51 }).expect(418);
+      await request(server).get('/api/comments-area').query({ pageSize: 51 }).expect(400);
     });
 
     it('lists all comments areas paginated', async () => {
