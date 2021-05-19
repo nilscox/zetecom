@@ -150,20 +150,21 @@ describe('comments area controller', () => {
       expect(commentsAreaDb).toBeDefined();
     });
 
-    it.skip('should create an integration along with the comments area', async () => {
+    it('creates an integration along with the comments area', async () => {
       const identifier = 'test:2';
 
       const { body } = await asUser.post('/api/comments-area').send({ integrationIdentifier: identifier }).expect(201);
 
-      const [integration] = await commentsAreaIntegrationRepository.find({
+      const integration = await commentsAreaIntegrationRepository.findOne({
         where: {
           commentsArea: { id: body.id },
         },
         relations: ['commentsArea'],
       });
 
-      expect(integration).toBeDefined();
-      expect(integration).toHaveProperty('identifier', identifier);
+      expect(integration).toMatchObject({
+        identifier,
+      });
     });
   });
 
