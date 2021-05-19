@@ -14,9 +14,7 @@ export class CommentsAreaRepository extends Repository<CommentsArea> {
       .take(pageSize);
 
     if (search) {
-      qb.orWhere('identifier = :search', { search });
-      qb.where('information_url = :search', { search });
-      qb.orWhere('information_title ILIKE :search', { search: `%${search}%` });
+      //
     }
 
     const [items, total] = await qb.getManyAndCount();

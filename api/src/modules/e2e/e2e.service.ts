@@ -24,7 +24,7 @@ import { UserDto } from './dtos/User';
 
 const DB_NAME = 'e2e';
 
-const wait = (ms: number) => new Promise(r => setTimeout(r, ms));
+const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 wait;
 
 type GetUser = (nick: string) => User;
@@ -133,19 +133,8 @@ export class E2eService {
   private async createCommentsAreas(data: CommentsAreaDto[], getUser: GetUser) {
     this.logger.log('create comments areas');
 
-    for (const { creator: creatorNick, ...commentsArea } of data) {
-      const creator = creatorNick !== undefined ? getUser(creatorNick) : undefined;
-
-      const created = await this.commentsAreaService.create(
-        {
-          informationMedia: null,
-          informationUrl: 'https://info,url',
-          informationTitle: 'Fake news!',
-          informationAuthor: 'Anyone',
-          ...commentsArea,
-        },
-        creator,
-      );
+    for (const commentsArea of data) {
+      const created = await this.commentsAreaService.create();
 
       if (commentsArea.identifier) {
         await this.commentsAreaIntegrationService.create(created, commentsArea.identifier);

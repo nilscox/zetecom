@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { User } from 'src/modules/user/user.entity';
-
 import { CommentsArea, CommentsAreaStatus } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaIntegrationService } from './comments-area-integration/comments-area-integration.service';
-import { CreateCommentsAreaInDto } from './dtos/create-comments-area-in.dto';
 import { UpdateCommentsAreaInDto } from './dtos/update-comments-area-in.dto';
 
 @Injectable()
@@ -29,16 +26,10 @@ export class CommentsAreaService {
     return this.commentsAreaRepository.findByIds(id);
   }
 
-  async create(dto: CreateCommentsAreaInDto, creator: User): Promise<CommentsArea> {
+  async create(): Promise<CommentsArea> {
     const commentsArea = await this.commentsAreaRepository.save({
-      ...dto,
-      status: CommentsAreaStatus.open,
-      creator,
+      status: CommentsAreaStatus.requested,
     });
-
-    if (dto.integrationIdentifier) {
-      this.commentsAreaIntegrationService.create(commentsArea, dto.integrationIdentifier);
-    }
 
     return commentsArea;
   }

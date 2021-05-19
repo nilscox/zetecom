@@ -5,20 +5,6 @@ export enum CommentsAreaStatus {
   open = 'OPEN',
 }
 
-export enum MediaType {
-  _20minutes = '20minutes',
-  francesoir = 'francesoir',
-  lefigaro = 'lefigaro',
-  lemonde = 'lemonde',
-  leparisien = 'leparisien',
-  lepoint = 'lepoint',
-  lesechos = 'lesechos',
-  liberation = 'liberation',
-  scienceetvie = 'scienceetvie',
-  skeptikon = 'skeptikon',
-  youtube = 'youtube',
-}
-
 @Entity({ name: 'comments_area', orderBy: { created: 'ASC' } })
 export class CommentsArea {
   @PrimaryGeneratedColumn()
@@ -26,21 +12,6 @@ export class CommentsArea {
 
   @Column({ type: 'enum', enum: CommentsAreaStatus })
   status: CommentsAreaStatus;
-
-  @Column({ name: 'information_media', type: 'enum', enum: MediaType, nullable: true })
-  informationMedia: MediaType;
-
-  @Column({ name: 'information_url' })
-  informationUrl: string;
-
-  @Column({ name: 'information_title' })
-  informationTitle: string;
-
-  @Column({ name: 'information_author' })
-  informationAuthor: string;
-
-  @Column({ name: 'information_publication_date', type: 'date', nullable: true })
-  informationPublicationDate: Date;
 
   @CreateDateColumn()
   created: Date;

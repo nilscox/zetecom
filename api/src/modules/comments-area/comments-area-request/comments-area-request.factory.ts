@@ -16,7 +16,6 @@ export class CommentsAreaRequestFactory implements Factory<CommentsAreaRequest> 
 
   async create(override: Partial<Omit<CommentsAreaRequest, 'id'>> = {}) {
     const data = {
-      informationUrl: 'https://info.url/articles/1',
       status: CommentsAreaRequestStatus.PENDING,
       ...override,
     };

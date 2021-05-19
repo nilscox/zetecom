@@ -7,10 +7,6 @@ export const createCommentsArea = async (data: DeepPartial<CommentsArea> = {}) =
 
   const commentsArea = manager.create(CommentsArea, {
     status: CommentsAreaStatus.open,
-    informationTitle: 'Fake News!',
-    informationUrl: 'https://information.url',
-    informationAuthor: 'anyone',
-    informationPublicationDate: new Date(),
     ...data,
   });
 

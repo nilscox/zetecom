@@ -22,23 +22,11 @@ export class CommentsAreaRequest {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ type: 'enum', enum: CommentsAreaRequestStatus })
+  status: CommentsAreaRequestStatus;
+
   @Column({ nullable: true })
   identifier: string;
-
-  @Column()
-  informationUrl: string;
-
-  @Column({ nullable: true })
-  informationTitle: string;
-
-  @Column({ nullable: true })
-  informationAuthor: string;
-
-  @Column({ nullable: true })
-  informationPublicationDate: string;
-
-  @Column({ nullable: true })
-  idetifier: string;
 
   @ManyToOne(() => CommentsArea, { nullable: true })
   @JoinColumn({ name: 'comments_area_id' })
@@ -57,7 +45,4 @@ export class CommentsAreaRequest {
 
   @UpdateDateColumn()
   updated: Date;
-
-  @Column({ type: 'enum', enum: CommentsAreaRequestStatus })
-  status: CommentsAreaRequestStatus;
 }

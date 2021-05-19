@@ -6,7 +6,6 @@ export interface RulesUpdateNotificationPayload {
 
 export interface SubscriptionReplyNotificationPayload {
   commentsAreaId: number;
-  commentsAreaTitle: string;
   commentId: number;
   replyId: number;
   author: { id: number; nick: string; avatar?: string };

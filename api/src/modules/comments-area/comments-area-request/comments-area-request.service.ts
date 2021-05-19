@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindConditions, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
-import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
 import { User } from 'src/modules/user/user.entity';
 
 import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request.entity';
@@ -34,19 +33,6 @@ export class CommentsAreaRequestService {
       ...dto,
       status: CommentsAreaRequestStatus.PENDING,
       requester,
-    });
-  }
-
-  async approveAll(commentsArea: CommentsArea, moderator: User): Promise<void> {
-    const findCondition: FindConditions<CommentsAreaRequest> = {
-      informationUrl: commentsArea.informationUrl,
-      status: CommentsAreaRequestStatus.PENDING,
-    };
-
-    await this.commentsAreaRequestRepository.update(findCondition, {
-      status: CommentsAreaRequestStatus.APPROVED,
-      commentsArea,
-      moderator,
     });
   }
 

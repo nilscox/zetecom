@@ -69,16 +69,17 @@ describe('comments area request controller', () => {
 
   describe('create a new request', () => {
     const [asUser1, user1] = createAuthenticatedUser(server);
-    const informationUrl = 'https://info.url/articles/1';
 
     it('does not request to open a new comments area when not authenticated', async () => {
       await request(server).get('/api/comments-area/request').expect(403);
     });
 
     it('requests to open a new comment area', async () => {
-      const { body } = await asUser1.post('/api/comments-area/request').send({ informationUrl }).expect(201);
+      const { body } = await asUser1.post('/api/comments-area/request').send().expect(201);
 
-      expect(body).toMatchObject({ informationUrl });
+      expect(body).toMatchObject({
+        status: CommentsAreaRequestStatus.PENDING,
+      });
 
       const request1Db = await commentsAreaRequestRepository.findOne(body.id);
 
@@ -92,10 +93,6 @@ describe('comments area request controller', () => {
     it('should request to create a new comments area with full payload', async () => {
       const payload = {
         identifier: 'id:1',
-        informationUrl,
-        informationTitle: 'title',
-        informationAuthor: 'autor',
-        informationPublicationDate: new Date(2020, 1, 10).toISOString(),
       };
 
       const { body } = await asUser1.post('/api/comments-area/request').send(payload).expect(201);

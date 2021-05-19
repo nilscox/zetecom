@@ -13,10 +13,6 @@ export class CommentsAreaFactory implements Factory<CommentsArea> {
   async create(override: Partial<Omit<CommentsArea, 'id'>> = {}) {
     const data = {
       status: CommentsAreaStatus.open,
-      informationUrl: 'https://information.url',
-      informationTitle: 'Fake News!',
-      informationAuthor: 'anyone',
-      informationPublicationDate: new Date().toISOString(),
       ...override,
     };
 

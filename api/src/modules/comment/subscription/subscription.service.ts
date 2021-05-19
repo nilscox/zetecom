@@ -86,7 +86,6 @@ export class SubscriptionService {
 
     const payload: SubscriptionReplyNotificationPayload = {
       commentsAreaId: reply.commentsArea.id,
-      commentsAreaTitle: reply.commentsArea.informationTitle,
       commentId: reply.parent.id,
       replyId: reply.id,
       author: classToPlain(plainToClass(UserLightDto, reply.author), { strategy: 'excludeAll' }) as UserLightDto,

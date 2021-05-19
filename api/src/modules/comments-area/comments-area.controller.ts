@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 
 import { IsAuthenticated } from 'src/common/auth.guard';
-import { AuthUser } from 'src/common/auth-user.decorator';
 import { CastToDto } from 'src/common/cast-to-dto.interceptor';
 import { ClassToPlainInterceptor } from 'src/common/ClassToPlain.interceptor';
 import { OptionalQuery } from 'src/common/optional-query.decorator';
@@ -21,7 +20,6 @@ import { PageSizeQuery } from 'src/common/page-size-query.decorator';
 import { Paginated } from 'src/common/paginated';
 import { Roles } from 'src/common/roles.decorator';
 import { Role } from 'src/modules/authorization/roles.enum';
-import { User } from 'src/modules/user/user.entity';
 
 import { CommentsArea } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';
@@ -82,13 +80,14 @@ export class CommentsAreaController {
   @UseGuards(IsAuthenticated)
   @CastToDto(CommentsAreaDto)
   @UseInterceptors(PopulateCommentsArea)
-  @Roles(Role.MODERATOR, Role.ADMIN)
-  async create(@Body() dto: CreateCommentsAreaInDto, @AuthUser() user: User): Promise<CommentsArea> {
-    // if (await this.commentsAreaIntegrationService.findByIdentifier(dto.identifier)) {
-    //   throw new ConflictException(`A comments area with identifier ${dto.identifier} already exists`);
-    // }
+  async create(@Body() dto: CreateCommentsAreaInDto): Promise<CommentsArea> {
+    const commentsArea = await this.commentsAreaService.create();
 
-    return this.commentsAreaService.create(dto, user);
+    if (dto.integrationIdentifier) {
+      await this.commentsAreaIntegrationService.create(commentsArea, dto.integrationIdentifier);
+    }
+
+    return commentsArea;
   }
 
   @Put(':id')

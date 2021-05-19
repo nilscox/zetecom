@@ -11,18 +11,6 @@ export class CommentsAreaRequestDto {
   id: number;
 
   @Expose()
-  informationUrl: string;
-
-  @Expose()
-  informationTitle: string;
-
-  @Expose()
-  informationAuthor: string;
-
-  @Expose()
-  informationPublicationDate: string;
-
-  @Expose()
   identifier: string;
 
   @Expose()
