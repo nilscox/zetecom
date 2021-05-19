@@ -2,12 +2,9 @@ import request from 'supertest';
 import { getCustomRepository, getRepository, Repository } from 'typeorm';
 
 import { AuthenticationModule } from 'src/modules/authentication/authentication.module';
-import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { CommentsArea, CommentsAreaStatus } from 'src/modules/comments-area/comments-area.entity';
 import { CommentsAreaFactory } from 'src/modules/comments-area/comments-area.factory';
-import { createCommentsArea } from 'src/testing/intg-factories/comments-area.factory';
 import { createAuthenticatedUser, setupE2eTest } from 'src/testing/setup-e2e-test';
-
-import { CommentsAreaRequestFactory } from '../comments-area/comments-area-request/comments-area-request.factory';
 
 import { Comment, CommentStatus } from './comment.entity';
 import { CommentFactory } from './comment.factory';
@@ -33,7 +30,6 @@ describe('comment controller', () => {
   const commentsAreaFactory = new CommentsAreaFactory();
   const commentFactory = new CommentFactory();
   const subscriptionFactory = new SubscriptionFactory();
-  const commentsAreaRequestFactory = new CommentsAreaRequestFactory();
 
   let commentRepository: CommentRepository;
   let reactionRepository: Repository<Reaction>;
@@ -464,9 +460,8 @@ describe('comment controller', () => {
       expect(commentDb.status).toBe(CommentStatus.published);
     });
 
-    it('creates a pending comment when the comments area is not approved', async () => {
-      const commentsArea = await commentsAreaFactory.create();
-      await commentsAreaRequestFactory.create({ commentsArea });
+    it('creates a pending comment when the comments area is not open', async () => {
+      const commentsArea = await commentsAreaFactory.create({ status: CommentsAreaStatus.requested });
       const comment = makeComment(commentsArea.id);
 
       const { body } = await userRequest.post('/api/comment').send(comment).expect(201);

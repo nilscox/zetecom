@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { SortType } from 'src/common/sort-type';
-import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { CommentsArea, CommentsAreaStatus } from 'src/modules/comments-area/comments-area.entity';
 import { CommentsAreaService } from 'src/modules/comments-area/comments-area.service';
 import { User } from 'src/modules/user/user.entity';
 import { UserService } from 'src/modules/user/user.service';
@@ -44,7 +44,7 @@ export class CommentService {
 
   async create(user: User, commentsArea: CommentsArea, parent: Comment | null, text: string): Promise<Comment> {
     const getStatus = async () => {
-      if (await this.commentsAreaService.isApproved(commentsArea)) {
+      if (commentsArea.status === CommentsAreaStatus.open) {
         return CommentStatus.published;
       }
 

@@ -27,7 +27,6 @@ import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-
 import { CommentsAreaRequestService } from './comments-area-request.service';
 import { CommentsAreaRequestDto } from './dtos/comments-area-request.dto';
 import { CommentsAreaRequestInDto } from './dtos/comments-area-request-in.dto';
-import { CommentsAreaRequestRejectedInDto } from './dtos/comments-area-request-rejected-in.dto';
 
 @Controller('comments-area/request')
 @UseInterceptors(ClassToPlainInterceptor)
@@ -59,11 +58,7 @@ export class CommentsAreaRequestController {
   @Roles(Role.MODERATOR, Role.ADMIN)
   @CastToDto(CommentsAreaRequestDto)
   @HttpCode(200)
-  async reject(
-    @Param('id', new ParseIntPipe()) id: number,
-    @Body() { reason }: CommentsAreaRequestRejectedInDto,
-    @AuthUser() user,
-  ): Promise<CommentsAreaRequest> {
+  async reject(@Param('id', new ParseIntPipe()) id: number, @AuthUser() user): Promise<CommentsAreaRequest> {
     const request = await this.commentsAreaRequestService.findRequest(id);
 
     if (!request) {
@@ -74,7 +69,7 @@ export class CommentsAreaRequestController {
       throw new BadRequestException('REQUEST_IS_NOT_PENDING');
     }
 
-    await this.commentsAreaRequestService.reject(request, user, reason);
+    await this.commentsAreaRequestService.reject(request, user);
 
     return this.commentsAreaRequestService.findRequest(request.id);
   }

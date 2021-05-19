@@ -62,10 +62,4 @@ export class CommentsAreaService {
   async getCommentsCounts(CommentsAreasIds: number[]) {
     return this.commentsAreaRepository.getCommentsCounts(CommentsAreasIds);
   }
-
-  async isApproved(commentsArea: CommentsArea): Promise<boolean> {
-    const requests = await this.commentsAreaRequestService.findAllForCommentsArea(commentsArea);
-
-    return requests.every((request) => request.status === CommentsAreaRequestStatus.APPROVED);
-  }
 }

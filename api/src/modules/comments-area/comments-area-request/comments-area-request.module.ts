@@ -3,7 +3,6 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CommentsAreaModule } from 'src/modules/comments-area/comments-area.module';
-import { NotificationModule } from 'src/modules/notification/notification.module';
 import { UserModule } from 'src/modules/user/user.module';
 
 import { CommentsAreaCreatedHandler } from './comments-area-created-handler';
@@ -17,7 +16,6 @@ import { CommentsAreaRequestService } from './comments-area-request.service';
     CqrsModule,
     UserModule,
     forwardRef(() => CommentsAreaModule),
-    NotificationModule,
   ],
   controllers: [CommentsAreaRequestController],
   providers: [CommentsAreaRequestService, CommentsAreaCreatedHandler],

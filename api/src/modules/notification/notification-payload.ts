@@ -28,6 +28,4 @@ export interface CommentsAreaRequestRejectedPayload {
 export type NotificationPayload = {
   [NotificationType.RULES_UPDATE]: RulesUpdateNotificationPayload;
   [NotificationType.SUBSCRIPTION_REPLY]: SubscriptionReplyNotificationPayload;
-  [NotificationType.COMMENTS_AREA_REQUEST_APPROVED]: CommentsAreaRequestApprovedPayload;
-  [NotificationType.COMMENTS_AREA_REQUEST_REJECTED]: CommentsAreaRequestRejectedPayload;
 };
