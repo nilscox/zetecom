@@ -17,8 +17,6 @@ import { CommentsAreaModule } from './comments-area.module';
 import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaIntegration } from './comments-area-integration/comments-area-integration.entity';
 import { CommentsAreaIntegrationFactory } from './comments-area-integration/comments-area-integration.factory';
-import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request/comments-area-request.entity';
-import { CommentsAreaRequestFactory } from './comments-area-request/comments-area-request.factory';
 
 describe('comments area controller', () => {
   const { server } = setupE2eTest({
@@ -28,15 +26,12 @@ describe('comments area controller', () => {
   const commentsAreaFactory = new CommentsAreaFactory();
   const commentFactory = new CommentFactory();
   const commentsAreaIntegrationFactory = new CommentsAreaIntegrationFactory();
-  const commentsAreaRequestFactory = new CommentsAreaRequestFactory();
 
   let commentsAreaRepository: CommentsAreaRepository;
-  let commentsAreaRequestRepository: Repository<CommentsAreaRequest>;
   let commentsAreaIntegrationRepository: Repository<CommentsAreaIntegration>;
 
   beforeAll(() => {
     commentsAreaRepository = getCustomRepository(CommentsAreaRepository);
-    commentsAreaRequestRepository = getRepository(CommentsAreaRequest);
     commentsAreaIntegrationRepository = getRepository(CommentsAreaIntegration);
   });
 
@@ -44,13 +39,12 @@ describe('comments area controller', () => {
     let commentsArea1: CommentsArea;
     let commentsArea2: CommentsArea;
     let commentsArea3: CommentsArea;
-    let commentsArea4: CommentsArea;
 
     beforeAll(async () => {
       commentsArea1 = await commentsAreaFactory.create();
       commentsArea2 = await commentsAreaFactory.create({ informationTitle: 'search me' });
       commentsArea3 = await commentsAreaFactory.create();
-      commentsArea4 = await commentsAreaFactory.create({ status: CommentsAreaStatus.requested });
+      await commentsAreaFactory.create({ status: CommentsAreaStatus.requested });
     });
 
     it('lists all comments areas', async () => {
@@ -203,18 +197,6 @@ describe('comments area controller', () => {
         ...commentsArea,
         informationPublicationDate: '2020-01-01',
       });
-    });
-
-    it('should approve related requests after creating a comments area', async () => {
-      const informationUrl = commentsArea.informationUrl;
-
-      const request = await commentsAreaRequestFactory.create({ informationUrl });
-
-      await asModerator.post('/api/comments-area').send(commentsArea).expect(201);
-
-      const requestDb = await commentsAreaRequestRepository.findOne(request.id);
-
-      expect(requestDb).toHaveProperty('status', CommentsAreaRequestStatus.APPROVED);
     });
 
     it('should create an integration along with the comments area', async () => {

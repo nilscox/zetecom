@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommentsAreaModule } from 'src/modules/comments-area/comments-area.module';
 import { UserModule } from 'src/modules/user/user.module';
 
-import { CommentsAreaCreatedHandler } from './comments-area-created-handler';
 import { CommentsAreaRequestController } from './comments-area-request.controller';
 import { CommentsAreaRequest } from './comments-area-request.entity';
 import { CommentsAreaRequestService } from './comments-area-request.service';
@@ -18,7 +17,7 @@ import { CommentsAreaRequestService } from './comments-area-request.service';
     forwardRef(() => CommentsAreaModule),
   ],
   controllers: [CommentsAreaRequestController],
-  providers: [CommentsAreaRequestService, CommentsAreaCreatedHandler],
+  providers: [CommentsAreaRequestService],
   exports: [CommentsAreaRequestService],
 })
 export class CommentsAreaRequestModule {}

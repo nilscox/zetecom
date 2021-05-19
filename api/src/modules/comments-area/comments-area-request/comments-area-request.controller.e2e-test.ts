@@ -2,7 +2,6 @@ import request from 'supertest';
 import { getRepository, Repository } from 'typeorm';
 
 import { AuthenticationModule } from 'src/modules/authentication/authentication.module';
-import { Notification } from 'src/modules/notification/notification.entity';
 import { createAuthenticatedModerator, createAuthenticatedUser, setupE2eTest } from 'src/testing/setup-e2e-test';
 
 import { CommentsAreaRequest, CommentsAreaRequestStatus } from './comments-area-request.entity';
