@@ -2,7 +2,7 @@ import { BadRequestException, Module, ValidationPipe } from '@nestjs/common';
 import { MiddlewareConsumer, ModuleMetadata } from '@nestjs/common/interfaces';
 import { APP_GUARD } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import { Test, TestingModule, TestingModuleBuilder } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import dotenv from 'dotenv';
 import express from 'express';
@@ -10,8 +10,6 @@ import expressSession from 'express-session';
 import memorystore from 'memorystore';
 import request from 'supertest';
 import { getRepository } from 'typeorm';
-
-dotenv.config({ path: '.env.test' });
 
 import { ErrorsInterceptor } from 'src/common/errors.interceptor';
 import { RolesGuard } from 'src/common/roles.guard';
@@ -22,6 +20,8 @@ import { ConfigModule } from 'src/modules/config/config.module';
 import { User } from 'src/modules/user/user.entity';
 
 import { debug } from './supertest-debug-plugin';
+
+dotenv.config({ path: '.env.test' });
 
 const MemoryStore = memorystore(expressSession);
 

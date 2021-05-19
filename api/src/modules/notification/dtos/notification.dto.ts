@@ -31,28 +31,6 @@ class SubscriptionReplyPayloadDto {
   text: string;
 }
 
-class CommentsAreaRequestApprovedPayloadDto {
-  @Expose()
-  requestedInformationUrl: string;
-
-  @Expose()
-  commentsAreaId: number;
-
-  @Expose()
-  commentsAreaTitle: string;
-}
-
-class CommentsAreaRequestRejectedPayloadDto {
-  @Expose()
-  requestId: number;
-
-  @Expose()
-  requestedInformationUrl: string;
-
-  @Expose()
-  reason?: string;
-}
-
 type NotificationPayload = RulesUpdatePayloadDto | SubscriptionReplyPayloadDto;
 
 const mapNotificationTypePayload: Record<NotificationType, { new (): void }> = {
