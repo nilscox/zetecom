@@ -92,6 +92,20 @@ export class CommentController {
       : this.commentService.findRoot(commentsArea.id, sort, page, pageSize);
   }
 
+  @Get('pending')
+  @UseGuards(IsAuthenticated)
+  @CastToDto(CommentDto)
+  @UseInterceptors(PopulateComment)
+  async findPending(@Query('commentsAreaId', new ParseIntPipe()) commentsAreaId: number, @AuthUser() user: User) {
+    const commentsArea = await this.commentsAreaService.findById(commentsAreaId);
+
+    if (!commentsArea) {
+      throw new NotFoundException();
+    }
+
+    return this.commentService.findPendingForUser(commentsArea.id, user);
+  }
+
   @Get(':id')
   @CastToDto(CommentDto)
   @UseInterceptors(PopulateComment)

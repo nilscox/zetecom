@@ -93,22 +93,6 @@ describe('comment repository', () => {
     });
   });
 
-  it('includes pending comments for a userId', async () => {
-    const user = await createUser();
-
-    const {
-      commentsAreaId,
-      comments: [comment],
-    } = await createCommentsAreaAndComments([{ text: 'comment1', status: CommentStatus.pending, author: user }]);
-
-    const result = await commentRepository.findAll({ commentsAreaId, includePendingForUserId: user.id });
-
-    expect(result).toMatchObject({
-      items: [{ id: comment.id }],
-      total: 1,
-    });
-  });
-
   it('finds all comments sorted by date desc', async () => {
     const {
       commentsAreaId,

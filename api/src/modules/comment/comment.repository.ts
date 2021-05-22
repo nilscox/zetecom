@@ -47,7 +47,7 @@ export type FindAllOptions = {
   authorId?: number;
   parentId?: number;
   pagination?: Pagination;
-  includePendingForUserId?: number;
+  includePending?: boolean;
 };
 
 @EntityRepository(Comment)
@@ -100,16 +100,7 @@ export class CommentRepository extends Repository<Comment> {
       qb.andWhere('comment.parent_id = :parentId', { parentId: opts.parentId });
     }
 
-    if (opts.includePendingForUserId) {
-      qb.andWhere(
-        new Brackets((qb) => {
-          // prettier-ignore
-          qb
-            .where('comment.status = :status', { status: CommentStatus.published })
-            .orWhere('comment.author_id = :authorId', { authorId: opts.includePendingForUserId });
-        }),
-      );
-    } else {
+    if (!opts.includePending) {
       qb.andWhere('comment.status = :status', { status: CommentStatus.published });
     }
 

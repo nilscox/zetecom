@@ -47,6 +47,9 @@ describe('comment controller', () => {
     let comment1: Comment;
     let comment2: Comment;
     let comment3: Comment;
+    let comment4: Comment;
+
+    const [asUser, user] = createAuthenticatedUser(server);
 
     beforeAll(async () => {
       commentsArea = await commentsAreaFactory.create();
@@ -54,6 +57,12 @@ describe('comment controller', () => {
       comment1 = await commentFactory.create({ commentsArea: commentsArea }, 'search');
       comment2 = await commentFactory.create({ commentsArea: commentsArea });
       comment3 = await commentFactory.create({ commentsArea: commentsArea, parent: comment1 }, 'you search me');
+
+      comment4 = await commentFactory.create({
+        commentsArea: commentsArea,
+        status: CommentStatus.pending,
+        author: user,
+      });
 
       const commentsArea2 = await commentsAreaFactory.create();
 
@@ -118,8 +127,17 @@ describe('comment controller', () => {
         .expect(200);
 
       expect(body).toMatchObject({
-        items: [{ id: comment3.id }, { id: comment1.id }],
+        items: [{ id: comment3.id }],
         total: 2,
+      });
+    });
+
+    it('fetches the pending comments created by the authenticated user', async () => {
+      const { body } = await asUser.get('/api/comment/pending').query({ commentsAreaId: commentsArea.id }).expect(200);
+
+      expect(body).toMatchObject({
+        items: [{ id: comment4.id }],
+        total: 1,
       });
     });
   });

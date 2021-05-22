@@ -147,7 +147,6 @@ export class CommentService {
       pagination: { pageSize, page },
       relations: { message: true, messages: true, author: true, commentsArea: true },
       sort: SortType.DATE_DESC,
-      includePendingForUserId: userId,
     });
 
     if (total === 0) {
@@ -206,5 +205,9 @@ export class CommentService {
       authorId: author?.id,
       search,
     });
+  }
+
+  async findPendingForUser(commentsAreaId: number, user: User) {
+    return this.commentRepository.findAll({ commentsAreaId, authorId: user.id, includePending: true });
   }
 }
