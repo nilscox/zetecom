@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CommentsArea, CommentsAreaStatus } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaInformation } from './comments-area-information.entity';
-import { UpdateCommentsAreaInformationInDto } from './dtos/update-comments-area-information-in.dto';
+import { UpsertCommentsAreaInformationInDto } from './dtos/upsert-comments-area-information-in.dto';
 
 @Injectable()
 export class CommentsAreaService {
@@ -37,10 +37,14 @@ export class CommentsAreaService {
     return commentsArea;
   }
 
-  async updateInformation(commentsArea: CommentsArea, dto: UpdateCommentsAreaInformationInDto): Promise<CommentsArea> {
-    Object.assign(commentsArea.information, dto);
+  async upsertInformation(commentsArea: CommentsArea, dto: UpsertCommentsAreaInformationInDto): Promise<CommentsArea> {
+    const information = Object.assign(commentsArea.information ?? {}, dto);
 
-    await this.commentsAreaInformationRepository.save(commentsArea.information);
+    const upserted = await this.commentsAreaInformationRepository.save(information);
+
+    if (!commentsArea.information) {
+      await this.commentsAreaRepository.update(commentsArea.id, { information: upserted });
+    }
 
     return this.findById(commentsArea.id);
   }

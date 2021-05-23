@@ -178,7 +178,7 @@ describe('comments area controller', () => {
     });
   });
 
-  describe("update a comments area's information", () => {
+  describe("create or update a comments area's information", () => {
     const [userRequest] = createAuthenticatedUser(server);
     const [adminRequest] = createAuthenticatedAdmin(server);
 
@@ -188,16 +188,39 @@ describe('comments area controller', () => {
       commentsArea = await commentsAreaFactory.create();
     });
 
-    it('does not update a comments area when unauthenticated', async () => {
+    it('does not create a comments area when unauthenticated', async () => {
       await request(server).put(`/api/comments-area/${commentsArea.id}/information`).send(commentsArea).expect(403);
     });
 
-    it('does not update a comments area when not an admin', async () => {
+    it('does not create a comments area when not an admin', async () => {
       await userRequest.put(`/api/comments-area/${commentsArea.id}/information`).send(commentsArea).expect(403);
     });
 
-    it('does not update a comments area that does not exist', async () => {
+    it('does not create a comments area that does not exist', async () => {
       await adminRequest.put('/api/comments-area/404/information').send({}).expect(404);
+    });
+
+    it('creates a comments area information', async () => {
+      const commentsArea = await commentsAreaFactory.create();
+
+      const data: Partial<CommentsAreaInformation> = {
+        media: MediaType.lepoint,
+        url: 'https://some.url',
+        title: 'title',
+        author: 'someone',
+        publicationDate: new Date(2020, 0, 1).toISOString(),
+      };
+
+      const { body } = await adminRequest
+        .put(`/api/comments-area/${commentsArea.id}/information`)
+        .send(data)
+        .expect(200);
+
+      expect(body).toMatchObject({ information: data });
+
+      const { information } = await commentsAreaRepository.findOne(body.id);
+
+      expect(information).toMatchObject(data);
     });
 
     it('updates a comments area information', async () => {
@@ -213,8 +236,6 @@ describe('comments area controller', () => {
 
       const data: Partial<CommentsAreaInformation> = {
         media: MediaType.leparisien,
-        url: 'https://other.url',
-        title: 'other title',
         author: 'someone else',
         publicationDate: new Date(2020, 1, 1).toISOString(),
       };

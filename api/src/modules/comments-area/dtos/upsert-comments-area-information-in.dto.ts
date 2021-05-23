@@ -2,7 +2,7 @@ import { IsDateString, IsEnum, IsNotEmpty, IsOptional, IsString, IsUrl } from 'c
 
 import { MediaType } from '../comments-area-information.entity';
 
-export class UpdateCommentsAreaInformationInDto {
+export class UpsertCommentsAreaInformationInDto {
   @IsOptional()
   @IsEnum(MediaType)
   media?: MediaType;
