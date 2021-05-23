@@ -6,13 +6,14 @@ import { UserModule } from 'src/modules/user/user.module';
 import { CommentsAreaController } from './comments-area.controller';
 import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaService } from './comments-area.service';
+import { CommentsAreaInformation } from './comments-area-information.entity';
 import { CommentsAreaIntegrationModule } from './comments-area-integration/comments-area-integration.module';
 import { CommentsAreaRequestModule } from './comments-area-request/comments-area-request.module';
 import { PopulateCommentsArea } from './populate-comments-area.interceptor';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CommentsAreaRepository]),
+    TypeOrmModule.forFeature([CommentsAreaRepository, CommentsAreaInformation]),
     UserModule,
     CommentsAreaRequestModule,
     CommentsAreaIntegrationModule,

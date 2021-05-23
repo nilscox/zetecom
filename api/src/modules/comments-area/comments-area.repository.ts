@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { Brackets, EntityRepository, Repository } from 'typeorm';
 
 import { Paginated } from 'src/common/paginated';
 
@@ -8,13 +8,23 @@ import { CommentsArea, CommentsAreaStatus } from './comments-area.entity';
 export class CommentsAreaRepository extends Repository<CommentsArea> {
   async findAllPaginated(search: string | null, page: number, pageSize: number): Promise<Paginated<CommentsArea>> {
     const qb = this.createQueryBuilder('commentsArea')
-      .orderBy('created', 'DESC')
+      .leftJoinAndSelect('commentsArea.information', 'information')
+      .orderBy('commentsArea.created', 'DESC')
       .where('commentsArea.status = :status', { status: CommentsAreaStatus.open })
       .skip((page - 1) * pageSize)
       .take(pageSize);
 
     if (search) {
-      //
+      const parameters = { search: `%${search}%` };
+
+      qb.andWhere(
+        new Brackets((qb) =>
+          qb
+            .orWhere('information.title ILIKE :search', parameters)
+            .orWhere('information.author ILIKE :search', parameters)
+            .orWhere('information.url ILIKE :search', parameters),
+        ),
+      );
     }
 
     const [items, total] = await qb.getManyAndCount();
@@ -27,7 +37,7 @@ export class CommentsAreaRepository extends Repository<CommentsArea> {
       .select('comments_area.id', 'comments_area_id')
       .addSelect('count(comment.id)', 'count')
       .leftJoin('comment', 'comment', 'comment.comments_area_id = comments_area.id')
-      .where('comments_area.id IN (' + commentsAreaIds + ')')
+      .where('comments_area.id IN (:...ids)', { ids: commentsAreaIds })
       .groupBy('comments_area.id')
       .getRawMany();
 

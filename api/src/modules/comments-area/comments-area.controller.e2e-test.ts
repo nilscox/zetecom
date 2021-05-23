@@ -10,6 +10,8 @@ import { CommentsArea, CommentsAreaStatus } from './comments-area.entity';
 import { CommentsAreaFactory } from './comments-area.factory';
 import { CommentsAreaModule } from './comments-area.module';
 import { CommentsAreaRepository } from './comments-area.repository';
+import { CommentsAreaInformation, MediaType } from './comments-area-information.entity';
+import { CommentsAreaInformationFactory } from './comments-area-information.factory';
 import { CommentsAreaIntegration } from './comments-area-integration/comments-area-integration.entity';
 import { CommentsAreaIntegrationFactory } from './comments-area-integration/comments-area-integration.factory';
 
@@ -20,6 +22,7 @@ describe('comments area controller', () => {
 
   const commentsAreaFactory = new CommentsAreaFactory();
   const commentFactory = new CommentFactory();
+  const commentsAreaInformationFactory = new CommentsAreaInformationFactory();
   const commentsAreaIntegrationFactory = new CommentsAreaIntegrationFactory();
 
   let commentsAreaRepository: CommentsAreaRepository;
@@ -36,9 +39,16 @@ describe('comments area controller', () => {
     let commentsArea3: CommentsArea;
 
     beforeAll(async () => {
-      commentsArea1 = await commentsAreaFactory.create();
-      commentsArea2 = await commentsAreaFactory.create();
+      commentsArea1 = await commentsAreaFactory.create({
+        information: await commentsAreaInformationFactory.create({ author: 'search' }),
+      });
+
+      commentsArea2 = await commentsAreaFactory.create({
+        information: await commentsAreaInformationFactory.create({ title: 'you searched me' }),
+      });
+
       commentsArea3 = await commentsAreaFactory.create();
+
       await commentsAreaFactory.create({ status: CommentsAreaStatus.requested });
     });
 
@@ -75,12 +85,12 @@ describe('comments area controller', () => {
       });
     });
 
-    it.skip('searches comments areas', async () => {
+    it('searches the comments areas', async () => {
       const { body } = await request(server).get('/api/comments-area').query({ search: 'search' }).expect(200);
 
       expect(body).toMatchObject({
-        items: [{ id: commentsArea2.id }],
-        total: 1,
+        items: [{ id: commentsArea2.id }, { id: commentsArea1.id }],
+        total: 2,
       });
     });
   });
@@ -168,7 +178,7 @@ describe('comments area controller', () => {
     });
   });
 
-  describe('update comments area', () => {
+  describe("update a comments area's information", () => {
     const [userRequest] = createAuthenticatedUser(server);
     const [adminRequest] = createAuthenticatedAdmin(server);
 
@@ -179,40 +189,47 @@ describe('comments area controller', () => {
     });
 
     it('does not update a comments area when unauthenticated', async () => {
-      await request(server).put(`/api/comments-area/${commentsArea.id}`).send(commentsArea).expect(403);
+      await request(server).put(`/api/comments-area/${commentsArea.id}/information`).send(commentsArea).expect(403);
     });
 
     it('does not update a comments area when not an admin', async () => {
-      await userRequest.put(`/api/comments-area/${commentsArea.id}`).send(commentsArea).expect(403);
+      await userRequest.put(`/api/comments-area/${commentsArea.id}/information`).send(commentsArea).expect(403);
     });
 
     it('does not update a comments area that does not exist', async () => {
-      await adminRequest.put('/api/comments-area/404').send({}).expect(404);
+      await adminRequest.put('/api/comments-area/404/information').send({}).expect(404);
     });
 
-    it.skip('updates a comments area', async () => {
-      const data = {
-        informationUrl: 'https://other.url',
-        informationAuthor: 'someone',
-        informationPublicationDate: new Date(2020, 0, 1).toISOString(),
+    it('updates a comments area information', async () => {
+      const commentsArea = await commentsAreaFactory.create({
+        information: await commentsAreaInformationFactory.create({
+          media: MediaType.francesoir,
+          url: 'https://some.url',
+          title: 'title',
+          author: 'someone',
+          publicationDate: new Date(2020, 0, 1).toISOString(),
+        }),
+      });
+
+      const data: Partial<CommentsAreaInformation> = {
+        media: MediaType.leparisien,
+        url: 'https://other.url',
+        title: 'other title',
+        author: 'someone else',
+        publicationDate: new Date(2020, 1, 1).toISOString(),
       };
 
-      const { body } = await adminRequest.put(`/api/comments-area/${commentsArea.id}`).send(data).expect(200);
+      const { body } = await adminRequest
+        .put(`/api/comments-area/${commentsArea.id}/information`)
+        .send(data)
+        .expect(200);
 
-      expect(body).toMatchObject({
-        information: {
-          url: data.informationUrl,
-          author: data.informationAuthor,
-          publicationDate: '2020-01-01',
-        },
-      });
+      expect(body).toMatchObject({ information: data });
 
-      const commentsAreaDb = await commentsAreaRepository.findOne(body.id);
+      const { information } = await commentsAreaRepository.findOne(body.id);
 
-      expect(commentsAreaDb).toMatchObject({
-        ...data,
-        informationPublicationDate: '2020-01-01',
-      });
+      expect(information).toMatchObject(data);
+      expect(information.updated).not.toEqual(information.created);
     });
   });
 });

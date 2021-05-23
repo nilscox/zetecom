@@ -32,11 +32,13 @@ export class NotificationService {
       .take(pageSize);
 
     if (search) {
+      const parameters = { search: `%${search}%` };
+
       qb.andWhere(
         new Brackets((qb) => {
-          qb.where("notification.payload->>'commentsAreaTitle' ILIKE :search", { search: `%${search}%` })
-            .orWhere("notification.payload->>'author' ILIKE :search", { search: `%${search}%` })
-            .orWhere("notification.payload->>'text' ILIKE :search", { search: `%${search}%` });
+          // prettier-ignore
+          qb.orWhere("notification.payload->>'author' ILIKE :search", parameters)
+            .orWhere("notification.payload->>'text' ILIKE :search", parameters);
         }),
       );
     }

@@ -1,4 +1,14 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+import { CommentsAreaInformation } from './comments-area-information.entity';
 
 export enum CommentsAreaStatus {
   requested = 'REQUESTED',
@@ -12,6 +22,10 @@ export class CommentsArea {
 
   @Column({ type: 'enum', enum: CommentsAreaStatus })
   status: CommentsAreaStatus;
+
+  @OneToOne(() => CommentsAreaInformation, { eager: true })
+  @JoinColumn({ name: 'information_id' })
+  information?: CommentsAreaInformation;
 
   @CreateDateColumn()
   created: Date;

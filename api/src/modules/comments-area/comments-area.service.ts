@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { CommentsArea, CommentsAreaStatus } from './comments-area.entity';
 import { CommentsAreaRepository } from './comments-area.repository';
-import { CommentsAreaIntegrationService } from './comments-area-integration/comments-area-integration.service';
-import { UpdateCommentsAreaInDto } from './dtos/update-comments-area-in.dto';
+import { CommentsAreaInformation } from './comments-area-information.entity';
+import { UpdateCommentsAreaInformationInDto } from './dtos/update-comments-area-information-in.dto';
 
 @Injectable()
 export class CommentsAreaService {
   constructor(
     private readonly commentsAreaRepository: CommentsAreaRepository,
-    private readonly commentsAreaIntegrationService: CommentsAreaIntegrationService,
+    @InjectRepository(CommentsAreaInformation)
+    private readonly commentsAreaInformationRepository: Repository<CommentsAreaInformation>,
   ) {}
 
   async exists(commentsAreaId: number): Promise<boolean> {
@@ -34,15 +37,11 @@ export class CommentsAreaService {
     return commentsArea;
   }
 
-  async update(commentsArea: CommentsArea, dto: UpdateCommentsAreaInDto): Promise<CommentsArea> {
-    Object.assign(commentsArea, dto);
+  async updateInformation(commentsArea: CommentsArea, dto: UpdateCommentsAreaInformationInDto): Promise<CommentsArea> {
+    Object.assign(commentsArea.information, dto);
 
-    await this.commentsAreaRepository.save(commentsArea);
+    await this.commentsAreaInformationRepository.save(commentsArea.information);
 
     return this.findById(commentsArea.id);
-  }
-
-  async getCommentsCounts(CommentsAreasIds: number[]) {
-    return this.commentsAreaRepository.getCommentsCounts(CommentsAreasIds);
   }
 }

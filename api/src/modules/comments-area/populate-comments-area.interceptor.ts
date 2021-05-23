@@ -2,15 +2,12 @@ import { Injectable } from '@nestjs/common';
 
 import { PopulateInterceptor } from 'src/common/populate.interceptor';
 
-import { CommentsAreaService } from './comments-area.service';
+import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaDto } from './dtos/comments-area.dto';
 
 @Injectable()
 export class PopulateCommentsArea extends PopulateInterceptor<CommentsAreaDto> {
-
-  constructor(
-    private readonly commentsAreaService: CommentsAreaService,
-  ) {
+  constructor(private readonly commentsAreaRepository: CommentsAreaRepository) {
     super();
   }
 
@@ -19,10 +16,10 @@ export class PopulateCommentsArea extends PopulateInterceptor<CommentsAreaDto> {
   }
 
   private async addCommentsCounts(commentsAreas: CommentsAreaDto[]) {
-    const counts = await this.commentsAreaService.getCommentsCounts(commentsAreas.map(i => i.id));
+    const counts = await this.commentsAreaRepository.getCommentsCounts(commentsAreas.map((i) => i.id));
 
-    for (const commentsArea of commentsAreas)
+    for (const commentsArea of commentsAreas) {
       commentsArea.commentsCount = counts[commentsArea.id];
+    }
   }
-
 }

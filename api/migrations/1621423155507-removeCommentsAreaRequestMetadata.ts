@@ -16,7 +16,7 @@ export class removeCommentsAreaRequestMetadata1621423155507 implements Migration
         await queryRunner.query(`ALTER TABLE "comments_area_request" ADD "informationPublicationDate" character varying`);
         await queryRunner.query(`ALTER TABLE "comments_area_request" ADD "informationAuthor" character varying`);
         await queryRunner.query(`ALTER TABLE "comments_area_request" ADD "informationTitle" character varying`);
-        await queryRunner.query(`ALTER TABLE "comments_area_request" ADD "informationUrl" character varying NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "comments_area_request" ADD "informationUrl" character varying`);
     }
 
 }

@@ -56,7 +56,7 @@ describe('comment controller', () => {
 
       comment1 = await commentFactory.create({ commentsArea: commentsArea }, 'search');
       comment2 = await commentFactory.create({ commentsArea: commentsArea });
-      comment3 = await commentFactory.create({ commentsArea: commentsArea, parent: comment1 }, 'you search me');
+      comment3 = await commentFactory.create({ commentsArea: commentsArea, parent: comment1 }, 'you searched me');
 
       comment4 = await commentFactory.create({
         commentsArea: commentsArea,
@@ -120,14 +120,14 @@ describe('comment controller', () => {
       });
     });
 
-    it('fetches the comments that match a search query', async () => {
+    it('fetches the comments matching a search query', async () => {
       const { body } = await request(server)
         .get('/api/comment')
         .query({ commentsAreaId: commentsArea.id, search: 'search' })
         .expect(200);
 
       expect(body).toMatchObject({
-        items: [{ id: comment3.id }],
+        items: [{ id: comment3.id }, { id: comment1.id }],
         total: 2,
       });
     });

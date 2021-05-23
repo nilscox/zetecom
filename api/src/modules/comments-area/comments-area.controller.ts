@@ -27,7 +27,7 @@ import { CommentsAreaService } from './comments-area.service';
 import { CommentsAreaIntegrationService } from './comments-area-integration/comments-area-integration.service';
 import { CommentsAreaDto } from './dtos/comments-area.dto';
 import { CreateCommentsAreaInDto } from './dtos/create-comments-area-in.dto';
-import { UpdateCommentsAreaInDto } from './dtos/update-comments-area-in.dto';
+import { UpdateCommentsAreaInformationInDto } from './dtos/update-comments-area-information-in.dto';
 import { PopulateCommentsArea } from './populate-comments-area.interceptor';
 
 @Controller('comments-area')
@@ -90,14 +90,14 @@ export class CommentsAreaController {
     return commentsArea;
   }
 
-  @Put(':id')
+  @Put(':id/information')
   @UseGuards(IsAuthenticated)
+  @Roles(Role.MODERATOR, Role.ADMIN)
   @CastToDto(CommentsAreaDto)
   @UseInterceptors(PopulateCommentsArea)
-  @Roles(Role.MODERATOR, Role.ADMIN)
   async update(
     @Param('id', new ParseIntPipe()) id: number,
-    @Body() dto: UpdateCommentsAreaInDto,
+    @Body() dto: UpdateCommentsAreaInformationInDto,
   ): Promise<CommentsArea> {
     const commentsArea = await this.commentsAreaService.findById(id);
 
@@ -105,6 +105,6 @@ export class CommentsAreaController {
       throw new NotFoundException();
     }
 
-    return this.commentsAreaService.update(commentsArea, dto);
+    return this.commentsAreaService.updateInformation(commentsArea, dto);
   }
 }

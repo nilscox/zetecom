@@ -20,11 +20,10 @@ describe('notifications', () => {
 
   const subscriptionReplyPayload: SubscriptionReplyNotificationPayload = {
     commentsAreaId: 1,
-    commentsAreaTitle: 'title',
     commentId: 1,
     replyId: 3,
     author: { id: 69, nick: 'nick', avatar: null } as UserLightDto,
-    text: 'text',
+    text: 'search',
   };
 
   beforeAll(async () => {
@@ -75,7 +74,7 @@ describe('notifications', () => {
     });
 
     it("should search the users's notifications", async () => {
-      const { body } = await userRequest.get('/api/notification/me').query({ search: 'title' }).expect(200);
+      const { body } = await userRequest.get('/api/notification/me').query({ search: 'search' }).expect(200);
 
       expect(body).toMatchObject({
         items: [
