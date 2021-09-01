@@ -9,7 +9,7 @@ import { Comment } from 'src/modules/comment/comment.entity';
 import { CommentService } from 'src/modules/comment/comment.service';
 import { Message } from 'src/modules/comment/message.entity';
 import { ReactionType } from 'src/modules/comment/reaction.entity';
-import { CommentsArea } from 'src/modules/comments-area/comments-area.entity';
+import { CommentsArea, CommentsAreaStatus } from 'src/modules/comments-area/comments-area.entity';
 import { CommentsAreaService } from 'src/modules/comments-area/comments-area.service';
 import { CommentsAreaIntegrationService } from 'src/modules/comments-area/comments-area-integration/comments-area-integration.service';
 import { ConfigService } from 'src/modules/config/config.service';
@@ -134,7 +134,14 @@ export class E2eService {
     this.logger.log('create comments areas');
 
     for (const commentsArea of data) {
-      const created = await this.commentsAreaService.create();
+      let created = await this.commentsAreaService.create();
+
+      await this.commentsAreaService.setStatus(created, CommentsAreaStatus.open);
+      created = await this.commentsAreaService.findById(created.id);
+
+      if (commentsArea.information) {
+        await this.commentsAreaService.upsertInformation(created, commentsArea.information);
+      }
 
       if (commentsArea.identifier) {
         await this.commentsAreaIntegrationService.create(created, commentsArea.identifier);

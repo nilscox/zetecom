@@ -8,14 +8,12 @@ import { CommentsAreaRepository } from './comments-area.repository';
 import { CommentsAreaService } from './comments-area.service';
 import { CommentsAreaInformation } from './comments-area-information.entity';
 import { CommentsAreaIntegrationModule } from './comments-area-integration/comments-area-integration.module';
-import { CommentsAreaRequestModule } from './comments-area-request/comments-area-request.module';
 import { PopulateCommentsArea } from './populate-comments-area.interceptor';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([CommentsAreaRepository, CommentsAreaInformation]),
     UserModule,
-    CommentsAreaRequestModule,
     CommentsAreaIntegrationModule,
   ],
   controllers: [CommentsAreaController],

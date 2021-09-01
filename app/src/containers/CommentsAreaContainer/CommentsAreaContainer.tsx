@@ -38,9 +38,10 @@ const NoCommentsFallback: React.FC<NoCommentsFallbackProps> = ({ isSearching }) 
 
 type CommentsAreaContentProps = {
   commentsArea: CommentsArea;
+  displayOutline?: boolean;
 };
 
-const CommentsAreaContent: React.FC<CommentsAreaContentProps> = ({ commentsArea }) => {
+const CommentsAreaContent: React.FC<CommentsAreaContentProps> = ({ commentsArea, displayOutline }) => {
   const user = useUser();
 
   const [page, setPage] = useState(1);
@@ -48,7 +49,7 @@ const CommentsAreaContent: React.FC<CommentsAreaContentProps> = ({ commentsArea 
   const [search, setSearch] = useState('');
   const [searchDebounced] = useDebounce(search, 200);
 
-  const { loadingComments, totalComments, comments } = useComments(commentsArea?.id, page, sort, searchDebounced);
+  const { loadingComments, totalComments, comments } = useComments(commentsArea, page, sort, searchDebounced);
 
   const [createComment, { submittingRootComment }] = useCreateComment(commentsArea);
 
@@ -56,6 +57,8 @@ const CommentsAreaContent: React.FC<CommentsAreaContentProps> = ({ commentsArea 
 
   return (
     <>
+      {displayOutline && <CommentsAreaOutline commentsArea={commentsArea} link="external" />}
+
       <Box my={4}>
         <FiltersBar
           page={page}
@@ -67,6 +70,13 @@ const CommentsAreaContent: React.FC<CommentsAreaContentProps> = ({ commentsArea 
           onSearch={setSearch}
         />
       </Box>
+
+      {commentsArea.status === 'REQUESTED' && (
+        <Box my={4}>
+          Cette zone de commentaires est en attente de modération, les commentaires présents sur cette page ne sont pas
+          encore visible de tous les utilisateurs.
+        </Box>
+      )}
 
       {user && (
         <Box mb={2}>
@@ -99,55 +109,44 @@ const CommentsAreaContent: React.FC<CommentsAreaContentProps> = ({ commentsArea 
 };
 
 type CommentsAreaContainerProps = {
+  commentsAreaId: number;
   displayOutline?: boolean;
-  commentsAreaId?: number;
-  commentsAreaIdentifier?: string;
-  notFoundFallback: React.ReactElement;
-  onCommentsAreaLoaded?: (commentsArea: CommentsArea) => void;
+  NotFoundFallback?: React.FC;
 };
 
 const CommentsAreaContainer: React.FC<CommentsAreaContainerProps> = ({
-  displayOutline,
   commentsAreaId,
-  commentsAreaIdentifier,
-  notFoundFallback,
-  onCommentsAreaLoaded,
+  displayOutline,
+  NotFoundFallback,
 }) => {
   const { pin } = useQueryString();
   const location = useLocation();
   const pinCommentId = typeof pin === 'string' ? Number(pin) : undefined;
 
-  const { commentsArea, loadingCommentsArea, commentsAreaNotFound } = useCommentsArea(
-    commentsAreaId,
-    commentsAreaIdentifier,
-    onCommentsAreaLoaded,
-  );
+  const { commentsArea, loadingCommentsArea, notFound } = useCommentsArea(commentsAreaId);
 
   if (pinCommentId !== undefined && isNaN(pinCommentId)) {
     return <Redirect to={{ pathname: location.pathname, search: '' }} />;
   }
 
-  if (commentsAreaNotFound) {
-    return notFoundFallback;
+  const render = () => {
+    if (!commentsArea) {
+      return null;
+    }
+
+    return (
+      <CommentsAreaProvider value={commentsArea}>
+        {pinCommentId && <PinnedCommentContainer commentsAreaId={commentsArea.id} commentId={pinCommentId} />}
+        {!pinCommentId && <CommentsAreaContent displayOutline={displayOutline} commentsArea={commentsArea} />}
+      </CommentsAreaProvider>
+    );
+  };
+
+  if (notFound && NotFoundFallback) {
+    return <NotFoundFallback />;
   }
 
-  return (
-    <AsyncContent
-      loading={loadingCommentsArea}
-      render={() =>
-        commentsArea && (
-          <CommentsAreaProvider value={commentsArea}>
-            {displayOutline && commentsArea && <CommentsAreaOutline commentsArea={commentsArea} link="external" />}
-            {pinCommentId ? (
-              <PinnedCommentContainer commentsAreaId={commentsArea.id} commentId={pinCommentId} />
-            ) : (
-              <CommentsAreaContent commentsArea={commentsArea} />
-            )}
-          </CommentsAreaProvider>
-        )
-      }
-    />
-  );
+  return <AsyncContent loading={loadingCommentsArea} render={render} />;
 };
 
 export default CommentsAreaContainer;

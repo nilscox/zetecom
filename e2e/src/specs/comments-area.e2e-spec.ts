@@ -1,4 +1,4 @@
-import { waitFor } from '@testing-library/dom';
+import { getByPlaceholderText, waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import { IFrame } from 'testea';
 
@@ -17,7 +17,7 @@ const [commentsArea1, commentsArea2] = commentsAreas;
 const asModerator = as(moderator);
 const asUser1 = as(user1);
 
-describe('Comments area', () => {
+describe.only('Comments area', () => {
   let iframe: IFrame;
 
   beforeEach(async function () {
@@ -72,7 +72,7 @@ describe('Comments area', () => {
     });
   });
 
-  describe('Comments area request', () => {
+  describe.only('Comments area request', () => {
     before(async () => {
       await seed({ users: [moderator, user1] });
     });
@@ -118,22 +118,30 @@ describe('Comments area', () => {
       expect(item).to.have.property('status', 'PENDING');
     });
 
-    it('should request to open a new comments area from the integration', async () => {
+    it.only('should request to open a new comments area from the integration', async () => {
       const identifier = 'test:1';
       const pageUrl = 'https://page.url';
 
-      const { getByRole, getByText } = await visitIntegration(identifier, pageUrl);
+      const { getByRole, getByPlaceholderText, getByText } = await visitIntegration(identifier, pageUrl);
 
-      await waitFor(() => click(getByRole('button', { name: "Demander l'ouverture" })));
+      await waitFor(() =>
+        type(getByPlaceholderText('Publiez un premier commentaire Zétécom sur cette page'), 'Premier commentaire.')
+      );
 
-      await waitFor(() => {
-        getByText(/La demande d'ouverture a bien été prise en compte/);
-      });
+      click(getByRole('button', { name: 'Envoyer' }));
+
+      await waitFor(() => getByText(/Cette zone de commentaires est en attente de modération/));
+      await waitFor(() => getByText('Premier commentaire.'));
 
       await expectEvent({
         category: 'CommentsArea',
         action: 'Request',
         name: 'Request Comments Area From Integration',
+      });
+
+      await expectEvent({
+        category: 'Comment',
+        action: 'Create',
       });
 
       const { items } = await asModerator.getCommentsAreaRequests();

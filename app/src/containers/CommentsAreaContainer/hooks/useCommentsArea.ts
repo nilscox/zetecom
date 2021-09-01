@@ -3,46 +3,30 @@ import { QueryFunction, useQuery } from 'react-query';
 
 import { CommentsArea } from 'src/types/CommentsArea';
 
-const fetchCommentsArea: QueryFunction<{ commentsArea: CommentsArea; notFound: boolean }> = async ({
-  queryKey: [, { id, identifier }],
+const fetchCommentsArea: QueryFunction<{ commentsArea?: CommentsArea; notFound: boolean }> = async ({
+  queryKey: [, { id }],
 }) => {
-  if (!id && !identifier) {
-    throw new Error('getCommentsArea: missing both id and identifier');
+  const response = await axios(`/api/comments-area/${String(id)}`, {
+    validateStatus: (status) => [200, 404].includes(status),
+  });
+
+  if (response.status === 404) {
+    return { notFound: true };
   }
 
-  const url = id
-    ? `/api/comments-area/${String(id)}`
-    : `/api/comments-area/by-identifier/${encodeURIComponent(identifier)}`;
-
-  const response = await axios(url, { validateStatus: (s) => [200, 404].includes(s) });
-
-  return {
-    commentsArea: response.data,
-    notFound: response.status === 404,
-  };
+  return { commentsArea: response.data, notFound: false };
 };
 
-const useCommentsArea = (
-  commentsAreaId?: number,
-  commentsAreaIdentifier?: string,
-  onSucess?: (commentsArea: CommentsArea) => void,
-) => {
-  const { data: { commentsArea, notFound: commentsAreaNotFound } = {}, isLoading: loadingCommentsArea } = useQuery(
-    ['commentsArea', { id: commentsAreaId, identifier: commentsAreaIdentifier }],
+const useCommentsArea = (id: number) => {
+  const { data: { commentsArea, notFound } = {}, isLoading: loadingCommentsArea } = useQuery(
+    ['commentsArea', { id }],
     fetchCommentsArea,
-    {
-      onSuccess: ({ commentsArea, notFound }) => {
-        if (!notFound) {
-          onSucess?.(commentsArea);
-        }
-      },
-    },
   );
 
   return {
     commentsArea,
     loadingCommentsArea,
-    commentsAreaNotFound,
+    notFound,
   };
 };
 

@@ -37,6 +37,10 @@ export class CommentsAreaService {
     return commentsArea;
   }
 
+  async setStatus(commentsArea: CommentsArea, status: CommentsAreaStatus) {
+    await this.commentsAreaRepository.update(commentsArea.id, { status });
+  }
+
   async upsertInformation(commentsArea: CommentsArea, dto: UpsertCommentsAreaInformationInDto): Promise<CommentsArea> {
     const information = Object.assign(commentsArea.information ?? {}, dto);
 

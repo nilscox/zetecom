@@ -16,7 +16,7 @@ const CommentsAreaFormContainer: React.FC<CommentsAreaFormContainerProps> = ({ t
   const ref = useRef<CommentsAreaFormRef>(null);
 
   const [{ fieldErrors }, { handleError, clearFieldError }] = useFormErrors();
-  const [onSubmit, { loading }] = useCommentsAreaForm(type, ref.current?.reset ?? (() => {}), onSuccess, handleError);
+  const [onSubmit, { loading }] = useCommentsAreaForm(type, () => ref.current?.reset?.(), onSuccess, handleError);
 
   return (
     <CommentsAreaForm

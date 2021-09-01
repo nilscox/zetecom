@@ -18,7 +18,7 @@ import env from 'src/utils/env';
 
 const Router: React.FC = () => (
   <BrowserRouter>
-    <TrackPageView shouldTrack={location => !location.pathname.startsWith('/integration')} />
+    <TrackPageView shouldTrack={(location) => !location.pathname.startsWith('/integration')} />
     <Switch>
       <Route path="/integration/:identifier" exact component={Integration} />
       <Route path="/popup" component={Popup} />

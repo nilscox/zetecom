@@ -16,15 +16,6 @@ export type CommentsArea = {
   id: number;
   information: CommentsAreaInformation;
   commentsCount: number;
+  status: 'REQUESTED' | 'OPEN';
   comments?: Comment[];
-};
-
-export type CommentsAreaRequest = {
-  id: number;
-  informationUrl: string;
-  informationTitle?: string;
-  informationAuthor?: string;
-  informationPublicationDate?: string;
-  identifier?: string;
-  imageUrl?: string;
 };

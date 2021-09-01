@@ -9,6 +9,7 @@ const makeCommentsArea = (partial?: Partial<CommentsArea>): CommentsArea => ({
     author: 'Camille Durand',
     publicationDate: new Date(2020, 0, 1).toISOString(),
   },
+  status: 'OPEN',
   commentsCount: 42,
   ...partial,
 });

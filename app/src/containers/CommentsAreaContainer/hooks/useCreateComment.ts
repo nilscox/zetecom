@@ -19,32 +19,26 @@ const createComment: MutationFunction<Comment, { commentsAreaId: number; text: s
   return response.data;
 };
 
-const useAddCommentToCommentsList = () => {
+const useAddCommentToCommentsList = (commentsAreaId: number) => {
   const updatePartialQueries = useUpdatePartialQueries();
 
   return (comment: Comment) => {
-    updatePartialQueries<Paginated<Comment>>(['comments'], old => ({
+    updatePartialQueries<Paginated<Comment>>(['comments', { commentsAreaId }], (old) => ({
       total: old.total + 1,
       items: [comment, ...old.items],
     }));
   };
 };
 
-const useCreateComment = (commentsArea?: CommentsArea) => {
-  const incrementCommentsAreaCommentsCount = useIncrementCommentsAreaCommentsCount();
-  const addCommentToCommentsList = useAddCommentToCommentsList();
+const useCreateComment = (commentsArea: CommentsArea) => {
+  const incrementCommentsAreaCommentsCount = useIncrementCommentsAreaCommentsCount(commentsArea.id);
+  const addCommentToCommentsList = useAddCommentToCommentsList(commentsArea.id);
   const trackEvent = useTrackEvent();
 
   const { mutate, isLoading: submittingRootComment } = useMutation<Comment, unknown, { text: string }>(
-    ({ text }) => {
-      if (!commentsArea) {
-        throw new Error('useCreateComment: missing commentsArea');
-      }
-
-      return createComment({ commentsAreaId: commentsArea.id, text });
-    },
+    async ({ text }) => createComment({ commentsAreaId: commentsArea.id, text }),
     {
-      onSuccess: created => {
+      onSuccess: (created) => {
         incrementCommentsAreaCommentsCount();
         addCommentToCommentsList(created);
         trackEvent(track.commentCreated());

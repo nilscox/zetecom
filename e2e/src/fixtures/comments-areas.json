@@ -1,21 +1,23 @@
 [
   {
     "identifier": "test:news1",
-    "informationTitle": "Information title 1",
-    "informationUrl": "https://info.url/1",
-    "informationPublicationDate": "2020-02-10T00:00:00.000Z",
-    "imageUrl": null,
-    "informationAuthor": "Anyone",
+    "information": {
+      "title": "Information title 1",
+      "url": "https://info.url/1",
+      "publicationDate": "2020-02-10T00:00:00.000Z",
+      "author": "Anyone"
+    },
     "creator": "user1",
     "comments": []
   },
   {
     "identifier": "test:news2",
-    "informationTitle": "Information title 2",
-    "informationUrl": "https://info.url/2",
-    "informationPublicationDate": "2015-06-18T00:00:00.000Z",
-    "imageUrl": null,
-    "informationAuthor": "Someone",
+    "information": {
+      "title": "Information title 2",
+      "url": "https://info.url/2",
+      "publicationDate": "2015-06-18T00:00:00.000Z",
+      "author": "Someone"
+    },
     "creator": "user1",
     "comments": [
       {
@@ -26,11 +28,12 @@
   },
   {
     "identifier": "test:news3",
-    "informationTitle": "Information title 3",
-    "informationUrl": "https://info.url/3",
-    "informationPublicationDate": "2021-01-11T00:00:00.000Z",
-    "imageUrl": null,
-    "informationAuthor": "Someone",
+    "information": {
+      "title": "Information title 3",
+      "url": "https://info.url/3",
+      "publicationDate": "2021-01-11T00:00:00.000Z",
+      "author": "Someone"
+    },
     "creator": "user1",
     "comments": [
       {

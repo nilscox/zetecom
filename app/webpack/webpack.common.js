@@ -91,7 +91,7 @@ module.exports = ({ SOURCES_PATH, OUTPUT_PATH, PUBLIC_PATH }) => ({
     new ESBuildPlugin(),
 
     new CopyWebpackPlugin({
-      patterns: [path.join(PUBLIC_PATH, 'robots.txt')],
+      patterns: [path.join(PUBLIC_PATH, 'robots.txt'), path.join(PUBLIC_PATH, 'favicon.ico')],
     }),
 
     new HtmlWebpackPlugin({
