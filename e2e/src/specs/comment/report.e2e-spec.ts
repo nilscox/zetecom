@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import { IFrame } from 'testea';
 
 import { as, login, seed, User } from '../../api';
-import { click, expectEvent, type, visitCommentReport, visitIntegration } from '../../utils';
+import { click, type, visitCommentReport, visitIntegration } from '../../utils';
 
 import commentsAreas from '../../fixtures/comments-areas.json';
 import users from '../../fixtures/users.json';
@@ -36,7 +36,7 @@ describe('Report', () => {
 
     expect(getComputedStyle(getByText('Signaler'))).to.have.property('opacity', '0');
 
-    await userEvent.hover(getByText(/^Le \d+ [a-z]+ \d{4} à \d{2}:\d{2}$/));
+    await userEvent.hover(getByText(/^Le \d+ [a-z]+ \d{4} à \d{2}h\d{2}$/));
     await waitFor(() => {
       expect(getComputedStyle(getByText('Signaler'))).to.have.property('opacity', '1');
     });
@@ -46,7 +46,7 @@ describe('Report', () => {
     click(getByText('Signaler'));
 
     expect(openStub.calledOnce).to.be.true;
-    expect(openStub.firstCall.args).to.eql(['/commentaire/1/signaler', '_blank', 'width=600,height=800,resizable=no']);
+    expect(openStub.firstCall.args).to.eql(['/commentaire/1/signaler', '_blank', 'width=1000,height=800,resizable=no']);
   });
 
   it('report a comment', async () => {
@@ -65,8 +65,8 @@ describe('Report', () => {
 
     click(getByRole('button', { name: 'Signaler' }));
 
-    expectEvent({ category: 'Comment', action: 'Report' });
-    await waitFor(() => expect(getByText('Le commentaire a été signalé, merci pour votre contribution ! 💪')));
+    // expectEvent({ category: 'Comment', action: 'Report' });
+    await waitFor(() => expect(getByText('Le commentaire a bien été signalé, merci pour votre contribution ! 💪')));
     await waitFor(() => expect(closeStub.calledOnce).to.be.true, { timeout: 5000 });
 
     const reports = await asModerator.getReports();

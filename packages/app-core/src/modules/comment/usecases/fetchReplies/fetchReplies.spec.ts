@@ -1,29 +1,27 @@
 import { expect } from 'earljs';
 
-import { Comment, createComment } from '../../../../entities/Comment';
+import { Comment, commentEntityToDto, createComment } from '../../../../entities';
 import { MockCommentGateway } from '../../../../shared/mocks';
 import { paginated } from '../../../../shared/paginated';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setComment } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
-import { commentEntityToDto } from '../../commentDtoMap';
 
 import { fetchReplies } from './fetchReplies';
 
 describe('fetchReplies', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
   let commentGateway: MockCommentGateway;
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentGateway } = store.dependencies);
   });
 
-  const getComment = (commentId: string) => selectComment(getState(), commentId);
+  const getComment = (commentId: string) => store.select(selectComment, commentId);
 
   const setup = (comment: Comment, replies: Comment[]) => {
-    dispatch(setComment(comment));
+    store.dispatch(setComment(comment));
     commentGateway.fetchReplies.resolvesToOnce(paginated(replies.map(commentEntityToDto)));
   };
 
@@ -33,7 +31,7 @@ describe('fetchReplies', () => {
 
     setup(comment, replies);
 
-    await dispatch(fetchReplies(comment.id));
+    await store.dispatch(fetchReplies(comment.id));
 
     expect(commentGateway.fetchReplies).toHaveBeenCalledWith([comment.id]);
 
@@ -48,7 +46,7 @@ describe('fetchReplies', () => {
 
     setup(comment, replies);
 
-    const promise = dispatch(fetchReplies(comment.id));
+    const promise = store.dispatch(fetchReplies(comment.id));
 
     expect(getComment(comment.id)).toBeAnObjectWith({
       isFetchingReplies: true,

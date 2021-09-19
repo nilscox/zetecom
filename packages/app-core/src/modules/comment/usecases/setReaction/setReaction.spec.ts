@@ -1,37 +1,30 @@
 import { expect } from 'earljs';
 
-import {
-  Comment,
-  createComment,
-  createReactionsCount,
-  ReactionsCount,
-  ReactionType,
-} from '../../../../entities/Comment';
+import { Comment, createComment, createReactionsCount, ReactionsCount, ReactionType } from '../../../../entities';
 import { MockCommentGateway } from '../../../../shared/mocks';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setComment } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
 
 import { setReaction } from './setReaction';
 
 describe('setReaction', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
   let commentGateway: MockCommentGateway;
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentGateway } = store.dependencies);
   });
 
-  const getComment = (id: string) => selectComment(getState(), id);
+  const getComment = (id: string) => store.select(selectComment, id);
 
   const setup = (comment: Comment) => {
-    dispatch(setComment(comment));
+    store.dispatch(setComment(comment));
     commentGateway.updateReaction.resolvesToOnce(undefined);
   };
 
-  const execute = (comment: Comment, reaction: ReactionType) => dispatch(setReaction(comment.id, reaction));
+  const execute = (comment: Comment, reaction: ReactionType) => store.dispatch(setReaction(comment.id, reaction));
 
   const expectReactions = (
     commentId: string,

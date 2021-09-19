@@ -1,37 +1,36 @@
 import { expect } from 'earljs';
 
-import { Comment, createComment } from '../../../../entities/Comment';
+import { Comment, createComment } from '../../../../entities';
 import { MockCommentGateway } from '../../../../shared/mocks';
 import { paginated } from '../../../../shared/paginated';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setComment } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
 
 import { closeReplyForm, openReplyForm, toggleReplyForm } from './openReplyForm';
 
 describe('openReplyForm', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
   let commentGateway: MockCommentGateway;
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentGateway } = store.dependencies);
   });
 
   const setup = (parent: Comment) => {
-    dispatch(setComment(parent));
+    store.dispatch(setComment(parent));
     commentGateway.fetchReplies.resolvesToOnce(paginated([]));
 
     return parent;
   };
 
-  const getComment = (commentId: string) => selectComment(getState(), commentId);
+  const getComment = (id: string) => store.select(selectComment, id);
 
   it('opens the reply form', async () => {
     const comment = setup(createComment());
 
-    await dispatch(openReplyForm(comment.id));
+    await store.dispatch(openReplyForm(comment.id));
 
     expect(getComment(comment.id).isReplyFormOpen).toEqual(true);
   });
@@ -39,7 +38,7 @@ describe('openReplyForm', () => {
   it('opens the replies', async () => {
     const comment = setup(createComment({ repliesCount: 1 }));
 
-    await dispatch(openReplyForm(comment.id));
+    await store.dispatch(openReplyForm(comment.id));
 
     expect(getComment(comment.id).areRepliesOpen).toEqual(true);
   });
@@ -47,7 +46,7 @@ describe('openReplyForm', () => {
   it('closes the reply form', async () => {
     const comment = setup(createComment({ isReplyFormOpen: true }));
 
-    await dispatch(closeReplyForm(comment.id));
+    await store.dispatch(closeReplyForm(comment.id));
 
     expect(getComment(comment.id).isReplyFormOpen).toEqual(false);
   });
@@ -55,11 +54,11 @@ describe('openReplyForm', () => {
   it('toggles the reply form', async () => {
     const comment = setup(createComment());
 
-    await dispatch(toggleReplyForm(comment.id));
+    await store.dispatch(toggleReplyForm(comment.id));
 
     expect(getComment(comment.id).isReplyFormOpen).toEqual(true);
 
-    await dispatch(toggleReplyForm(comment.id));
+    await store.dispatch(toggleReplyForm(comment.id));
 
     expect(getComment(comment.id).isReplyFormOpen).toEqual(false);
   });

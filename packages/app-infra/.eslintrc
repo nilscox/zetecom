@@ -1,0 +1,56 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": [
+    "simple-import-sort",
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "eqeqeq": "error",
+    "no-multi-spaces": "error",
+    "no-unused-expressions": "error",
+    "block-spacing": ["error", "always"],
+    "brace-style": ["error", "1tbs", { "allowSingleLine": false }],
+    "camelcase": "error",
+    "comma-dangle": ["error", "always-multiline"],
+    "comma-spacing": "error",
+    "eol-last": "error",
+    "func-call-spacing": "error",
+    "jsx-quotes": "error",
+    "key-spacing": "error",
+    "keyword-spacing": "error",
+    "linebreak-style": ["error", "unix"],
+    "lines-between-class-members": "error",
+    "max-len": ["error", 120],
+    "max-lines": ["error", 300],
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "no-nested-ternary": "error",
+    "no-trailing-spaces": "error",
+    "object-curly-spacing": ["error", "always"],
+    "quote-props": ["error", "as-needed"],
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "semi": "error",
+    "semi-spacing": "error",
+    "space-before-blocks": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-empty-function": "off",
+    "simple-import-sort/imports": ["warn", {
+      "groups": [
+        ["^(react|react-dom)$"],
+        ["^[@a-z]"],
+        ["\\.svg$"],
+        ["^~/"],
+        ["^../"],
+        ["^./"]
+      ]
+    }]
+  }
+}

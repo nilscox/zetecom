@@ -1,34 +1,32 @@
 import { expect } from 'earljs';
 
-import { createCommentsArea } from '../../../../entities/CommentsArea';
-import { SortType } from '../../../../entities/SortType';
-import { MockCommentGateway } from '../../../../shared/mocks';
+import { createCommentsArea, SortType } from '../../../../entities';
+import { MockCommentsAreaGateway } from '../../../../shared/mocks';
 import { paginated } from '../../../../shared/paginated';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { setCommentsArea } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
-import { setCurrentCommentsArea } from '../../commentsAreaActions';
-import { selectCommentsSort } from '../../selectors/commentsAreaSelectors';
+import { setCurrentCommentsArea } from '../../actions';
+import { selectCommentsSort } from '../../selectors';
 
 import { sortComments } from './sortComments';
 
 describe('sortComments', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
-  let commentGateway: MockCommentGateway;
+  let commentsAreaGateway: MockCommentsAreaGateway;
 
   const commentsArea = createCommentsArea();
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentsAreaGateway } = store.dependencies);
   });
 
   const setup = () => {
-    dispatch(setCommentsArea(commentsArea));
-    dispatch(setCurrentCommentsArea(commentsArea.id));
+    store.dispatch(setCommentsArea(commentsArea));
+    store.dispatch(setCurrentCommentsArea(commentsArea));
 
-    commentGateway.fetchRootComments.resolvesToOnce(paginated([]));
+    commentsAreaGateway.fetchRootComments.resolvesToOnce(paginated([]));
   };
 
   it('sorts the comments list according to a sort order', async () => {
@@ -36,9 +34,9 @@ describe('sortComments', () => {
 
     setup();
 
-    await dispatch(sortComments(sort));
+    await store.dispatch(sortComments(sort));
 
-    expect(commentGateway.fetchRootComments).toHaveBeenCalledWith([commentsArea.id, expect.objectWith({ sort })]);
-    expect(selectCommentsSort(getState())).toEqual(sort);
+    expect(commentsAreaGateway.fetchRootComments).toHaveBeenCalledWith([commentsArea.id, expect.objectWith({ sort })]);
+    expect(store.select(selectCommentsSort)).toEqual(sort);
   });
 });

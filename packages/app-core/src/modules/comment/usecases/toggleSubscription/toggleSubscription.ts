@@ -1,6 +1,6 @@
 import { createThunk } from '../../../../store/createThunk';
-import { selectComment } from '../../selectors/commentSelectors';
-import { updateComment } from '../updateComment/updateComment';
+import { selectComment } from '../../selectors';
+import { updateComment } from '../index';
 
 export const toggleSubscription = createThunk(async ({ getState, dispatch, commentGateway }, commentId: string) => {
   const { subscribed } = selectComment(getState(), commentId);

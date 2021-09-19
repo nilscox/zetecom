@@ -1,7 +1,7 @@
+import { commentDtoToEntity } from '../../../../entities';
 import { createThunk } from '../../../../store/createThunk';
-import { setIsFetchingReplies } from '../../commentActions';
-import { commentDtoToEntity } from '../../commentDtoMap';
-import { updateComment } from '../updateComment/updateComment';
+import { setIsFetchingReplies } from '../../actions';
+import { updateComment } from '../index';
 
 export const fetchReplies = createThunk(async ({ dispatch, commentGateway }, commentId: string) => {
   dispatch(setIsFetchingReplies(commentId, true));

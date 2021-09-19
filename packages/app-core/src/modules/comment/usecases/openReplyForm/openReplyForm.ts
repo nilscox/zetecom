@@ -1,7 +1,7 @@
 import { createThunk } from '../../../../store/createThunk';
-import { setIsReplyFormOpen } from '../../commentActions';
-import { selectComment } from '../../selectors/commentSelectors';
-import { openReplies } from '../openReplies/openReplies';
+import { setIsReplyFormOpen } from '../../actions';
+import { selectComment } from '../../selectors';
+import { openReplies } from '../index';
 
 export const openReplyForm = createThunk(async ({ getState, dispatch }, commentId: string) => {
   const comment = selectComment(getState(), commentId);

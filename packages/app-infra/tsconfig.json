@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "target": "es5",
+    "noEmit": true,
+    "sourceMap": true,
+
+    "baseUrl": "src",
+    "paths": {
+      "@zetecom/app-core": ["../../app-core/src"],
+      "@zetecom/app-core/*": ["../../app-core/src/*"],
+      "~/*": ["*"]
+    },
+
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "jsx": "preserve"
+  },
+  "include": ["src/**/*"]
+}

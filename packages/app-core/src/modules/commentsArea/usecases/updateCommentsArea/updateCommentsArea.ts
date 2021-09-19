@@ -1,4 +1,4 @@
-import { CommentsArea } from '../../../../entities/CommentsArea';
+import { CommentsArea } from '../../../../entities';
 import { createThunk } from '../../../../store/createThunk';
 import { selectCommentsArea, setCommentsArea } from '../../../../store/normalize';
 

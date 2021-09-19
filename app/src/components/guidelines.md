@@ -13,7 +13,7 @@ Try to keep every file under 80 lines. A little more can be acceptable, but don'
 
 **Never import modules from nested folders.**
 
-All folders must have a public API. Concider anything that is not exposed as private, even if _it is possible_ to import
+All folders must have a public API. Consider anything that is not exposed as private, even if _it is possible_ to import
 it. For example, do not
 
 ```tsx static
@@ -25,7 +25,7 @@ import defaultAvatar from '../Avatar/default-avatar.png';
 
 **Components should render as little as possible.**
 
-Minimize every component's scope. If one can be broken into samller pieces, do it.
+Minimize every component's scope. If one can be broken into smaller pieces, do it.
 
 ---
 
@@ -37,8 +37,8 @@ Same goes for hooks, try to minimize their logic. Every hook should do one thing
 
 **Write unit tests for every meaningful logic.**
 
-Every piece of code that encapsulate important buisness logic must be tested. For instance, a component that redirects
-unauthenticated user must be tested. In countrary, unit tests for a Logo component or a react provider are not required.
+Every piece of code that encapsulate important business logic must be tested. For instance, a component that redirects
+unauthenticated user must be tested. In the contrary, unit tests for a Logo component or a checkbox are not required.
 
 ---
 
@@ -48,8 +48,20 @@ Prefer repeating the folder's name instead, it's clearer and makes it easier to 
 
 ---
 
-**Define prop values first, callbacks after and the css prop last.**
+**Keep props that work together close from each other.**
+
+Example:
+
+```tsx static
+type SomeComponentProps = {
+  color: string;
+  setColor: (color: string) => void;
+  loading: boolean;
+  submitted: boolean;
+  onSubmit: () => void;
+};
+```
 
 ---
 
-**All event handlers passed as props must start with `on`**
+**All event handlers passed as props must start with `on`.**

@@ -1,29 +1,27 @@
 import { expect } from 'earljs';
 
-import { Comment, createComment } from '../../../../entities/Comment';
+import { Comment, commentDtoToEntity, createComment } from '../../../../entities';
 import { MockCommentGateway } from '../../../../shared/mocks';
 import { paginated } from '../../../../shared/paginated';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setComment } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
-import { commentDtoToEntity } from '../../commentDtoMap';
 
 import { closeReplies, openReplies, toggleReplies } from './openReplies';
 
 describe('openReplies', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
   let commentGateway: MockCommentGateway;
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentGateway } = store.dependencies);
   });
 
-  const getComment = (commentId: string) => selectComment(getState(), commentId);
+  const getComment = (id: string) => store.select(selectComment, id);
 
   const setup = (comment: Comment, replies: Comment[] = []) => {
-    dispatch(setComment(comment));
+    store.dispatch(setComment(comment));
     commentGateway.fetchReplies.resolvesToOnce(paginated(replies.map(commentDtoToEntity)));
   };
 
@@ -33,7 +31,7 @@ describe('openReplies', () => {
 
     setup(comment, replies);
 
-    await dispatch(openReplies(comment.id));
+    await store.dispatch(openReplies(comment.id));
 
     expect(getComment(comment.id)).toBeAnObjectWith({
       areRepliesOpen: true,
@@ -47,7 +45,7 @@ describe('openReplies', () => {
 
     setup(comment, replies);
 
-    await dispatch(openReplies(comment.id));
+    await store.dispatch(openReplies(comment.id));
 
     expect(commentGateway.fetchReplies).not.toBeExhausted();
   });
@@ -57,7 +55,7 @@ describe('openReplies', () => {
 
     setup(comment, []);
 
-    await dispatch(closeReplies(comment.id));
+    await store.dispatch(closeReplies(comment.id));
 
     expect(getComment(comment.id).areRepliesOpen).toEqual(false);
   });
@@ -67,11 +65,11 @@ describe('openReplies', () => {
 
     setup(comment, []);
 
-    await dispatch(toggleReplies(comment.id));
+    await store.dispatch(toggleReplies(comment.id));
 
     expect(getComment(comment.id).areRepliesOpen).toEqual(true);
 
-    await dispatch(toggleReplies(comment.id));
+    await store.dispatch(toggleReplies(comment.id));
 
     expect(getComment(comment.id).areRepliesOpen).toEqual(false);
   });

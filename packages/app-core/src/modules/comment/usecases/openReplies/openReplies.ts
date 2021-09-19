@@ -1,14 +1,14 @@
 import { createThunk } from '../../../../store/createThunk';
-import { setAreRepliesOpen } from '../../commentActions';
-import { selectComment } from '../../selectors/commentSelectors';
-import { fetchReplies } from '../fetchReplies/fetchReplies';
+import { setAreRepliesOpen } from '../../actions';
+import { selectComment } from '../../selectors';
+import { fetchReplies } from '../index';
 
 export const openReplies = createThunk(async ({ getState, dispatch }, commentId: string) => {
-  const { replies, repliesCount } = selectComment(getState(), commentId);
+  const { replies } = selectComment(getState(), commentId);
 
   dispatch(setAreRepliesOpen(commentId, true));
 
-  if (replies.length < repliesCount) {
+  if (replies.length === 0) {
     await dispatch(fetchReplies(commentId));
   }
 });

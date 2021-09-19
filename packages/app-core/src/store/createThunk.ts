@@ -1,4 +1,4 @@
-import { Dependencies, Dispatch, GetState, ThunkAction } from './store';
+import { Dependencies, Dispatch, GetState, ThunkAction } from './types';
 
 export type ThunkParams = {
   dispatch: Dispatch;

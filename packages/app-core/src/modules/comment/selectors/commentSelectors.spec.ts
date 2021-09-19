@@ -1,12 +1,7 @@
-import { expect } from 'earljs';
-
-import { createComment } from '../../../entities/Comment';
-import { createUser, User } from '../../../entities/User';
-import { createMemoryStore } from '../../../store/memoryStore';
+import { createComment, createUser } from '../../../entities';
+import { MemoryStore } from '../../../store/MemoryStore';
 import { setComment } from '../../../store/normalize';
-import { Dispatch, GetState } from '../../../store/store';
-import { setCurrentUser } from '../../user/usecases/setCurrentUser/setCurrentUser';
-import { setIsReplyFormOpen } from '../commentActions';
+import { setFetchingComment, setIsCommentReported, setIsReplyFormOpen, setIsReportingComment } from '../actions';
 
 import {
   selectCanEdit,
@@ -15,99 +10,168 @@ import {
   selectCanSetReaction,
   selectCanSubscribe,
   selectCanToggleReplies,
+  selectCanViewHistory,
   selectComment,
   selectIsAuthor,
+  selectIsCommentReported,
+  selectIsFetchingComment,
+  selectIsReportingComment,
   selectReportCommentLink,
 } from './commentSelectors';
 
 describe('commentSelectors', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
   beforeEach(() => {
-    ({ dispatch, getState } = createMemoryStore());
+    store = new MemoryStore();
   });
 
+  const user = createUser();
   const author = createUser();
   const comment = createComment({ author });
 
   beforeEach(() => {
-    dispatch(setComment(comment));
+    store.dispatch(setComment(comment));
   });
 
-  const setUser = (user: User) => {
-    dispatch(setCurrentUser(user));
+  const login = () => {
+    store.user = user;
+  };
+
+  const loginAsAuthor = () => {
+    store.user = author;
   };
 
   it('selectComment', () => {
-    expect(selectComment(getState(), comment.id)).toEqual(comment);
+    store.testState(selectComment, comment.id).expect({
+      before: comment,
+    });
+  });
+
+  it('selectIsFetchingComment', () => {
+    store.testState(selectIsFetchingComment).expect({
+      before: false,
+      action: setFetchingComment(true),
+      after: true,
+    });
+  });
+
+  it('selectIsReportingComment', () => {
+    store.testState(selectIsReportingComment).expect({
+      before: false,
+      action: setIsReportingComment(true),
+      after: true,
+    });
+  });
+
+  it('selectIsCommentReported', () => {
+    store.testState(selectIsCommentReported).expect({
+      before: false,
+      action: setIsCommentReported(true),
+      after: true,
+    });
   });
 
   it('selectReportCommentLink', () => {
-    expect(selectReportCommentLink(getState(), comment.id)).toEqual(`/commentaire/${comment.id}/signaler`);
+    store.testState(selectReportCommentLink, comment.id).expect({
+      before: `/commentaire/${comment.id}/signaler`,
+    });
   });
 
   it('selectIsAuthor', () => {
-    expect(selectIsAuthor(getState(), comment.id)).toEqual(false);
-
-    setUser(createUser());
-    expect(selectIsAuthor(getState(), comment.id)).toEqual(false);
-
-    setUser(author);
-    expect(selectIsAuthor(getState(), comment.id)).toEqual(true);
+    store
+      .testState(selectIsAuthor, comment.id)
+      .expect({
+        before: false,
+        action: login,
+        after: false,
+      })
+      .expect({
+        action: loginAsAuthor,
+        after: true,
+      });
   });
 
   it('selectCanEdit', () => {
-    expect(selectCanEdit(getState(), comment.id)).toEqual(false);
-
-    setUser(createUser());
-    expect(selectCanEdit(getState(), comment.id)).toEqual(false);
-
-    setUser(author);
-    expect(selectCanEdit(getState(), comment.id)).toEqual(true);
+    store
+      .testState(selectCanEdit, comment.id)
+      .expect({
+        before: false,
+        action: login,
+        after: false,
+      })
+      .expect({
+        action: loginAsAuthor,
+        after: true,
+      });
   });
 
   it('selectCanReply', () => {
-    expect(selectCanReply(getState(), comment.id)).toEqual(false);
-
-    setUser(createUser());
-    expect(selectCanReply(getState(), comment.id)).toEqual(true);
+    store.testState(selectCanReply, comment.id).expect({
+      before: false,
+      action: login,
+      after: true,
+    });
   });
 
   it('selectCanSetReaction', () => {
-    expect(selectCanSetReaction(getState(), comment.id)).toEqual(false);
-
-    setUser(author);
-    expect(selectCanSetReaction(getState(), comment.id)).toEqual(false);
-
-    setUser(createUser());
-    expect(selectCanSetReaction(getState(), comment.id)).toEqual(true);
+    store
+      .testState(selectCanSetReaction, comment.id)
+      .expect({
+        before: false,
+        action: loginAsAuthor,
+        after: false,
+      })
+      .expect({
+        before: false,
+        action: login,
+        after: true,
+      });
   });
 
   it('selectCanToggleReplies', () => {
-    expect(selectCanToggleReplies(getState(), comment.id)).toEqual(false);
-
-    dispatch(setComment({ ...comment, repliesCount: 2 }));
-    expect(selectCanToggleReplies(getState(), comment.id)).toEqual(true);
-
-    dispatch(setIsReplyFormOpen(comment.id, true));
-    expect(selectCanToggleReplies(getState(), comment.id)).toEqual(false);
+    store
+      .testState(selectCanToggleReplies, comment.id)
+      .expect({
+        before: false,
+        action: setComment({ ...comment, repliesCount: 2 }),
+        after: true,
+      })
+      .expect({
+        before: true,
+        action: setIsReplyFormOpen(comment.id, true),
+        after: false,
+      });
   });
 
   it('selectCanSubscribe', () => {
-    expect(selectCanSubscribe(getState(), comment.id)).toEqual(false);
+    store.testState(selectCanSubscribe, comment.id).expect({
+      before: false,
+      action: login,
+      after: true,
+    });
+  });
 
-    setUser(createUser());
-    expect(selectCanSubscribe(getState(), comment.id)).toEqual(true);
+  it('selectCanViewHistory', () => {
+    store.testState(selectCanViewHistory, comment.id).expect({
+      before: false,
+      action: setComment({ ...comment, edited: new Date() }),
+      after: true,
+    });
   });
 
   it('selectCanReport', () => {
-    expect(selectCanReport(getState(), comment.id)).toEqual(false);
-
-    setUser(author);
-    expect(selectCanReport(getState(), comment.id)).toEqual(false);
-
-    setUser(createUser());
-    expect(selectCanReport(getState(), comment.id)).toEqual(true);
+    store
+      .testState(selectCanReport, comment.id)
+      .expect({
+        before: false,
+        action: loginAsAuthor,
+        after: false,
+      })
+      .expect({
+        before: false,
+        action: login,
+        after: true,
+      });
   });
 });

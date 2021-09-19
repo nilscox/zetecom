@@ -1,30 +1,27 @@
 import { expect } from 'earljs';
 
-import { createComment } from '../../../../entities/Comment';
-import { createCommentsArea } from '../../../../entities/CommentsArea';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { createComment, createCommentsArea } from '../../../../entities';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectCommentsArea, setCommentsArea } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
 
 import { updateCommentsArea } from './updateCommentsArea';
 
 describe('updateCommentsArea', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
   beforeEach(() => {
-    ({ dispatch, getState } = createMemoryStore());
+    store = new MemoryStore();
   });
 
   it('updates a comments area entity', () => {
     const commentsArea = createCommentsArea({ comments: [] });
     const comment = createComment();
 
-    dispatch(setCommentsArea(commentsArea));
+    store.dispatch(setCommentsArea(commentsArea));
 
-    dispatch(updateCommentsArea(commentsArea.id, { comments: [comment] }));
+    store.dispatch(updateCommentsArea(commentsArea.id, { comments: [comment] }));
 
-    expect(selectCommentsArea(getState(), commentsArea.id)).toEqual({
+    expect(store.select(selectCommentsArea, commentsArea.id)).toEqual({
       ...commentsArea,
       comments: [comment],
     });

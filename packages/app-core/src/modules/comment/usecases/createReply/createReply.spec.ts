@@ -1,29 +1,33 @@
 import { expect } from 'earljs';
 
-import { Comment, createComment } from '../../../../entities/Comment';
+import { Comment, commentEntityToDto, createComment, createCommentsArea } from '../../../../entities';
 import { MockCommentGateway } from '../../../../shared/mocks';
-import { createMemoryStore } from '../../../../store/memoryStore';
-import { setComment } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
-import { commentEntityToDto } from '../../commentDtoMap';
-import { selectComment } from '../../selectors/commentSelectors';
+import { MemoryStore } from '../../../../store/MemoryStore';
+import { setComment, setCommentsArea } from '../../../../store/normalize';
+// eslint-disable-next-line import/no-internal-modules
+import { setCurrentCommentsArea } from '../../../commentsArea/actions';
+import { selectComment } from '../../selectors';
 
 import { createReply } from './createReply';
 
 describe('createReply', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
   let commentGateway: MockCommentGateway;
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentGateway } = store.dependencies);
   });
 
-  const getComment = (commentId: string) => selectComment(getState(), commentId);
+  const commentsArea = createCommentsArea();
+
+  const getComment = (commentId: string) => store.select(selectComment, commentId);
 
   const setup = (parent: Comment, reply: Comment) => {
-    dispatch(setComment(parent));
+    store.dispatch(setCommentsArea(commentsArea));
+    store.dispatch(setCurrentCommentsArea(commentsArea));
+    store.dispatch(setComment(parent));
 
     commentGateway.createComment.resolvesToOnce(commentEntityToDto(reply));
   };
@@ -34,11 +38,11 @@ describe('createReply', () => {
 
     setup(parent, reply);
 
-    await dispatch(createReply(parent.id, reply.text));
+    await store.dispatch(createReply(parent.id, reply.text));
 
-    expect(commentGateway.createComment).toHaveBeenCalledWith([reply.text, parent.id]);
+    expect(commentGateway.createComment).toHaveBeenCalledWith([reply.text, commentsArea.id, parent.id]);
 
-    expect(selectComment(getState(), parent.id)).toBeAnObjectWith({
+    expect(getComment(parent.id)).toBeAnObjectWith({
       repliesCount: 1,
       replies: [reply],
     });
@@ -51,9 +55,9 @@ describe('createReply', () => {
 
     setup(parent, reply);
 
-    await dispatch(createReply(parent.id, reply.text));
+    await store.dispatch(createReply(parent.id, reply.text));
 
-    expect(selectComment(getState(), parent.id)).toBeAnObjectWith({
+    expect(getComment(parent.id)).toBeAnObjectWith({
       repliesCount: 2,
       replies: [reply, existingReply],
     });
@@ -65,7 +69,7 @@ describe('createReply', () => {
 
     setup(parent, reply);
 
-    const promise = dispatch(createReply(parent.id, reply.text));
+    const promise = store.dispatch(createReply(parent.id, reply.text));
 
     expect(getComment(parent.id)).toBeAnObjectWith({
       isSubmittingReply: true,
@@ -84,7 +88,7 @@ describe('createReply', () => {
 
     setup(parent, reply);
 
-    await dispatch(createReply(parent.id, reply.text));
+    await store.dispatch(createReply(parent.id, reply.text));
 
     expect(getComment(parent.id)).toBeAnObjectWith({
       isReplyFormOpen: false,

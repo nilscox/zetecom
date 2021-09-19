@@ -1,17 +1,17 @@
 import { denormalize, normalize, schema } from 'normalizr';
 
-import { Comment } from '../entities/Comment';
-import { CommentsArea } from '../entities/CommentsArea';
-import { Information } from '../entities/Information';
-import { User } from '../entities/User';
+import { Comment, CommentsArea, Information, Notification, User } from '../entities';
 
+import { AppState } from './AppState';
 import { createAction } from './createAction';
-import { AppState } from './store';
 
 type ID = string;
 
 const userSchema = new schema.Entity<User>('users');
 type NormalizedUser = User;
+
+const notificationSchema = new schema.Entity<Notification>('notifications');
+type NormalizedNotification = Notification;
 
 const informationSchema = new schema.Entity<Information>('informations');
 type NormalizedInformation = Information;
@@ -40,6 +40,7 @@ commentsAreaSchema.define({
 
 export type NormalizedEntities = {
   users: Record<string, NormalizedUser>;
+  notifications: Record<string, NormalizedNotification>;
   informations: Record<string, NormalizedInformation>;
   commentsAreas: Record<string, NormalizedCommentsArea>;
   comments: Record<string, NormalizedComment>;
@@ -47,6 +48,7 @@ export type NormalizedEntities = {
 
 type Entities = {
   user: User;
+  notifications: Notification;
   information: Information;
   commentsArea: CommentsArea;
   comment: Comment;
@@ -59,13 +61,13 @@ const setEntities = (entities: Partial<NormalizedEntities>) => {
   return createAction('setEntities', entities);
 };
 
-export const createStoreEntityAction = <E extends Entity>(entitySchema: schema.Entity<E>) => {
+const createStoreEntityAction = <E extends Entity>(entitySchema: schema.Entity<E>) => {
   return (...entities: Array<E>) => {
     return setEntities(normalize(entities, [entitySchema]).entities);
   };
 };
 
-export const createEntitySelector = <E extends Entity>(entitySchema: schema.Entity<E>) => {
+const createEntitySelector = <E extends Entity>(entitySchema: schema.Entity<E>) => {
   return (state: AppState, id: ID) => {
     return denormalize(id, entitySchema, state.entities) as E;
   };
@@ -73,6 +75,9 @@ export const createEntitySelector = <E extends Entity>(entitySchema: schema.Enti
 
 export const setUser = createStoreEntityAction(userSchema);
 export const selectUser = createEntitySelector(userSchema);
+
+export const setNotification = createStoreEntityAction(notificationSchema);
+export const selectNotification = createEntitySelector(notificationSchema);
 
 export const setCommentsArea = createStoreEntityAction(commentsAreaSchema);
 export const selectCommentsArea = createEntitySelector(commentsAreaSchema);

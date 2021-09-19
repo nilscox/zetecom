@@ -1,29 +1,27 @@
 import { expect } from 'earljs';
 
-import { createComment } from '../../../../entities/Comment';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { createComment } from '../../../../entities';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setComment } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
 
 import { updateComment } from './updateComment';
 
 describe('updateComment', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
   beforeEach(() => {
-    ({ dispatch, getState } = createMemoryStore());
+    store = new MemoryStore();
   });
 
   it('updates a comment entity', () => {
     const comment = createComment({ edited: false });
     const now = new Date();
 
-    dispatch(setComment(comment));
+    store.dispatch(setComment(comment));
 
-    dispatch(updateComment(comment.id, { edited: now }));
+    store.dispatch(updateComment(comment.id, { edited: now }));
 
-    expect(selectComment(getState(), comment.id)).toEqual({
+    expect(store.select(selectComment, comment.id)).toEqual({
       ...comment,
       edited: now,
     });

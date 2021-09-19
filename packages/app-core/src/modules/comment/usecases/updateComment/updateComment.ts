@@ -1,4 +1,4 @@
-import { Comment } from '../../../../entities/Comment';
+import { Comment } from '../../../../entities';
 import { createThunk } from '../../../../store/createThunk';
 import { selectComment, setComment } from '../../../../store/normalize';
 

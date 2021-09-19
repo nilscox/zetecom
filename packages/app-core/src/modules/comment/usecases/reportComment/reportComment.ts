@@ -1,5 +1,20 @@
 import { createThunk } from '../../../../store/createThunk';
+import { setIsCommentReported, setIsReportingComment } from '../../actions';
 
-export const reportComment = createThunk(({ commentGateway }, commentId: string, reason: unknown, message?: string) => {
-  commentGateway.reportComment(commentId, reason, message);
-});
+const CLOSE_POPUP_TIMEOUT = 4200;
+
+export const reportComment = createThunk(
+  async ({ dispatch, commentGateway, timerGateway, routerGateway }, commentId: string, message?: string) => {
+    try {
+      dispatch(setIsReportingComment(true));
+
+      await commentGateway.reportComment(commentId, message);
+
+      dispatch(setIsCommentReported(true));
+
+      timerGateway.setTimeout(() => routerGateway.closePopup(), CLOSE_POPUP_TIMEOUT);
+    } finally {
+      dispatch(setIsReportingComment(false));
+    }
+  },
+);

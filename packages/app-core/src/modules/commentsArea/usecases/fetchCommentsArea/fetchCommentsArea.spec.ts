@@ -1,48 +1,92 @@
 import { expect } from 'earljs';
 
-import { Comment, createComment } from '../../../../entities/Comment';
-import { CommentsArea, createCommentsArea } from '../../../../entities/CommentsArea';
-import { MockCommentGateway } from '../../../../shared/mocks';
+import {
+  Comment,
+  commentEntityToDto,
+  CommentsArea,
+  commentsAreaEntityToDto,
+  createComment,
+  createCommentsArea,
+} from '../../../../entities';
+import { MockCommentsAreaGateway } from '../../../../shared/mocks';
 import { paginated } from '../../../../shared/paginated';
-import { createMemoryStore } from '../../../../store/memoryStore';
-import { selectCommentsArea } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
-import { commentEntityToDto } from '../../../comment/commentDtoMap';
-import { selectIsFetchingCommentsArea } from '../../selectors/commentsAreaSelectors';
+import { MemoryStore } from '../../../../store/MemoryStore';
+import { selectCommentsArea, setCommentsArea } from '../../../../store/normalize';
+import { setCurrentCommentsArea } from '../../actions';
+import {
+  selectCommentsAreaByIdentifier,
+  selectCommentsAreaNotFound,
+  selectIsFetchingCommentsArea,
+} from '../../selectors';
 
-import { fetchCommentsArea } from './fetchCommentsArea';
+import { fetchCommentsAreaById, fetchCommentsAreaByIdentifier } from './fetchCommentsArea';
 
 describe('fetchCommentsArea', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
-  let commentGateway: MockCommentGateway;
+  let commentsAreaGateway: MockCommentsAreaGateway;
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentsAreaGateway } = store.dependencies);
   });
 
   const setup = (commentsArea: CommentsArea, comments: Comment[]) => {
-    commentGateway.fetchCommentsArea.resolvesToOnce(commentsArea);
-    commentGateway.fetchRootComments.resolvesToOnce(paginated(comments.map(commentEntityToDto)));
+    commentsAreaGateway.fetchCommentsArea.resolvesToOnce(commentsAreaEntityToDto(commentsArea));
+    commentsAreaGateway.fetchRootComments.resolvesToOnce(paginated(comments.map(commentEntityToDto)));
   };
 
   it('fetches a comments area and its root comments', async () => {
-    const commentsArea = createCommentsArea();
+    const commentsArea = createCommentsArea({ commentsCount: 1 });
     const comments = [createComment()];
 
     setup(commentsArea, comments);
 
-    await dispatch(fetchCommentsArea(commentsArea.id));
+    await store.dispatch(fetchCommentsAreaById(commentsArea.id));
 
-    expect(commentGateway.fetchCommentsArea).toHaveBeenCalledWith([commentsArea.id]);
-    expect(commentGateway.fetchRootComments).toHaveBeenCalledWith([commentsArea.id, expect.anything()]);
+    expect(commentsAreaGateway.fetchCommentsArea).toHaveBeenCalledWith([commentsArea.id]);
+    expect(commentsAreaGateway.fetchRootComments).toHaveBeenCalledWith([commentsArea.id, expect.anything()]);
 
-    expect(selectCommentsArea(getState(), commentsArea.id)).toEqual({
+    expect(store.select(selectCommentsArea, commentsArea.id)).toEqual({
       ...commentsArea,
       comments,
       commentsCount: 1,
     });
+  });
+
+  it('fetches a comments area by its identifier', async () => {
+    const commentsArea = createCommentsArea({ commentsCount: 1 });
+    const comments = [createComment()];
+
+    setup(commentsArea, comments);
+    commentsAreaGateway.fetchCommentsAreaByIdentifier.resolvesToOnce(commentsAreaEntityToDto(commentsArea));
+
+    await store.dispatch(fetchCommentsAreaByIdentifier('identifier'));
+
+    expect(commentsAreaGateway.fetchCommentsAreaByIdentifier).toHaveBeenCalledWith(['identifier']);
+
+    expect(store.select(selectCommentsAreaByIdentifier, 'identifier')).toEqual({
+      ...commentsArea,
+      comments,
+      commentsCount: 1,
+    });
+  });
+
+  it('does not find a comments area', async () => {
+    const commentsArea = createCommentsArea();
+
+    setup(commentsArea, []);
+    commentsAreaGateway.fetchCommentsAreaByIdentifier.resolvesToOnce(undefined);
+
+    await store.dispatch(fetchCommentsAreaByIdentifier('identifier'));
+
+    expect(store.select(selectCommentsAreaNotFound)).toEqual(true);
+
+    commentsAreaGateway.fetchCommentsAreaByIdentifier.resolvesToOnce(commentsArea);
+
+    await store.dispatch(fetchCommentsAreaByIdentifier('identifier'));
+
+    expect(store.select(selectCommentsAreaNotFound)).toEqual(false);
   });
 
   it('notifies that the comments area is being fetched', async () => {
@@ -50,12 +94,25 @@ describe('fetchCommentsArea', () => {
 
     setup(commentsArea, []);
 
-    const promise = dispatch(fetchCommentsArea(commentsArea.id));
+    const promise = store.dispatch(fetchCommentsAreaById(commentsArea.id));
 
-    expect(selectIsFetchingCommentsArea(getState())).toEqual(true);
+    expect(store.select(selectIsFetchingCommentsArea)).toEqual(true);
 
     await promise;
 
-    expect(selectIsFetchingCommentsArea(getState())).toEqual(false);
+    expect(store.select(selectIsFetchingCommentsArea)).toEqual(false);
+  });
+
+  it('only fetches the root comments when the comments area was already fetched', async () => {
+    const commentsArea = createCommentsArea({ commentsCount: 1 });
+
+    setup(commentsArea, []);
+    store.dispatch(setCommentsArea(commentsArea));
+    store.dispatch(setCurrentCommentsArea(commentsArea));
+
+    await store.dispatch(fetchCommentsAreaById(commentsArea.id));
+
+    expect(commentsAreaGateway.fetchCommentsArea).not.toBeExhausted();
+    expect(commentsAreaGateway.fetchRootComments).toBeExhausted();
   });
 });

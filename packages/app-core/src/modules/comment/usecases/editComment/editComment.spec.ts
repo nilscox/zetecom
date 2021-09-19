@@ -1,30 +1,28 @@
 import { expect } from 'earljs';
 
-import { Comment, createComment } from '../../../../entities/Comment';
+import { Comment, commentEntityToDto, createComment } from '../../../../entities';
 import { MockCommentGateway } from '../../../../shared/mocks';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setComment } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
-import { commentEntityToDto } from '../../commentDtoMap';
 
 import { editComment } from './editComment';
 
 describe('editComment', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
   let commentGateway: MockCommentGateway;
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentGateway } = store.dependencies);
   });
 
   const setup = (comment: Comment, edited: Comment) => {
-    dispatch(setComment(comment));
+    store.dispatch(setComment(comment));
     commentGateway.editComment.resolvesToOnce(commentEntityToDto(edited));
   };
 
-  const getComment = (id: string) => selectComment(getState(), id);
+  const getComment = (id: string) => store.select(selectComment, id);
 
   it('edits a comment', async () => {
     const text = 'edited';
@@ -34,7 +32,7 @@ describe('editComment', () => {
 
     setup(comment, edited);
 
-    await dispatch(editComment(comment.id, text));
+    await store.dispatch(editComment(comment.id, text));
 
     expect(commentGateway.editComment).toHaveBeenCalledWith([comment.id, text]);
 
@@ -47,7 +45,7 @@ describe('editComment', () => {
 
     setup(comment, edited);
 
-    await dispatch(editComment(comment.id, ''));
+    await store.dispatch(editComment(comment.id, ''));
 
     expect(getComment(comment.id)).toBeAnObjectWith({
       isEditing: false,
@@ -60,7 +58,7 @@ describe('editComment', () => {
 
     setup(comment, edited);
 
-    const promise = dispatch(editComment(comment.id, ''));
+    const promise = store.dispatch(editComment(comment.id, ''));
 
     expect(getComment(comment.id)).toBeAnObjectWith({
       isSubmittingEdition: true,

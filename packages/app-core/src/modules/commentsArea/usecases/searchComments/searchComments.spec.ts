@@ -1,38 +1,37 @@
 import { expect, mockFn } from 'earljs';
 
-import { createCommentsArea } from '../../../../entities/CommentsArea';
-import { FakeTimerGateway, MockCommentGateway } from '../../../../shared/mocks';
+import { createCommentsArea } from '../../../../entities';
+import { FakeTimerGateway, MockCommentsAreaGateway } from '../../../../shared/mocks';
 import { paginated } from '../../../../shared/paginated';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { setCommentsArea } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
-import { setCommentsSearchQuery, setCurrentCommentsArea } from '../../commentsAreaActions';
-import { selectCommentsSearchQuery } from '../../selectors/commentsAreaSelectors';
+import { setCommentsSearchQuery, setCurrentCommentsArea } from '../../actions';
+import { selectCommentsSearchQuery, selectIsFetchingComments } from '../../selectors';
 
 import { searchComments } from './searchComments';
 
 describe('searchComments', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
-  let commentGateway: MockCommentGateway;
+  let commentsAreaGateway: MockCommentsAreaGateway;
   let timerGateway: FakeTimerGateway;
 
   const commentsArea = createCommentsArea();
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway, timerGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentsAreaGateway, timerGateway } = store.dependencies);
   });
 
   const setup = () => {
-    dispatch(setCommentsArea(commentsArea));
-    dispatch(setCurrentCommentsArea(commentsArea.id));
+    store.dispatch(setCommentsArea(commentsArea));
+    store.dispatch(setCurrentCommentsArea(commentsArea));
 
-    commentGateway.searchComments.resolvesToOnce(paginated([]));
+    commentsAreaGateway.searchComments.resolvesToOnce(paginated([]));
   };
 
   const execute = async (query: string) => {
-    await dispatch(searchComments(query));
+    await store.dispatch(searchComments(query));
     await timerGateway.invokeTimeout();
   };
 
@@ -43,20 +42,20 @@ describe('searchComments', () => {
 
     await execute(query);
 
-    expect(commentGateway.searchComments).toHaveBeenCalledWith([commentsArea.id, query, expect.anything()]);
-    expect(selectCommentsSearchQuery(getState())).toEqual(query);
+    expect(commentsAreaGateway.searchComments).toHaveBeenCalledWith([commentsArea.id, query, expect.anything()]);
+    expect(store.select(selectCommentsSearchQuery)).toEqual(query);
   });
 
   it("clears the comments' search query ", async () => {
     setup();
 
-    dispatch(setCommentsSearchQuery('query'));
-    commentGateway.fetchRootComments.resolvesToOnce(paginated([]));
+    store.dispatch(setCommentsSearchQuery('query'));
+    commentsAreaGateway.fetchRootComments.resolvesToOnce(paginated([]));
 
     await execute('');
 
-    expect(commentGateway.fetchRootComments).toBeExhausted();
-    expect(selectCommentsSearchQuery(getState())).toEqual(undefined);
+    expect(commentsAreaGateway.fetchRootComments).toBeExhausted();
+    expect(store.select(selectCommentsSearchQuery)).toEqual(undefined);
   });
 
   it('debounces the search query', async () => {
@@ -64,11 +63,14 @@ describe('searchComments', () => {
 
     timerGateway.clearTimeout = mockFn().returns(undefined);
 
-    await dispatch(searchComments('query1'));
-    await dispatch(searchComments('query2'));
+    await store.dispatch(searchComments('query1'));
+    await store.dispatch(searchComments('query2'));
+
+    expect(store.select(selectIsFetchingComments)).toEqual(true);
+
     await timerGateway.invokeTimeout();
 
-    expect(selectCommentsSearchQuery(getState())).toEqual('query2');
+    expect(store.select(selectCommentsSearchQuery)).toEqual('query2');
     expect(timerGateway.clearTimeout).toBeExhausted();
   });
 });

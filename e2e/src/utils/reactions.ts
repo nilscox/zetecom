@@ -3,7 +3,7 @@ export type Reaction = typeof reactions[number];
 
 export const reactionTitle: Record<Reaction, string> = {
   like: "J'aime",
-  approve: "Je suis plutôt d'accord",
+  approve: "Je suis d'accord",
   think: 'Ça me fait réfléchir',
   disagree: "Je ne suis pas d'accord",
   dontUnderstand: 'Je ne comprends pas',

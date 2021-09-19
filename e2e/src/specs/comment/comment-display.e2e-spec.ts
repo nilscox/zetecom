@@ -46,7 +46,7 @@ describe('Comment display', () => {
     await waitFor(() => getByText('Hello!'));
 
     getByText('user2');
-    getByText(/^Le \d+ [a-z]+ \d{4} à \d{2}:\d{2}$/);
+    getByText(/^Le \d+ [a-z]+ \d{4} à \d{2}h\d{2}$/);
 
     expect(getByText('I am strong')).to.have.tagName('strong');
     expect(getByText('42')).to.have.tagName('sup');

@@ -1,5 +1,5 @@
 export enum SortType {
-  dateAsc,
-  dateDesc,
-  relevance,
+  dateAsc = 'date asc',
+  dateDesc = 'date desc',
+  relevance = 'relevance',
 }

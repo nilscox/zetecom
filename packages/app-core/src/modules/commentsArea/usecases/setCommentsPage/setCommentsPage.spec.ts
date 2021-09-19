@@ -1,49 +1,48 @@
 import { expect } from 'earljs';
 
-import { createCommentsArea } from '../../../../entities/CommentsArea';
-import { MockCommentGateway } from '../../../../shared/mocks';
+import { createCommentsArea } from '../../../../entities';
+import { MockCommentsAreaGateway } from '../../../../shared/mocks';
 import { paginated } from '../../../../shared/paginated';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { setCommentsArea } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
-import { setCommentsPage, setCurrentCommentsArea } from '../../commentsAreaActions';
-import { selectCommentsPage } from '../../selectors/commentsAreaSelectors';
+import { setCommentsPage, setCurrentCommentsArea } from '../../actions';
+import { selectCommentsPage } from '../../selectors';
 
 import { firstCommentsPage, lastCommentsPage, nextCommentsPage, previousCommentsPage } from './setCommentsPage';
 
 describe('setCommentsPage', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
-  let commentGateway: MockCommentGateway;
+  let commentsAreaGateway: MockCommentsAreaGateway;
 
   const commentsArea = createCommentsArea();
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentsAreaGateway } = store.dependencies);
   });
 
   const setup = (currentPage: number) => {
-    dispatch(setCommentsArea(commentsArea));
-    dispatch(setCurrentCommentsArea(commentsArea.id));
-    dispatch(setCommentsPage(currentPage));
+    store.dispatch(setCommentsArea(commentsArea));
+    store.dispatch(setCurrentCommentsArea(commentsArea));
+    store.dispatch(setCommentsPage(currentPage));
 
-    commentGateway.fetchRootComments.resolvesToOnce(paginated([]));
+    commentsAreaGateway.fetchRootComments.resolvesToOnce(paginated([]));
   };
 
   const expectFetchedPage = (expected: number) => {
-    expect(commentGateway.fetchRootComments).toHaveBeenCalledWith([
+    expect(commentsAreaGateway.fetchRootComments).toHaveBeenCalledWith([
       commentsArea.id,
       expect.objectWith({ page: expected }),
     ]);
 
-    expect(selectCommentsPage(getState())).toEqual(expected);
+    expect(store.select(selectCommentsPage)).toEqual(expected);
   };
 
   it("fetches a comments area's comments on the previous page", async () => {
     setup(2);
 
-    await dispatch(previousCommentsPage());
+    await store.dispatch(previousCommentsPage());
 
     expectFetchedPage(1);
   });
@@ -51,7 +50,7 @@ describe('setCommentsPage', () => {
   it("fetches a comments area's comments on the next page", async () => {
     setup(1);
 
-    await dispatch(nextCommentsPage());
+    await store.dispatch(nextCommentsPage());
 
     expectFetchedPage(2);
   });
@@ -59,7 +58,7 @@ describe('setCommentsPage', () => {
   it("fetches a comments area's comments on the first page", async () => {
     setup(3);
 
-    await dispatch(firstCommentsPage());
+    await store.dispatch(firstCommentsPage());
 
     expectFetchedPage(1);
   });
@@ -67,9 +66,9 @@ describe('setCommentsPage', () => {
   it("fetches a comments area's comments on the last page", async () => {
     setup(1);
 
-    dispatch(setCommentsArea(createCommentsArea({ id: commentsArea.id, commentsCount: 30 })));
+    store.dispatch(setCommentsArea(createCommentsArea({ id: commentsArea.id, commentsCount: 30 })));
 
-    await dispatch(lastCommentsPage());
+    await store.dispatch(lastCommentsPage());
 
     expectFetchedPage(3);
   });

@@ -1,3 +1,4 @@
+import { pick } from '../shared';
 import { createId } from '../shared/createId';
 import { Factory } from '../shared/factory';
 
@@ -13,11 +14,17 @@ export enum ReactionType {
 
 export type ReactionsCount = Record<ReactionType, number>;
 
+export type CommentEdition = {
+  date: Date;
+  text: string;
+};
+
 export type CommentDto = {
   id: string;
   text: string;
   date: Date;
   edited: false | Date;
+  history?: Array<CommentEdition>;
   repliesCount: number;
   author: User;
   reactionsCount: ReactionsCount;
@@ -50,11 +57,18 @@ export const createCommentDto: Factory<CommentDto> = (overrides = {}) => ({
   id: createId(),
   text: 'comment',
   date: new Date(),
+  history: undefined,
   edited: false,
   repliesCount: 0,
   author: createUser({ nick: 'author' }),
   reactionsCount: createReactionsCount(),
   score: 0,
+  ...overrides,
+});
+
+export const createCommentEdition: Factory<CommentEdition> = (overrides = {}) => ({
+  date: new Date(),
+  text: '',
   ...overrides,
 });
 
@@ -70,3 +84,35 @@ export const createComment: Factory<Comment> = (overrides = {}) => ({
   isSubmittingReply: false,
   ...overrides,
 });
+
+export const commentDtoToEntity = (dto: CommentDto): Comment => ({
+  ...dto,
+  replies: [],
+  areRepliesOpen: false,
+  isEditing: false,
+  isSubmittingEdition: false,
+  isFetchingReplies: false,
+  isReplyFormOpen: false,
+  isSubmittingReply: false,
+});
+
+export const commentEntityToDto = (comment: Comment): CommentDto => {
+  return pick(
+    comment,
+    'id',
+    'text',
+    'date',
+    'edited',
+    'history',
+    'repliesCount',
+    'author',
+    'reactionsCount',
+    'userReaction',
+    'subscribed',
+    'score',
+  );
+};
+
+export function commentAndReplies(comment: Comment): Comment[] {
+  return [comment, ...comment.replies.flatMap(commentAndReplies)];
+}

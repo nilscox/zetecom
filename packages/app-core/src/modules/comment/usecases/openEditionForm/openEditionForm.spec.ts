@@ -1,24 +1,22 @@
 import { expect } from 'earljs';
 
-import { Comment, createComment } from '../../../../entities/Comment';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { Comment, createComment } from '../../../../entities';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setComment } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
 
 import { closeEditionForm, openEditionForm } from './openEditionForm';
 
 describe('openEditionForm', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
   beforeEach(() => {
-    ({ dispatch, getState } = createMemoryStore());
+    store = new MemoryStore();
   });
 
-  const getComment = (id: string) => selectComment(getState(), id);
+  const getComment = (id: string) => store.select(selectComment, id);
 
   const setup = (comment: Comment) => {
-    dispatch(setComment(comment));
+    store.dispatch(setComment(comment));
   };
 
   it("opens a comment's edition form", () => {
@@ -26,7 +24,7 @@ describe('openEditionForm', () => {
 
     setup(comment);
 
-    dispatch(openEditionForm(comment.id));
+    store.dispatch(openEditionForm(comment.id));
 
     expect(getComment(comment.id)).toBeAnObjectWith({ isEditing: true });
   });
@@ -36,7 +34,7 @@ describe('openEditionForm', () => {
 
     setup(comment);
 
-    dispatch(closeEditionForm(comment.id));
+    store.dispatch(closeEditionForm(comment.id));
 
     expect(getComment(comment.id)).toBeAnObjectWith({ isEditing: false });
   });

@@ -1,0 +1,5 @@
+{
+  "extension": ["ts", "tsx"],
+  "spec": ["src/**/*.spec.{ts,tsx}"],
+  "require": ["ts-node/register/transpile-only", "jsdom-global/register", "./require-shim.js"]
+}

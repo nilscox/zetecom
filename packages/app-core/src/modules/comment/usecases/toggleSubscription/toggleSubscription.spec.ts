@@ -1,31 +1,30 @@
 import { expect } from 'earljs';
 
-import { Comment, createComment } from '../../../../entities/Comment';
+import { Comment, createComment } from '../../../../entities';
 import { MockCommentGateway } from '../../../../shared/mocks';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setComment } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
 
 import { toggleSubscription } from './toggleSubscription';
 
 describe('toggleSubscription', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
   let commentGateway: MockCommentGateway;
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentGateway } = store.dependencies);
   });
 
-  const getComment = (id: string) => selectComment(getState(), id);
+  const getComment = (id: string) => store.select(selectComment, id);
 
   const setup = (comment: Comment) => {
-    dispatch(setComment(comment));
+    store.dispatch(setComment(comment));
     commentGateway.setSubscription.resolvesToOnce(undefined);
   };
 
-  const execute = (comment: Comment) => dispatch(toggleSubscription(comment.id));
+  const execute = (comment: Comment) => store.dispatch(toggleSubscription(comment.id));
 
   it('subscribes to a comment', async () => {
     const comment = createComment({ subscribed: false });

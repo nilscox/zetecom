@@ -33,20 +33,20 @@ describe('Comments list', () => {
 
     await waitFor(() => getByText(/2 text/i));
 
-    within(getCommentAt(2), ({ getByText }) => {
+    within(getCommentAt(0), ({ getByText }) => {
       click(getByText('2 réponses'));
     });
 
     await waitFor(() => getByText(/2\.1 text/i));
 
-    await within(getCommentAt(4), async ({ getByText }) => {
+    await within(getCommentAt(2), async ({ getByText }) => {
       await waitFor(() => getByText(/1 réponse/));
       click(getByText('1 réponse'));
     });
 
     await waitFor(() => getByText(/2\.2\.1 text/i));
 
-    within(getCommentAt(2), ({ getByText }) => {
+    within(getCommentAt(0), ({ getByText }) => {
       click(getByText('2 réponses'));
     });
 
@@ -71,13 +71,13 @@ describe('Comments list', () => {
 
     await search('3 text');
     await waitFor(() => expectComments([7]));
-    within(getCommentAt(0), ({ getByText }) => expect(getByText(/3 text/)).to.have.class('highlighted'));
+    within(getCommentAt(0), ({ getByText }) => expect(getByText(/3 text/)).to.have.tagName('mark'));
 
     await search('score = 2');
     await waitFor(() => expectComments([7, 5]));
 
     await search('@user1');
-    await waitFor(() => expectComments([7, 6, 1]));
+    await waitFor(() => expectComments([1, 7, 6]));
   });
 
   it('comments list sort', async () => {

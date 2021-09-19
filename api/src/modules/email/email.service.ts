@@ -71,7 +71,7 @@ export class EmailService {
 
     const template = this.emailRendererService.renderWelcomeEmail({
       nick: user.nick,
-      emailValidationLink: `${APP_URL}/validation-email/${user.emailValidationToken}`,
+      emailValidationLink: `${APP_URL}?jeton-validation-email=${user.emailValidationToken}`,
     });
 
     return this.sendEmail(
@@ -86,7 +86,7 @@ export class EmailService {
     const APP_URL = this.configService.get('APP_URL');
 
     const template = this.emailRendererService.renderEmailLoginEmail({
-      emailLoginLink: `${APP_URL}/lien-de-connexion/${user.emailLoginToken}`,
+      emailLoginLink: `${APP_URL}?jeton-connexion=${user.emailLoginToken}`,
     });
 
     return this.sendEmail(user.email, 'Zétécom : lien de connexion', template.text, template.html);

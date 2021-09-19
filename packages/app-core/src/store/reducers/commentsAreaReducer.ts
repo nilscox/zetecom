@@ -1,12 +1,25 @@
-import { AppState, Reducer } from '../store';
+import { AppState } from '../AppState';
+import { Reducer } from '../types';
 
-export const commentsAreaReducer: Reducer<AppState['commentsArea']> = (state, action) => {
+export const commentsAreaReducer: Reducer<AppState['commentsArea']> = (state, action): AppState['commentsArea'] => {
   if (action.type === 'setCurrentCommentsArea') {
     return { ...state, currentCommentsAreaId: action.payload.commentsAreaId };
   }
 
   if (action.type === 'setFetchingCommentsArea') {
     return { ...state, isFetchingCommentsArea: action.payload.fetching };
+  }
+
+  if (action.type === 'setCommentsAreaNotFound') {
+    return { ...state, notFound: action.payload.notFound };
+  }
+
+  if (action.type === 'setIsRequestingCommentsArea') {
+    return { ...state, isRequesting: action.payload.requesting };
+  }
+
+  if (action.type === 'setCommentsAreaRequested') {
+    return { ...state, requested: action.payload.requested };
   }
 
   if (action.type === 'setFetchingComments') {

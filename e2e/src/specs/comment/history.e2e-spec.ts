@@ -92,7 +92,12 @@ describe('History', () => {
         {
           ...commentsArea2,
           comments: [
-            { ...commentsArea2.comments[0], text: message.text, created: message.date, history: history.slice(1) },
+            {
+              ...commentsArea2.comments[0],
+              text: message.text,
+              created: message.date,
+              history: history.slice(1),
+            },
           ],
         },
       ],
@@ -111,7 +116,7 @@ describe('History', () => {
 
     within(comment).getByText(/This is the fourth, and last edition\./);
 
-    const editionDate = within(comment).getByText('* Le 12 février 2020 à 17:56');
+    const editionDate = within(comment).getByText('* Le 12 février 2020 à 17h56');
 
     expect(editionDate).to.have.attribute('title', "Voir l'historique d'édition");
     click(editionDate);
@@ -121,41 +126,41 @@ describe('History', () => {
     expect(openStub.firstCall.args).to.eql([
       `/commentaire/${commentId}/historique`,
       '_blank',
-      'width=1000,height=750,resizable=no',
+      'width=1000,height=800,resizable=no',
     ]);
   });
 
   it('display comment history', async () => {
     const { getByText, getByLabelText, getByTitle } = await visitCommentHistory(1);
 
-    await waitFor(() => getByText("Historique d'édition"));
+    await waitFor(() => getByText("Historique d'éditions"));
 
     const versionSelect = getByLabelText('Version');
 
     getByText(user2.nick);
 
-    getByText('Le 10 février 2020 à 14:23');
-    getByText('Le 12 février 2020 à 17:56');
+    getByText('Le 10 février 2020 à 14h23');
+    getByText('Le 12 février 2020 à 17h56');
 
     expect(getByText('third')).to.have.tagName('del');
     expect(getByText('fourth, and last')).to.have.tagName('ins');
 
-    expect(versionSelect).to.have.value('3');
+    expect(versionSelect).to.have.value('4');
 
     click(getByTitle('Version précédente'));
 
-    getByText('Le 10 février 2020 à 12:10');
-    getByText('Le 10 février 2020 à 14:23');
+    getByText('Le 10 février 2020 à 12h10');
+    getByText('Le 10 février 2020 à 14h23');
 
     expect(getByText('second')).to.have.tagName('del');
     expect(getByText('third')).to.have.tagName('ins');
 
-    expect(versionSelect).to.have.value('2');
+    expect(versionSelect).to.have.value('3');
 
-    userEvent.selectOptions(versionSelect, '1');
-    expect(versionSelect).to.have.value('1');
+    userEvent.selectOptions(versionSelect, '2');
+    expect(versionSelect).to.have.value('2');
 
     click(getByTitle('Version suivante'));
-    expect(versionSelect).to.have.value('2');
+    expect(versionSelect).to.have.value('3');
   });
 });

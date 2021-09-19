@@ -1,36 +1,30 @@
 import { expect } from 'earljs';
 
-import { CommentsArea, createCommentsArea } from '../../../../entities/CommentsArea';
-import { SortType } from '../../../../entities/SortType';
-import { MockCommentGateway } from '../../../../shared/mocks';
+import { CommentsArea, createCommentsArea, SortType } from '../../../../entities';
+import { MockCommentsAreaGateway } from '../../../../shared/mocks';
 import { paginated } from '../../../../shared/paginated';
-import { createMemoryStore } from '../../../../store/memoryStore';
+import { MemoryStore } from '../../../../store/MemoryStore';
 import { setCommentsArea } from '../../../../store/normalize';
-import { Dispatch, GetState } from '../../../../store/store';
-import {
-  setCommentsPage,
-  setCommentsSearchQuery,
-  setCommentsSort,
-  setCurrentCommentsArea,
-} from '../../commentsAreaActions';
-import { selectIsFetchingComments } from '../../selectors/commentsAreaSelectors';
+import { setCommentsPage, setCommentsSearchQuery, setCommentsSort, setCurrentCommentsArea } from '../../actions';
+import { selectIsFetchingComments } from '../../selectors';
 
 import { fetchComments } from './fetchComments';
 
 describe('fetchComments', () => {
-  let dispatch: Dispatch;
-  let getState: GetState;
+  let store: MemoryStore;
 
-  let commentGateway: MockCommentGateway;
+  let commentsAreaGateway: MockCommentsAreaGateway;
 
   beforeEach(() => {
-    ({ dispatch, getState, commentGateway } = createMemoryStore());
+    store = new MemoryStore();
+    ({ commentsAreaGateway } = store.dependencies);
   });
 
   const setup = (commentsArea: CommentsArea) => {
-    dispatch(setCommentsArea(commentsArea));
-    dispatch(setCurrentCommentsArea(commentsArea.id));
-    commentGateway.fetchRootComments.resolvesToOnce(paginated([]));
+    store.dispatch(setCommentsArea(commentsArea));
+    store.dispatch(setCurrentCommentsArea(commentsArea));
+
+    commentsAreaGateway.fetchRootComments.resolvesToOnce(paginated([]));
   };
 
   it("notifies that a comments area's comments are being fetched", async () => {
@@ -38,13 +32,13 @@ describe('fetchComments', () => {
 
     setup(commentsArea);
 
-    const promise = dispatch(fetchComments());
+    const promise = store.dispatch(fetchComments());
 
-    expect(selectIsFetchingComments(getState())).toEqual(true);
+    expect(store.select(selectIsFetchingComments)).toEqual(true);
 
     await promise;
 
-    expect(selectIsFetchingComments(getState())).toEqual(false);
+    expect(store.select(selectIsFetchingComments)).toEqual(false);
   });
 
   it("fetches a comments area's comments with mixed options", async () => {
@@ -54,17 +48,17 @@ describe('fetchComments', () => {
 
     const commentsArea = createCommentsArea();
 
-    commentGateway.searchComments.resolvesToOnce(paginated([]));
+    commentsAreaGateway.searchComments.resolvesToOnce(paginated([]));
 
     setup(commentsArea);
 
-    dispatch(setCommentsPage(page));
-    dispatch(setCommentsSort(sort));
-    dispatch(setCommentsSearchQuery(query));
+    store.dispatch(setCommentsPage(page));
+    store.dispatch(setCommentsSort(sort));
+    store.dispatch(setCommentsSearchQuery(query));
 
-    await dispatch(fetchComments());
+    await store.dispatch(fetchComments());
 
-    expect(commentGateway.searchComments).toHaveBeenCalledWith([
+    expect(commentsAreaGateway.searchComments).toHaveBeenCalledWith([
       commentsArea.id,
       query,
       { page, pageSize: expect.a(Number), sort },

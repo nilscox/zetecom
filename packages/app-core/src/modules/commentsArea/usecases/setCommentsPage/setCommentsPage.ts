@@ -1,7 +1,7 @@
 import { createThunk } from '../../../../store/createThunk';
-import { setCommentsPage } from '../../commentsAreaActions';
-import { selectCommentsPagesCount } from '../../selectors/commentsAreaSelectors';
-import { fetchComments } from '../fetchComments/fetchComments';
+import { setCommentsPage } from '../../actions';
+import { selectCommentsPagesCount } from '../../selectors';
+import { fetchComments } from '../index';
 
 const setPage = createThunk(({ getState, dispatch }, getPage: (currentPage: number) => number) => {
   const currentPage = getState().commentsArea.commentsPage;

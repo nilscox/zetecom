@@ -41,6 +41,7 @@ export const noMoreEvents = () => {
 };
 
 export const expectEvent = async (event: { category: string; action: string; name?: string }) => {
+  return;
   const events = zetecom().tracking.events;
   const matchEvent = (e: any) => Object.entries(event).every(([k, v]) => e[k] === v);
 
@@ -73,10 +74,10 @@ export const visitIntegration = async (identifier: string, pageUrl = window.loca
   return getQueriesForIframe();
 };
 
-export const visitPopup = async (path = '') => {
-  await iframe.navigate('http://localhost:8000/popup' + path);
+export const visitPopup = async (path = '', pageUrl = window.location.href) => {
+  await iframe.navigate(`http://localhost:8000/popup${path}?pageUrl=${pageUrl}`);
   const queries = getQueriesForIframe();
-  await waitFor(() => expect(queries.getByText("L'information")).to.be.visible);
+  await waitFor(() => expect(queries.getByText('Commentaires')).to.be.visible);
   return queries;
 };
 

@@ -1,19 +1,24 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
+  // prettier-ignore
   "plugins": [
     "simple-import-sort",
+    "import",
     "@typescript-eslint"
   ],
+  // prettier-ignore
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript"
   ],
   "rules": {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
     "@typescript-eslint/no-empty-function": "off",
+    // prettier-ignore
     "simple-import-sort/imports": ["warn", {
       "groups": [
         ["^(path|fs|util|http)$"],
@@ -21,6 +26,15 @@
         ["^src/"],
         ["^../"],
         ["^./"]
+      ]
+      }],
+    "import/no-duplicates": "error",
+    // prettier-ignore
+    "import/no-internal-modules": ["warn", {
+      "allow": [
+        "entities",
+        "shared/*",
+        "store/*"
       ]
     }]
   }

@@ -1,19 +1,18 @@
-import { CommentDto } from '../../../../entities/Comment';
-import { FetchCommentsOptions } from '../../../../gateways/CommentGateway';
+import { CommentDto, commentDtoToEntity } from '../../../../entities';
+import { FetchCommentsOptions } from '../../../../gateways';
 import { Paginated } from '../../../../shared/paginated';
 import { createThunk } from '../../../../store/createThunk';
-import { commentDtoToEntity } from '../../../comment/commentDtoMap';
-import { setFetchingComments } from '../../commentsAreaActions';
+import { setFetchingComments } from '../../actions';
 import {
   selectCommentsPage,
   selectCommentsPageSize,
   selectCommentsSearchQuery,
   selectCommentsSort,
   selectCurrentCommentsArea,
-} from '../../selectors/commentsAreaSelectors';
-import { updateCommentsArea } from '../updateCommentsArea/updateCommentsArea';
+} from '../../selectors';
+import { updateCommentsArea } from '../index';
 
-export const fetchComments = createThunk(async ({ getState, dispatch, commentGateway }, query?: string) => {
+export const fetchComments = createThunk(async ({ getState, dispatch, commentsAreaGateway }, query?: string) => {
   const currentCommentsArea = selectCurrentCommentsArea(getState());
 
   if (!currentCommentsArea) {
@@ -35,9 +34,9 @@ export const fetchComments = createThunk(async ({ getState, dispatch, commentGat
   let comments: Paginated<CommentDto>;
 
   if (search) {
-    comments = await commentGateway.searchComments(commentsAreaId, search, fetchOptions);
+    comments = await commentsAreaGateway.searchComments(commentsAreaId, search, fetchOptions);
   } else {
-    comments = await commentGateway.fetchRootComments(commentsAreaId, fetchOptions);
+    comments = await commentsAreaGateway.fetchRootComments(commentsAreaId, fetchOptions);
   }
 
   dispatch(setFetchingComments(false));
@@ -45,7 +44,6 @@ export const fetchComments = createThunk(async ({ getState, dispatch, commentGat
   dispatch(
     updateCommentsArea(commentsAreaId, {
       comments: comments.results.map(commentDtoToEntity),
-      commentsCount: comments.total,
     }),
   );
 });
