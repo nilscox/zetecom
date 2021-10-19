@@ -6,15 +6,17 @@ import Title from 'src/components/Title';
 
 import Rules_0_1 from './versions/RulesV0.1';
 import Rules_0_2, { Changes as Changes_0_2 } from './versions/RulesV0.2';
+import Rules_0_3, { Changes as Changes_0_3 } from './versions/RulesV0.3';
 
 import './Rules.scss';
 
 const versions = {
   '0.1': [Rules_0_1],
   '0.2': [Rules_0_2, Changes_0_2],
+  '0.3': [Rules_0_3, Changes_0_3],
 };
 
-const currentVersion = '0.2';
+const currentVersion = '0.3';
 
 type Version = keyof typeof versions;
 
