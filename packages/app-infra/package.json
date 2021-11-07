@@ -57,6 +57,7 @@
     "webpack-dev-server": "^4.1.1"
   },
   "dependencies": {
+    "@datapunt/matomo-tracker-js": "^0.5.1",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@fontsource/montserrat": "^4.5.1",

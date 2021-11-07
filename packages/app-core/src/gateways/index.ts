@@ -6,3 +6,4 @@ export * from './ExtensionGateway';
 export * from './NotificationGateway';
 export * from './DateGateway';
 export * from './TimerGateway';
+export * from './TrackingGateway';

@@ -5,17 +5,15 @@ import { IFrame } from 'testea';
 import { as } from '../api/as';
 import { login } from '../api/auth';
 import { seed, User } from '../api/seed';
-import { click, expectEvent, type, visitApp, visitIntegration, wait, within } from '../utils';
+import { click, expectEvent, type, visitApp, visitIntegration, within } from '../utils';
 
 import users from '../fixtures/users.json';
 import commentsAreas from '../fixtures/comments-areas.json';
-import { getCommentsAreas } from '../api/comments-area';
 
 const [, moderator, , user1, user2] = users as User[];
 const [commentsArea1, commentsArea2] = commentsAreas;
 
 const asModerator = as(moderator);
-const asUser1 = as(user1);
 
 describe('Comments area', () => {
   let iframe: IFrame;
@@ -94,9 +92,8 @@ describe('Comments area', () => {
       });
 
       await expectEvent({
-        category: 'CommentsArea',
-        action: 'Request',
-        name: 'Request Comments Area From Integration',
+        category: 'comments-area',
+        action: 'comments area requested',
       });
 
       const { items } = await asModerator.getCommentsAreaRequests();

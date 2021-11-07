@@ -1,7 +1,7 @@
 import { expect } from 'earljs';
 
 import { AuthenticationError, AuthenticationField } from '../../../../entities';
-import { MockNotificationGateway, MockUserGateway } from '../../../../shared/mocks';
+import { MockNotificationGateway, MockTrackingGateway, MockUserGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectAuthenticationFieldError, selectIsChangingPassword } from '../../selectors';
 
@@ -12,44 +12,68 @@ describe('changePassword', () => {
 
   let userGateway: MockUserGateway;
   let notificationGateway: MockNotificationGateway;
+  let trackingGateway: MockTrackingGateway;
 
   beforeEach(() => {
     store = new MemoryStore();
-    ({ userGateway, notificationGateway } = store.dependencies);
+    ({ userGateway, notificationGateway, trackingGateway } = store.dependencies);
   });
+
+  const setup = (error?: Error) => {
+    if (error) {
+      userGateway.changePassword.rejectsWithOnce(error);
+    } else {
+      userGateway.changePassword.resolvesToOnce(undefined);
+    }
+  };
 
   // cSpell:words passw
 
-  it("changes the user's password", async () => {
-    userGateway.changePassword.resolvesToOnce(undefined);
-    notificationGateway.success.returns(undefined);
+  const execute = () => {
+    return store.dispatch(changePassword('passw0rd'));
+  };
 
-    await store.dispatch(changePassword('passw0rd'));
+  it("changes the user's password", async () => {
+    setup();
+
+    await execute();
 
     expect(userGateway.changePassword).toHaveBeenCalledWith(['passw0rd']);
+  });
+
+  it('displays a success notification', async () => {
+    setup();
+
+    await execute();
+
     expect(notificationGateway.success).toHaveBeenCalledWith(['Votre mot de passe a bien été mis à jour.']);
   });
 
   it('notifies that the user in changing its password', async () => {
-    userGateway.changePassword.resolvesToOnce(undefined);
-    notificationGateway.success.returns(undefined);
-
+    setup();
     await store.testLoadingState(changePassword('passw0rd'), selectIsChangingPassword);
   });
 
-  it('handles errors on the password field', async () => {
-    userGateway.changePassword.rejectsWithOnce(new AuthenticationError(400, { password: { minLength: 'minLength' } }));
+  it('tracks a password changed event', async () => {
+    setup();
 
-    await store.dispatch(changePassword('pass'));
+    await execute();
+
+    expect(trackingGateway.track).toHaveBeenCalledWith([{ category: 'authentication', action: 'password changed' }]);
+  });
+
+  it('handles errors on the password field', async () => {
+    setup(new AuthenticationError(400, { password: { minLength: 'minLength' } }));
+
+    await execute();
 
     expect(store.select(selectAuthenticationFieldError, AuthenticationField.password)).not.toEqual(undefined);
   });
 
   it("fails to change the users's password", async () => {
-    userGateway.changePassword.rejectsWithOnce(new Error('nope'));
-    notificationGateway.warning.returns(undefined);
+    setup(new Error('nope'));
 
-    await store.dispatch(changePassword('passw0rd'));
+    await execute();
 
     expect(notificationGateway.warning).toHaveBeenCalledWith([
       "Une erreur s'est produite, votre mot de passe n'a pas été mis à jour",

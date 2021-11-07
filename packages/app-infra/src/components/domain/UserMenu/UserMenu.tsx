@@ -31,7 +31,7 @@ export const UserMenu: React.FC = () => {
     return <AvatarNick as={Link} to="/connexion" nick="Connexion" loading={isFetchingAuthenticatedUser} />;
   }
 
-  return <AuthUserMenu user={user} onLogout={() => dispatch(logout())} />;
+  return <AuthUserMenu user={user} onLogout={() => dispatch(logout('app'))} />;
 };
 
 type AvatarNickProps = React.ComponentProps<typeof AvatarNickContainer> & {

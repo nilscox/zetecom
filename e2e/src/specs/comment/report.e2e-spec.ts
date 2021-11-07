@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import { IFrame } from 'testea';
 
 import { as, login, seed, User } from '../../api';
-import { click, type, visitCommentReport, visitIntegration } from '../../utils';
+import { click, expectEvent, type, visitCommentReport, visitIntegration } from '../../utils';
 
 import commentsAreas from '../../fixtures/comments-areas.json';
 import users from '../../fixtures/users.json';
@@ -65,7 +65,8 @@ describe('Report', () => {
 
     click(getByRole('button', { name: 'Signaler' }));
 
-    // expectEvent({ category: 'Comment', action: 'Report' });
+    await expectEvent({ category: 'comment', action: 'comment reported' });
+
     await waitFor(() => expect(getByText('Le commentaire a bien été signalé, merci pour votre contribution ! 💪')));
     await waitFor(() => expect(closeStub.calledOnce).to.be.true, { timeout: 5000 });
 

@@ -1,7 +1,7 @@
 import { expect } from 'earljs';
 
 import { Comment, createComment, createReactionsCount, ReactionsCount, ReactionType } from '../../../../entities';
-import { MockCommentGateway } from '../../../../shared/mocks';
+import { MockCommentGateway, MockTrackingGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setComment } from '../../../../store/normalize';
 
@@ -11,10 +11,11 @@ describe('setReaction', () => {
   let store: MemoryStore;
 
   let commentGateway: MockCommentGateway;
+  let trackingGateway: MockTrackingGateway;
 
   beforeEach(() => {
     store = new MemoryStore();
-    ({ commentGateway } = store.dependencies);
+    ({ commentGateway, trackingGateway } = store.dependencies);
   });
 
   const getComment = (id: string) => store.select(selectComment, id);
@@ -93,6 +94,30 @@ describe('setReaction', () => {
       expectedReactions: {
         [ReactionType.think]: 0,
       },
+    });
+  });
+
+  describe('tracking', () => {
+    it('tracks an event when a reaction is set', async () => {
+      const comment = createComment();
+
+      setup(comment);
+
+      await execute(comment, ReactionType.think);
+
+      expect(trackingGateway.track).toHaveBeenCalledWith([
+        { category: 'comment', action: 'set reaction', name: 'set reaction think' },
+      ]);
+    });
+
+    it('tracks an event when a reaction is unset', async () => {
+      const comment = createComment({ userReaction: ReactionType.think });
+
+      setup(comment);
+
+      await execute(comment, ReactionType.think);
+
+      expect(trackingGateway.track).toHaveBeenCalledWith([{ category: 'comment', action: 'unset reaction' }]);
     });
   });
 });

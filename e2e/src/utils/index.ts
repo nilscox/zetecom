@@ -41,7 +41,6 @@ export const noMoreEvents = () => {
 };
 
 export const expectEvent = async (event: { category: string; action: string; name?: string }) => {
-  return;
   const events = zetecom().tracking.events;
   const matchEvent = (e: any) => Object.entries(event).every(([k, v]) => e[k] === v);
 

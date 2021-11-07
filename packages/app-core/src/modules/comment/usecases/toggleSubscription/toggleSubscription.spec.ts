@@ -1,7 +1,7 @@
 import { expect } from 'earljs';
 
 import { Comment, createComment } from '../../../../entities';
-import { MockCommentGateway } from '../../../../shared/mocks';
+import { MockCommentGateway, MockTrackingGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setComment } from '../../../../store/normalize';
 
@@ -11,10 +11,11 @@ describe('toggleSubscription', () => {
   let store: MemoryStore;
 
   let commentGateway: MockCommentGateway;
+  let trackingGateway: MockTrackingGateway;
 
   beforeEach(() => {
     store = new MemoryStore();
-    ({ commentGateway } = store.dependencies);
+    ({ commentGateway, trackingGateway } = store.dependencies);
   });
 
   const getComment = (id: string) => store.select(selectComment, id);
@@ -51,6 +52,28 @@ describe('toggleSubscription', () => {
 
     expect(getComment(comment.id)).toBeAnObjectWith({
       subscribed: false,
+    });
+  });
+
+  describe('tracking', () => {
+    it('tracks a comment subscribed event', async () => {
+      const comment = createComment({ subscribed: false });
+
+      setup(comment);
+
+      await execute(comment);
+
+      expect(trackingGateway.track).toHaveBeenCalledWith([{ category: 'comment', action: 'subscribed' }]);
+    });
+
+    it('tracks a comment subscribed event', async () => {
+      const comment = createComment({ subscribed: true });
+
+      setup(comment);
+
+      await execute(comment);
+
+      expect(trackingGateway.track).toHaveBeenCalledWith([{ category: 'comment', action: 'unsubscribed' }]);
     });
   });
 });

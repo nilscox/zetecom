@@ -35,6 +35,10 @@ describe('submitAuthenticationForm', () => {
     }
   };
 
+  const execute = (location: 'app' | 'popup' = 'app') => {
+    return store.dispatch(submitAuthenticationForm(location));
+  };
+
   const email = 'email';
   const password = 'password';
   const nick = 'nick';
@@ -42,7 +46,7 @@ describe('submitAuthenticationForm', () => {
   it('requests an authentication link', async () => {
     setup('/lien-de-connexion', { email });
 
-    await store.dispatch(submitAuthenticationForm());
+    await execute();
 
     expect(userGateway.requestAuthenticationLink).toHaveBeenCalledWith([email]);
   });
@@ -50,7 +54,7 @@ describe('submitAuthenticationForm', () => {
   it('logs in', async () => {
     setup('/connexion', { email, password });
 
-    await store.dispatch(submitAuthenticationForm());
+    await execute();
 
     expect(userGateway.login).toHaveBeenCalledWith([email, password]);
   });
@@ -58,7 +62,7 @@ describe('submitAuthenticationForm', () => {
   it('signs up', async () => {
     setup('/inscription', { email, password, nick });
 
-    await store.dispatch(submitAuthenticationForm());
+    await execute();
 
     expect(userGateway.signup).toHaveBeenCalledWith([email, password, nick]);
   });

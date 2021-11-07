@@ -12,6 +12,7 @@ import {
   MockExtensionGateway,
   MockNotificationGateway,
   MockRouterGateway,
+  MockTrackingGateway,
   MockUserGateway,
 } from '../shared/mocks';
 
@@ -33,6 +34,7 @@ export class MemoryStore implements Store {
     dateGateway: new FakeDateGateway(),
     timerGateway: new FakeTimerGateway(),
     notificationGateway: new MockNotificationGateway(),
+    trackingGateway: new MockTrackingGateway(),
   };
 
   getState: GetState = () => {

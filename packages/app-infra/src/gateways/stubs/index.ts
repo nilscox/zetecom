@@ -9,6 +9,7 @@ import { StubDateGateway } from './StubDateGateway';
 import { StubExtensionGateway } from './StubExtensionGateway';
 import { StubNotificationGateway } from './StubNotificationGateway';
 import { StubRouterGateway } from './StubRouterGateway';
+import { StubTrackingGateway } from './StubTrackingGateway';
 import { StubUserGateway } from './StubUserGateway';
 
 export { EntitiesContainers } from './EntitiesContainers';
@@ -33,4 +34,5 @@ export const stubDependencies = (containers: EntitiesContainers): StubDependenci
   dateGateway: new StubDateGateway(),
   timerGateway: new RealTimerGateway(),
   notificationGateway: new StubNotificationGateway(),
+  trackingGateway: new StubTrackingGateway(),
 });

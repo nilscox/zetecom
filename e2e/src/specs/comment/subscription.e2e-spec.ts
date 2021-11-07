@@ -36,7 +36,6 @@ describe('Subscription', () => {
   });
 
   const openReplies = async (comment: HTMLElement) => {
-    console.log(comment);
     await within(comment, async ({ getByRole, getByTestId }) => {
       click(getByRole('button', { name: 'Voir les réponses' }));
       await waitFor(() => getByTestId('comment'));
@@ -59,7 +58,7 @@ describe('Subscription', () => {
       await waitFor(() => getByTitle('Se désabonner'));
     });
 
-    expectEvent({ category: 'Comment', action: 'Subscribe' });
+    await expectEvent({ category: 'comment', action: 'subscribed' });
 
     await waitFor(async () => {
       expect(await getComment(commentId)).to.have.property('subscribed', true);
@@ -105,7 +104,7 @@ describe('Subscription', () => {
       await waitFor(() => getByTitle("S'abonner aux réponses"));
     });
 
-    expectEvent({ category: 'Comment', action: 'Unsubscribe' });
+    await expectEvent({ category: 'comment', action: 'unsubscribed' });
 
     await waitFor(async () => {
       expect(await getComment(commentId)).to.have.property('subscribed', false);

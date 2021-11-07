@@ -7,6 +7,7 @@ import {
   ExtensionGateway,
   RouterGateway,
   TimerGateway,
+  TrackingGateway,
   UserGateway,
 } from '../gateways';
 import { NotificationGateway } from '../gateways/NotificationGateway';
@@ -29,6 +30,7 @@ export type Dependencies = {
   dateGateway: DateGateway;
   timerGateway: TimerGateway;
   notificationGateway: NotificationGateway;
+  trackingGateway: TrackingGateway;
 };
 
 export type Selector<R, A extends unknown[]> = (state: AppState, ...args: A) => R;

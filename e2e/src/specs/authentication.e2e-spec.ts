@@ -82,10 +82,9 @@ describe('Authentication', () => {
 
     click(loginButton);
 
-    // await expectEvent({ category: 'Authentication', action: 'Login', name: 'Login From Popup' });
+    await expectEvent({ category: 'authentication', action: 'login', name: 'login from popup' });
 
-    // TODO: redirect to /popup/compte
-    await waitFor(() => expect(iframe.location?.pathname).to.eql('/popup/'));
+    await waitFor(() => expect(iframe.location?.pathname).to.eql('/popup/compte'));
   });
 
   it('signup', async () => {
@@ -113,7 +112,7 @@ describe('Authentication', () => {
 
     // emails can take a while to be sent in CI
     await wait(500);
-    // await expectEvent({ category: 'Authentication', action: 'Signup', name: 'Signup From Popup' });
+    await expectEvent({ category: 'authentication', action: 'signup', name: 'signup from popup' });
 
     await findByText('Pour finaliser votre inscription, un email vous a été envoyé à ' + user1.email);
 
@@ -148,7 +147,7 @@ describe('Authentication', () => {
 
     click(getByRole('button', { name: 'Déconnexion' }));
 
-    // await expectEvent({ category: 'Authentication', action: 'Logout', name: 'Logout From Popup' });
+    await expectEvent({ category: 'authentication', action: 'logout', name: 'logout from popup' });
 
     await waitFor(() => {
       expect(iframe.location?.pathname).to.eql('/popup/connexion');
@@ -158,7 +157,7 @@ describe('Authentication', () => {
     await waitFor(() => expect(iframe.location?.pathname).to.eql('/popup/connexion'));
   });
 
-  it('email login', async () => {
+  it('request authentication link', async () => {
     const { getByRole, getByPlaceholderText, findByText } = await visitPopup('/lien-de-connexion');
 
     const emailField = getByPlaceholderText('Adresse email');
@@ -168,7 +167,11 @@ describe('Authentication', () => {
 
     await findByText("Un email contenant un lien de connexion vient d'être envoyé à l'adresse me@domain.tld.");
 
-    // await expectEvent({ category: 'Authentication', action: 'Ask Email Login', name: 'Ask Email Login From Popup' });
+    await expectEvent({
+      category: 'authentication',
+      action: 'request authentication link',
+      name: 'request authentication link from popup',
+    });
 
     // login email are sent asynchronously
     await wait(500);
@@ -188,7 +191,7 @@ describe('Authentication', () => {
     await within(iframe.document!.body!).findByText(/Vous êtes maintenant connecté\.e/);
   });
 
-  it('reset password', async () => {
+  it('change password', async () => {
     await login(me);
     const { getByRole, getByPlaceholderText, findByText } = await visitPopup('/compte');
 
@@ -208,7 +211,7 @@ describe('Authentication', () => {
     await type(passwordField, 'newpassword42{enter}');
     await findByText('Votre mot de passe a bien été mis à jour.');
 
-    await expectEvent({ category: 'Authentication', action: 'Change Password' });
+    await expectEvent({ category: 'authentication', action: 'password changed' });
 
     await logout();
     await login({ email: me.email, password: 'newpassword42' });

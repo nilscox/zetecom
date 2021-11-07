@@ -4,24 +4,28 @@ import { setIsSubmittingRootComment } from '../../actions';
 import { selectCurrentCommentsArea } from '../../selectors';
 import { updateCommentsArea } from '../index';
 
-export const createRootComment = createThunk(async ({ getState, dispatch, commentGateway }, text: string) => {
-  const currentCommentsArea = selectCurrentCommentsArea(getState());
+export const createRootComment = createThunk(
+  async ({ getState, dispatch, commentGateway, trackingGateway }, text: string) => {
+    const currentCommentsArea = selectCurrentCommentsArea(getState());
 
-  if (!currentCommentsArea) {
-    return;
-  }
+    if (!currentCommentsArea) {
+      return;
+    }
 
-  dispatch(setIsSubmittingRootComment(true));
+    dispatch(setIsSubmittingRootComment(true));
 
-  const commentDto = await commentGateway.createComment(text, currentCommentsArea.id);
-  const comment = commentDtoToEntity(commentDto);
+    const commentDto = await commentGateway.createComment(text, currentCommentsArea.id);
+    const comment = commentDtoToEntity(commentDto);
 
-  dispatch(
-    updateCommentsArea(currentCommentsArea.id, {
-      comments: [comment, ...currentCommentsArea.comments],
-      commentsCount: currentCommentsArea.commentsCount + 1,
-    }),
-  );
+    dispatch(
+      updateCommentsArea(currentCommentsArea.id, {
+        comments: [comment, ...currentCommentsArea.comments],
+        commentsCount: currentCommentsArea.commentsCount + 1,
+      }),
+    );
 
-  dispatch(setIsSubmittingRootComment(false));
-});
+    dispatch(setIsSubmittingRootComment(false));
+
+    trackingGateway.track({ category: 'comment', action: 'comment created' });
+  },
+);

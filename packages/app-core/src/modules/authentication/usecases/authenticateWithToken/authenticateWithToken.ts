@@ -5,7 +5,7 @@ import { createThunk } from '../../../../store/createThunk';
 import { setAuthenticatedUser } from '../index';
 
 export const authenticateWithToken = createThunk(
-  async ({ dispatch, userGateway, notificationGateway }, token: string) => {
+  async ({ dispatch, userGateway, notificationGateway, trackingGateway }, token: string) => {
     if (!validateUUID(token)) {
       notificationGateway.error("Le jeton présent dans le lien n'est pas valide.");
       return;
@@ -16,6 +16,11 @@ export const authenticateWithToken = createThunk(
 
       await dispatch(setAuthenticatedUser(userDto));
       notificationGateway.success(`Vous êtes maintenant connecté.e en tant que ${userDto.nick}.`);
+
+      trackingGateway.track({
+        category: 'authentication',
+        action: 'login with token',
+      });
     } catch (e) {
       if (!(e instanceof AuthenticationError)) {
         throw e;

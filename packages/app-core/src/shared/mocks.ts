@@ -8,6 +8,7 @@ import {
   NotificationGateway,
   RouterGateway,
   TimerGateway,
+  TrackingGateway,
   UserGateway,
 } from '../gateways';
 import { Dependencies } from '../store/types';
@@ -49,10 +50,10 @@ export class MockUserGateway implements UserGateway {
 }
 
 export class MockNotificationGateway implements NotificationGateway {
-  success: MockFn<NotificationGateway['success']> = mockFn();
-  info: MockFn<NotificationGateway['info']> = mockFn();
-  warning: MockFn<NotificationGateway['warning']> = mockFn();
-  error: MockFn<NotificationGateway['error']> = mockFn();
+  success: MockFn<NotificationGateway['success']> = mockFn().returns(undefined);
+  info: MockFn<NotificationGateway['info']> = mockFn().returns(undefined);
+  warning: MockFn<NotificationGateway['warning']> = mockFn().returns(undefined);
+  error: MockFn<NotificationGateway['error']> = mockFn().returns(undefined);
 }
 
 export class MockRouterGateway implements RouterGateway {
@@ -70,6 +71,10 @@ export class MockExtensionGateway implements ExtensionGateway {
   getIntegrationState: MockFn<ExtensionGateway['getIntegrationState']> = mockFn();
   getExtensionConfig: MockFn<ExtensionGateway['getExtensionConfig']> = mockFn();
   setExtensionConfig: MockFn<ExtensionGateway['setExtensionConfig']> = mockFn();
+}
+
+export class MockTrackingGateway implements TrackingGateway {
+  track: MockFn<TrackingGateway['track']> = mockFn().returns(undefined);
 }
 
 export class FakeDateGateway implements DateGateway {
@@ -122,4 +127,5 @@ export interface MockDependencies extends Dependencies {
   dateGateway: FakeDateGateway;
   timerGateway: FakeTimerGateway;
   notificationGateway: MockNotificationGateway;
+  trackingGateway: MockTrackingGateway;
 }

@@ -1,7 +1,7 @@
 import { expect } from 'earljs';
 
 import { createComment } from '../../../../entities';
-import { FakeTimerGateway, MockCommentGateway, MockRouterGateway } from '../../../../shared/mocks';
+import { FakeTimerGateway, MockCommentGateway, MockRouterGateway, MockTrackingGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectIsReportingComment } from '../../selectors';
 
@@ -13,10 +13,11 @@ describe('reportComment', () => {
   let commentGateway: MockCommentGateway;
   let timerGateway: FakeTimerGateway;
   let routerGateway: MockRouterGateway;
+  let trackingGateway: MockTrackingGateway;
 
   beforeEach(() => {
     store = new MemoryStore();
-    ({ commentGateway, timerGateway, routerGateway } = store.dependencies);
+    ({ commentGateway, timerGateway, routerGateway, trackingGateway } = store.dependencies);
   });
 
   const setup = () => {
@@ -58,5 +59,13 @@ describe('reportComment', () => {
     timerGateway.invokeTimeout();
 
     expect(routerGateway.closePopup).toBeExhausted();
+  });
+
+  it('tracks a comment reported event', async () => {
+    setup();
+
+    await store.dispatch(reportComment(comment.id));
+
+    expect(trackingGateway.track).toHaveBeenCalledWith([{ category: 'comment', action: 'comment reported' }]);
   });
 });

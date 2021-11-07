@@ -1,7 +1,7 @@
 import { expect } from 'earljs';
 
 import { Comment, commentEntityToDto, createComment } from '../../../../entities';
-import { MockCommentGateway } from '../../../../shared/mocks';
+import { MockCommentGateway, MockTrackingGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setComment } from '../../../../store/normalize';
 
@@ -11,13 +11,14 @@ describe('editComment', () => {
   let store: MemoryStore;
 
   let commentGateway: MockCommentGateway;
+  let trackingGateway: MockTrackingGateway;
 
   beforeEach(() => {
     store = new MemoryStore();
-    ({ commentGateway } = store.dependencies);
+    ({ commentGateway, trackingGateway } = store.dependencies);
   });
 
-  const setup = (comment: Comment, edited: Comment) => {
+  const setup = (comment: Comment, edited = createComment({ id: comment.id })) => {
     store.dispatch(setComment(comment));
     commentGateway.editComment.resolvesToOnce(commentEntityToDto(edited));
   };
@@ -41,9 +42,8 @@ describe('editComment', () => {
 
   it("disables the edited comment's edition mode", async () => {
     const comment = createComment({ text: 'initial', isEditing: true });
-    const edited = createComment({ id: comment.id });
 
-    setup(comment, edited);
+    setup(comment);
 
     await store.dispatch(editComment(comment.id, ''));
 
@@ -54,20 +54,22 @@ describe('editComment', () => {
 
   it('notifies that the comment is being edited', async () => {
     const comment = createComment();
-    const edited = createComment({ id: comment.id });
 
-    setup(comment, edited);
+    setup(comment);
 
-    const promise = store.dispatch(editComment(comment.id, ''));
+    await store.testLoadingState(
+      editComment(comment.id, ''),
+      (state) => selectComment(state, comment.id).isSubmittingEdition,
+    );
+  });
 
-    expect(getComment(comment.id)).toBeAnObjectWith({
-      isSubmittingEdition: true,
-    });
+  it('tracks a comment edited event', async () => {
+    const comment = createComment();
 
-    await promise;
+    setup(comment);
 
-    expect(getComment(comment.id)).toBeAnObjectWith({
-      isSubmittingEdition: false,
-    });
+    await store.dispatch(editComment(comment.id, ''));
+
+    expect(trackingGateway.track).toHaveBeenCalledWith([{ category: 'comment', action: 'comment edited' }]);
   });
 });

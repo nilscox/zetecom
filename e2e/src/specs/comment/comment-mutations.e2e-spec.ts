@@ -37,7 +37,7 @@ describe('Comment mutations', () => {
 
     click(getByRole('button', { name: 'Envoyer' }));
 
-    // await expectEvent({ category: 'Comment', action: 'Create' });
+    await expectEvent({ category: 'comment', action: 'comment created' });
 
     await waitFor(() => expect(getCommentAt(0)).to.exist);
 
@@ -82,7 +82,7 @@ describe('Comment mutations', () => {
       click(getByRole('button', { name: 'Envoyer' }));
     });
 
-    await expectEvent({ category: 'Comment', action: 'Edit' });
+    await expectEvent({ category: 'comment', action: 'comment edited' });
 
     await waitFor(() => expect(getByText('edited text')).not.to.have.tagName('textarea'));
 
@@ -137,8 +137,7 @@ describe('Comment mutations', () => {
       await type(textArea, 'This is the answer.');
       click(getByRole('button', { name: 'Envoyer' }));
 
-      // TODO: name Reply
-      await expectEvent({ category: 'Comment', action: 'Create' });
+      await expectEvent({ category: 'comment', action: 'comment created' });
 
       await waitFor(() => expect(getComputedStyle(textArea)).to.have.property('visibility', 'hidden'));
       expect(getComputedStyle(getByText('This is the answer.'))).to.have.property('visibility', 'visible');

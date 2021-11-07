@@ -6,7 +6,7 @@ import { selectComment } from '../../selectors';
 import { updateComment } from '../index';
 
 export const createReply = createThunk(
-  async ({ getState, dispatch, commentGateway }, parentId: string, text: string) => {
+  async ({ getState, dispatch, commentGateway, trackingGateway }, parentId: string, text: string) => {
     const { repliesCount, replies } = selectComment(getState(), parentId);
     const currentCommentsArea = selectCurrentCommentsArea(getState());
 
@@ -27,5 +27,10 @@ export const createReply = createThunk(
     );
 
     dispatch(setIsSubmittingReply(parentId, false));
+
+    trackingGateway.track({
+      category: 'comment',
+      action: 'comment created',
+    });
   },
 );

@@ -63,6 +63,8 @@ module.exports = {
       DEMO: 'false',
       API_URL: 'http://localhost:3000',
       WEBSITE_URL: 'http://localhost:8080',
+      ANALYTICS_URL: '',
+      ANALYTICS_SITE_ID: 'stub',
     }),
     new CopyWebpackPlugin({
       patterns: [path.resolve(__dirname, 'public', 'robots.txt'), path.resolve(__dirname, 'public', 'favicon.ico')],

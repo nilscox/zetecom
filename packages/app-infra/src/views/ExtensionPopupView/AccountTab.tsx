@@ -41,7 +41,7 @@ export const AccountTab: React.FC = () => {
 
       <ChangePasswordField error={changePasswordError} onSubmit={(password) => dispatch(changePassword(password))} />
 
-      <Button marginX="auto" onClick={() => dispatch(logout())}>
+      <Button marginX="auto" onClick={() => dispatch(logout('popup'))}>
         Déconnexion
       </Button>
     </Flex>

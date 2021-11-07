@@ -1,5 +1,6 @@
-import { createNotification, NotificationType } from '@zetecom/app-core';
+import { createNotification, Dependencies, NotificationType } from '@zetecom/app-core';
 import { History } from 'history';
+import { Store } from 'redux';
 
 import { bopzor, commentsAreas, dougForcett, nilscox, vaccinsEffetsSecondaires } from '~/fixtures';
 import { ReactRouterGateway } from '~/gateways/ReactRouterGateway';
@@ -8,7 +9,7 @@ import { ToastifyNotificationGateway } from '~/gateways/ToastifyNotificationGate
 
 import { configureStore } from './configureStore';
 
-export const demoStore = (history: History) => {
+export const demoStore = (history: History): [Dependencies, Store] => {
   const containers = new EntitiesContainers({
     commentsAreas,
     users: [],
@@ -49,5 +50,5 @@ export const demoStore = (history: History) => {
     }),
   ];
 
-  return store;
+  return [dependencies, store];
 };

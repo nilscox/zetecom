@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { IFrame } from 'testea';
 
 import { seed, getComment, login, logout, User } from '../../api';
-import { click, visitIntegration, within } from '../../utils';
+import { click, expectEvent, visitIntegration, within } from '../../utils';
 import { reactionEmoji, reactionTitle } from '../../utils/reactions';
 
 import commentsAreas from '../../fixtures/comments-areas.json';
@@ -108,18 +108,17 @@ describe('Reaction', () => {
 
     click(approve!);
 
-    // await expectEvent({ category: 'Comment', action: 'Set Reaction', name: 'Set Reaction "approve"' });
+    await expectEvent({ category: 'comment', action: 'set reaction', name: 'set reaction approve' });
     await expectReactions('approve', makeReactions({ approve: 3 }));
 
     click(think!);
 
-    // await expectEvent({ category: 'Comment', action: 'Set Reaction', name: 'Set Reaction "think"' });
+    await expectEvent({ category: 'comment', action: 'set reaction', name: 'set reaction think' });
     await expectReactions('think', makeReactions({ approve: 2, think: 1 }));
 
     click(think!);
 
-    // TODO: Uset Reaction
-    // await expectEvent({ category: 'Comment', action: 'Set Reaction', name: 'Set Reaction "null"' });
+    await expectEvent({ category: 'comment', action: 'unset reaction' });
     await expectReactions(null, makeReactions({ approve: 2 }));
   });
 });

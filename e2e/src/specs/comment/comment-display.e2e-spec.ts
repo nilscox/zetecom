@@ -1,4 +1,4 @@
-import { getByTitle, waitFor } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import { IFrame } from 'testea';
 

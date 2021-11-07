@@ -123,10 +123,11 @@ const useFormValidity = (email: string, password: string, nick: string, rulesAcc
 
 const useSubmitAuthenticationForm = () => {
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   return (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(submitAuthenticationForm());
+    dispatch(submitAuthenticationForm(pathname.startsWith('/popup') ? 'popup' : 'app'));
   };
 };
 
@@ -249,8 +250,9 @@ const AcceptRulesCheckbox: React.FC<AcceptRulesCheckboxProps> = ({ checked, onCh
 
       <Collapse open={displayWarning}>
         <Box marginY={3}>
-          Il est important que chaque membre ait pris connaissance de la charte. Si ce n'est pas encore fait,{' '}
-          accordez <strong>5 minutes</strong> à sa lecture avant de vous inscrire.
+          {/* eslint-disable-next-line max-len */}
+          Il est important que chaque membre ait pris connaissance de la charte. Si ce n'est pas encore fait, accordez{' '}
+          <strong>5 minutes</strong> à sa lecture avant de vous inscrire.
         </Box>
       </Collapse>
     </Collapse>

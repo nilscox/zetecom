@@ -1,6 +1,6 @@
 import { expect } from 'earljs';
 
-import { MockCommentsAreaGateway } from '../../../../shared/mocks';
+import { MockCommentsAreaGateway, MockTrackingGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectCommentsAreaRequested, selectIsRequestingCommentsArea } from '../..';
 
@@ -10,17 +10,22 @@ describe('requestCommentsArea', () => {
   let store: MemoryStore;
 
   let commentsAreaGateway: MockCommentsAreaGateway;
+  let trackingGateway: MockTrackingGateway;
 
   beforeEach(() => {
     store = new MemoryStore();
 
-    ({ commentsAreaGateway } = store.dependencies);
+    ({ commentsAreaGateway, trackingGateway } = store.dependencies);
 
     commentsAreaGateway.requestCommentsArea.resolvesToOnce(undefined);
   });
 
+  const execute = () => {
+    return store.dispatch(requestCommentsArea('identifier', 'pageUrl'));
+  };
+
   it('requests to open a comments area', async () => {
-    await store.dispatch(requestCommentsArea('identifier', 'pageUrl'));
+    await execute();
 
     expect(store.select(selectCommentsAreaRequested)).toEqual(true);
     expect(commentsAreaGateway.requestCommentsArea).toHaveBeenCalledWith(['identifier', 'pageUrl']);
@@ -28,5 +33,13 @@ describe('requestCommentsArea', () => {
 
   it('notifies that the comments area is being requested', async () => {
     await store.testLoadingState(requestCommentsArea('identifier', 'pageUrl'), selectIsRequestingCommentsArea);
+  });
+
+  it('tracks a comments area requested event', async () => {
+    await execute();
+
+    expect(trackingGateway.track).toHaveBeenCalledWith([
+      { category: 'comments-area', action: 'comments area requested' },
+    ]);
   });
 });

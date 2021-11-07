@@ -1,7 +1,7 @@
 import { expect } from 'earljs';
 
 import { Comment, commentEntityToDto, createComment, createCommentsArea } from '../../../../entities';
-import { MockCommentGateway } from '../../../../shared/mocks';
+import { MockCommentGateway, MockTrackingGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectComment, setCommentsArea } from '../../../../store/normalize';
 import { setCurrentCommentsArea } from '../../actions';
@@ -13,10 +13,11 @@ describe('createRootComment', () => {
   let store: MemoryStore;
 
   let commentGateway: MockCommentGateway;
+  let trackingGateway: MockTrackingGateway;
 
   beforeEach(() => {
     store = new MemoryStore();
-    ({ commentGateway } = store.dependencies);
+    ({ commentGateway, trackingGateway } = store.dependencies);
   });
 
   const commentsArea = createCommentsArea();
@@ -60,5 +61,13 @@ describe('createRootComment', () => {
     await promise;
 
     expect(store.select(selectIsSubmittingRootComment)).toEqual(false);
+  });
+
+  it('tracks a comment created event', async () => {
+    setup(createComment());
+
+    await store.dispatch(createCommentThunk(''));
+
+    expect(trackingGateway.track).toHaveBeenCalledWith([{ category: 'comment', action: 'comment created' }]);
   });
 });

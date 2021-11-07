@@ -2,7 +2,12 @@ import { expect } from 'earljs';
 
 import { AuthenticatedUserDto, createAuthenticatedUser } from '../../../../entities';
 import { paginated } from '../../../../shared';
-import { MockNotificationGateway, MockRouterGateway, MockUserGateway } from '../../../../shared/mocks';
+import {
+  MockNotificationGateway,
+  MockRouterGateway,
+  MockTrackingGateway,
+  MockUserGateway,
+} from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
 import { selectAuthenticatedUser, selectAuthenticationGlobalError, selectIsAuthenticating } from '../../selectors';
 
@@ -14,17 +19,21 @@ describe('signup', () => {
   let userGateway: MockUserGateway;
   let routerGateway: MockRouterGateway;
   let notificationGateway: MockNotificationGateway;
+  let trackingGateway: MockTrackingGateway;
 
   beforeEach(() => {
     store = new MemoryStore();
-    ({ userGateway, routerGateway, notificationGateway } = store.dependencies);
+    ({ userGateway, routerGateway, notificationGateway, trackingGateway } = store.dependencies);
   });
 
   const setup = (user: AuthenticatedUserDto, requiresEmailValidation = true) => {
     userGateway.signup.resolvesTo({ ...user, requiresEmailValidation });
-    routerGateway.push.returns(undefined);
+    routerGateway.push.returnsOnce(undefined);
     userGateway.fetchUserNotifications.resolvesToOnce(paginated([]));
-    notificationGateway.success.returnsOnce(undefined);
+  };
+
+  const execute = (location: 'app' | 'popup' = 'app') => {
+    return store.dispatch(signup('email', 'password', 'nick', location));
   };
 
   it('signs up', async () => {
@@ -32,7 +41,7 @@ describe('signup', () => {
 
     setup(user);
 
-    await store.dispatch(signup('email', 'password', 'nick'));
+    await execute();
 
     expect(userGateway.signup).toHaveBeenCalledWith(['email', 'password', 'nick']);
 
@@ -48,24 +57,53 @@ describe('signup', () => {
 
     setup(user, false);
 
-    await store.dispatch(signup('email', 'password', 'nick'));
+    await execute();
 
     expect(store.select(selectAuthenticatedUser)).toEqual(user);
 
-    expect(routerGateway.push).toHaveBeenCalledWith(['/']);
     expect(notificationGateway.success).toHaveBeenCalledWith(['Bienvenue ! 🎉']);
+  });
+
+  it('redirects to the app home page', async () => {
+    setup(createAuthenticatedUser(), false);
+
+    await execute('app');
+
+    expect(routerGateway.push).toHaveBeenCalledWith(['/']);
+  });
+
+  it('does not redirect when signing up from the popup', async () => {
+    setup(createAuthenticatedUser(), false);
+
+    await execute('popup');
+
+    expect(routerGateway.push).not.toBeExhausted();
   });
 
   it('notifies that the user is signing up', async () => {
     setup(createAuthenticatedUser());
-    await store.testLoadingState(signup('email', 'password', 'nick'), selectIsAuthenticating);
+    await store.testLoadingState(signup('email', 'password', 'nick', 'app'), selectIsAuthenticating);
   });
 
   it('prevents from signing up when the user is already authenticated', async () => {
     store.user = createAuthenticatedUser();
 
-    await store.dispatch(signup('email', 'password', 'nick'));
+    await execute();
 
     expect(store.select(selectAuthenticationGlobalError)).toEqual('Vous êtes déjà connecté.e.');
+  });
+
+  describe('tracking', () => {
+    for (const location of ['app', 'popup'] as const) {
+      it(`tracks a signup event from the ${location}`, async () => {
+        setup(createAuthenticatedUser());
+
+        await execute(location);
+
+        expect(trackingGateway.track).toHaveBeenCalledWith([
+          { category: 'authentication', action: 'signup', name: `signup from ${location}` },
+        ]);
+      });
+    }
   });
 });

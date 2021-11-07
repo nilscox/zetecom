@@ -4,7 +4,7 @@ import { selectComment } from '../../selectors';
 import { updateComment } from '../index';
 
 export const setReaction = createThunk(
-  async ({ getState, dispatch, commentGateway }, commentId: string, reaction: ReactionType) => {
+  async ({ getState, dispatch, commentGateway, trackingGateway }, commentId: string, reaction: ReactionType) => {
     const { userReaction, reactionsCount } = selectComment(getState(), commentId);
     const newReaction = reaction === userReaction ? null : reaction;
     const reactions = { ...reactionsCount };
@@ -25,5 +25,18 @@ export const setReaction = createThunk(
     );
 
     await commentGateway.updateReaction(commentId, newReaction);
+
+    if (newReaction) {
+      trackingGateway.track({
+        category: 'comment',
+        action: 'set reaction',
+        name: `set reaction ${newReaction}`,
+      });
+    } else {
+      trackingGateway.track({
+        category: 'comment',
+        action: 'unset reaction',
+      });
+    }
   },
 );
