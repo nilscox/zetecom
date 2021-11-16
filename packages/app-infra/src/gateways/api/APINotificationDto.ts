@@ -59,5 +59,6 @@ export const transformNotification = (dto: APINotificationDto): Notification => 
   type: mapNotificationType[dto.type],
   date: new Date(dto.created),
   seen: dto.seen ? new Date(dto.seen) : false,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   payload: transformNotificationPayload(dto.type, dto.payload) as any,
 });

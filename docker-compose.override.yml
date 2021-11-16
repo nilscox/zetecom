@@ -3,9 +3,6 @@ services:
   api:
     build: ./api
 
-  app:
-    build: ./app
-
   website:
     build: ./website
     container_name: zc-website

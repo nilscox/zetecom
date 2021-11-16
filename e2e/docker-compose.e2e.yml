@@ -13,10 +13,3 @@ services:
       CI: 'true'
       DB_NAME: e2e
       DB_NAME_ROOT: postgres
-
-  app:
-    command: /start.sh --coverage
-    environment:
-      API_URL: http://localhost:3000
-      ANALYTICS_PROVIDER: mock
-      DEBUG: 'true'

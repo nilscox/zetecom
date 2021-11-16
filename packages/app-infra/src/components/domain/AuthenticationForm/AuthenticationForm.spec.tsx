@@ -1,7 +1,12 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createAuthenticatedUser, selectAuthenticatedUser, Store } from '@zetecom/app-core';
-import { MockUserGateway } from '@zetecom/app-core/shared/mocks';
+import {
+  FakeTimerGateway,
+  MockNotificationGateway,
+  MockTrackingGateway,
+  MockUserGateway,
+} from '@zetecom/app-core/shared/mocks';
 import { expect } from 'earljs';
 import { createMemoryHistory, History } from 'history';
 
@@ -20,6 +25,9 @@ describe('AuthenticationForm', function () {
 
   let userGateway: MockUserGateway;
   let routerGateway: ReactRouterGateway;
+  let trackingGateway: MockTrackingGateway;
+  let timerGateway: FakeTimerGateway;
+  let notificationGateway: MockNotificationGateway;
 
   let history: History;
 
@@ -28,8 +36,11 @@ describe('AuthenticationForm', function () {
 
     userGateway = new MockUserGateway();
     routerGateway = new ReactRouterGateway(history);
+    trackingGateway = new MockTrackingGateway();
+    timerGateway = new FakeTimerGateway();
+    notificationGateway = new MockNotificationGateway();
 
-    store = configureStore({ userGateway, routerGateway });
+    store = configureStore({ userGateway, routerGateway, trackingGateway, timerGateway, notificationGateway });
   });
 
   const setup = (route: string) => {
@@ -128,9 +139,9 @@ describe('AuthenticationForm', function () {
   });
 
   it('signs up', async () => {
-    const user = createAuthenticatedUser();
+    const user = createAuthenticatedUser({ email: 'email@domain.tld', nick: 'nick' });
 
-    userGateway.signup.resolvesTo({ ...user, requiresEmailValidation: false });
+    userGateway.signup.resolvesTo({ ...user, requiresEmailValidation: true });
 
     setup('/inscription');
 
@@ -155,7 +166,9 @@ describe('AuthenticationForm', function () {
     });
 
     await waitFor(() => {
-      expect(selectAuthenticatedUser(store.getState())).toEqual(user);
+      expect(notificationGateway.success).toHaveBeenCalledWith([
+        'Pour finaliser votre inscription, un email vous a été envoyé à email@domain.tld',
+      ]);
     });
   });
 });

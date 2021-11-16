@@ -6,9 +6,9 @@
   "author": "nilscox <nilscox.dev@gmail.com>",
   "scripts": {
     "build": "webpack build",
-    "demo": "webpack serve -c webpack.demo.config.js",
     "start": "nodemon -w webpack.config.js -w package.json -w yarn.lock -w tsconfig.json -x \"yarn webpack serve\"",
-    "styleguidist": "styleguidist server",
+    "build:demo": "webpack -c webpack.demo.config.js",
+    "demo": "webpack serve -c webpack.demo.config.js",
     "lint": "eslint -c .eslintrc.ci.json 'src/**/*.{ts,tsx}'",
     "test": "TS_NODE_PROJECT=./tsconfig.test.json TZ=UTC mocha"
   },

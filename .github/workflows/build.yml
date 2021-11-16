@@ -4,7 +4,6 @@ on: [push]
 
 env:
   API_IMAGE: nilscox/zetecom-api
-  APP_IMAGE: nilscox/zetecom-app
 
 jobs:
   # build
@@ -13,7 +12,7 @@ jobs:
     name: build api
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: whoan/docker-build-with-cache-action@v5
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -25,32 +24,53 @@ jobs:
   app:
     name: build app
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: whoan/docker-build-with-cache-action@v5
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          image_name: nilscox/zetecom-app
-          image_tag: ${{ github.sha }}
-          context: ./app
-
-  styleguidist:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
     defaults:
       run:
-        working-directory: ./app
+        working-directory: packages/app-infra
     steps:
-      - uses: actions/checkout@v2.3.1
-      - run: yarn
-      - run: yarn build:styleguidist
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "yarn"
+          cache-dependency-path: |
+            packages/app-core/yarn.lock
+            packages/app-infra/yarn.lock
+      - run: yarn install --frozen-lockfile
+        working-directory: packages/app-core
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+        env:
+          NODE_ENV: production
+          BASENAME: /
+          API_URL: __API_URL__
+          WEBSITE_URL: __WEBSITE_URL__
+          ANALYTICS_URL: __ANALYTICS_URL__
+          ANALYTICS_SITE_ID: __ANALYTICS_SITE_ID__
+      - uses: actions/upload-artifact@v2
+        with:
+          name: app
+          path: packages/app-infra/dist
+
+  build-publish-demo:
+    name: build and publish demo
+    runs-on: ubuntu-latest
+    # if: github.ref == 'refs/heads/master'
+    defaults:
+      run:
+        working-directory: packages/app-infra
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn --frozen-lockfile
+        working-directory: packages/app-core
+      - run: yarn --frozen-lockfile
+      - run: yarn build:demo
       - uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           branch: gh-pages
-          folder: app/styleguide
+          folder: packages/app-infra/demo
 
-  extension:
+  build-extension:
     name: build extension
     runs-on: ubuntu-latest
     steps:
@@ -73,44 +93,57 @@ jobs:
           name: ${{ env.extension_sources_zip }}
           path: artifacts/sources
 
-  website:
+  build-website:
     name: build website
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: website
     steps:
-      - uses: actions/checkout@v1
-      - uses: whoan/docker-build-with-cache-action@v5
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          image_name: nilscox/zetecom-website
-          image_tag: ${{ github.sha }}
-          context: ./website
+          node-version: "16"
+          cache: "yarn"
+          cache-dependency-path: website/yarn.lock
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
 
-  # code quality
+  # # code quality
 
   code-quality:
     name: code quality
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - run: yarn
+      - run: yarn --frozen-lockfile
         working-directory: ./api
       - run: yarn lint
         working-directory: ./api
       - run: yarn test:unit
         working-directory: ./api
-      - run: yarn
-        working-directory: ./app
+      - run: yarn --frozen-lockfile
+        working-directory: ./packages/app-core
       - run: yarn lint
-        working-directory: ./app
+        working-directory: ./packages/app-core
       - run: yarn test
-        working-directory: ./app
-      - run: yarn
+        working-directory: ./packages/app-core
+      - run: yarn --frozen-lockfile
+        working-directory: ./packages/app-infra
+      - run: yarn lint
+        working-directory: ./packages/app-infra
+      - run: yarn test
+        working-directory: ./packages/app-infra
+      - run: yarn --frozen-lockfile
         working-directory: ./extension
       - run: yarn test
         working-directory: ./extension
+      - run: yarn --frozen-lockfile
+        working-directory: ./website
+      - run: yarn lint
+        working-directory: ./website
 
-  # e2e
+  # # e2e
 
   api-e2e:
     name: api end-to-end tests
@@ -126,7 +159,7 @@ jobs:
           postgresql db: "test"
           postgresql user: "root"
           postgresql password: "root"
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - run: yarn
       - run: yarn test:intg
       - run: yarn test:e2e
@@ -134,31 +167,40 @@ jobs:
   e2e:
     name: end-to-end tests
     runs-on: ubuntu-latest
-    needs: [api, app, website]
+    needs: [api, app]
     defaults:
       run:
         working-directory: ./e2e
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: app
+          path: e2e/app-dist
+      - run: ../packages/app-infra/replace-env.sh ./app-dist
+        env:
+          API_URL: "http://localhost:3000"
+          WEBSITE_URL: "http://localhost:8081"
+          ANALYTICS_URL: ""
+          ANALYTICS_SITE_ID: "stub"
       - run: mkdir -p ./artifacts/screenshots
-      - run: yarn
       - run: yarn docker-compose:ci up -d
         env:
           GIT_SHA: ${{ github.sha }}
       - run: docker logs -f zc-api > ./artifacts/api.log &
+      - run: yarn --frozen-lockfile
       - run: yarn build
       - run: yarn serve -l 7357 build &
+      - run: yarn serve -s -l 8000 app-dist &
       - run: yarn wait-on -t $((30 * 1000)) http://localhost:3000/api/healthcheck
-      - run: yarn test:headless --screenshots ./artifacts/screenshots
+      - run: yarn test:headless --screenshots-dir ./artifacts/screenshots
       - uses: actions/upload-artifact@v2
         if: ${{ failure() }}
         with:
           name: e2e-artifacts
           path: e2e/artifacts
-      # - uses: codecov/codecov-action@v1
-      #   if: success()
 
-  # publish
+  # # publish
 
   publish-api:
     name: publish api docker image
@@ -171,15 +213,3 @@ jobs:
       - run: docker pull $API_IMAGE:${{ github.sha }}
       - run: docker tag $API_IMAGE:${{ github.sha }} "$API_IMAGE:$tag"
       - run: docker push "$API_IMAGE:$tag"
-
-  publish-app:
-    name: publish app docker image
-    runs-on: ubuntu-latest
-    needs: [e2e, code-quality]
-    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
-    steps:
-      - run: ref=${{ github.ref }}; echo "tag=${ref#refs/heads/}" >> $GITHUB_ENV
-      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker pull $APP_IMAGE:${{ github.sha }}
-      - run: docker tag $APP_IMAGE:${{ github.sha }} "$APP_IMAGE:$tag"
-      - run: docker push "$APP_IMAGE:$tag"

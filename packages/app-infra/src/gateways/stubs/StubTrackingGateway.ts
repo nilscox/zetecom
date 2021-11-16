@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { TrackingEvent, TrackingGateway } from '@zetecom/app-core';
 
 export class StubTrackingGateway implements TrackingGateway {

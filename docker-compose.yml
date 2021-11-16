@@ -73,15 +73,3 @@ services:
       SESSION_SECRET: sekret
       SECURE_COOKIE: "false"
       USER_AVATAR_DESTINATION: /app/avatars
-
-  app:
-    container_name: zc-app
-    hostname: zc-app
-    ports:
-      - 8000:80
-    volumes:
-      - ./data/avatars:/var/www/zc-app/avatars:ro
-      - ./data/avatars:/var/www/zc-app_instrumented/avatars:ro
-    environment:
-      API_URL: http://${LOCAL_IP:-localhost}:3000
-      WEBSITE_URL: http://${LOCAL_IP:-localhost}:8080

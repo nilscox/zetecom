@@ -75,6 +75,7 @@ export class MockExtensionGateway implements ExtensionGateway {
 
 export class MockTrackingGateway implements TrackingGateway {
   track: MockFn<TrackingGateway['track']> = mockFn().returns(undefined);
+  pageView: MockFn<TrackingGateway['pageView']> = mockFn().returns(undefined);
 }
 
 export class FakeDateGateway implements DateGateway {
