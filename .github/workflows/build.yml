@@ -212,7 +212,7 @@ jobs:
           name: e2e-artifacts
           path: e2e/artifacts
 
-  # # publish
+  # publish
 
   publish-api:
     name: publish api docker image
@@ -225,3 +225,37 @@ jobs:
       - run: docker pull $API_IMAGE:${{ github.sha }}
       - run: docker tag $API_IMAGE:${{ github.sha }} "$API_IMAGE:$tag"
       - run: docker push "$API_IMAGE:$tag"
+
+  # deploy
+
+  deploy-api:
+    name: deploy api
+    environment: staging
+    runs-on: ubuntu-latest
+    # needs: [publish-api]
+    steps:
+      - uses: actions/checkout@v2
+      - run: ./deploy-api.sh --env staging --image $API_IMAGE:dev --port ${{ secrets.LISTEN_PORT }} --docker-host ${{ secrets.DOCKER_HOST }} --docker-auth ${{ secrets.DOCKER_AUTHENTICATION }} --base-dir ${{ secrets.BASE_DIR }}
+        working-directory: ./scripts
+        env:
+          LOG_LEVEL: "log"
+          TRUST_PROXY: "true"
+          REFLECT_ORIGIN: "true"
+          ADMIN_USER: ${{ secrets.ADMIN_USER }}
+          APP_URL: "https://app-staging.zetecom.fr"
+          WEBSITE_URL: "https://staging.zetecom.fr"
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_ENTITIES: "src/**/*.entity.js"
+          DB_MIGRATIONS: "migrations/*.js"
+          DB_SEEDS: "seeds/*.js"
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          EMAIL_BYPASS: "true"
+          EMAIL_ACCOUNT_VERIFICATION: "false"
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          SECURE_COOKIE: "true"
+          USER_AVATAR_DESTINATION: "/app/avatars"
