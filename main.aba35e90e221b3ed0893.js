@@ -6078,7 +6078,7 @@ var TreeGroup = function (_a) {
 
 function App(_a) {
     var demos = _a.demos, config = __rest(_a, ["demos"]);
-    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.BrowserRouter, null,
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.BrowserRouter, { basename: config.basename },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(ConfigProvider, { value: config },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(Demos, { demos: demos }))));
 }
@@ -18844,6 +18844,24 @@ const viewsDemos = {
     CommentHistory: _CommentHistoryView_CommentHistory_demo__WEBPACK_IMPORTED_MODULE_0__,
     ReportComment: _ReportCommentView_ReportComment_demo__WEBPACK_IMPORTED_MODULE_3__
   }
+};
+
+
+/***/ }),
+
+/***/ "./src/zetecom-global.ts":
+/*!*******************************!*\
+  !*** ./src/zetecom-global.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../package.json */ "./package.json");
+
+window.zetecom = {
+  appVersion: _package_json__WEBPACK_IMPORTED_MODULE_0__.version,
+  env: {}
 };
 
 
@@ -68942,6 +68960,17 @@ function combine (array, callback) {
 }
 
 
+/***/ }),
+
+/***/ "./package.json":
+/*!**********************!*\
+  !*** ./package.json ***!
+  \**********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = JSON.parse('{"name":"app-infra","version":"0.8.0","main":"index.js","license":"GPL-3.0-only","author":"nilscox <nilscox.dev@gmail.com>","scripts":{"build":"webpack build","start":"nodemon -w webpack.config.js -w package.json -w yarn.lock -w tsconfig.json -x \\"yarn webpack serve\\"","build:demo":"webpack -c webpack.demo.config.js","demo":"webpack serve -c webpack.demo.config.js","lint":"eslint -c .eslintrc.ci.json \'src/**/*.{ts,tsx}\'","test":"TS_NODE_PROJECT=./tsconfig.test.json TZ=UTC mocha"},"devDependencies":{"@pmmmwh/react-refresh-webpack-plugin":"^0.5.0-rc.6","@svgr/webpack":"^5.5.0","@testing-library/react":"^12.0.0","@testing-library/react-hooks":"^7.0.2","@testing-library/user-event":"^13.2.1","@types/diff":"^5.0.1","@types/history":"^4.0.0","@types/mocha":"^9.0.0","@types/node":"^16.7.13","@types/react":"^16.0.0","@types/react-collapse":"^5.0.1","@types/react-dom":"^16.0.0","@types/react-router-dom":"^5.1.9","@types/showdown":"^1.9.4","@types/uuid":"^8.3.1","@typescript-eslint/eslint-plugin":"^4.31.0","@typescript-eslint/parser":"^4.31.0","copy-webpack-plugin":"^9.0.1","css-loader":"^6.2.0","demo":"nilscox/demos","dotenv":"^10.0.0","earl-plugin-dom":"nilscox/earl-plugin-dom","earljs":"^0.1.10","esbuild-loader":"^2.15.1","eslint":"^7.32.0","eslint-plugin-simple-import-sort":"^7.0.0","history":"^4.0.0","html-webpack-plugin":"^5.3.2","jsdom":"^17.0.0","jsdom-global":"^3.0.2","mocha":"^9.1.1","module-alias":"^2.2.2","nodemon":"^2.0.12","react-refresh":"^0.10.0","react-styleguidist":"^11.1.7","redux-devtools-extension":"^2.13.9","style-loader":"^3.2.1","ts-node":"^10.2.1","type-fest":"^2.2.0","typescript":"^4.4.2","webpack":"^5.52.0","webpack-cli":"^4.8.0","webpack-dev-server":"^4.1.1"},"dependencies":{"@datapunt/matomo-tracker-js":"^0.5.1","@emotion/react":"^11.4.1","@emotion/styled":"^11.3.0","@fontsource/montserrat":"^4.5.1","@fontsource/noticia-text":"^4.5.0","@kunukn/react-collapse":"^2.2.9","@material-icons/svg":"^1.0.16","@szhsin/react-menu":"^2.0.1","classnames":"^2.3.1","dayjs":"^1.10.6","diff":"^5.0.0","iframe-resizer":"^4.3.2","normalize.css":"^8.0.1","polished":"^4.1.3","react":"^16.0.0","react-dom":"^16.0.0","react-redux":"^7.2.5","react-router-dom":"^5.3.0","react-toastify":"^8.0.3","redux":"^4.1.1","redux-thunk":"^2.3.0","showdown":"^1.9.1","use-debounce":"^7.0.0","uuid":"^8.3.2"}}');
+
 /***/ })
 
 /******/ 	});
@@ -69068,21 +69097,23 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-element-99289b21.browser.esm.js");
+/* harmony import */ var _emotion_react__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @emotion/react */ "./node_modules/@emotion/react/dist/emotion-element-99289b21.browser.esm.js");
 /* harmony import */ var demo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! demo */ "./node_modules/demo/lib/main.esm.js");
-/* harmony import */ var history__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! history */ "./node_modules/history/esm/history.js");
+/* harmony import */ var history__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! history */ "./node_modules/history/esm/history.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _gateways_ReactRouterGateway__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ~/gateways/ReactRouterGateway */ "./src/gateways/ReactRouterGateway.ts");
 /* harmony import */ var _gateways_stubs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ~/gateways/stubs */ "./src/gateways/stubs/index.ts");
 /* harmony import */ var _theme__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ~/theme */ "./src/theme/index.ts");
 /* harmony import */ var _theme_GlobalStyles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ~/theme/GlobalStyles */ "./src/theme/GlobalStyles.tsx");
 /* harmony import */ var _utils_configureStore__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ~/utils/configureStore */ "./src/utils/configureStore.ts");
-/* harmony import */ var _components_demos__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/demos */ "./src/components/demos.ts");
-/* harmony import */ var _guidelines__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./guidelines */ "./src/guidelines.tsx");
-/* harmony import */ var _theme_theme_demos__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./theme/theme.demos */ "./src/theme/theme.demos.tsx");
-/* harmony import */ var _views_demos__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./views/demos */ "./src/views/demos.ts");
-/* harmony import */ var demo_lib_styles_css__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! demo/lib/styles.css */ "./node_modules/demo/lib/styles.css");
+/* harmony import */ var _zetecom_global__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./zetecom-global */ "./src/zetecom-global.ts");
+/* harmony import */ var _components_demos__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/demos */ "./src/components/demos.ts");
+/* harmony import */ var _guidelines__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./guidelines */ "./src/guidelines.tsx");
+/* harmony import */ var _theme_theme_demos__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./theme/theme.demos */ "./src/theme/theme.demos.tsx");
+/* harmony import */ var _utils_env__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./utils/env */ "./src/utils/env.ts");
+/* harmony import */ var _views_demos__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./views/demos */ "./src/views/demos.ts");
+/* harmony import */ var demo_lib_styles_css__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! demo/lib/styles.css */ "./node_modules/demo/lib/styles.css");
 var __defProp = Object.defineProperty;
 var __defProps = Object.defineProperties;
 var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
@@ -69119,9 +69150,11 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 
 
 
+
+
 const getDependencies = () => {
   const containers = new _gateways_stubs__WEBPACK_IMPORTED_MODULE_5__.EntitiesContainers({ commentsAreas: [], users: [] });
-  const history = (0,history__WEBPACK_IMPORTED_MODULE_14__.createMemoryHistory)();
+  const history = (0,history__WEBPACK_IMPORTED_MODULE_16__.createMemoryHistory)();
   const deps = (0,_gateways_stubs__WEBPACK_IMPORTED_MODULE_5__.stubDependencies)(containers);
   deps.routerGateway = new _gateways_ReactRouterGateway__WEBPACK_IMPORTED_MODULE_4__.ReactRouterGateway(history);
   const store = (0,_utils_configureStore__WEBPACK_IMPORTED_MODULE_8__.configureStore)(deps);
@@ -69130,18 +69163,19 @@ const getDependencies = () => {
   }
   return { store, deps, containers, history };
 };
-const Wrapper = ({ store, history, children }) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Router, {
+const Wrapper = ({ store, history, children }) => /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_17__.Router, {
   history
-}, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(_emotion_react__WEBPACK_IMPORTED_MODULE_16__.a, {
+}, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(_emotion_react__WEBPACK_IMPORTED_MODULE_18__.a, {
   theme: _theme__WEBPACK_IMPORTED_MODULE_6__.theme
 }, /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(_theme_GlobalStyles__WEBPACK_IMPORTED_MODULE_7__.GlobalStyles, null), /* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_redux__WEBPACK_IMPORTED_MODULE_3__.Provider, {
   store
 }, children)));
-const demos = __spreadProps(__spreadValues(__spreadValues({}, _components_demos__WEBPACK_IMPORTED_MODULE_9__.componentsDemos), _views_demos__WEBPACK_IMPORTED_MODULE_12__.viewsDemos), {
-  theme: _theme_theme_demos__WEBPACK_IMPORTED_MODULE_11__,
-  Guidelines: { guidelines: _guidelines__WEBPACK_IMPORTED_MODULE_10__.guidelines }
+const demos = __spreadProps(__spreadValues(__spreadValues({}, _components_demos__WEBPACK_IMPORTED_MODULE_10__.componentsDemos), _views_demos__WEBPACK_IMPORTED_MODULE_14__.viewsDemos), {
+  theme: _theme_theme_demos__WEBPACK_IMPORTED_MODULE_12__,
+  Guidelines: { guidelines: _guidelines__WEBPACK_IMPORTED_MODULE_11__.guidelines }
 });
 react_dom__WEBPACK_IMPORTED_MODULE_1__.render(/* @__PURE__ */ react__WEBPACK_IMPORTED_MODULE_0__.createElement(demo__WEBPACK_IMPORTED_MODULE_2__.Demos, {
+  basename: (0,_utils_env__WEBPACK_IMPORTED_MODULE_13__.getEnv)("BASENAME"),
   title: "Z\xE9t\xE9com components library",
   demos,
   getDependencies,
@@ -69152,4 +69186,4 @@ react_dom__WEBPACK_IMPORTED_MODULE_1__.render(/* @__PURE__ */ react__WEBPACK_IMP
 
 /******/ })()
 ;
-//# sourceMappingURL=main.44eeec996dc18aacbb14.js.map
+//# sourceMappingURL=main.aba35e90e221b3ed0893.js.map
