@@ -1,5 +1,6 @@
 [![Build Status](https://github.com/nilscox/zetecom/workflows/build/badge.svg)](https://github.com/nilscox/zetecom/actions)
-[![codecov](https://codecov.io/gh/nilscox/zetecom/branch/master/graph/badge.svg)](https://codecov.io/gh/nilscox/zetecom)
+
+<!-- [![codecov](https://codecov.io/gh/nilscox/zetecom/branch/master/graph/badge.svg)](https://codecov.io/gh/nilscox/zetecom) -->
 
 This is where the code of _Zétécom_ lives. For more information about the project, have a look at the website, [https://zetecom.fr](https://zetecom.fr), if you understand french :).
 
