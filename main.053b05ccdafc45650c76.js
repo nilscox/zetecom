@@ -26521,9 +26521,9 @@ __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! ./node_modules/r
 const environmentVariables = {
   NODE_ENV: "development",
   DEMO: "false",
-  BASENAME: "/",
+  BASENAME: "/zetecom",
   API_URL: "http://localhost:3000",
-  WEBSITE_URL: "http://localhost:8080",
+  WEBSITE_URL: "https://zetecom.fr",
   ANALYTICS_URL: "",
   ANALYTICS_SITE_ID: "stub"
 };
@@ -80727,7 +80727,7 @@ function combine (array, callback) {
 /******/ 	
 /******/ 	/* webpack/runtime/publicPath */
 /******/ 	(() => {
-/******/ 		__webpack_require__.p = "/";
+/******/ 		__webpack_require__.p = "/zetecom/";
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/react refresh */
@@ -80828,4 +80828,4 @@ function combine (array, callback) {
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=main.d4569f838261b3afe34a.js.map
+//# sourceMappingURL=main.053b05ccdafc45650c76.js.map
