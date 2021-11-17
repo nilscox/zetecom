@@ -17117,10 +17117,10 @@ class StubUserGateway {
       throw new _zetecom_app_core__WEBPACK_IMPORTED_MODULE_0__.AuthenticationError(400, { message: "PASSWORD_UNSECURE" });
     }
     if (this.findUser({ email })) {
-      throw new _zetecom_app_core__WEBPACK_IMPORTED_MODULE_0__.AuthenticationError(400, { message: "EMAIL_ALREADY_EXIST" });
+      throw new _zetecom_app_core__WEBPACK_IMPORTED_MODULE_0__.AuthenticationError(400, { message: "EMAIL_ALREADY_EXISTS" });
     }
     if (this.findUser({ nick })) {
-      throw new _zetecom_app_core__WEBPACK_IMPORTED_MODULE_0__.AuthenticationError(400, { message: "NICK_ALREADY_EXIST" });
+      throw new _zetecom_app_core__WEBPACK_IMPORTED_MODULE_0__.AuthenticationError(400, { message: "NICK_ALREADY_EXISTS" });
     }
     return __spreadValues({
       requiresEmailValidation: false
@@ -69186,4 +69186,4 @@ react_dom__WEBPACK_IMPORTED_MODULE_1__.render(/* @__PURE__ */ react__WEBPACK_IMP
 
 /******/ })()
 ;
-//# sourceMappingURL=main.aba35e90e221b3ed0893.js.map
+//# sourceMappingURL=main.c719a5b430b8b97647f8.js.map
