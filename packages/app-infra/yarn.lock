@@ -3421,8 +3421,8 @@ delayed-stream@~1.0.0:
   integrity sha1-3zrhmayt+31ECqrgsp4icrJOxhk=
 
 demo@nilscox/demos:
-  version "0.1.0"
-  resolved "https://codeload.github.com/nilscox/demos/tar.gz/9c308e55d351ebae376bf70c4a4ca35a9cada195"
+  version "0.1.1"
+  resolved "https://codeload.github.com/nilscox/demos/tar.gz/1b8108598dd23d5e0658f94fba3ccf316461e27d"
 
 depd@~1.1.2:
   version "1.1.2"
@@ -3580,6 +3580,11 @@ dot-prop@^5.2.0:
   integrity sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==
   dependencies:
     is-obj "^2.0.0"
+
+dotenv@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+  integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
 duplexer3@^0.1.4:
   version "0.1.4"

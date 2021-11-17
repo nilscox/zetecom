@@ -15,9 +15,12 @@ import { theme } from '~/theme';
 import { GlobalStyles } from '~/theme/GlobalStyles';
 import { configureStore } from '~/utils/configureStore';
 
+import './zetecom-global';
+
 import { componentsDemos } from './components/demos';
 import { guidelines } from './guidelines';
 import * as themeDemos from './theme/theme.demos';
+import { getEnv } from './utils/env';
 import { viewsDemos } from './views/demos';
 
 import 'demo/lib/styles.css';
@@ -66,6 +69,12 @@ const demos: DemosGroup<DemoDependencies> = {
 };
 
 ReactDOM.render(
-  <Demos title="Zétécom components library" demos={demos} getDependencies={getDependencies} Wrapper={Wrapper} />,
+  <Demos
+    basename={getEnv('BASENAME')}
+    title="Zétécom components library"
+    demos={demos}
+    getDependencies={getDependencies}
+    Wrapper={Wrapper}
+  />,
   document.getElementById('root'),
 );

@@ -110,11 +110,11 @@ export class StubUserGateway implements UserGateway {
     }
 
     if (this.findUser({ email })) {
-      throw new AuthenticationError(400, { message: 'EMAIL_ALREADY_EXIST' });
+      throw new AuthenticationError(400, { message: 'EMAIL_ALREADY_EXISTS' });
     }
 
     if (this.findUser({ nick })) {
-      throw new AuthenticationError(400, { message: 'NICK_ALREADY_EXIST' });
+      throw new AuthenticationError(400, { message: 'NICK_ALREADY_EXISTS' });
     }
 
     return {

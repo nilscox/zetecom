@@ -33,6 +33,7 @@
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
     "demo": "nilscox/demos",
+    "dotenv": "^10.0.0",
     "earl-plugin-dom": "nilscox/earl-plugin-dom",
     "earljs": "^0.1.10",
     "esbuild-loader": "^2.15.1",
