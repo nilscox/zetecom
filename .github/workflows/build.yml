@@ -121,7 +121,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn build
 
-  # # code quality
+  # code quality
 
   code-quality:
     name: code quality
@@ -155,7 +155,7 @@ jobs:
       - run: yarn lint
         working-directory: ./website
 
-  # # e2e
+  # e2e
 
   api-e2e:
     name: api end-to-end tests
@@ -226,16 +226,24 @@ jobs:
       - run: docker tag $API_IMAGE:${{ github.sha }} "$API_IMAGE:$tag"
       - run: docker push "$API_IMAGE:$tag"
 
-  # deploy
+  # deploy staging
 
-  deploy-api:
-    name: deploy api
+  deploy-api-staging:
+    name: deploy api staging
     environment: staging
     runs-on: ubuntu-latest
-    # needs: [publish-api]
+    needs: [publish-api]
+    if: github.ref == 'refs/heads/dev'
     steps:
       - uses: actions/checkout@v2
-      - run: ./deploy-api.sh --env staging --image $API_IMAGE:dev --port ${{ secrets.LISTEN_PORT }} --docker-host ${{ secrets.DOCKER_HOST }} --docker-auth ${{ secrets.DOCKER_AUTHENTICATION }} --base-dir ${{ secrets.BASE_DIR }}
+      - run: |
+          ./deploy-api.sh \
+            --env staging \
+            --image $API_IMAGE:dev \
+            --port ${{ secrets.API_LISTEN_PORT }} \
+            --docker-host ${{ secrets.DEPLOY_DOCKER_HOST }} \
+            --docker-auth ${{ secrets.DEPLOY_DOCKER_AUTHENTICATION }} \
+            --base-dir ${{ secrets.DEPLOY_BASE_DIR }}
         working-directory: ./scripts
         env:
           LOG_LEVEL: "log"
@@ -259,3 +267,136 @@ jobs:
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           SECURE_COOKIE: "true"
           USER_AVATAR_DESTINATION: "/app/avatars"
+
+  deploy-app-staging:
+    name: deploy app staging
+    runs-on: ubuntu-latest
+    environment: staging
+    if: github.ref == 'refs/heads/dev'
+    needs: [app, code-quality, e2e, deploy-api-staging]
+    defaults:
+      run:
+        working-directory: scripts
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: app
+          path: packages/app-infra/dist
+      - run: ./replace-env.sh dist
+        working-directory: packages/app-infra
+        env:
+          API_URL: ${{ secrets.APP_API_URL }}
+          WEBSITE_URL: ${{ secrets.APP_WEBSITE_URL }}
+          ANALYTICS_URL: ${{ secrets.APP_ANALYTICS_URL }}
+          ANALYTICS_SITE_ID: ${{ secrets.APP_ANALYTICS_SITE_ID }}
+      - run: |
+          mkdir ~/.ssh
+
+          key=~/.ssh/zetecom.key
+
+          touch "$key"
+          chmod 600 "$key"
+          echo '${{ secrets.DEPLOY_KEY }}' > "$key"
+
+          cat >> ~/.ssh/config <<EOF
+          Host ${{ secrets.DEPLOY_HOST }}
+            HostName ${{ secrets.DEPLOY_HOST }}
+            User ${{ secrets.DEPLOY_USER }}
+            IdentityFile $key
+            StrictHostKeyChecking no
+          EOF
+      - run: ./deploy-app.sh ../packages/app-infra/dist --deploy-host ${{ secrets.DEPLOY_HOST }} --base-dir ${{ secrets.DEPLOY_BASE_DIR }}
+      - run: rm ~/.ssh/zetecom.key
+
+  # deploy production
+
+  deploy-api-production:
+    name: deploy api production
+    runs-on: ubuntu-latest
+    environment: production
+    if: github.ref == 'refs/heads/master'
+    needs: [publish-api]
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          ./deploy-api.sh \
+            --env production \
+            --image $API_IMAGE:dev \
+            --port ${{ secrets.API_LISTEN_PORT }} \
+            --docker-host ${{ secrets.DEPLOY_DOCKER_HOST }} \
+            --docker-auth ${{ secrets.DEPLOY_DOCKER_AUTHENTICATION }} \
+            --base-dir ${{ secrets.DEPLOY_BASE_DIR }}
+        working-directory: ./scripts
+        env:
+          LOG_LEVEL: "log"
+          TRUST_PROXY: "true"
+          REFLECT_ORIGIN: "false"
+          ADMIN_USER: ${{ secrets.API_ADMIN_USER }}
+          APP_URL: "https://app.zetecom.fr"
+          WEBSITE_URL: "https://zetecom.fr"
+          DB_HOST: ${{ secrets.API_DB_HOST }}
+          DB_PORT: ${{ secrets.API_DB_PORT }}
+          DB_USER: ${{ secrets.API_DB_USER }}
+          DB_PASS: ${{ secrets.API_DB_PASS }}
+          DB_NAME: ${{ secrets.API_DB_NAME }}
+          DB_ENTITIES: "src/**/*.entity.js"
+          DB_MIGRATIONS: "migrations/*.js"
+          DB_SEEDS: "seeds/*.js"
+          REDIS_HOST: ${{ secrets.API_REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.API_REDIS_PORT }}
+          EMAIL_BYPASS: "false"
+          EMAIL_ACCOUNT_VERIFICATION: "true"
+          EMAIL_HOST: ${{ secrets.API_EMAIL_HOST }}
+          EMAIL_FROM: ${{ secrets.API_EMAIL_FROM }}
+          EMAIL_PASSWORD: ${{ secrets.API_EMAIL_PASSWORD }}
+          EMAIL_PORT: ${{ secrets.API_EMAIL_PORT }}
+          EMAIL_SECURE: ${{ secrets.API_EMAIL_SECURE }}
+          EMAIL_USER: ${{ secrets.API_EMAIL_USER }}
+          SESSION_SECRET: ${{ secrets.API_SESSION_SECRET }}
+          SECURE_COOKIE: "true"
+          USER_AVATAR_DESTINATION: "/app/avatars"
+
+  deploy-app-production:
+    name: deploy app production
+    runs-on: ubuntu-latest
+    environment: production
+    if: github.ref == 'refs/heads/master'
+    needs: [app, code-quality, e2e, deploy-api-production]
+    defaults:
+      run:
+        working-directory: scripts
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: app
+          path: packages/app-infra/dist
+      - run: ./replace-env.sh dist
+        working-directory: packages/app-infra
+        env:
+          API_URL: ${{ secrets.APP_API_URL }}
+          WEBSITE_URL: ${{ secrets.APP_WEBSITE_URL }}
+          ANALYTICS_URL: ${{ secrets.APP_ANALYTICS_URL }}
+          ANALYTICS_SITE_ID: ${{ secrets.APP_ANALYTICS_SITE_ID }}
+      - run: |
+          mkdir ~/.ssh
+
+          key=~/.ssh/zetecom.key
+
+          touch "$key"
+          chmod 600 "$key"
+          echo '${{ secrets.DEPLOY_KEY }}' > "$key"
+
+          cat >> ~/.ssh/config <<EOF
+          Host ${{ secrets.DEPLOY_HOST }}
+            HostName ${{ secrets.DEPLOY_HOST }}
+            User ${{ secrets.DEPLOY_USER }}
+            IdentityFile $key
+            StrictHostKeyChecking no
+          EOF
+      - run: |
+          ./deploy-app.sh ../packages/app-infra/dist \
+            --deploy-host ${{ secrets.DEPLOY_HOST }} \
+            --base-dir ${{ secrets.DEPLOY_BASE_DIR }}
+      - run: rm ~/.ssh/zetecom.key

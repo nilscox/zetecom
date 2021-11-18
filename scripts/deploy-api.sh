@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
 
-script_dir=$(cd "$(dirname "$BASH_SOURCE[0]}")" && pwd)
-
 env="local"
 image="nilscox/zetecom-api:$(git rev-parse HEAD)"
 port="4242"
 
 docker_host="https://localhost:2375"
 docker_auth=""
-base_dir=""
+base_dir="./data/zetecom-local"
 
 while [ -n "$1" ]; do
   case "$1" in
@@ -41,12 +39,6 @@ while [ -n "$1" ]; do
       shift;;
   esac
 done
-
-echo "base_dir=$base_dir"
-
-if [ -n "$base_dir" ]; then
-  base_dir=$(realpath "$script_dir/../data/zetecom-local")
-fi
 
 container="zc-api-$env"
 network="zc-network-$env"

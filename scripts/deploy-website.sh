@@ -86,7 +86,7 @@ build_website() {
 deploy_website() {
   # assert that the target directory is correct to avoid undesired upcoming `rm -rf`
   if ! ssh "$deploy_user@$deploy_host" ls "$website_dir" | grep charte.html > /dev/null; then
-    remove_deploy_key
+    cleanup_environment
     err "charte.html not found in $deploy_host:$website_dir, aborting deployment"
   fi
 
