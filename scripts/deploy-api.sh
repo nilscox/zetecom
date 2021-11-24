@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eo pipefail
+
 env="local"
 image="nilscox/zetecom-api:$(git rev-parse HEAD)"
 port="4242"
@@ -46,7 +48,7 @@ network="zc-network-$env"
 dkr() {
   path="$1"; shift
 
-  curl -v \
+  curl --fail \
     "$docker_host$path" \
     -u "$docker_auth" \
     --header 'Content-Type: application/json' \

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eo pipefail
+
 dist="$1"
 shift
 
@@ -29,7 +31,7 @@ done
 
 app_dir="$base_dir/app"
 
-if ! ssh -v "$deploy_host" ls "$app_dir" | grep index.html > /dev/null; then
+if ! ssh "$deploy_host" ls "$app_dir" | grep index.html > /dev/null; then
   echo "$deploy_host:$app_dir/index.html not found, aborting deployment" >&2
   exit 1
 fi

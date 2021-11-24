@@ -230,84 +230,60 @@ jobs:
 
   deploy-api-staging:
     name: deploy api staging
-    environment: staging
     runs-on: ubuntu-latest
-    needs: [publish-api]
+    environment: staging
     if: github.ref == 'refs/heads/dev'
+    needs: [publish-api]
     steps:
-      - uses: actions/checkout@v2
-      - run: |
-          ./deploy-api.sh \
-            --env staging \
-            --image $API_IMAGE:dev \
-            --port ${{ secrets.API_LISTEN_PORT }} \
-            --docker-host ${{ secrets.DEPLOY_DOCKER_HOST }} \
-            --docker-auth ${{ secrets.DEPLOY_DOCKER_AUTHENTICATION }} \
-            --base-dir ${{ secrets.DEPLOY_BASE_DIR }}
-        working-directory: ./scripts
-        env:
-          LOG_LEVEL: "log"
-          TRUST_PROXY: "true"
-          REFLECT_ORIGIN: "true"
-          ADMIN_USER: ${{ secrets.ADMIN_USER }}
-          APP_URL: "https://app-staging.zetecom.fr"
-          WEBSITE_URL: "https://staging.zetecom.fr"
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASS: ${{ secrets.DB_PASS }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          DB_ENTITIES: "src/**/*.entity.js"
-          DB_MIGRATIONS: "migrations/*.js"
-          DB_SEEDS: "seeds/*.js"
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
-          EMAIL_BYPASS: "true"
-          EMAIL_ACCOUNT_VERIFICATION: "false"
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-          SECURE_COOKIE: "true"
-          USER_AVATAR_DESTINATION: "/app/avatars"
+      - uses: nilscox/zetecom/.github/actions/deployment/deploy-api@dev
+        with:
+          environment: staging
+          image: $API_IMAGE:dev
+          base-dir: ${{ secrets.DEPLOY_BASE_DIR }}
+          docker-host: ${{ secrets.DEPLOY_DOCKER_HOST }}
+          docker-authentication: ${{ secrets.DEPLOY_DOCKER_AUTHENTICATION }}
+          listen-port: ${{ secrets.API_LISTEN_PORT }}
+          admin-user: ${{ secrets.API_ADMIN_USER }}
+          reflect-origin: true
+          app-url: https://app-staging.zetecom.fr
+          website-url: https://staging.zetecom.fr
+          db-host: ${{ secrets.API_DB_HOST }}
+          db-port: ${{ secrets.API_DB_PORT }}
+          db-user: ${{ secrets.API_DB_USER }}
+          db-pass: ${{ secrets.API_DB_PASS }}
+          db-name: ${{ secrets.API_DB_NAME }}
+          redis-host: ${{ secrets.API_REDIS_HOST }}
+          redis-port: ${{ secrets.API_REDIS_PORT }}
+          email-host: ${{ secrets.API_EMAIL_HOST }}
+          email-port: ${{ secrets.API_EMAIL_PORT }}
+          email-user: ${{ secrets.API_EMAIL_USER }}
+          email-password: ${{ secrets.API_EMAIL_PASSWORD }}
+          email-secure: ${{ secrets.API_EMAIL_SECURE }}
+          email-bypass: true
+          email-account-verification: false
+          email-from: ${{ secrets.API_EMAIL_FROM }}
+          session-secret: ${{ secrets.API_SESSION_SECRET }}
 
   deploy-app-staging:
     name: deploy app staging
     runs-on: ubuntu-latest
-    environment: staging
+    environment:
+      name: staging
+      url: https://app-staging.zetecom.fr
     if: github.ref == 'refs/heads/dev'
     needs: [app, code-quality, e2e, deploy-api-staging]
-    defaults:
-      run:
-        working-directory: scripts
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: nilscox/zetecom/.github/actions/deployment/deploy-app@dev
         with:
-          name: app
-          path: packages/app-infra/dist
-      - run: ./replace-env.sh dist
-        working-directory: packages/app-infra
-        env:
-          API_URL: ${{ secrets.APP_API_URL }}
-          WEBSITE_URL: ${{ secrets.APP_WEBSITE_URL }}
-          ANALYTICS_URL: ${{ secrets.APP_ANALYTICS_URL }}
-          ANALYTICS_SITE_ID: ${{ secrets.APP_ANALYTICS_SITE_ID }}
-      - run: |
-          mkdir ~/.ssh
-
-          key=~/.ssh/zetecom.key
-
-          touch "$key"
-          chmod 600 "$key"
-          echo '${{ secrets.DEPLOY_KEY }}' > "$key"
-
-          cat >> ~/.ssh/config <<EOF
-          Host ${{ secrets.DEPLOY_HOST }}
-            HostName ${{ secrets.DEPLOY_HOST }}
-            User ${{ secrets.DEPLOY_USER }}
-            IdentityFile $key
-            StrictHostKeyChecking no
-          EOF
-      - run: ./deploy-app.sh ../packages/app-infra/dist --deploy-host ${{ secrets.DEPLOY_HOST }} --base-dir ${{ secrets.DEPLOY_BASE_DIR }}
-      - run: rm ~/.ssh/zetecom.key
+          deploy-host: ${{ secrets.DEPLOY_HOST }}
+          deploy-user: ${{ secrets.DEPLOY_USER }}
+          deploy-key: ${{ secrets.DEPLOY_KEY }}
+          base-dir: ${{ secrets.DEPLOY_BASE_DIR }}
+          api-url: https://app-staging.zetecom.fr
+          website-url: https://staging.zetecom.fr
+          analytics-provider: ${{ secrets.APP_ANALYTICS_PROVIDER }}
+          analytics-url: ${{ secrets.APP_ANALYTICS_URL }}
+          analytics-site-id: ${{ secrets.APP_ANALYTICS_SITE_ID }}
 
   # deploy production
 
@@ -318,85 +294,51 @@ jobs:
     if: github.ref == 'refs/heads/master'
     needs: [publish-api]
     steps:
-      - uses: actions/checkout@v2
-      - run: |
-          ./deploy-api.sh \
-            --env production \
-            --image $API_IMAGE:dev \
-            --port ${{ secrets.API_LISTEN_PORT }} \
-            --docker-host ${{ secrets.DEPLOY_DOCKER_HOST }} \
-            --docker-auth ${{ secrets.DEPLOY_DOCKER_AUTHENTICATION }} \
-            --base-dir ${{ secrets.DEPLOY_BASE_DIR }}
-        working-directory: ./scripts
-        env:
-          LOG_LEVEL: "log"
-          TRUST_PROXY: "true"
-          REFLECT_ORIGIN: "false"
-          ADMIN_USER: ${{ secrets.API_ADMIN_USER }}
-          APP_URL: "https://app.zetecom.fr"
-          WEBSITE_URL: "https://zetecom.fr"
-          DB_HOST: ${{ secrets.API_DB_HOST }}
-          DB_PORT: ${{ secrets.API_DB_PORT }}
-          DB_USER: ${{ secrets.API_DB_USER }}
-          DB_PASS: ${{ secrets.API_DB_PASS }}
-          DB_NAME: ${{ secrets.API_DB_NAME }}
-          DB_ENTITIES: "src/**/*.entity.js"
-          DB_MIGRATIONS: "migrations/*.js"
-          DB_SEEDS: "seeds/*.js"
-          REDIS_HOST: ${{ secrets.API_REDIS_HOST }}
-          REDIS_PORT: ${{ secrets.API_REDIS_PORT }}
-          EMAIL_BYPASS: "false"
-          EMAIL_ACCOUNT_VERIFICATION: "true"
-          EMAIL_HOST: ${{ secrets.API_EMAIL_HOST }}
-          EMAIL_FROM: ${{ secrets.API_EMAIL_FROM }}
-          EMAIL_PASSWORD: ${{ secrets.API_EMAIL_PASSWORD }}
-          EMAIL_PORT: ${{ secrets.API_EMAIL_PORT }}
-          EMAIL_SECURE: ${{ secrets.API_EMAIL_SECURE }}
-          EMAIL_USER: ${{ secrets.API_EMAIL_USER }}
-          SESSION_SECRET: ${{ secrets.API_SESSION_SECRET }}
-          SECURE_COOKIE: "true"
-          USER_AVATAR_DESTINATION: "/app/avatars"
+      - uses: nilscox/zetecom/.github/actions/deployment/deploy-api@master
+        with:
+          environment: production
+          image: $API_IMAGE:master
+          base-dir: ${{ secrets.DEPLOY_BASE_DIR }}
+          docker-host: ${{ secrets.DEPLOY_DOCKER_HOST }}
+          docker-authentication: ${{ secrets.DEPLOY_DOCKER_AUTHENTICATION }}
+          listen-port: ${{ secrets.API_LISTEN_PORT }}
+          admin-user: ${{ secrets.API_ADMIN_USER }}
+          reflect-origin: false
+          app-url: https://app.zetecom.fr
+          website-url: https://zetecom.fr
+          db-host: ${{ secrets.API_DB_HOST }}
+          db-port: ${{ secrets.API_DB_PORT }}
+          db-user: ${{ secrets.API_DB_USER }}
+          db-pass: ${{ secrets.API_DB_PASS }}
+          db-name: ${{ secrets.API_DB_NAME }}
+          redis-host: ${{ secrets.API_REDIS_HOST }}
+          redis-port: ${{ secrets.API_REDIS_PORT }}
+          email-host: ${{ secrets.API_EMAIL_HOST }}
+          email-port: ${{ secrets.API_EMAIL_PORT }}
+          email-user: ${{ secrets.API_EMAIL_USER }}
+          email-password: ${{ secrets.API_EMAIL_PASSWORD }}
+          email-secure: ${{ secrets.API_EMAIL_SECURE }}
+          email-bypass: false
+          email-account-verification: true
+          email-from: ${{ secrets.API_EMAIL_FROM }}
+          session-secret: ${{ secrets.API_SESSION_SECRET }}
 
   deploy-app-production:
     name: deploy app production
     runs-on: ubuntu-latest
-    environment: production
+    environment:
+      name: production
+      url: https://app.zetecom.fr
     if: github.ref == 'refs/heads/master'
     needs: [app, code-quality, e2e, deploy-api-production]
-    defaults:
-      run:
-        working-directory: scripts
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: nilscox/zetecom/.github/actions/deployment/deploy-app@master
         with:
-          name: app
-          path: packages/app-infra/dist
-      - run: ./replace-env.sh dist
-        working-directory: packages/app-infra
-        env:
-          API_URL: ${{ secrets.APP_API_URL }}
-          WEBSITE_URL: ${{ secrets.APP_WEBSITE_URL }}
-          ANALYTICS_URL: ${{ secrets.APP_ANALYTICS_URL }}
-          ANALYTICS_SITE_ID: ${{ secrets.APP_ANALYTICS_SITE_ID }}
-      - run: |
-          mkdir ~/.ssh
-
-          key=~/.ssh/zetecom.key
-
-          touch "$key"
-          chmod 600 "$key"
-          echo '${{ secrets.DEPLOY_KEY }}' > "$key"
-
-          cat >> ~/.ssh/config <<EOF
-          Host ${{ secrets.DEPLOY_HOST }}
-            HostName ${{ secrets.DEPLOY_HOST }}
-            User ${{ secrets.DEPLOY_USER }}
-            IdentityFile $key
-            StrictHostKeyChecking no
-          EOF
-      - run: |
-          ./deploy-app.sh ../packages/app-infra/dist \
-            --deploy-host ${{ secrets.DEPLOY_HOST }} \
-            --base-dir ${{ secrets.DEPLOY_BASE_DIR }}
-      - run: rm ~/.ssh/zetecom.key
+          deploy-host: ${{ secrets.DEPLOY_HOST }}
+          deploy-key: ${{ secrets.DEPLOY_KEY }}
+          base-dir: ${{ secrets.DEPLOY_BASE_DIR }}
+          api-url: https://app.zetecom.fr
+          website-url: https://zetecom.fr
+          analytics-provider: ${{ secrets.APP_ANALYTICS_PROVIDER }}
+          analytics-url: ${{ secrets.APP_ANALYTICS_URL }}
+          analytics-site-id: ${{ secrets.APP_ANALYTICS_SITE_ID }}

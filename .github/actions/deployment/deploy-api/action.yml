@@ -1,0 +1,140 @@
+name: "deploy api"
+description: "deploy the api docker image"
+
+inputs:
+  environment:
+    required: true
+
+  image:
+    required: true
+
+  base-dir:
+    required: true
+
+  docker-host:
+    required: true
+
+  docker-authentication:
+    required: true
+
+  listen-port:
+    required: true
+
+  log-level:
+    required: true
+    default: "log"
+
+  trust-proxy:
+    required: true
+    default: "true"
+
+  reflect-origin:
+    required: true
+
+  admin-user:
+    required: true
+
+  app-url:
+    required: true
+
+  website-url:
+    required: true
+
+  db-host:
+    required: true
+
+  db-port:
+    required: true
+
+  db-user:
+    required: true
+
+  db-pass:
+    required: true
+
+  db-name:
+    required: true
+
+  redis-host:
+    required: true
+
+  redis-port:
+    required: true
+
+  email-host:
+    required: true
+
+  email-port:
+    required: true
+
+  email-user:
+    required: true
+
+  email-password:
+    required: true
+
+  email-secure:
+    required: true
+
+  email-bypass:
+    required: true
+
+  email-account-verification:
+    required: true
+
+  email-from:
+    required: true
+
+  session-secret:
+    required: true
+
+  secure-cookie:
+    required: true
+    default: "true"
+
+  user-avatar-destination:
+    required: true
+    default: "/app/avatars"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - run: |
+        ./deploy-api.sh \
+          --env ${{ inputs.environment }} \
+          --image ${{ inputs.image }} \
+          --port ${{ inputs.listen-port }} \
+          --docker-host ${{ inputs.docker-host }} \
+          --docker-auth ${{ inputs.docker-authentication }} \
+          --base-dir ${{ inputs.base-dir }}
+      shell: bash
+      working-directory: ./scripts
+      env:
+        LOG_LEVEL: ${{ inputs.log-level }}
+        TRUST_PROXY: ${{ inputs.trust-proxy }}
+        REFLECT_ORIGIN: ${{ inputs.reflect-origin }}
+        ADMIN_USER: ${{ inputs.admin-user }}
+        APP_URL: ${{ inputs.app-url }}
+        WEBSITE_URL: ${{ inputs.website-url }}
+        DB_HOST: ${{ inputs.db-host }}
+        DB_PORT: ${{ inputs.db-port }}
+        DB_USER: ${{ inputs.db-user }}
+        DB_PASS: ${{ inputs.db-pass }}
+        DB_NAME: ${{ inputs.db-name }}
+        DB_ENTITIES: "src/**/*.entity.js"
+        DB_MIGRATIONS: "migrations/*.js"
+        DB_SEEDS: "seeds/*.js"
+        REDIS_HOST: ${{ inputs.redis-host }}
+        REDIS_PORT: ${{ inputs.redis-port }}
+        EMAIL_HOST: ${{ inputs.email-host }}
+        EMAIL_PORT: ${{ inputs.email-port }}
+        EMAIL_USER: ${{ inputs.email-user }}
+        EMAIL_PASSWORD: ${{ inputs.email-password }}
+        EMAIL_SECURE: ${{ inputs.email-secure }}
+        EMAIL_BYPASS: ${{ inputs.email-bypass }}
+        EMAIL_ACCOUNT_VERIFICATION: ${{ inputs.email-account-verification }}
+        EMAIL_FROM: ${{ inputs.email-from }}
+        SESSION_SECRET: ${{ inputs.session-secret }}
+        SECURE_COOKIE: ${{ inputs.secure-cookie }}
+        USER_AVATAR_DESTINATION: ${{ inputs.user-avatar-destination }}

@@ -1,0 +1,77 @@
+name: "deploy app"
+description: "deploy the app"
+
+inputs:
+  deploy-host:
+    required: true
+
+  deploy-user:
+    required: true
+
+  deploy-key:
+    required: true
+
+  base-dir:
+    required: true
+
+  api-url:
+    required: true
+
+  website-url:
+    required: true
+
+  analytics-provider:
+    required: true
+
+  analytics-url:
+    required: true
+
+  analytics-site-id:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: app
+        path: packages/app-infra/dist
+
+    - run: ./replace-env.sh dist
+      shell: bash
+      working-directory: packages/app-infra
+      env:
+        API_URL: ${{ inputs.api-url }}
+        WEBSITE_URL: ${{ inputs.website-url }}
+        ANALYTICS_URL: ${{ inputs.analytics-url }}
+        ANALYTICS_SITE_ID: ${{ inputs.analytics-site-id }}
+
+    - run: |
+        mkdir ~/.ssh
+
+        key=~/.ssh/zetecom.key
+
+        touch "$key"
+        chmod 600 "$key"
+        echo '${{ inputs.deploy-key }}' > "$key"
+
+        cat >> ~/.ssh/config <<EOF
+        Host ${{ inputs.deploy-host }}
+          HostName ${{ inputs.deploy-host }}
+          User ${{ inputs.deploy-user }}
+          IdentityFile $key
+          StrictHostKeyChecking no
+        EOF
+      shell: bash
+
+    - run: |
+        ./deploy-app.sh ../packages/app-infra/dist \
+          --deploy-host ${{ inputs.deploy-host }} \
+          --base-dir ${{ inputs.base-dir }}
+      shell: bash
+      working-directory: scripts
+
+    - run: rm ~/.ssh/zetecom.key
+      shell: bash
