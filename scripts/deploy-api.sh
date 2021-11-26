@@ -60,6 +60,7 @@ dkr() {
 }
 
 dkr "/containers/$container?force=true" --request DELETE
+dkr "/images/create?fromImage=$image" --request POST
 
 dkr "/containers/create?name=$container" --data '{
   "Image": "'"$image"'",
