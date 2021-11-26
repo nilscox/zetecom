@@ -9,11 +9,21 @@ import { color } from '~/theme';
 export const Link = styled(ReactRouterLink)`
   color: ${color('link')};
   text-decoration-color: ${color('linkUnderline')};
+
+  &:focus-visible {
+    outline: none;
+    background-color: ${color('muted')};
+  }
 `;
 
 export const ExternalLink = styled.a`
   color: ${color('link')};
   text-decoration-color: ${color('linkUnderline')};
+
+  &:focus-visible {
+    outline: none;
+    background-color: ${color('muted')};
+  }
 `;
 
 type WebsiteLinkProps = React.ComponentProps<typeof ExternalLink>;

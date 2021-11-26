@@ -41,6 +41,7 @@ const StyledButton = styled(Box)<StyledButtonProps>`
   color: ${(props) => color(props.color ?? 'textLight')};
   cursor: pointer;
 
+  &:focus-visible,
   &:hover {
     background: ${color('muted')};
   }
