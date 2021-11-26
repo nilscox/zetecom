@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.1] - 2021-11-26
+
+### Changed
+
+- Update the frontend URLs (email validation and token authentication)
+
 ## [0.7.0] - 2021-04-11
 
 ### Added
