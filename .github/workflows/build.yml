@@ -259,8 +259,8 @@ jobs:
           email-user: ${{ secrets.API_EMAIL_USER }}
           email-password: ${{ secrets.API_EMAIL_PASSWORD }}
           email-secure: ${{ secrets.API_EMAIL_SECURE }}
-          email-bypass: true
-          email-account-verification: false
+          email-bypass: false
+          email-account-verification: true
           email-from: ${{ secrets.API_EMAIL_FROM }}
           session-secret: ${{ secrets.API_SESSION_SECRET }}
 
