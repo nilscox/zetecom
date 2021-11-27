@@ -3,7 +3,7 @@ import { expect } from 'earljs';
 import { createUser } from '../../../../entities';
 import { MockTrackingGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
-import { selectAuthenticatedUser } from '../../selectors';
+import { selectAuthenticatedUser, selectIsAuthenticating } from '../../selectors';
 
 import { logout } from './logout';
 
@@ -30,8 +30,13 @@ describe('logout', () => {
   it('logs out', async () => {
     setup();
 
-    await execute();
+    const promise = execute();
 
+    expect(store.select(selectIsAuthenticating)).toEqual(true);
+
+    await promise;
+
+    expect(store.select(selectIsAuthenticating)).toEqual(false);
     expect(store.select(selectAuthenticatedUser)).toEqual(undefined);
   });
 

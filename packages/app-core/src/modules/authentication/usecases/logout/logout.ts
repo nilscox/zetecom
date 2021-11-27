@@ -1,22 +1,31 @@
 import { createThunk } from '../../../../store/createThunk';
-import { unsetAuthenticatedUser } from '../../actions';
+import { setIsAuthenticating, unsetAuthenticatedUser } from '../../actions';
 
 export const logout = createThunk(
   async ({ dispatch, userGateway, routerGateway, trackingGateway }, location: 'app' | 'popup') => {
-    await userGateway.logout();
+    try {
+      dispatch(setIsAuthenticating(true));
 
-    dispatch(unsetAuthenticatedUser());
+      await userGateway.logout();
 
-    trackingGateway.track({
-      category: 'authentication',
-      action: 'logout',
-      name: `logout from ${location}`,
-    });
+      dispatch(unsetAuthenticatedUser());
 
-    if (location === 'app') {
-      routerGateway.push('/connexion');
-    } else {
-      routerGateway.push('/popup/connexion');
+      trackingGateway.track({
+        category: 'authentication',
+        action: 'logout',
+        name: `logout from ${location}`,
+      });
+
+      if (location === 'app') {
+        routerGateway.push('/connexion');
+      } else {
+        routerGateway.push('/popup/connexion');
+      }
+    } catch (error) {
+      console.error(error);
+      // TODO: error handling
+    } finally {
+      dispatch(setIsAuthenticating(false));
     }
   },
 );

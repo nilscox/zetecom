@@ -5,6 +5,7 @@ import {
   AuthenticatedUser,
   logout,
   selectAuthenticatedUser,
+  selectIsAuthenticating,
   selectIsFetchingAuthenticatedUser,
   selectNotificationsBadge,
   User,
@@ -25,10 +26,18 @@ export const UserMenu: React.FC = () => {
 
   const user = useAppSelector(selectAuthenticatedUser);
   const isFetchingAuthenticatedUser = useAppSelector(selectIsFetchingAuthenticatedUser);
+  const isAuthenticating = useAppSelector(selectIsAuthenticating);
 
   if (!user) {
-    // @ts-expect-error todo: find a way to be typesafe with the polymorphic "as" prop
-    return <AvatarNick as={Link} to="/connexion" nick="Connexion" loading={isFetchingAuthenticatedUser} />;
+    return (
+      <AvatarNick
+        as={Link}
+        // @ts-expect-error todo: find a way to be typesafe with the polymorphic "as" prop
+        to="/connexion"
+        nick="Connexion"
+        loading={isFetchingAuthenticatedUser || isAuthenticating}
+      />
+    );
   }
 
   return <AuthUserMenu user={user} onLogout={() => dispatch(logout('app'))} />;
@@ -67,8 +76,9 @@ type AuthUserMenuProps = {
 
 const AuthUserMenu: React.FC<AuthUserMenuProps> = ({ user, onLogout }) => {
   const badge = useAppSelector(selectNotificationsBadge);
+  const isAuthenticating = useAppSelector(selectIsAuthenticating);
 
-  const avatarNick = <AvatarNick role="button" user={user} nick={user.nick} badge={badge} />;
+  const avatarNick = <AvatarNick role="button" user={user} nick={user.nick} badge={badge} loading={isAuthenticating} />;
 
   return (
     <Menu menuButton={avatarNick}>
