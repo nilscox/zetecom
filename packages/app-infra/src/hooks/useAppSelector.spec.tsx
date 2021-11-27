@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { createAuthenticatedUser, selectAuthenticatedUser, setAuthenticatedUser, Store } from '@zetecom/app-core';
+import { MockUserGateway } from '@zetecom/app-core/shared/mocks';
 import { selectUser } from '@zetecom/app-core/store/normalize';
 import { expect } from 'earljs';
 
@@ -12,7 +13,7 @@ describe('useAppSelector', () => {
   let store: Store;
 
   beforeEach(() => {
-    store = configureStore({});
+    store = configureStore({ userGateway: new MockUserGateway() });
   });
 
   it('selects some part of the store with a selector', () => {

@@ -13,7 +13,12 @@ import {
   SortType,
   Store,
 } from '@zetecom/app-core';
-import { FakeTimerGateway, MockCommentGateway, MockCommentsAreaGateway } from '@zetecom/app-core/shared/mocks';
+import {
+  FakeTimerGateway,
+  MockCommentGateway,
+  MockCommentsAreaGateway,
+  MockUserGateway,
+} from '@zetecom/app-core/shared/mocks';
 import { expect } from 'earljs';
 
 import { Test } from '~/Test';
@@ -35,7 +40,12 @@ describe('CommentsArea', () => {
     commentGateway = new MockCommentGateway();
     timerGateway = new FakeTimerGateway();
 
-    store = configureStore({ commentsAreaGateway, commentGateway, timerGateway });
+    store = configureStore({
+      commentsAreaGateway,
+      commentGateway,
+      userGateway: new MockUserGateway(),
+      timerGateway,
+    });
   });
 
   const setup = (commentsArea: CommentsAreaType, user?: AuthenticatedUser) => {

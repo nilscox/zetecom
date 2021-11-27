@@ -19,7 +19,7 @@ import {
   Store,
 } from '@zetecom/app-core';
 import { setCurrentCommentsArea } from '@zetecom/app-core/modules/commentsArea/actions';
-import { MockCommentGateway, MockRouterGateway } from '@zetecom/app-core/shared/mocks';
+import { MockCommentGateway, MockRouterGateway, MockUserGateway } from '@zetecom/app-core/shared/mocks';
 import { expect } from 'earljs';
 
 import { Test } from '~/Test';
@@ -34,7 +34,11 @@ describe('Comment', () => {
   const routerGateway = new MockRouterGateway();
 
   beforeEach(() => {
-    store = configureStore({ commentGateway, routerGateway });
+    store = configureStore({
+      commentGateway,
+      userGateway: new MockUserGateway(),
+      routerGateway,
+    });
   });
 
   const setup = (comment: CommentType, user?: AuthenticatedUser) => {

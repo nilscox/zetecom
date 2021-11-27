@@ -3,7 +3,7 @@ import React from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createAuthenticatedUser, setAuthenticatedUser, Store } from '@zetecom/app-core';
-import { MockCommentGateway } from '@zetecom/app-core/shared/mocks';
+import { MockCommentGateway, MockUserGateway } from '@zetecom/app-core/shared/mocks';
 import { expect, mockFn } from 'earljs';
 
 import { Test } from '~/Test';
@@ -18,7 +18,10 @@ describe('CommentForm', () => {
   const commentGateway = new MockCommentGateway();
 
   beforeEach(() => {
-    store = configureStore({ commentGateway });
+    store = configureStore({
+      commentGateway,
+      userGateway: new MockUserGateway(),
+    });
   });
 
   const setup = (props: Partial<CommentFormProps> = {}) => {

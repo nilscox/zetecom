@@ -9,6 +9,7 @@ import {
 } from '@zetecom/app-core/shared/mocks';
 import { expect } from 'earljs';
 import { createMemoryHistory, History } from 'history';
+import { Route } from 'react-router';
 
 import { ReactRouterGateway } from '~/gateways/ReactRouterGateway';
 import { Test } from '~/Test';
@@ -48,7 +49,7 @@ describe('AuthenticationForm', function () {
 
     render(
       <Test store={store} history={history}>
-        <AuthenticationForm />
+        <Route path="/(connexion|inscription|lien-de-connexion)" component={AuthenticationForm} />
       </Test>,
     );
 
