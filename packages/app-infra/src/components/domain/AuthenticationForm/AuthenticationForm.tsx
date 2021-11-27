@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   AuthenticationField,
   AuthenticationForm as AuthenticationFormEnum,
+  clearAuthenticationErrors,
   selectAuthenticationField,
   selectAuthenticationFieldError,
   selectAuthenticationGlobalError,
@@ -23,6 +24,7 @@ import { Box } from '~/components/layout/Box/Box';
 import { Collapse } from '~/components/layout/Collapse/Collapse';
 import { Flex } from '~/components/layout/Flex/Flex';
 import { useAppSelector } from '~/hooks/useAppSelector';
+import useUpdateEffect from '~/hooks/useUpdateEffect';
 
 const routes = {
   [AuthenticationFormEnum.requestAuthenticationLink]: '/lien-de-connexion',
@@ -110,6 +112,7 @@ const useAuthenticationFields = () => {
 
 const useFormValidity = (email: string, password: string, nick: string, rulesAccepted: boolean) => {
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const formRef = useRef<HTMLFormElement>(null);
   const [valid, setValid] = useState(false);
@@ -117,6 +120,10 @@ const useFormValidity = (email: string, password: string, nick: string, rulesAcc
   useEffect(() => {
     setValid(formRef.current?.checkValidity() ?? false);
   }, [email, password, nick, rulesAccepted, location.pathname]);
+
+  useUpdateEffect(() => {
+    dispatch(clearAuthenticationErrors());
+  }, [location.pathname]);
 
   return [formRef, valid] as const;
 };

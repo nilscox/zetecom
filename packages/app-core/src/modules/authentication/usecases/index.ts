@@ -2,6 +2,7 @@
 
 export * from './authenticateWithToken/authenticateWithToken';
 export * from './changePassword/changePassword';
+export * from './clearAuthenticationGlobalError/clearAuthenticationErrors';
 export * from './handleAuthenticationError/handleAuthenticationError';
 export * from './initialize/initialize';
 export * from './login/login';
