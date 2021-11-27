@@ -9,7 +9,7 @@ import { FiltersBar } from '~/components/elements/FiltersBar/FiltersBar';
 import { Script } from '~/components/elements/Script/Script';
 import { Async } from '~/components/layout/Async/Async';
 import { Fallback } from '~/components/layout/Fallback/Fallback';
-import { Flex } from '~/components/layout/Flex/Flex';
+import { List } from '~/components/layout/List/List';
 import { useAppSelector } from '~/hooks/useAppSelector';
 
 import { useHandleAuthenticationTokens } from './useHandleAuthenticationTokens';
@@ -44,7 +44,7 @@ export const CommentsAreasListView: React.FC = () => {
         loading={loading}
         render={() => (
           <>
-            <Flex direction="column" rowGap={5}>
+            <List rowGap={5}>
               {commentsAreas.map((commentsArea) => (
                 <CommentsAreaOutline
                   key={commentsArea.id}
@@ -52,7 +52,8 @@ export const CommentsAreasListView: React.FC = () => {
                   link={`/commentaires/${commentsArea.id}`}
                 />
               ))}
-            </Flex>
+            </List>
+
             {commentsAreas.length === 0 && <Fallback>Aucune zone de commentaire.</Fallback>}
           </>
         )}

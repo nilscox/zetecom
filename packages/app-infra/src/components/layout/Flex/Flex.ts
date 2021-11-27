@@ -4,7 +4,7 @@ import { spacing } from '~/theme';
 
 import { Box, BoxProps } from '../Box/Box';
 
-type FlexProps = BoxProps & {
+export type FlexProps = BoxProps & {
   direction?: React.CSSProperties['flexDirection'];
   justifyContent?: React.CSSProperties['justifyContent'];
   alignItems?: React.CSSProperties['alignItems'];

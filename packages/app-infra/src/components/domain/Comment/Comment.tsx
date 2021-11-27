@@ -14,7 +14,7 @@ import { CommentForm } from '~/components/domain/CommentForm/CommentForm';
 import { Markdown } from '~/components/elements/Markdown/Markdown';
 import { Box } from '~/components/layout/Box/Box';
 import { Collapse } from '~/components/layout/Collapse/Collapse';
-import { Grid } from '~/components/layout/Grid/Grid';
+import { List } from '~/components/layout/List/List';
 import { Nested } from '~/components/layout/Nested/Nested';
 import { useAppSelector } from '~/hooks/useAppSelector';
 import { border, radius } from '~/theme';
@@ -97,11 +97,14 @@ const Replies: React.FC<RepliesProps> = ({ commentId }) => {
   const comment = useAppSelector(selectComment, commentId);
   const { author, areRepliesOpen, isFetchingReplies, isReplyFormOpen, isSubmittingReply, replies } = comment;
 
+  const nestedMarginTop = isReplyFormOpen || (areRepliesOpen && replies.length > 0);
+  const replyFormMarginBottom = replies.length > 0;
+
   return (
     <Collapse open={areRepliesOpen && !isFetchingReplies}>
-      <Nested marginTop={3}>
+      <Nested marginTop={nestedMarginTop ? 3 : 0}>
         <Collapse open={isReplyFormOpen}>
-          <Box marginBottom={3}>
+          <Box marginBottom={replyFormMarginBottom ? 3 : 0}>
             <CommentForm
               placeholder={`Répondez à ${author.nick}...`}
               isLoading={isSubmittingReply}
@@ -123,9 +126,9 @@ type CommentsListProps = {
 };
 
 export const CommentsList: React.FC<CommentsListProps> = ({ comments }) => (
-  <Grid gap={3}>
+  <List rowGap={3}>
     {comments.map((comment) => (
       <Comment key={comment.id} commentId={comment.id} />
     ))}
-  </Grid>
+  </List>
 );

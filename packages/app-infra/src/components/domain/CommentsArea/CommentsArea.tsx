@@ -58,21 +58,23 @@ export const CommentsArea: React.FC<CommentsAreaProps> = ({ commentsAreaId }) =>
 
   return (
     <>
-      <FiltersBar
-        onSearch={setSearch}
-        sort={sort}
-        onSort={(sort) => dispatch(sortComments(sort))}
-        pagination={{
-          page,
-          total: totalPages,
-          onFirst: check(canNavigateToPrevPage, () => dispatch(firstCommentsPage())),
-          onPrev: check(canNavigateToPrevPage, () => dispatch(previousCommentsPage())),
-          onNext: check(canNavigateToNextPage, () => dispatch(nextCommentsPage())),
-          onLast: check(canNavigateToNextPage, () => dispatch(lastCommentsPage())),
-        }}
-      />
-
       <Box marginY={4}>
+        <FiltersBar
+          onSearch={setSearch}
+          sort={sort}
+          onSort={(sort) => dispatch(sortComments(sort))}
+          pagination={{
+            page,
+            total: totalPages,
+            onFirst: check(canNavigateToPrevPage, () => dispatch(firstCommentsPage())),
+            onPrev: check(canNavigateToPrevPage, () => dispatch(previousCommentsPage())),
+            onNext: check(canNavigateToNextPage, () => dispatch(nextCommentsPage())),
+            onLast: check(canNavigateToNextPage, () => dispatch(lastCommentsPage())),
+          }}
+        />
+      </Box>
+
+      <Box marginY={3}>
         <CommentForm
           isLoading={isSubmittingRootComment}
           placeholder="Rédiger un commentaire..."
