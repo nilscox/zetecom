@@ -68,5 +68,6 @@ export type AppState = {
     isFetchingNotifications: boolean;
     totalNotifications: number;
     totalUnseenNotifications: number;
+    pollIntervalId?: number;
   };
 };

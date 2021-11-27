@@ -78,6 +78,7 @@ export const initialState: AppState = {
     isFetchingNotifications: false,
     totalNotifications: 0,
     totalUnseenNotifications: 0,
+    pollIntervalId: undefined,
   },
 };
 

@@ -1,7 +1,7 @@
 export interface TimerGateway {
-  setTimeout(cb: () => void, ms: number): NodeJS.Timeout;
-  clearTimeout(timeout: NodeJS.Timeout): void;
+  setTimeout(cb: () => void, ms: number): number;
+  clearTimeout(timeout: number): void;
 
-  setInterval(cb: () => void, ms: number): NodeJS.Timer;
-  clearInterval(interval: NodeJS.Timer): void;
+  setInterval(cb: () => void, ms: number): number;
+  clearInterval(interval: number): void;
 }

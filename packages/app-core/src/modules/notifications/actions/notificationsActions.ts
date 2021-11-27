@@ -23,10 +23,15 @@ export const decrementUnseenNotifications = () => {
   return createAction('decrementUnseenNotifications');
 };
 
+export const setPollNotificationsIntervalId = (intervalId: number | undefined) => {
+  return createAction('setPollNotificationsIntervalId', { intervalId });
+};
+
 export type NotificationsActions = ReturnType<
   | typeof setIsFetchingNotifications
   | typeof setUserNotifications
   | typeof setTotalNotifications
   | typeof setTotalUnseenNotifications
   | typeof decrementUnseenNotifications
+  | typeof setPollNotificationsIntervalId
 >;

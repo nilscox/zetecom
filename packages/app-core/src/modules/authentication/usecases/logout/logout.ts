@@ -1,5 +1,6 @@
 import { createThunk } from '../../../../store/createThunk';
-import { setIsAuthenticating, unsetAuthenticatedUser } from '../../actions';
+import { setIsAuthenticating } from '../../actions';
+import { setAuthenticatedUser } from '../index';
 
 export const logout = createThunk(
   async ({ dispatch, userGateway, routerGateway, trackingGateway }, location: 'app' | 'popup') => {
@@ -8,7 +9,7 @@ export const logout = createThunk(
 
       await userGateway.logout();
 
-      dispatch(unsetAuthenticatedUser());
+      dispatch(setAuthenticatedUser(undefined));
 
       trackingGateway.track({
         category: 'authentication',

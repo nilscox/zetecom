@@ -2,4 +2,4 @@
 
 export * from './fetchUserNotifications/fetchUserNotifications';
 export * from './markNotificationAsSeen/markNotificationAsSeen';
-export * from './poolUnseenNotificationsCount/poolUnseenNotificationsCount';
+export * from './pollUnseenNotificationsCount/pollUnseenNotificationsCount';

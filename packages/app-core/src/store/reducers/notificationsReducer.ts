@@ -38,5 +38,12 @@ export const notificationsReducer: Reducer<AppState['notifications']> = (state, 
     };
   }
 
+  if (action.type === 'setPollNotificationsIntervalId') {
+    return {
+      ...state,
+      pollIntervalId: action.payload.intervalId,
+    };
+  }
+
   return state;
 };

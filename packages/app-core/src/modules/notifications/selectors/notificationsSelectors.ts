@@ -27,3 +27,7 @@ export const selectNotificationsBadge = (state: AppState): string | undefined =>
     return String(totalNotifications);
   }
 };
+
+export const selectPollNotificationsIntervalId = (state: AppState): number | undefined => {
+  return state.notifications.pollIntervalId;
+};

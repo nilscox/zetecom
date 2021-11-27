@@ -85,13 +85,13 @@ export class FakeDateGateway implements DateGateway {
 export class FakeTimerGateway implements TimerGateway {
   timeout?: () => unknown;
 
-  setTimeout(cb: () => unknown, _ms: number): NodeJS.Timeout {
+  setTimeout(cb: () => unknown, _ms: number): number {
     this.timeout = cb;
 
-    return null as never;
+    return 6;
   }
 
-  clearTimeout(_timeout: NodeJS.Timeout): void {
+  clearTimeout(_timeout: number): void {
     this.timeout = undefined;
   }
 
@@ -105,13 +105,13 @@ export class FakeTimerGateway implements TimerGateway {
 
   interval?: () => unknown;
 
-  setInterval(cb: () => void, _ms: number): NodeJS.Timer {
+  setInterval(cb: () => void, _ms: number): number {
     this.interval = cb;
 
-    return null as never;
+    return 6;
   }
 
-  clearInterval(_interval: NodeJS.Timer): void {
+  clearInterval(_interval: number): void {
     this.interval = undefined;
   }
 

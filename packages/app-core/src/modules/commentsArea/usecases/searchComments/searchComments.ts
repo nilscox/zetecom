@@ -5,7 +5,7 @@ import { fetchComments } from '../index';
 
 const SEARCH_DEBOUNCE_TIMEOUT = 500;
 
-let searchTimeout: NodeJS.Timeout | undefined;
+let searchTimeout: number | undefined;
 
 export const searchComments = createThunk(async ({ dispatch, getState, timerGateway }, query: string) => {
   if (searchTimeout) {

@@ -3,6 +3,7 @@ import { MemoryStore } from '../../../store/MemoryStore';
 import {
   setIsFetchingNotifications,
   setNotification,
+  setPollNotificationsIntervalId,
   setTotalNotifications,
   setTotalUnseenNotifications,
   setUserNotifications,
@@ -12,6 +13,7 @@ import {
   selectIsFetchingNotifications,
   selectNotification,
   selectNotificationsBadge,
+  selectPollNotificationsIntervalId,
   selectTotalNotifications,
   selectTotalUnseenNotifications,
   selectUserNotifications,
@@ -87,5 +89,13 @@ describe('notificationsSelectors', () => {
         action: setTotalUnseenNotifications(1),
         after: '1',
       });
+  });
+
+  it('selectNotificationsPollIntervalId', () => {
+    store.testState(selectPollNotificationsIntervalId).expect({
+      before: undefined,
+      action: setPollNotificationsIntervalId(6),
+      after: 6,
+    });
   });
 });
