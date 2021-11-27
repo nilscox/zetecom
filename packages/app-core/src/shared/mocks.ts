@@ -44,7 +44,7 @@ export class MockUserGateway implements UserGateway {
   changePassword: MockFn<UserGateway['changePassword']> = mockFn();
   authenticateWithToken: MockFn<UserGateway['authenticateWithToken']> = mockFn();
   fetchAuthenticatedUser: MockFn<UserGateway['fetchAuthenticatedUser']> = mockFn();
-  fetchUnseenNotificationsCount: MockFn<UserGateway['fetchUnseenNotificationsCount']> = mockFn();
+  fetchUnseenNotificationsCount: MockFn<UserGateway['fetchUnseenNotificationsCount']> = mockFn().resolvesTo(0);
   fetchUserNotifications: MockFn<UserGateway['fetchUserNotifications']> = mockFn();
   markNotificationAsSeen: MockFn<UserGateway['markNotificationAsSeen']> = mockFn();
 }

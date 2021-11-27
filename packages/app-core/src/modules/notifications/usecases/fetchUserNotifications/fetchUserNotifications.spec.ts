@@ -1,11 +1,17 @@
 import { expect } from 'earljs';
 
-import { createNotification, createUser } from '../../../../entities';
+import { AuthenticationError, createNotification, createUser } from '../../../../entities';
 import { paginated } from '../../../../shared';
 import { array } from '../../../../shared/array';
 import { MockUserGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
-import { selectIsFetchingNotifications, selectTotalNotifications, selectUserNotifications } from '../../selectors';
+import { setPollNotificationsIntervalId } from '../../actions';
+import {
+  selectIsFetchingNotifications,
+  selectPollNotificationsIntervalId,
+  selectTotalNotifications,
+  selectUserNotifications,
+} from '../../selectors';
 
 import { fetchUserNotifications } from './fetchUserNotifications';
 
@@ -17,16 +23,13 @@ describe('fetchUserNotifications', () => {
   beforeEach(() => {
     store = new MemoryStore();
     ({ userGateway } = store.dependencies);
-
-    userGateway.fetchUserNotifications.resolvesTo(paginated([]));
   });
 
   it("fetches the user's notifications", async () => {
     const notifications = array(2, createNotification());
 
     store.user = createUser();
-
-    userGateway.fetchUserNotifications.resolvesTo(paginated(notifications));
+    userGateway.fetchUserNotifications.resolvesToOnce(paginated(notifications));
 
     const promise = store.dispatch(fetchUserNotifications());
 
@@ -37,5 +40,16 @@ describe('fetchUserNotifications', () => {
     expect(store.select(selectIsFetchingNotifications)).toEqual(false);
     expect(store.select(selectUserNotifications)).toEqual(notifications);
     expect(store.select(selectTotalNotifications)).toEqual(2);
+  });
+
+  it('stops polling unseen notifications count', async () => {
+    store.user = createUser();
+    store.dispatch(setPollNotificationsIntervalId(6));
+
+    userGateway.fetchUserNotifications.rejectsWithOnce(new AuthenticationError(403, {}));
+
+    await store.dispatch(fetchUserNotifications());
+
+    expect(store.select(selectPollNotificationsIntervalId)).toEqual(undefined);
   });
 });
