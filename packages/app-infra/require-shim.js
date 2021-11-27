@@ -3,6 +3,9 @@
 const path = require('path');
 const moduleAlias = require('module-alias');
 
+window.requestAnimationFrame = () => 0;
+window.cancelAnimationFrame = () => {};
+
 const noop = () => 1;
 
 require.extensions['.css'] = noop;
