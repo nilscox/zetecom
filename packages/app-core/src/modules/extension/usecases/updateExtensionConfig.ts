@@ -1,15 +1,19 @@
-import { IntegrationType } from '../../../entities';
+import { ExtensionConfig, IntegrationType } from '../../../entities';
 import { createThunk } from '../../../store/createThunk';
+import { setExtensionConfig } from '../actions';
 
 export const updateExtensionConfig = createThunk(
-  async ({ extensionGateway }, media: string, integration: IntegrationType) => {
+  async ({ dispatch, extensionGateway }, media: string, integration: IntegrationType) => {
     const extensionConfig = await extensionGateway.getExtensionConfig();
 
-    extensionGateway.setExtensionConfig({
+    const newConfig: ExtensionConfig = {
       mediaIntegrations: {
         ...extensionConfig.mediaIntegrations,
         [media]: integration,
       },
-    });
+    };
+
+    extensionGateway.setExtensionConfig(newConfig);
+    dispatch(setExtensionConfig(newConfig));
   },
 );

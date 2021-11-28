@@ -8,6 +8,8 @@ const environmentVariables = {
   ANALYTICS_SITE_ID: process.env.ANALYTICS_SITE_ID,
 };
 
+window.zetecom.env = environmentVariables;
+
 export type EnvironmentVariable = keyof typeof environmentVariables;
 
 export const getEnv = (variable: EnvironmentVariable) => {

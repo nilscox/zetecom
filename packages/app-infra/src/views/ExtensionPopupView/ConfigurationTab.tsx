@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styled from '@emotion/styled';
-import { IntegrationType, loadExtensionConfig, updateExtensionConfig } from '@zetecom/app-core';
+import { IntegrationType, loadExtensionConfig, selectExtensionConfig, updateExtensionConfig } from '@zetecom/app-core';
 import { useDispatch } from 'react-redux';
 
 import { Select } from '~/components/elements/Select/Select';
@@ -15,7 +15,7 @@ import { spacing } from '~/theme';
 export const ConfigurationTab: React.FC = () => {
   const dispatch = useDispatch();
 
-  const config = useAppSelector((state) => state.extension.config);
+  const config = useAppSelector(selectExtensionConfig);
 
   useEffectDispatch(loadExtensionConfig(), []);
 
@@ -33,7 +33,7 @@ export const ConfigurationTab: React.FC = () => {
       {config &&
         Object.keys(medias).map((media) => (
           <Flex key={media} direction="row" marginY={2}>
-            <Media>{media}</Media>
+            <Media>{medias[media].label}</Media>
             <SelectIntegrationType type={config.mediaIntegrations[media]} onChange={handleChange(media)} />
           </Flex>
         ))}

@@ -125,6 +125,7 @@ export interface MockDependencies extends Dependencies {
   commentGateway: MockCommentGateway;
   userGateway: MockUserGateway;
   routerGateway: MockRouterGateway;
+  extensionGateway: MockExtensionGateway;
   dateGateway: FakeDateGateway;
   timerGateway: FakeTimerGateway;
   notificationGateway: MockNotificationGateway;

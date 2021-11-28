@@ -11,7 +11,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
-  mode: 'development',
+  mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
   devtool: 'source-map',
 
   entry: './src/index.tsx',
@@ -61,6 +61,7 @@ module.exports = {
   plugins: [
     new ProvidePlugin({ React: 'react' }),
     new EnvironmentPlugin({
+      NODE_ENV: 'development',
       BASENAME: '/',
       DEMO: 'false',
       API_URL: 'http://localhost:3000',
