@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   createRootComment,
@@ -12,6 +12,7 @@ import {
   selectCommentsArea,
   selectCommentsPage,
   selectCommentsPagesCount,
+  selectCommentsSearchQuery,
   selectCommentsSort,
   selectCurrentCommentsArea,
   selectIsFetchingComments,
@@ -25,7 +26,6 @@ import { Async } from '~/components/layout/Async/Async';
 import { Box } from '~/components/layout/Box/Box';
 import { Fallback } from '~/components/layout/Fallback/Fallback';
 import { useAppSelector } from '~/hooks/useAppSelector';
-import useUpdateEffect from '~/hooks/useUpdateEffect';
 import { check } from '~/utils/check';
 
 import { CommentsList } from '../Comment/Comment';
@@ -50,17 +50,13 @@ export const CommentsArea: React.FC<CommentsAreaProps> = ({ commentsAreaId }) =>
   const canNavigateToPrevPage = useAppSelector(selectCanNavigateToPreviousCommentsPages);
   const canNavigateToNextPage = useAppSelector(selectCanNavigateToNextCommentsPages);
 
-  const [search, setSearch] = useState('');
-
-  useUpdateEffect(() => {
-    dispatch(searchComments(search));
-  }, [search]);
+  const search = useAppSelector(selectCommentsSearchQuery);
 
   return (
     <>
       <Box marginY={4}>
         <FiltersBar
-          onSearch={setSearch}
+          onSearch={(query) => dispatch(searchComments(query))}
           sort={sort}
           onSort={(sort) => dispatch(sortComments(sort))}
           pagination={{

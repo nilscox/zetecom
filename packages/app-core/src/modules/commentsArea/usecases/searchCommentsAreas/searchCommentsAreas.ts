@@ -7,7 +7,7 @@ const SEARCH_DEBOUNCE_TIMEOUT = 500;
 
 let searchTimeout: number | undefined;
 
-export const searchCommentsAreas = createThunk(async ({ dispatch, getState, timerGateway }, query: string) => {
+export const searchCommentsAreas = createThunk(async ({ dispatch, getState, timerGateway }, query?: string) => {
   if (searchTimeout) {
     timerGateway.clearTimeout(searchTimeout);
   }
@@ -25,14 +25,14 @@ export const searchCommentsAreas = createThunk(async ({ dispatch, getState, time
   }, SEARCH_DEBOUNCE_TIMEOUT);
 });
 
-const setSearch = createThunk(async ({ dispatch }, query: string) => {
-  await dispatch(fetchCommentsAreas(query));
-
+const setSearch = createThunk(async ({ dispatch }, query?: string) => {
   dispatch(setCommentsAreasSearchQuery(query));
+
+  await dispatch(fetchCommentsAreas());
 });
 
 const clearSearch = createThunk(async ({ dispatch }) => {
   dispatch(setCommentsAreasSearchQuery(undefined));
 
-  await dispatch(fetchCommentsAreas(undefined));
+  await dispatch(fetchCommentsAreas());
 });

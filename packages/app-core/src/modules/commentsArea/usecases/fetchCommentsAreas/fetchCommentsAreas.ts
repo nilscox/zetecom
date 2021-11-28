@@ -5,10 +5,10 @@ import { setCommentsArea } from '../../../../store/normalize';
 import { setCommentsAreas, setFetchingCommentsAreas, setTotalCommentsAreas } from '../../actions';
 import { selectCommentsAreasSearchQuery } from '../../selectors';
 
-export const fetchCommentsAreas = createThunk(async ({ getState, dispatch, commentsAreaGateway }, query?: string) => {
-  dispatch(setFetchingCommentsAreas(true));
+export const fetchCommentsAreas = createThunk(async ({ getState, dispatch, commentsAreaGateway }) => {
+  const search = selectCommentsAreasSearchQuery(getState());
 
-  const search = query ?? selectCommentsAreasSearchQuery(getState());
+  dispatch(setFetchingCommentsAreas(true));
 
   let commentsAreasDtos: Paginated<CommentsAreaDto>;
 
