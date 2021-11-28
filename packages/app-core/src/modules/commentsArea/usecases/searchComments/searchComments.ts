@@ -26,13 +26,13 @@ export const searchComments = createThunk(async ({ dispatch, getState, timerGate
 });
 
 const setSearch = createThunk(async ({ dispatch }, query: string) => {
-  await dispatch(fetchComments(query));
-
   dispatch(setCommentsSearchQuery(query));
+
+  await dispatch(fetchComments());
 });
 
 const clearSearch = createThunk(async ({ dispatch }) => {
   dispatch(setCommentsSearchQuery(undefined));
 
-  await dispatch(fetchComments(undefined));
+  await dispatch(fetchComments());
 });

@@ -12,7 +12,7 @@ import {
 } from '../../selectors';
 import { updateCommentsArea } from '../index';
 
-export const fetchComments = createThunk(async ({ getState, dispatch, commentsAreaGateway }, query?: string) => {
+export const fetchComments = createThunk(async ({ getState, dispatch, commentsAreaGateway }) => {
   const currentCommentsArea = selectCurrentCommentsArea(getState());
 
   if (!currentCommentsArea) {
@@ -29,7 +29,7 @@ export const fetchComments = createThunk(async ({ getState, dispatch, commentsAr
     sort: selectCommentsSort(getState()),
   };
 
-  const search = query ?? selectCommentsSearchQuery(getState());
+  const search = selectCommentsSearchQuery(getState());
 
   let comments: Paginated<CommentDto>;
 
