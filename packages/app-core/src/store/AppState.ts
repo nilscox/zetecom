@@ -50,6 +50,7 @@ export type AppState = {
   extension: {
     integrationState?: IntegrationState;
     config?: ExtensionConfig;
+    passwordFieldVisible: boolean;
   };
 
   authenticatedUser: {

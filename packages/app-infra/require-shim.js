@@ -3,6 +3,8 @@
 const path = require('path');
 const moduleAlias = require('module-alias');
 
+require('./src/zetecom-global');
+
 window.requestAnimationFrame = () => 0;
 window.cancelAnimationFrame = () => {};
 

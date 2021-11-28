@@ -50,6 +50,7 @@ export const initialState: AppState = {
   extension: {
     integrationState: undefined,
     config: undefined,
+    passwordFieldVisible: false,
   },
 
   authenticationForm: {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import styled from '@emotion/styled';
 import {
@@ -7,8 +7,12 @@ import {
   changePassword,
   logout,
   selectAuthenticatedUser,
+  selectAuthenticationField,
   selectAuthenticationFieldError,
+  selectPasswordFieldVisible,
 } from '@zetecom/app-core';
+import { setAuthenticationField } from '@zetecom/app-core/modules/authentication/actions';
+import { setChangePasswordFieldVisible } from '@zetecom/app-core/modules/extension/actions';
 import { useDispatch } from 'react-redux';
 
 import { AvatarNick } from '~/components/elements/Avatar/Avatar';
@@ -25,7 +29,6 @@ export const AccountTab: React.FC = () => {
   const dispatch = useDispatch();
 
   const user = useAppSelector(selectAuthenticatedUser) as AuthenticatedUser;
-  const changePasswordError = useAppSelector(selectAuthenticationFieldError, AuthenticationField.password);
 
   const formatDate = useDateFormat(DATE_FORMAT_DAY);
 
@@ -39,7 +42,7 @@ export const AccountTab: React.FC = () => {
         Inscrit.e depuis le <em>{formatDate(user.signupDate)}</em>
       </div>
 
-      <ChangePasswordField error={changePasswordError} onSubmit={(password) => dispatch(changePassword(password))} />
+      <ChangePasswordField />
 
       <Button marginX="auto" onClick={() => dispatch(logout('popup'))}>
         Déconnexion
@@ -48,18 +51,24 @@ export const AccountTab: React.FC = () => {
   );
 };
 
-type ChangePasswordFieldProps = {
-  error?: string;
-  onSubmit: (password: string) => void;
-};
+const ChangePasswordField: React.FC = () => {
+  const dispatch = useDispatch();
 
-const ChangePasswordField: React.FC<ChangePasswordFieldProps> = ({ error, onSubmit }) => {
-  const [fieldVisible, setFieldVisible] = useState(false);
-  const [value, setValue] = useState('');
+  const fieldVisible = useAppSelector(selectPasswordFieldVisible);
+  const password = useAppSelector(selectAuthenticationField, AuthenticationField.password);
+  const error = useAppSelector(selectAuthenticationFieldError, AuthenticationField.password);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(value);
+    dispatch(changePassword(password));
+  };
+
+  const handleTextChange = (value: string) => {
+    dispatch(setAuthenticationField(AuthenticationField.password, value));
+  };
+
+  const handleToggleFieldVisibility = () => {
+    dispatch(setChangePasswordFieldVisible(!fieldVisible));
   };
 
   return (
@@ -71,12 +80,13 @@ const ChangePasswordField: React.FC<ChangePasswordFieldProps> = ({ error, onSubm
             placeholder="Nouveau mot de passe"
             consistentHeight
             error={error}
-            value={value}
-            onTextChange={setValue}
+            value={password}
+            onTextChange={handleTextChange}
           />
         </Box>
       </Collapse>
-      <ChangePasswordLink fontSize={1} role="link" onClick={() => setFieldVisible(!fieldVisible)}>
+
+      <ChangePasswordLink fontSize={1} role="link" onClick={handleToggleFieldVisibility}>
         Changer de mot de passe
       </ChangePasswordLink>
     </div>

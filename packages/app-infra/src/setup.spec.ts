@@ -1,5 +1,7 @@
 import { cleanup } from '@testing-library/react';
 
+import './zetecom-global';
+
 import 'earl-plugin-dom';
 
 process.env.TZ = 'UTC';

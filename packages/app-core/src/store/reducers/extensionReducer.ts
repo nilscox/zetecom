@@ -16,5 +16,12 @@ export const extensionReducer: Reducer<AppState['extension']> = (state, action):
     };
   }
 
+  if (action.type === 'setChangePasswordFieldVisible') {
+    return {
+      ...state,
+      passwordFieldVisible: action.payload.visible,
+    };
+  }
+
   return state;
 };

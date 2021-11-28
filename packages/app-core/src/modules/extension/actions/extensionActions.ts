@@ -9,4 +9,10 @@ export const setExtensionConfig = (extensionConfig: ExtensionConfig) => {
   return createAction('setExtensionConfig', { extensionConfig });
 };
 
-export type ExtensionActions = ReturnType<typeof setIntegrationState | typeof setExtensionConfig>;
+export const setChangePasswordFieldVisible = (visible: boolean) => {
+  return createAction('setChangePasswordFieldVisible', { visible });
+};
+
+export type ExtensionActions = ReturnType<
+  typeof setIntegrationState | typeof setExtensionConfig | typeof setChangePasswordFieldVisible
+>;

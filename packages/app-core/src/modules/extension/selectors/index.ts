@@ -1,1 +1,1 @@
-export * from './selectExtensionConfig';
+export * from './extensionSelectors';
