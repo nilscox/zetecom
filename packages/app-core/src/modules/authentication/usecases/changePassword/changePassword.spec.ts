@@ -3,7 +3,8 @@ import { expect } from 'earljs';
 import { AuthenticationError, AuthenticationField } from '../../../../entities';
 import { MockNotificationGateway, MockTrackingGateway, MockUserGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
-import { selectAuthenticationFieldError, selectIsChangingPassword } from '../../selectors';
+import { setAuthenticationField } from '../../actions';
+import { selectAuthenticationField, selectAuthenticationFieldError, selectIsChangingPassword } from '../../selectors';
 
 import { changePassword } from './changePassword';
 
@@ -39,6 +40,26 @@ describe('changePassword', () => {
     await execute();
 
     expect(userGateway.changePassword).toHaveBeenCalledWith(['passw0rd']);
+  });
+
+  describe('clear the password field', () => {
+    it('clears the password field on success', async () => {
+      setup();
+      store.dispatch(setAuthenticationField(AuthenticationField.password, 'passw0rd'));
+
+      await execute();
+
+      expect(store.select(selectAuthenticationField, AuthenticationField.password)).toEqual('');
+    });
+
+    it('does not clear the password field on failure', async () => {
+      setup(new Error());
+      store.dispatch(setAuthenticationField(AuthenticationField.password, 'passw0rd'));
+
+      await execute();
+
+      expect(store.select(selectAuthenticationField, AuthenticationField.password)).toEqual('passw0rd');
+    });
   });
 
   it('displays a success notification', async () => {
