@@ -1,6 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { fetchCommentsAreas, selectCommentsAreas, selectIsFetchingCommentsAreas } from '@zetecom/app-core';
+import {
+  fetchCommentsAreas,
+  searchCommentsAreas,
+  selectCommentsAreas,
+  selectIsFetchingCommentsAreas,
+} from '@zetecom/app-core';
 import { useDispatch } from 'react-redux';
 
 import { CommentsAreaOutline } from '~/components/domain/CommentsAreaOutline/CommentsAreaOutline';
@@ -13,6 +18,7 @@ import { List } from '~/components/layout/List/List';
 import { useAppSelector } from '~/hooks/useAppSelector';
 
 import { useHandleAuthenticationTokens } from './useHandleAuthenticationTokens';
+import useUpdateEffect from '~/hooks/useUpdateEffect';
 
 export const CommentsAreasListView: React.FC = () => {
   const dispatch = useDispatch();
@@ -20,9 +26,15 @@ export const CommentsAreasListView: React.FC = () => {
   const commentsAreas = useAppSelector(selectCommentsAreas);
   const loading = useAppSelector(selectIsFetchingCommentsAreas);
 
+  const [search, setSearch] = useState('');
+
   useEffect(() => {
     dispatch(fetchCommentsAreas());
   }, []);
+
+  useUpdateEffect(() => {
+    dispatch(searchCommentsAreas(search));
+  }, [search]);
 
   useHandleAuthenticationTokens();
 
@@ -32,7 +44,7 @@ export const CommentsAreasListView: React.FC = () => {
 
   return (
     <>
-      <FiltersBar onSearch={() => {}} pagination={{ page: 1, total: 1 }} />
+      <FiltersBar onSearch={setSearch} pagination={{ page: 1, total: 1 }} />
 
       <Button data-tf-popup="yMudeqAm" data-tf-size="70" marginY={4}>
         Ouvrir une zone de commentaires

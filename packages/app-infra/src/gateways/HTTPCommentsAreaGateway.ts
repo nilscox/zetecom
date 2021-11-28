@@ -18,6 +18,19 @@ export class HTTPCommentsAreaGateway implements CommentsAreaGateway {
     };
   }
 
+  async searchCommentsAreas(query: string): Promise<Paginated<CommentsAreaDto>> {
+    const [{ items, total }] = await this.http.get<APIPaginated<APICommentsAreaDto>>('/api/comments-area', {
+      query: {
+        search: query,
+      },
+    });
+
+    return {
+      results: items.map(transformCommentsArea),
+      total,
+    };
+  }
+
   async fetchCommentsArea(commentsAreaId: string): Promise<CommentsAreaDto | undefined> {
     const [body, { status }] = await this.http.get<APICommentsAreaDto>(`/api/comments-area/${commentsAreaId}`, {
       expectedStatus: [200, 404],

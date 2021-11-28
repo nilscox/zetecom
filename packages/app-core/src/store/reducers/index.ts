@@ -25,6 +25,7 @@ export const initialState: AppState = {
     commentsAreasIds: [],
     commentsAreasCount: 0,
     isFetchingCommentsAreas: false,
+    commentsAreasSearchQuery: undefined,
   },
 
   commentsArea: {

@@ -4,7 +4,6 @@ import { CommentsArea, commentsAreaEntityToDto, createCommentsArea } from '../..
 import { paginated } from '../../../../shared';
 import { MockCommentsAreaGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
-import { setTotalCommentsAreas } from '../../actions';
 import { selectCommentsAreas, selectIsFetchingCommentsAreas } from '../../selectors';
 
 import { fetchCommentsAreas } from './fetchCommentsAreas';
@@ -43,15 +42,5 @@ describe('fetchComments', () => {
     await promise;
 
     expect(store.select(selectIsFetchingCommentsAreas)).toEqual(false);
-  });
-
-  it('does not fetches a comments area when its was already fetched', async () => {
-    setup([]);
-
-    store.dispatch(setTotalCommentsAreas(1));
-
-    await store.dispatch(fetchCommentsAreas());
-
-    expect(commentsAreaGateway.fetchCommentsAreas).not.toBeExhausted();
   });
 });

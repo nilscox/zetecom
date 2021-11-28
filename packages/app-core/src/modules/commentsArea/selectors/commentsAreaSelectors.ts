@@ -15,6 +15,10 @@ export const selectIsFetchingCommentsAreas = (state: AppState) => {
   return state.commentsAreas.isFetchingCommentsAreas;
 };
 
+export const selectCommentsAreasSearchQuery = (state: AppState) => {
+  return state.commentsAreas.commentsAreasSearchQuery;
+};
+
 export const selectCommentsAreaByIdentifier = (state: AppState, identifier: string) => {
   return selectCommentsArea(state, state.commentsAreas.byIdentifier[identifier]);
 };

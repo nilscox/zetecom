@@ -9,6 +9,7 @@ export type FetchCommentsOptions = {
 
 export interface CommentsAreaGateway {
   fetchCommentsAreas(): Promise<Paginated<CommentsAreaDto>>;
+  searchCommentsAreas(query: string): Promise<Paginated<CommentsAreaDto>>;
   fetchCommentsArea(commentsAreaId: string): Promise<CommentsAreaDto | undefined>;
   fetchCommentsAreaByIdentifier(commentsAreaIdentifier: string): Promise<CommentsAreaDto | undefined>;
   fetchRootComments(commentsAreaId: string, options: FetchCommentsOptions): Promise<Paginated<CommentDto>>;

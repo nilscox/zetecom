@@ -7,6 +7,7 @@ import {
   setCommentsAreaNotFound,
   setCommentsAreaRequested,
   setCommentsAreas,
+  setCommentsAreasSearchQuery,
   setCommentsSearchQuery,
   setCommentsSort,
   setCurrentCommentsArea,
@@ -22,6 +23,7 @@ import {
   selectCommentsAreaNotFound,
   selectCommentsAreaRequested,
   selectCommentsAreas,
+  selectCommentsAreasSearchQuery,
   selectCommentsSearchQuery,
   selectCommentsSort,
   selectCurrentCommentsArea,
@@ -87,6 +89,14 @@ describe('commentsAreaSelectors', () => {
       before: false,
       action: setFetchingCommentsAreas(true),
       after: true,
+    });
+  });
+
+  it('selectCommentsAreasSearchQuery', () => {
+    store.testState(selectCommentsAreasSearchQuery).expect({
+      before: undefined,
+      action: setCommentsAreasSearchQuery('query'),
+      after: 'query',
     });
   });
 

@@ -10,6 +10,7 @@ export type AppState = {
     commentsAreasIds: string[];
     commentsAreasCount: number;
     isFetchingCommentsAreas: boolean;
+    commentsAreasSearchQuery?: string;
   };
 
   commentsArea: {

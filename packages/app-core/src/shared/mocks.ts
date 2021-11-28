@@ -22,6 +22,7 @@ export class MockCommentsAreaGateway implements CommentsAreaGateway {
   fetchCommentsAreaByIdentifier: MockFn<CommentsAreaGateway['fetchCommentsAreaByIdentifier']> = mockFn();
   fetchRootComments: MockFn<CommentsAreaGateway['fetchRootComments']> = mockFn();
   searchComments: MockFn<CommentsAreaGateway['searchComments']> = mockFn();
+  searchCommentsAreas: MockFn<CommentsAreaGateway['searchCommentsAreas']> = mockFn();
   requestCommentsArea: MockFn<CommentsAreaGateway['requestCommentsArea']> = mockFn();
 }
 
