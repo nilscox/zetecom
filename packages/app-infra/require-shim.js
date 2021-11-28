@@ -1,10 +1,9 @@
-/* eslint-disable */
-
 const path = require('path');
 const moduleAlias = require('module-alias');
 
 require('./src/zetecom-global');
 
+/* eslint-disable no-undef */
 window.requestAnimationFrame = () => 0;
 window.cancelAnimationFrame = () => {};
 

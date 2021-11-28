@@ -4,14 +4,8 @@
   "parserOptions": {
     "project": ["./tsconfig.json"]
   },
-  "plugins": [
-    "simple-import-sort",
-    "@typescript-eslint"
-  ],
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
+  "plugins": ["simple-import-sort", "@typescript-eslint"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   "rules": {
     "eqeqeq": "error",
     "no-multi-spaces": "error",
@@ -42,6 +36,7 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }],
     "@typescript-eslint/no-empty-function": "off",
+    // prettier-ignore
     "simple-import-sort/imports": ["warn", {
       "groups": [
         ["^(react|react-dom)$"],
@@ -52,5 +47,18 @@
         ["^./"]
       ]
     }]
-  }
+  },
+  "overrides": [
+    {
+      "files": "*.js",
+      "parser": "espree",
+      "parserOptions": {
+        "ecmaVersion": 2021
+      },
+      "env": { "node": true },
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ]
 }
