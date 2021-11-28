@@ -3,6 +3,8 @@ import { expect } from 'earljs';
 import { AuthenticationError, AuthenticationField } from '../../../../entities';
 import { MockNotificationGateway, MockTrackingGateway, MockUserGateway } from '../../../../shared/mocks';
 import { MemoryStore } from '../../../../store/MemoryStore';
+import { selectPasswordFieldVisible } from '../../../extension';
+import { setChangePasswordFieldVisible } from '../../../extension/actions';
 import { setAuthenticationField } from '../../actions';
 import { selectAuthenticationField, selectAuthenticationFieldError, selectIsChangingPassword } from '../../selectors';
 
@@ -26,6 +28,9 @@ describe('changePassword', () => {
     } else {
       userGateway.changePassword.resolvesToOnce(undefined);
     }
+
+    store.dispatch(setAuthenticationField(AuthenticationField.password, 'passw0rd'));
+    store.dispatch(setChangePasswordFieldVisible(true));
   };
 
   // cSpell:words passw
@@ -45,7 +50,6 @@ describe('changePassword', () => {
   describe('clear the password field', () => {
     it('clears the password field on success', async () => {
       setup();
-      store.dispatch(setAuthenticationField(AuthenticationField.password, 'passw0rd'));
 
       await execute();
 
@@ -54,11 +58,28 @@ describe('changePassword', () => {
 
     it('does not clear the password field on failure', async () => {
       setup(new Error());
-      store.dispatch(setAuthenticationField(AuthenticationField.password, 'passw0rd'));
 
       await execute();
 
       expect(store.select(selectAuthenticationField, AuthenticationField.password)).toEqual('passw0rd');
+    });
+  });
+
+  describe('hide the password field', () => {
+    it('hides the password field on success', async () => {
+      setup();
+
+      await execute();
+
+      expect(store.select(selectPasswordFieldVisible)).toEqual(false);
+    });
+
+    it('does not hide the password field on failure', async () => {
+      setup(new Error());
+
+      await execute();
+
+      expect(store.select(selectPasswordFieldVisible)).toEqual(true);
     });
   });
 
