@@ -13,6 +13,10 @@ export const setFetchingCommentsAreas = (fetching: boolean) => {
   return createAction('setFetchingCommentsAreas', { fetching });
 };
 
+export const setCommentsAreasSearchQuery = (searchQuery: string | undefined) => {
+  return createAction('setCommentsAreasSearchQuery', { searchQuery });
+};
+
 export const setCommentsAreaIdentifier = (identifier: string, commentsArea: CommentsArea) => {
   return createAction('setCommentsAreaIdentifier', { identifier, commentsArea });
 };
@@ -62,6 +66,7 @@ export type CommentsAreaActions = ReturnType<
   | typeof setCommentsAreas
   | typeof setTotalCommentsAreas
   | typeof setFetchingCommentsAreas
+  | typeof setCommentsAreasSearchQuery
   | typeof setCommentsAreaNotFound
   | typeof setIsRequestingCommentsArea
   | typeof setCommentsAreaRequested

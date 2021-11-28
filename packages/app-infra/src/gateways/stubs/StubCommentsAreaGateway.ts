@@ -44,6 +44,21 @@ export class StubCommentsAreaGateway implements CommentsAreaGateway {
     });
   }
 
+  async searchCommentsAreas(query: string): Promise<Paginated<CommentsAreaDto>> {
+    const map = (commentsArea: CommentsArea): CommentsArea | undefined => {
+      const { title, url } = commentsArea.information;
+
+      return [title, url].some((t) => t.includes(query)) ? commentsArea : undefined;
+    };
+
+    const commentsAreas = this.getCommentsAreas().map(map).filter(isDefined);
+
+    return execute({
+      log: ['search comments areas', { query }],
+      return: paginated(commentsAreas.map(commentsAreaEntityToDto)),
+    });
+  }
+
   async fetchCommentsArea(commentsAreaId: string): Promise<CommentsAreaDto | undefined> {
     const commentsArea = this.getCommentsArea(commentsAreaId);
 

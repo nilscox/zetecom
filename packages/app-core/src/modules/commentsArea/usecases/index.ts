@@ -6,6 +6,7 @@ export * from './fetchCommentsArea/fetchCommentsArea';
 export * from './fetchCommentsAreas/fetchCommentsAreas';
 export * from './requestCommentsArea/requestCommentsArea';
 export * from './searchComments/searchComments';
+export * from './searchCommentsAreas/searchCommentsAreas';
 export * from './setCommentsPage/setCommentsPage';
 export * from './setCurrentCommentsArea/setCurrentCommentsArea';
 export * from './sortComments/sortComments';

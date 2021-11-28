@@ -24,5 +24,9 @@ export const commentsAreasReducer: Reducer<AppState['commentsAreas']> = (state, 
     return { ...state, isFetchingCommentsAreas: action.payload.fetching };
   }
 
+  if (action.type === 'setCommentsAreasSearchQuery') {
+    return { ...state, commentsAreasSearchQuery: action.payload.searchQuery };
+  }
+
   return state;
 };
