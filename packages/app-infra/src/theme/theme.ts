@@ -14,6 +14,10 @@ const warning = '#db7b0b';
 const info = '#4f77b3';
 
 export const theme = {
+  breakpoints: {
+    small: 650,
+  },
+
   space: [0, 3, 6, 12, 18, 24, 38],
 
   colors: {
@@ -78,6 +82,11 @@ export const theme = {
   },
 
   domain: {
+    html: {
+      fontSize: '16px',
+      fontSizeSmall: '15px',
+    },
+
     logo: {
       width: '56px',
       widthSmall: '42px',
@@ -98,7 +107,9 @@ export const theme = {
     },
 
     comment: {
-      reactionFontSize: '20px',
+      textColor: '#333333',
+      reactionFontSize: '1.3rem',
+      reactionFontSizeSmall: '1.2rem',
     },
 
     authentication: {

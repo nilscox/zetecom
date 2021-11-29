@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import clsx from 'clsx';
 
 import { Box, BoxProps } from '~/components/layout/Box/Box';
+import { domain } from '~/theme';
 
 import './github-markdown.css';
 
@@ -25,4 +26,8 @@ export const Markdown: React.FC<MarkdownProps> = ({ className, markdown, highlig
 const Container = styled(Box)`
   // avoid long text (like urls) to overflow
   word-break: break-word;
+
+  &.markdown-github {
+    color: ${domain('comment', 'textColor')};
+  }
 `;

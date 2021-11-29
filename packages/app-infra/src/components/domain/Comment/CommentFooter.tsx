@@ -23,9 +23,10 @@ import { Button, ButtonProps } from '~/components/elements/Button/Button';
 import { Icon } from '~/components/elements/Icon/Icon';
 import { IconButton } from '~/components/elements/IconButton/IconButton';
 import { Text } from '~/components/elements/Text/Text';
+import { Reply as ReplySvg } from '~/components/icons';
 import { Flex } from '~/components/layout/Flex/Flex';
 import { useAppSelector } from '~/hooks/useAppSelector';
-import { border, color, domain, radius, spacing } from '~/theme';
+import { border, breakpoints, color, domain, radius, spacing } from '~/theme';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const conditionally = <T extends (...args: any[]) => any>(condition: boolean, func: T): T | undefined => {
@@ -146,10 +147,18 @@ const Reaction: React.FC<ReactionProps> = ({ type, count, isUserReaction, onClic
 const ReactionButton = styled(FooterButton)<{ selected: boolean }>`
   border-right: ${border()};
   background-color: ${({ selected }) => selected && '#ffeca6'};
+
+  ${breakpoints.down('small')} {
+    padding: ${spacing(1, 2)};
+  }
 `;
 
 const ReactionEmoji = styled(Text)`
   font-size: ${domain('comment', 'reactionFontSize')};
+
+  ${breakpoints.down('small')} {
+    font-size: ${domain('comment', 'reactionFontSizeSmall')};
+  }
 `;
 
 type RepliesProps = {
@@ -199,6 +208,19 @@ type ReplyProps = {
 
 const Reply: React.FC<ReplyProps> = ({ onClick }) => (
   <FooterButton disabled={!onClick} onClick={onClick}>
-    Répondre
+    <ReplyText>Répondre</ReplyText>
+    <ReplyIcon as={ReplySvg} />
   </FooterButton>
 );
+
+const ReplyText = styled(Text)`
+  ${breakpoints.down('small')} {
+    display: none;
+  }
+`;
+
+const ReplyIcon = styled(Icon)`
+  ${breakpoints.up('small')} {
+    display: none;
+  }
+`;

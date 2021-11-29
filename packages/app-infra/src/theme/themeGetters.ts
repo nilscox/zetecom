@@ -4,6 +4,15 @@ import { Theme } from './theme';
 
 type Props = { theme: Theme };
 
+const createMediaQuery = (query: 'min-width' | 'max-width') => (breakpoint: keyof Theme['breakpoints']) => {
+  return ({ theme }: Props) => `@media screen and (${query}: ${theme.breakpoints[breakpoint]}px)`;
+};
+
+export const breakpoints = {
+  down: createMediaQuery('max-width'),
+  up: createMediaQuery('min-width'),
+};
+
 const createGetter =
   <T extends keyof Theme>(prop: T, defaultValue: keyof Theme[T], unit = '') =>
   (value: keyof Theme[T] = defaultValue) =>
