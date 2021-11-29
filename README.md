@@ -8,8 +8,6 @@ The `master` branch is the one deployed in production, and the `dev` branch is d
 
 Issuses and pull requests are welcome, if you want to contribute to the projet by any mean. Feel free to [contact](mailto:nils@nils.cx) the developers directly or join [the discord server](https://discord.gg/huwfqra) to talk about the project.
 
-## Getting started
-
 ### Project overview
 
 The project is divided into multiple packages:
