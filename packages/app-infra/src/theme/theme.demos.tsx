@@ -30,7 +30,7 @@ const colorsDemo: Demo = {
       {Object.entries(theme.colors)
         .filter(([name]) => !name.startsWith('text'))
         .map(([name, color]) => (
-          <Color border={name === 'border'} name={name} color={color} />
+          <Color key={name} border={name === 'border'} name={name} color={color} />
         ))}
     </>
   ),
@@ -43,7 +43,7 @@ const textColorsDemo: Demo = {
       {Object.entries(theme.colors)
         .filter(([name]) => name.startsWith('text'))
         .map(([name, color]) => (
-          <Color text name={name} color={color} />
+          <Color key={name} text name={name} color={color} />
         ))}
     </>
   ),
@@ -79,7 +79,7 @@ const fontsDemo: Demo = {
       {Object.entries(theme.fonts)
         .filter(([name]) => !name.startsWith('text'))
         .map(([name, font]) => (
-          <Font name={name} font={font} />
+          <Font key={name} name={name} font={font} />
         ))}
     </>
   ),
