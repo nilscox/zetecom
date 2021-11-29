@@ -335,6 +335,7 @@ jobs:
       - uses: nilscox/zetecom/.github/actions/deployment/deploy-app@master
         with:
           deploy-host: ${{ secrets.DEPLOY_HOST }}
+          deploy-user: ${{ secrets.DEPLOY_USER }}
           deploy-key: ${{ secrets.DEPLOY_KEY }}
           base-dir: ${{ secrets.DEPLOY_BASE_DIR }}
           api-url: https://app.zetecom.fr
