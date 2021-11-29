@@ -84,6 +84,7 @@ export const CommentFooterContainer = styled(Flex)`
   border-top: ${border()};
   border-bottom-left-radius: ${radius()};
   border-bottom-right-radius: ${radius()};
+  overflow-x: auto;
 `;
 
 type ReactionsProps = {
@@ -147,6 +148,7 @@ const Reaction: React.FC<ReactionProps> = ({ type, count, isUserReaction, onClic
 const ReactionButton = styled(FooterButton)<{ selected: boolean }>`
   border-right: ${border()};
   background-color: ${({ selected }) => selected && '#ffeca6'};
+  white-space: nowrap;
 
   ${breakpoints.down('small')} {
     padding: ${spacing(1, 2)};
@@ -180,6 +182,7 @@ const RepliesButton = styled(FooterButton)`
   flex-direction: row;
   align-items: center;
   margin-right: auto;
+  white-space: nowrap;
 `;
 
 const RepliesCaretIcon = styled(Icon)<{ open: boolean }>`

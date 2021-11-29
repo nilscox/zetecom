@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { IconButton } from '~/components/elements/IconButton/IconButton';
 import { First, Last, Next, Prev } from '~/components/icons';
 import { Flex } from '~/components/layout/Flex/Flex';
-import { spacing } from '~/theme';
+import { breakpoints, spacing } from '~/theme';
 
 export type PaginationProps = {
   page: number;
@@ -78,6 +78,10 @@ const StyledPagination = styled(Flex)`
   min-width: 180px;
   max-width: 280px;
   white-space: nowrap;
+
+  ${breakpoints.down('small')} {
+    min-width: 140px;
+  }
 `;
 
 const Page = styled.span`

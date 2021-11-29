@@ -8,15 +8,14 @@ import { spacing } from '~/theme';
 import { Logo } from '../Logo/Logo';
 
 type HeaderProps = {
-  small?: boolean;
   right?: React.ReactNode;
   link?: string;
 };
 
-export const Header: React.FC<HeaderProps> = ({ small, right, link = '/' }) => (
+export const Header: React.FC<HeaderProps> = ({ right, link = '/' }) => (
   <Container>
     <Link to={link}>
-      <Logo small={small} />
+      <Logo forceShowSubtitle={!right} />
     </Link>
     {right && <Right>{right}</Right>}
   </Container>

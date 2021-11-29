@@ -21,7 +21,7 @@ export const ExtensionPopupView: React.FC = () => {
   return (
     <>
       <Box paddingX={3} paddingTop={3}>
-        <Header small link="/popup" />
+        <Header link="/popup" />
       </Box>
 
       <Async

@@ -16,6 +16,7 @@ import { Flex } from '~/components/layout/Flex/Flex';
 import { useAppSelector } from '~/hooks/useAppSelector';
 import useDateFormat from '~/hooks/useFormatDate';
 import { medias } from '~/medias/medias';
+import { breakpoints } from '~/theme';
 
 type CommentsAreaOutlineProps = {
   commentsAreaId: string;
@@ -49,10 +50,15 @@ export const CommentsAreaOutline: React.FC<CommentsAreaOutlineProps> = ({ commen
 };
 
 const MediaImage = styled.img`
-  width: 149px;
+  width: 150px;
   height: 92px;
   background-color: #f6f6f6;
   border: 1px solid #eeeeee;
+
+  ${breakpoints.down('small')} {
+    width: 100px;
+    height: 64px;
+  }
 `;
 
 type DescriptionProps = {

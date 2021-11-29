@@ -54,7 +54,7 @@ const makeValues = <T, R>(
 
 const getMarginOrPaddingValue = (theme: Theme, defaultValue: number) => (value?: number | string | true) => {
   if (value === true) {
-    return `${theme.space[defaultValue]}px`;
+    return `${theme.space[defaultValue]}rem`;
   }
 
   if (typeof value === 'string') {
@@ -62,7 +62,7 @@ const getMarginOrPaddingValue = (theme: Theme, defaultValue: number) => (value?:
   }
 
   if (value) {
-    return `${theme.space[value]}px`;
+    return `${theme.space[value]}rem`;
   }
 
   return 0;

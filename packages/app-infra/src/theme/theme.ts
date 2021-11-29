@@ -18,7 +18,7 @@ export const theme = {
     small: 650,
   },
 
-  space: [0, 3, 6, 12, 18, 24, 38],
+  space: [0, 3, 6, 12, 18, 24, 38].map((n) => n / 16),
 
   colors: {
     primary,
@@ -54,7 +54,7 @@ export const theme = {
     monospace: ['monospace'].join(', '),
   },
 
-  fontSizes: [12, 14, 16, 18, 20],
+  fontSizes: [12, 14, 16, 18, 20].map((n) => n / 16),
 
   fontWeights: {
     body: 400,
@@ -84,17 +84,15 @@ export const theme = {
   domain: {
     html: {
       fontSize: '16px',
-      fontSizeSmall: '15px',
+      fontSizeSmall: '14px',
     },
 
     logo: {
-      width: '56px',
-      widthSmall: '42px',
+      width: '3.5rem',
     },
 
     mainTitle: {
-      fontSize: '32px',
-      fontSizeSmall: '22px',
+      fontSize: '2rem',
       letterSpacing: '3px',
     },
 

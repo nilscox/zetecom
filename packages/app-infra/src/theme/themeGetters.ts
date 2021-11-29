@@ -22,7 +22,7 @@ const createGetter =
 
 export const color = createGetter('colors', 'primary');
 export const font = createGetter('fonts', 'body');
-export const fontSize = createGetter('fontSizes', 1, 'px');
+export const fontSize = createGetter('fontSizes', 1, 'rem');
 export const fontWeight = createGetter('fontWeights', 'body');
 export const lineHeight = createGetter('lineHeights', 'body');
 export const border = createGetter('borders', 'default');
@@ -34,7 +34,7 @@ export const spacing =
     return args
       .map((arg) => {
         if (typeof arg === 'number') {
-          return String(props.theme.space[arg]) + 'px';
+          return String(props.theme.space[arg]) + 'rem';
         }
 
         return arg;
