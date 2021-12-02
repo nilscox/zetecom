@@ -4,12 +4,13 @@ import ReactDOM from 'react-dom';
 import { Dependencies, initialize } from '@zetecom/app-core';
 import { createBrowserHistory, History } from 'history';
 import { Provider as ReduxProvider, useDispatch } from 'react-redux';
-import { Router, useLocation } from 'react-router-dom';
+import { Router, useLocation, useRouteMatch } from 'react-router-dom';
 import { Store } from 'redux';
 
 import './zetecom-global';
 
 import { NotificationContainer } from './components/elements/NotificationContainer/NotificationContainer';
+import { DependenciesProvider } from './dependencies.provider';
 import { FetchHttpAdapter } from './gateways/adapters/HttpAdapter';
 import { HTTPCommentGateway } from './gateways/HTTPCommentGateway';
 import { HTTPCommentsAreaGateway } from './gateways/HTTPCommentsAreaGateway';
@@ -87,10 +88,13 @@ const useInitialization = () => {
 
 const useTrackPageViews = () => {
   const location = useLocation();
+  const matchIntegration = useRouteMatch('/integration/:identifier');
 
   useEffect(() => {
-    dependencies.trackingGateway.pageView();
-  }, [location]);
+    if (!matchIntegration) {
+      dependencies.trackingGateway.pageView();
+    }
+  }, [location, matchIntegration]);
 };
 
 const App: React.FC = () => {
@@ -110,9 +114,11 @@ ReactDOM.render(
     <GlobalStyles />
     <NotificationContainer />
     <Router history={history}>
-      <ReduxProvider store={store}>
-        <App />
-      </ReduxProvider>
+      <DependenciesProvider value={dependencies}>
+        <ReduxProvider store={store}>
+          <App />
+        </ReduxProvider>
+      </DependenciesProvider>
     </Router>
   </ThemeProvider>,
   document.getElementById('root'),

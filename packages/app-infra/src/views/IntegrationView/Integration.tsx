@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   requestCommentsArea,
@@ -10,6 +10,7 @@ import {
   selectIsRequestingCommentsArea,
 } from '@zetecom/app-core';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router';
 
 import { CommentsArea } from '~/components/domain/CommentsArea/CommentsArea';
 import { Header } from '~/components/domain/Header/Header';
@@ -18,6 +19,7 @@ import { Text } from '~/components/elements/Text/Text';
 import { Async } from '~/components/layout/Async/Async';
 import { Box } from '~/components/layout/Box/Box';
 import { Fallback } from '~/components/layout/Fallback/Fallback';
+import { useTrackingGateway } from '~/dependencies.provider';
 import { useAppSelector } from '~/hooks/useAppSelector';
 
 export type IntegrationProps = {
@@ -30,6 +32,15 @@ export const Integration: React.FC<IntegrationProps> = ({ commentsAreaId, identi
   const commentsArea = useAppSelector(selectCommentsArea, commentsAreaId);
   const loading = useAppSelector(selectIsFetchingCommentsArea);
   const notFound = useAppSelector(selectCommentsAreaNotFound);
+
+  const location = useLocation();
+  const trackingGateway = useTrackingGateway();
+
+  useEffect(() => {
+    if (commentsArea) {
+      trackingGateway.pageView();
+    }
+  }, [commentsArea?.id, location]);
 
   if (notFound) {
     return (

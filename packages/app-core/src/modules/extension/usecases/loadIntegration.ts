@@ -5,9 +5,11 @@ export const loadIntegration = createThunk(
   async ({ dispatch, extensionGateway, trackingGateway }, identifier: string) => {
     const commentsArea = await dispatch(fetchCommentsAreaByIdentifier(identifier));
 
-    if (commentsArea) {
-      extensionGateway.setExtensionActive(commentsArea.id, commentsArea.commentsCount);
+    if (!commentsArea) {
+      return;
     }
+
+    extensionGateway.setExtensionActive(commentsArea.id, commentsArea.commentsCount);
 
     trackingGateway.track({
       category: 'extension',
