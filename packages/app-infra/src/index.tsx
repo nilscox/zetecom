@@ -109,7 +109,9 @@ const App: React.FC = () => {
   return <Views />;
 };
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
   <ThemeProvider>
     <GlobalStyles />
     <NotificationContainer />
@@ -121,5 +123,4 @@ ReactDOM.render(
       </DependenciesProvider>
     </Router>
   </ThemeProvider>,
-  document.getElementById('root'),
 );

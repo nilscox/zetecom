@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -16,7 +16,7 @@ import { PopulateCommentsArea } from './populate-comments-area.interceptor';
     TypeOrmModule.forFeature([CommentsAreaRepository]),
     CqrsModule,
     UserModule,
-    forwardRef(() => CommentsAreaRequestModule),
+    CommentsAreaRequestModule,
     CommentsAreaIntegrationModule,
   ],
   controllers: [CommentsAreaController],

@@ -20,7 +20,7 @@ import { SubscriptionModule } from './subscription/subscription.module';
     TypeOrmModule.forFeature([CommentRepository, Message, Reaction]),
     UserModule,
     ReportModule,
-    forwardRef(() => CommentsAreaModule),
+    CommentsAreaModule,
     forwardRef(() => SubscriptionModule),
   ],
   controllers: [CommentController],
